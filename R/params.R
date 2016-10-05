@@ -3,7 +3,7 @@
 #' S3 class for holding Splatter simulation parameters.
 #'
 #' @param ... parameters to set in the new params object, passed to
-#'            \code{\link{updateParams}}.
+#'            \code{\link{setParams}}.
 #'
 #' @details
 #' The splatParams object is a list based S3 object for holding simulation
@@ -108,7 +108,7 @@ splatParams <- function(...) {
 
     class(params) <- "splatParams"
 
-    params <- updateParams(params, ...)
+    params <- setParams(params, ...)
 
     return(params)
 }
@@ -155,6 +155,106 @@ print.splatParams <- function(x, ...) {
         print.default(pp[[category]], print.gap = 2)
         cat("\n")
     }
+}
+
+#' Update a splatParams object
+#'
+#' Set any of the parameters in a splatParams object to have a new value.
+#'
+#' @param params the splatParams object to update.
+#' @param ... Any parameters to set.
+#'
+#' @details
+#' This function allows multiple parameters to be updated or set using a single
+#' simple function call. Parameters to update are specified by supplying
+#' additional arguments that follow the levels of the splatParams data structure
+#' separated by the "." character. For example
+#' \code{setParams(params, nGenes = 100)} is equivalent to
+#' \code{params$nGenes <- 100} and \code{update(params, mean.rate = 1)} is
+#' equivalent to \code{params$mean$rate <- 1}. For more details of the available
+#' parameters and the splatParams data structure see \code{\link{splatParams}}.
+#'
+#' @return splatParms object with updated parameters
+#' @examples
+#' params <- defaultParams()
+#' params
+#' # Set nGenes and nCells
+#' params <- setParams(params, nGenes = 1000, nCells = 200)
+#' params
+#' # Set mean rate paramater and library size location parameter
+#' params <- setParams(params, mean.rate = 1, lib.loc = 12)
+#' params
+#' @export
+setParams <- function(params, ...) {
+
+    update <- list(...)
+
+    if (length(update) == 0) {
+        return(params)
+    }
+
+    names <- strsplit(names(update), ".", fixed = TRUE)
+
+    for (idx in seq_along(names)) {
+        name <- names[[idx]]
+        value <- update[[idx]]
+        if (length(name) == 1) {
+            params[[name]] <- value
+        } else {
+            params[[name[1]]][[name[2]]] <- value
+        }
+    }
+
+    return(params)
+}
+
+#' Get parameters from splatParams object
+#'
+#' Get values for the parameters in a splatParams object. Uses the same pattern
+#' (category.parameter) as \code{\link{setParams}}.
+#'
+#' @param params splatParams object to get parameters from.
+#' @param names vector of parameter names to extract.
+#'
+#' @return Vector if all selected parameters are single values, otherwise a
+#'         list.
+#' @examples
+#' params <- defaultParams()
+#' # Get the number of genes
+#' getParams(params, "nGenes")
+#' # Get the number of genes and the mean rate parameter
+#' getParams(params, c("nGenes", "mean.rate"))
+#' # Returns a list if one of the selected parameters is a vector
+#' params <- setParams(params, groupCells = c(100, 200))
+#' getParams(parans, c("nGenes", "mean.rate", "groupCells"))
+#' @export
+getParams <- function(params, names) {
+
+    if (length(names) == 0) {
+        return(NULL)
+    }
+
+    output <- list()
+    keep.list <- FALSE
+    for (idx in seq_along(names)) {
+        name <- names[[idx]]
+        name.split <- strsplit(name, ".", fixed = TRUE)[[1]]
+        if (length(name) == 1) {
+            value <- params[[name.split]]
+        } else {
+            value <- params[[name.split[1]]][[name.split[2]]]
+        }
+        output[[name]] <- value
+        if (length(value) > 1) {
+            keep.list <- TRUE
+        }
+    }
+
+    if (!keep.list) {
+        output <- unlist(output)
+    }
+
+    return(output)
 }
 
 #' Check splatParams object
@@ -260,57 +360,6 @@ checkParams <- function(params) {
     }
 }
 
-#' Update a splatParams object
-#'
-#' Update any of the parameters in a splatParams object to have a new value.
-#'
-#' @param params the splatParams object to update.
-#' @param ... Any parameters to update.
-#'
-#' @details
-#' This function allows multiple parameters to be updated or set using a single
-#' simple function call. Parameters to update are specified by supplying
-#' additional arguments that follow the levels of the splatParams data structure
-#' separated by the "." character. For example
-#' \code{updateParams(params, nGenes = 100)} is equivalent to
-#' \code{params$nGenes <- 100} and \code{update(params, mean.rate = 1)} is
-#' equivalent to \code{params$mean$rate <- 1}. For more details of the available
-#' parameters and the splatParams data structure see \code{\link{splatParams}}.
-#'
-#' @return splatParms object with updated parameters
-#' @examples
-#' params <- defaultParams()
-#' params
-#' # Set nGenes and nCells
-#' params <- updateParams(params, nGenes = 1000, nCells = 200)
-#' params
-#' # Set mean rate paramater and library size location parameter
-#' params <- updateParams(params, mean.rate = 1, lib.loc = 12)
-#' params
-#' @export
-updateParams <- function(params, ...) {
-
-    update <- list(...)
-
-    if (length(update) == 0) {
-        return(params)
-    }
-
-    update.names <- strsplit(names(update), ".", fixed = TRUE)
-
-    for (idx in 1:length(update)) {
-        update.name <- update.names[[idx]]
-        value <- update[[idx]]
-        if (length(update.name) == 1) {
-            params[[update.name]] <- value
-        } else {
-            params[[update.name[1]]][[update.name[2]]] <- value
-        }
-    }
-
-    return(params)
-}
-
 #' Merge two splatParams objects
 #'
 #' Merge two splatParams objects. Any parameters that are NA in the first
@@ -355,7 +404,7 @@ defaultParams <- function() {
 
     params <- splatParams()
 
-    params <- updateParams(params, nGenes = 10000, nCells = 100,
+    params <- setParams(params, nGenes = 10000, nCells = 100,
                            groupCells = 100, mean.rate = 0.3, mean.shape = 0.4,
                            lib.loc = 10, lib.scale = 0.5, out.prob = 0.1,
                            out.loProb = 0.5, out.facLoc = 4, out.facScale = 1,

@@ -8,7 +8,7 @@ splatParams(...)
 }
 \arguments{
 \item{...}{parameters to set in the new params object, passed to
-\code{\link{updateParams}}.}
+\code{\link{setParams}}.}
 }
 \value{
 List based S3 splatParams object
