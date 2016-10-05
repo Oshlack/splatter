@@ -6,15 +6,13 @@ Author: Luke Zappia
 Authors@R: as.person(c(
     "Luke Zappia <luke.zappia@mcri.edu.au> [aut, cre]",
     "Belinda Phipson <belinda.phipson@mcri.edu.au> [aut]",
-    "Alica Oshlack <alicia.oshlack@mcri.edu.au> [aut]"
+    "Alicia Oshlack <alicia.oshlack@mcri.edu.au> [aut]"
   ))
 Maintainer: Luke Zappia <luke.zappia@mcri.edu.au>
 Description: Splatter is a package for the simulation of single-cell RNA
-    sequencing data. It provides a simple interface for creating complex
-    simulations that are reproducible and well-documented. As well as a
-    simulation model Splatter also includes functions for estimating the
-    parameters of that model.
-License: GPL-3
+    sequencing count data. It provides a simple interface for creating complex
+    simulations that are reproducible and well-documented.
+License: GPL-3 + file LICENSE
 LazyData: TRUE
 Depends:
     R (>= 3.3)
