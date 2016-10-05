@@ -121,6 +121,8 @@ splatParams <- function(...) {
 #' @param x splatParams object to print.
 #' @param ... further arguments passed to or from other methods.
 #'
+#' @return Invisibly returns x (via \code{\link{invisible}(x)})
+#'
 #' @examples
 #' params <- defaultParams()
 #' print(params)
@@ -161,6 +163,8 @@ print.splatParams <- function(x, ...) {
         print(noquote(parameters), print.gap = 2)
         cat("\n")
     }
+
+    invisible(x)
 }
 
 #' Update a splatParams object
@@ -234,7 +238,7 @@ setParams <- function(params, ...) {
 #' getParams(params, c("nGenes", "mean.rate"))
 #' # Returns a list if one of the selected parameters is a vector
 #' params <- setParams(params, groupCells = c(100, 200))
-#' getParams(parans, c("nGenes", "mean.rate", "groupCells"))
+#' getParams(params, c("nGenes", "mean.rate", "groupCells"))
 #' @export
 getParams <- function(params, names) {
 

@@ -27,6 +27,6 @@ getParams(params, "nGenes")
 getParams(params, c("nGenes", "mean.rate"))
 # Returns a list if one of the selected parameters is a vector
 params <- setParams(params, groupCells = c(100, 200))
-getParams(parans, c("nGenes", "mean.rate", "groupCells"))
+getParams(params, c("nGenes", "mean.rate", "groupCells"))
 }
 
