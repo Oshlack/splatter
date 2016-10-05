@@ -21,3 +21,4 @@ biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
 URL: https://github.com/lazappi/splatter
 BugReports: https://github.com/lazappi/splatter/issues
 RoxygenNote: 5.0.1
+Suggests: testthat
