@@ -260,6 +260,8 @@ getParams <- function(params, names) {
 
     if (!keep.list) {
         output <- unlist(output)
+    } else if (length(output) == 1) {
+        output <- output[[1]]
     }
 
     return(output)
@@ -314,12 +316,12 @@ checkParams <- function(params) {
 
     # Define which parameters are allowed to be vectors
     vectors <- c("groupCells", "path.from", "path.length", "path.skew")
-    n.groups <- length(params$groupCells)
+    n.groups <- length(getParams(params, "groupCells"))
 
     for (idx in seq_along(types)) {
         name <- names(types)[idx]
         type <- types[idx]
-        value <- getParams(name)
+        value <- getParams(params, name)
 
         # Check vector properties first so we can exclude vectors with an NA
         # before the next section
@@ -336,7 +338,7 @@ checkParams <- function(params) {
             }
         }
 
-        # Missing values are allowed so we skip anything that is not NA
+        # Missing values are allowed so we skip anything that is NA
         if (!all(is.na(value))) {
 
             if (type %in% c("NUM", "INT", "POS", "PROB") &&
@@ -390,7 +392,7 @@ mergeParams <- function(params1, params2) {
         }
     }
 
-    checkParams()
+    checkParams(params1)
 
     return(params1)
 }
@@ -419,8 +421,6 @@ defaultParams <- function() {
                         dropout.shape = -1, path.from = 0, path.length = 100,
                         path.skew = 0.5, path.nonlinearProb = 0.1,
                         path.sigmaFac = 0.8)
-
-    checkParams()
 
     return(params)
 }
