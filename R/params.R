@@ -157,6 +157,109 @@ print.splatParams <- function(x, ...) {
     }
 }
 
+#' Check splatParams object
+#'
+#' Check that a splatParams object has valid parameter values.
+#'
+#' @param params splatParams object to check
+#'
+#' @details
+#' The following checks are made:
+#' \itemize{
+#'   \item{Input has "splatParams" class}
+#'   \item{Logical parameters are logical}
+#'   \item{Numeric parameters are numeric}
+#'   \item{Positive numeric parameters are positive}
+#'   \item{Integer parameters are integers}
+#'   \item{Probability parameters are in the range 0-1}
+#'   \item{Vector parameters are the correct length}
+#'   \item{Vector parameters do not contain NAs}
+#'   \item{Non-vector parameters are single values}
+#' }
+#'
+#' @return Produces error if not valid otherwise nothing
+#' @examples
+#' checkParams(defaultParams())
+#' @export
+checkParams <- function(params) {
+
+    # Check class before anything else
+    if (!("splatParams" %in% class(params))) {
+        stop("params does not belong to the splatParams class")
+    }
+
+    # Define what values each parameter can take
+    # NUM = Numeric
+    # POS = Positive numeric
+    # INT = Positive integer
+    # PROB = Positive numeric in range 0-1
+    # LOG = Logical
+    types <- c(nGenes = "INT", nCells = "INT", groupCells = "INT",
+               mean.rate = "POS", mean.shape = "POS", lib.loc = "NUM",
+               lib.scale = "POS", out.prob = "PROB", out.loProb = "PROB",
+               out.facLoc = "NUM", out.facScale = "POS", de.prob = "PROB",
+               de.downProb = "PROB", de.facLoc = "NUM", de.facScale = "POS",
+               bcv.common = "POS", bcv.DF = "POS", dropout.present = "LOG",
+               dropout.mid = "NUM", dropout.shape = "NUM", path.from = "INT",
+               path.length = "INT", path.skew = "PROB",
+               path.nonlinearProb = "PROB", path.sigmaFac = "POS")
+
+    # Define which parameters are allowed to be vectors
+    vectors <- c("groupCells", "path.from", "path.length", "path.skew")
+    n.groups <- length(params$groupCells)
+
+    for (idx in seq_along(types)) {
+        name <- names(types)[idx]
+        name.split <- strsplit(name, ".", fixed = TRUE)[[1]]
+        type <- types[idx]
+        if (length(name.split) == 1) {
+            value <- params[[name]]
+        } else {
+            value <- params[[name.split[1]]][[name.split[2]]]
+        }
+
+        # Check vector properties first so we can exclude vectors with an NA
+        # before the next section
+        if (length(value) > 1) {
+            if (name %in% vectors) {
+                if (any(is.na(value))) {
+                    stop(name, " is a vector and contains NA values")
+                } else if (length(value) != n.groups) {
+                    stop("length of ", name, " must be 1 or the length of ",
+                         "the groupCells parameter")
+                }
+            } else {
+                stop(name, " should be a single value")
+            }
+        }
+
+        # Missing values are allowed so we skip anything that is not NA
+        if (!all(is.na(value))) {
+
+            if (type %in% c("NUM", "INT", "POS", "PROB") &&
+                !(is.numeric(value))) {
+                stop(name, " must be numeric")
+            }
+
+            if (type %in% c("INT", "POS", "PROB") && value < 0) {
+                stop(name, " must be positive")
+            }
+
+            if (type == "INT" && value %% 1 != 0) {
+                stop(name, " must be an integer")
+            }
+
+            if (type == "PROB" && (value < 0 || value > 1)) {
+                stop(paste(name, "must be in the range 0-1"))
+            }
+
+            if (type == "LOG" && !(is.logical(value))) {
+                stop(name, " must be logical (TRUE/FALSE)")
+            }
+        }
+    }
+}
+
 #' Update a splatParams object
 #'
 #' Update any of the parameters in a splatParams object to have a new value.
@@ -199,9 +302,9 @@ updateParams <- function(params, ...) {
         update.name <- update.names[[idx]]
         value <- update[[idx]]
         if (length(update.name) == 1) {
-            params[update.name] <- value
+            params[[update.name]] <- value
         } else {
-            params[[update.name[1]]][update.name[2]] <- value
+            params[[update.name[1]]][[update.name[2]]] <- value
         }
     }
 
