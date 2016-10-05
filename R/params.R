@@ -127,32 +127,38 @@ splatParams <- function(...) {
 #' @export
 print.splatParams <- function(x, ...) {
 
-    pp <- list("Global:" = c("(Genes)" = x$nGenes, "(Cells)" = x$nCells,
-                             "[Group Cells]" = x$groupCells),
-               "Mean:" = c("(Rate)" = x$mean$rate, "(Shape)" = x$mean$shape),
-               "Library size:" = c("(Location)" = x$lib$loc,
-                                   "(Scale)" = x$lib$scale),
-               "Expression outliers:" = c("(Probability)" = x$out$prob,
-                                          "(Lo Probability)" = x$out$loProb,
-                                          "(Location)" = x$out$facLoc,
-                                          "(Scale)" = x$out$facScale),
-               "Differential expression:" = c("[Probability]" = x$de$prob,
-                                              "[Down Prob]" = x$de$downProb,
-                                              "[Location]" = x$de$facLoc,
-                                              "[Scale]" = x$de$facScale),
-               "BCV:" = c("(Common Disp)" = x$bcv$common,
-                          "(Degrees of Freedom)" = x$bcv$DF),
-               "Dropout:" = c("(Present T/F)" = x$dropout$present,
-                              "(Midpoint)" = x$dropout$mid,
-                              "(Shape)" = x$dropout$shape),
-               "Paths:" = c("[From]" = x$path$from, "[Length]" = x$path$length,
-                            "[Skew]" = x$path$skew,
-                            "[Non-linear Prob]" = x$path$nonlinearProb,
-                            "[Sigma Factor]" = x$path$sigmaFac))
+    pp <- list("Global:"             = c("(Genes)"        = "nGenes",
+                                         "(Cells)"        = "nCells",
+                                         "[Group Cells]"  = "groupCells"),
+               "Mean:"               = c("(Rate)"         = "mean.rate",
+                                         "(Shape)"        = "mean.shape"),
+               "Library size:"       = c("(Location)"     = "lib.loc",
+                                         "(Scale)"        = "lib.scale"),
+               "Exprs outliers:"     = c("(Probability)"  = "out.prob",
+                                         "(Lo Prob)"      = "out.loProb",
+                                         "(Location)"     = "out.facLoc",
+                                         "(Scale)"        = "out.facScale"),
+               "Differential exprs:" = c("[Probability]"  = "de.prob",
+                                         "[Down Prob]"    = "de.downProb",
+                                         "[Location]"     = "de.facLoc",
+                                         "[Scale]"        = "de.facScale"),
+               "BCV:"                = c("(Common Disp)"  = "bcv.common",
+                                         "(DoF)"          = "bcv.DF"),
+               "Dropout:"            = c("(Present T/F)"  = "dropout.present",
+                                         "(Midpoint)"     = "dropout.mid",
+                                         "(Shape)"        = "dropout.shape"),
+               "Paths:"              = c("[From]"         = "path.from",
+                                         "[Length]"       = "path.length",
+                                         "[Skew]"         = "path.skew",
+                                         "[Non-linear]"   = "path.nonlinearProb",
+                                         "[Sigma Factor]" = "path.sigmaFac"))
 
     for (category in names(pp)) {
+        parameters <- getParams(x, pp[[category]])
+        parameters <- sapply(parameters, paste, collapse = ", ")
+        names(parameters) <- names(pp[[category]])
         cat(category, "\n")
-        print.default(pp[[category]], print.gap = 2)
+        print(noquote(parameters), print.gap = 2)
         cat("\n")
     }
 }
@@ -204,6 +210,8 @@ setParams <- function(params, ...) {
             params[[name[1]]][[name[2]]] <- value
         }
     }
+
+    checkParams(params)
 
     return(params)
 }
@@ -310,13 +318,8 @@ checkParams <- function(params) {
 
     for (idx in seq_along(types)) {
         name <- names(types)[idx]
-        name.split <- strsplit(name, ".", fixed = TRUE)[[1]]
         type <- types[idx]
-        if (length(name.split) == 1) {
-            value <- params[[name]]
-        } else {
-            value <- params[[name.split[1]]][[name.split[2]]]
-        }
+        value <- getParams(name)
 
         # Check vector properties first so we can exclude vectors with an NA
         # before the next section
@@ -387,6 +390,8 @@ mergeParams <- function(params1, params2) {
         }
     }
 
+    checkParams()
+
     return(params1)
 }
 
@@ -405,15 +410,17 @@ defaultParams <- function() {
     params <- splatParams()
 
     params <- setParams(params, nGenes = 10000, nCells = 100,
-                           groupCells = 100, mean.rate = 0.3, mean.shape = 0.4,
-                           lib.loc = 10, lib.scale = 0.5, out.prob = 0.1,
-                           out.loProb = 0.5, out.facLoc = 4, out.facScale = 1,
-                           de.prob = 0.1, de.downProb = 0.5, de.facLoc = 4,
-                           de.facScale = 1, bcv.common = 0.1, bcv.DF = 25,
-                           dropout.present = TRUE, dropout.mid = 0,
-                           dropout.shape = -1, path.from = 0,
-                           path.length = 100, path.skew = 0.5,
-                           path.nonlinearProb = 0.1, path.sigmaFac = 0.8)
+                        groupCells = 100, mean.rate = 0.3, mean.shape = 0.4,
+                        lib.loc = 10, lib.scale = 0.5, out.prob = 0.1,
+                        out.loProb = 0.5, out.facLoc = 4, out.facScale = 1,
+                        de.prob = 0.1, de.downProb = 0.5, de.facLoc = 4,
+                        de.facScale = 1, bcv.common = 0.1, bcv.DF = 25,
+                        dropout.present = TRUE, dropout.mid = 0,
+                        dropout.shape = -1, path.from = 0, path.length = 100,
+                        path.skew = 0.5, path.nonlinearProb = 0.1,
+                        path.sigmaFac = 0.8)
+
+    checkParams()
 
     return(params)
 }
