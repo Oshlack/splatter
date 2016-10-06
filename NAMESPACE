@@ -3,6 +3,7 @@
 S3method(print,splatParams)
 export(checkParams)
 export(defaultParams)
+export(estimateParams)
 export(getParams)
 export(mergeParams)
 export(setParams)
