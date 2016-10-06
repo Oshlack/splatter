@@ -19,7 +19,4 @@ RETURN DESCRIPTION
 \description{
 Implementation of the logistic function
 }
-\examples{
-logistic(0, 1, 1)
-}
 

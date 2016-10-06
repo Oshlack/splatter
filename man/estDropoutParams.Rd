@@ -35,10 +35,12 @@ at a plot of log2 mean expression vs the difference between observed and
 expected number of zeros across all genes.
 }
 \examples{
+\dontrun{
 data("sc_example_counts")
 norm_ex_counts <- t(t(sc_example_counts) / colSums(sc_example_counts) *
                   median(colSums(sc_example_counts)))
-params <- params()
+params <- splatParams()
 params <- estMeanParams(norm_ex_counts, params)
+}
 }
 

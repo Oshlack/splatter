@@ -27,28 +27,31 @@
 estimateParams <- function(x, params = NULL) UseMethod("estimateParams")
 
 #' @rdname estimateParams
-estimateParams.SCESet <- function(sce, params = NULL) {
-    counts <- scater::counts(sce)
+#' @export
+estimateParams.SCESet <- function(x, params = NULL) {
+    counts <- scater::counts(x)
     estimateParams(counts, params)
 }
 
 #' @rdname estimateParams
-estimateParams.matrix <- function(counts, params = NULL) {
+#' @importFrom stats median
+#' @export
+estimateParams.matrix <- function(x, params = NULL) {
 
     if (is.null(params)) {
         params <- splatParams()
     }
 
     # Normalise for library size and remove all zeros
-    lib.sizes <- colSums(counts)
+    lib.sizes <- colSums(x)
     lib.med <- median(lib.sizes)
-    norm.counts <- t(t(counts) / lib.sizes * lib.med)
+    norm.counts <- t(t(x) / lib.sizes * lib.med)
     norm.counts <- norm.counts[rowSums(norm.counts > 0) > 1, ]
 
     params <- estMeanParams(norm.counts, params)
-    params <- estLibParams(counts, params)
+    params <- estLibParams(x, params)
     params <- estOutlierParams(norm.counts, params)
-    params <- estBCVParams(counts, params)
+    params <- estBCVParams(x, params)
     params <- estDropoutParams(norm.counts, params)
 
     return(params)
@@ -65,12 +68,14 @@ estimateParams.matrix <- function(counts, params = NULL) {
 #'
 #' @return splatParams object with estimated values.
 #' @examples
+#' \dontrun{
 #' data("sc_example_counts")
 #' norm_ex_counts <- t(t(sc_example_counts) / colSums(sc_example_counts) *
 #'                   median(colSums(sc_example_counts)))
-#' params <- params()
+#' params <- splatParams()
 #' params <- estMeanParams(norm_ex_counts, params)
 #' params
+#' }
 estMeanParams <- function(norm.counts, params) {
 
     means <- rowMeans(norm.counts)
@@ -95,10 +100,12 @@ estMeanParams <- function(norm.counts, params) {
 #'
 #' @return splatParams object with estimated values.
 #' @examples
+#' \dontrun{
 #' data("sc_example_counts")
-#' params <- params()
+#' params <- splatParams()
 #' params <- estLibParams(sc_example_counts, params)
 #' params
+#' }
 estLibParams <- function(counts, params) {
 
     lib.sizes <- colSums(counts)
@@ -132,12 +139,14 @@ estLibParams <- function(counts, params) {
 #'
 #' @return splatParams object with estimated values.
 #' @examples
+#' \dontrun{
 #' data("sc_example_counts")
 #' norm_ex_counts <- t(t(sc_example_counts) / colSums(sc_example_counts) *
 #'                   median(colSums(sc_example_counts)))
-#' params <- params()
+#' params <- splatParams()
 #' params <- estOutlierParams(norm_ex_counts, params)
 #' params
+#' }
 estOutlierParams <- function(norm.counts, params) {
 
     means <- rowMeans(norm.counts)
@@ -176,10 +185,12 @@ estOutlierParams <- function(norm.counts, params) {
 #'
 #' @return spaltParams object with estimated values.
 #' @examples
+#' \dontrun{
 #' data("sc_example_counts")
-#' params <- params()
+#' params <- splatParams()
 #' params <- estBCVParams(sc_example_counts, params)
 #' params
+#' }
 estBCVParams <- function(counts, params) {
 
     # Add dummy design matrix to avoid print statement
@@ -218,11 +229,14 @@ estBCVParams <- function(counts, params) {
 #'
 #' @return Params object with estimated values.
 #' @examples
+#' \dontrun{
 #' data("sc_example_counts")
 #' norm_ex_counts <- t(t(sc_example_counts) / colSums(sc_example_counts) *
 #'                   median(colSums(sc_example_counts)))
-#' params <- params()
+#' params <- splatParams()
 #' params <- estMeanParams(norm_ex_counts, params)
+#' }
+#' @importFrom stats nls dnbinom median
 estDropoutParams <- function(norm.counts, params) {
 
     means <- rowMeans(norm.counts)

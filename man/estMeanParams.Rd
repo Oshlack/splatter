@@ -20,11 +20,13 @@ simulate gene expression means using the 'moment matching estimation' method
 of \code{\link{fitdist}}.
 }
 \examples{
+\dontrun{
 data("sc_example_counts")
 norm_ex_counts <- t(t(sc_example_counts) / colSums(sc_example_counts) *
                   median(colSums(sc_example_counts)))
-params <- params()
+params <- splatParams()
 params <- estMeanParams(norm_ex_counts, params)
 params
+}
 }
 

@@ -7,8 +7,6 @@
 #' @param k shape parameter. Gives the slope of the function.
 #'
 #' @return RETURN DESCRIPTION
-#' @examples
-#' logistic(0, 1, 1)
 logistic <- function(x, x0, k) {
     1 / (1 + exp(-k * (x - x0)))
 }

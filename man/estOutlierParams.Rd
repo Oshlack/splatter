@@ -31,11 +31,13 @@ factors in order to estimate the outlier factor location and scale
 parameters. See \code{\link{fitdist}} for details on the fitting.
 }
 \examples{
+\dontrun{
 data("sc_example_counts")
 norm_ex_counts <- t(t(sc_example_counts) / colSums(sc_example_counts) *
                   median(colSums(sc_example_counts)))
-params <- params()
+params <- splatParams()
 params <- estOutlierParams(norm_ex_counts, params)
 params
+}
 }
 

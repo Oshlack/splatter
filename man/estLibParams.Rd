@@ -20,9 +20,11 @@ parameters are added to the params object. See \code{\link{fitdist}} for
 details on the fitting.
 }
 \examples{
+\dontrun{
 data("sc_example_counts")
-params <- params()
+params <- splatParams()
 params <- estLibParams(sc_example_counts, params)
 params
+}
 }
 

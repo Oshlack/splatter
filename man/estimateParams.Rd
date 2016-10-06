@@ -8,9 +8,9 @@
 \usage{
 estimateParams(x, params = NULL)
 
-\method{estimateParams}{SCESet}(sce, params = NULL)
+\method{estimateParams}{SCESet}(x, params = NULL)
 
-\method{estimateParams}{matrix}(counts, params = NULL)
+\method{estimateParams}{matrix}(x, params = NULL)
 }
 \arguments{
 \item{x}{either a counts matrix or an SCESet object containing count data to

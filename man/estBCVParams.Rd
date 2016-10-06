@@ -20,9 +20,11 @@ Parameters are estimated using the \code{estimateDisp} function in the
 of freedom. See \code{\link{estimateDisp}} for details.
 }
 \examples{
+\dontrun{
 data("sc_example_counts")
-params <- params()
+params <- splatParams()
 params <- estBCVParams(sc_example_counts, params)
 params
+}
 }
 
