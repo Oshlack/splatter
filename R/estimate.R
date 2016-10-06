@@ -57,7 +57,8 @@ estimateParams.matrix <- function(counts, params = NULL) {
 #' Estimate mean parameters
 #'
 #' Estimate rate and shape parameters for the gamma distribution used to
-#' simulate gene expression means. Uses a method of moments approach.
+#' simulate gene expression means using the 'moment matching estimation' method
+#' of \code{\link{fitdist}}.
 #'
 #' @param norm.counts library size normalised counts matrix.
 #' @param params splatParams object to store estimated values in.
@@ -75,15 +76,10 @@ estMeanParams <- function(norm.counts, params) {
     means <- rowMeans(norm.counts)
     means <- means[means != 0]
 
-    z <- log(means)
+    fit <- fitdistrplus::fitdist(means, "gamma", method = "mme")
 
-    mean.z <- mean(z)
-    var.z <- var(z)
-
-    alpha <- limma::trigammaInverse(var.z)
-    beta <- exp(digamma(alpha) - mean.z)
-
-    params <- setParams(params, mean.shape = alpha, mean.rate = beta)
+    params <- setParams(params, mean.shape = unname(fit$estimate["shape"]),
+                        mean.rate = unname(fit$estimate["rate"]))
 
     return(params)
 }

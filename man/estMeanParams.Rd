@@ -16,7 +16,8 @@ splatParams object with estimated values.
 }
 \description{
 Estimate rate and shape parameters for the gamma distribution used to
-simulate gene expression means. Uses a method of moments approach.
+simulate gene expression means using the 'moment matching estimation' method
+of \code{\link{fitdist}}.
 }
 \examples{
 data("sc_example_counts")
