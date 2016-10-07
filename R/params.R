@@ -12,6 +12,7 @@
 #' \itemize{
 #'   \item nGenes - Number of genes to simulate.
 #'   \item nCells - Number of cells to simulate.
+#'   \item nGroups - Number of groups to simulate.
 #'   \item [groupCells] - Vector giving the number of cells in each simulation
 #'         group/path.
 #'   \item mean (mean parameters)
@@ -94,7 +95,7 @@
 #' params
 #' @export
 splatParams <- function(...) {
-    params <- list(nGenes = NA, nCells = NA, groupCells = NA,
+    params <- list(nGenes = NA, nCells = NA, nGroups = NA, groupCells = NA,
                    mean = list(rate = NA, shape = NA),
                    lib = list(loc = NA, scale = NA),
                    out = list(prob = NA, loProb = NA, facLoc = NA,
@@ -131,6 +132,7 @@ print.splatParams <- function(x, ...) {
 
     pp <- list("Global:"             = c("(Genes)"        = "nGenes",
                                          "(Cells)"        = "nCells",
+                                         "[Groups]"       = "nGroups",
                                          "[Group Cells]"  = "groupCells"),
                "Mean:"               = c("(Rate)"         = "mean.rate",
                                          "(Shape)"        = "mean.shape"),
@@ -203,15 +205,26 @@ setParams <- function(params, ...) {
         return(params)
     }
 
-    names <- strsplit(names(update), ".", fixed = TRUE)
+    names <- names(update)
 
     for (idx in seq_along(names)) {
-        name <- names[[idx]]
+        name <- names[idx]
+        name.split <- strsplit(name, ".", fixed = TRUE)[[1]]
         value <- update[[idx]]
-        if (length(name) == 1) {
-            params[[name]] <- value
+
+        if (name == "nCells" || name == "nGroups") {
+            stop(name, " cannot be set directly, set groupCells instead")
+        }
+
+        if (length(name.split) == 1) {
+            params[[name.split]] <- value
         } else {
-            params[[name[1]]][[name[2]]] <- value
+            params[[name.split[1]]][[name.split[2]]] <- value
+        }
+
+        if (name == "groupCells") {
+            params$nCells <- sum(value)
+            params$nGroups <- length(value)
         }
     }
 
@@ -249,9 +262,9 @@ getParams <- function(params, names) {
     output <- list()
     keep.list <- FALSE
     for (idx in seq_along(names)) {
-        name <- names[[idx]]
+        name <- names[idx]
         name.split <- strsplit(name, ".", fixed = TRUE)[[1]]
-        if (length(name) == 1) {
+        if (length(name.split) == 1) {
             value <- params[[name.split]]
         } else {
             value <- params[[name.split[1]]][[name.split[2]]]
@@ -367,6 +380,15 @@ checkParams <- function(params) {
             }
         }
     }
+
+    # Check groupCells matches nCells, nGroups
+    n.cells <- getParams(params, "nCells")
+    n.groups <- getParams(params, "nGroups")
+    group.cells <- getParams(params, "groupCells")
+    if (!is.na(group.cells) &&
+        (n.cells != sum(group.cells) || n.groups != length(group.cells))) {
+        stop("nCells, nGroups and groupCells are not consistent")
+    }
 }
 
 #' Merge two splatParams objects
@@ -415,8 +437,8 @@ defaultParams <- function() {
 
     params <- splatParams()
 
-    params <- setParams(params, nGenes = 10000, nCells = 100,
-                        groupCells = 100, mean.rate = 0.3, mean.shape = 0.4,
+    params <- setParams(params, nGenes = 10000, groupCells = 100,
+                        mean.rate = 0.3, mean.shape = 0.4,
                         lib.loc = 10, lib.scale = 0.5, out.prob = 0.1,
                         out.loProb = 0.5, out.facLoc = 4, out.facScale = 1,
                         de.prob = 0.1, de.downProb = 0.5, de.facLoc = 4,

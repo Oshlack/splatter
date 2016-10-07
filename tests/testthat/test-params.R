@@ -72,7 +72,7 @@ test_that("checkParams checks vectors allowed", {
 
 test_that("checkParams checks vector length", {
     params <- splatParams()
-    params$groupCells <- c(100, 200)
+    params <- setParams(params, groupCells = c(100, 200))
     params$path$length <- 100
     expect_silent(checkParams(params))
     params$path$length <- c(100, 200, 300)
@@ -89,11 +89,22 @@ test_that("checkParams checks vector length", {
 
 test_that("checkParams checks vector is not NA", {
     params <- splatParams()
-    params$groupCells <- c(100, 200)
+    params <- setParams(params, groupCells = c(100, 200))
     expect_silent(checkParams(params))
     params$groupCells <- c(100, NA)
     expect_error(checkParams(params),
                  "groupCells is a vector and contains NA values")
+})
+
+test_that("checkParams checks groupCells", {
+    params <- defaultParams()
+    params$nCells <- 1
+    expect_error(checkParams(params),
+                 "nCells, nGroups and groupCells are not consistent")
+    params <- defaultParams()
+    params$nGroups <- 10
+    expect_error(checkParams(params),
+                 "nCells, nGroups and groupCells are not consistent")
 })
 
 test_that("setParams sets correctly", {
@@ -106,6 +117,16 @@ test_that("setParams sets correctly", {
     expect_equal(params$groupCells, c(100, 200))
     params <- setParams(params, dropout.present = TRUE)
     expect_equal(params$dropout$present, TRUE)
+})
+
+test_that("setParmas sets groupCells correctly", {
+    params <- splatParams()
+    expect_error(setParams(params, nCells = 100),
+                 "nCells cannot be set directly, set groupCells instead")
+    expect_error(setParams(params, nGroups = 10),
+                 "nGroups cannot be set directly, set groupCells instead")
+    params <- setParams(params, groupCells = 100)
+    params <- setParams(params, groupCells = c(100, 200, 300))
 })
 
 test_that("getParams gets correctly", {
@@ -129,7 +150,7 @@ test_that("mergeParams merges correctly", {
     expect_equal(params$nGenes, params1$nGenes)
     expect_equal(params$mean$rate, params1$mean$rate)
     expect_equal(params$groupCells, params1$groupCells)
-    expect_equal(params$nCells, params2$nCells)
+    expect_equal(params$out$prob, params2$out$prob)
     expect_equal(params$dropout$present, params2$dropout$present)
 })
 
