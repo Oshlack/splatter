@@ -30,7 +30,7 @@
 #' @return RETURN DESCRIPTION
 #' @examples
 #' # ADD EXAMPLES HERE
-#' @importFrom BioBase pData fData
+#' @importFrom Biobase pData fData
 #' @importFrom scater newSCESet counts
 splat <- function(params = defaultParams(), method = c("groups", "paths"),
                   add.assay = TRUE, verbose = TRUE, ...) {
@@ -69,10 +69,66 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     groups <- unlist(groups)
     pData(sim)$Group <- group.names[groups]
 
+    sim <- simulateGeneMeans(sim, params)
+
     # Create new SCESet to make sure values are calculated correctly
     sce <- newSCESet(countData = counts(sim),
                      phenoData = new("AnnotatedDataFrame", data = pData(sim)),
                      featureData = new("AnnotatedDataFrame", data = fData(sim)))
 
     return(sce)
+}
+
+simulateGeneMeans <- function(sim, params) {
+
+    n.genes <- getParams(params, "nGenes")
+    mean.shape <- getParams(params, "mean.shape")
+    mean.rate <- getParams(params, "mean.rate")
+    out.prob <- getParams(params, "out.prob")
+    out.loProb <- getParams(params, "out.loProb")
+    out.facLoc <- getParams(params, "out.facLoc")
+    out.facScale <- getParams(params, "out.facScale")
+
+    # Simulate base gene means
+    base.means.gene <- rgamma(n.genes, shape = mean.shape, rate = mean.rate)
+
+    # Add expression outliers
+    outlier.facs <- getLNormFactors(n.genes, out.prob, out.loProb, out.facLoc,
+                                    out.facScale)
+    means.gene <- base.means.gene * outlier.facs
+
+    fData(sim)$BaseGeneMean <- base.means.gene
+    fData(sim)$OutlierFactor <- outlier.facs
+    fData(sim)$GeneMean <- means.gene
+
+    return(sim)
+}
+
+#' Get log-normal factors
+#'
+#' Randomly generate multiplication factors from a log-normal distribution.
+#'
+#' @param n.facs Number of factors to generate.
+#' @param sel.prob Probability that a factor will be selected to be different
+#'        from 1.
+#' @param neg.prob Probability that a selected factor is less than one.
+#' @param fac.loc Location parameter for the log-normal distribution.
+#' @param fac.scale Scale factor for the log-normal distribution.
+#'
+#' @return Vector containing generated factors.
+#' @examples
+#' factors <- getLNormFactors(100, 0.5, 0.5, 4, 1)
+getLNormFactors <- function(n.facs, sel.prob, neg.prob, fac.loc, fac.scale) {
+
+    is.selected <- as.logical(rbinom(n.facs, 1, sel.prob))
+    n.selected <- sum(is.selected)
+    dir.selected <- (-1) ^ rbinom(n.selected, 1, neg.prob)
+    facs.selected <- rlnorm(n.selected, fac.loc, fac.scale)
+    # Reverse directions for factors that are less than one
+    dir.selected[facs.selected < 1 & dir.selected == -1] <- 1
+    dir.selected[facs.selected < 1 & dir.selected == 1] <- -1
+    factors <- rep(1, n.facs)
+    factors[is.selected] <- facs.selected ^ dir.selected
+
+    return(factors)
 }
