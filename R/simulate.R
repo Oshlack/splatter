@@ -71,6 +71,7 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
 
     sim <- simulateGeneMeans(sim, params)
     sim <- simulateDE(sim, params)
+    sim <- simulateLibSizes(sim, params)
 
     # Create new SCESet to make sure values are calculated correctly
     sce <- newSCESet(countData = counts(sim),
@@ -122,6 +123,18 @@ simulateDE <- function(sim, params) {
         fData(sim)[[paste0("DEFac", group.name)]] <- de.facs
         fData(sim)[[paste0("GeneMean", group.name)]] <- group.means.gene
     }
+
+    return(sim)
+}
+
+simulateLibSizes <- function(sim, params) {
+
+    n.cells <- getParams(params, "nCells")
+    lib.loc <- getParams(params, "lib.loc")
+    lib.scale <- getParams(params, "lib.scale")
+
+    exp.lib.size <- rlnorm(n.cells, lib.loc, lib.scale)
+    pData(sim)$ExpLibSize <- exp.lib.size
 
     return(sim)
 }
