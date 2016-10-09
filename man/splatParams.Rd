@@ -23,6 +23,7 @@ parameters. It has the following sections and values:
 \itemize{
   \item nGenes - Number of genes to simulate.
   \item nCells - Number of cells to simulate.
+  \item nGroups - Number of groups to simulate.
   \item [groupCells] - Vector giving the number of cells in each simulation
         group/path.
   \item mean (mean parameters)
