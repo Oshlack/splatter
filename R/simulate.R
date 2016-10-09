@@ -70,6 +70,7 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     pData(sim)$Group <- group.names[groups]
 
     sim <- simulateGeneMeans(sim, params)
+    sim <- simulateDE(sim, params)
 
     # Create new SCESet to make sure values are calculated correctly
     sce <- newSCESet(countData = counts(sim),
@@ -100,6 +101,27 @@ simulateGeneMeans <- function(sim, params) {
     fData(sim)$BaseGeneMean <- base.means.gene
     fData(sim)$OutlierFactor <- outlier.facs
     fData(sim)$GeneMean <- means.gene
+
+    return(sim)
+}
+
+simulateDE <- function(sim, params) {
+
+    n.genes <- getParams(params, "nGenes")
+    de.prob <- getParams(params, "de.prob")
+    de.downProb <- getParams(params, "de.downProb")
+    de.facLoc <- getParams(params, "de.facLoc")
+    de.facScale <- getParams(params, "de.facScale")
+    means.gene <- fData(sim)$GeneMean
+    group.names <- unique(pData(sim)$Group)
+
+    for (group.name in group.names) {
+        de.facs <- getLNormFactors(n.genes, de.prob, de.downProb, de.facLoc,
+                                   de.facScale)
+        group.means.gene <- means.gene * de.facs
+        fData(sim)[[paste0("DEFac", group.name)]] <- de.facs
+        fData(sim)[[paste0("GeneMean", group.name)]] <- group.means.gene
+    }
 
     return(sim)
 }
