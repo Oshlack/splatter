@@ -74,6 +74,7 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     sim <- simDE(sim, params)
     sim <- simGroupCellMeans(sim, params)
     sim <- simBCVMeans(sim, params)
+    sim <- simTrueCounts(sim, params)
 
     # Create new SCESet to make sure values are calculated correctly
     sce <- newSCESet(countData = counts(sim),
@@ -88,6 +89,18 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     }
 
     return(sce)
+}
+
+simLibSizes <- function(sim, params) {
+
+    n.cells <- getParams(params, "nCells")
+    lib.loc <- getParams(params, "lib.loc")
+    lib.scale <- getParams(params, "lib.scale")
+
+    exp.lib.sizes <- rlnorm(n.cells, lib.loc, lib.scale)
+    pData(sim)$ExpLibSize <- exp.lib.sizes
+
+    return(sim)
 }
 
 simGeneMeans <- function(sim, params) {
@@ -136,18 +149,6 @@ simDE <- function(sim, params) {
     return(sim)
 }
 
-simLibSizes <- function(sim, params) {
-
-    n.cells <- getParams(params, "nCells")
-    lib.loc <- getParams(params, "lib.loc")
-    lib.scale <- getParams(params, "lib.scale")
-
-    exp.lib.sizes <- rlnorm(n.cells, lib.loc, lib.scale)
-    pData(sim)$ExpLibSize <- exp.lib.sizes
-
-    return(sim)
-}
-
 simGroupCellMeans <- function(sim, params) {
 
     cell.names <- pData(sim)$Cell
@@ -192,6 +193,25 @@ simBCVMeans <- function(sim, params) {
 
     assayData(sim)$BCV <- bcv
     assayData(sim)$CellMeans <- means.cell
+
+    return(sim)
+}
+
+simTrueCounts <- function(sim, params) {
+
+    n.genes <- getParams(params, "nGenes")
+    n.cells <- getParams(params, "nCells")
+    cell.names <- pData(sim)$Cell
+    gene.names <- fData(sim)$Gene
+    cell.means <- assayData(sim)$CellMeans
+
+    true.counts <- matrix(rpois(n.genes * n.cells, lambda = cell.means),
+                          nrow = n.genes, ncol = n.cells)
+
+    colnames(true.counts) <- cell.names
+    rownames(true.counts) <- gene.names
+
+    assayData(sim)$TrueCounts <- true.counts
 
     return(sim)
 }
