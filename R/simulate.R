@@ -15,8 +15,10 @@
 # set.seed
 # group DE
 
+# Expand path params
 # Min path length
-# Path.from
+# Path.from + tests
+# Bridge tests
 
 #' FUNCTION TITLE
 #'
@@ -202,6 +204,49 @@ simGroupCellMeans <- function(sim, params) {
     return(sim)
 }
 
+simPathCellMeans <- function(sim, params) {
+
+    nGenes <- getParams(params, "nGenes")
+    path.from <- getParams(params, "path.from")
+    path.length <- getParams(params, "path.length")
+    path.nonlinearProb <- getParams(params, "path.nonlinearProb")
+    path.sigmaFac <- getParams(params, "path.sigmaFac")
+    cell.names <- pData(sim)$Cell
+    gene.names <- fData(sim)$Gene
+    groups <- pData(sim)$Group
+    group.names <- unique(groups)
+    exp.lib.sizes <- pData(sim)$ExpLibSize
+
+    path.steps <- lapply(seq_along(path.from), function(idx) {
+        from <- path.from[idx]
+        if (from == 0) {
+            means.start <- fData(sim)$GeneMean
+        } else {
+            means.start <- fData(sim)[[paste0("GeneMeanPath", from)]]
+        }
+        means.end <- fData(sim)[[paste0("GeneMeanPath", idx)]]
+
+        is.nonlinear <- as.logical(rbinom(n.genes, 1, path.nonlinearProb))
+        sigma.facs <- rep(0, n.genes)
+        sigma.facs[is.nonlinear] <- path.sigmaFac
+        steps <- buildBridges(means.start, means.end, n = path.length[idx],
+                              sigma.fac = sigma.facs)
+
+        fData(sim)[[paste0("SigmaFacPath", idx)]] <- sigma.facs
+
+        return(steps)
+    })
+
+    cell.props.gene <- t(t(cell.means.gene) / colSums(cell.means.gene))
+    base.means.cell <- t(t(cell.props.gene) * exp.lib.sizes)
+    colnames(base.means.cell) <- cell.names
+    rownames(base.means.cell) <- gene.names
+
+    assayData(sim)$BaseCellMeans <- base.means.cell
+
+    return(sim)
+}
+
 simBCVMeans <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
@@ -361,3 +406,31 @@ getPathOrder <- function(path.from) {
 
     return(done)
 }
+
+#' Brownian bridge
+#'
+#' Calculate a smoothed Brownian bridge between two points. A Brownian bridge is
+#' a random walk with fixed end points.
+#'
+#' @param x starting value.
+#' @param y end value.
+#' @param N number of steps in random walk.
+#' @param n number of points in smoothed bridge.
+#' @param sigma.fac multiplier specifying how extreme each step can be.
+#'
+#' @return Vector of length n following a path from x to y.
+#' @examples
+#' b <- bridge(10, 20)
+bridge <- function (x = 0, y = 0, N = 5, n = 100, sigma.fac = 0.8) {
+
+    dt <- 1 / (N - 1)
+    t <- seq(0, 1, length = N)
+    sigma2 <- runif(1, 0, sigma.fac * mean(c(x, y)))
+    X <- c(0, cumsum(rnorm(N - 1, sd = sigma2) * sqrt(dt)))
+    BB <- x + X - t * (X[N] - y + x)
+    BB <- akima::aspline(BB, n = n)$y
+    BB[BB < 0] <- 0
+
+    return(BB)
+}
+buildBridges <- Vectorize(bridge, vectorize.args = c("x", "y", "sigma.fac"))

@@ -466,3 +466,40 @@ defaultParams <- function() {
 
     return(params)
 }
+
+
+#' Expath path parameters
+#'
+#' Expand the path parameters so that they are the same length as the number
+#' of groups.
+#'
+#' @param params splatParams object to expand.
+#'
+#' @return expanded splatParams object.
+#' @examples
+#' params <- defaultParams()
+#' params <- setParams(params, groupCells = c(10, 10))
+#' params
+#' params <- expandPathParams(params)
+#' params
+expandPathParams <- function(params) {
+
+    n.groups <- getParams(params, "nGroups")
+    path.from <- getParams(params, "path.from")
+    path.length <- getParams(params, "path.length")
+    path.skew <- getParams(params, "path.skew")
+
+    if (length(path.from) == 1) {
+        params <- setParams(params, path.from = rep(path.from, n.groups))
+    }
+
+    if (length(path.length) == 1) {
+        params <- setParams(params, path.length = rep(path.length, n.groups))
+    }
+
+    if (length(path.skew) == 1) {
+        params <- setParams(params, path.skew = rep(path.skew, n.groups))
+    }
+
+    return(params)
+}
