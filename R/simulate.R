@@ -15,7 +15,8 @@
 # set.seed
 # group DE
 
-
+# Min path length
+# Path.from
 
 #' FUNCTION TITLE
 #'
@@ -49,7 +50,11 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     # Set up name vectors
     cell.names <- paste0("Cell", 1:n.cells)
     gene.names <- paste0("Gene", 1:n.genes)
-    group.names <- paste0("Group", 1:n.groups)
+    if (method == "groups") {
+        group.names <- paste0("Group", 1:n.groups)
+    } else if (method == "paths") {
+        group.names <- paste0("Path", 1:n.groups)
+    }
 
     # Create SCESet with dummy counts to store simulation
     dummy.counts <- matrix(1, ncol = n.cells, nrow = n.genes)
@@ -71,11 +76,15 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
 
     sim <- simLibSizes(sim, params)
     sim <- simGeneMeans(sim, params)
-    sim <- simDE(sim, params)
-    sim <- simGroupCellMeans(sim, params)
-    sim <- simBCVMeans(sim, params)
-    sim <- simTrueCounts(sim, params)
-    sim <- simDropout(sim, params)
+    if (method == "groups") {
+        sim <- simGroupDE(sim, params)
+        sim <- simGroupCellMeans(sim, params)
+    } else {
+        sim <- simPathDE(sim, params)
+    }
+    #sim <- simBCVMeans(sim, params)
+    #sim <- simTrueCounts(sim, params)
+    #im <- simDropout(sim, params)
 
     # Create new SCESet to make sure values are calculated correctly
     sce <- newSCESet(countData = counts(sim),
@@ -129,7 +138,7 @@ simGeneMeans <- function(sim, params) {
     return(sim)
 }
 
-simDE <- function(sim, params) {
+simGroupDE <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
     de.prob <- getParams(params, "de.prob")
@@ -145,6 +154,29 @@ simDE <- function(sim, params) {
         group.means.gene <- means.gene * de.facs
         fData(sim)[[paste0("DEFac", group.name)]] <- de.facs
         fData(sim)[[paste0("GeneMean", group.name)]] <- group.means.gene
+    }
+
+    return(sim)
+}
+
+simPathDE <- function(sim, params) {
+
+    n.genes <- getParams(params, "nGenes")
+    de.prob <- getParams(params, "de.prob")
+    de.downProb <- getParams(params, "de.downProb")
+    de.facLoc <- getParams(params, "de.facLoc")
+    de.facScale <- getParams(params, "de.facScale")
+    path.from <- getParams(params, "path.from")
+    means.gene <- fData(sim)$GeneMean
+    path.names <- unique(pData(sim)$Group)
+
+    path.order <- getPathOrder(path.from)
+    for (path.name in path.names[path.order]) {
+        de.facs <- getLNormFactors(n.genes, de.prob, de.downProb, de.facLoc,
+                                   de.facScale)
+        path.means.gene <- means.gene * de.facs
+        fData(sim)[[paste0("DEFac", path.name)]] <- de.facs
+        fData(sim)[[paste0("GeneMean", path.name)]] <- path.means.gene
     }
 
     return(sim)
@@ -287,4 +319,45 @@ getLNormFactors <- function(n.facs, sel.prob, neg.prob, fac.loc, fac.scale) {
     factors[is.selected] <- facs.selected ^ dir.selected
 
     return(factors)
+}
+
+#' Get path order
+#'
+#' Identify the correct order to process paths so that preceding paths have
+#' already been simulated.
+#'
+#' @param path.from Vector giving the path endpoints that each path orginates
+#'        from.
+#'
+#' @return Vector giving the order to process paths in.
+#' @examples
+#' path.order <- getPathOrder(c(2, 0, 2))
+getPathOrder <- function(path.from) {
+
+    # Transform the vector into a list of (from, to) pairs
+    path.pairs <- list()
+    for (idx in 1:length(path.from)) {
+        path.pairs[[idx]] <- c(path.from[idx], idx)
+    }
+
+    # Determine the processing order
+    # If a path is in the "done" vector any path originating here can be
+    # completed
+    done <- 0
+    while (length(path.pairs) > 0) {
+        path.pair <- path.pairs[[1]]
+        path.pairs <- path.pairs[-1]
+        from <- path.pair[1]
+        to <- path.pair[2]
+        if (from %in% done) {
+            done <- c(done, to)
+        } else {
+            path.pairs <- c(path.pairs, list(path.pair))
+        }
+    }
+
+    # Remove the origin from the vector
+    done <- done[-1]
+
+    return(done)
 }
