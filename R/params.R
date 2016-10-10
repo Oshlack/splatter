@@ -412,7 +412,7 @@ mergeParams <- function(params1, params2) {
 
     for (i in 1:length(params1)) {
         for (j in 1:length(params1[[i]])) {
-            if (is.na(params1[[i]][[j]])) {
+            if (all(is.na(params1[[i]][[j]]))) {
                 params1[[i]][[j]] <- params2[[i]][[j]]
             }
         }
