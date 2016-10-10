@@ -73,6 +73,7 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     sim <- simGeneMeans(sim, params)
     sim <- simDE(sim, params)
     sim <- simGroupCellMeans(sim, params)
+    sim <- simBCVMeans(sim, params)
 
     # Create new SCESet to make sure values are calculated correctly
     sce <- newSCESet(countData = counts(sim),
@@ -163,6 +164,34 @@ simGroupCellMeans <- function(sim, params) {
     rownames(base.means.cell) <- gene.names
 
     assayData(sim)$BaseCellMeans <- base.means.cell
+
+    return(sim)
+}
+
+simBCVMeans <- function(sim, params) {
+
+    n.genes <- getParams(params, "nGenes")
+    n.cells <- getParams(params, "nCells")
+    bcv.common <- getParams(params, "bcv.common")
+    bcv.DF <- getParams(params, "bcv.DF")
+    cell.names <- pData(sim)$Cell
+    gene.names <- fData(sim)$Gene
+    base.means.cell <- assayData(sim)$BaseCellMeans
+
+    bcv <- (bcv.common + (1 / sqrt(base.means.cell))) *
+        sqrt(bcv.DF / rchisq(n.genes, df = bcv.DF))
+
+    means.cell <- matrix(rgamma(n.genes * n.cells, shape = 1 / (bcv ^ 2),
+                                scale = base.means.cell * (bcv ^ 2)),
+                         nrow = n.genes, ncol = n.cells)
+
+    colnames(bcv) <- cell.names
+    rownames(bcv) <- gene.names
+    colnames(means.cell) <- cell.names
+    rownames(means.cell) <- gene.names
+
+    assayData(sim)$BCV <- bcv
+    assayData(sim)$CellMeans <- means.cell
 
     return(sim)
 }
