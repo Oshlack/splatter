@@ -1,8 +1,8 @@
-# setup metadata
-# Means
-# Groups
+# setup metadata x
+# Means x
+# Groups x
 # Paths
-# Lib size
+# Lib size x
 # Base Means
 # BCV
 # Means
@@ -30,7 +30,7 @@
 #' @return RETURN DESCRIPTION
 #' @examples
 #' # ADD EXAMPLES HERE
-#' @importFrom Biobase pData fData
+#' @importFrom Biobase pData fData assayData
 #' @importFrom scater newSCESet counts
 splat <- function(params = defaultParams(), method = c("groups", "paths"),
                   add.assay = TRUE, verbose = TRUE, ...) {
@@ -69,19 +69,27 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     groups <- unlist(groups)
     pData(sim)$Group <- group.names[groups]
 
-    sim <- simulateGeneMeans(sim, params)
-    sim <- simulateDE(sim, params)
-    sim <- simulateLibSizes(sim, params)
+    sim <- simLibSizes(sim, params)
+    sim <- simGeneMeans(sim, params)
+    sim <- simDE(sim, params)
+    sim <- simGroupCellMeans(sim, params)
 
     # Create new SCESet to make sure values are calculated correctly
     sce <- newSCESet(countData = counts(sim),
                      phenoData = new("AnnotatedDataFrame", data = pData(sim)),
                      featureData = new("AnnotatedDataFrame", data = fData(sim)))
 
+    # Add intermediate matrices stored in assayData
+    for (assay.name in names(assayData(sim))) {
+        if (!(assay.name %in% names(assayData(sce)))) {
+            assayData(sce)[[assay.name]] <- assayData(sim)[[assay.name]]
+        }
+    }
+
     return(sce)
 }
 
-simulateGeneMeans <- function(sim, params) {
+simGeneMeans <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
     mean.shape <- getParams(params, "mean.shape")
@@ -106,7 +114,7 @@ simulateGeneMeans <- function(sim, params) {
     return(sim)
 }
 
-simulateDE <- function(sim, params) {
+simDE <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
     de.prob <- getParams(params, "de.prob")
@@ -127,14 +135,34 @@ simulateDE <- function(sim, params) {
     return(sim)
 }
 
-simulateLibSizes <- function(sim, params) {
+simLibSizes <- function(sim, params) {
 
     n.cells <- getParams(params, "nCells")
     lib.loc <- getParams(params, "lib.loc")
     lib.scale <- getParams(params, "lib.scale")
 
-    exp.lib.size <- rlnorm(n.cells, lib.loc, lib.scale)
-    pData(sim)$ExpLibSize <- exp.lib.size
+    exp.lib.sizes <- rlnorm(n.cells, lib.loc, lib.scale)
+    pData(sim)$ExpLibSize <- exp.lib.sizes
+
+    return(sim)
+}
+
+simGroupCellMeans <- function(sim, params) {
+
+    cell.names <- pData(sim)$Cell
+    gene.names <- fData(sim)$Gene
+    groups <- pData(sim)$Group
+    group.names <- unique(groups)
+    exp.lib.sizes <- pData(sim)$ExpLibSize
+
+    group.means.gene <- fData(sim)[, paste0("GeneMean", group.names)]
+    cell.means.gene <- as.matrix(group.means.gene[, factor(groups)])
+    cell.props.gene <- t(t(cell.means.gene) / colSums(cell.means.gene))
+    base.means.cell <- t(t(cell.props.gene) * exp.lib.sizes)
+    colnames(base.means.cell) <- cell.names
+    rownames(base.means.cell) <- gene.names
+
+    assayData(sim)$BaseCellMeans <- base.means.cell
 
     return(sim)
 }
