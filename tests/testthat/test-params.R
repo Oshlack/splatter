@@ -107,6 +107,22 @@ test_that("checkParams checks groupCells", {
                  "nCells, nGroups and groupCells are not consistent")
 })
 
+test_that("checkParams checks path.from", {
+    params <- splatParams()
+    params <- setParams(params, groupCells = c(10, 10))
+    params$path$from <- c(0, 1)
+    expect_silent(checkParams(params))
+    params$path$from <- c(0, 3)
+    expect_error(checkParams(params),
+                 "values in path.from cannot be greater than number of paths")
+    params$path$from <- c(1, 0)
+    expect_error(checkParams(params), "path cannot begin at itself")
+    params <- splatParams()
+    params <- setParams(params, groupCells = c(10, 10, 10))
+    params$path$from <- c(2, 1, 1)
+    expect_error(checkParams(params), "origin must be specified in path.from")
+})
+
 test_that("setParams sets correctly", {
     params <- splatParams()
     params <- setParams(params, nGenes = 100)

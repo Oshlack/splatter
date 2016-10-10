@@ -302,6 +302,8 @@ getParams <- function(params, names) {
 #'   \item{Vector parameters are the correct length}
 #'   \item{Vector parameters do not contain NAs}
 #'   \item{Non-vector parameters are single values}
+#'   \item{nCells, nGroups and groupCells are consistent}
+#'   \item{path.from has possible values}
 #' }
 #'
 #' @return Produces error if not valid otherwise nothing
@@ -321,15 +323,16 @@ checkParams <- function(params) {
     # INT = Positive integer
     # PROB = Positive numeric in range 0-1
     # LOG = Logical
-    types <- c(nGenes = "INT", nCells = "INT", groupCells = "INT",
-               mean.rate = "POS", mean.shape = "POS", lib.loc = "NUM",
-               lib.scale = "POS", out.prob = "PROB", out.loProb = "PROB",
-               out.facLoc = "NUM", out.facScale = "POS", de.prob = "PROB",
-               de.downProb = "PROB", de.facLoc = "NUM", de.facScale = "POS",
-               bcv.common = "POS", bcv.DF = "POS", dropout.present = "LOG",
-               dropout.mid = "NUM", dropout.shape = "NUM", path.from = "INT",
-               path.length = "INT", path.skew = "PROB",
-               path.nonlinearProb = "PROB", path.sigmaFac = "POS")
+    types <- c(nGenes = "INT", nCells = "INT", nGroups = "INT",
+               groupCells = "INT", mean.rate = "POS", mean.shape = "POS",
+               lib.loc = "NUM", lib.scale = "POS", out.prob = "PROB",
+               out.loProb = "PROB", out.facLoc = "NUM", out.facScale = "POS",
+               de.prob = "PROB", de.downProb = "PROB", de.facLoc = "NUM",
+               de.facScale = "POS", bcv.common = "POS", bcv.DF = "POS",
+               dropout.present = "LOG", dropout.mid = "NUM",
+               dropout.shape = "NUM", path.from = "INT", path.length = "INT",
+               path.skew = "PROB", path.nonlinearProb = "PROB",
+               path.sigmaFac = "POS")
 
     # Define which parameters are allowed to be vectors
     vectors <- c("groupCells", "path.from", "path.length", "path.skew")
@@ -385,9 +388,22 @@ checkParams <- function(params) {
     n.cells <- getParams(params, "nCells")
     n.groups <- getParams(params, "nGroups")
     group.cells <- getParams(params, "groupCells")
-    if (!is.na(group.cells) &&
+    if (!all(is.na(group.cells)) &&
         (n.cells != sum(group.cells) || n.groups != length(group.cells))) {
         stop("nCells, nGroups and groupCells are not consistent")
+    }
+
+    # Check path.from contains origin, has allowed values and does not reference
+    # itself (no loops)
+    path.from <- getParams(params, "path.from")
+    if (!all(is.na(path.from))) {
+        if (!(0 %in% path.from)) {
+            stop("origin must be specified in path.from")
+        } else if (any(path.from > n.groups)) {
+            stop("values in path.from cannot be greater than number of paths")
+        } else if (any(path.from == 1:n.groups)) {
+            stop("path cannot begin at itself")
+        }
     }
 }
 
