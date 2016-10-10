@@ -3,12 +3,12 @@
 # Groups x
 # Paths
 # Lib size x
-# Base Means
-# BCV
-# Means
-# Counts
-# Dropout
-# Add metadata
+# Base Means X
+# BCV X
+# Means X
+# Counts X
+# Dropout *********
+# Add metadata X
 #
 # Add length
 # Median outliers
@@ -75,6 +75,7 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     sim <- simGroupCellMeans(sim, params)
     sim <- simBCVMeans(sim, params)
     sim <- simTrueCounts(sim, params)
+    sim <- simDropout(sim, params)
 
     # Create new SCESet to make sure values are calculated correctly
     sce <- newSCESet(countData = counts(sim),
@@ -212,6 +213,49 @@ simTrueCounts <- function(sim, params) {
     rownames(true.counts) <- gene.names
 
     assayData(sim)$TrueCounts <- true.counts
+
+    return(sim)
+}
+
+simDropout <- function(sim, params) {
+
+    dropout.present <- getParams(params, "dropout.present")
+    true.counts <- assayData(sim)$TrueCounts
+
+    if (dropout.present) {
+        n.cells <- getParams(params, "nCells")
+        n.genes <- getParams(params, "nGenes")
+        dropout.mid <- getParams(params, "dropout.mid")
+        dropout.shape <- getParams(params, "dropout.shape")
+        cell.names <- pData(sim)$Cell
+        gene.names <- fData(sim)$Gene
+        cell.means <- assayData(sim)$CellMeans
+
+        lib.sizes <- colSums(true.counts)
+        cell.facs <- log(lib.sizes) / median(lib.sizes)
+        drop.prob <- sapply(1:n.cells, function(idx) {
+            eta <- cell.facs[idx] * (log(cell.means[, idx]))
+            return(logistic(eta, x0 = dropout.mid, k = dropout.shape))
+        })
+
+        keep <- matrix(rbinom(n.cells * n.genes, 1, 1 - drop.prob),
+                       nrow = n.genes, ncol = n.cells)
+
+        counts <- true.counts * keep
+
+        colnames(drop.prob) <- cell.names
+        rownames(drop.prob) <- gene.names
+        colnames(keep) <- cell.names
+        rownames(keep) <- gene.names
+
+        assayData(sim)$DropProb <- drop.prob
+        assayData(sim)$Dropout <- !keep
+
+    } else {
+        counts <- true.counts
+    }
+
+    counts(sim) <- counts
 
     return(sim)
 }
