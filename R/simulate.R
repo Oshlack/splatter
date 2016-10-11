@@ -42,6 +42,7 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
 
     params <- setParams(params, ...)
     params <- mergeParams(params, defaultParams())
+    params <- expandPathParams(params)
 
     # Get the parameters we are going to use
     n.cells <- getParams(params, "nCells")
@@ -83,10 +84,11 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
         sim <- simGroupCellMeans(sim, params)
     } else {
         sim <- simPathDE(sim, params)
+        sim <- simPathCellMeans(sim, params)
     }
-    #sim <- simBCVMeans(sim, params)
-    #sim <- simTrueCounts(sim, params)
-    #im <- simDropout(sim, params)
+    sim <- simBCVMeans(sim, params)
+    sim <- simTrueCounts(sim, params)
+    sim <- simDropout(sim, params)
 
     # Create new SCESet to make sure values are calculated correctly
     sce <- newSCESet(countData = counts(sim),
@@ -169,16 +171,21 @@ simPathDE <- function(sim, params) {
     de.facLoc <- getParams(params, "de.facLoc")
     de.facScale <- getParams(params, "de.facScale")
     path.from <- getParams(params, "path.from")
-    means.gene <- fData(sim)$GeneMean
     path.names <- unique(pData(sim)$Group)
 
     path.order <- getPathOrder(path.from)
-    for (path.name in path.names[path.order]) {
+    for (path in path.order) {
+        from <- path.from[path]
+        if (from == 0) {
+            means.gene <- fData(sim)$GeneMean
+        } else {
+            means.gene <- fData(sim)[[paste0("GeneMeanPath", from)]]
+        }
         de.facs <- getLNormFactors(n.genes, de.prob, de.downProb, de.facLoc,
                                    de.facScale)
         path.means.gene <- means.gene * de.facs
-        fData(sim)[[paste0("DEFac", path.name)]] <- de.facs
-        fData(sim)[[paste0("GeneMean", path.name)]] <- path.means.gene
+        fData(sim)[[paste0("DEFacPath", path)]] <- de.facs
+        fData(sim)[[paste0("GeneMeanPath", path)]] <- path.means.gene
     }
 
     return(sim)
@@ -206,9 +213,12 @@ simGroupCellMeans <- function(sim, params) {
 
 simPathCellMeans <- function(sim, params) {
 
-    nGenes <- getParams(params, "nGenes")
+    n.genes <- getParams(params, "nGenes")
+    n.groups <- getParams(params, "nGroups")
+    group.cells <- getParams(params, "groupCells")
     path.from <- getParams(params, "path.from")
     path.length <- getParams(params, "path.length")
+    path.skew <- getParams(params, "path.skew")
     path.nonlinearProb <- getParams(params, "path.nonlinearProb")
     path.sigmaFac <- getParams(params, "path.sigmaFac")
     cell.names <- pData(sim)$Cell
@@ -217,6 +227,8 @@ simPathCellMeans <- function(sim, params) {
     group.names <- unique(groups)
     exp.lib.sizes <- pData(sim)$ExpLibSize
 
+    # Generate paths. Each path is a matrix with path.length columns and
+    # n.genes rows.
     path.steps <- lapply(seq_along(path.from), function(idx) {
         from <- path.from[idx]
         if (from == 0) {
@@ -234,14 +246,34 @@ simPathCellMeans <- function(sim, params) {
 
         fData(sim)[[paste0("SigmaFacPath", idx)]] <- sigma.facs
 
+        return(t(steps))
+    })
+
+    # Randomly assign a position in the appropriate path to each cell
+    cell.steps <- lapply(1:n.groups, function(idx) {
+        path.probs <- seq(path.skew[idx], 1 - path.skew[idx],
+                          length = path.length[idx])
+        path.probs <- path.probs / sum(path.probs)
+        steps <- sort(sample(1:path.length[idx], group.cells[idx],
+                             prob = path.probs, replace = TRUE))
+
         return(steps)
     })
 
+    # Collect the underlying expression levels for each cell
+    cell.means.gene <- lapply(1:n.groups, function(idx) {
+        cell.means <- path.steps[[idx]][, cell.steps[[idx]]]
+        return(cell.means)
+    })
+    cell.means.gene <- do.call(cbind, cell.means.gene)
+
+    # Adjust expression based on library size
     cell.props.gene <- t(t(cell.means.gene) / colSums(cell.means.gene))
     base.means.cell <- t(t(cell.props.gene) * exp.lib.sizes)
     colnames(base.means.cell) <- cell.names
     rownames(base.means.cell) <- gene.names
 
+    pData(sim)$Step <- unlist(cell.steps)
     assayData(sim)$BaseCellMeans <- base.means.cell
 
     return(sim)
