@@ -20,7 +20,7 @@ splatParams object are replaced by the value in the second splatParams
 object.
 }
 \examples{
-params <- splatParams(nGenes = 1000, nCells = 50)
+params <- splatParams(nGenes = 1000, mean.rate = 0.5)
 params
 # Replace unset parameters with default parameters
 params <- mergeParams(params, defaultParams())

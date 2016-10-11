@@ -7,7 +7,7 @@
 getPathOrder(path.from)
 }
 \arguments{
-\item{path.from}{Vector giving the path endpoints that each path orginates
+\item{path.from}{vector giving the path endpoints that each path orginates
 from.}
 }
 \value{
@@ -16,8 +16,5 @@ Vector giving the order to process paths in.
 \description{
 Identify the correct order to process paths so that preceding paths have
 already been simulated.
-}
-\examples{
-path.order <- getPathOrder(c(2, 0, 2))
 }
 

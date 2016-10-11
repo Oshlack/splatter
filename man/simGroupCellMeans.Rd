@@ -12,7 +12,7 @@ simGroupCellMeans(sim, params)
 \item{params}{splatParams object with simulation parameters.}
 }
 \value{
-SCESet with added cell means/.
+SCESet with added cell means.
 }
 \description{
 Simulate a gene by cell matrix giving the mean expression for each gene in

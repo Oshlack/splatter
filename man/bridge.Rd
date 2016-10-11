@@ -24,7 +24,4 @@ Vector of length n following a path from x to y.
 Calculate a smoothed Brownian bridge between two points. A Brownian bridge is
 a random walk with fixed end points.
 }
-\examples{
-b <- bridge(10, 20)
-}
 

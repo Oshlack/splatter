@@ -17,10 +17,12 @@ Expand the path parameters so that they are the same length as the number
 of groups.
 }
 \examples{
+\dontrun{
 params <- defaultParams()
 params <- setParams(params, groupCells = c(10, 10))
 params
 params <- expandPathParams(params)
 params
+}
 }
 

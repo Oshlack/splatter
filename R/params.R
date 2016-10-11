@@ -190,10 +190,10 @@ print.splatParams <- function(x, ...) {
 #' @examples
 #' params <- defaultParams()
 #' params
-#' # Set nGenes and nCells
-#' params <- setParams(params, nGenes = 1000, nCells = 200)
+#' # Set nGenes
+#' params <- setParams(params, nGenes = 1000)
 #' params
-#' # Set mean rate paramater and library size location parameter
+#' # Set mean rate parameter and library size location parameter
 #' params <- setParams(params, mean.rate = 1, lib.loc = 12)
 #' params
 #' @export
@@ -418,7 +418,7 @@ checkParams <- function(params) {
 #'
 #' @return Merged splatParams object.
 #' @examples
-#' params <- splatParams(nGenes = 1000, nCells = 50)
+#' params <- splatParams(nGenes = 1000, mean.rate = 0.5)
 #' params
 #' # Replace unset parameters with default parameters
 #' params <- mergeParams(params, defaultParams())
@@ -477,11 +477,13 @@ defaultParams <- function() {
 #'
 #' @return expanded splatParams object.
 #' @examples
+#' \dontrun{
 #' params <- defaultParams()
 #' params <- setParams(params, groupCells = c(10, 10))
 #' params
 #' params <- expandPathParams(params)
 #' params
+#' }
 expandPathParams <- function(params) {
 
     n.groups <- getParams(params, "nGroups")

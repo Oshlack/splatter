@@ -24,7 +24,4 @@ Vector containing generated factors.
 \description{
 Randomly generate multiplication factors from a log-normal distribution.
 }
-\examples{
-factors <- getLNormFactors(100, 0.5, 0.5, 4, 1)
-}
 

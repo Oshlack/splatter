@@ -135,6 +135,15 @@ test_that("setParams sets correctly", {
     expect_equal(params$dropout$present, TRUE)
 })
 
+test_that("setParams sets groupCells correctly", {
+    params <- splatParams()
+    expect_error(setParams(params, nCells = 50),
+                 "nCells cannot be set directly, set groupCells instead")
+    expect_error(setParams(params, nGroups = 5),
+                 "nGroups cannot be set directly, set groupCells instead")
+    expect_silent(setParams(params, groupCells = c(10, 10)))
+})
+
 test_that("setParmas sets groupCells correctly", {
     params <- splatParams()
     expect_error(setParams(params, nCells = 100),

@@ -94,16 +94,16 @@
 #' @examples
 #' # Simulation with default parameters
 #' sim <- splat()
-#' # Simulation with different number of cells
-#' sim <- splat(nCells = 20)
+#' # Simulation with different number of genes
+#' sim <- splat(nGenes = 1000)
 #' # Simulation with custom parameters
-#' params <- splatParams(nGenes = 100, nCells = 20, mean.rate = 0.5)
+#' params <- splatParams(nGenes = 100, mean.rate = 0.5)
 #' sim <- splat(params)
 #' # Simulation with adjusted custom parameters
 #' sim <- splat(params, mean.rate = 0.6, out.prob = 0.2)
 #' # Simulate paths instead of groups
 #' sim <- splat(method = "paths")
-#' @importFrom Biobase pData fData assayData
+#' @importFrom Biobase fData pData pData<- assayData
 #' @importFrom scater newSCESet counts
 #' @export
 splat <- function(params = defaultParams(), method = c("groups", "paths"),
@@ -200,6 +200,9 @@ splatPaths <- function(params = defaultParams(), verbose = TRUE, ...) {
 #' @param params splatParams object with simulation parameters.
 #'
 #' @return SCESet with added library sizes.
+#'
+#' @importFrom Biobase pData pData<-
+#' @importFrom stats rlnorm
 simLibSizes <- function(sim, params) {
 
     n.cells <- getParams(params, "nCells")
@@ -221,6 +224,9 @@ simLibSizes <- function(sim, params) {
 #' @param params splatParams object with simulation parameters.
 #'
 #' @return SCESet with added gene means.
+#'
+#' @importFrom Biobase fData fData<-
+#' @importFrom stats rgamma
 simGeneMeans <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
@@ -256,6 +262,8 @@ simGeneMeans <- function(sim, params) {
 #' @param params splatParams object with simulation parameters.
 #'
 #' @return SCESet with added differential expression.
+#'
+#' @importFrom Biobase fData pData
 simGroupDE <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
@@ -287,6 +295,8 @@ simGroupDE <- function(sim, params) {
 #' @param params splatParams object with simulation parameters.
 #'
 #' @return SCESet with added differential expression.
+#'
+#' @importFrom Biobase fData pData
 simPathDE <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
@@ -324,7 +334,9 @@ simPathDE <- function(sim, params) {
 #' @param sim SCESet to add cell means to.
 #' @param params splatParams object with simulation parameters.
 #'
-#' @return SCESet with added cell means/.
+#' @return SCESet with added cell means.
+#'
+#' @importFrom Biobase fData pData assayData assayData<-
 simGroupCellMeans <- function(sim, params) {
 
     n.groups <- getParams(params, "nGroups")
@@ -361,6 +373,9 @@ simGroupCellMeans <- function(sim, params) {
 #' @param params splatParams object with simulation parameters.
 #'
 #' @return SCESet with added cell means.
+#'
+#' @importFrom Biobase fData pData assayData
+#' @importFrom stats rbinom
 simPathCellMeans <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
@@ -443,6 +458,9 @@ simPathCellMeans <- function(sim, params) {
 #' @param params splatParams object with simulation parameters.
 #'
 #' @return SCESet with added BCV means.
+#'
+#' @importFrom Biobase fData pData assayData assayData<-
+#' @importFrom stats rchisq rgamma
 simBCVMeans <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
@@ -481,6 +499,9 @@ simBCVMeans <- function(sim, params) {
 #' @param params splatParams object with simulation parameters.
 #'
 #' @return SCESet with added true counts.
+#'
+#' @importFrom Biobase fData pData assayData
+#' @importFrom stats rpois
 simTrueCounts <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
@@ -511,6 +532,9 @@ simTrueCounts <- function(sim, params) {
 #' @param params splatParams object with simulation parameters.
 #'
 #' @return SCESet with added dropout and observed counts.
+#'
+#' @importFrom Biobase fData pData assayData assayData<-
+#' @importFrom stats rbinom
 simDropout <- function(sim, params) {
 
     dropout.present <- getParams(params, "dropout.present")
@@ -551,7 +575,7 @@ simDropout <- function(sim, params) {
         counts <- true.counts
     }
 
-    counts(sim) <- counts
+    scater::counts(sim) <- counts
 
     return(sim)
 }
@@ -568,8 +592,8 @@ simDropout <- function(sim, params) {
 #' @param fac.scale Scale factor for the log-normal distribution.
 #'
 #' @return Vector containing generated factors.
-#' @examples
-#' factors <- getLNormFactors(100, 0.5, 0.5, 4, 1)
+#'
+#' @importFrom stats rbinom rlnorm
 getLNormFactors <- function(n.facs, sel.prob, neg.prob, fac.loc, fac.scale) {
 
     is.selected <- as.logical(rbinom(n.facs, 1, sel.prob))
@@ -590,12 +614,10 @@ getLNormFactors <- function(n.facs, sel.prob, neg.prob, fac.loc, fac.scale) {
 #' Identify the correct order to process paths so that preceding paths have
 #' already been simulated.
 #'
-#' @param path.from Vector giving the path endpoints that each path orginates
+#' @param path.from vector giving the path endpoints that each path orginates
 #'        from.
 #'
 #' @return Vector giving the order to process paths in.
-#' @examples
-#' path.order <- getPathOrder(c(2, 0, 2))
 getPathOrder <- function(path.from) {
 
     # Transform the vector into a list of (from, to) pairs
@@ -638,8 +660,8 @@ getPathOrder <- function(path.from) {
 #' @param sigma.fac multiplier specifying how extreme each step can be.
 #'
 #' @return Vector of length n following a path from x to y.
-#' @examples
-#' b <- bridge(10, 20)
+#'
+#' @importFrom stats runif rnorm
 bridge <- function (x = 0, y = 0, N = 5, n = 100, sigma.fac = 0.8) {
 
     dt <- 1 / (N - 1)

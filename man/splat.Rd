@@ -103,10 +103,10 @@ information includes:
 \examples{
 # Simulation with default parameters
 sim <- splat()
-# Simulation with different number of cells
-sim <- splat(nCells = 20)
+# Simulation with different number of genes
+sim <- splat(nGenes = 1000)
 # Simulation with custom parameters
-params <- splatParams(nGenes = 100, nCells = 20, mean.rate = 0.5)
+params <- splatParams(nGenes = 100, mean.rate = 0.5)
 sim <- splat(params)
 # Simulation with adjusted custom parameters
 sim <- splat(params, mean.rate = 0.6, out.prob = 0.2)

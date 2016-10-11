@@ -30,10 +30,10 @@ parameters and the splatParams data structure see \code{\link{splatParams}}.
 \examples{
 params <- defaultParams()
 params
-# Set nGenes and nCells
-params <- setParams(params, nGenes = 1000, nCells = 200)
+# Set nGenes
+params <- setParams(params, nGenes = 1000)
 params
-# Set mean rate paramater and library size location parameter
+# Set mean rate parameter and library size location parameter
 params <- setParams(params, mean.rate = 1, lib.loc = 12)
 params
 }
