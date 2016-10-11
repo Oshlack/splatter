@@ -65,7 +65,7 @@
 #'       \item BaseGeneMean - the base expression level for that gene
 #'       \item OutlierFactor - expression outlier factor for that gene. Values
 #'             of 1 indicate the gene is not an expression outlier.
-#'       \item GeneMean - expression level after applying outlier factors
+#'       \item GeneMean - expression level after applying outlier factors.
 #'       \item DEFac[Group] - the differential expression factor for each gene
 #'             in a particular group. Values of 1 indicate the gene is not
 #'             differentially expressed.
@@ -218,7 +218,8 @@ simLibSizes <- function(sim, params) {
 #' Simulate gene means
 #'
 #' Simulate gene means from a gamma distribution. Also simulates outlier
-#' expression factors.
+#' expression factors. Genes with an outlier factor not equal to 1 are replaced
+#' with the median mean expression multiplied by the outlier factor.
 #'
 #' @param sim SCESet to add gene means to.
 #' @param params splatParams object with simulation parameters.
@@ -226,7 +227,7 @@ simLibSizes <- function(sim, params) {
 #' @return SCESet with added gene means.
 #'
 #' @importFrom Biobase fData fData<-
-#' @importFrom stats rgamma
+#' @importFrom stats rgamma median
 simGeneMeans <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
@@ -243,7 +244,11 @@ simGeneMeans <- function(sim, params) {
     # Add expression outliers
     outlier.facs <- getLNormFactors(n.genes, out.prob, out.loProb, out.facLoc,
                                     out.facScale)
-    means.gene <- base.means.gene * outlier.facs
+    median.means.gene <- median(base.means.gene)
+    outlier.means <- median.means.gene * outlier.facs
+    is.outlier <- outlier.facs != 1
+    means.gene <- base.means.gene
+    means.gene[is.outlier] <- outlier.means[is.outlier]
 
     fData(sim)$BaseGeneMean <- base.means.gene
     fData(sim)$OutlierFactor <- outlier.facs

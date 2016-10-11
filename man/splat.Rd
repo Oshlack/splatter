@@ -75,7 +75,7 @@ information includes:
       \item BaseGeneMean - the base expression level for that gene
       \item OutlierFactor - expression outlier factor for that gene. Values
             of 1 indicate the gene is not an expression outlier.
-      \item GeneMean - expression level after applying outlier factors
+      \item GeneMean - expression level after applying outlier factors.
       \item DEFac[Group] - the differential expression factor for each gene
             in a particular group. Values of 1 indicate the gene is not
             differentially expressed.

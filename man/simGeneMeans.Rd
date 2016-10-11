@@ -16,6 +16,7 @@ SCESet with added gene means.
 }
 \description{
 Simulate gene means from a gamma distribution. Also simulates outlier
-expression factors.
+expression factors. Genes with an outlier factor not equal to 1 are replaced
+with the median mean expression multiplied by the outlier factor.
 }
 
