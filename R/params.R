@@ -336,7 +336,7 @@ checkParams <- function(params) {
 
     # Define which parameters are allowed to be vectors
     vectors <- c("groupCells", "path.from", "path.length", "path.skew")
-    n.groups <- length(getParams(params, "groupCells"))
+    nGroups <- length(getParams(params, "groupCells"))
 
     for (idx in seq_along(types)) {
         name <- names(types)[idx]
@@ -349,7 +349,7 @@ checkParams <- function(params) {
             if (name %in% vectors) {
                 if (any(is.na(value))) {
                     stop(name, " is a vector and contains NA values")
-                } else if (length(value) != n.groups) {
+                } else if (length(value) != nGroups) {
                     stop("length of ", name, " must be 1 or the length of ",
                          "the groupCells parameter")
                 }
@@ -385,11 +385,11 @@ checkParams <- function(params) {
     }
 
     # Check groupCells matches nCells, nGroups
-    n.cells <- getParams(params, "nCells")
-    n.groups <- getParams(params, "nGroups")
+    nCells <- getParams(params, "nCells")
+    nGroups <- getParams(params, "nGroups")
     group.cells <- getParams(params, "groupCells")
     if (!all(is.na(group.cells)) &&
-        (n.cells != sum(group.cells) || n.groups != length(group.cells))) {
+        (nCells != sum(group.cells) || nGroups != length(group.cells))) {
         stop("nCells, nGroups and groupCells are not consistent")
     }
 
@@ -399,9 +399,9 @@ checkParams <- function(params) {
     if (!all(is.na(path.from))) {
         if (!(0 %in% path.from)) {
             stop("origin must be specified in path.from")
-        } else if (any(path.from > n.groups)) {
+        } else if (any(path.from > nGroups)) {
             stop("values in path.from cannot be greater than number of paths")
-        } else if (any(path.from == 1:n.groups)) {
+        } else if (any(path.from == 1:nGroups)) {
             stop("path cannot begin at itself")
         }
     }
@@ -486,21 +486,21 @@ defaultParams <- function() {
 #' }
 expandPathParams <- function(params) {
 
-    n.groups <- getParams(params, "nGroups")
+    nGroups <- getParams(params, "nGroups")
     path.from <- getParams(params, "path.from")
     path.length <- getParams(params, "path.length")
     path.skew <- getParams(params, "path.skew")
 
     if (length(path.from) == 1) {
-        params <- setParams(params, path.from = rep(path.from, n.groups))
+        params <- setParams(params, path.from = rep(path.from, nGroups))
     }
 
     if (length(path.length) == 1) {
-        params <- setParams(params, path.length = rep(path.length, n.groups))
+        params <- setParams(params, path.length = rep(path.length, nGroups))
     }
 
     if (length(path.skew) == 1) {
-        params <- setParams(params, path.skew = rep(path.skew, n.groups))
+        params <- setParams(params, path.skew = rep(path.skew, nGroups))
     }
 
     return(params)

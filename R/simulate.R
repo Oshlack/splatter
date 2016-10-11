@@ -116,22 +116,22 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     params <- expandPathParams(params)
 
     # Get the parameters we are going to use
-    n.cells <- getParams(params, "nCells")
-    n.genes <- getParams(params, "nGenes")
-    n.groups <- getParams(params, "nGroups")
+    nCells <- getParams(params, "nCells")
+    nGenes <- getParams(params, "nGenes")
+    nGroups <- getParams(params, "nGroups")
     group.cells <- getParams(params, "groupCells")
 
     # Set up name vectors
-    cell.names <- paste0("Cell", 1:n.cells)
-    gene.names <- paste0("Gene", 1:n.genes)
+    cell.names <- paste0("Cell", 1:nCells)
+    gene.names <- paste0("Gene", 1:nGenes)
     if (method == "groups") {
-        group.names <- paste0("Group", 1:n.groups)
+        group.names <- paste0("Group", 1:nGroups)
     } else if (method == "paths") {
-        group.names <- paste0("Path", 1:n.groups)
+        group.names <- paste0("Path", 1:nGroups)
     }
 
     # Create SCESet with dummy counts to store simulation
-    dummy.counts <- matrix(1, ncol = n.cells, nrow = n.genes)
+    dummy.counts <- matrix(1, ncol = nCells, nrow = nGenes)
     rownames(dummy.counts) <- gene.names
     colnames(dummy.counts) <- cell.names
     phenos <- new("AnnotatedDataFrame", data = data.frame(Cell = cell.names))
@@ -143,7 +143,7 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
 
     # Make groups vector which is the index of param$groupCells repeated
     # params$groupCells[index] times
-    groups <- lapply(1:n.groups, function(i, g) {rep(i, g[i])},
+    groups <- lapply(1:nGroups, function(i, g) {rep(i, g[i])},
                      g = group.cells)
     groups <- unlist(groups)
     pData(sim)$Group <- group.names[groups]
@@ -205,11 +205,11 @@ splatPaths <- function(params = defaultParams(), verbose = TRUE, ...) {
 #' @importFrom stats rlnorm
 simLibSizes <- function(sim, params) {
 
-    n.cells <- getParams(params, "nCells")
+    nCells <- getParams(params, "nCells")
     lib.loc <- getParams(params, "lib.loc")
     lib.scale <- getParams(params, "lib.scale")
 
-    exp.lib.sizes <- rlnorm(n.cells, lib.loc, lib.scale)
+    exp.lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
     pData(sim)$ExpLibSize <- exp.lib.sizes
 
     return(sim)
@@ -230,7 +230,7 @@ simLibSizes <- function(sim, params) {
 #' @importFrom stats rgamma median
 simGeneMeans <- function(sim, params) {
 
-    n.genes <- getParams(params, "nGenes")
+    nGenes <- getParams(params, "nGenes")
     mean.shape <- getParams(params, "mean.shape")
     mean.rate <- getParams(params, "mean.rate")
     out.prob <- getParams(params, "out.prob")
@@ -239,10 +239,10 @@ simGeneMeans <- function(sim, params) {
     out.facScale <- getParams(params, "out.facScale")
 
     # Simulate base gene means
-    base.means.gene <- rgamma(n.genes, shape = mean.shape, rate = mean.rate)
+    base.means.gene <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
 
     # Add expression outliers
-    outlier.facs <- getLNormFactors(n.genes, out.prob, out.loProb, out.facLoc,
+    outlier.facs <- getLNormFactors(nGenes, out.prob, out.loProb, out.facLoc,
                                     out.facScale)
     median.means.gene <- median(base.means.gene)
     outlier.means <- median.means.gene * outlier.facs
@@ -271,7 +271,7 @@ simGeneMeans <- function(sim, params) {
 #' @importFrom Biobase fData pData
 simGroupDE <- function(sim, params) {
 
-    n.genes <- getParams(params, "nGenes")
+    nGenes <- getParams(params, "nGenes")
     de.prob <- getParams(params, "de.prob")
     de.downProb <- getParams(params, "de.downProb")
     de.facLoc <- getParams(params, "de.facLoc")
@@ -280,7 +280,7 @@ simGroupDE <- function(sim, params) {
     group.names <- unique(pData(sim)$Group)
 
     for (group.name in group.names) {
-        de.facs <- getLNormFactors(n.genes, de.prob, de.downProb, de.facLoc,
+        de.facs <- getLNormFactors(nGenes, de.prob, de.downProb, de.facLoc,
                                    de.facScale)
         group.means.gene <- means.gene * de.facs
         fData(sim)[[paste0("DEFac", group.name)]] <- de.facs
@@ -304,7 +304,7 @@ simGroupDE <- function(sim, params) {
 #' @importFrom Biobase fData pData
 simPathDE <- function(sim, params) {
 
-    n.genes <- getParams(params, "nGenes")
+    nGenes <- getParams(params, "nGenes")
     de.prob <- getParams(params, "de.prob")
     de.downProb <- getParams(params, "de.downProb")
     de.facLoc <- getParams(params, "de.facLoc")
@@ -320,7 +320,7 @@ simPathDE <- function(sim, params) {
         } else {
             means.gene <- fData(sim)[[paste0("GeneMeanPath", from)]]
         }
-        de.facs <- getLNormFactors(n.genes, de.prob, de.downProb, de.facLoc,
+        de.facs <- getLNormFactors(nGenes, de.prob, de.downProb, de.facLoc,
                                    de.facScale)
         path.means.gene <- means.gene * de.facs
         fData(sim)[[paste0("DEFacPath", path)]] <- de.facs
@@ -344,7 +344,7 @@ simPathDE <- function(sim, params) {
 #' @importFrom Biobase fData pData assayData assayData<-
 simGroupCellMeans <- function(sim, params) {
 
-    n.groups <- getParams(params, "nGroups")
+    nGroups <- getParams(params, "nGroups")
     cell.names <- pData(sim)$Cell
     gene.names <- fData(sim)$Gene
     groups <- pData(sim)$Group
@@ -352,7 +352,7 @@ simGroupCellMeans <- function(sim, params) {
     exp.lib.sizes <- pData(sim)$ExpLibSize
 
     group.means.gene <- fData(sim)[, paste0("GeneMean", group.names)]
-    if (n.groups == 1) {
+    if (nGroups == 1) {
         group.means.gene <- matrix(group.means.gene)
         colnames(group.means.gene) <- "GeneMeanGroup1"
     }
@@ -383,8 +383,8 @@ simGroupCellMeans <- function(sim, params) {
 #' @importFrom stats rbinom
 simPathCellMeans <- function(sim, params) {
 
-    n.genes <- getParams(params, "nGenes")
-    n.groups <- getParams(params, "nGroups")
+    nGenes <- getParams(params, "nGenes")
+    nGroups <- getParams(params, "nGroups")
     group.cells <- getParams(params, "groupCells")
     path.from <- getParams(params, "path.from")
     path.length <- getParams(params, "path.length")
@@ -398,7 +398,7 @@ simPathCellMeans <- function(sim, params) {
     exp.lib.sizes <- pData(sim)$ExpLibSize
 
     # Generate paths. Each path is a matrix with path.length columns and
-    # n.genes rows where the expression from each genes changes along the path.
+    # nGenes rows where the expression from each genes changes along the path.
     path.steps <- lapply(seq_along(path.from), function(idx) {
         from <- path.from[idx]
         # Find the means at the starting position
@@ -411,8 +411,8 @@ simPathCellMeans <- function(sim, params) {
         means.end <- fData(sim)[[paste0("GeneMeanPath", idx)]]
 
         # Select genes to follow a non-linear path
-        is.nonlinear <- as.logical(rbinom(n.genes, 1, path.nonlinearProb))
-        sigma.facs <- rep(0, n.genes)
+        is.nonlinear <- as.logical(rbinom(nGenes, 1, path.nonlinearProb))
+        sigma.facs <- rep(0, nGenes)
         sigma.facs[is.nonlinear] <- path.sigmaFac
         # Build Brownian bridges from start to end
         steps <- buildBridges(means.start, means.end, n = path.length[idx],
@@ -424,7 +424,7 @@ simPathCellMeans <- function(sim, params) {
     })
 
     # Randomly assign a position in the appropriate path to each cell
-    cell.steps <- lapply(1:n.groups, function(idx) {
+    cell.steps <- lapply(1:nGroups, function(idx) {
         path.probs <- seq(path.skew[idx], 1 - path.skew[idx],
                           length = path.length[idx])
         path.probs <- path.probs / sum(path.probs)
@@ -435,7 +435,7 @@ simPathCellMeans <- function(sim, params) {
     })
 
     # Collect the underlying expression levels for each cell
-    cell.means.gene <- lapply(1:n.groups, function(idx) {
+    cell.means.gene <- lapply(1:nGroups, function(idx) {
         cell.means <- path.steps[[idx]][, cell.steps[[idx]]]
         return(cell.means)
     })
@@ -468,8 +468,8 @@ simPathCellMeans <- function(sim, params) {
 #' @importFrom stats rchisq rgamma
 simBCVMeans <- function(sim, params) {
 
-    n.genes <- getParams(params, "nGenes")
-    n.cells <- getParams(params, "nCells")
+    nGenes <- getParams(params, "nGenes")
+    nCells <- getParams(params, "nCells")
     bcv.common <- getParams(params, "bcv.common")
     bcv.DF <- getParams(params, "bcv.DF")
     cell.names <- pData(sim)$Cell
@@ -477,11 +477,11 @@ simBCVMeans <- function(sim, params) {
     base.means.cell <- assayData(sim)$BaseCellMeans
 
     bcv <- (bcv.common + (1 / sqrt(base.means.cell))) *
-        sqrt(bcv.DF / rchisq(n.genes, df = bcv.DF))
+        sqrt(bcv.DF / rchisq(nGenes, df = bcv.DF))
 
-    means.cell <- matrix(rgamma(n.genes * n.cells, shape = 1 / (bcv ^ 2),
+    means.cell <- matrix(rgamma(nGenes * nCells, shape = 1 / (bcv ^ 2),
                                 scale = base.means.cell * (bcv ^ 2)),
-                         nrow = n.genes, ncol = n.cells)
+                         nrow = nGenes, ncol = nCells)
 
     colnames(bcv) <- cell.names
     rownames(bcv) <- gene.names
@@ -509,14 +509,14 @@ simBCVMeans <- function(sim, params) {
 #' @importFrom stats rpois
 simTrueCounts <- function(sim, params) {
 
-    n.genes <- getParams(params, "nGenes")
-    n.cells <- getParams(params, "nCells")
+    nGenes <- getParams(params, "nGenes")
+    nCells <- getParams(params, "nCells")
     cell.names <- pData(sim)$Cell
     gene.names <- fData(sim)$Gene
     cell.means <- assayData(sim)$CellMeans
 
-    true.counts <- matrix(rpois(n.genes * n.cells, lambda = cell.means),
-                          nrow = n.genes, ncol = n.cells)
+    true.counts <- matrix(rpois(nGenes * nCells, lambda = cell.means),
+                          nrow = nGenes, ncol = nCells)
 
     colnames(true.counts) <- cell.names
     rownames(true.counts) <- gene.names
@@ -546,8 +546,8 @@ simDropout <- function(sim, params) {
     true.counts <- assayData(sim)$TrueCounts
 
     if (dropout.present) {
-        n.cells <- getParams(params, "nCells")
-        n.genes <- getParams(params, "nGenes")
+        nCells <- getParams(params, "nCells")
+        nGenes <- getParams(params, "nGenes")
         dropout.mid <- getParams(params, "dropout.mid")
         dropout.shape <- getParams(params, "dropout.shape")
         cell.names <- pData(sim)$Cell
@@ -557,14 +557,14 @@ simDropout <- function(sim, params) {
         # Generate probabilites based on expression
         lib.sizes <- colSums(true.counts)
         cell.facs <- log(lib.sizes) / median(lib.sizes)
-        drop.prob <- sapply(1:n.cells, function(idx) {
+        drop.prob <- sapply(1:nCells, function(idx) {
             eta <- cell.facs[idx] * (log(cell.means[, idx]))
             return(logistic(eta, x0 = dropout.mid, k = dropout.shape))
         })
 
         # Decide which counts to keep
-        keep <- matrix(rbinom(n.cells * n.genes, 1, 1 - drop.prob),
-                       nrow = n.genes, ncol = n.cells)
+        keep <- matrix(rbinom(nCells * nGenes, 1, 1 - drop.prob),
+                       nrow = nGenes, ncol = nCells)
 
         counts <- true.counts * keep
 
