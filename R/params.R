@@ -40,13 +40,13 @@
 #'   \item de (differential expression parameters)
 #'     \itemize{
 #'       \item [prob] - Probability that a gene is differentially expressed
-#'             between groups or paths.
+#'             between groups or paths. Can be a vector.
 #'       \item [downProb] - Probability that differentially expressed gene is
-#'             down-regulated.
+#'             down-regulated. Can be a vector.
 #'       \item [facLoc] - Location (meanlog) parameter for the differential
-#'             expression factor log-normal distribution.
+#'             expression factor log-normal distribution. Can be a vector.
 #'       \item [facScale] - Scale (sdlog) parameter for the differential
-#'             expression factor log-normal distribution.
+#'             expression factor log-normal distribution. Can be a vector.
 #'     }
 #'   \item bcv (Biological Coefficient of Variation parameters)
 #'     \itemize{
@@ -338,7 +338,8 @@ checkParams <- function(params) {
                path.sigmaFac = "POS", seed = "INT")
 
     # Define which parameters are allowed to be vectors
-    vectors <- c("groupCells", "path.from", "path.length", "path.skew")
+    vectors <- c("groupCells", "de.prob", "de.downProb", "de.facLoc",
+                 "de.facScale", "path.from", "path.length", "path.skew")
     nGroups <- length(getParams(params, "groupCells"))
 
     for (idx in seq_along(types)) {
@@ -471,10 +472,10 @@ defaultParams <- function() {
 }
 
 
-#' Expath path parameters
+#' Expath parameters
 #'
-#' Expand the path parameters so that they are the same length as the number
-#' of groups.
+#' Expand the parameters that can be vecotor so that they are the same length as
+#' the number of groups.
 #'
 #' @param params splatParams object to expand.
 #'
@@ -487,23 +488,25 @@ defaultParams <- function() {
 #' params <- expandPathParams(params)
 #' params
 #' }
-expandPathParams <- function(params) {
+expandParams <- function(params) {
 
     nGroups <- getParams(params, "nGroups")
     path.from <- getParams(params, "path.from")
     path.length <- getParams(params, "path.length")
     path.skew <- getParams(params, "path.skew")
 
-    if (length(path.from) == 1) {
-        params <- setParams(params, path.from = rep(path.from, nGroups))
-    }
+    vectors <- c("de.prob", "de.downProb", "de.facLoc", "de.facScale",
+                 "path.from", "path.length", "path.skew")
 
-    if (length(path.length) == 1) {
-        params <- setParams(params, path.length = rep(path.length, nGroups))
-    }
-
-    if (length(path.skew) == 1) {
-        params <- setParams(params, path.skew = rep(path.skew, nGroups))
+    for (parameter in vectors) {
+        value <- getParams(params, parameter)
+        if (length(value) == 1 && !is.na(value)) {
+            # Produce a list of arguments and use do.call to get around the
+            # fact the name of the parameter is a string
+            args <- list(params = params)
+            args[[parameter]] <- rep(value, nGroups)
+            params <- do.call(setParams, args)
+        }
     }
 
     return(params)

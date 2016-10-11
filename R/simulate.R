@@ -114,7 +114,7 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     if (verbose) {message("Getting parameters...")}
     params <- setParams(params, ...)
     params <- mergeParams(params, defaultParams())
-    params <- expandPathParams(params)
+    params <- expandParams(params)
 
     # Set random seed
     seed <- getParams(params, "seed")
@@ -285,23 +285,23 @@ simGeneMeans <- function(sim, params) {
 #'
 #' @return SCESet with added differential expression.
 #'
-#' @importFrom Biobase fData pData
+#' @importFrom Biobase fData
 simGroupDE <- function(sim, params) {
 
     nGenes <- getParams(params, "nGenes")
+    nGroups <- getParams(params, "nGroups")
     de.prob <- getParams(params, "de.prob")
     de.downProb <- getParams(params, "de.downProb")
     de.facLoc <- getParams(params, "de.facLoc")
     de.facScale <- getParams(params, "de.facScale")
     means.gene <- fData(sim)$GeneMean
-    group.names <- unique(pData(sim)$Group)
 
-    for (group.name in group.names) {
-        de.facs <- getLNormFactors(nGenes, de.prob, de.downProb, de.facLoc,
-                                   de.facScale)
+    for (idx in 1:nGroups) {
+        de.facs <- getLNormFactors(nGenes, de.prob[idx], de.downProb[idx],
+                                   de.facLoc[idx], de.facScale[idx])
         group.means.gene <- means.gene * de.facs
-        fData(sim)[[paste0("DEFac", group.name)]] <- de.facs
-        fData(sim)[[paste0("GeneMean", group.name)]] <- group.means.gene
+        fData(sim)[[paste0("DEFacGroup", idx)]] <- de.facs
+        fData(sim)[[paste0("GeneMeanGroup", idx)]] <- group.means.gene
     }
 
     return(sim)
@@ -318,7 +318,7 @@ simGroupDE <- function(sim, params) {
 #'
 #' @return SCESet with added differential expression.
 #'
-#' @importFrom Biobase fData pData
+#' @importFrom Biobase fData
 simPathDE <- function(sim, params) {
 
     nGenes <- getParams(params, "nGenes")
@@ -327,7 +327,6 @@ simPathDE <- function(sim, params) {
     de.facLoc <- getParams(params, "de.facLoc")
     de.facScale <- getParams(params, "de.facScale")
     path.from <- getParams(params, "path.from")
-    path.names <- unique(pData(sim)$Group)
 
     path.order <- getPathOrder(path.from)
     for (path in path.order) {
@@ -337,8 +336,8 @@ simPathDE <- function(sim, params) {
         } else {
             means.gene <- fData(sim)[[paste0("GeneMeanPath", from)]]
         }
-        de.facs <- getLNormFactors(nGenes, de.prob, de.downProb, de.facLoc,
-                                   de.facScale)
+        de.facs <- getLNormFactors(nGenes, de.prob[path], de.downProb[path],
+                                   de.facLoc[path], de.facScale[path])
         path.means.gene <- means.gene * de.facs
         fData(sim)[[paste0("DEFacPath", path)]] <- de.facs
         fData(sim)[[paste0("GeneMeanPath", path)]] <- path.means.gene

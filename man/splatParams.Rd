@@ -51,13 +51,13 @@ parameters. It has the following sections and values:
   \item de (differential expression parameters)
     \itemize{
       \item [prob] - Probability that a gene is differentially expressed
-            between groups or paths.
+            between groups or paths. Can be a vector.
       \item [downProb] - Probability that differentially expressed gene is
-            down-regulated.
+            down-regulated. Can be a vector.
       \item [facLoc] - Location (meanlog) parameter for the differential
-            expression factor log-normal distribution.
+            expression factor log-normal distribution. Can be a vector.
       \item [facScale] - Scale (sdlog) parameter for the differential
-            expression factor log-normal distribution.
+            expression factor log-normal distribution. Can be a vector.
     }
   \item bcv (Biological Coefficient of Variation parameters)
     \itemize{
