@@ -2,29 +2,115 @@
 % Please edit documentation in R/simulate.R
 \name{splat}
 \alias{splat}
-\title{FUNCTION TITLE}
+\alias{splatGroups}
+\alias{splatPaths}
+\title{Simulate scRNA-seq data}
 \usage{
 splat(params = defaultParams(), method = c("groups", "paths"),
-  add.assay = TRUE, verbose = TRUE, ...)
+  verbose = TRUE, ...)
+
+splatGroups(params = defaultParams(), verbose = TRUE, ...)
+
+splatPaths(params = defaultParams(), verbose = TRUE, ...)
 }
 \arguments{
-\item{params}{DESCRIPTION.}
+\item{params}{splatParams object containing parameters for the simulation.
+See \code{\link{splatParams}} for details.}
 
-\item{method}{DESCRIPTION.}
+\item{method}{which simulation method to use. Options are "groups" which
+produces distinct groups (eg. cell types) or "paths" which selects
+cells from a continuous trajectory (eg. differentiation process).}
 
-\item{add.assay}{DESCRIPTION.}
+\item{verbose}{logical. Whether to print progress messages.}
 
-\item{verbose}{DESCRIPTION.}
-
-\item{...}{DESCRIPTION.}
+\item{...}{any additional parameter settings to override what is provided in
+\code{params}.}
 }
 \value{
-RETURN DESCRIPTION
+SCESet object containing the simulated counts and intermediate values
 }
 \description{
-FUNCTION DESCRIPTION
+Simulate count data from a fictional single-cell RNA-seq experiment.
+}
+\details{
+Parameters can be set in a variety of ways. If no parameters are provided
+the default parameters are used (see \code{\link{defaultParams}}). Any
+parameters in \code{params} can be overridden by supplying additional
+arguments through a call to \code{\link{setParams}}. Finally any parameters
+the are still missing (\code{NA}) are replaced with the defaults through a
+call to \code{\link{mergeParams}}. This design allows the user flexibility in
+how they supply parameters and allows small adjustments without creating a
+new \code{splatParams} object. See examples for a demonstration of how this
+can be used.
+
+The simulation involves the following steps:
+\enumerate{
+  \item Set up simulation object
+  \item Simulate library sizes
+  \item Simulate gene means
+  \item Simulate groups/paths
+  \item Simulate BCV adjusted cell means
+  \item Simulate true counts
+  \item Simulate dropout
+  \item Create final SCESet object
+}
+
+The final output is an \code{\link{SCESet}} object that contains the
+simulated counts but also the values for various intermediate steps. These
+are stored in the \code{\link{phenoData}} (for cell specific information),
+\code{\link{featureData}} (for gene specific information) or
+\code{\link{assayData}} (for gene by cell matrices) slots. This additional
+information includes:
+\itemize{
+  \item \code{phenoData}
+    \itemize{
+      \item Cell - unique cell identifier
+      \item Group - the group or path the cell belongs to
+      \item ExpLibSize - the expected library size for that cell
+      \item Step (paths only) - how far along the path each cell is
+    }
+  \item \code{featureData}
+    \itemize{
+      \item Gene - unique gene identifier
+      \item BaseGeneMean - the base expression level for that gene
+      \item OutlierFactor - expression outlier factor for that gene. Values
+            of 1 indicate the gene is not an expression outlier.
+      \item GeneMean - expression level after applying outlier factors
+      \item DEFac[Group] - the differential expression factor for each gene
+            in a particular group. Values of 1 indicate the gene is not
+            differentially expressed.
+      \item GeneMean[Group] - expression level of a gene in a particular
+            group after applying differential expression factors.
+    }
+  \item \code{assayData}
+    \itemize{
+      \item BaseCellMeans - the expression of genes in each cell adjusted for
+            expected library size.
+      \item BCV - the Biological Coefficient of Variation for each gene in
+            each cell.
+      \item CellMeans - the expression level of genes in each cell adjusted
+            for BCV.
+      \item TrueCounts - the simulated counts before dropout.
+      \item Dropout - logical matrix showing which values have been dropped
+            in which cells.
+    }
+ }
+
+ Values that have been added by Splatter are named using \code{CamelCase} in
+ order to differentiate them from the values added by Scater which uses
+ \code{underscore_naming}.
 }
 \examples{
-# ADD EXAMPLES HERE
+# Simulation with default parameters
+sim <- splat()
+# Simulation with different number of cells
+sim <- splat(nCells = 20)
+# Simulation with custom parameters
+params <- splatParams(nGenes = 100, nCells = 20, mean.rate = 0.5)
+sim <- splat(params)
+# Simulation with adjusted custom parameters
+sim <- splat(params, mean.rate = 0.6, out.prob = 0.2)
+# Simulate paths instead of groups
+sim <- splat(method = "paths")
 }
 

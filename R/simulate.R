@@ -1,42 +1,113 @@
-# setup metadata x
-# Means x
-# Groups x
-# Paths
-# Lib size x
-# Base Means X
-# BCV X
-# Means X
-# Counts X
-# Dropout *********
-# Add metadata X
-#
 # Add length
 # Median outliers
 # set.seed
 # group DE
 
-# Expand path params
 # Min path length
 # Path.from + tests
 # Bridge tests
+# Verbose
+# Dropout
 
-#' FUNCTION TITLE
+#' Simulate scRNA-seq data
 #'
-#' FUNCTION DESCRIPTION
+#' Simulate count data from a fictional single-cell RNA-seq experiment.
 #'
-#' @param params DESCRIPTION.
-#' @param method DESCRIPTION.
-#' @param add.assay DESCRIPTION.
-#' @param verbose DESCRIPTION.
-#' @param ... DESCRIPTION.
+#' @param params splatParams object containing parameters for the simulation.
+#'        See \code{\link{splatParams}} for details.
+#' @param method which simulation method to use. Options are "groups" which
+#'        produces distinct groups (eg. cell types) or "paths" which selects
+#'        cells from a continuous trajectory (eg. differentiation process).
+#' @param verbose logical. Whether to print progress messages.
+#' @param ... any additional parameter settings to override what is provided in
+#'        \code{params}.
 #'
-#' @return RETURN DESCRIPTION
+#' @details
+#' Parameters can be set in a variety of ways. If no parameters are provided
+#' the default parameters are used (see \code{\link{defaultParams}}). Any
+#' parameters in \code{params} can be overridden by supplying additional
+#' arguments through a call to \code{\link{setParams}}. Finally any parameters
+#' the are still missing (\code{NA}) are replaced with the defaults through a
+#' call to \code{\link{mergeParams}}. This design allows the user flexibility in
+#' how they supply parameters and allows small adjustments without creating a
+#' new \code{splatParams} object. See examples for a demonstration of how this
+#' can be used.
+#'
+#' The simulation involves the following steps:
+#' \enumerate{
+#'   \item Set up simulation object
+#'   \item Simulate library sizes
+#'   \item Simulate gene means
+#'   \item Simulate groups/paths
+#'   \item Simulate BCV adjusted cell means
+#'   \item Simulate true counts
+#'   \item Simulate dropout
+#'   \item Create final SCESet object
+#' }
+#'
+#' The final output is an \code{\link{SCESet}} object that contains the
+#' simulated counts but also the values for various intermediate steps. These
+#' are stored in the \code{\link{phenoData}} (for cell specific information),
+#' \code{\link{featureData}} (for gene specific information) or
+#' \code{\link{assayData}} (for gene by cell matrices) slots. This additional
+#' information includes:
+#' \itemize{
+#'   \item \code{phenoData}
+#'     \itemize{
+#'       \item Cell - unique cell identifier
+#'       \item Group - the group or path the cell belongs to
+#'       \item ExpLibSize - the expected library size for that cell
+#'       \item Step (paths only) - how far along the path each cell is
+#'     }
+#'   \item \code{featureData}
+#'     \itemize{
+#'       \item Gene - unique gene identifier
+#'       \item BaseGeneMean - the base expression level for that gene
+#'       \item OutlierFactor - expression outlier factor for that gene. Values
+#'             of 1 indicate the gene is not an expression outlier.
+#'       \item GeneMean - expression level after applying outlier factors
+#'       \item DEFac[Group] - the differential expression factor for each gene
+#'             in a particular group. Values of 1 indicate the gene is not
+#'             differentially expressed.
+#'       \item GeneMean[Group] - expression level of a gene in a particular
+#'             group after applying differential expression factors.
+#'     }
+#'   \item \code{assayData}
+#'     \itemize{
+#'       \item BaseCellMeans - the expression of genes in each cell adjusted for
+#'             expected library size.
+#'       \item BCV - the Biological Coefficient of Variation for each gene in
+#'             each cell.
+#'       \item CellMeans - the expression level of genes in each cell adjusted
+#'             for BCV.
+#'       \item TrueCounts - the simulated counts before dropout.
+#'       \item Dropout - logical matrix showing which values have been dropped
+#'             in which cells.
+#'     }
+#'  }
+#'
+#'  Values that have been added by Splatter are named using \code{CamelCase} in
+#'  order to differentiate them from the values added by Scater which uses
+#'  \code{underscore_naming}.
+#'
+#' @return SCESet object containing the simulated counts and intermediate values
 #' @examples
-#' # ADD EXAMPLES HERE
+#' # Simulation with default parameters
+#' sim <- splat()
+#' # Simulation with different number of cells
+#' sim <- splat(nCells = 20)
+#' # Simulation with custom parameters
+#' params <- splatParams(nGenes = 100, nCells = 20, mean.rate = 0.5)
+#' sim <- splat(params)
+#' # Simulation with adjusted custom parameters
+#' sim <- splat(params, mean.rate = 0.6, out.prob = 0.2)
+#' # Simulate paths instead of groups
+#' sim <- splat(method = "paths")
 #' @importFrom Biobase pData fData assayData
 #' @importFrom scater newSCESet counts
+#' @export
 splat <- function(params = defaultParams(), method = c("groups", "paths"),
-                  add.assay = TRUE, verbose = TRUE, ...) {
+                  verbose = TRUE, ...) {
 
     method <- match.arg(method)
 
@@ -105,6 +176,30 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     return(sce)
 }
 
+#' @rdname splat
+#' @export
+splatGroups <- function(params = defaultParams(), verbose = TRUE, ...) {
+    sim <- splat(params = params, method = "groups", verbose = verbose, ...)
+
+    return(sim)
+}
+
+#' @rdname splat
+#' @export
+splatPaths <- function(params = defaultParams(), verbose = TRUE, ...) {
+    sim <- splat(params = params, method = "paths", verbose = verbose, ...)
+
+    return(sim)
+}
+
+#' Simulate library sizes
+#'
+#' Simulate expected library sizes from a log-normal distribution
+#'
+#' @param sim SCESet to add library size to.
+#' @param params splatParams object with simulation parameters.
+#'
+#' @return SCESet with added library sizes.
 simLibSizes <- function(sim, params) {
 
     n.cells <- getParams(params, "nCells")
@@ -117,6 +212,15 @@ simLibSizes <- function(sim, params) {
     return(sim)
 }
 
+#' Simulate gene means
+#'
+#' Simulate gene means from a gamma distribution. Also simulates outlier
+#' expression factors.
+#'
+#' @param sim SCESet to add gene means to.
+#' @param params splatParams object with simulation parameters.
+#'
+#' @return SCESet with added gene means.
 simGeneMeans <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
@@ -142,6 +246,16 @@ simGeneMeans <- function(sim, params) {
     return(sim)
 }
 
+#' Simulate group differential expression
+#'
+#' Simulate differential expression for groups. Differential expression
+#' factors for each group are produced using \code{\link{getLNormFactors}} and
+#' these are added along with updated means for each group.
+#'
+#' @param sim SCESet to add differential expression to.
+#' @param params splatParams object with simulation parameters.
+#'
+#' @return SCESet with added differential expression.
 simGroupDE <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
@@ -163,6 +277,16 @@ simGroupDE <- function(sim, params) {
     return(sim)
 }
 
+#' Simulate path differential expression
+#'
+#' Simulate differential expression for path. Similar to
+#' \code{\link{simGroupDE}} but care has to be taken to make sure paths are
+#' processed in the correct order.
+#'
+#' @param sim SCESet to add differential expression to.
+#' @param params splatParams object with simulation parameters.
+#'
+#' @return SCESet with added differential expression.
 simPathDE <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
@@ -191,8 +315,19 @@ simPathDE <- function(sim, params) {
     return(sim)
 }
 
+#' Simulate group cell means
+#'
+#' Simulate a gene by cell matrix giving the mean expression for each gene in
+#' each cell. Cells start with the mean expression for the group they belong to
+#' which is adjusted for each cells expected library size.
+#'
+#' @param sim SCESet to add cell means to.
+#' @param params splatParams object with simulation parameters.
+#'
+#' @return SCESet with added cell means/.
 simGroupCellMeans <- function(sim, params) {
 
+    n.groups <- getParams(params, "nGroups")
     cell.names <- pData(sim)$Cell
     gene.names <- fData(sim)$Gene
     groups <- pData(sim)$Group
@@ -200,6 +335,10 @@ simGroupCellMeans <- function(sim, params) {
     exp.lib.sizes <- pData(sim)$ExpLibSize
 
     group.means.gene <- fData(sim)[, paste0("GeneMean", group.names)]
+    if (n.groups == 1) {
+        group.means.gene <- matrix(group.means.gene)
+        colnames(group.means.gene) <- "GeneMeanGroup1"
+    }
     cell.means.gene <- as.matrix(group.means.gene[, factor(groups)])
     cell.props.gene <- t(t(cell.means.gene) / colSums(cell.means.gene))
     base.means.cell <- t(t(cell.props.gene) * exp.lib.sizes)
@@ -211,6 +350,17 @@ simGroupCellMeans <- function(sim, params) {
     return(sim)
 }
 
+#' Simulate path cell means
+#'
+#' Simulate a gene by cell matrix giving the mean expression for each gene in
+#' each cell. Cells are assigned assigned a random position on the appropriate
+#' path. The mean at that position is then adjusted for each cells expected
+#' library size.
+#'
+#' @param sim SCESet to add cell means to.
+#' @param params splatParams object with simulation parameters.
+#'
+#' @return SCESet with added cell means.
 simPathCellMeans <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
@@ -228,19 +378,23 @@ simPathCellMeans <- function(sim, params) {
     exp.lib.sizes <- pData(sim)$ExpLibSize
 
     # Generate paths. Each path is a matrix with path.length columns and
-    # n.genes rows.
+    # n.genes rows where the expression from each genes changes along the path.
     path.steps <- lapply(seq_along(path.from), function(idx) {
         from <- path.from[idx]
+        # Find the means at the starting position
         if (from == 0) {
             means.start <- fData(sim)$GeneMean
         } else {
             means.start <- fData(sim)[[paste0("GeneMeanPath", from)]]
         }
+        # Find the means at the end position
         means.end <- fData(sim)[[paste0("GeneMeanPath", idx)]]
 
+        # Select genes to follow a non-linear path
         is.nonlinear <- as.logical(rbinom(n.genes, 1, path.nonlinearProb))
         sigma.facs <- rep(0, n.genes)
         sigma.facs[is.nonlinear] <- path.sigmaFac
+        # Build Brownian bridges from start to end
         steps <- buildBridges(means.start, means.end, n = path.length[idx],
                               sigma.fac = sigma.facs)
 
@@ -279,6 +433,16 @@ simPathCellMeans <- function(sim, params) {
     return(sim)
 }
 
+#' Simulate BCV means
+#'
+#' Simulate means for each gene in each cell that are adjusted to follow a
+#' mean-variance trend using Biological Coefficient of Variation taken from
+#' and inverse gamma distribution.
+#'
+#' @param sim SCESet to add BCV means to.
+#' @param params splatParams object with simulation parameters.
+#'
+#' @return SCESet with added BCV means.
 simBCVMeans <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
@@ -307,6 +471,16 @@ simBCVMeans <- function(sim, params) {
     return(sim)
 }
 
+#' Simulate true counts
+#'
+#' Simulate a true counts matrix. Counts are simulated from a poisson
+#' distribution where Each gene in each cell has it's own mean based on the
+#' group (or path position), expected library size and BCV.
+#'
+#' @param sim SCESet to add true counts to.
+#' @param params splatParams object with simulation parameters.
+#'
+#' @return SCESet with added true counts.
 simTrueCounts <- function(sim, params) {
 
     n.genes <- getParams(params, "nGenes")
@@ -326,6 +500,17 @@ simTrueCounts <- function(sim, params) {
     return(sim)
 }
 
+#' Simulate dropout
+#'
+#' A logistic function is used to form a relationshop between the expression
+#' level of a gene and the probability of dropout, giving a probability for each
+#' gene in each cell. These probabilities are used in a Bernoulli distribution
+#' to decide which counts should be dropped.
+#'
+#' @param sim SCESet to add dropout to.
+#' @param params splatParams object with simulation parameters.
+#'
+#' @return SCESet with added dropout and observed counts.
 simDropout <- function(sim, params) {
 
     dropout.present <- getParams(params, "dropout.present")
@@ -340,6 +525,7 @@ simDropout <- function(sim, params) {
         gene.names <- fData(sim)$Gene
         cell.means <- assayData(sim)$CellMeans
 
+        # Generate probabilites based on expression
         lib.sizes <- colSums(true.counts)
         cell.facs <- log(lib.sizes) / median(lib.sizes)
         drop.prob <- sapply(1:n.cells, function(idx) {
@@ -347,6 +533,7 @@ simDropout <- function(sim, params) {
             return(logistic(eta, x0 = dropout.mid, k = dropout.shape))
         })
 
+        # Decide which counts to keep
         keep <- matrix(rbinom(n.cells * n.genes, 1, 1 - drop.prob),
                        nrow = n.genes, ncol = n.cells)
 
