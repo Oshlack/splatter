@@ -94,6 +94,7 @@ parameters. It has the following sections and values:
             value will result in more extreme non-linear variations along a
             path.
   }
+  \item seed - Random seed used during the simulation
 }
 
 Those shown in brackets cannot currently be easily estimated from a real

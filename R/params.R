@@ -83,6 +83,7 @@
 #'             value will result in more extreme non-linear variations along a
 #'             path.
 #'   }
+#'   \item seed - Random seed used during the simulation
 #' }
 #'
 #' Those shown in brackets cannot currently be easily estimated from a real
@@ -105,7 +106,8 @@ splatParams <- function(...) {
                    bcv = list(common = NA, DF = NA),
                    dropout = list(present = NA, mid = NA, shape = NA),
                    path = list(from = NA, length = NA, skew = NA,
-                               nonlinearProb = NA, sigmaFac = NA))
+                               nonlinearProb = NA, sigmaFac = NA),
+                   seed = NA)
 
     class(params) <- "splatParams"
 
@@ -155,7 +157,8 @@ print.splatParams <- function(x, ...) {
                                          "[Length]"       = "path.length",
                                          "[Skew]"         = "path.skew",
                                          "[Non-linear]"   = "path.nonlinearProb",
-                                         "[Sigma Factor]" = "path.sigmaFac"))
+                                         "[Sigma Factor]" = "path.sigmaFac"),
+               "Seed:"               = c("Seed"           = "seed"))
 
     for (category in names(pp)) {
         parameters <- getParams(x, pp[[category]])
@@ -332,7 +335,7 @@ checkParams <- function(params) {
                dropout.present = "LOG", dropout.mid = "NUM",
                dropout.shape = "NUM", path.from = "INT", path.length = "INT",
                path.skew = "PROB", path.nonlinearProb = "PROB",
-               path.sigmaFac = "POS")
+               path.sigmaFac = "POS", seed = "INT")
 
     # Define which parameters are allowed to be vectors
     vectors <- c("groupCells", "path.from", "path.length", "path.skew")
@@ -462,7 +465,7 @@ defaultParams <- function() {
                         dropout.present = TRUE, dropout.mid = 0,
                         dropout.shape = -1, path.from = 0, path.length = 100,
                         path.skew = 0.5, path.nonlinearProb = 0.1,
-                        path.sigmaFac = 0.8)
+                        path.sigmaFac = 0.8, seed = sample(1:1e6, 1))
 
     return(params)
 }

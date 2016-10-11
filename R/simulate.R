@@ -115,6 +115,10 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     params <- mergeParams(params, defaultParams())
     params <- expandPathParams(params)
 
+    # Set random seed
+    seed <- getParams(params, "seed")
+    set.seed(seed)
+
     # Get the parameters we are going to use
     nCells <- getParams(params, "nCells")
     nGenes <- getParams(params, "nGenes")

@@ -186,3 +186,9 @@ test_that("constructor is valid", {
 test_that("defaultParams is valid", {
     expect_silent(checkParams(defaultParams()))
 })
+
+test_that("default seed is random", {
+    params1 <- defaultParams()
+    params2 <- defaultParams()
+    expect_false(getParams(params1, "seed") == getParams(params2, "seed"))
+})
