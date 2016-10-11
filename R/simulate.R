@@ -111,6 +111,7 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
 
     method <- match.arg(method)
 
+    if (verbose) {message("Getting parameters...")}
     params <- setParams(params, ...)
     params <- mergeParams(params, defaultParams())
     params <- expandPathParams(params)
@@ -125,6 +126,7 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     nGroups <- getParams(params, "nGroups")
     group.cells <- getParams(params, "groupCells")
 
+    if (verbose) {message("Creating simulation object...")}
     # Set up name vectors
     cell.names <- paste0("Cell", 1:nCells)
     gene.names <- paste0("Gene", 1:nGenes)
@@ -152,19 +154,29 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     groups <- unlist(groups)
     pData(sim)$Group <- group.names[groups]
 
+    if (verbose) {message("Simulating library sizes...")}
     sim <- simLibSizes(sim, params)
+    if (verbose) {message("Simulating gene means...")}
     sim <- simGeneMeans(sim, params)
     if (method == "groups") {
+        if (verbose) {message("Simulating group DE...")}
         sim <- simGroupDE(sim, params)
+        if (verbose) {message("Simulating cell means...")}
         sim <- simGroupCellMeans(sim, params)
     } else {
+        if (verbose) {message("Simulating path endpoints...")}
         sim <- simPathDE(sim, params)
+        if (verbose) {message("Simulating path steps...")}
         sim <- simPathCellMeans(sim, params)
     }
+    if (verbose) {message("Simulating BCV...")}
     sim <- simBCVMeans(sim, params)
+    if (verbose) {message("Simulating counts..")}
     sim <- simTrueCounts(sim, params)
+    if (verbose) {message("Simulating dropout...")}
     sim <- simDropout(sim, params)
 
+    if (verbose) {message("Creating final SCESet...")}
     # Create new SCESet to make sure values are calculated correctly
     sce <- newSCESet(countData = counts(sim),
                      phenoData = new("AnnotatedDataFrame", data = pData(sim)),
@@ -177,6 +189,7 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
         }
     }
 
+    if (verbose) {message("Done!")}
     return(sce)
 }
 
