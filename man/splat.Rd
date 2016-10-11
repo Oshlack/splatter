@@ -4,10 +4,13 @@
 \alias{splat}
 \alias{splatGroups}
 \alias{splatPaths}
+\alias{splatSingle}
 \title{Simulate scRNA-seq data}
 \usage{
-splat(params = defaultParams(), method = c("groups", "paths"),
+splat(params = defaultParams(), method = c("single", "groups", "paths"),
   verbose = TRUE, ...)
+
+splatSingle(params = defaultParams(), verbose = TRUE, ...)
 
 splatGroups(params = defaultParams(), verbose = TRUE, ...)
 
@@ -17,9 +20,10 @@ splatPaths(params = defaultParams(), verbose = TRUE, ...)
 \item{params}{splatParams object containing parameters for the simulation.
 See \code{\link{splatParams}} for details.}
 
-\item{method}{which simulation method to use. Options are "groups" which
-produces distinct groups (eg. cell types) or "paths" which selects
-cells from a continuous trajectory (eg. differentiation process).}
+\item{method}{which simulation method to use. Options are "single" which
+produces a single population, "groups" which produces distinct groups
+(eg. cell types) or "paths" which selects cells from continuous
+trajectories (eg. differentiation process).}
 
 \item{verbose}{logical. Whether to print progress messages.}
 

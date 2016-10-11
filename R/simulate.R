@@ -15,9 +15,10 @@
 #'
 #' @param params splatParams object containing parameters for the simulation.
 #'        See \code{\link{splatParams}} for details.
-#' @param method which simulation method to use. Options are "groups" which
-#'        produces distinct groups (eg. cell types) or "paths" which selects
-#'        cells from a continuous trajectory (eg. differentiation process).
+#' @param method which simulation method to use. Options are "single" which
+#'        produces a single population, "groups" which produces distinct groups
+#'        (eg. cell types) or "paths" which selects cells from continuous
+#'        trajectories (eg. differentiation process).
 #' @param verbose logical. Whether to print progress messages.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -106,7 +107,8 @@
 #' @importFrom Biobase fData pData pData<- assayData
 #' @importFrom scater newSCESet counts
 #' @export
-splat <- function(params = defaultParams(), method = c("groups", "paths"),
+splat <- function(params = defaultParams(),
+                  method = c("single", "groups", "paths"),
                   verbose = TRUE, ...) {
 
     method <- match.arg(method)
@@ -125,6 +127,11 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
     nGenes <- getParams(params, "nGenes")
     nGroups <- getParams(params, "nGroups")
     group.cells <- getParams(params, "groupCells")
+
+    if (nGroups == 1 && method == "groups") {
+        warning("nGroups is 1, switching to single mode")
+        method <- "single"
+    }
 
     if (verbose) {message("Creating simulation object...")}
     # Set up name vectors
@@ -149,16 +156,20 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
 
     # Make groups vector which is the index of param$groupCells repeated
     # params$groupCells[index] times
-    groups <- lapply(1:nGroups, function(i, g) {rep(i, g[i])},
-                     g = group.cells)
-    groups <- unlist(groups)
-    pData(sim)$Group <- group.names[groups]
+    if (method != "single") {
+        groups <- lapply(1:nGroups, function(i, g) {rep(i, g[i])},
+                         g = group.cells)
+        groups <- unlist(groups)
+        pData(sim)$Group <- group.names[groups]
+    }
 
     if (verbose) {message("Simulating library sizes...")}
     sim <- simLibSizes(sim, params)
     if (verbose) {message("Simulating gene means...")}
     sim <- simGeneMeans(sim, params)
-    if (method == "groups") {
+    if (method == "single") {
+        sim <- simSingleCellMeans(sim, params)
+    } else if (method == "groups") {
         if (verbose) {message("Simulating group DE...")}
         sim <- simGroupDE(sim, params)
         if (verbose) {message("Simulating cell means...")}
@@ -195,9 +206,15 @@ splat <- function(params = defaultParams(), method = c("groups", "paths"),
 
 #' @rdname splat
 #' @export
+splatSingle <- function(params = defaultParams(), verbose = TRUE, ...) {
+    sim <- splat(params = params, method = "single", verbose = verbose, ...)
+    return(sim)
+}
+
+#' @rdname splat
+#' @export
 splatGroups <- function(params = defaultParams(), verbose = TRUE, ...) {
     sim <- splat(params = params, method = "groups", verbose = verbose, ...)
-
     return(sim)
 }
 
@@ -205,7 +222,6 @@ splatGroups <- function(params = defaultParams(), verbose = TRUE, ...) {
 #' @export
 splatPaths <- function(params = defaultParams(), verbose = TRUE, ...) {
     sim <- splat(params = params, method = "paths", verbose = verbose, ...)
-
     return(sim)
 }
 
@@ -346,6 +362,35 @@ simPathDE <- function(sim, params) {
     return(sim)
 }
 
+#' Simulate single population cell means
+#'
+#' Simulate a gene by cell matrix giving the mean expression for each gene in
+#' each cell.
+#'
+#' @param sim SCESet to add cell means to.
+#' @param params splatParams object with simulation parameters.
+#'
+#' @return SCESet with added cell means.
+#'
+#' @importFrom Biobase fData pData assayData assayData<-
+simSingleCellMeans <- function(sim, params) {
+
+    nCells <- getParams(params, "nCells")
+    cell.names <- pData(sim)$Cell
+    gene.names <- fData(sim)$Gene
+    exp.lib.sizes <- pData(sim)$ExpLibSize
+
+    cell.means.gene <- as.matrix(fData(sim)[, rep("GeneMean", nCells)])
+    cell.props.gene <- t(t(cell.means.gene) / colSums(cell.means.gene))
+    base.means.cell <- t(t(cell.props.gene) * exp.lib.sizes)
+    colnames(base.means.cell) <- cell.names
+    rownames(base.means.cell) <- gene.names
+
+    assayData(sim)$BaseCellMeans <- base.means.cell
+
+    return(sim)
+}
+
 #' Simulate group cell means
 #'
 #' Simulate a gene by cell matrix giving the mean expression for each gene in
@@ -368,10 +413,6 @@ simGroupCellMeans <- function(sim, params) {
     exp.lib.sizes <- pData(sim)$ExpLibSize
 
     group.means.gene <- fData(sim)[, paste0("GeneMean", group.names)]
-    if (nGroups == 1) {
-        group.means.gene <- matrix(group.means.gene)
-        colnames(group.means.gene) <- "GeneMeanGroup1"
-    }
     cell.means.gene <- as.matrix(group.means.gene[, factor(groups)])
     cell.props.gene <- t(t(cell.means.gene) / colSums(cell.means.gene))
     base.means.cell <- t(t(cell.props.gene) * exp.lib.sizes)
