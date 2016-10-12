@@ -23,6 +23,7 @@
 #' @examples
 #' sim <- simSimple()
 #' @export
+#' @importFrom stats rgamma rnbinom
 simSimple <- function(params = defaultParams(), verbose = TRUE, ...) {
 
     if (verbose) {message("Getting parameters...")}
