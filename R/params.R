@@ -128,7 +128,7 @@ splatParams <- function(...) {
 #' @param x splatParams object to print.
 #' @param ... further arguments passed to or from other methods.
 #'
-#' @return Invisibly returns x (via \code{\link{invisible}(x)})
+#' @return Invisibly returns x (via \code{invisible(x)})
 #'
 #' @examples
 #' params <- defaultParams()

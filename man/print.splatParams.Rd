@@ -12,7 +12,7 @@
 \item{...}{further arguments passed to or from other methods.}
 }
 \value{
-Invisibly returns x (via \code{\link{invisible}(x)})
+Invisibly returns x (via \code{invisible(x)})
 }
 \description{
 Pretty print the parameters stored in a splatParams object. Parameters are

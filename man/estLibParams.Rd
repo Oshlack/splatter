@@ -16,8 +16,8 @@ splatParams object with estimated values.
 }
 \description{
 A log-normal distribution is fitted to the library sizes and the estimated
-parameters are added to the params object. See \code{\link{fitdist}} for
-details on the fitting.
+parameters are added to the params object. See
+\code{\link[fitdistrplus]{fitdist}} for details on the fitting.
 }
 \examples{
 \dontrun{

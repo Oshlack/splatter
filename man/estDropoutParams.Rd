@@ -22,7 +22,7 @@ present in the dataset.
 \details{
 Logistic function parameters are estimated by fitting a logistic function
 to the relationship between log2 mean gene expression and the proportion of
-zeros in each gene. See \code{\link{nls}} for details of fitting. The
+zeros in each gene. See \code{\link[stats]{nls}} for details of fitting. The
 presence of dropout is determined by comparing the observed number of zeros
 in each gene to the expected number of zeros from a negative binomial
 distribution with the gene mean and a dispersion of 0.1. If the maximum
