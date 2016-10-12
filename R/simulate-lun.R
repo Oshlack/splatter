@@ -98,7 +98,7 @@ simLun <- function(params = defaultLunParams(), verbose = TRUE, ...) {
     if (verbose) {message("Simulating cell means...")}
     if (nGroups == 1) {
         cell.facs <- 2 ^ rnorm(nCells, sd = 0.5)
-        base.cell.means <- outer(gene.means, cell.facs, "*")
+        cell.means <- outer(gene.means, cell.facs, "*")
     } else {
         groups <- list()
         cell.facs <- list()
