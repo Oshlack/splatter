@@ -117,4 +117,11 @@ sim <- splat(params, mean.rate = 0.6, out.prob = 0.2)
 # Simulate paths instead of groups
 sim <- splat(method = "paths")
 }
+\seealso{
+\code{\link{addLibSizes}}, \code{\link{addGeneMeans}},
+\code{\link{addSingleCellMeans}}, \code{\link{addGroupDE}},
+\code{\link{addGroupCellMeans}}, \code{\link{addPathDE}},
+\code{\link{addPathCellMeans}}, \code{\link{addBCVMeans}},
+\code{\link{addTrueCounts}}, \code{\link{addDropout}}
+}
 

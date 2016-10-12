@@ -92,6 +92,14 @@
 #'  \code{underscore_naming}.
 #'
 #' @return SCESet object containing the simulated counts and intermediate values
+#'
+#' @seealso
+#' \code{\link{addLibSizes}}, \code{\link{addGeneMeans}},
+#' \code{\link{addSingleCellMeans}}, \code{\link{addGroupDE}},
+#' \code{\link{addGroupCellMeans}}, \code{\link{addPathDE}},
+#' \code{\link{addPathCellMeans}}, \code{\link{addBCVMeans}},
+#' \code{\link{addTrueCounts}}, \code{\link{addDropout}}
+#'
 #' @examples
 #' # Simulation with default parameters
 #' sim <- splat()
@@ -164,28 +172,28 @@ splat <- function(params = defaultParams(),
     }
 
     if (verbose) {message("Simulating library sizes...")}
-    sim <- simLibSizes(sim, params)
+    sim <- addLibSizes(sim, params)
     if (verbose) {message("Simulating gene means...")}
-    sim <- simGeneMeans(sim, params)
+    sim <- addGeneMeans(sim, params)
     if (method == "single") {
-        sim <- simSingleCellMeans(sim, params)
+        sim <- addSingleCellMeans(sim, params)
     } else if (method == "groups") {
         if (verbose) {message("Simulating group DE...")}
-        sim <- simGroupDE(sim, params)
+        sim <- addGroupDE(sim, params)
         if (verbose) {message("Simulating cell means...")}
-        sim <- simGroupCellMeans(sim, params)
+        sim <- addGroupCellMeans(sim, params)
     } else {
         if (verbose) {message("Simulating path endpoints...")}
-        sim <- simPathDE(sim, params)
+        sim <- addPathDE(sim, params)
         if (verbose) {message("Simulating path steps...")}
-        sim <- simPathCellMeans(sim, params)
+        sim <- addPathCellMeans(sim, params)
     }
     if (verbose) {message("Simulating BCV...")}
-    sim <- simBCVMeans(sim, params)
+    sim <- addBCVMeans(sim, params)
     if (verbose) {message("Simulating counts..")}
-    sim <- simTrueCounts(sim, params)
+    sim <- addTrueCounts(sim, params)
     if (verbose) {message("Simulating dropout...")}
-    sim <- simDropout(sim, params)
+    sim <- addDropout(sim, params)
 
     if (verbose) {message("Creating final SCESet...")}
     # Create new SCESet to make sure values are calculated correctly
@@ -236,7 +244,7 @@ splatPaths <- function(params = defaultParams(), verbose = TRUE, ...) {
 #'
 #' @importFrom Biobase pData pData<-
 #' @importFrom stats rlnorm
-simLibSizes <- function(sim, params) {
+addLibSizes <- function(sim, params) {
 
     nCells <- getParams(params, "nCells")
     lib.loc <- getParams(params, "lib.loc")
@@ -261,7 +269,7 @@ simLibSizes <- function(sim, params) {
 #'
 #' @importFrom Biobase fData fData<-
 #' @importFrom stats rgamma median
-simGeneMeans <- function(sim, params) {
+addGeneMeans <- function(sim, params) {
 
     nGenes <- getParams(params, "nGenes")
     mean.shape <- getParams(params, "mean.shape")
@@ -302,7 +310,7 @@ simGeneMeans <- function(sim, params) {
 #' @return SCESet with added differential expression.
 #'
 #' @importFrom Biobase fData
-simGroupDE <- function(sim, params) {
+addGroupDE <- function(sim, params) {
 
     nGenes <- getParams(params, "nGenes")
     nGroups <- getParams(params, "nGroups")
@@ -326,7 +334,7 @@ simGroupDE <- function(sim, params) {
 #' Simulate path differential expression
 #'
 #' Simulate differential expression for path. Similar to
-#' \code{\link{simGroupDE}} but care has to be taken to make sure paths are
+#' \code{\link{addGroupDE}} but care has to be taken to make sure paths are
 #' processed in the correct order.
 #'
 #' @param sim SCESet to add differential expression to.
@@ -335,7 +343,7 @@ simGroupDE <- function(sim, params) {
 #' @return SCESet with added differential expression.
 #'
 #' @importFrom Biobase fData
-simPathDE <- function(sim, params) {
+addPathDE <- function(sim, params) {
 
     nGenes <- getParams(params, "nGenes")
     de.prob <- getParams(params, "de.prob")
@@ -373,7 +381,7 @@ simPathDE <- function(sim, params) {
 #' @return SCESet with added cell means.
 #'
 #' @importFrom Biobase fData pData assayData assayData<-
-simSingleCellMeans <- function(sim, params) {
+addSingleCellMeans <- function(sim, params) {
 
     nCells <- getParams(params, "nCells")
     cell.names <- pData(sim)$Cell
@@ -403,7 +411,7 @@ simSingleCellMeans <- function(sim, params) {
 #' @return SCESet with added cell means.
 #'
 #' @importFrom Biobase fData pData assayData assayData<-
-simGroupCellMeans <- function(sim, params) {
+addGroupCellMeans <- function(sim, params) {
 
     nGroups <- getParams(params, "nGroups")
     cell.names <- pData(sim)$Cell
@@ -438,7 +446,7 @@ simGroupCellMeans <- function(sim, params) {
 #'
 #' @importFrom Biobase fData pData assayData
 #' @importFrom stats rbinom
-simPathCellMeans <- function(sim, params) {
+addPathCellMeans <- function(sim, params) {
 
     nGenes <- getParams(params, "nGenes")
     nGroups <- getParams(params, "nGroups")
@@ -523,7 +531,7 @@ simPathCellMeans <- function(sim, params) {
 #'
 #' @importFrom Biobase fData pData assayData assayData<-
 #' @importFrom stats rchisq rgamma
-simBCVMeans <- function(sim, params) {
+addBCVMeans <- function(sim, params) {
 
     nGenes <- getParams(params, "nGenes")
     nCells <- getParams(params, "nCells")
@@ -564,7 +572,7 @@ simBCVMeans <- function(sim, params) {
 #'
 #' @importFrom Biobase fData pData assayData
 #' @importFrom stats rpois
-simTrueCounts <- function(sim, params) {
+addTrueCounts <- function(sim, params) {
 
     nGenes <- getParams(params, "nGenes")
     nCells <- getParams(params, "nCells")
@@ -597,7 +605,7 @@ simTrueCounts <- function(sim, params) {
 #'
 #' @importFrom Biobase fData pData assayData assayData<-
 #' @importFrom stats rbinom
-simDropout <- function(sim, params) {
+addDropout <- function(sim, params) {
 
     dropout.present <- getParams(params, "dropout.present")
     true.counts <- assayData(sim)$TrueCounts
