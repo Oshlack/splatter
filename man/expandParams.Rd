@@ -2,7 +2,7 @@
 % Please edit documentation in R/params.R
 \name{expandParams}
 \alias{expandParams}
-\title{Expath parameters}
+\title{Expand parameters}
 \usage{
 expandParams(params)
 }

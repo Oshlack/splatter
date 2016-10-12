@@ -1,3 +1,65 @@
+#' Lun simulation
+#'
+#' Simulate single-cell RNA-seq count data using the method described in Lun,
+#' Bach and Marioni "Pooling across cells to normalize single-cell RNA
+#' sequencing data with many zero counts".
+#'
+#' @param params splatParams object containing Lun simulation parameters.
+#' @param verbose logical. Whether to print progress messages.
+#' @param ... any additional parameter settings to override what is provided in
+#'        \code{params}.
+#'
+#' @details
+#' The Lun simulation generates gene mean expression levels from a gamma
+#' distribution with \code{shape = mean.shape} and \code{rate = mean.rate}.
+#' Counts are then simulated from a negative binomial distribution with
+#' \code{mu = means} and \code{size = 1 / bcv.common}. In addition each cell is
+#' given a size factor (\code{2 ^ rnorm(nCells, mean = 0, sd = 0.5)}) and
+#' differential expression can be simulated with fixed fold changes.
+#'
+#' \code{lunSim} requires the following parameters:
+#' \itemize{
+#'   \item Common (see \code{\link{splatParams}})
+#'     \itemize{
+#'       \item nGenes
+#'       \item nCells
+#'       \item nGroups
+#'       \item groupCells
+#'       \item mean.shape
+#'       \item mean.rate
+#'       \item bcv.common
+#'       \item de.prob
+#'       \item de.downprob
+#'     }
+#'   \item Specific
+#'     \itemize{
+#'       \item [lun.upFC] - Fold change for up-regulated genes.
+#'       \item [lun.downFC] - Fold change for down-regulated genes.
+#'     }
+#' }
+#'
+#' See \code{\link{defaultLunParams}} for example of these parameters.
+#' Parameters are set in the tiered manner described in \code{\link{splat}}.
+#'
+#'
+#'
+#' @return SCESet object containing the simulated counts and intermediate values
+#'
+#' @references
+#' Lun ATL, Bach K, Marioni JC. Pooling across cells to normalize single-cell
+#' RNA sequencing data with many zero counts. Genome Biology (2016)
+#'
+#' Paper: \url{dx.doi.org/10.1186/s13059-016-0947-7}
+#'
+#' Code: \url{https://github.com/MarioniLab/Deconvolution2016}
+#'
+#' @examples
+#' sim <- simLun()
+#'
+#' @importFrom Biobase fData fData<- pData pData<- assayData
+#' @importFrom scater newSCESet
+#' @importFrom stats rnorm rgamma rnbinom
+#' @export
 simLun <- function(params = defaultLunParams(), verbose = TRUE, ...) {
 
     if (verbose) {message("Getting parameters...")}
