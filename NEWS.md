@@ -1,3 +1,7 @@
+# splatter 0.5.0
+
+* Add simple simulation
+
 # splatter 0.4.0
 
 * Add splatter simulations
