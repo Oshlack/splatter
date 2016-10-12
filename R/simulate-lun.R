@@ -15,6 +15,18 @@ simLun <- function(params = defaultParams(), verbose = TRUE, ...) {
     mean.shape <- getParams(params, "mean.shape")
     mean.rate <- getParams(params, "mean.rate")
     dispersion <- getParams(params, "bcv.common")
+    de.prob <- getParams(params, "de.prob")
+    de.downProb <- getParams(params, "de.downProb")
+    de.upFC <- getParams(params, "lun.upFC")
+    de.downFC <- getParams(params, "lun.downFC")
+
+    if (verbose) {message("Calculating alternative parameters...")}
+    nGenes.de <- round(de.prob * nGenes)
+    de.upProp <- 1 - de.downProb
+    if (verbose) {
+        message("Number of DE genes: ", paste(nGenes.de, collapse = ", "))
+        message("DE up per group: ", paste(de.upProp, collapse = ", "))
+    }
 
     if (verbose) {message("Simulating means...")}
     gene.means <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)

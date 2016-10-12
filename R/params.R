@@ -107,6 +107,7 @@ splatParams <- function(...) {
                    dropout = list(present = NA, mid = NA, shape = NA),
                    path = list(from = NA, length = NA, skew = NA,
                                nonlinearProb = NA, sigmaFac = NA),
+                   lun = list(present = FALSE, upFC = NA, downFC = NA),
                    seed = NA)
 
     class(params) <- "splatParams"
@@ -157,8 +158,13 @@ print.splatParams <- function(x, ...) {
                                          "[Length]"       = "path.length",
                                          "[Skew]"         = "path.skew",
                                          "[Non-linear]"   = "path.nonlinearProb",
-                                         "[Sigma Factor]" = "path.sigmaFac"),
-               "Seed:"               = c("Seed"           = "seed"))
+                                         "[Sigma Factor]" = "path.sigmaFac"))
+
+    if (getParams(x, "lun.present")) {
+        pp[["Lun:"]] = c("[Up FC]" = "lun.upFC", "[Down FC]" = "lun.downFC")
+    }
+
+    pp[["Seed:"]] = c("Seed" = "seed")
 
     for (category in names(pp)) {
         parameters <- getParams(x, pp[[category]])
@@ -228,6 +234,10 @@ setParams <- function(params, ...) {
         if (name == "groupCells") {
             params$nCells <- sum(value)
             params$nGroups <- length(value)
+        }
+
+        if (length(name.split) > 1 && name.split[1] == "lun") {
+            params$lun$present <- TRUE
         }
     }
 
@@ -335,7 +345,8 @@ checkParams <- function(params) {
                dropout.present = "LOG", dropout.mid = "NUM",
                dropout.shape = "NUM", path.from = "INT", path.length = "INT",
                path.skew = "PROB", path.nonlinearProb = "PROB",
-               path.sigmaFac = "POS", seed = "INT")
+               path.sigmaFac = "POS", lun.upFC = "POS", lun.downFC = "POS",
+               seed = "INT")
 
     # Define which parameters are allowed to be vectors
     vectors <- c("groupCells", "de.prob", "de.downProb", "de.facLoc",
@@ -443,36 +454,7 @@ mergeParams <- function(params1, params2) {
     return(params1)
 }
 
-#' Get default simulation parameters
-#'
-#' Get a splatParams object with a set of default parameters that will produce a
-#' resonable simulation of single-cell RNA-seq count data.
-#'
-#' @return A splatParams object containing default parameters
-#' @examples
-#' params <- defaultParams()
-#' params
-#' @export
-defaultParams <- function() {
-
-    params <- splatParams()
-
-    params <- setParams(params, nGenes = 10000, groupCells = 100,
-                        mean.rate = 0.3, mean.shape = 0.4,
-                        lib.loc = 10, lib.scale = 0.5, out.prob = 0.1,
-                        out.loProb = 0.5, out.facLoc = 4, out.facScale = 1,
-                        de.prob = 0.1, de.downProb = 0.5, de.facLoc = 4,
-                        de.facScale = 1, bcv.common = 0.1, bcv.DF = 25,
-                        dropout.present = TRUE, dropout.mid = 0,
-                        dropout.shape = -1, path.from = 0, path.length = 100,
-                        path.skew = 0.5, path.nonlinearProb = 0.1,
-                        path.sigmaFac = 0.8, seed = sample(1:1e6, 1))
-
-    return(params)
-}
-
-
-#' Expath parameters
+#' Expand parameters
 #'
 #' Expand the parameters that can be vecotor so that they are the same length as
 #' the number of groups.
@@ -508,6 +490,51 @@ expandParams <- function(params) {
             params <- do.call(setParams, args)
         }
     }
+
+    return(params)
+}
+
+#' Get default simulation parameters
+#'
+#' Get a splatParams object with a set of default parameters that will produce a
+#' resonable simulation of single-cell RNA-seq count data.
+#'
+#' @return A splatParams object containing default parameters
+#' @examples
+#' params <- defaultParams()
+#' params
+#' @export
+defaultParams <- function() {
+
+    params <- splatParams(nGenes = 10000, groupCells = 100, mean.rate = 0.3,
+                          mean.shape = 0.4, lib.loc = 10, lib.scale = 0.5,
+                          out.prob = 0.1, out.loProb = 0.5, out.facLoc = 4,
+                          out.facScale = 1, de.prob = 0.1, de.downProb = 0.5,
+                          de.facLoc = 4, de.facScale = 1, bcv.common = 0.1,
+                          bcv.DF = 25, dropout.present = TRUE, dropout.mid = 0,
+                          dropout.shape = -1, path.from = 0, path.length = 100,
+                          path.skew = 0.5, path.nonlinearProb = 0.1,
+                          path.sigmaFac = 0.8, seed = sample(1:1e6, 1))
+
+    return(params)
+}
+
+#' Get default Lun simulation parameters
+#'
+#' Get a splatParams object with a set of default parameters for the Lun
+#' simulation.
+#'
+#' @return A splatParams object containing default Lun parameters.
+#' @examples
+#' params <- defaultLunParams()
+#' params
+#' @export
+defaultLunParams <- function() {
+
+    params <- splatParams(nGenes = 10000, groupCells = 100, mean.rate = 2,
+                          mean.shape = 2, de.prob = 0.1, de.downProb = 0.5,
+                          bcv.common = 0.1, lun.upFC = 5, lun.downFC = 0,
+                          seed = sample(1:1e6, 1))
 
     return(params)
 }

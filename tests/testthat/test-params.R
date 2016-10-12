@@ -187,6 +187,10 @@ test_that("defaultParams is valid", {
     expect_silent(checkParams(defaultParams()))
 })
 
+test_that("defaultLunParams is valid", {
+    expect_silent(checkParams(defaultLunParams()))
+})
+
 test_that("default seed is random", {
     params1 <- defaultParams()
     params2 <- defaultParams()
