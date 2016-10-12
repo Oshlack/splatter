@@ -100,6 +100,9 @@ parameters. It has the following sections and values:
 Those shown in brackets cannot currently be easily estimated from a real
 dataset by Splatter. This is also shown when a splatParams object is printed
 with parameters labelled as either (estimatable) or [not estimatable].
+
+Some simulations (those reproduced from publications) require additional
+parameters. These are described in the help for each simulation function.
 }
 \examples{
 params <- splatParams()

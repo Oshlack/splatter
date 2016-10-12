@@ -61,7 +61,7 @@ estimateParams.matrix <- function(x, params = NULL) {
 #'
 #' Estimate rate and shape parameters for the gamma distribution used to
 #' simulate gene expression means using the 'moment matching estimation' method
-#' of \code{\link{fitdist}}.
+#' of \code{\link[fitdistrplus]{fitdist}}.
 #'
 #' @param norm.counts library size normalised counts matrix.
 #' @param params splatParams object to store estimated values in.
@@ -92,8 +92,8 @@ estMeanParams <- function(norm.counts, params) {
 #' Estimate library size parameters
 #'
 #' A log-normal distribution is fitted to the library sizes and the estimated
-#' parameters are added to the params object. See \code{\link{fitdist}} for
-#' details on the fitting.
+#' parameters are added to the params object. See
+#' \code{\link[fitdistrplus]{fitdist}} for details on the fitting.
 #'
 #' @param counts counts matrix to estimate parameters from.
 #' @param params splatParams object to store estimated values in.
@@ -135,7 +135,8 @@ estLibParams <- function(counts, params) {
 #' for each outlier gene are calculated by dividing mean expression by the
 #' median mean expression. A log-normal distribution is then fitted to these
 #' factors in order to estimate the outlier factor location and scale
-#' parameters. See \code{\link{fitdist}} for details on the fitting.
+#' parameters. See \code{\link[fitdistrplus]{fitdist}} for details on the
+#' fitting.
 #'
 #' @return splatParams object with estimated values.
 #' @examples
@@ -215,7 +216,7 @@ estBCVParams <- function(counts, params) {
 #' @details
 #' Logistic function parameters are estimated by fitting a logistic function
 #' to the relationship between log2 mean gene expression and the proportion of
-#' zeros in each gene. See \code{\link{nls}} for details of fitting. The
+#' zeros in each gene. See \code{\link[stats]{nls}} for details of fitting. The
 #' presence of dropout is determined by comparing the observed number of zeros
 #' in each gene to the expected number of zeros from a negative binomial
 #' distribution with the gene mean and a dispersion of 0.1. If the maximum

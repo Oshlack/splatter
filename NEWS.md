@@ -1,3 +1,8 @@
+# splatter 0.6.0
+
+* Add Lun simulation
+* Modify splatParams to take Lun parameters
+
 # splatter 0.5.0
 
 * Add simple simulation

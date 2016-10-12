@@ -28,7 +28,8 @@ outlier genes that have a log2 mean less than the median log2 mean. Factors
 for each outlier gene are calculated by dividing mean expression by the
 median mean expression. A log-normal distribution is then fitted to these
 factors in order to estimate the outlier factor location and scale
-parameters. See \code{\link{fitdist}} for details on the fitting.
+parameters. See \code{\link[fitdistrplus]{fitdist}} for details on the
+fitting.
 }
 \examples{
 \dontrun{

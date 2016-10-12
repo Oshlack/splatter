@@ -59,12 +59,12 @@ The simulation involves the following steps:
   \item Create final SCESet object
 }
 
-The final output is an \code{\link{SCESet}} object that contains the
+The final output is an \code{\link[scater]{SCESet}} object that contains the
 simulated counts but also the values for various intermediate steps. These
-are stored in the \code{\link{phenoData}} (for cell specific information),
-\code{\link{featureData}} (for gene specific information) or
-\code{\link{assayData}} (for gene by cell matrices) slots. This additional
-information includes:
+are stored in the \code{\link[Biobase]{phenoData}} (for cell specific
+information), \code{\link[Biobase]{featureData}} (for gene specific
+information) or \code{\link[Biobase]{assayData}} (for gene by cell matrices)
+slots. This additional information includes:
 \itemize{
   \item \code{phenoData}
     \itemize{
