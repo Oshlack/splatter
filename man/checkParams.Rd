@@ -27,6 +27,8 @@ The following checks are made:
   \item{Vector parameters are the correct length}
   \item{Vector parameters do not contain NAs}
   \item{Non-vector parameters are single values}
+  \item{nCells, nGroups and groupCells are consistent}
+  \item{path.from has possible values}
 }
 }
 \examples{

@@ -1,8 +1,8 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 0.3.1
-Date: 2016-10-07
+Version: 0.4.0
+Date: 2016-10-12
 Author: Luke Zappia
 Authors@R: as.person(c(
     "Luke Zappia <luke.zappia@mcri.edu.au> [aut, cre]",
@@ -18,11 +18,13 @@ LazyData: TRUE
 Depends:
     R (>= 3.3),
     scater
-Imports: limma,
+Imports:
     fitdistrplus,
     edgeR,
     stats,
-    locfit
+    locfit,
+    akima,
+    Biobase
 Suggests:
     testthat
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,

@@ -40,13 +40,13 @@
 #'   \item de (differential expression parameters)
 #'     \itemize{
 #'       \item [prob] - Probability that a gene is differentially expressed
-#'             between groups or paths.
+#'             between groups or paths. Can be a vector.
 #'       \item [downProb] - Probability that differentially expressed gene is
-#'             down-regulated.
+#'             down-regulated. Can be a vector.
 #'       \item [facLoc] - Location (meanlog) parameter for the differential
-#'             expression factor log-normal distribution.
+#'             expression factor log-normal distribution. Can be a vector.
 #'       \item [facScale] - Scale (sdlog) parameter for the differential
-#'             expression factor log-normal distribution.
+#'             expression factor log-normal distribution. Can be a vector.
 #'     }
 #'   \item bcv (Biological Coefficient of Variation parameters)
 #'     \itemize{
@@ -83,6 +83,7 @@
 #'             value will result in more extreme non-linear variations along a
 #'             path.
 #'   }
+#'   \item seed - Random seed used during the simulation
 #' }
 #'
 #' Those shown in brackets cannot currently be easily estimated from a real
@@ -105,7 +106,8 @@ splatParams <- function(...) {
                    bcv = list(common = NA, DF = NA),
                    dropout = list(present = NA, mid = NA, shape = NA),
                    path = list(from = NA, length = NA, skew = NA,
-                               nonlinearProb = NA, sigmaFac = NA))
+                               nonlinearProb = NA, sigmaFac = NA),
+                   seed = NA)
 
     class(params) <- "splatParams"
 
@@ -155,7 +157,8 @@ print.splatParams <- function(x, ...) {
                                          "[Length]"       = "path.length",
                                          "[Skew]"         = "path.skew",
                                          "[Non-linear]"   = "path.nonlinearProb",
-                                         "[Sigma Factor]" = "path.sigmaFac"))
+                                         "[Sigma Factor]" = "path.sigmaFac"),
+               "Seed:"               = c("Seed"           = "seed"))
 
     for (category in names(pp)) {
         parameters <- getParams(x, pp[[category]])
@@ -190,10 +193,10 @@ print.splatParams <- function(x, ...) {
 #' @examples
 #' params <- defaultParams()
 #' params
-#' # Set nGenes and nCells
-#' params <- setParams(params, nGenes = 1000, nCells = 200)
+#' # Set nGenes
+#' params <- setParams(params, nGenes = 1000)
 #' params
-#' # Set mean rate paramater and library size location parameter
+#' # Set mean rate parameter and library size location parameter
 #' params <- setParams(params, mean.rate = 1, lib.loc = 12)
 #' params
 #' @export
@@ -302,6 +305,8 @@ getParams <- function(params, names) {
 #'   \item{Vector parameters are the correct length}
 #'   \item{Vector parameters do not contain NAs}
 #'   \item{Non-vector parameters are single values}
+#'   \item{nCells, nGroups and groupCells are consistent}
+#'   \item{path.from has possible values}
 #' }
 #'
 #' @return Produces error if not valid otherwise nothing
@@ -321,19 +326,21 @@ checkParams <- function(params) {
     # INT = Positive integer
     # PROB = Positive numeric in range 0-1
     # LOG = Logical
-    types <- c(nGenes = "INT", nCells = "INT", groupCells = "INT",
-               mean.rate = "POS", mean.shape = "POS", lib.loc = "NUM",
-               lib.scale = "POS", out.prob = "PROB", out.loProb = "PROB",
-               out.facLoc = "NUM", out.facScale = "POS", de.prob = "PROB",
-               de.downProb = "PROB", de.facLoc = "NUM", de.facScale = "POS",
-               bcv.common = "POS", bcv.DF = "POS", dropout.present = "LOG",
-               dropout.mid = "NUM", dropout.shape = "NUM", path.from = "INT",
-               path.length = "INT", path.skew = "PROB",
-               path.nonlinearProb = "PROB", path.sigmaFac = "POS")
+    types <- c(nGenes = "INT", nCells = "INT", nGroups = "INT",
+               groupCells = "INT", mean.rate = "POS", mean.shape = "POS",
+               lib.loc = "NUM", lib.scale = "POS", out.prob = "PROB",
+               out.loProb = "PROB", out.facLoc = "NUM", out.facScale = "POS",
+               de.prob = "PROB", de.downProb = "PROB", de.facLoc = "NUM",
+               de.facScale = "POS", bcv.common = "POS", bcv.DF = "POS",
+               dropout.present = "LOG", dropout.mid = "NUM",
+               dropout.shape = "NUM", path.from = "INT", path.length = "INT",
+               path.skew = "PROB", path.nonlinearProb = "PROB",
+               path.sigmaFac = "POS", seed = "INT")
 
     # Define which parameters are allowed to be vectors
-    vectors <- c("groupCells", "path.from", "path.length", "path.skew")
-    n.groups <- length(getParams(params, "groupCells"))
+    vectors <- c("groupCells", "de.prob", "de.downProb", "de.facLoc",
+                 "de.facScale", "path.from", "path.length", "path.skew")
+    nGroups <- length(getParams(params, "groupCells"))
 
     for (idx in seq_along(types)) {
         name <- names(types)[idx]
@@ -346,7 +353,7 @@ checkParams <- function(params) {
             if (name %in% vectors) {
                 if (any(is.na(value))) {
                     stop(name, " is a vector and contains NA values")
-                } else if (length(value) != n.groups) {
+                } else if (length(value) != nGroups) {
                     stop("length of ", name, " must be 1 or the length of ",
                          "the groupCells parameter")
                 }
@@ -382,12 +389,25 @@ checkParams <- function(params) {
     }
 
     # Check groupCells matches nCells, nGroups
-    n.cells <- getParams(params, "nCells")
-    n.groups <- getParams(params, "nGroups")
+    nCells <- getParams(params, "nCells")
+    nGroups <- getParams(params, "nGroups")
     group.cells <- getParams(params, "groupCells")
-    if (!is.na(group.cells) &&
-        (n.cells != sum(group.cells) || n.groups != length(group.cells))) {
+    if (!all(is.na(group.cells)) &&
+        (nCells != sum(group.cells) || nGroups != length(group.cells))) {
         stop("nCells, nGroups and groupCells are not consistent")
+    }
+
+    # Check path.from contains origin, has allowed values and does not reference
+    # itself (no loops)
+    path.from <- getParams(params, "path.from")
+    if (!all(is.na(path.from))) {
+        if (!(0 %in% path.from)) {
+            stop("origin must be specified in path.from")
+        } else if (any(path.from > nGroups)) {
+            stop("values in path.from cannot be greater than number of paths")
+        } else if (any(path.from == 1:nGroups)) {
+            stop("path cannot begin at itself")
+        }
     }
 }
 
@@ -402,7 +422,7 @@ checkParams <- function(params) {
 #'
 #' @return Merged splatParams object.
 #' @examples
-#' params <- splatParams(nGenes = 1000, nCells = 50)
+#' params <- splatParams(nGenes = 1000, mean.rate = 0.5)
 #' params
 #' # Replace unset parameters with default parameters
 #' params <- mergeParams(params, defaultParams())
@@ -412,7 +432,7 @@ mergeParams <- function(params1, params2) {
 
     for (i in 1:length(params1)) {
         for (j in 1:length(params1[[i]])) {
-            if (is.na(params1[[i]][[j]])) {
+            if (all(is.na(params1[[i]][[j]]))) {
                 params1[[i]][[j]] <- params2[[i]][[j]]
             }
         }
@@ -446,7 +466,48 @@ defaultParams <- function() {
                         dropout.present = TRUE, dropout.mid = 0,
                         dropout.shape = -1, path.from = 0, path.length = 100,
                         path.skew = 0.5, path.nonlinearProb = 0.1,
-                        path.sigmaFac = 0.8)
+                        path.sigmaFac = 0.8, seed = sample(1:1e6, 1))
+
+    return(params)
+}
+
+
+#' Expath parameters
+#'
+#' Expand the parameters that can be vecotor so that they are the same length as
+#' the number of groups.
+#'
+#' @param params splatParams object to expand.
+#'
+#' @return expanded splatParams object.
+#' @examples
+#' \dontrun{
+#' params <- defaultParams()
+#' params <- setParams(params, groupCells = c(10, 10))
+#' params
+#' params <- expandPathParams(params)
+#' params
+#' }
+expandParams <- function(params) {
+
+    nGroups <- getParams(params, "nGroups")
+    path.from <- getParams(params, "path.from")
+    path.length <- getParams(params, "path.length")
+    path.skew <- getParams(params, "path.skew")
+
+    vectors <- c("de.prob", "de.downProb", "de.facLoc", "de.facScale",
+                 "path.from", "path.length", "path.skew")
+
+    for (parameter in vectors) {
+        value <- getParams(params, parameter)
+        if (length(value) == 1 && !is.na(value)) {
+            # Produce a list of arguments and use do.call to get around the
+            # fact the name of the parameter is a string
+            args <- list(params = params)
+            args[[parameter]] <- rep(value, nGroups)
+            params <- do.call(setParams, args)
+        }
+    }
 
     return(params)
 }

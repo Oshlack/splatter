@@ -23,6 +23,7 @@ parameters. It has the following sections and values:
 \itemize{
   \item nGenes - Number of genes to simulate.
   \item nCells - Number of cells to simulate.
+  \item nGroups - Number of groups to simulate.
   \item [groupCells] - Vector giving the number of cells in each simulation
         group/path.
   \item mean (mean parameters)
@@ -50,13 +51,13 @@ parameters. It has the following sections and values:
   \item de (differential expression parameters)
     \itemize{
       \item [prob] - Probability that a gene is differentially expressed
-            between groups or paths.
+            between groups or paths. Can be a vector.
       \item [downProb] - Probability that differentially expressed gene is
-            down-regulated.
+            down-regulated. Can be a vector.
       \item [facLoc] - Location (meanlog) parameter for the differential
-            expression factor log-normal distribution.
+            expression factor log-normal distribution. Can be a vector.
       \item [facScale] - Scale (sdlog) parameter for the differential
-            expression factor log-normal distribution.
+            expression factor log-normal distribution. Can be a vector.
     }
   \item bcv (Biological Coefficient of Variation parameters)
     \itemize{
@@ -93,6 +94,7 @@ parameters. It has the following sections and values:
             value will result in more extreme non-linear variations along a
             path.
   }
+  \item seed - Random seed used during the simulation
 }
 
 Those shown in brackets cannot currently be easily estimated from a real

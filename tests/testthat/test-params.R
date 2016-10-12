@@ -107,6 +107,22 @@ test_that("checkParams checks groupCells", {
                  "nCells, nGroups and groupCells are not consistent")
 })
 
+test_that("checkParams checks path.from", {
+    params <- splatParams()
+    params <- setParams(params, groupCells = c(10, 10))
+    params$path$from <- c(0, 1)
+    expect_silent(checkParams(params))
+    params$path$from <- c(0, 3)
+    expect_error(checkParams(params),
+                 "values in path.from cannot be greater than number of paths")
+    params$path$from <- c(1, 0)
+    expect_error(checkParams(params), "path cannot begin at itself")
+    params <- splatParams()
+    params <- setParams(params, groupCells = c(10, 10, 10))
+    params$path$from <- c(2, 1, 1)
+    expect_error(checkParams(params), "origin must be specified in path.from")
+})
+
 test_that("setParams sets correctly", {
     params <- splatParams()
     params <- setParams(params, nGenes = 100)
@@ -117,6 +133,15 @@ test_that("setParams sets correctly", {
     expect_equal(params$groupCells, c(100, 200))
     params <- setParams(params, dropout.present = TRUE)
     expect_equal(params$dropout$present, TRUE)
+})
+
+test_that("setParams sets groupCells correctly", {
+    params <- splatParams()
+    expect_error(setParams(params, nCells = 50),
+                 "nCells cannot be set directly, set groupCells instead")
+    expect_error(setParams(params, nGroups = 5),
+                 "nGroups cannot be set directly, set groupCells instead")
+    expect_silent(setParams(params, groupCells = c(10, 10)))
 })
 
 test_that("setParmas sets groupCells correctly", {
@@ -160,4 +185,10 @@ test_that("constructor is valid", {
 
 test_that("defaultParams is valid", {
     expect_silent(checkParams(defaultParams()))
+})
+
+test_that("default seed is random", {
+    params1 <- defaultParams()
+    params2 <- defaultParams()
+    expect_false(getParams(params1, "seed") == getParams(params2, "seed"))
 })

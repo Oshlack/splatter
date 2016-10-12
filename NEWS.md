@@ -1,3 +1,8 @@
+# splatter 0.4.0
+
+* Add splatter simulations
+* Modify some parts of splatParams and fix bugs
+
 # splatter 0.3.0
 
 * Added parameter estimation functions
