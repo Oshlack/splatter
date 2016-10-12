@@ -350,7 +350,8 @@ checkParams <- function(params) {
 
     # Define which parameters are allowed to be vectors
     vectors <- c("groupCells", "de.prob", "de.downProb", "de.facLoc",
-                 "de.facScale", "path.from", "path.length", "path.skew")
+                 "de.facScale", "path.from", "path.length", "path.skew",
+                 "lun.upFC", "lun.downFC")
     nGroups <- length(getParams(params, "groupCells"))
 
     for (idx in seq_along(types)) {
@@ -478,7 +479,8 @@ expandParams <- function(params) {
     path.skew <- getParams(params, "path.skew")
 
     vectors <- c("de.prob", "de.downProb", "de.facLoc", "de.facScale",
-                 "path.from", "path.length", "path.skew")
+                 "path.from", "path.length", "path.skew", "lun.upFC",
+                 "lun.downFC")
 
     for (parameter in vectors) {
         value <- getParams(params, parameter)
