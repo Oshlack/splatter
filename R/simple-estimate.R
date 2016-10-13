@@ -2,8 +2,8 @@
 #'
 #' Estimate simulation parameters for the simple simulation from a real dataset.
 #'
-#' @param x either a counts matrix or an SCESet object containing count data to
-#'        estimate parameters from.
+#' @param data either a counts matrix or an SCESet object containing count data
+#'        to estimate parameters from.
 #' @param params SimpleParams object to store estimated values in.
 #'
 #' @details
@@ -24,14 +24,14 @@ estimateSimpleParams <- function(data, params = newSimpleParams()) {
     UseMethod("estimateSimpleParams")
 }
 
-#' @rdname simpleEstimate
+#' @rdname estimateSimpleParams
 #' @export
 estimateSimpleParams.SCESet <- function(data, params = newSimpleParams()) {
-    counts <- scater::counts(x)
+    counts <- scater::counts(data)
     estimateSimpleParams(counts, params)
 }
 
-#' @rdname simpleEstimate
+#' @rdname estimateSimpleParams
 #' @importFrom stats median
 #' @export
 estimateSimpleParams.matrix <- function(data, params = newSimpleParams()) {

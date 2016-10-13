@@ -7,7 +7,7 @@
 #'
 #' @return List with the values of the selected parameters.
 #' @examples
-#' params <- simpleParams()
+#' params <- newSimpleParams()
 #' getParams(params, c("nGenes", "nCells", "mean.rate"))
 #' @export
 getParams <- function(params, names) {
@@ -37,7 +37,7 @@ getParams <- function(params, names) {
 #'
 #' @return Params object with updated values.
 #' @examples
-#' params <- simpleParams()
+#' params <- newSimpleParams()
 #' params
 #' # Set individually
 #' params <- setParams(params, nGenes = 1000, nCells = 50)

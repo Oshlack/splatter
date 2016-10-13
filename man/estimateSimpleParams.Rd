@@ -2,15 +2,21 @@
 % Please edit documentation in R/simple-estimate.R
 \name{estimateSimpleParams}
 \alias{estimateSimpleParams}
+\alias{estimateSimpleParams.SCESet}
+\alias{estimateSimpleParams.matrix}
 \title{Estimate simple simulation parameters}
 \usage{
 estimateSimpleParams(data, params = newSimpleParams())
+
+\method{estimateSimpleParams}{SCESet}(data, params = newSimpleParams())
+
+\method{estimateSimpleParams}{matrix}(data, params = newSimpleParams())
 }
 \arguments{
-\item{params}{SimpleParams object to store estimated values in.}
+\item{data}{either a counts matrix or an SCESet object containing count data
+to estimate parameters from.}
 
-\item{x}{either a counts matrix or an SCESet object containing count data to
-estimate parameters from.}
+\item{params}{SimpleParams object to store estimated values in.}
 }
 \value{
 SimpleParams object containing the estimated parameters.

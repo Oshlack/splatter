@@ -22,6 +22,7 @@
 #' sim <- simpleSimulate(nGenes = 1000, nCells = 50)
 #' @export
 #' @importFrom stats rgamma rnbinom
+#' @importFrom scater newSCESet
 simpleSimulate <- function(params = newSimpleParams(), verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "SimpleParams")

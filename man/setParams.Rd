@@ -29,7 +29,7 @@ collecting parameter values in some way) or individually (useful when setting
 them manually), see examples.
 }
 \examples{
-params <- simpleParams()
+params <- newSimpleParams()
 params
 # Set individually
 params <- setParams(params, nGenes = 1000, nCells = 50)

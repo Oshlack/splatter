@@ -18,7 +18,7 @@ List with the values of the selected parameters.
 Get multiple parameter values from a Params object.
 }
 \examples{
-params <- simpleParams()
+params <- newSimpleParams()
 getParams(params, c("nGenes", "nCells", "mean.rate"))
 }
 
