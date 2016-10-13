@@ -64,6 +64,42 @@ setParams <- function(params, update = NULL, checkValid = TRUE, ...) {
     return(params)
 }
 
+#' Set parameters UNCHECKED
+#'
+#' Set multiple parameters in a Params object.
+#'
+#' @param params Params object to set parameters in.
+#' @param update list of parameters to set where \code{names(update)} are the
+#'        names of the parameters to set and the items in the list are values.
+#' @param ... additional parameters to set. These are combined with any
+#'        parameters specified in \code{update}.
+#' @param checkValid logical. Whether to check set object is valid.
+#'
+#' @details
+#' Each parameter is set by a call to \code{\link{setParam}}. If the same
+#' parameter is specified multiple times it will be set multiple times.
+#' Parameters can be specified using a list via \code{update} (useful when
+#' collecting parameter values in some way) or individually (useful when setting
+#' them manually), see examples. THE FINAL OBJECT IS NOT CHECKED FOR VALIDITY!
+#'
+#' @return Params object with updated values.
+setParamsUnchecked <- function(params, update = NULL, checkValid = TRUE, ...) {
+
+    checkmate::assertClass(params, classes = "Params")
+    checkmate::assertList(update, null.ok = TRUE)
+
+    update <- c(update, list(...))
+
+    if (length(update) > 0) {
+        for (name in names(update)) {
+            value <- update[[name]]
+            params <- setParamUnchecked(params, name, value, checkValid)
+        }
+    }
+
+    return(params)
+}
+
 #' Show pretty print
 #'
 #' Function used for pretty printing params object.

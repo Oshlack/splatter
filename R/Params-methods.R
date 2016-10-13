@@ -4,13 +4,19 @@ setMethod("getParam", "Params", function(object, name) {
 })
 
 #' @rdname setParam
-setMethod("setParam", "Params",
-          function(object, name, value, checkValid = TRUE) {
+setMethod("setParam", "Params", function(object, name, value) {
     checkmate::assertString(name)
     slot(object, name) <- value
-    if (checkValid) {validObject(object)}
+    validObject(object)
     return(object)
 })
+
+#' @rdname setParamUnchecked
+setMethod("setParamUnchecked", "Params", function(object, name, value) {
+              checkmate::assertString(name)
+              slot(object, name) <- value
+              return(object)
+          })
 
 setMethod("show", "Params", function(object) {
 
@@ -35,7 +41,7 @@ setMethod("expandParams", "Params", function(object, vectors, n) {
         }
     }
 
-    object <- setParams(object, update, checkValid = FALSE)
+    object <- setParamsUnchecked(object, update)
 
     return(object)
 })

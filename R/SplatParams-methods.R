@@ -89,7 +89,7 @@ setValidity("SplatParams", function(object) {
 
 #' @rdname setParam
 setMethod("setParam", "SplatParams",
-          function(object, name, value, checkValid) {
+          function(object, name, value) {
     checkmate::assertString(name)
 
     if (name == "nCells" || name == "nGroups") {
@@ -97,8 +97,8 @@ setMethod("setParam", "SplatParams",
     }
 
     if (name == "groupCells") {
-        object <- callNextMethod(object, "nCells", sum(value), checkValid)
-        object <- callNextMethod(object, "nGroups", length(value), checkValid)
+        object <- callNextMethod(object, "nCells", sum(value))
+        object <- callNextMethod(object, "nGroups", length(value))
     }
 
     object <- callNextMethod()

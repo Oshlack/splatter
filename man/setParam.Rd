@@ -7,11 +7,11 @@
 \alias{setParam,SplatParams-method}
 \title{Set a parameter}
 \usage{
-setParam(object, name, value, checkValid)
+setParam(object, name, value)
 
-\S4method{setParam}{Params}(object, name, value, checkValid = TRUE)
+\S4method{setParam}{Params}(object, name, value)
 
-\S4method{setParam}{SplatParams}(object, name, value, checkValid)
+\S4method{setParam}{SplatParams}(object, name, value)
 }
 \arguments{
 \item{object}{object to set parameter in.}
@@ -19,8 +19,6 @@ setParam(object, name, value, checkValid)
 \item{name}{name of the parameter to set.}
 
 \item{value}{value to set the paramter to.}
-
-\item{checkValid}{logical. Check object is valid after setting.}
 }
 \value{
 Object with new parameter value.
