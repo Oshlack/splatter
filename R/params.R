@@ -209,7 +209,7 @@ print.splatParams <- function(x, ...) {
 #' params <- setParams(params, mean.rate = 1, lib.loc = 12)
 #' params
 #' @export
-setParams <- function(params, ...) {
+setParamsS3 <- function(params, ...) {
 
     update <- list(...)
 
@@ -269,7 +269,7 @@ setParams <- function(params, ...) {
 #' params <- setParams(params, groupCells = c(100, 200))
 #' getParams(params, c("nGenes", "mean.rate", "groupCells"))
 #' @export
-getParams <- function(params, names) {
+getParamsS3 <- function(params, names) {
 
     if (length(names) == 0) {
         return(NULL)
@@ -443,7 +443,7 @@ checkParams <- function(params) {
 #' params <- mergeParams(params, defaultParams())
 #' params
 #' @export
-mergeParams <- function(params1, params2) {
+mergeParamsS3 <- function(params1, params2) {
 
     for (i in 1:length(params1)) {
         for (j in 1:length(params1[[i]])) {
