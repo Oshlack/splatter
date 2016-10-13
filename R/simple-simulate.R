@@ -24,30 +24,28 @@
 #' sim <- simSimple()
 #' @export
 #' @importFrom stats rgamma rnbinom
-simSimple <- function(params = defaultParams(), verbose = TRUE, ...) {
+simpleSimulate <- function(params = newSimpleParams(), verbose = TRUE, ...) {
 
-    if (verbose) {message("Getting parameters...")}
+    checkmate::assertClass(params, "SimpleParams")
     params <- setParams(params, ...)
-    params <- mergeParams(params, defaultParams())
-    params <- expandParams(params)
 
     # Set random seed
-    seed <- getParams(params, "seed")
+    seed <- getParam(params, "seed")
     set.seed(seed)
 
     # Get the parameters we are going to use
-    nCells <- getParams(params, "nCells")
-    nGenes <- getParams(params, "nGenes")
-    mean.shape <- getParams(params, "mean.shape")
-    mean.rate <- getParams(params, "mean.rate")
-    bcv.common <- getParams(params, "bcv.common")
+    nCells <- getParam(params, "nCells")
+    nGenes <- getParam(params, "nGenes")
+    mean.shape <- getParam(params, "mean.shape")
+    mean.rate <- getParam(params, "mean.rate")
+    count.disp <- getParam(params, "count.disp")
 
     if (verbose) {message("Simulating means...")}
     means <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
 
     if (verbose) {message("Simulating counts...")}
     counts <- matrix(rnbinom(nGenes * nCells, mu = means,
-                             size = 1 / bcv.common),
+                             size = 1 / count.disp),
                      nrow = nGenes, ncol = nCells)
 
     if (verbose) {message("Creating final SCESet...")}
