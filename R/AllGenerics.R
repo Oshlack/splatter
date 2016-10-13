@@ -18,16 +18,32 @@ setGeneric("getParam", function(object, name) {standardGeneric("getParam")})
 #' @param object object to set parameter in.
 #' @param name name of the parameter to set.
 #' @param value value to set the paramter to.
+#' @param checkValid logical. Check object is valid after setting.
 #'
 #' @return Object with new parameter value.
 #'
 #' @rdname setParam
 #' @export
 setGeneric("setParam",
-           function(object, name, value) {standardGeneric("setParam")})
+           function(object, name, value, checkValid) {
+               standardGeneric("setParam")
+})
 
-#' #@name arrange
-#' #@rdname arrange
-#' #@docType methods
-#' #@export
-#setGeneric("expandParams", function(object) {standardGeneric("expandParams")})
+#' Expand parameters
+#'
+#' Expand the parameters that can be vectors so that they are the same length as
+#' the number of groups.
+#'
+#' @param object splatParams object to expand.
+#' @param ... additional arguments.
+#'
+#' @return Expanded splatParams object.
+#' @examples
+#' params <- newSplatParams()
+#' params <- setParams(params, groupCells = c(10, 10))
+#' params
+#' params <- expandParams(params)
+#' params
+setGeneric("expandParams", function(object, ...) {
+    standardGeneric("expandParams")
+})

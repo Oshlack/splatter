@@ -14,18 +14,18 @@ S4 class that holds parameters for the simple simulation.
 The simple simulation uses the following parameters:
 
 \describe{
-  \item{\code{[nGenes]}}{The number of genes to simulate.}
-  \item{\code{[nCells]}}{The number of cells to simulate.}
-  \item{\code{seed}}{Seed to use for generating random numbers.}
-  \item{\code{[mean.shape]}}{The shape parameter for the mean gamma
+  \item{\code{nGenes}}{The number of genes to simulate.}
+  \item{\code{nCells}}{The number of cells to simulate.}
+  \item{\code{[seed]}}{Seed to use for generating random numbers.}
+  \item{\code{mean.shape}}{The shape parameter for the mean gamma
   distribution.}
-  \item{\code{[mean.rate]}}{The rate parameter for the mean gamma
+  \item{\code{mean.rate}}{The rate parameter for the mean gamma
   distribution.}
-  \item{\code{count.disp}}{The dispersion parameter for the counts negative
+  \item{\code{[count.disp]}}{The dispersion parameter for the counts negative
   binomial distribution.}
 }
 
-The parameters shown in brackets can be estimated from real data using
+The parameters not shown in brackets can be estimated from real data using
 \code{\link{estimateSimpleParams}}. For details of the simple simulation
 see \code{\link{simpleSimulate}}.
 }

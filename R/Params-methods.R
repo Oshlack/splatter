@@ -4,10 +4,11 @@ setMethod("getParam", "Params", function(object, name) {
 })
 
 #' @rdname setParam
-setMethod("setParam", "Params", function(object, name, value) {
+setMethod("setParam", "Params",
+          function(object, name, value, checkValid = TRUE) {
     checkmate::assertString(name)
     slot(object, name) <- value
-    validObject(object)
+    if (checkValid) {validObject(object)}
     return(object)
 })
 
@@ -22,4 +23,19 @@ setMethod("show", "Params", function(object) {
         "'Default' or 'NOT DEFAULT'", "\n\n")
     showPP(object, pp)
     cat(length(slotNames(object)) - 3, "additional parameters", "\n\n")
+})
+
+setMethod("expandParams", "Params", function(object, vectors, n) {
+
+    update <- list()
+    for (parameter in vectors) {
+        value <- getParam(object, parameter)
+        if (length(value) == 1) {
+            update[[parameter]] <- rep(value, n)
+        }
+    }
+
+    object <- setParams(object, update, checkValid = FALSE)
+
+    return(object)
 })
