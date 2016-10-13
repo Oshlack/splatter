@@ -1,3 +1,15 @@
+#' Get parameters
+#'
+#' Get multiple parameter values from a Params object.
+#'
+#' @param params Params object to get values from.
+#' @param names vector of names of the parameters to get.
+#'
+#' @return List with the values of the selected parameters.
+#' @examples
+#' params <- simpleParams()
+#' getParams(params, c("nGenes", "nCells", "mean.rate"))
+#' @export
 getParams <- function(params, names) {
 
     checkmate::assertClass(params, classes = "Params")
@@ -6,6 +18,34 @@ getParams <- function(params, names) {
     sapply(names, getParam, object = params, simplify = FALSE)
 }
 
+#' Set parameters
+#'
+#' Set multiple parameters in a Params object.
+#'
+#' @param params Params object to set parameters in.
+#' @param update list of parameters to set where \code{names(update)} are the
+#'        names of the parameters to set and the items in the list are values.
+#' @param ... additional parameters to set. These are combined with any
+#'        parameters specified in \code{update}.
+#'
+#' @details
+#' Each parameter is set by a call to \code{\link{setParam}}. If the same
+#' parameter is specified multiple times it will be set multiple times.
+#' Parameters can be specified using a list via \code{update} (useful when
+#' collecting parameter values in some way) or individually (useful when setting
+#' them manually), see examples.
+#'
+#' @return Params object with updated values.
+#' @examples
+#' params <- simpleParams()
+#' params
+#' # Set individually
+#' params <- setParams(params, nGenes = 1000, nCells = 50)
+#' params
+#' # Set via update list
+#' params <- setParams(params, list(mean.rate = 0.2, mean.shape = 0.8))
+#' params
+#' @export
 setParams <- function(params, update = NULL, ...) {
 
     checkmate::assertClass(params, classes = "Params")
@@ -23,6 +63,12 @@ setParams <- function(params, update = NULL, ...) {
     return(params)
 }
 
+#' Show pretty print
+#'
+#' Function used for pretty printing params object.
+#'
+#' @param params object to show.
+#' @param pp list specifying how the object should be displayed.
 showPP <- function(params, pp) {
 
     checkmate::assertClass(params, classes = "Params")

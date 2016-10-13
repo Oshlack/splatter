@@ -3,25 +3,23 @@
 #' Simulate counts from a simple negative binomial distribution without
 #' simulated library sizes, differential expression etc.
 #'
-#' @param params splatParams object containing simulation parameters.
+#' @param params SimpleParams object containing simulation parameters.
 #' @param verbose logical. Whether to print progress messages
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
 #'
 #' @details
-#' Uses the following parameters: \code{nCells}, \code{nGenes},
-#' \code{mean.shape}, \code{mean.rate}, \code{bcv.common}.
-#'
 #' Gene means are simulated from a gamma distribution with
 #' \code{shape = mean.shape} and \code{rate = mean.rate}. Counts are then
 #' simulated from a negative binomial distribution with \code{mu = means} and
-#' \code{size = 1 / bcv.common}.
-#'
-#' Parameters are set in the tiered manner described in \code{\link{splat}}.
+#' \code{size = 1 / counts.disp}. See \code{\link{SimpleParams}} for more
+#' details of the parameters.
 #'
 #' @return SCESet containing simulated counts
 #' @examples
-#' sim <- simSimple()
+#' sim <- simpleSimulate()
+#' # Override default parameters
+#' sim <- simpleSimulate(nGenes = 1000, nCells = 50)
 #' @export
 #' @importFrom stats rgamma rnbinom
 simpleSimulate <- function(params = newSimpleParams(), verbose = TRUE, ...) {

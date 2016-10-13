@@ -1,5 +1,9 @@
-setMethod("getParam", "Params", function(object, name) {slot(object, name)})
+#' @rdname getParam
+setMethod("getParam", "Params", function(object, name) {
+    slot(object, name)
+})
 
+#' @rdname setParam
 setMethod("setParam", "Params", function(object, name, value) {
     checkmate::assertString(name)
     slot(object, name) <- value

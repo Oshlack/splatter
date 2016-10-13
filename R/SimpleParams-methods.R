@@ -1,3 +1,13 @@
+#' New SimpleParams
+#'
+#' Create a new SimpleParams object.
+#'
+#' @param ... additional parameters passed to \code{\link{setParams}}.
+#'
+#' @return SimpleParams object.
+#' @examples
+#' params <- newSimpleParams()
+#' @export
 newSimpleParams <- function(...) {
 
     params <- new("SimpleParams")
