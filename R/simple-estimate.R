@@ -2,8 +2,8 @@
 #'
 #' Estimate simulation parameters for the simple simulation from a real dataset.
 #'
-#' @param data either a counts matrix or an SCESet object containing count data
-#'        to estimate parameters from.
+#' @param counts either a counts matrix or an SCESet object containing count
+#'        data to estimate parameters from.
 #' @param params SimpleParams object to store estimated values in.
 #'
 #' @details
@@ -20,35 +20,35 @@
 #' params <- estimateSimpleParams(sc_example_counts)
 #' params
 #' @export
-estimateSimpleParams <- function(data, params = newSimpleParams()) {
+estimateSimpleParams <- function(counts, params = newSimpleParams()) {
     UseMethod("estimateSimpleParams")
 }
 
 #' @rdname estimateSimpleParams
 #' @export
-estimateSimpleParams.SCESet <- function(data, params = newSimpleParams()) {
-    counts <- scater::counts(data)
+estimateSimpleParams.SCESet <- function(counts, params = newSimpleParams()) {
+    counts <- scater::counts(counts)
     estimateSimpleParams(counts, params)
 }
 
 #' @rdname estimateSimpleParams
 #' @importFrom stats median
 #' @export
-estimateSimpleParams.matrix <- function(data, params = newSimpleParams()) {
+estimateSimpleParams.matrix <- function(counts, params = newSimpleParams()) {
 
     checkmate::assertClass(params, "SimpleParams")
 
     # Normalise for library size and remove all zero genes
-    lib.sizes <- colSums(data)
+    lib.sizes <- colSums(counts)
     lib.med <- median(lib.sizes)
-    norm.counts <- t(t(data) / lib.sizes * lib.med)
+    norm.counts <- t(t(counts) / lib.sizes * lib.med)
     norm.counts <- norm.counts[rowSums(norm.counts > 0) > 1, ]
 
     means <- rowMeans(norm.counts)
 
     means.fit <- fitdistrplus::fitdist(means, "gamma", method = "mme")
 
-    params <- setParams(params, nGenes = nrow(data), nCells = nrow(data),
+    params <- setParams(params, nGenes = nrow(counts), nCells = ncol(counts),
                         mean.shape = unname(means.fit$estimate["shape"]),
                         mean.rate = unname(means.fit$estimate["rate"]))
 

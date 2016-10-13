@@ -7,12 +7,12 @@
 expandParams(object, ...)
 }
 \arguments{
-\item{object}{splatParams object to expand.}
+\item{object}{object to expand.}
 
 \item{...}{additional arguments.}
 }
 \value{
-Expanded splatParams object.
+Expanded object.
 }
 \description{
 Expand the parameters that can be vectors so that they are the same length as

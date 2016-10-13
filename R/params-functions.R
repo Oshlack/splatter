@@ -57,7 +57,7 @@ setParams <- function(params, update = NULL, checkValid = TRUE, ...) {
     if (length(update) > 0) {
         for (name in names(update)) {
             value <- update[[name]]
-            params <- setParam(params, name, value, checkValid)
+            params <- setParam(params, name, value)
         }
     }
 

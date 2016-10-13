@@ -97,8 +97,8 @@ setMethod("setParam", "SplatParams",
     }
 
     if (name == "groupCells") {
-        object <- callNextMethod(object, "nCells", sum(value))
-        object <- callNextMethod(object, "nGroups", length(value))
+        object <- setParamUnchecked(object, "nCells", sum(value))
+        object <- setParamUnchecked(object, "nGroups", length(value))
     }
 
     object <- callNextMethod()
@@ -124,7 +124,7 @@ setMethod("show", "SplatParams", function(object) {
                                      "[Scale]"        = "de.facScale"),
                "BCV:"            = c("(Common Disp)"  = "bcv.common",
                                      "(DoF)"          = "bcv.df"),
-               "Dropout:"        = c("(Present T/F)"  = "dropout.present",
+               "Dropout:"        = c("(Present)"      = "dropout.present",
                                      "(Midpoint)"     = "dropout.mid",
                                      "(Shape)"        = "dropout.shape"),
                "Paths:"          = c("[From]"         = "path.from",
