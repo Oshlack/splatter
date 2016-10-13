@@ -6,15 +6,15 @@
 \alias{estimateSplatParams.matrix}
 \title{Estimate Splatter simulation parameters}
 \usage{
-estimateSplatParams(data, params = newSplatParams())
+estimateSplatParams(counts, params = newSplatParams())
 
-\method{estimateSplatParams}{SCESet}(data, params = newSplatParams())
+\method{estimateSplatParams}{SCESet}(counts, params = newSplatParams())
 
-\method{estimateSplatParams}{matrix}(data, params = newSplatParams())
+\method{estimateSplatParams}{matrix}(counts, params = newSplatParams())
 }
 \arguments{
-\item{data}{either a counts matrix or an SCESet object containing count data
-to estimate parameters from.}
+\item{counts}{either a counts matrix or an SCESet object containing count
+data to estimate parameters from.}
 
 \item{params}{SplatParams object to store estimated values in.}
 }
@@ -23,14 +23,17 @@ SplatParams object containing the estimated parameters.
 }
 \description{
 Estimate simulation parameters for the Splatter simulation from a real
-dataset.
-}
-\details{
-
+dataset. See the individual estimation functions for more details on how this
+is done.
 }
 \examples{
 data("sc_example_counts")
 params <- estimateSplatParams(sc_example_counts)
 params
+}
+\seealso{
+\code{\link{estSplatMean}},  \code{\link{estSplatLib}},
+\code{\link{estSplatOutlier}}, \code{\link{estSplatBCV}},
+\code{\link{estSplatDropout}}
 }
 

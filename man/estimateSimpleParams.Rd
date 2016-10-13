@@ -6,15 +6,15 @@
 \alias{estimateSimpleParams.matrix}
 \title{Estimate simple simulation parameters}
 \usage{
-estimateSimpleParams(data, params = newSimpleParams())
+estimateSimpleParams(counts, params = newSimpleParams())
 
-\method{estimateSimpleParams}{SCESet}(data, params = newSimpleParams())
+\method{estimateSimpleParams}{SCESet}(counts, params = newSimpleParams())
 
-\method{estimateSimpleParams}{matrix}(data, params = newSimpleParams())
+\method{estimateSimpleParams}{matrix}(counts, params = newSimpleParams())
 }
 \arguments{
-\item{data}{either a counts matrix or an SCESet object containing count data
-to estimate parameters from.}
+\item{counts}{either a counts matrix or an SCESet object containing count
+data to estimate parameters from.}
 
 \item{params}{SimpleParams object to store estimated values in.}
 }
