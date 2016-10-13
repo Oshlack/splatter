@@ -32,7 +32,7 @@ setMethod("show", "SimpleParams", function(object) {
 
     pp <- list("Mean:"   = c("(Rate)"       = "mean.rate",
                              "(Shape)"      = "mean.shape"),
-               "Counts:" = c("(Dispersion)" = "count.disp"))
+               "Counts:" = c("[Dispersion]" = "count.disp"))
 
     callNextMethod()
     showPP(object, pp)
