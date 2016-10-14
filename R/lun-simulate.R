@@ -58,9 +58,9 @@ lunSimulate <- function(params = newLunParams(), verbose = TRUE, ...) {
     mean.rate <- getParam(params, "mean.rate")
     count.disp <- getParam(params, "count.disp")
     de.nGenes <- getParam(params, "de.nGenes")
-    de.upProp <- getParams(params, "de.upProp")
-    de.upFC <- getParams(params, "de.upFC")
-    de.downFC <- getParams(params, "de.downFC")
+    de.upProp <- getParam(params, "de.upProp")
+    de.upFC <- getParam(params, "de.upFC")
+    de.downFC <- getParam(params, "de.downFC")
 
     if (verbose) {message("Simulating means...")}
     gene.means <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
@@ -80,8 +80,8 @@ lunSimulate <- function(params = newLunParams(), verbose = TRUE, ...) {
             cell.facs.group <- 2 ^ rnorm(groupCells[idx], sd = 0.5)
             cell.facs[[idx]] <- cell.facs.group
 
-            chosen <- nGenes.de[idx] * (idx - 1) + seq_len(nGenes.de[idx])
-            is.up <- seq_len(nGenes.de[idx] * de.upProp[idx])
+            chosen <- de.nGenes[idx] * (idx - 1) + seq_len(de.nGenes[idx])
+            is.up <- seq_len(de.nGenes[idx] * de.upProp[idx])
             de.up <- chosen[is.up]
             de.down <- chosen[-is.up]
 

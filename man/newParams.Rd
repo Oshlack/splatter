@@ -25,7 +25,7 @@ Params subtypes.
 }
 \examples{
 params <- newSimpleParams()
-params <- newSimpleParams(nGenes = 200, ncells = 10)
+params <- newSimpleParams(nGenes = 200, nCells = 10)
 
 }
 
