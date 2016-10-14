@@ -93,7 +93,7 @@ setParamsUnchecked <- function(params, update = NULL, checkValid = TRUE, ...) {
     if (length(update) > 0) {
         for (name in names(update)) {
             value <- update[[name]]
-            params <- setParamUnchecked(params, name, value, checkValid)
+            params <- setParamUnchecked(params, name, value)
         }
     }
 

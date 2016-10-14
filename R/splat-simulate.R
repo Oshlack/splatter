@@ -112,6 +112,8 @@ splatSimulate <- function(params = newSplatParams(),
                           method = c("single", "groups", "paths"),
                           verbose = TRUE, ...) {
 
+    checkmate::assertClass(params, "SplatParams")
+
     method <- match.arg(method)
 
     if (verbose) {message("Getting parameters...")}

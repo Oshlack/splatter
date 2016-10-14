@@ -80,4 +80,14 @@ setMethod("show", "LunParams", function(object) {
     showPP(object, pp)
 })
 
+#' @rdname expandParams
+setMethod("expandParams", "LunParams", function(object) {
 
+    n <- getParam(object, "nGroups")
+
+    vectors <- c("de.nGenes", "de.upProp", "de.upFC", "de.downFC")
+
+    object <- callNextMethod(object, vectors, n)
+
+    return(object)
+})
