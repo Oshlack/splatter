@@ -17,24 +17,24 @@
 #'
 #' @examples
 #' data("sc_example_counts")
-#' params <- estimateSimpleParams(sc_example_counts)
+#' params <- simpleEstimate(sc_example_counts)
 #' params
 #' @export
-estimateSimpleParams <- function(counts, params = newSimpleParams()) {
-    UseMethod("estimateSimpleParams")
+simpleEstimate <- function(counts, params = newSimpleParams()) {
+    UseMethod("simpleEstimate")
 }
 
-#' @rdname estimateSimpleParams
+#' @rdname simpleEstimate
 #' @export
-estimateSimpleParams.SCESet <- function(counts, params = newSimpleParams()) {
+simpleEstimate.SCESet <- function(counts, params = newSimpleParams()) {
     counts <- scater::counts(counts)
     estimateSimpleParams(counts, params)
 }
 
-#' @rdname estimateSimpleParams
+#' @rdname simpleEstimate
 #' @importFrom stats median
 #' @export
-estimateSimpleParams.matrix <- function(counts, params = newSimpleParams()) {
+simpleEstimate.matrix <- function(counts, params = newSimpleParams()) {
 
     checkmate::assertClass(params, "SimpleParams")
 

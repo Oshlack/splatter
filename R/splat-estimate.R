@@ -9,32 +9,32 @@
 #' @param params SplatParams object to store estimated values in.
 #'
 #' @seealso
-#' \code{\link{estSplatMean}},  \code{\link{estSplatLib}},
-#' \code{\link{estSplatOutlier}}, \code{\link{estSplatBCV}},
-#' \code{\link{estSplatDropout}}
+#' \code{\link{splatEstMean}},  \code{\link{splatEstLib}},
+#' \code{\link{splatEstOutlier}}, \code{\link{splatEstBCV}},
+#' \code{\link{splatEstDropout}}
 #'
 #' @return SplatParams object containing the estimated parameters.
 #'
 #' @examples
 #' data("sc_example_counts")
-#' params <- estimateSplatParams(sc_example_counts)
+#' params <- splatEstimate(sc_example_counts)
 #' params
 #' @export
-estimateSplatParams <- function(counts, params = newSplatParams()) {
-    UseMethod("estimateSplatParams")
+splatEstimate <- function(counts, params = newSplatParams()) {
+    UseMethod("splatEstimate")
 }
 
-#' @rdname estimateSplatParams
+#' @rdname splatEstimate
 #' @export
-estimateSplatParams.SCESet <- function(counts, params = newSplatParams()) {
+splatEstimate.SCESet <- function(counts, params = newSplatParams()) {
     counts <- scater::counts(counts)
-    estimateSplatParams(counts, params)
+    splatEstimate(counts, params)
 }
 
-#' @rdname estimateSplatParams
+#' @rdname splatEstimate
 #' @importFrom stats median
 #' @export
-estimateSplatParams.matrix <- function(counts, params = newSplatParams()) {
+splatEstimate.matrix <- function(counts, params = newSplatParams()) {
 
     checkmate::assertClass(params, "SplatParams")
 
@@ -44,11 +44,11 @@ estimateSplatParams.matrix <- function(counts, params = newSplatParams()) {
     norm.counts <- t(t(counts) / lib.sizes * lib.med)
     norm.counts <- norm.counts[rowSums(norm.counts > 0) > 1, ]
 
-    params <- estSplatMean(norm.counts, params)
-    params <- estSplatLib(counts, params)
-    params <- estSplatOutlier(norm.counts, params)
-    params <- estSplatBCV(counts, params)
-    params <- estSplatDropout(norm.counts, params)
+    params <- splatEstMean(norm.counts, params)
+    params <- splatEstLib(counts, params)
+    params <- splatEstOutlier(norm.counts, params)
+    params <- splatEstBCV(counts, params)
+    params <- splatEstDropout(norm.counts, params)
 
     params <- setParams(params, nGenes = nrow(counts),
                         groupCells = ncol(counts))
@@ -66,7 +66,7 @@ estimateSplatParams.matrix <- function(counts, params = newSplatParams()) {
 #' @param params SplatParams object to store estimated values in.
 #'
 #' @return SplatParams object with estimated values.
-estSplatMean <- function(norm.counts, params) {
+splatEstMean <- function(norm.counts, params) {
 
     means <- rowMeans(norm.counts)
     means <- means[means != 0]
@@ -89,7 +89,7 @@ estSplatMean <- function(norm.counts, params) {
 #' @param params splatParams object to store estimated values in.
 #'
 #' @return splatParams object with estimated values.
-estSplatLib <- function(counts, params) {
+splatEstLib <- function(counts, params) {
 
     lib.sizes <- colSums(counts)
     fit <- fitdistrplus::fitdist(lib.sizes, "lnorm")
@@ -122,7 +122,7 @@ estSplatLib <- function(counts, params) {
 #' fitting.
 #'
 #' @return SplatParams object with estimated values.
-estSplatOutlier <- function(norm.counts, params) {
+splatEstOutlier <- function(norm.counts, params) {
 
     means <- rowMeans(norm.counts)
     lmeans <- log(means)
@@ -159,7 +159,7 @@ estSplatOutlier <- function(norm.counts, params) {
 #' @param params SplatParams object to store estimated values in.
 #'
 #' @return SplatParams object with estimated values.
-estSplatBCV <- function(counts, params) {
+splatEstBCV <- function(counts, params) {
 
     # Add dummy design matrix to avoid print statement
     design <- matrix(1, ncol(counts), 1)
@@ -196,7 +196,7 @@ estSplatBCV <- function(counts, params) {
 #' expected number of zeros across all genes.
 #'
 #' @return SplatParams object with estimated values.
-estSplatDropout <- function(norm.counts, params) {
+splatEstDropout <- function(norm.counts, params) {
 
     means <- rowMeans(norm.counts)
 
