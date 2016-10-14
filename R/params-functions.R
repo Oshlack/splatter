@@ -115,13 +115,20 @@ showPP <- function(params, pp) {
     for (category in names(pp)) {
         parameters <- pp[[category]]
         values <- getParams(params, parameters)
+        short.values <- sapply(values, function(x) {
+            if (length(x) > 4) {
+                paste0(paste(head(x, n = 4), collapse = ", "), ",...")
+            } else {
+                paste(x, collapse = ", ")
+            }
+        })
         values <- sapply(values, paste, collapse = ", ")
         default.values <- getParams(default, parameters)
         default.values <- sapply(default.values, paste, collapse = ", ")
         not.default <- values != default.values
         names(values)[not.default] <- toupper(names(values[not.default]))
         cat(category, "\n")
-        print(noquote(values), print.gap = 2)
+        print(noquote(short.values), print.gap = 2)
         cat("\n")
     }
 }

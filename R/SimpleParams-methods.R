@@ -10,8 +10,7 @@ newSimpleParams <- function(...) {
 
 setValidity("SimpleParams", function(object) {
 
-    v <- getParams(object, c("nGenes", "nCells", "mean.shape", "mean.rate",
-                             "count.disp", "seed"))
+    v <- getParams(object, slotNames(object))
 
     checks <- c(nGenes = checkmate::checkInt(v$nGenes, lower = 1),
                 nCells = checkmate::checkInt(v$nCells, lower = 1),

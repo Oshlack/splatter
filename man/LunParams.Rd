@@ -4,7 +4,7 @@
 \name{LunParams}
 \alias{LunParams}
 \alias{LunParams-class}
-\title{The Lun class}
+\title{The LunParams class}
 \description{
 S4 class that holds parameters for the Lun simulation.
 }
