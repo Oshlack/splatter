@@ -17,6 +17,39 @@ The Lun2 simulation uses the following parameters:
   \item{\code{nGenes}}{The number of genes to simulate.}
   \item{\code{nCells}}{The number of cells to simulate.}
   \item{\code{[seed]}}{Seed to use for generating random numbers.}
+  \item{\code{[nPlates]}}{The number of plates to simulate.}
+  \item{\emph{Plate parameters}}{
+    \describe{
+      \item{\code{path.ingroup}}{Plates considered to be part of the
+      "ingroup".}
+      \item{\code{path.mod}}{Plate effect modifier factor. The plate effect
+      variance is divided by this value.}
+      \item{\code{plate.var}}{Plate effect variance.}
+    }
+  }
+  \item{\emph{Gene parameters}}{
+    \describe{
+      \item{\code{gene.means}}{Mean expression for each gene.}
+      \item{\code{gene.disps}}{Dispersion for each gene.}
+      \item{\code{gene.ziMeans}}{Zero-inflated gene means.}
+      \item{\code{gene.ziDisps}}{Zero-inflated gene dispersions.}
+      \item{\code{gene.ziProps}}{Zero-inflated gene zero proportions.}
+    }
+  }
+  \item{\emph{Cell parameters}}{
+    \describe{
+      \item{\code{cell.plates}}{Plate that each cell comes from.}
+      \item{\code{cell.libSizes}}{Library size for each cell.}
+      \item{\code{cell.libMod}}{Modifier factor for library sizes.
+      The library sizes are multiplied by this value.}
+    }
+  }
+  \item{\emph{Differential expression parameters}}{
+    \describe{
+      \item{\code{de.nGenes}}{Number of differentially expressed genes.}
+      \item{\code{de.fc}}{Fold change for differentially expressed genes.}
+    }
+  }
 }
 
 The parameters not shown in brackets can be estimated from real data using

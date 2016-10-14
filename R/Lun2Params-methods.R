@@ -42,8 +42,7 @@ setValidity("Lun2Params", function(object) {
                                                 len = nCells),
                 cell.libMod = checkNumber(v$cell.libMod, lower = 0),
                 de.nGene = checkInt(v$de.nGenes, lower = 0),
-                de.fc = checkNumber(v$de.fc, lower = 0),
-                useZINB = checkLogical(v$useZINB, len = 1))
+                de.fc = checkNumber(v$de.fc, lower = 0))
 
     if (all(checks == TRUE)) {
         valid <- TRUE
