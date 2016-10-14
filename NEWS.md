@@ -1,3 +1,9 @@
+# splatter 0.7.0
+
+* Redesign how parameters are stored
+* Each simulation now has it's own S4 Params class
+* Modify exisiting simulations to use new parameter objects
+
 # splatter 0.6.0
 
 * Add Lun simulation

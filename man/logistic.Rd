@@ -13,9 +13,6 @@ logistic(x, x0, k)
 
 \item{k}{shape parameter. Gives the slope of the function.}
 }
-\value{
-RETURN DESCRIPTION
-}
 \description{
 Implementation of the logistic function
 }
