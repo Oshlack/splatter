@@ -1,8 +1,8 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 0.6.10
-Date: 2016-10-13
+Version: 0.6.11
+Date: 2016-10-14
 Author: Luke Zappia
 Authors@R: as.person(c(
     "Luke Zappia <luke.zappia@mcri.edu.au> [aut, cre]",

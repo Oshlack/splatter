@@ -1,3 +1,18 @@
+#' New Params
+#'
+#' Create a new Params object. Functions exist for each of the different
+#' Params subtypes.
+#'
+#' @param ... additional parameters passed to \code{\link{setParams}}.
+#'
+#' @return New Params object.
+#' @examples
+#' params <- newSimpleParams()
+#' params <- newSimpleParams(nGenes = 200, ncells = 10)
+#'
+#' @name newParams
+NULL
+
 #' Get a parameter
 #'
 #' Accessor function for getting parameter values.
@@ -36,13 +51,12 @@ setGeneric("setParam",
 #' @param object object to set parameter in.
 #' @param name name of the parameter to set.
 #' @param value value to set the paramter to.
-#' @param checkValid logical. Check object is valid after setting.
 #'
 #' @return Object with new parameter value.
 #'
 #' @rdname setParamUnchecked
 setGeneric("setParamUnchecked",
-           function(object, name, value, checkValid) {
+           function(object, name, value) {
                standardGeneric("setParamUnchecked")
            })
 
@@ -55,6 +69,8 @@ setGeneric("setParamUnchecked",
 #' @param ... additional arguments.
 #'
 #' @return Expanded object.
+#'
+#' @rdname expandParams
 setGeneric("expandParams", function(object, ...) {
     standardGeneric("expandParams")
 })

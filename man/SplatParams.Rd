@@ -16,6 +16,7 @@ The Splatter simulation requires the following parameters:
 \describe{
   \item{\code{nGenes}}{The number of genes to simulate.}
   \item{\code{nCells}}{The number of cells to simulate.}
+  \item{\code{[nGroups]}}{The number of groups or paths to simulate.}
   \item{\code{[groupCells]}}{Vector giving the number of cells in each
   simulation group/path.}
   \item{\code{[seed]}}{Seed to use for generating random numbers.}

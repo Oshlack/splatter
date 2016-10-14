@@ -1,12 +1,4 @@
-#' New SimpleParams
-#'
-#' Create a new SimpleParams object.
-#'
-#' @param ... additional parameters passed to \code{\link{setParams}}.
-#'
-#' @return SimpleParams object.
-#' @examples
-#' params <- newSimpleParams()
+#' @rdname newParams
 #' @export
 newSimpleParams <- function(...) {
 
@@ -43,6 +35,12 @@ setMethod("show", "SimpleParams", function(object) {
     pp <- list("Mean:"   = c("(Rate)"       = "mean.rate",
                              "(Shape)"      = "mean.shape"),
                "Counts:" = c("[Dispersion]" = "count.disp"))
+
+    # Mean parameters aren't estiamated for the LunParams object which
+    # inherits from SimpleParams
+    if (class(object) == "LunParams") {
+        pp[["Mean:"]] <- c("[Rate]" = "mean.rate", "[Shape]" = "mean.shape")
+    }
 
     callNextMethod()
     showPP(object, pp)

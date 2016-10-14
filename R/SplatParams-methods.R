@@ -1,12 +1,4 @@
-#' New SplatParams
-#'
-#' Create a new SplatParams object.
-#'
-#' @param ... additional parameters passed to \code{\link{setParams}}.
-#'
-#' @return SplatParams object.
-#' @examples
-#' params <- newSplatParams()
+#' @rdname newParams
 #' @export
 newSplatParams <- function(...) {
 
@@ -88,8 +80,7 @@ setValidity("SplatParams", function(object) {
 })
 
 #' @rdname setParam
-setMethod("setParam", "SplatParams",
-          function(object, name, value) {
+setMethod("setParam", "SplatParams",function(object, name, value) {
     checkmate::assertString(name)
 
     if (name == "nCells" || name == "nGroups") {
@@ -108,7 +99,7 @@ setMethod("setParam", "SplatParams",
 
 setMethod("show", "SplatParams", function(object) {
 
-    pp <- list("Global:"         = c("[Groups]"       = "nGroups",
+    pp <- list("Groups:"         = c("[Groups]"       = "nGroups",
                                      "[Group Cells]"  = "groupCells"),
                "Mean:"           = c("(Rate)"         = "mean.rate",
                                      "(Shape)"        = "mean.shape"),
@@ -137,22 +128,7 @@ setMethod("show", "SplatParams", function(object) {
     showPP(object, pp)
 })
 
-#' Expand parameters
-#'
-#' Expand the parameters that can be vectors so that they are the same length as
-#' the number of groups.
-#'
-#' @param object splatParams object to expand.
-#'
-#' @return Expanded splatParams object.
-#' @examples
-#' \dontrun{
-#' params <- newSplatParams()
-#' params <- setParams(params, groupCells = c(10, 10))
-#' params
-#' params <- expandParams(params)
-#' params
-#' }
+#' @rdname expandParams
 setMethod("expandParams", "SplatParams", function(object) {
 
     n <- getParam(object, "nGroups")

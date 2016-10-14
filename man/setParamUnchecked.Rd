@@ -6,7 +6,7 @@
 \alias{setParamUnchecked,Params-method}
 \title{Set a parameter UNCHECKED}
 \usage{
-setParamUnchecked(object, name, value, checkValid)
+setParamUnchecked(object, name, value)
 
 \S4method{setParamUnchecked}{Params}(object, name, value)
 }
@@ -16,8 +16,6 @@ setParamUnchecked(object, name, value, checkValid)
 \item{name}{name of the parameter to set.}
 
 \item{value}{value to set the paramter to.}
-
-\item{checkValid}{logical. Check object is valid after setting.}
 }
 \value{
 Object with new parameter value.

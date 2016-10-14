@@ -72,6 +72,7 @@ setClass("SimpleParams",
 #' \describe{
 #'   \item{\code{nGenes}}{The number of genes to simulate.}
 #'   \item{\code{nCells}}{The number of cells to simulate.}
+#'   \item{\code{[nGroups]}}{The number of groups or paths to simulate.}
 #'   \item{\code{[groupCells]}}{Vector giving the number of cells in each
 #'   simulation group/path.}
 #'   \item{\code{[seed]}}{Seed to use for generating random numbers.}
@@ -218,3 +219,64 @@ setClass("SplatParams",
                                path.skew = 0.5,
                                path.nonlinearProb = 0.1,
                                path.sigmaFac = 0.8))
+
+#' The Lun class
+#'
+#' S4 class that holds parameters for the Lun simulation.
+#'
+#' @section Parameters:
+#'
+#' The Lun simulation uses the following parameters:
+#'
+#' \describe{
+#'   \item{\code{nGenes}}{The number of genes to simulate.}
+#'   \item{\code{nCells}}{The number of cells to simulate.}
+#'   \item{\code{[nGroups]}}{The number of groups to simulate.}
+#'   \item{\code{[groupCells]}}{Vector giving the number of cells in each
+#'   simulation group/path.}
+#'   \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'   \item{\emph{Mean parameters}}{
+#'     \describe{
+#'       \item{\code{[mean.shape]}}{Shape parameter for the mean gamma
+#'       distribution.}
+#'       \item{\code{[mean.rate]}}{Rate parameter for the mean gamma
+#'       distribution.}
+#'     }
+#'   }
+#'   \item{\emph{Counts parameters}}{
+#'     \describe{
+#'       \item{\code{[count.disp]}}{The dispersion parameter for the counts
+#'       negative binomial distribution.}
+#'     }
+#'   }
+#'   \item{\emph{Differential expression parameters}}{
+#'     \describe{
+#'       \item{\code{[de.nGenes]}}{The number of genes that are differentially
+#'       expressed in each group}
+#'       \item{\code{[de.upProb]}}{The proportion of differentially expressed
+#'       genes that are up-regulated in each group}
+#'       \item{\code{[de.upFC]}}{The fold change for up-regulated genes}
+#'       \item{\code{[de.downFC]}}{The fold change for down-regulated genes}
+#'     }
+#'   }
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{lunEstimate}}. For details of the Lun simulation see
+#' \code{\link{lunSimulate}}.
+#'
+#' @name LunParams
+#' @rdname LunParams
+#' @aliases LunParams-class
+#' @exportClass LunParams
+setClass("LunParams",
+         contains = "SimpleParams",
+         slots = c(nGroups = "numeric",
+                   groupCells = "numeric",
+                   de.nGenes = "numeric",
+                   de.upProp = "numeric",
+                   de.upFC = "numeric",
+                   de.downFC = "numeric"),
+         prototype = prototype(nGroups = 1, groupCells = 100, mean.shape = 2,
+                               mean.rate = 2, de.nGenes = 1000, de.upProp = 0.5,
+                               de.upFC = 5, de.downFC = 0))
