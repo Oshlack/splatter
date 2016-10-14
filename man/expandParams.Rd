@@ -18,11 +18,4 @@ Expanded object.
 Expand the parameters that can be vectors so that they are the same length as
 the number of groups.
 }
-\examples{
-params <- newSplatParams()
-params <- setParams(params, groupCells = c(10, 10))
-params
-params <- expandParams(params)
-params
-}
 

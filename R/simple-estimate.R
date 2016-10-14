@@ -28,7 +28,7 @@ simpleEstimate <- function(counts, params = newSimpleParams()) {
 #' @export
 simpleEstimate.SCESet <- function(counts, params = newSimpleParams()) {
     counts <- scater::counts(counts)
-    estimateSimpleParams(counts, params)
+    simpleEstimate(counts, params)
 }
 
 #' @rdname simpleEstimate

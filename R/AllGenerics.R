@@ -55,12 +55,6 @@ setGeneric("setParamUnchecked",
 #' @param ... additional arguments.
 #'
 #' @return Expanded object.
-#' @examples
-#' params <- newSplatParams()
-#' params <- setParams(params, groupCells = c(10, 10))
-#' params
-#' params <- expandParams(params)
-#' params
 setGeneric("expandParams", function(object, ...) {
     standardGeneric("expandParams")
 })

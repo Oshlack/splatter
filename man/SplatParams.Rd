@@ -105,7 +105,7 @@ The Splatter simulation requires the following parameters:
 }
 
 The parameters not shown in brackets can be estimated from real data using
-\code{\link{estimateSplatParams}}. For details of the Splatter simulation
+\code{\link{splatEstimate}}. For details of the Splatter simulation
 see \code{\link{splatSimulate}}.
 }
 

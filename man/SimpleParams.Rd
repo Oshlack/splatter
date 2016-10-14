@@ -26,7 +26,7 @@ The simple simulation uses the following parameters:
 }
 
 The parameters not shown in brackets can be estimated from real data using
-\code{\link{estimateSimpleParams}}. For details of the simple simulation
+\code{\link{simpleEstimate}}. For details of the simple simulation
 see \code{\link{simpleSimulate}}.
 }
 

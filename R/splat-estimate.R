@@ -196,6 +196,8 @@ splatEstBCV <- function(counts, params) {
 #' expected number of zeros across all genes.
 #'
 #' @return SplatParams object with estimated values.
+#'
+#' @importFrom stats dnbinom nls
 splatEstDropout <- function(norm.counts, params) {
 
     means <- rowMeans(norm.counts)
