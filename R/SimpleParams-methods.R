@@ -36,7 +36,7 @@ setMethod("show", "SimpleParams", function(object) {
                              "(Shape)"      = "mean.shape"),
                "Counts:" = c("[Dispersion]" = "count.disp"))
 
-    # Mean parameters aren't estiamated for the LunParams object which
+    # Mean parameters aren't estimated for the LunParams object which
     # inherits from SimpleParams
     if (class(object) == "LunParams") {
         pp[["Mean:"]] <- c("[Rate]" = "mean.rate", "[Shape]" = "mean.shape")
