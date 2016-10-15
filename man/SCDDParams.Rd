@@ -14,10 +14,10 @@ S4 class that holds parameters for the scDD simulation.
 The SCDD simulation uses the following parameters:
 
 \describe{
-  \item{\code{[nGenes]}}{The number of genes to simulate.}
-  \item{\code{nCells}}{The number of cells to simulate.}
+  \item{\code{[nGenes]}}{The number of genes to simulate (not used).}
+  \item{\code{nCells}}{The number of cells to simulate in each condition.}
   \item{\code{[seed]}}{Seed to use for generating random numbers.}
-  \item{\code{SCdat}}{\code{\link{ExpressSet}} containing real data.}
+  \item{\code{SCdat}}{\code{\link{ExpressionSet}} containing real data.}
   \item{\code{[nDE]}}{Number of DE genes to simulate.}
   \item{\code{[nDP]}}{Number of DP genes to simulate.}
   \item{\code{[nDM]}}{Number of DM genes to simulate.}

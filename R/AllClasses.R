@@ -377,10 +377,10 @@ setClass("Lun2Params",
 #' The SCDD simulation uses the following parameters:
 #'
 #' \describe{
-#'   \item{\code{[nGenes]}}{The number of genes to simulate.}
-#'   \item{\code{nCells}}{The number of cells to simulate.}
+#'   \item{\code{[nGenes]}}{The number of genes to simulate (not used).}
+#'   \item{\code{nCells}}{The number of cells to simulate in each condition.}
 #'   \item{\code{[seed]}}{Seed to use for generating random numbers.}
-#'   \item{\code{SCdat}}{\code{\link{ExpressSet}} containing real data.}
+#'   \item{\code{SCdat}}{\code{\link{ExpressionSet}} containing real data.}
 #'   \item{\code{[nDE]}}{Number of DE genes to simulate.}
 #'   \item{\code{[nDP]}}{Number of DP genes to simulate.}
 #'   \item{\code{[nDM]}}{Number of DM genes to simulate.}
@@ -404,7 +404,7 @@ setClass("Lun2Params",
 #' @exportClass SCDDParams
 setClass("SCDDParams",
          contains = "Params",
-         slots = c(SCDat = "ExpressionSet",
+         slots = c(SCdat = "ExpressionSet",
                    nDE = "numeric",
                    nDP = "numeric",
                    nDM = "numeric",
@@ -414,7 +414,7 @@ setClass("SCDDParams",
                    sd.range = "numeric",
                    modeFC = "numeric",
                    varInflation = "numeric"),
-         prototype = prototype(SCDat = ExpressionSet(),
+         prototype = prototype(SCdat = ExpressionSet(),
                                nCells = 100,
                                nDE = 250,
                                nDP = 250,

@@ -9,7 +9,7 @@ newSCDDParams <- function(...) {
 
     data("scDatEx", package = "scDD", envir = environment())
 
-    params <- new("SCDDParams", SCDat = scDatEx)
+    params <- new("SCDDParams", SCdat = scDatEx)
 
     params <- setParams(params, ...)
 
@@ -24,7 +24,7 @@ setValidity("SCDDParams", function(object) {
     checks <- c(nGenes = checkInt(v$nGenes, lower = 1),
                 nCells = checkInt(v$nCells, lower = 1),
                 seed = checkInt(v$seed, lower = 0),
-                SCDat = checkClass(v$SCDat, "ExpressionSet"),
+                SCDat = checkClass(v$SCdat, "ExpressionSet"),
                 nDE = checkInt(v$nDE, lower = 0),
                 nDP = checkInt(v$nDP, lower = 0),
                 nDM = checkInt(v$nDM, lower = 0),
@@ -90,10 +90,10 @@ setMethod("show", "SCDDParams", function(object) {
 
     callNextMethod()
 
-    SCDat <- getParam(object, "SCDat")
+    SCdat <- getParam(object, "SCdat")
     cat("Data:", "\n")
-    cat("(SCDat)", "\n")
-    cat("ExpressionSet with", dim(SCDat)[1], "features and", dim(SCDat)[2],
+    cat("(SCdat)", "\n")
+    cat("ExpressionSet with", dim(SCdat)[1], "features and", dim(SCdat)[2],
         "samples", "\n\n")
 
     showPP(object, pp)

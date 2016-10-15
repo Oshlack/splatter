@@ -48,9 +48,10 @@ scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams()) {
     names(conditions) <- colnames(processed)
     pheno <- as(data.frame(condition = conditions), "AnnotatedDataFrame")
 
-    SCDat <- Biobase::ExpressionSet(assayData = processed, phenoData = pheno)
+    SCdat <- Biobase::ExpressionSet(assayData = processed, phenoData = pheno)
 
-    params <- setParams(params, nCells = dim(SCDat)[2], SCDat = SCDat)
+    params <- setParams(params, nCells = round(dim(SCdat)[2] / 2),
+                        SCdat = SCdat)
 
     return(params)
 }
