@@ -1,3 +1,7 @@
+# splatter 0.9.0
+
+* Add scDD simulation
+
 # splatter 0.8.0
 
 * Add Lun2 simulation

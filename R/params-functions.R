@@ -128,7 +128,7 @@ showPP <- function(params, pp) {
         default.values <- getParams(default, parameters)
         default.values <- sapply(default.values, paste, collapse = ", ")
         not.default <- values != default.values
-        names(values)[not.default] <- toupper(names(values[not.default]))
+        names(short.values)[not.default] <- toupper(names(values[not.default]))
         cat(category, "\n")
         print(noquote(short.values), print.gap = 2)
         cat("\n")

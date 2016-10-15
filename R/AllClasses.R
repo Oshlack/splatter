@@ -367,3 +367,61 @@ setClass("Lun2Params",
                                cell.libMod = 1,
                                de.nGenes = 0,
                                de.fc = 3))
+
+#' The SCDDParams class
+#'
+#' S4 class that holds parameters for the scDD simulation.
+#'
+#' @section Parameters:
+#'
+#' The SCDD simulation uses the following parameters:
+#'
+#' \describe{
+#'   \item{\code{[nGenes]}}{The number of genes to simulate (not used).}
+#'   \item{\code{nCells}}{The number of cells to simulate in each condition.}
+#'   \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'   \item{\code{SCdat}}{\code{\link{ExpressionSet}} containing real data.}
+#'   \item{\code{[nDE]}}{Number of DE genes to simulate.}
+#'   \item{\code{[nDP]}}{Number of DP genes to simulate.}
+#'   \item{\code{[nDM]}}{Number of DM genes to simulate.}
+#'   \item{\code{[nDB]}}{Number of DB genes to simulate.}
+#'   \item{\code{[nEE]}}{Number of EE genes to simulate.}
+#'   \item{\code{[nEP]}}{Number of EP genes to simulate.}
+#'   \item{\code{[sd.range]}}{Interval for fold change standard deviations.}
+#'   \item{\code{[modeFC]}}{Values for DP, DM and DB mode fold changes.}
+#'   \item{\code{[varInflation}]}{Variance inflation factors for each
+#'   condition.}
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{scDDEstimate}}. See \code{\link[scDD]{simulateSet}} for more
+#' details of the parameters. For details of the Splatter implementation of the
+#' scDD simulation see \code{\link{scDDSimulate}}.
+#'
+#' @name SCDDParams
+#' @rdname SCDDParams
+#' @aliases SCDDParams-class
+#' @exportClass SCDDParams
+setClass("SCDDParams",
+         contains = "Params",
+         slots = c(SCdat = "ExpressionSet",
+                   nDE = "numeric",
+                   nDP = "numeric",
+                   nDM = "numeric",
+                   nDB = "numeric",
+                   nEE = "numeric",
+                   nEP = "numeric",
+                   sd.range = "numeric",
+                   modeFC = "numeric",
+                   varInflation = "numeric"),
+         prototype = prototype(SCdat = ExpressionSet(),
+                               nCells = 100,
+                               nDE = 250,
+                               nDP = 250,
+                               nDM = 250,
+                               nDB = 250,
+                               nEE = 5000,
+                               nEP = 4000,
+                               sd.range = c(1, 3),
+                               modeFC = c(2, 3, 4),
+                               varInflation = c(1, 1)))
