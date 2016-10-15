@@ -163,5 +163,7 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
         assayData(sim)$ZeroInflation <- is.zero
     }
 
+    if (verbose) {message("Done!")}
+
     return(sim)
 }

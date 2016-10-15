@@ -9,7 +9,7 @@ newLun2Params <- function(...) {
 }
 
 #' @importFrom checkmate checkInt checkIntegerish checkNumber checkNumeric
-#' checkLogical checkCharacter
+#' checkLogical checkCharacter checkFactor
 setValidity("Lun2Params", function(object) {
 
     v <- getParams(object, slotNames(object))
@@ -34,8 +34,7 @@ setValidity("Lun2Params", function(object) {
                                             len = nGenes),
                 gene.ziProps = checkNumeric(v$gene.ziProps, lower = 0,
                                             len = nGenes),
-                cell.plates = checkIntegerish(v$cell.plates, lower = 0,
-                                              upper = nPlates, len = nCells),
+                cell.plates = checkFactor(v$cell.plates, len = nCells),
                 cell.libSizes = checkIntegerish(v$cell.libSizes, lower = 0,
                                                 len = nCells),
                 cell.libMod = checkNumber(v$cell.libMod, lower = 0),
