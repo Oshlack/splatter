@@ -1,3 +1,5 @@
+* Add listSims function
+
 # splatter 0.9.0
 
 * Add scDD simulation
