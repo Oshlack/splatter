@@ -97,9 +97,8 @@ setMethod("setParam", "Lun2Params", function(object, name, value) {
 
 setMethod("show", "Lun2Params", function(object) {
 
-    pp <- list("Global:"    = c("[Plates]"        = "nPlates",
-                                "[Use ZINB]"      = "useZINB"),
-               "Plates:"    = c("[Modifier]"      = "plate.mod",
+    pp <- list("Plates:"    = c("[Number]"        = "nPlates",
+                                "[Modifier]"      = "plate.mod",
                                 "(Variance)"      = "plate.var"),
                "Genes:"     = c("(Means)"         = "gene.means",
                                 "(Dispersions)"   = "gene.disps",

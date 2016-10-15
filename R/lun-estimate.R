@@ -30,7 +30,6 @@ lunEstimate.SCESet <- function(counts, params = newLunParams()) {
 }
 
 #' @rdname lunEstimate
-#' @importFrom stats median
 #' @export
 lunEstimate.matrix <- function(counts, params = newLunParams()) {
 

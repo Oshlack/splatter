@@ -106,6 +106,8 @@ setParamsUnchecked <- function(params, update = NULL, checkValid = TRUE, ...) {
 #'
 #' @param params object to show.
 #' @param pp list specifying how the object should be displayed.
+#'
+#' @importFrom utils head
 showPP <- function(params, pp) {
 
     checkmate::assertClass(params, classes = "Params")
