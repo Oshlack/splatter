@@ -377,7 +377,7 @@ setClass("Lun2Params",
 #' The SCDD simulation uses the following parameters:
 #'
 #' \describe{
-#'   \item{\code{nGenes}}{The number of genes to simulate.}
+#'   \item{\code{[nGenes]}}{The number of genes to simulate.}
 #'   \item{\code{nCells}}{The number of cells to simulate.}
 #'   \item{\code{[seed]}}{Seed to use for generating random numbers.}
 #'   \item{\code{SCdat}}{\code{\link{ExpressSet}} containing real data.}
