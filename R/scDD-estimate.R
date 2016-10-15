@@ -17,7 +17,8 @@
 #'
 #' @examples
 #' data("sc_example_counts")
-#' params <- scDDEstimate(sc_example_counts)
+#' conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
+#' params <- scDDEstimate(sc_example_counts, conditions)
 #' params
 #' @export
 scDDEstimate <- function(counts, conditions, params = newSCDDParams()) {
