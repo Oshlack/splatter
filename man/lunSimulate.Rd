@@ -39,7 +39,7 @@ sim <- lunSimulate()
 }
 \references{
 Lun ATL, Bach K, Marioni JC. Pooling across cells to normalize single-cell
-RNA sequencing data with many zero counts. Genome Biology (2016)
+RNA sequencing data with many zero counts. Genome Biology (2016).
 
 Paper: \url{dx.doi.org/10.1186/s13059-016-0947-7}
 

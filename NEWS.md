@@ -1,3 +1,7 @@
+# splatter 0.8.0
+
+* Add Lun2 simulation
+
 # splatter 0.7.0
 
 * Redesign how parameters are stored

@@ -220,7 +220,7 @@ setClass("SplatParams",
                                path.nonlinearProb = 0.1,
                                path.sigmaFac = 0.8))
 
-#' The Lun class
+#' The LunParams class
 #'
 #' S4 class that holds parameters for the Lun simulation.
 #'
@@ -280,3 +280,90 @@ setClass("LunParams",
          prototype = prototype(nGroups = 1, groupCells = 100, mean.shape = 2,
                                mean.rate = 2, de.nGenes = 1000, de.upProp = 0.5,
                                de.upFC = 5, de.downFC = 0))
+
+#' The Lun2Params class
+#'
+#' S4 class that holds parameters for the Lun simulation.
+#'
+#' @section Parameters:
+#'
+#' The Lun2 simulation uses the following parameters:
+#'
+#' \describe{
+#'   \item{\code{nGenes}}{The number of genes to simulate.}
+#'   \item{\code{nCells}}{The number of cells to simulate.}
+#'   \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'   \item{\code{[nPlates]}}{The number of plates to simulate.}
+#'   \item{\emph{Plate parameters}}{
+#'     \describe{
+#'       \item{\code{plate.ingroup}}{Character vecotor giving the plates
+#'       considered to be part of the "ingroup".}
+#'       \item{\code{plate.mod}}{Plate effect modifier factor. The plate effect
+#'       variance is divided by this value.}
+#'       \item{\code{plate.var}}{Plate effect variance.}
+#'     }
+#'   }
+#'   \item{\emph{Gene parameters}}{
+#'     \describe{
+#'       \item{\code{gene.means}}{Mean expression for each gene.}
+#'       \item{\code{gene.disps}}{Dispersion for each gene.}
+#'       \item{\code{gene.ziMeans}}{Zero-inflated gene means.}
+#'       \item{\code{gene.ziDisps}}{Zero-inflated gene dispersions.}
+#'       \item{\code{gene.ziProps}}{Zero-inflated gene zero proportions.}
+#'     }
+#'   }
+#'   \item{\emph{Cell parameters}}{
+#'     \describe{
+#'       \item{\code{cell.plates}}{Factor giving the plate that each cell comes
+#'       from.}
+#'       \item{\code{cell.libSizes}}{Library size for each cell.}
+#'       \item{\code{cell.libMod}}{Modifier factor for library sizes.
+#'       The library sizes are multiplied by this value.}
+#'     }
+#'   }
+#'   \item{\emph{Differential expression parameters}}{
+#'     \describe{
+#'       \item{\code{de.nGenes}}{Number of differentially expressed genes.}
+#'       \item{\code{de.fc}}{Fold change for differentially expressed genes.}
+#'     }
+#'   }
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{lun2Estimate}}. For details of the Lun2 simulation see
+#' \code{\link{lun2Simulate}}.
+#'
+#' @name Lun2Params
+#' @rdname Lun2Params
+#' @aliases Lun2Params-class
+#' @exportClass Lun2Params
+setClass("Lun2Params",
+         contains = "Params",
+         slots = c(nPlates = "numeric",
+                   plate.ingroup = "character",
+                   plate.mod = "numeric",
+                   plate.var = "numeric",
+                   gene.means = "numeric",
+                   gene.disps = "numeric",
+                   gene.ziMeans = "numeric",
+                   gene.ziDisps = "numeric",
+                   gene.ziProps = "numeric",
+                   cell.plates = "numeric",
+                   cell.libSizes = "numeric",
+                   cell.libMod = "numeric",
+                   de.nGenes = "numeric",
+                   de.fc = "numeric"),
+         prototype = prototype(nPlates = 1,
+                               cell.plates = factor(rep(1, 100)),
+                               plate.ingroup = "1",
+                               plate.mod = 1,
+                               plate.var = 14,
+                               gene.means = rep(3.2, 10000),
+                               gene.disps = rep(0.03, 10000),
+                               gene.ziMeans = rep(1.6, 10000),
+                               gene.ziDisps = rep(0.1, 10000),
+                               gene.ziProps = rep(2.3e-6, 10000),
+                               cell.libSizes = rep(70000, 100),
+                               cell.libMod = 1,
+                               de.nGenes = 0,
+                               de.fc = 3))
