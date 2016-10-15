@@ -20,9 +20,9 @@ The Lun2 simulation uses the following parameters:
   \item{\code{[nPlates]}}{The number of plates to simulate.}
   \item{\emph{Plate parameters}}{
     \describe{
-      \item{\code{path.ingroup}}{Plates considered to be part of the
-      "ingroup".}
-      \item{\code{path.mod}}{Plate effect modifier factor. The plate effect
+      \item{\code{plate.ingroup}}{Character vecotor giving the plates
+      considered to be part of the "ingroup".}
+      \item{\code{plate.mod}}{Plate effect modifier factor. The plate effect
       variance is divided by this value.}
       \item{\code{plate.var}}{Plate effect variance.}
     }
@@ -38,7 +38,8 @@ The Lun2 simulation uses the following parameters:
   }
   \item{\emph{Cell parameters}}{
     \describe{
-      \item{\code{cell.plates}}{Plate that each cell comes from.}
+      \item{\code{cell.plates}}{Factor giving the plate that each cell comes
+      from.}
       \item{\code{cell.libSizes}}{Library size for each cell.}
       \item{\code{cell.libMod}}{Modifier factor for library sizes.
       The library sizes are multiplied by this value.}

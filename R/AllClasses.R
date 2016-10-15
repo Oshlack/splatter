@@ -296,9 +296,9 @@ setClass("LunParams",
 #'   \item{\code{[nPlates]}}{The number of plates to simulate.}
 #'   \item{\emph{Plate parameters}}{
 #'     \describe{
-#'       \item{\code{path.ingroup}}{Plates considered to be part of the
-#'       "ingroup".}
-#'       \item{\code{path.mod}}{Plate effect modifier factor. The plate effect
+#'       \item{\code{plate.ingroup}}{Character vecotor giving the plates
+#'       considered to be part of the "ingroup".}
+#'       \item{\code{plate.mod}}{Plate effect modifier factor. The plate effect
 #'       variance is divided by this value.}
 #'       \item{\code{plate.var}}{Plate effect variance.}
 #'     }
@@ -314,7 +314,8 @@ setClass("LunParams",
 #'   }
 #'   \item{\emph{Cell parameters}}{
 #'     \describe{
-#'       \item{\code{cell.plates}}{Plate that each cell comes from.}
+#'       \item{\code{cell.plates}}{Factor giving the plate that each cell comes
+#'       from.}
 #'       \item{\code{cell.libSizes}}{Library size for each cell.}
 #'       \item{\code{cell.libMod}}{Modifier factor for library sizes.
 #'       The library sizes are multiplied by this value.}
@@ -339,7 +340,7 @@ setClass("LunParams",
 setClass("Lun2Params",
          contains = "Params",
          slots = c(nPlates = "numeric",
-                   plate.ingroup = "numeric",
+                   plate.ingroup = "character",
                    plate.mod = "numeric",
                    plate.var = "numeric",
                    gene.means = "numeric",
@@ -354,7 +355,7 @@ setClass("Lun2Params",
                    de.fc = "numeric"),
          prototype = prototype(nPlates = 1,
                                cell.plates = rep(1, 100),
-                               plate.ingroup = 1,
+                               plate.ingroup = "1",
                                plate.mod = 1,
                                plate.var = 14,
                                gene.means = rep(3.2, 10000),

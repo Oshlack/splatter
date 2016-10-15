@@ -9,7 +9,7 @@ newLun2Params <- function(...) {
 }
 
 #' @importFrom checkmate checkInt checkIntegerish checkNumber checkNumeric
-#' checkLogical
+#' checkLogical checkCharacter
 setValidity("Lun2Params", function(object) {
 
     v <- getParams(object, slotNames(object))
@@ -21,9 +21,7 @@ setValidity("Lun2Params", function(object) {
                 nCells = checkInt(v$nCells, lower = 1),
                 seed = checkInt(v$seed, lower = 0),
                 nPlates = checkInt(v$nPlates, lower = 1),
-                plate.ingroup = checkIntegerish(v$plate.ingroup, lower = 1,
-                                                upper = nPlates, min.len = 1,
-                                                max.len = nPlates),
+                plate.ingroup = checkCharacter(v$plate.ingroup, min.len = 1),
                 plate.mod = checkNumber(v$plate.mod, lower = 0),
                 plate.var = checkNumber(v$plate.var, lower = 0),
                 gene.means = checkNumeric(v$gene.means, lower = 0,
@@ -74,6 +72,7 @@ setMethod("setParam", "Lun2Params", function(object, name, value) {
             object <- setParamUnchecked(object, "cell.libSizes",
                                         old.libSizes[selected])
         }
+        value <- factor(value)
     }
 
     if (name == "nGenes") {
