@@ -11,8 +11,24 @@
 #'        \code{params}.
 #'
 #' @details
+#' The Lun2 simulation uses a negative-binomial distribution where the means and
+#' dispersions have been sampled from a real dataset
+#' (using \code{\link{lun2Estimate}}). The other core feature of the Lun2
+#' simulation is the addition of plate effects. Differential expression can be
+#' added between two groups of plates (an "ingroup" and all other plates).
+#' Library size factors are also applied and optionally a zero-inflated
+#' negative-binomial can be used.
 #'
 #' @return SCESet containing simulated counts.
+#'
+#' @references
+#' Lun ATL, Marioni JC. Overcoming confounding plate effects in differential
+#' expression analyses of single-cell RNA-seq data. bioRxiv (2016).
+#'
+#' Paper: \url{dx.doi.org/10.1101/073973}
+#'
+#' Code: \url{https://github.com/MarioniLab/PlateEffects2016}
+#'
 #' @examples
 #' sim <- lun2Simulate()
 #' @export
