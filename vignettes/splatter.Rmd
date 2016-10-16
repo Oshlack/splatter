@@ -175,6 +175,40 @@ params
 
 # Estimating parameters
 
+Splatter allows you to estimate many of it's parameters from a data set
+containing counts using the `splatEstimate` function.
+
+```{r splatEstimate}
+# Check that sc_example counts is an integer matrix
+class(sc_example_counts)
+typeof(sc_example_counts)
+# Check the dimensions, each row is a gene, each column is a cell
+dim(sc_example_counts)
+# Show the first few entries
+sc_example_counts[1:5, 1:5]
+
+params <- splatEstimate(sc_example_counts)
+```
+
+Here we estimated parameters from a counts matrix but `splatEstimate` can also
+take an `SCESet` object from the `scater` package. The estimation process has
+the following steps:
+
+1. Mean parameters are estimated by fitting a gamma distribution to the mean
+   expression levels.
+2. Library size parameters are estimated by fitting a log-normal distribution to
+   the library sizes.
+3. Expression outlier parameters are estimated by determining the number of
+   outliers and fitting a log-normal distribution to their difference from the
+   median.
+4. BCV parameters are estimated using the `estimateDisp` function from the
+   `edgeR` package.
+5. Dropout parameter are estimated by checking if dropout is present and fitting
+   a logistic function to the relationship between mean expression and
+   proportion of zeros.
+   
+For more details of the estimation procedures see `?splatEstimate`.
+
 # Simulating counts
 
 **OUTPUT**
