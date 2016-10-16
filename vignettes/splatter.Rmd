@@ -322,6 +322,35 @@ simulate paths use `splatSimulatePaths()` (equivalent to
 
 # Other simulations
 
+As well as it's own simulation method the Splatter package contains
+implementations of other single-cell RNA-seq simulations that have been
+published or wrappers around simulations included in other packages. To see all
+the available simulations run the `listSims` function:
+
+```{r listSims}
+listSims()
+```
+
+(or more conveniently as a table)
+
+```{r listSims-table, echo = FALSE}
+knitr::kable(listSims(print = FALSE))
+```
+
+Each simulation has it's own prefix which gives the name of the functions
+associated with that simulation. For example the prefix for the simple
+simulation is `simple` so it would store it's parameters in a `SimpleParams`
+object that can be created using `newSimpleParams()` or estimated from real
+data using `simpleEstimate()` and to simulate data using that simulation you
+would use `simpleSimulate()`. Each simulation returns an `SCESet` object with
+intermediate values similar to that returned by `splatSimulate()`. For more
+detailed information on each simulation see the appropriate help page (eg.
+`?simpleSimulate` for information on how the simple simulation works or
+`?lun2Estimate` for for information of how the Lun 2 simulation estimates
+parameters) or refer to the appropriate paper or package.
+
+# Session information {-}
+
 ```{r sessionInfo}
 sessionInfo()
 ```
