@@ -36,6 +36,11 @@ scDDEstimate.SCESet <- function(counts, conditions, params = newSCDDParams()) {
 #' @export
 scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams()) {
 
+    if (!requireNamespace("scDD", quietly = TRUE)) {
+        stop("The scDD simulation requires the 'scDD' package. ",
+             "See https://github.com/kdkorthauer/scDD for installation.")
+    }
+
     checkmate::assertClass(params, "SCDDParams")
     checkmate::assertIntegerish(conditions, len = ncol(counts), lower = 1,
                                 upper = 2)
