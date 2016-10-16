@@ -4,15 +4,13 @@
 \alias{setParamsUnchecked}
 \title{Set parameters UNCHECKED}
 \usage{
-setParamsUnchecked(params, update = NULL, checkValid = TRUE, ...)
+setParamsUnchecked(params, update = NULL, ...)
 }
 \arguments{
 \item{params}{Params object to set parameters in.}
 
 \item{update}{list of parameters to set where \code{names(update)} are the
 names of the parameters to set and the items in the list are values.}
-
-\item{checkValid}{logical. Whether to check set object is valid.}
 
 \item{...}{additional parameters to set. These are combined with any
 parameters specified in \code{update}.}

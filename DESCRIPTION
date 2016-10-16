@@ -1,8 +1,8 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 0.9.1
-Date: 2016-10-15
+Version: 0.10.0
+Date: 2016-10-16
 Author: Luke Zappia
 Authors@R: as.person(c(
     "Luke Zappia <luke.zappia@mcri.edu.au> [aut, cre]",
@@ -34,9 +34,13 @@ Suggests:
     progress,
     lme4,
     pscl,
-    scDD
+    scDD,
+    knitr,
+    rmarkdown,
+    BiocStyle
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software
 URL: https://github.com/lazappi/splatter
 BugReports: https://github.com/lazappi/splatter/issues
 RoxygenNote: 5.0.1
+VignetteBuilder: knitr

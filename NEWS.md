@@ -1,4 +1,7 @@
+# splatter 0.10.0
+
 * Add listSims function
+* Add vignette
 
 # splatter 0.9.0
 

@@ -108,7 +108,7 @@ setClass("SimpleParams",
 #'     \describe{
 #'       \item{\code{[de.prob]}}{Probability that a gene is differentially
 #'       expressed in a group. Can be a vector.}
-#'       \item{\code{[de.loProb]}}{Probability that differentially expressed
+#'       \item{\code{[de.loProb]}}{Probability that a differentially expressed
 #'       gene is down-regulated. Can be a vector.}
 #'       \item{\code{[de.facLoc]}}{Location (meanlog) parameter for the
 #'       differential expression factor log-normal distribution. Can be a
