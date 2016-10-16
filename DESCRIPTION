@@ -37,7 +37,8 @@ Suggests:
     scDD,
     knitr,
     rmarkdown,
-    BiocStyle
+    BiocStyle,
+    covr
 Remotes:
     kdkorthauer/scDD
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
