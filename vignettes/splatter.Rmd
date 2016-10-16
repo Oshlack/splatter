@@ -1,0 +1,28 @@
+---
+title: "Introduction to Splatter"
+author: "Luke Zappia"
+date: "`r Sys.Date()`"
+output:
+    BiocStyle::html_document:
+        toc: true
+vignette: >
+  %\VignetteIndexEntry{An introduction to the Splatter package}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r knitr-options, echo = FALSE, message = FALSE, warning = FALSE}
+# To render an HTML version that works nicely with github and web pages, do:
+# rmarkdown::render("vignettes/splatter.Rmd", "all")
+knitr::opts_chunk$set(fig.align = 'center', fig.width = 6, fig.height = 5,
+                      dev = 'png')
+```
+
+Welcome to Splatter! Splatter is an R package for the simple simulation of
+single-cell RNA-seq data. This vignette gives an overview and introduction to
+Splatter's functionality.
+
+```{r sessionInfo}
+sessionInfo()
+```
+
