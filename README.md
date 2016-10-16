@@ -1,5 +1,7 @@
 # Splatter
 
+[![Travis-CI Build Status](https://travis-ci.org/Oshlack/splatter.svg?branch=master)](https://travis-ci.org/Oshlack/splatter)
+
 Splatter is an R package for the simple simulation of single-cell RNA sequencing
 data. Splatter provides a common interface that has:
 
