@@ -25,8 +25,8 @@ setMethod("show", "Params", function(object) {
                              "[Seed]"  = "seed"))
 
     cat("A Params object of class", class(object), "\n")
-    cat("Parameters can be (estimatable) or [not estimatable],",
-        "'Default' or 'NOT DEFAULT'", "\n\n")
+    cat("Parameters can be (estimable) or [not estimable],",
+        "'Default' or 'NOT DEFAULT'.", "\n\n")
     showPP(object, pp)
     cat(length(slotNames(object)) - 3, "additional parameters", "\n\n")
 })

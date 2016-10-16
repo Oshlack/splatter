@@ -27,7 +27,6 @@ getParams <- function(params, names) {
 #'        names of the parameters to set and the items in the list are values.
 #' @param ... additional parameters to set. These are combined with any
 #'        parameters specified in \code{update}.
-#' @param checkValid logical. Whether to check set object is valid.
 #'
 #' @details
 #' Each parameter is set by a call to \code{\link{setParam}}. If the same
@@ -47,7 +46,7 @@ getParams <- function(params, names) {
 #' params <- setParams(params, list(mean.rate = 0.2, mean.shape = 0.8))
 #' params
 #' @export
-setParams <- function(params, update = NULL, checkValid = TRUE, ...) {
+setParams <- function(params, update = NULL, ...) {
 
     checkmate::assertClass(params, classes = "Params")
     checkmate::assertList(update, null.ok = TRUE)
@@ -73,7 +72,6 @@ setParams <- function(params, update = NULL, checkValid = TRUE, ...) {
 #'        names of the parameters to set and the items in the list are values.
 #' @param ... additional parameters to set. These are combined with any
 #'        parameters specified in \code{update}.
-#' @param checkValid logical. Whether to check set object is valid.
 #'
 #' @details
 #' Each parameter is set by a call to \code{\link{setParam}}. If the same
@@ -83,7 +81,7 @@ setParams <- function(params, update = NULL, checkValid = TRUE, ...) {
 #' them manually), see examples. THE FINAL OBJECT IS NOT CHECKED FOR VALIDITY!
 #'
 #' @return Params object with updated values.
-setParamsUnchecked <- function(params, update = NULL, checkValid = TRUE, ...) {
+setParamsUnchecked <- function(params, update = NULL, ...) {
 
     checkmate::assertClass(params, classes = "Params")
     checkmate::assertList(update, null.ok = TRUE)

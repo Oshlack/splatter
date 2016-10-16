@@ -22,6 +22,171 @@ Welcome to Splatter! Splatter is an R package for the simple simulation of
 single-cell RNA-seq data. This vignette gives an overview and introduction to
 Splatter's functionality.
 
+# Quickstart
+
+Assuming you already have a matrix of count data similar to that you wish to
+simulate there are two simple steps to creating a simulated data set with
+Splatter. Here is an example using the example dataset in the `scater` package:
+
+```{r quickstart}
+library(splatter)
+
+data("sc_example_counts")
+params <- splatEstimate(sc_example_counts)
+sim <- splatSimulate(params, dropout.present = FALSE)
+```
+
+These steps will be explained in detail in the following sections but briefly
+the first step takes a dataset and estimates simulation parameters from it and
+the second step takes those parameters and simulates a new dataset.
+
+# The Splatter model
+
+Before we look at how we estimate parameters let's first look at how Splatter
+simulates data and what those parameters are. The core of the Splatter model is
+a gamma-Poisson distribution used to generate a gene by cell matrix of counts.
+Mean expression levels for each gene are simulated from a gamma distribution
+and the Biological Coefficient of Variation is used to enforce a mean-variance
+trend before counts are simuated from a Poisson distribution. Splatter also
+allows you to simulate expression outlier genes (genes with mean expression
+outside the gamma distribution) and dropout (random knock out of counts based
+on mean expression). Each cell is given an expected library size (simulated
+from a log-normal distribution) that makes it easier to match to a given
+dataset.
+
+Splatter can also simulate differential epression between groups of cells or
+differentiation paths between different cells types. These are described further
+in the [simulating counts] section.
+
+## Parameters
+
+The parameters required by Splatter are briefly described here:
+
+* **Global parameters**
+    * `nGenes` - The number of genes to simulate.
+    * `nCells` - The number of cells to simulate.
+    * `nGroups` - The number of groups or paths to simulate.
+    * `groupCells` - The number of cells in each group/path.
+    * `seed` - Seed to use for generating random numbers.
+* **Mean parameters**
+    * `mean.shape` - Shape parameter for the mean gamma distribution.
+    * `mean.rate` - Rate parameter for the mean gamma distribution.
+* **Library size parameters**
+    * `lib.loc` - Location (meanlog) parameter for the library size log-normal
+      distribution.
+    * `lib.scale` - Scale (sdlog) parameter for the library size log-normal
+      distribution.
+* **Expression outlier parameters**
+    * `out.prob` - Probability that a gene is an expression outlier.
+    * `out.loProb` - Probability that an expression outlier gene is lowly
+      expressed.
+    * `out.facLoc` - Location (meanlog) parameter for the expression outlier
+      factor log-normal distribution.
+    * `out.facScale` - Scale (sdlog) parameter for the expression outlier factor
+      log-normal distribution.
+* **Differential expression parameters**
+    * `de.prob` - Probability that a gene is differentially expressed in each
+      group or path.
+    * `de.loProb` - Probability that a differentially expressed gene is
+      down-regulated.
+    * `de.facLoc` - Location (meanlog) parameter for the differential expression
+      factor log-normal distribution.
+    * `de.facScale` - Scale (sdlog) parameter for the differential expression
+      factor log-normal distribution.
+* **Biological Coefficient of Variation parameters**
+    * `bcv.common` - Underlying common dispersion across all genes.
+    * `bcv.df` - Degrees of Freedom for the BCV inverse chi-squared
+      distribution.
+* **Dropout parameters**
+    * `dropout.present` - Logical. Whether to simulate dropout.
+    * `dropout.mid` - Midpoint parameter for the dropout logistic function.
+    * `dropout.shape` - Shape parameter for the dropout logistic function.
+* **Differentiation path parameters**
+    * `path.from` - Vector giving the originating point of each path.
+    * `path.length` - Vector giving the number of steps to simulate along each
+      path.
+    * `path.skew` - Vector giving the skew of each path.
+    * `path.nonlinearProb` - Probability that a gene changes expression in a
+      non-linear way along the differentiation path.
+    * `path.sigmaFac` - Sigma factor for non-linear gene paths.
+
+While this may look like a lot of parameters Splatter attempts to make it easy
+for the user, both by providing sensible defaults and making it easy to estimate
+many of the parameters from real data. For more details on the parameters see
+`?SplatParams`.
+
+# The `SplatParams` object
+
+All the parameters for the Splatter simulations are stored in a `SplatParams`
+object. Let's create a new one and see what it looks like.
+
+```{r SplatParams}
+params <- newSplatParams()
+params
+```
+
+As well as telling us what type of object we have ("A `Params` object of class
+`SplatParams`") and showing us the values of the parameter this output gives us
+some extra information. We can see which parameters can be estimated by the
+`splatEstimate` function (those in parentheses), which can't be estimated
+(those in brackets) and which have been changed from their default values (those
+in ALL CAPS). 
+
+## Getting and setting
+
+If we want to look at a particular parameter, for example the number of genes to
+simulate, we can extract it using the `getParam` function:
+
+```{r getParam}
+getParam(params, "nGenes")
+```
+
+Alternatively to give a parameter a new value we can use the `setParam`
+function:
+
+```{r setParam}
+params <- setParam(params, "nGenes", 5000)
+params
+```
+
+The `nGenes` parameter is now shown in ALL CAPS to indicate it has been changed
+form the default.
+
+If we want to extract multiple parameters (as a list) or set multiple parameters
+we can use the `getParams` or `setParams` functions:
+
+```{r getParams-setParams}
+# Extract multiple parameters as a list
+getParams(params, c("nGenes", "mean.rate", "mean.shape"))
+# Set multiple parameters at once (using a list)
+params <- setParams(params, update = list(nGenes = 8000, mean.rate = 0.5))
+params
+# Set multiple parameters at once (using additional arguments)
+params <- setParams(params, mean.shape = 0.5, de.prob = 0.2)
+params
+```
+
+We can also set parameters directly when we call `newSplatParams`:
+
+```{r newSplatParams-set}
+params <- newSplatParams(lib.loc = 12, lib.scale = 0.6)
+params
+```
+
+# Estimating parameters
+
+# Simulating counts
+
+**OUTPUT**
+
+## Simulating groups
+
+## Simulating paths
+
+## Convenience functions
+
+# Other simulations
+
 ```{r sessionInfo}
 sessionInfo()
 ```
