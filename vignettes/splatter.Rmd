@@ -211,13 +211,114 @@ For more details of the estimation procedures see `?splatEstimate`.
 
 # Simulating counts
 
-**OUTPUT**
+Once we have a set of parameters we are happy with we can use `splatSimulate`
+to simulate counts. If we want to make small adjustments to the parameters we
+can provide them as additional arguments, alternatively if we don't supply any
+parameters the defaults will be used:
+
+```{r splatSimulate}
+sim <- splatSimulate(params, nGenes = 1000, dropout.present = FALSE)
+sim
+```
+
+Looking at the output of `splatSimulate` we can see that `sim` is an `SCESet`
+object with `r dim(sim)[1]` features (genes) and `r dim(sim)[2]` samples
+(cells). An `SCESet` combines a counts matrix (and other expression measures)
+with phenotype information about each cell (accessed using `pData`) and feature
+information about each gene (accessed using `fData`). Splatter uses these slots
+to store information about the intermediate values of the simulation.
+
+```{r SCESet}
+# Information about genes
+head(fData(sim))
+# Information about cells
+head(pData(sim))
+# Gene by cell matrices
+names(assayData(sim))
+# Example of cell means matrix
+assayData(sim)$CellMeans[1:5, 1:5]
+# Access the counts
+counts(sim)[1:5, 1:5]
+```
+
+An additional (big) advantage of outputting an `SCESet` is that we get immediate
+access to all of the `scater` functions. For example we can make a PCA plot:
+
+```{r pca}
+plotPCA(sim)
+```
+
+For more details of the `SCESet` and what you can do with `scater` refer to the
+`scater` documentation and [vignette][scater-vignette].
+
+The `splatSimulate` function outputs the following additional information about
+the simulation:
+
+* **Cell information (`pData`)**
+    * `Cell` - Unique cell identifier.
+    * `Group` - The group or path the cell belongs to.
+    * `ExpLibSize` - The expected library size for that cell.}
+    * `Step` (paths only) - How far along the path each cell is.
+* **Gene information (`fData`)**
+    * `Gene` - Unique gene identifier.
+    * `BaseGeneMean` - The base expression level for that gene.
+    * `OutlierFactor` - Expression outlier factor for that gene.
+    * `GeneMean` - Expression level after applying outlier factors.
+    * `DEFac[Group]` - The differential expression factor for each gene
+      in a particular group.
+    * `GeneMean[Group]` - Expression level of a gene in a particular group after
+      applying differential expression factors.
+* **Gene x cell information (`assayData`)**
+    * `BaseCellMeans` - The expression of genes in each cell adjusted for
+      expected library size.
+    * `BCV` - The Biological Coefficient of Variation for each gene in
+      each cell.
+    * `CellMeans` - The expression level of genes in each cell adjusted
+      for BCV.
+    * `TrueCounts` - The simulated counts before dropout.
+    * `Dropout` - Logical matrix showing which counts have been dropped in which
+      cells.
+
+Values that have been added by Splatter are named using `UpperCamelCase` to
+separate them from the `underscore_naming` used by `scater`. For more
+information on the simulation see `?splatSimulate`.
 
 ## Simulating groups
 
+So far we have only simulated a single population of cells but often we are
+interested in investigating multiple a mixed population of cells and looking
+to see what cell types are present or what differences there are between them.
+Splatter is also able to simulate this situation by changing the method
+argument Here we are going to simulate two groups, each with 50 cells, by
+specifying the `groupCells` parameter and setting the `method` parameter to
+`groups`:
+
+```{r groups}
+sim.groups <- splatSimulate(groupCells = c(100, 100), method = "groups",
+                            verbose = FALSE)
+plotPCA(sim.groups, colour_by = "Group")
+```
+
 ## Simulating paths
 
+The other situation that is often of interest is a differentiation process where
+one cell type is changing into another. Splatter appoximates this process by
+simulating a series of steps between one two groups and randomly assigning each
+cell to a step. We can create this kind of simulation using the `paths` method.
+
+```{r paths}
+sim.paths <- splatSimulate(method = "paths", verbose = FALSE)
+plotPCA(sim.paths, colour_by = "Step")
+```
+
 ## Convenience functions
+
+Each of the Splatter simulation methods has it's own convenience function.
+To simulate a single population use `splatSimulateSingle()` (equivalent to
+`splatSimulate(method = "single")`), to simulate grops use
+`splatSimulateGroups()` (equivalent to `splatSimulate(method = "groups")`) or to
+simulate paths use `splatSimulatePaths()` (equivalent to
+`splatSimulate(method = "paths")`).
 
 # Other simulations
 
@@ -225,3 +326,4 @@ For more details of the estimation procedures see `?splatEstimate`.
 sessionInfo()
 ```
 
+[scater-vignette]: https://bioconductor.org/packages/release/bioc/vignettes/scater/inst/doc/vignette.html
