@@ -38,6 +38,8 @@ Suggests:
     knitr,
     rmarkdown,
     BiocStyle
+Remotes:
+    kdkorthauer/scDD
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software
 URL: https://github.com/lazappi/splatter
