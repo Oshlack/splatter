@@ -16,11 +16,21 @@ Splatter is built on top of [`scater`][scater] and stores simulations in
 
 ## Installation.
 
-Splatter can be installed from Github using `devtools`:
+Splatter can be installed from Github using `biocLite`:
 
 ```{r}
-install.packages("devtools")
-devtools::install_github("Oshlack/splatter", build_vignettes = TRUE)
+source("https://bioconductor.org/biocLite.R")
+biocLite("Oshlack/splatter", dependencies=TRUE, build_vignettes=TRUE)
+```
+
+This will also build the vignette and install suggested dependencies (which
+aren't required for core functionality). Building the vignette may sometimes 
+fail when run from the command line, if this happens try running the install
+command in RStudio. If you still have problems or want a quicker install
+(without the vignette) use:
+
+```{r}
+biocLite("Oshlack/splatter")
 ```
 
 ## Getting started
