@@ -29,7 +29,7 @@ scDDEstimate <- function(counts, conditions, params = newSCDDParams()) {
 #' @export
 scDDEstimate.SCESet <- function(counts, conditions, params = newSCDDParams()) {
     counts <- scater::counts(counts)
-    scDDEstimate(counts, params)
+    scDDEstimate(counts, conditions, params)
 }
 
 #' @rdname scDDEstimate

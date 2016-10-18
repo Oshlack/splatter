@@ -1,3 +1,7 @@
+# splatter 0.10.1
+
+* Fix error for SCESets in lun2Estimate, scDDEstimate
+
 # splatter 0.10.0
 
 * Add listSims function

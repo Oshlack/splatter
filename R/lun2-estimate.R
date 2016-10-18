@@ -34,7 +34,7 @@ lun2Estimate <- function(counts, plates, params = newLun2Params(),
 lun2Estimate.SCESet <- function(counts, plates, params = newLun2Params(),
                                 min.size = 200, verbose = TRUE) {
     counts <- scater::counts(counts)
-    lun2Estimate(counts, params)
+    lun2Estimate(counts, plates, params, min.size = min.size, verbose = verbose)
 }
 
 #' @rdname lun2Estimate
