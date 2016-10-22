@@ -1,3 +1,7 @@
+# splatter 0.11.0
+
+* Make compatible with Bioconductor 3.4
+
 # splatter 0.10.1
 
 * Fix error for SCESets in lun2Estimate, scDDEstimate

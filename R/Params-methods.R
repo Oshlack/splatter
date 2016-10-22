@@ -1,9 +1,11 @@
 #' @rdname getParam
+#' @importFrom methods slot
 setMethod("getParam", "Params", function(object, name) {
     slot(object, name)
 })
 
 #' @rdname setParam
+#' @importFrom methods slot<- validObject
 setMethod("setParam", "Params", function(object, name, value) {
     checkmate::assertString(name)
     slot(object, name) <- value
@@ -12,12 +14,14 @@ setMethod("setParam", "Params", function(object, name, value) {
 })
 
 #' @rdname setParamUnchecked
+#' @importFrom methods slot<-
 setMethod("setParamUnchecked", "Params", function(object, name, value) {
-              checkmate::assertString(name)
-              slot(object, name) <- value
-              return(object)
-          })
+    checkmate::assertString(name)
+    slot(object, name) <- value
+    return(object)
+})
 
+#' @importFrom methods slotNames
 setMethod("show", "Params", function(object) {
 
     pp <- list("Global:" = c("(Genes)" = "nGenes",

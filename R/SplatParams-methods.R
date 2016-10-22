@@ -1,4 +1,5 @@
 #' @rdname newParams
+#' @importFrom methods new
 #' @export
 newSplatParams <- function(...) {
 
@@ -97,6 +98,7 @@ setMethod("setParam", "SplatParams",function(object, name, value) {
     return(object)
 })
 
+#' @importFrom methods callNextMethod
 setMethod("show", "SplatParams", function(object) {
 
     pp <- list("Groups:"         = c("[Groups]"       = "nGroups",

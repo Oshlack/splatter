@@ -33,6 +33,7 @@ scDDEstimate.SCESet <- function(counts, conditions, params = newSCDDParams()) {
 }
 
 #' @rdname scDDEstimate
+#' @importFrom methods as
 #' @export
 scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams()) {
 

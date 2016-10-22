@@ -32,7 +32,8 @@
 #' @examples
 #' sim <- lun2Simulate()
 #' @export
-#' @importFrom scater newSCESet
+#' @importFrom methods new
+#' @importFrom scater newSCESet set_exprs<-
 lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
                          verbose = TRUE, ...) {
 
@@ -151,16 +152,16 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
 
     rownames(cell.means) <- gene.names
     colnames(cell.means) <- cell.names
-    assayData(sim)$CellMeans <- cell.means
+    set_exprs(sim, "CellMeans") <- cell.means
 
     rownames(true.counts) <- gene.names
     colnames(true.counts) <- cell.names
-    assayData(sim)$TrueCounts <- true.counts
+    set_exprs(sim, "TrueCounts") <- true.counts
 
     if (zinb) {
         rownames(is.zero) <- gene.names
         colnames(is.zero) <- cell.names
-        assayData(sim)$ZeroInflation <- is.zero
+        set_exprs(sim, "ZeroInflation") <- is.zero
     }
 
     if (verbose) {message("Done!")}

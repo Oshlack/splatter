@@ -33,8 +33,9 @@
 #' @examples
 #' sim <- lunSimulate()
 #'
-#' @importFrom Biobase fData fData<- pData pData<- assayData
-#' @importFrom scater newSCESet
+#' @importFrom Biobase fData fData<- pData pData<-
+#' @importFrom methods new
+#' @importFrom scater newSCESet set_exprs<-
 #' @importFrom stats rnorm rgamma rnbinom
 #' @export
 lunSimulate <- function(params = newLunParams(), verbose = TRUE, ...) {
@@ -119,9 +120,7 @@ lunSimulate <- function(params = newLunParams(), verbose = TRUE, ...) {
     sim <- newSCESet(countData = counts, phenoData = phenos,
                      featureData = features)
 
-    rownames(cell.means) <- gene.names
-    colnames(cell.means) <- cell.names
-    assayData(sim)$CellMeans <- cell.means
+    set_exprs(sim, "CellMeans") <- cell.means
 
     if (nGroups > 1) {
         pData(sim)$Group <- groups

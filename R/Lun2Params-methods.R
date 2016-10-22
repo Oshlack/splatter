@@ -1,4 +1,5 @@
 #' @rdname newParams
+#' @importFrom methods new
 #' @export
 newLun2Params <- function(...) {
 
@@ -52,6 +53,7 @@ setValidity("Lun2Params", function(object) {
 })
 
 #' @rdname setParam
+#' @importFrom methods slotNames
 setMethod("setParam", "Lun2Params", function(object, name, value) {
     checkmate::assertString(name)
 

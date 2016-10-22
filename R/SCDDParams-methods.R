@@ -1,6 +1,7 @@
 #' @rdname newParams
-#' @export
 #' @importFrom utils data
+#' @importFrom methods new
+#' @export
 newSCDDParams <- function(...) {
 
     if (!requireNamespace("scDD", quietly = TRUE)) {

@@ -1,4 +1,5 @@
 #' @rdname newParams
+#' @importFrom methods new
 #' @export
 newLunParams <- function(...) {
 

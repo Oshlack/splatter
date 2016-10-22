@@ -240,7 +240,7 @@ head(pData(sim))
 # Gene by cell matrices
 names(assayData(sim))
 # Example of cell means matrix
-assayData(sim)$CellMeans[1:5, 1:5]
+get_exprs(sim, "CellMeans")[1:5, 1:5]
 # Access the counts
 counts(sim)[1:5, 1:5]
 ```
