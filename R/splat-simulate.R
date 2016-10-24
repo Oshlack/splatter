@@ -704,7 +704,7 @@ bridge <- function (x = 0, y = 0, N = 5, n = 100, sigma.fac = 0.8) {
     X <- c(0, cumsum(rnorm(N - 1, sd = sigma2) * sqrt(dt)))
     BB <- x + X - t * (X[N] - y + x)
     BB <- akima::aspline(BB, n = n)$y
-    BB[BB < 0] <- 0
+    BB[BB < 0] <- 1e-6
 
     return(BB)
 }

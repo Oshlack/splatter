@@ -1,3 +1,7 @@
+# splatter 0.11.1
+
+* Fix bug in splatSimulatePaths that caused NAs
+
 # splatter 0.11.0
 
 * Make compatible with Bioconductor 3.4
