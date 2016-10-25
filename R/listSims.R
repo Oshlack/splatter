@@ -12,18 +12,18 @@
 #' @export
 listSims <- function(print = TRUE) {
 
-    sims <- list(c("Splatter", "splat", "", "",
-                   "The Splatter simulation generates means from a gamma
+    sims <- list(c("Splat", "splat", "", "",
+                   "The Splat simulation generates means from a gamma
                    distribution, adjusts them for BCV and generates counts from
                    a gamma-poisson. Dropout can be optionally added."),
-                 c("Splatter Single", "splatSingle", "", "",
-                   "The Splatter simulation with a single population."),
-                 c("Splatter Groups", "splatGroups", "", "",
-                   "The Splatter simulation with multiple groups. Each group can
+                 c("Splat Single", "splatSingle", "", "",
+                   "The Splat simulation with a single population."),
+                 c("Splat Groups", "splatGroups", "", "",
+                   "The Splat simulation with multiple groups. Each group can
                    have it's own differential expression probability and
                    fold change distribution."),
-                 c("Splatter Paths", "splatPaths", "", "",
-                   "The Splatter simulation with differentiation paths. Each
+                 c("Splat Paths", "splatPaths", "", "",
+                   "The Splat simulation with differentiation paths. Each
                    path can have it's own length, skew and probability. Genes
                    can change in non-linear ways."),
                  c("Simple", "simple", "", "",
