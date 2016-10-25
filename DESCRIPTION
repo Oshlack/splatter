@@ -27,7 +27,8 @@ Imports:
     Biobase,
     checkmate,
     methods,
-    utils
+    utils,
+    matrixStats
 Suggests:
     testthat,
     scran,

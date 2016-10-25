@@ -1,3 +1,44 @@
+#' Compare SCESet objects
+#'
+#' Combine the data from several SCESet objects and produce some basic plots
+#' comparing.
+#'
+#' @param sces named list of SCESet objects to combine and compare.
+#'
+#' @details
+#' The return list has three items:
+#'
+#' \describe{
+#'   \item{\code{FeatureData}}{Combined feature data from the provided SCESets.}
+#'   \item{\code{PhenoData}}{Combined pheno data from the provided SCESets.}
+#'   \item{\code{Plots}}{Comparison plots
+#'     \describe{
+#'       \item{\code{Means}}{Violin plot of mean distribution.}
+#'       \item{\code{Variances}}{Violin plot of variance distribution.}
+#'       \item{\code{MeanVar}}{Scatter plot with fitted lines showing the
+#'       mean-variance relationship.}
+#'       \item{\code{LibraySizes}}{Boxplot of the library size distribution.}
+#'       \item{\code{ZerosGene}}{Boxplot of the percentage of each gene that is
+#'       zero.}
+#'       \item{\code{ZerosCell}}{Boxplot of the percentage of each cell that is
+#'       zero.}
+#'     }
+#'   }
+#' }
+#'
+#' The plots returned by this function are created using
+#' \code{\link[ggplot2]{ggplot}} and are only a sample of the kind of plots you
+#' might like to consider. The data used to create these plots is also returned
+#' and should be in the correct format to allow you to create further plots
+#' using \code{\link[ggplot2]{ggplot}}.
+#'
+#' @return List containing the combined datasets and plots.
+#' @examples
+#' sim1 <- splatSimulate(nGenes = 1000, nCells = 20)
+#' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
+#' comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
+#' names(comparison)
+#' names(comparison$Plots)
 compareSCESets <- function(sces) {
 
     checkmate::assertList(sces, types = "SCESet", any.missing = FALSE,
@@ -88,61 +129,4 @@ compareSCESets <- function(sces) {
                                     ZerosCell = z.cell))
 
     return(comparison)
-}
-
-rbindMatched <- function(df1, df2) {
-    common.names <- intersect(colnames(df1), colnames(df2))
-    combined <- rbind(df1[, common.names], df2[, common.names])
-
-    return(combined)
-}
-
-addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
-                         log = FALSE, offset = 1, no.zeros = FALSE) {
-
-    value <- match.arg(value)
-
-    switch(value,
-           counts = {
-               values = scater::counts(sce)
-           },
-           cpm = {
-               values = scater::cpm(sce)
-           },
-           tpm = {
-               values = scater::tpm(sce)
-           },
-           fpkm = {
-               values = scater::fpkm(sce)
-           }
-    )
-
-    suffix = value
-
-    if (no.zeros) {
-        values[values == 0] <- NA
-        suffix = paste0(suffix, "_no0")
-    }
-
-    if (log) {
-        values = log2(values + offset)
-        suffix = paste0("log_", suffix)
-    }
-
-    mean.str <- paste0("mean_", suffix)
-    var.str  <- paste0("var_",  suffix)
-    cv.str   <- paste0("cv_",   suffix)
-    med.str  <- paste0("med_",  suffix)
-    mad.str  <- paste0("mad_",  suffix)
-
-    Biobase::fData(sce)[, mean.str] <- rowMeans(values, na.rm = TRUE)
-    Biobase::fData(sce)[, var.str]  <- matrixStats::rowVars(values,
-                                                            na.rm = TRUE)
-    Biobase::fData(sce)[, cv.str]   <- sqrt(Biobase::fData(sce)[, var.str]) /
-        Biobase::fData(sce)[, mean.str]
-    Biobase::fData(sce)[, med.str]  <- matrixStats::rowMedians(values,
-                                                               na.rm = TRUE)
-    Biobase::fData(sce)[, mad.str]  <- matrixStats::rowMads(values,
-                                                            na.rm = TRUE)
-    return(sce)
 }
