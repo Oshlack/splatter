@@ -1,7 +1,7 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 0.11.3
+Version: 0.11.4
 Date: 2016-10-25
 Author: Luke Zappia
 Authors@R: as.person(c(
@@ -29,7 +29,8 @@ Imports:
     methods,
     utils,
     matrixStats,
-    ggplot2
+    ggplot2,
+    scales
 Suggests:
     testthat,
     scran,

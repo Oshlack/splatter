@@ -26,7 +26,7 @@ setValidity("LunParams", function(object) {
                 count.disp = checkNumber(v$count.disp, lower = 0),
                 de.nGenes = checkIntegerish(v$de.nGenes, lower = 0,
                                             len = nGroups),
-                de.upProb = checkNumeric(v$de.upProb, lower = 0, upper = 1,
+                de.upProp = checkNumeric(v$de.upProp, lower = 0, upper = 1,
                                          len = nGroups),
                 de.upFC = checkNumeric(v$de.upFC, lower = 0,
                                        len = nGroups),

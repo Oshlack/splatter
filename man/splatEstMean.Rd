@@ -2,7 +2,7 @@
 % Please edit documentation in R/splat-estimate.R
 \name{splatEstMean}
 \alias{splatEstMean}
-\title{Estimate Splatter mean parameters}
+\title{Estimate Splat mean parameters}
 \usage{
 splatEstMean(norm.counts, params)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/splat-estimate.R
 \name{splatEstDropout}
 \alias{splatEstDropout}
-\title{Estimate Splatter dropout parameters}
+\title{Estimate Splat dropout parameters}
 \usage{
 splatEstDropout(norm.counts, params)
 }

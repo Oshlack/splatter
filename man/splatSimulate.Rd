@@ -5,7 +5,7 @@
 \alias{splatSimulateGroups}
 \alias{splatSimulatePaths}
 \alias{splatSimulateSingle}
-\title{Splatter simulation}
+\title{Splat simulation}
 \usage{
 splatSimulate(params = newSplatParams(), method = c("single", "groups",
   "paths"), verbose = TRUE, ...)
@@ -36,7 +36,7 @@ values.
 }
 \description{
 Simulate count data from a fictional single-cell RNA-seq experiment using
-the Splatter method.
+the Splat method.
 }
 \details{
 Parameters can be set in a variety of ways. If no parameters are provided
