@@ -4,6 +4,8 @@
 [![Coverage Status](https://img.shields.io/codecov/c/github/Oshlack/splatter/master.svg)](https://codecov.io/github/Oshlack/splatter?branch=master)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/Oshlack/splatter?branch=master&svg=true)](https://ci.appveyor.com/project/Oshlack/splatter)
 
+![Splatter logo](https://s16.postimg.org/xc6u52b0l/splatter_logo_small.png)
+
 Splatter is an R package for the simple simulation of single-cell RNA sequencing
 data. Splatter provides a common interface that has:
 
