@@ -39,6 +39,9 @@
 #' comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
 #' names(comparison)
 #' names(comparison$Plots)
+#' @importFrom ggplot2 ggplot aes geom_point geom_smooth geom_boxplot
+#' geom_violin scale_y_continuous scale_y_log10 xlab ylab ggtitle theme_minimal
+#' @export
 compareSCESets <- function(sces) {
 
     checkmate::assertList(sces, types = "SCESet", any.missing = FALSE,
@@ -74,8 +77,7 @@ compareSCESets <- function(sces) {
         geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) +
         ylab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
         ggtitle("Distribution of mean expression") +
-        theme_minimal() +
-        theme(legend.position = "none")
+        theme_minimal()
 
     vars <- ggplot(fData.all,
                    aes(x = Dataset, y = var_cpm, colour = Dataset)) +

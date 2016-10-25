@@ -44,28 +44,29 @@ These steps will be explained in detail in the following sections but briefly
 the first step takes a dataset and estimates simulation parameters from it and
 the second step takes those parameters and simulates a new dataset.
 
-# The Splatter model
+# The Splat simulation
 
 Before we look at how we estimate parameters let's first look at how Splatter
-simulates data and what those parameters are. The core of the Splatter model is
-a gamma-Poisson distribution used to generate a gene by cell matrix of counts.
-Mean expression levels for each gene are simulated from a
-[gamma distribution][gamma] and the Biological Coefficient of Variation is used
-to enforce a mean-variance trend before counts are simulated from a
-[Poisson distribution][poisson]. Splatter also allows you to simulate
+simulates data and what those parameters are. We use the term 'Splat' to refer
+to the Splatter's own simulation and differentiate it from the package itself.
+The core of the Splat model is a gamma-Poisson distribution used to generate a
+gene by cell matrix of counts. Mean expression levels for each gene are
+simulated from a [gamma distribution][gamma] and the Biological Coefficient of
+Variation is used to enforce a mean-variance trend before counts are simulated
+from a [Poisson distribution][poisson]. Splat also allows you to simulate
 expression outlier genes (genes with mean expression outside the gamma
 distribution) and dropout (random knock out of counts based on mean expression).
 Each cell is given an expected library size (simulated from a log-normal
 distribution) that makes it easier to match to a given dataset.
 
-Splatter can also simulate differential expression between groups of different
+Splat can also simulate differential expression between groups of different
 types of cells or differentiation paths between different cells types where
 expression changes in a continuous way. These are described further in the
 [simulating counts] section.
 
 ## Parameters
 
-The parameters required by Splatter are briefly described here:
+The parameters required for the Splat simulation are briefly described here:
 
 * **Global parameters**
     * `nGenes` - The number of genes to simulate.
@@ -122,7 +123,7 @@ many of the parameters from real data. For more details on the parameters see
 
 # The `SplatParams` object
 
-All the parameters for the Splatter simulations are stored in a `SplatParams`
+All the parameters for the Splat simulation are stored in a `SplatParams`
 object. Let's create a new one and see what it looks like.
 
 ```{r SplatParams}
@@ -179,8 +180,8 @@ getParams(params, c("lib.loc", "lib.scale"))
 
 # Estimating parameters
 
-Splatter allows you to estimate many of it's parameters from a data set
-containing counts using the `splatEstimate` function.
+Splat allows you to estimate many of it's parameters from a data set containing
+counts using the `splatEstimate` function.
 
 ```{r splatEstimate}
 # Check that sc_example counts is an integer matrix
@@ -366,6 +367,44 @@ detailed information on each simulation see the appropriate help page (eg.
 `?simpleSimulate` for information on how the simple simulation works or
 `?lun2Estimate` for details of how the Lun 2 simulation estimates
 parameters) or refer to the appropriate paper or package.
+
+# Comparing simulations and real data
+
+One thing you might like to do after simulating data is to compare it to a real
+dataset, or compare simulations with different parameters or models. Splatter
+provides a function `compareSCESets` that aims to make these comparisons easier.
+As the name suggests this function takes a list of `SCESet` objects, combines
+the datasets and produces some plots comparing them. Let's make two small
+simulations and see how they compare.
+
+```{r comparison}
+sim1 <- splatSimulate(nGenes = 1000, groupCells = 20, verbose = FALSE)
+sim2 <- simpleSimulate(nGenes = 1000, nCells = 20, verbose = FALSE)
+comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
+
+names(comparison)
+names(comparison$Plots)
+```
+
+The returned list has three items. The first two are the combined datasets by
+gene (`FeatureData`) and by cell (`PhenoData`) and the third contains some
+comparison plots (produced using `ggplot2`), for example a plot of the
+distribution of means:
+
+```{r comparison-means}
+comparison$Plots$Means
+```
+
+These are only a few of the plots you might want to consider but it should be
+easy to make more using the returned data. For example, we could plot the
+number of expressed genes against the library size:
+
+```{r comparison-libsize-features}
+library("ggplot2")
+ggplot(comparison$PhenoData,
+       aes(x = total_counts, y = total_features, colour = Dataset)) +
+    geom_point()
+```
 
 # Session information {-}
 
