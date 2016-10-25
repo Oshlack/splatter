@@ -1,8 +1,8 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 0.11.1
-Date: 2016-10-24
+Version: 0.12.0
+Date: 2016-10-25
 Author: Luke Zappia
 Authors@R: as.person(c(
     "Luke Zappia <luke.zappia@mcri.edu.au> [aut, cre]",
@@ -27,7 +27,10 @@ Imports:
     Biobase,
     checkmate,
     methods,
-    utils
+    utils,
+    matrixStats,
+    ggplot2,
+    scales
 Suggests:
     testthat,
     scran,

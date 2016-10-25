@@ -2,7 +2,7 @@
 % Please edit documentation in R/splat-estimate.R
 \name{splatEstOutlier}
 \alias{splatEstOutlier}
-\title{Estimate Splatter expression outlier parameters}
+\title{Estimate Splat expression outlier parameters}
 \usage{
 splatEstOutlier(norm.counts, params)
 }

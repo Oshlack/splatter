@@ -2,7 +2,7 @@
 % Please edit documentation in R/splat-estimate.R
 \name{splatEstBCV}
 \alias{splatEstBCV}
-\title{Estimate Splatter Biological Coefficient of Variation parameters}
+\title{Estimate Splat Biological Coefficient of Variation parameters}
 \usage{
 splatEstBCV(counts, params)
 }

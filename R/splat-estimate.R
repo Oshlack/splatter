@@ -1,6 +1,6 @@
-#' Estimate Splatter simulation parameters
+#' Estimate Splat simulation parameters
 #'
-#' Estimate simulation parameters for the Splatter simulation from a real
+#' Estimate simulation parameters for the Splat simulation from a real
 #' dataset. See the individual estimation functions for more details on how this
 #' is done.
 #'
@@ -56,7 +56,7 @@ splatEstimate.matrix <- function(counts, params = newSplatParams()) {
     return(params)
 }
 
-#' Estimate Splatter mean parameters
+#' Estimate Splat mean parameters
 #'
 #' Estimate rate and shape parameters for the gamma distribution used to
 #' simulate gene expression means using the 'moment matching estimation' method
@@ -79,7 +79,7 @@ splatEstMean <- function(norm.counts, params) {
     return(params)
 }
 
-#' Estimate Splatter library size parameters
+#' Estimate Splat library size parameters
 #'
 #' A log-normal distribution is fitted to the library sizes and the estimated
 #' parameters are added to the params object. See
@@ -100,7 +100,7 @@ splatEstLib <- function(counts, params) {
     return(params)
 }
 
-#' Estimate Splatter expression outlier parameters
+#' Estimate Splat expression outlier parameters
 #'
 #' Parameters are estimated by comparing means of individual genes to the
 #' median mean expression level.
@@ -149,7 +149,7 @@ splatEstOutlier <- function(norm.counts, params) {
     return(params)
 }
 
-#' Estimate Splatter Biological Coefficient of Variation parameters
+#' Estimate Splat Biological Coefficient of Variation parameters
 #'
 #' Parameters are estimated using the \code{estimateDisp} function in the
 #' \code{edgeR} package. Specifically the common dispersion and prior degrees
@@ -171,7 +171,7 @@ splatEstBCV <- function(counts, params) {
     return(params)
 }
 
-#' Estimate Splatter dropout parameters
+#' Estimate Splat dropout parameters
 #'
 #' Estimate the midpoint and shape parameters for the logistic function used
 #' when simulating dropout. Also estimates whether dropout is likely to be

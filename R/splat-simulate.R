@@ -1,7 +1,7 @@
-#' Splatter simulation
+#' Splat simulation
 #'
 #' Simulate count data from a fictional single-cell RNA-seq experiment using
-#' the Splatter method.
+#' the Splat method.
 #'
 #' @param params SplatParams object containing parameters for the simulation.
 #'        See \code{\link{SplatParams}} for details.

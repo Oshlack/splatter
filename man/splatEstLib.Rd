@@ -2,7 +2,7 @@
 % Please edit documentation in R/splat-estimate.R
 \name{splatEstLib}
 \alias{splatEstLib}
-\title{Estimate Splatter library size parameters}
+\title{Estimate Splat library size parameters}
 \usage{
 splatEstLib(counts, params)
 }

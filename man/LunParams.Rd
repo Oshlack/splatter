@@ -38,7 +38,7 @@ The Lun simulation uses the following parameters:
     \describe{
       \item{\code{[de.nGenes]}}{The number of genes that are differentially
       expressed in each group}
-      \item{\code{[de.upProb]}}{The proportion of differentially expressed
+      \item{\code{[de.upProp]}}{The proportion of differentially expressed
       genes that are up-regulated in each group}
       \item{\code{[de.upFC]}}{The fold change for up-regulated genes}
       \item{\code{[de.downFC]}}{The fold change for down-regulated genes}

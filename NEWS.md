@@ -1,3 +1,10 @@
+# splatter 0.12.0
+
+* Add compareSCESets function
+* Update vignette
+* Fix LunParams validity bug
+* Add logo
+
 # splatter 0.11.1
 
 * Fix bug in splatSimulatePaths that caused NAs
