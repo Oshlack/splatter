@@ -10,7 +10,7 @@ newLunParams <- function(...) {
 }
 
 #' @importFrom checkmate checkInt checkIntegerish checkNumber checkNumeric
-setValidity("SimpleParams", function(object) {
+setValidity("LunParams", function(object) {
 
     object <- expandParams(object)
     v <- getParams(object, slotNames(object))
