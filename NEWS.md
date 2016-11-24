@@ -1,3 +1,8 @@
+# splatter 0.12.1
+
+* Fix bug in compareSCESets
+* Dataset order is now kept in plots
+
 # splatter 0.12.0
 
 * Add compareSCESets function

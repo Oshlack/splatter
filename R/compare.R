@@ -62,16 +62,18 @@ compareSCESets <- function(sces) {
     }
 
     fData.all <- fData(sces[[1]])
-    fData.all$Dataset <- names(sces)[[1]]
     pData.all <- pData(sces[[1]])
-    pData.all$Dataset <- names(sces)[[1]]
 
     if (length(sces) > 1) {
         for (name in names(sces)[-1]) {
+            sce <- sces[[name]]
             fData.all <- rbindMatched(fData.all, fData(sce))
             pData.all <- rbindMatched(pData.all, pData(sce))
         }
     }
+
+    fData.all$Dataset <- factor(fData.all$Dataset, levels = names(sces))
+    pData.all$Dataset <- factor(pData.all$Dataset, levels = names(sces))
 
     means <- ggplot(fData.all,
                     aes(x = Dataset, y = mean_log_cpm, colour = Dataset)) +
