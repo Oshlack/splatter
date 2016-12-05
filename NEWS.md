@@ -1,3 +1,7 @@
+# splatter 0.99.0
+
+* Submit to Bioconductor
+
 # splatter 0.12.1
 
 * Fix bug in compareSCESets
