@@ -46,7 +46,7 @@ Remotes:
     kdkorthauer/scDD
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software
-URL: https://github.com/lazappi/splatter
-BugReports: https://github.com/lazappi/splatter/issues
+URL: https://github.com/Oshlack/splatter
+BugReports: https://github.com/Oshlack/splatter/issues
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr
