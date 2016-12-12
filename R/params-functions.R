@@ -105,6 +105,8 @@ setParamsUnchecked <- function(params, update = NULL, ...) {
 #' @param params object to show.
 #' @param pp list specifying how the object should be displayed.
 #'
+#' @return Print params object to console
+#'
 #' @importFrom utils head
 showPP <- function(params, pp) {
 
@@ -132,28 +134,3 @@ showPP <- function(params, pp) {
         cat("\n")
     }
 }
-
-# mergeParams <- function(params1, params2) {
-#
-#     if (class(params1) != class(params2)) {
-#         stop("params1 and params2 must be of the same Params class")
-#     }
-#
-#     default <- new(class(params1))
-#
-#     update <- list()
-#     for (parameter in slotNames(params1)) {
-#         value1 <- getParam(params1, parameter)
-#         default.value <- getParam(default, parameter)
-#         if (value1 == default.value) {
-#             value2 <- getParam(params2, parameter)
-#             update[[parameter]] <- value2
-#         } else {
-#             update[[parameter]] <- value1
-#         }
-#     }
-#
-#     merged <- setParams(default, update)
-#
-#     return(merged)
-# }

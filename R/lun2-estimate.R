@@ -39,6 +39,7 @@ lun2Estimate.SCESet <- function(counts, plates, params = newLun2Params(),
 
 #' @rdname lun2Estimate
 #' @importFrom stats model.matrix
+#' @importFrom locfit locfit
 #' @export
 lun2Estimate.matrix <- function(counts, plates, params = newLun2Params(),
                                 min.size = 200, verbose = TRUE) {
@@ -125,11 +126,12 @@ lun2Estimate.matrix <- function(counts, plates, params = newLun2Params(),
     collected <- lapply(seq_len(nrow(dge)), function(i) {
         if (progress) {pb$tick()}
         tryCatch({
-            out <- lme4::glmer(Counts ~ 0 + (1 | Plate) + offset(log(sum.facs)),
-                               data = data.frame(Counts = as.integer(counts[i, ]),
-                                                 Group = groups,
-                                                 Plate = plates),
-                               family = lme4::negative.binomial(1 / dge$tagwise[i]))
+            out <- lme4::glmer(
+                       Counts ~ 0 + (1 | Plate) + offset(log(sum.facs)),
+                       data = data.frame(Counts = as.integer(counts[i, ]),
+                                         Group = groups,
+                                         Plate = plates),
+                       family = lme4::negative.binomial(1 / dge$tagwise[i]))
             output <- unlist(lme4::VarCorr(out))
             return(output)
         }, error = function(err) {

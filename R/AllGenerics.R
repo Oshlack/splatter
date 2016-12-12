@@ -22,6 +22,10 @@ NULL
 #'
 #' @return The extracted parameter value
 #'
+#' @examples
+#' params <- newSimpleParams()
+#' getParam(params, "nGenes")
+#'
 #' @rdname getParam
 #' @export
 setGeneric("getParam", function(object, name) {standardGeneric("getParam")})
@@ -36,10 +40,14 @@ setGeneric("getParam", function(object, name) {standardGeneric("getParam")})
 #'
 #' @return Object with new parameter value.
 #'
+#' @examples
+#' params <- newSimpleParams()
+#' setParam(params, "nGenes", 100)
+#'
 #' @rdname setParam
 #' @export
 setGeneric("setParam",
-           function(object, name, value) {
+          function(object, name, value) {
                standardGeneric("setParam")
 })
 

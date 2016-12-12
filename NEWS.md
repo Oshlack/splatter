@@ -1,3 +1,7 @@
+# splatter 0.99.1
+
+* Address Biocondutor build warnings, notes
+
 # splatter 0.99.0
 
 * Submit to Bioconductor

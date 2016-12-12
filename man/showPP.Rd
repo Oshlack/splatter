@@ -11,6 +11,9 @@ showPP(params, pp)
 
 \item{pp}{list specifying how the object should be displayed.}
 }
+\value{
+Print params object to console
+}
 \description{
 Function used for pretty printing params object.
 }

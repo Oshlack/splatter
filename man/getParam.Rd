@@ -21,4 +21,9 @@ The extracted parameter value
 \description{
 Accessor function for getting parameter values.
 }
+\examples{
+params <- newSimpleParams()
+getParam(params, "nGenes")
+
+}
 

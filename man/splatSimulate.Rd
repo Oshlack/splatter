@@ -49,14 +49,14 @@ can be used.
 
 The simulation involves the following steps:
 \enumerate{
-  \item Set up simulation object
-  \item Simulate library sizes
-  \item Simulate gene means
-  \item Simulate groups/paths
-  \item Simulate BCV adjusted cell means
-  \item Simulate true counts
-  \item Simulate dropout
-  \item Create final SCESet object
+    \item Set up simulation object
+    \item Simulate library sizes
+    \item Simulate gene means
+    \item Simulate groups/paths
+    \item Simulate BCV adjusted cell means
+    \item Simulate true counts
+    \item Simulate dropout
+    \item Create final SCESet object
 }
 
 The final output is an \code{\link[scater]{SCESet}} object that contains the
@@ -66,41 +66,41 @@ information), \code{\link[Biobase]{featureData}} (for gene specific
 information) or \code{\link[Biobase]{assayData}} (for gene by cell matrices)
 slots. This additional information includes:
 \describe{
-  \item{\code{phenoData}}{
-    \describe{
-      \item{Cell}{Unique cell identifier.}
-      \item{Group}{The group or path the cell belongs to.}
-      \item{ExpLibSize}{The expected library size for that cell.}
-      \item{Step (paths only)}{how far along the path each cell is.}
+    \item{\code{phenoData}}{
+        \describe{
+            \item{Cell}{Unique cell identifier.}
+            \item{Group}{The group or path the cell belongs to.}
+            \item{ExpLibSize}{The expected library size for that cell.}
+            \item{Step (paths only)}{how far along the path each cell is.}
+        }
     }
-  }
-  \item{\code{featureData}}{
-    \describe{
-      \item{Gene}{Unique gene identifier.}
-      \item{BaseGeneMean}{The base expression level for that gene.}
-      \item{OutlierFactor}{Expression outlier factor for that gene. Values
-      of 1 indicate the gene is not an expression outlier.}
-      \item{GeneMean}{Expression level after applying outlier factors.}
-      \item{DEFac[Group]}{The differential expression factor for each gene
-      in a particular group. Values of 1 indicate the gene is not
-      differentially expressed.}
-      \item{GeneMean[Group]}{Expression level of a gene in a particular
-      group after applying differential expression factors.}
+    \item{\code{featureData}}{
+        \describe{
+            \item{Gene}{Unique gene identifier.}
+            \item{BaseGeneMean}{The base expression level for that gene.}
+            \item{OutlierFactor}{Expression outlier factor for that gene. Values
+            of 1 indicate the gene is not an expression outlier.}
+            \item{GeneMean}{Expression level after applying outlier factors.}
+            \item{DEFac[Group]}{The differential expression factor for each gene
+            in a particular group. Values of 1 indicate the gene is not
+            differentially expressed.}
+            \item{GeneMean[Group]}{Expression level of a gene in a particular
+            group after applying differential expression factors.}
+        }
     }
-  }
-  \item{\code{assayData}}{
-    \describe{
-      \item{BaseCellMeans}{The expression of genes in each cell adjusted for
-      expected library size.}
-      \item{BCV}{The Biological Coefficient of Variation for each gene in
-      each cell.}
-      \item{CellMeans}{The expression level of genes in each cell adjusted
-      for BCV.}
-      \item{TrueCounts}{The simulated counts before dropout.}
-      \item{Dropout}{Logical matrix showing which values have been dropped
-      in which cells.}
+    \item{\code{assayData}}{
+        \describe{
+            \item{BaseCellMeans}{The expression of genes in each cell adjusted for
+            expected library size.}
+            \item{BCV}{The Biological Coefficient of Variation for each gene in
+            each cell.}
+            \item{CellMeans}{The expression level of genes in each cell adjusted
+            for BCV.}
+            \item{TrueCounts}{The simulated counts before dropout.}
+            \item{Dropout}{Logical matrix showing which values have been dropped
+            in which cells.}
+        }
     }
-  }
 }
 
 Values that have been added by Splatter are named using \code{CamelCase} in

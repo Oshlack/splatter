@@ -14,9 +14,9 @@ Virtual S4 class that all other Params classes inherit from.
 The Params class defines the following parameters:
 
 \describe{
-  \item{\code{[nGenes]}}{The number of genes to simulate.}
-  \item{\code{[nCells]}}{The number of cells to simulate.}
-  \item{\code{seed}}{Seed to use for generating random numbers.}
+    \item{\code{[nGenes]}}{The number of genes to simulate.}
+    \item{\code{[nCells]}}{The number of cells to simulate.}
+    \item{\code{seed}}{Seed to use for generating random numbers.}
 }
 
 The parameters shown in brackets can be estimated from real data.

@@ -35,4 +35,9 @@ Object with new parameter value.
 \description{
 Function for setting parameter values.
 }
+\examples{
+params <- newSimpleParams()
+setParam(params, "nGenes", 100)
+
+}
 

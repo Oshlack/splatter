@@ -20,19 +20,21 @@ comparing.
 The return list has three items:
 
 \describe{
-  \item{\code{FeatureData}}{Combined feature data from the provided SCESets.}
-  \item{\code{PhenoData}}{Combined pheno data from the provided SCESets.}
-  \item{\code{Plots}}{Comparison plots
-    \describe{
-      \item{\code{Means}}{Violin plot of mean distribution.}
-      \item{\code{Variances}}{Violin plot of variance distribution.}
-      \item{\code{MeanVar}}{Scatter plot with fitted lines showing the
-      mean-variance relationship.}
-      \item{\code{LibraySizes}}{Boxplot of the library size distribution.}
-      \item{\code{ZerosGene}}{Boxplot of the percentage of each gene that is
-      zero.}
-      \item{\code{ZerosCell}}{Boxplot of the percentage of each cell that is
-      zero.}
+    \item{\code{FeatureData}}{Combined feature data from the provided
+    SCESets.}
+    \item{\code{PhenoData}}{Combined pheno data from the provided SCESets.}
+    \item{\code{Plots}}{Comparison plots
+        \describe{
+            \item{\code{Means}}{Violin plot of mean distribution.}
+            \item{\code{Variances}}{Violin plot of variance distribution.}
+            \item{\code{MeanVar}}{Scatter plot with fitted lines showing the
+            mean-variance relationship.}
+            \item{\code{LibraySizes}}{Boxplot of the library size
+            distribution.}
+            \item{\code{ZerosGene}}{Boxplot of the percentage of each gene
+            that is zero.}
+            \item{\code{ZerosCell}}{Boxplot of the percentage of each cell
+            that is zero.}
     }
   }
 }
