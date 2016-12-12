@@ -435,6 +435,8 @@ splatSimPathCellMeans <- function(sim, params) {
 
     nGenes <- getParam(params, "nGenes")
     nGroups <- getParam(params, "nGroups")
+    cell.names <- pData(sim)$Cell
+    gene.names <- fData(sim)$Gene
     group.cells <- getParam(params, "groupCells")
     path.from <- getParam(params, "path.from")
     path.length <- getParam(params, "path.length")
@@ -493,6 +495,9 @@ splatSimPathCellMeans <- function(sim, params) {
     cell.props.gene <- t(t(cell.means.gene) / colSums(cell.means.gene))
     base.means.cell <- t(t(cell.props.gene) * exp.lib.sizes)
 
+    colnames(base.means.cell) <- cell.names
+    rownames(base.means.cell) <- gene.names
+
     pData(sim)$Step <- unlist(cell.steps)
     set_exprs(sim, "BaseCellMeans") <- base.means.cell
 
@@ -515,6 +520,8 @@ splatSimPathCellMeans <- function(sim, params) {
 #' @importFrom stats rchisq rgamma
 splatSimBCVMeans <- function(sim, params) {
 
+    cell.names <- pData(sim)$Cell
+    gene.names <- fData(sim)$Gene
     nGenes <- getParam(params, "nGenes")
     nCells <- getParam(params, "nCells")
     bcv.common <- getParam(params, "bcv.common")
@@ -527,6 +534,9 @@ splatSimBCVMeans <- function(sim, params) {
     means.cell <- matrix(rgamma(nGenes * nCells, shape = 1 / (bcv ^ 2),
                                 scale = base.means.cell * (bcv ^ 2)),
                          nrow = nGenes, ncol = nCells)
+
+    colnames(means.cell) <- cell.names
+    rownames(means.cell) <- gene.names
 
     set_exprs(sim, "BCV") <- bcv
     set_exprs(sim, "CellMeans") <- means.cell
@@ -550,12 +560,17 @@ splatSimBCVMeans <- function(sim, params) {
 #' @importFrom stats rpois
 splatSimTrueCounts <- function(sim, params) {
 
+    cell.names <- pData(sim)$Cell
+    gene.names <- fData(sim)$Gene
     nGenes <- getParam(params, "nGenes")
     nCells <- getParam(params, "nCells")
     cell.means <- get_exprs(sim, "CellMeans")
 
     true.counts <- matrix(rpois(nGenes * nCells, lambda = cell.means),
                           nrow = nGenes, ncol = nCells)
+
+    colnames(true.counts) <- cell.names
+    rownames(true.counts) <- gene.names
 
     set_exprs(sim, "TrueCounts") <- true.counts
 
@@ -583,6 +598,8 @@ splatSimDropout <- function(sim, params) {
     true.counts <- get_exprs(sim, "TrueCounts")
 
     if (dropout.present) {
+        cell.names <- pData(sim)$Cell
+        gene.names <- fData(sim)$Gene
         nCells <- getParam(params, "nCells")
         nGenes <- getParam(params, "nGenes")
         dropout.mid <- getParam(params, "dropout.mid")
@@ -602,6 +619,11 @@ splatSimDropout <- function(sim, params) {
                        nrow = nGenes, ncol = nCells)
 
         counts <- true.counts * keep
+
+        colnames(drop.prob) <- cell.names
+        rownames(drop.prob) <- gene.names
+        colnames(keep) <- cell.names
+        rownames(keep) <- gene.names
 
         set_exprs(sim, "DropProb") <- drop.prob
         set_exprs(sim, "Dropout") <- !keep

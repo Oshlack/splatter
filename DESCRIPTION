@@ -1,8 +1,8 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 0.99.1
-Date: 2016-12-12
+Version: 0.99.2
+Date: 2016-12-13
 Author: Luke Zappia
 Authors@R:
     c(person("Luke", "Zappia", role = c("aut", "cre"),
@@ -18,7 +18,7 @@ Description: Splatter is a package for the simulation of single-cell RNA
 License: GPL-3 + file LICENSE
 LazyData: TRUE
 Depends:
-    R (>= 3.3),
+    R (>= 3.4),
     scater
 Imports:
     fitdistrplus,

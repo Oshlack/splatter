@@ -1,3 +1,8 @@
+# splatter 0.99.2
+
+* Add rownames, colnames to matrices in splatSimulate, lunSimulate
+* Bump R version to 3.4
+
 # splatter 0.99.1
 
 * Address Biocondutor build warnings, notes

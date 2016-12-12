@@ -120,6 +120,8 @@ lunSimulate <- function(params = newLunParams(), verbose = TRUE, ...) {
     sim <- newSCESet(countData = counts, phenoData = phenos,
                      featureData = features)
 
+    colnames(cell.means) <- cell.names
+    rownames(cell.means) <- gene.names
     set_exprs(sim, "CellMeans") <- cell.means
 
     if (nGroups > 1) {

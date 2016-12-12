@@ -18,7 +18,14 @@ Splatter is built on top of [`scater`][scater] and stores simulations in
 
 ## Installation.
 
-Splatter can be installed from Github using `biocLite`:
+### Development version
+
+Splatter is currently under consideration for acceptance into Bioconductor
+(you can follow the progress [here][contrib]) and hence requires the development
+version of R (>=3.4) and the development version of Bioconductor (3.5).
+
+If you have these installed Splatter can be installed from Github using
+`biocLite`:
 
 ```{r}
 source("https://bioconductor.org/biocLite.R")
@@ -34,6 +41,12 @@ command in RStudio. If you still have problems or want a quicker install
 ```{r}
 biocLite("Oshlack/splatter")
 ```
+### Release version
+
+The last version of Splatter that is compatible with the current version of
+R (3.3) is v0.99.0 which can be downloaded [here][rel33]. There are no
+significant changes to functionality and this version should be fine for most
+users until the next R/Bioconducor release.
 
 ## Getting started
 
@@ -47,3 +60,5 @@ browseVignettes("splatter")
 This is a detailed document that introduces the main features of Splatter.
 
 [scater]: https://github.com/davismcc/scater
+[contrib]: https://github.com/Bioconductor/Contributions/issues/209
+[rel33]: https://github.com/Oshlack/splatter/releases/tag/v0.99.0
