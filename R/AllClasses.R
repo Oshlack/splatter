@@ -387,7 +387,8 @@ setClass("Lun2Params",
 #'     \item{\code{[nGenes]}}{The number of genes to simulate (not used).}
 #'     \item{\code{nCells}}{The number of cells to simulate in each condition.}
 #'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
-#'     \item{\code{SCdat}}{\code{\link{SummarizedExperiment}} containing real
+#'     \item{\code{SCdat}}{
+#'     \code{\link[SummarizedExperiment]{SummarizedExperiment}} containing real
 #'     data.}
 #'     \item{\code{[nDE]}}{Number of DE genes to simulate.}
 #'     \item{\code{[nDP]}}{Number of DP genes to simulate.}

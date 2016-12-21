@@ -43,7 +43,9 @@ Suggests:
     knitr,
     rmarkdown,
     BiocStyle,
-    covr
+    covr,
+    S4Vectors,
+    SummarizedExperiment
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software
 URL: https://github.com/Oshlack/splatter

@@ -52,10 +52,13 @@ scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams()) {
     processed <- scDD::preprocess(counts.list, c("Cond1", "Cond2"),
                                   median_norm = TRUE)
 
-    names(conditions) <- colnames(processed)
-    pheno <- as(data.frame(condition = conditions), "AnnotatedDataFrame")
+    assays <- S4Vectors::SimpleList(NormCounts = processed)
 
-    SCdat <- Biobase::ExpressionSet(assayData = processed, phenoData = pheno)
+    colData <- S4Vectors::DataFrame(condition = conditions,
+                                    row.names = colnames(processed))
+
+    SCdat <- SummarizedExperiment::SummarizedExperiment(assays = assays,
+                                                        colData = colData)
 
     params <- setParams(params, nCells = round(dim(SCdat)[2] / 2),
                         SCdat = SCdat)
