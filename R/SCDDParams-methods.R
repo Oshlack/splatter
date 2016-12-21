@@ -26,7 +26,7 @@ setValidity("SCDDParams", function(object) {
     checks <- c(nGenes = checkInt(v$nGenes, lower = 1),
                 nCells = checkInt(v$nCells, lower = 1),
                 seed = checkInt(v$seed, lower = 0),
-                SCDat = checkClass(v$SCdat, "ExpressionSet"),
+                SCDat = checkClass(v$SCdat, "SummarizedExperiment"),
                 nDE = checkInt(v$nDE, lower = 0),
                 nDP = checkInt(v$nDP, lower = 0),
                 nDM = checkInt(v$nDM, lower = 0),
