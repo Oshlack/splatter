@@ -26,7 +26,7 @@ setValidity("SCDDParams", function(object) {
     checks <- c(nGenes = checkInt(v$nGenes, lower = 1),
                 nCells = checkInt(v$nCells, lower = 1),
                 seed = checkInt(v$seed, lower = 0),
-                SCDat = checkClass(v$SCdat, "ExpressionSet"),
+                SCDat = checkClass(v$SCdat, "SummarizedExperiment"),
                 nDE = checkInt(v$nDE, lower = 0),
                 nDP = checkInt(v$nDP, lower = 0),
                 nDM = checkInt(v$nDM, lower = 0),
@@ -35,11 +35,17 @@ setValidity("SCDDParams", function(object) {
                 nEP = checkInt(v$nEP, lower = 0),
                 sd.range = checkNumeric(v$sd.range, lower = 0, len = 2),
                 modeFC = checkNumeric(v$modeFC, lower = 0, len = 3),
-                varInflation = checkNumeric(v$varInflation, lower = 0, len = 2))
+                varInflation = checkNumeric(v$varInflation, lower = 0, len = 2),
+                condition = checkCharacter(v$condition, len = 1))
 
     if (v$nGenes != (v$nDE + v$nDP + v$nDM + v$nDB + v$nEE + v$nEP)) {
         checks <- c(checks, nGenes = paste("nGenes is not consistent with",
                                            "nDE, nDP, nDM, nDB, nEE, nEP"))
+    }
+
+    if (!(v$condition %in% colnames(SummarizedExperiment::colData(v$SCdat)))) {
+        checks <- c(checks, condition = paste("condition must be a column of",
+                                              "colData(SCDat)"))
     }
 
     if (all(checks == TRUE)) {
@@ -88,15 +94,16 @@ setMethod("show", "SCDDParams", function(object) {
                                   "[nEP]"       = "nEP"),
                "Fold change:" = c("[SD Range]"  = "sd.range",
                                   "[Mode FC]"   = "modeFC"),
-               "Variance:"    = c("[Inflation]" = "varInflation"))
+               "Variance:"    = c("[Inflation]" = "varInflation"),
+               "Condition:"   = c("[Condition]" = "condition"))
 
     callNextMethod()
 
     SCdat <- getParam(object, "SCdat")
     cat("Data:", "\n")
     cat("(SCdat)", "\n")
-    cat("ExpressionSet with", dim(SCdat)[1], "features and", dim(SCdat)[2],
-        "samples", "\n\n")
+    cat("SummarizedExperiment with", dim(SCdat)[1], "features and",
+        dim(SCdat)[2], "samples", "\n\n")
 
     showPP(object, pp)
 })

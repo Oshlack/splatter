@@ -18,7 +18,7 @@ knitr::opts_chunk$set(fig.align = 'center', fig.width = 6, fig.height = 5,
                       dev = 'png')
 ```
 
-![Splatter logo](https://s16.postimg.org/xc6u52b0l/splatter_logo_small.png)
+![Splatter logo](splatter-logo-small.png)
 
 Welcome to Splatter! Splatter is an R package for the simple simulation of
 single-cell RNA sequencing data. This vignette gives an overview and

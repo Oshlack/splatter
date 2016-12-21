@@ -1,3 +1,8 @@
+# splatter 0.99.3
+
+* Fix to match Bioconductor version of scDD
+* Add logo to repository
+
 # splatter 0.99.2
 
 * Add rownames, colnames to matrices in splatSimulate, lunSimulate

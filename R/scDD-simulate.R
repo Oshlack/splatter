@@ -59,7 +59,8 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
                                       plots = plots,
                                       plot.file = plot.file,
                                       random.seed = getParam(params, "seed"),
-                                      varInflation = varInflation)
+                                      varInflation = varInflation,
+                                      condition = getParam(params, "condition"))
     } else {
         suppressMessages(
         scDD.sim <- scDD::simulateSet(SCdat = getParam(params, "SCdat"),
@@ -75,7 +76,8 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
                                       plots = plots,
                                       plot.file = plot.file,
                                       random.seed = getParam(params, "seed"),
-                                      varInflation = varInflation)
+                                      varInflation = varInflation,
+                                      condition = getParam(params, "condition"))
         )
     }
 
