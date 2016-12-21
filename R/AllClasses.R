@@ -387,7 +387,8 @@ setClass("Lun2Params",
 #'     \item{\code{[nGenes]}}{The number of genes to simulate (not used).}
 #'     \item{\code{nCells}}{The number of cells to simulate in each condition.}
 #'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
-#'     \item{\code{SCdat}}{\code{\link{ExpressionSet}} containing real data.}
+#'     \item{\code{SCdat}}{\code{\link{SummarizedExperiment}} containing real
+#'     data.}
 #'     \item{\code{[nDE]}}{Number of DE genes to simulate.}
 #'     \item{\code{[nDP]}}{Number of DP genes to simulate.}
 #'     \item{\code{[nDM]}}{Number of DM genes to simulate.}
@@ -396,8 +397,10 @@ setClass("Lun2Params",
 #'     \item{\code{[nEP]}}{Number of EP genes to simulate.}
 #'     \item{\code{[sd.range]}}{Interval for fold change standard deviations.}
 #'     \item{\code{[modeFC]}}{Values for DP, DM and DB mode fold changes.}
-#'     \item{\code{[varInflation}]}{Variance inflation factors for each
-#'     condition.}
+#'     \item{\code{[varInflation]}}{Variance inflation factors for each
+#'     condition. If all equal to 1 will be set to \code{NULL} (default)}
+#'     \item{\code{[condition]}}{String giving the column that represents
+#'     biological group of interest}
 #' }
 #'
 #' The parameters not shown in brackets can be estimated from real data using
@@ -420,7 +423,8 @@ setClass("SCDDParams",
                    nEP = "numeric",
                    sd.range = "numeric",
                    modeFC = "numeric",
-                   varInflation = "numeric"),
+                   varInflation = "numeric",
+                   condition = "character"),
           prototype = prototype(SCdat =
                                    SummarizedExperiment::SummarizedExperiment(),
                                nCells = 100,
@@ -432,4 +436,5 @@ setClass("SCDDParams",
                                nEP = 4000,
                                sd.range = c(1, 3),
                                modeFC = c(2, 3, 4),
-                               varInflation = c(1, 1)))
+                               varInflation = c(1, 1),
+                               condition = "condition"))
