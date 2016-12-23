@@ -1,3 +1,7 @@
+# 0.99.4
+
+* Version bump to start build
+
 # splatter 0.99.3
 
 * Fix to match Bioconductor version of scDD
