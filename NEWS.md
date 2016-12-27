@@ -1,3 +1,7 @@
+# 0.99.5
+
+* Set R_TESTS environment
+
 # 0.99.4
 
 * Version bump to start build
