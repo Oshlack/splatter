@@ -24,6 +24,22 @@ Welcome to Splatter! Splatter is an R package for the simple simulation of
 single-cell RNA sequencing data. This vignette gives an overview and
 introduction to Splatter's functionality.
 
+# Installation
+
+Splatter can be installed from Bioconductor:
+
+```{r install, eval = FALSE}
+source("https://bioconductor.org/biocLite.R")
+biocLite("splatter")
+```
+
+To install the most recent development version from Github use:
+
+```{r install-github, eval = FALSE}
+biocLite("Oshlack/splatter", dependencies = TRUE, 
+         build_vignettes = TRUE)
+```
+
 # Quickstart
 
 Assuming you already have a matrix of count data similar to that you wish to
