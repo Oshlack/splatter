@@ -66,7 +66,7 @@ setValidity("SplatParams", function(object) {
     # Check path.from
     if (!(0 %in% v$path.from)) {
        checks <- c(checks, path.from = "origin must be specified in path.from")
-    } else if (any(v$path.from == 1:nGroups)) {
+    } else if (any(v$path.from == seq_len(nGroups))) {
         checks <- c(checks, stop("path cannot begin at itself"))
     }
 

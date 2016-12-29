@@ -64,8 +64,8 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
     de.nGenes <- getParam(params, "de.nGenes")
 
     # Set up objects to store intermediate values
-    cell.names <- paste0("Cell", 1:nCells)
-    gene.names <- paste0("Gene", 1:nGenes)
+    cell.names <- paste0("Cell", seq_len(nCells))
+    gene.names <- paste0("Gene", seq_len(nGenes))
 
     features <- new("AnnotatedDataFrame",
                     data = data.frame(Gene = gene.names, GeneMean = gene.means,
@@ -88,7 +88,7 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
     } else {
         title <- "GeneMeanPlate"
     }
-    for (idx in 1:nPlates) {
+    for (idx in seq_len(nPlates)) {
         features[[paste0("PlateFacPlate", idx)]] <- plate.facs[, idx]
         features[[paste0(title, idx)]] <- base.plate.means[, idx]
     }
@@ -114,7 +114,7 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
         phenos$Ingroup <- cell.plates %in% plate.ingroup
         features$DEFacIngroup <- de.facs
         features$DEFacOutgroup <- 1 / de.facs
-        for (idx in 1:nPlates) {
+        for (idx in seq_len(nPlates)) {
             features[[paste0("GeneMeanPlate", idx)]] <- plate.means[, idx]
         }
     }

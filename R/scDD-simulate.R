@@ -86,8 +86,8 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
     de.status <- rownames(counts)
 
     if (verbose) {message("Creating SCESet...")}
-    cell.names <- paste0("Cell", 1:(nCells * 2))
-    gene.names <- paste0("Gene", 1:getParam(params, "nGenes"))
+    cell.names <- paste0("Cell", seq_len(nCells * 2))
+    gene.names <- paste0("Gene", seq_len(getParam(params, "nGenes")))
 
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names

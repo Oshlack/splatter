@@ -48,8 +48,8 @@ simpleSimulate <- function(params = newSimpleParams(), verbose = TRUE, ...) {
                      nrow = nGenes, ncol = nCells)
 
     if (verbose) {message("Creating final SCESet...")}
-    cell.names <- paste0("Cell", 1:nCells)
-    gene.names <- paste0("Gene", 1:nGenes)
+    cell.names <- paste0("Cell", seq_len(nCells))
+    gene.names <- paste0("Gene", seq_len(nGenes))
 
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names

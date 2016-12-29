@@ -53,7 +53,7 @@ listSims <- function(print = TRUE) {
                              Github      = rep(NA, length(sims)),
                              Description = rep(NA, length(sims)))
 
-    for (idx in 1:length(sims)) {
+    for (idx in seq_along(sims)) {
         entry <- sims[[idx]]
         entry[5] <- gsub("[[:space:]]+", " ", entry[5])
         sims.table[idx, ] <- entry
@@ -61,7 +61,7 @@ listSims <- function(print = TRUE) {
 
     if (print) {
         cat("Splatter currently contains", length(sims), "simulations", "\n\n")
-        for (idx in 1:nrow(sims.table)) {
+        for (idx in seq_len(nrow(sims.table))) {
             sim <- as.character(sims.table[idx, ])
             cat(sim[1], paste0("(", sim[2], ")"), "\n")
             cat("DOI:", sim[3], "\t", "Github:", sim[4], "\n")

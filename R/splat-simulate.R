@@ -139,12 +139,12 @@ splatSimulate <- function(params = newSplatParams(),
 
     if (verbose) {message("Creating simulation object...")}
     # Set up name vectors
-    cell.names <- paste0("Cell", 1:nCells)
-    gene.names <- paste0("Gene", 1:nGenes)
+    cell.names <- paste0("Cell", seq_len(nCells))
+    gene.names <- paste0("Gene", seq_len(nGenes))
     if (method == "groups") {
-        group.names <- paste0("Group", 1:nGroups)
+        group.names <- paste0("Group", seq_len(nGroups))
     } else if (method == "paths") {
-        group.names <- paste0("Path", 1:nGroups)
+        group.names <- paste0("Path", seq_len(nGroups))
     }
 
     # Create SCESet with dummy counts to store simulation
@@ -161,7 +161,7 @@ splatSimulate <- function(params = newSplatParams(),
     # Make groups vector which is the index of param$groupCells repeated
     # params$groupCells[index] times
     if (method != "single") {
-        groups <- lapply(1:nGroups, function(i, g) {rep(i, g[i])},
+        groups <- lapply(seq_len(nGroups), function(i, g) {rep(i, g[i])},
                          g = group.cells)
         groups <- unlist(groups)
         pData(sim)$Group <- group.names[groups]
@@ -326,7 +326,7 @@ splatSimGroupDE <- function(sim, params) {
     de.facScale <- getParam(params, "de.facScale")
     means.gene <- fData(sim)$GeneMean
 
-    for (idx in 1:nGroups) {
+    for (idx in seq_len(nGroups)) {
         de.facs <- getLNormFactors(nGenes, de.prob[idx], de.downProb[idx],
                                    de.facLoc[idx], de.facScale[idx])
         group.means.gene <- means.gene * de.facs
@@ -474,18 +474,18 @@ splatSimPathCellMeans <- function(sim, params) {
     })
 
     # Randomly assign a position in the appropriate path to each cell
-    cell.steps <- lapply(1:nGroups, function(idx) {
+    cell.steps <- lapply(seq_len(nGroups), function(idx) {
         path.probs <- seq(path.skew[idx], 1 - path.skew[idx],
                           length = path.length[idx])
         path.probs <- path.probs / sum(path.probs)
-        steps <- sort(sample(1:path.length[idx], group.cells[idx],
+        steps <- sort(sample(seq_len(path.length[idx]), group.cells[idx],
                              prob = path.probs, replace = TRUE))
 
         return(steps)
     })
 
     # Collect the underlying expression levels for each cell
-    cell.means.gene <- lapply(1:nGroups, function(idx) {
+    cell.means.gene <- lapply(seq_len(nGroups), function(idx) {
         cell.means <- path.steps[[idx]][, cell.steps[[idx]]]
         return(cell.means)
     })
@@ -609,7 +609,7 @@ splatSimDropout <- function(sim, params) {
         # Generate probabilites based on expression
         lib.sizes <- colSums(true.counts)
         cell.facs <- log(lib.sizes) / median(lib.sizes)
-        drop.prob <- sapply(1:nCells, function(idx) {
+        drop.prob <- sapply(seq_len(nCells), function(idx) {
             eta <- cell.facs[idx] * (log(cell.means[, idx]))
             return(logistic(eta, x0 = dropout.mid, k = dropout.shape))
         })
@@ -678,7 +678,7 @@ getPathOrder <- function(path.from) {
 
     # Transform the vector into a list of (from, to) pairs
     path.pairs <- list()
-    for (idx in 1:length(path.from)) {
+    for (idx in seq_along(path.from)) {
         path.pairs[[idx]] <- c(path.from[idx], idx)
     }
 
