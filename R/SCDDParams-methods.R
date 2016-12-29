@@ -1,15 +1,13 @@
 #' @rdname newParams
-#' @importFrom utils data
 #' @importFrom methods new
 #' @export
 newSCDDParams <- function(...) {
 
     if (!requireNamespace("scDD", quietly = TRUE)) {
-        stop("The scDD simulation requires the 'scDD' package. ",
-             "See https://github.com/kdkorthauer/scDD for installation.")
+        stop("The scDD simulation requires the 'scDD' package.")
     }
 
-    data("scDatEx", package = "scDD", envir = environment())
+    utils::data("scDatEx", package = "scDD", envir = environment())
 
     params <- new("SCDDParams", SCdat = scDatEx)
 

@@ -1,3 +1,9 @@
+# 0.99.6
+
+* Add installation to vignette
+* Add detail about counts matrix to vignette
+* Replace 1:x with seq_len/seq_along
+
 # 0.99.5
 
 * Set R_TESTS environment

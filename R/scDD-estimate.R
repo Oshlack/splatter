@@ -38,8 +38,7 @@ scDDEstimate.SCESet <- function(counts, conditions, params = newSCDDParams()) {
 scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams()) {
 
     if (!requireNamespace("scDD", quietly = TRUE)) {
-        stop("The scDD simulation requires the 'scDD' package. ",
-             "See https://github.com/kdkorthauer/scDD for installation.")
+        stop("The scDD simulation requires the 'scDD' package.")
     }
 
     checkmate::assertClass(params, "SCDDParams")

@@ -12,6 +12,12 @@ install:
 
 # Adapt as necessary starting from here
 
+environment:
+    matrix:
+    - R_VERSION: devel
+
+    - R_VERSION: release
+
 build_script:
   - travis-tool.sh install_bioc_deps
 
