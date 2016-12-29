@@ -245,13 +245,17 @@ sim
 ```
 
 Looking at the output of `splatSimulate` we can see that `sim` is an `SCESet`
-object with `r dim(sim)[1]` features (genes) and `r dim(sim)[2]` samples
-(cells). An `SCESet` combines a counts matrix (and other expression measures)
-with phenotype information about each cell (accessed using `pData`) and feature
+object with `r nrow(sim)` features (genes) and `r ncol(sim)` samples
+(cells). The main part of this object is a features by samples matrix containing
+the simulated counts (accessed using `counts`), although it can also hold other
+expression measures such as FPKM or TPM. Additionaly an `SCESet` contains
+phenotype information about each cell (accessed using `pData`) and feature
 information about each gene (accessed using `fData`). Splatter uses these slots
 to store information about the intermediate values of the simulation.
 
 ```{r SCESet}
+# Access the counts
+counts(sim)[1:5, 1:5]
 # Information about genes
 head(fData(sim))
 # Information about cells
@@ -260,8 +264,6 @@ head(pData(sim))
 names(assayData(sim))
 # Example of cell means matrix
 get_exprs(sim, "CellMeans")[1:5, 1:5]
-# Access the counts
-counts(sim)[1:5, 1:5]
 ```
 
 An additional (big) advantage of outputting an `SCESet` is that we get immediate
