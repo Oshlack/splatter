@@ -7,6 +7,8 @@ newSCDDParams <- function(...) {
         stop("The scDD simulation requires the 'scDD' package.")
     }
 
+    # Initialise scDatEx to avoid NOTE
+    scDatEx <- NA
     utils::data("scDatEx", package = "scDD", envir = environment())
 
     params <- new("SCDDParams", SCdat = scDatEx)
