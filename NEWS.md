@@ -1,3 +1,7 @@
+# 0.99.7
+
+* Small changes to avoid NOTEs and reduce check time
+
 # 0.99.6
 
 * Add installation to vignette
