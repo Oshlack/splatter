@@ -28,7 +28,9 @@
 #' Code: \url{https://github.com/kdkorthauer/scDD}
 #'
 #' @examples
+#' \dontrun{
 #' sim <- scDDSimulate()
+#' }
 #' @export
 #' @importFrom scater newSCESet
 scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,

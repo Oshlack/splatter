@@ -93,6 +93,7 @@
 #'
 #' @examples
 #' # Simulation with default parameters
+#' \dontrun{
 #' sim <- splatSimulate()
 #' # Simulation with different number of genes
 #' sim <- splatSimulate(nGenes = 1000)
@@ -105,6 +106,7 @@
 #' sim <- splatSimulate(method = "groups")
 #' # Simulate paths
 #' sim <- splatSimulate(method = "paths")
+#' }
 #' @importFrom Biobase fData pData pData<- assayData
 #' @importFrom methods validObject
 #' @importFrom scater newSCESet counts set_exprs<- get_exprs

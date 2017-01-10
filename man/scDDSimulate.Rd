@@ -33,7 +33,9 @@ output to an \code{\link[scater]{SCESet}} object. See
 \code{\link[scDD]{simulateSet}} for more details of how the simulation works.
 }
 \examples{
+\dontrun{
 sim <- scDDSimulate()
+}
 }
 \references{
 Korthauer KD, Chu L-F, Newton MA, Li Y, Thomson J, Stewart R, et al. scDD: A

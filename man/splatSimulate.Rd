@@ -109,6 +109,7 @@ order to differentiate them from the values added by Scater which uses
 }
 \examples{
 # Simulation with default parameters
+\dontrun{
 sim <- splatSimulate()
 # Simulation with different number of genes
 sim <- splatSimulate(nGenes = 1000)
@@ -121,6 +122,7 @@ sim <- splatSimulate(params, mean.rate = 0.6, out.prob = 0.2)
 sim <- splatSimulate(method = "groups")
 # Simulate paths
 sim <- splatSimulate(method = "paths")
+}
 }
 \seealso{
 \code{\link{splatSimLibSizes}}, \code{\link{splatSimGeneMeans}},
