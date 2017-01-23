@@ -78,27 +78,29 @@ slots. This additional information includes:
         \describe{
             \item{Gene}{Unique gene identifier.}
             \item{BaseGeneMean}{The base expression level for that gene.}
-            \item{OutlierFactor}{Expression outlier factor for that gene. Values
-            of 1 indicate the gene is not an expression outlier.}
+            \item{OutlierFactor}{Expression outlier factor for that gene.
+            Values of 1 indicate the gene is not an expression outlier.}
             \item{GeneMean}{Expression level after applying outlier factors.}
-            \item{DEFac[Group]}{The differential expression factor for each gene
-            in a particular group. Values of 1 indicate the gene is not
+            \item{DEFac[Group]}{The differential expression factor for each
+            gene in a particular group. Values of 1 indicate the gene is not
             differentially expressed.}
             \item{GeneMean[Group]}{Expression level of a gene in a particular
             group after applying differential expression factors.}
+            \item{SigmaFac[Path]}{Factor applied to genes that have
+            non-linear changes in expression along a path.}
         }
     }
     \item{\code{assayData}}{
         \describe{
-            \item{BaseCellMeans}{The expression of genes in each cell adjusted for
-            expected library size.}
-            \item{BCV}{The Biological Coefficient of Variation for each gene in
-            each cell.}
-            \item{CellMeans}{The expression level of genes in each cell adjusted
-            for BCV.}
+            \item{BaseCellMeans}{The expression of genes in each cell
+            adjusted for expected library size.}
+            \item{BCV}{The Biological Coefficient of Variation for each gene
+            in each cell.}
+            \item{CellMeans}{The expression level of genes in each cell
+            adjusted for BCV.}
             \item{TrueCounts}{The simulated counts before dropout.}
-            \item{Dropout}{Logical matrix showing which values have been dropped
-            in which cells.}
+            \item{Dropout}{Logical matrix showing which values have been
+            dropped in which cells.}
         }
     }
 }
