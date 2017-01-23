@@ -53,27 +53,29 @@
 #'         \describe{
 #'             \item{Gene}{Unique gene identifier.}
 #'             \item{BaseGeneMean}{The base expression level for that gene.}
-#'             \item{OutlierFactor}{Expression outlier factor for that gene. Values
-#'             of 1 indicate the gene is not an expression outlier.}
+#'             \item{OutlierFactor}{Expression outlier factor for that gene.
+#'             Values of 1 indicate the gene is not an expression outlier.}
 #'             \item{GeneMean}{Expression level after applying outlier factors.}
-#'             \item{DEFac[Group]}{The differential expression factor for each gene
-#'             in a particular group. Values of 1 indicate the gene is not
+#'             \item{DEFac[Group]}{The differential expression factor for each
+#'             gene in a particular group. Values of 1 indicate the gene is not
 #'             differentially expressed.}
 #'             \item{GeneMean[Group]}{Expression level of a gene in a particular
 #'             group after applying differential expression factors.}
+#'             \item{SigmaFac[Path]}{Factor applied to genes that have
+#'             non-linear changes in expression along a path.}
 #'         }
 #'     }
 #'     \item{\code{assayData}}{
 #'         \describe{
-#'             \item{BaseCellMeans}{The expression of genes in each cell adjusted for
-#'             expected library size.}
-#'             \item{BCV}{The Biological Coefficient of Variation for each gene in
-#'             each cell.}
-#'             \item{CellMeans}{The expression level of genes in each cell adjusted
-#'             for BCV.}
+#'             \item{BaseCellMeans}{The expression of genes in each cell
+#'             adjusted for expected library size.}
+#'             \item{BCV}{The Biological Coefficient of Variation for each gene
+#'             in each cell.}
+#'             \item{CellMeans}{The expression level of genes in each cell
+#'             adjusted for BCV.}
 #'             \item{TrueCounts}{The simulated counts before dropout.}
-#'             \item{Dropout}{Logical matrix showing which values have been dropped
-#'             in which cells.}
+#'             \item{Dropout}{Logical matrix showing which values have been
+#'             dropped in which cells.}
 #'         }
 #'     }
 #' }
@@ -449,6 +451,15 @@ splatSimPathCellMeans <- function(sim, params) {
     group.names <- unique(groups)
     exp.lib.sizes <- pData(sim)$ExpLibSize
 
+    # Generate non-linear path factors
+    for (idx in seq_along(path.from)) {
+        # Select genes to follow a non-linear path
+        is.nonlinear <- as.logical(rbinom(nGenes, 1, path.nonlinearProb))
+        sigma.facs <- rep(0, nGenes)
+        sigma.facs[is.nonlinear] <- path.sigmaFac
+        fData(sim)[[paste0("SigmaFacPath", idx)]] <- sigma.facs
+    }
+
     # Generate paths. Each path is a matrix with path.length columns and
     # nGenes rows where the expression from each genes changes along the path.
     path.steps <- lapply(seq_along(path.from), function(idx) {
@@ -462,15 +473,12 @@ splatSimPathCellMeans <- function(sim, params) {
         # Find the means at the end position
         means.end <- fData(sim)[[paste0("GeneMeanPath", idx)]]
 
-        # Select genes to follow a non-linear path
-        is.nonlinear <- as.logical(rbinom(nGenes, 1, path.nonlinearProb))
-        sigma.facs <- rep(0, nGenes)
-        sigma.facs[is.nonlinear] <- path.sigmaFac
+        # Get the non-linear factors
+        sigma.facs <- fData(sim)[[paste0("SigmaFacPath", idx)]]
+
         # Build Brownian bridges from start to end
         steps <- buildBridges(means.start, means.end, n = path.length[idx],
                               sigma.fac = sigma.facs)
-
-        fData(sim)[[paste0("SigmaFacPath", idx)]] <- sigma.facs
 
         return(t(steps))
     })
