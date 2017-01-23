@@ -1,3 +1,7 @@
+# 0.99.8
+
+* Fix bug that meant non-linear path factors weren't stored in output
+
 # 0.99.7
 
 * Small changes to avoid NOTEs and reduce check time
