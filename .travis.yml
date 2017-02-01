@@ -4,6 +4,10 @@ language: R
 r:
   - bioc-devel
   - bioc-release
+repos:
+  CRAN: https://cloud.r-project.org
+  rstudio: http://cran.rstudio.com
+  ropensci: http://packages.ropensci.org
 sudo: false
 cache: packages
 
