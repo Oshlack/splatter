@@ -33,4 +33,3 @@ sim <- simpleSimulate()
 # Override default parameters
 sim <- simpleSimulate(nGenes = 1000, nCells = 50)
 }
-

@@ -46,4 +46,3 @@ Paper: \url{dx.doi.org/10.1101/035501}
 
 Code: \url{https://github.com/kdkorthauer/scDD}
 }
-

@@ -20,4 +20,3 @@ level of a gene and the probability of dropout, giving a probability for each
 gene in each cell. These probabilities are used in a Bernoulli distribution
 to decide which counts should be dropped.
 }
-

@@ -19,4 +19,3 @@ Value of logistic funciton with given parameters
 \description{
 Implementation of the logistic function
 }
-

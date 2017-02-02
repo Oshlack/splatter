@@ -21,4 +21,3 @@ Get multiple parameter values from a Params object.
 params <- newSimpleParams()
 getParams(params, c("nGenes", "nCells", "mean.rate"))
 }
-
