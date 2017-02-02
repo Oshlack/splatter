@@ -388,6 +388,34 @@ detailed information on each simulation see the appropriate help page (eg.
 `?lun2Estimate` for details of how the Lun 2 simulation estimates
 parameters) or refer to the appropriate paper or package.
 
+# Other expression values
+
+Splatter is designed to simulate count data but some analysis methods expect
+other expression values, particularly length-normalised values such as TPM or
+FPKM. The `scater` package has functions for adding these values to an `SCESet`
+object but they require a length for each gene. The `addGeneLengths` can be
+used to simulate these lengths:
+
+```{r lengths}
+sim <- simpleSimulate(verbose = FALSE)
+sim <- addGeneLengths(sim)
+head(fData(sim))
+```
+
+We can then use `scater` to calculate TPM:
+
+```{r TPM}
+tpm(sim) <- calculateTPM(sim, fData(sim)$Length)
+tpm(sim)[1:5, 1:5]
+```
+
+The default method used by `addGeneLengths` to simulate lengths is to generate
+values from a log-normal distribution which are then rounded to give an integer
+length. The parameters for this distribution are based on human coding genes
+but can be adjusted if needed (for example for other species). Alternatively
+lengths can be sampled from a provided vector (see `?addGeneLengths` for details
+and an example).
+
 # Comparing simulations and real data
 
 One thing you might like to do after simulating data is to compare it to a real

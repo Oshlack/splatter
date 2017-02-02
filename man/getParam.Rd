@@ -26,4 +26,3 @@ params <- newSimpleParams()
 getParam(params, "nGenes")
 
 }
-

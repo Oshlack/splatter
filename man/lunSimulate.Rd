@@ -45,4 +45,3 @@ Paper: \url{dx.doi.org/10.1186/s13059-016-0947-7}
 
 Code: \url{https://github.com/MarioniLab/Deconvolution2016}
 }
-

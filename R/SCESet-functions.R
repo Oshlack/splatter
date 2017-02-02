@@ -67,3 +67,74 @@ addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
 
     return(sce)
 }
+
+#' Add gene lengths
+#'
+#' Add gene lengths to an SCESet object
+#'
+#' @param sce SCESet to add gene lengths to.
+#' @param method Method to use for creating lengths.
+#' @param loc Location parameter for the generate method.
+#' @param scale Scale parameter for the generate method.
+#' @param lengths Vector of lengths for the sample method.
+#'
+#' @details
+#' This function adds simulated gene lengths to the \code{fData} slot of an
+#' \code{SCESet} object that can be used for calculating length normalised
+#' expression values such as TPM or FPKM. The \code{generate} simulates lengths
+#' using a (rounded) log-normal distribution, with the default \code{loc} and
+#' \code{scale} parameters based on human coding genes. Alternatively the
+#' \code{sample} method can be used which randomly samples lengths (with
+#' replacement) from a supplied vector.
+#'
+#' @return SCESet with added gene lengths
+#' @examples
+#' # Default generate method
+#' sce <- simpleSimulate()
+#' sce <- addGeneLengths(sce)
+#' head(fData(sce))
+#' # Sample method (human coding genes)
+#' \dontrun{
+#' library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+#' library(GenomicFeatures)
+#' txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
+#' tx.lens <- transcriptLengths(txdb, with.cds_len = TRUE)
+#' tx.lens <- tx.lens[tx.lens$cds_len > 0, ]
+#' gene.lens <- max(splitAsList(tx.lens$tx_len, tx.lens$gene_id))
+#' sce <- addGeneLengths(sce, method = "sample", lengths = gene.lens)
+#' }
+#' @export
+#' @importFrom stats rlnorm
+addGeneLengths <- function(sce, method = c("generate", "sample"), loc = 7.9,
+                           scale = 0.7, lengths = NULL) {
+
+    method <- match.arg(method)
+    checkmate::assertClass(sce, "SCESet")
+    checkmate::assertNumber(loc)
+    checkmate::assertNumber(scale, lower = 0)
+    checkmate::assertNumeric(lengths, lower = 0, null.ok = TRUE)
+
+    switch(method,
+           generate = {
+               sim.lengths <- rlnorm(nrow(sce), meanlog = loc, sdlog = scale)
+               sim.lengths <- round(sim.lengths)
+           },
+           sample = {
+               if (is.null(lengths)) {
+                   stop("Lengths must be supplied to use the sample method.")
+               } else {
+                   sim.lengths <- sample(lengths, nrow(sce), replace = TRUE)
+               }
+           }
+    )
+
+    fData(sce)$Length <- sim.lengths
+
+    return(sce)
+}
+
+#txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
+#tx.lens <- GenomicFeatures::transcriptLengths(txdb, with.cds_len = TRUE)
+#tx.lens <- tx.lens[tx.lens$cds_len > 0, ]
+#gene.lens <- max(IRanges::splitAsList(tx.lens$tx_len, tx.lens$gene_id))
+#lens <- rlnorm(length(gene.lens), meanlog = 7.9, sdlog = 0.7)

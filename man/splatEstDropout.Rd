@@ -34,4 +34,3 @@ but should give a reasonable indication. A more accurate approach is to look
 at a plot of log2 mean expression vs the difference between observed and
 expected number of zeros across all genes.
 }
-

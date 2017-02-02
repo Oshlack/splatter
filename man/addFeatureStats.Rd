@@ -33,4 +33,3 @@ variation, median and median absolute deviation. Statistics are added to
 the \code{fData} slot and are named \code{stat_[log]_value_[no0]} where
 \code{log} and \code{no0} are added if those arguments are true.
 }
-

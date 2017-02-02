@@ -17,4 +17,3 @@ Print params object to console
 \description{
 Function used for pretty printing params object.
 }
-

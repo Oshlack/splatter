@@ -13,4 +13,3 @@ simulation of single-cell RNA-seq count data.
 As well as it's own simulation model \pkg{splatter} provides functions for
 the estimation of model parameters.
 }
-

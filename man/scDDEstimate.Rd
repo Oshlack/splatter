@@ -38,4 +38,3 @@ conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
 params <- scDDEstimate(sc_example_counts, conditions)
 params
 }
-
