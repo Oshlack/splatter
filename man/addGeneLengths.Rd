@@ -25,7 +25,13 @@ SCESet with added gene lengths
 Add gene lengths to an SCESet object
 }
 \details{
-
+This function adds simulated gene lengths to the \code{fData} slot of an
+\code{SCESet} object that can be used for calculating length normalised
+expression values such as TPM or FPKM. The \code{generate} simulates lengths
+using a (rounded) log-normal distribution, with the default \code{loc} and
+\code{scale} parameters based on human coding genes. Alternatively the
+\code{sample} method can be used which randomly samples lengths (with
+replacement) from a supplied vector.
 }
 \examples{
 # Default generate method
