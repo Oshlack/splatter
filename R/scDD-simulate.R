@@ -19,11 +19,11 @@
 #' @return SCESet containing simulated counts
 #'
 #' @references
-#' Korthauer KD, Chu L-F, Newton MA, Li Y, Thomson J, Stewart R, et al. scDD: A
+#' Korthauer KD, Chu L-F, Newton MA, Li Y, Thomson J, Stewart R, et al. A
 #' statistical approach for identifying differential distributions in
-#' single-cell RNA-seq experiments. bioRxiv (2015).
+#' single-cell RNA-seq experiments. Genome Biology (2016).
 #'
-#' Paper: \url{dx.doi.org/10.1101/035501}
+#' Paper: \url{10.1186/s13059-016-1077-y}
 #'
 #' Code: \url{https://github.com/kdkorthauer/scDD}
 #'
