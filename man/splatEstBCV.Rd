@@ -19,4 +19,3 @@ Parameters are estimated using the \code{estimateDisp} function in the
 \code{edgeR} package. Specifically the common dispersion and prior degrees
 of freedom. See \code{\link{estimateDisp}} for details.
 }
-

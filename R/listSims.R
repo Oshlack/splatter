@@ -42,7 +42,8 @@ listSims <- function(print = TRUE) {
                    Differential expression can be added between two groups of
                    plates and optionally a zero-inflated negative-binomial can
                    be used."),
-                 c("scDD", "scDD", "10.1101/035501", "kdkorthauer/scDD",
+                 c("scDD", "scDD", "10.1186/s13059-016-1077-y",
+                   "kdkorthauer/scDD",
                    "The scDD simulation samples a given dataset and can
                    simulate differentially expressed and differentially
                    distributed genes between two conditions."))

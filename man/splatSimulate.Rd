@@ -2,9 +2,9 @@
 % Please edit documentation in R/splat-simulate.R
 \name{splatSimulate}
 \alias{splatSimulate}
+\alias{splatSimulateSingle}
 \alias{splatSimulateGroups}
 \alias{splatSimulatePaths}
-\alias{splatSimulateSingle}
 \title{Splat simulation}
 \usage{
 splatSimulate(params = newSplatParams(), method = c("single", "groups",
@@ -132,4 +132,3 @@ sim <- splatSimulate(method = "paths")
 \code{\link{splatSimBCVMeans}}, \code{\link{splatSimTrueCounts}},
 \code{\link{splatSimDropout}}
 }
-

@@ -17,4 +17,3 @@ Vector giving the order to process paths in.
 Identify the correct order to process paths so that preceding paths have
 already been simulated.
 }
-

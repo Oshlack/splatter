@@ -44,4 +44,3 @@ Paper: \url{dx.doi.org/10.1101/073973}
 
 Code: \url{https://github.com/MarioniLab/PlateEffects2016}
 }
-

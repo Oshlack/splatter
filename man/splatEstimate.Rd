@@ -36,4 +36,3 @@ params
 \code{\link{splatEstOutlier}}, \code{\link{splatEstBCV}},
 \code{\link{splatEstDropout}}
 }
-
