@@ -34,4 +34,3 @@ data("sc_example_counts")
 params <- lunEstimate(sc_example_counts)
 params
 }
-

@@ -38,4 +38,3 @@ params
 params <- setParams(params, list(mean.rate = 0.2, mean.shape = 0.8))
 params
 }
-

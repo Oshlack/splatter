@@ -1,3 +1,8 @@
+# 0.99.9
+
+* Add addGeneLengths function
+* Update scDD reference
+
 # 0.99.8
 
 * Fix bug that meant non-linear path factors weren't stored in output

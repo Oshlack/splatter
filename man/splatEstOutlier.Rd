@@ -31,4 +31,3 @@ factors in order to estimate the outlier factor location and scale
 parameters. See \code{\link[fitdistrplus]{fitdist}} for details on the
 fitting.
 }
-
