@@ -36,4 +36,3 @@ data("sc_example_counts")
 params <- simpleEstimate(sc_example_counts)
 params
 }
-

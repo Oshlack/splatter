@@ -52,4 +52,3 @@ comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
 names(comparison)
 names(comparison$Plots)
 }
-

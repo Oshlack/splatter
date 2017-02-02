@@ -19,4 +19,3 @@ Simulate a true counts matrix. Counts are simulated from a poisson
 distribution where Each gene in each cell has it's own mean based on the
 group (or path position), expected library size and BCV.
 }
-

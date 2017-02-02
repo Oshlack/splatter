@@ -19,4 +19,3 @@ data.frame containing rows from \code{df1} and \code{df2} but only
 Bind the rows of two data frames, keeping only the columns that are common
 to both.
 }
-

@@ -20,4 +20,3 @@ brief description.
 \examples{
 listSims()
 }
-

@@ -2,9 +2,9 @@
 % Please edit documentation in R/splat-simulate.R
 \name{splatSimCellMeans}
 \alias{splatSimCellMeans}
+\alias{splatSimSingleCellMeans}
 \alias{splatSimGroupCellMeans}
 \alias{splatSimPathCellMeans}
-\alias{splatSimSingleCellMeans}
 \title{Simulate cell means}
 \usage{
 splatSimSingleCellMeans(sim, params)
@@ -28,4 +28,3 @@ each cell. Cells start with the mean expression for the group they belong to
 random position on the appropriate path (when simulating paths). The selected
 means are adjusted for each cell's expected library size.
 }
-

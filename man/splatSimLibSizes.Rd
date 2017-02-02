@@ -17,4 +17,3 @@ SCESet with simulated library sizes.
 \description{
 Simulate expected library sizes from a log-normal distribution
 }
-
