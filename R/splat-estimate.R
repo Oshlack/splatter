@@ -59,11 +59,19 @@ splatEstimate.matrix <- function(counts, params = newSplatParams()) {
 #' Estimate Splat mean parameters
 #'
 #' Estimate rate and shape parameters for the gamma distribution used to
-#' simulate gene expression means using the 'moment matching estimation' method
-#' of \code{\link[fitdistrplus]{fitdist}}.
+#' simulate gene expression means.
 #'
 #' @param norm.counts library size normalised counts matrix.
 #' @param params SplatParams object to store estimated values in.
+#'
+#' @details
+#' Parameter for the gamma distribution are estimated by fitting the mean
+#' normalised counts using \code{\link[fitdistrplus]{fitdist}}. The 'maximum
+#' goodness-of-fit estimation' method is used to minimise the Cramer-von Mises
+#' distance. This can fail in some situations, in which case the 'method of
+#' moments estimation' method is used instead. Prior to fitting the means are
+#' winsorized by setting the top and bottom 10 percent of values to the 10th
+#' and 90th percentiles.
 #'
 #' @return SplatParams object with estimated values.
 splatEstMean <- function(norm.counts, params) {
@@ -71,7 +79,14 @@ splatEstMean <- function(norm.counts, params) {
     means <- rowMeans(norm.counts)
     means <- means[means != 0]
 
-    fit <- fitdistrplus::fitdist(means, "gamma", method = "mme")
+    means <- winsorize(means, q = 0.1)
+
+    fit <- try(fitdistrplus::fitdist(means, "gamma", method = "mge",
+                                     gof = "CvM"))
+    if (class(fit) == "try-error") {
+        warning("Goodness of fit failed, using Method of Moments")
+        fit <- fitdistrplus::fitdist(means, "gamma", method = "mme")
+    }
 
     params <- setParams(params, mean.shape = unname(fit$estimate["shape"]),
                         mean.rate = unname(fit$estimate["rate"]))
@@ -111,15 +126,12 @@ splatEstLib <- function(counts, params) {
 #' @details
 #' Expression outlier genes are detected using the Median Absolute Deviation
 #' (MAD) from median method. If the log2 mean expression of a gene is greater
-#' than two MADs from the median log2 mean expression it is designated as a
+#' than two MADs above the median log2 mean expression it is designated as an
 #' outlier. The proportion of outlier genes is used to estimate the outlier
-#' probability. The low outlier probability is estimated as the proportion of
-#' outlier genes that have a log2 mean less than the median log2 mean. Factors
-#' for each outlier gene are calculated by dividing mean expression by the
-#' median mean expression. A log-normal distribution is then fitted to these
-#' factors in order to estimate the outlier factor location and scale
-#' parameters. See \code{\link[fitdistrplus]{fitdist}} for details on the
-#' fitting.
+#' probability. Factors for each outlier gene are calculated by dividing mean
+#' expression by the median mean expression. A log-normal distribution is then
+#' fitted to these factors in order to estimate the outlier factor location and
+#' scale parameters using \code{\link[fitdistrplus]{fitdist}}.
 #'
 #' @return SplatParams object with estimated values.
 splatEstOutlier <- function(norm.counts, params) {
@@ -130,33 +142,41 @@ splatEstOutlier <- function(norm.counts, params) {
     med <- median(lmeans)
     mad <- mad(lmeans)
 
-    lo.bound <- med - 2 * mad
-    hi.bound <- med + 2 * mad
+    bound <- med + 2 * mad
 
-    lo.outs <- which(lmeans < lo.bound)
-    hi.outs <- which(lmeans > hi.bound)
+    outs <- which(lmeans > bound)
 
-    prob <- (length(lo.outs) + length(hi.outs)) / nrow(norm.counts)
-    lo.prob <- length(lo.outs) / (length(lo.outs) + length(hi.outs))
+    prob <- length(outs) / nrow(norm.counts)
 
-    facs <- means[c(lo.outs, hi.outs)] / median(means)
-    fit <- fitdistrplus::fitdist(facs, "lnorm")
+    params <- setParams(params, out.prob = prob)
 
-    params <- setParams(params, out.prob = prob, out.loProb = lo.prob,
-                        out.facLoc = unname(fit$estimate["meanlog"]),
-                        out.facScale = unname(fit$estimate["sdlog"]))
+    if (length(outs) > 1) {
+        facs <- means[outs] / median(means)
+        fit <- fitdistrplus::fitdist(facs, "lnorm")
+
+        params <- setParams(params,
+                            out.facLoc = unname(fit$estimate["meanlog"]),
+                            out.facScale = unname(fit$estimate["sdlog"]))
+    }
 
     return(params)
 }
 
 #' Estimate Splat Biological Coefficient of Variation parameters
 #'
-#' Parameters are estimated using the \code{estimateDisp} function in the
-#' \code{edgeR} package. Specifically the common dispersion and prior degrees
-#' of freedom. See \code{\link{estimateDisp}} for details.
+#' Parameters are estimated using the \code{\link[edgeR]{estimateDisp}} function
+#' in the \code{edgeR} package.
 #'
 #' @param counts counts matrix to estimate parameters from.
 #' @param params SplatParams object to store estimated values in.
+#'
+#' @details
+#' The \code{\link[edgeR]{estimateDisp}} function is used to estimate the common
+#' dispersion and prior degrees of freedom. See
+#' \code{\link[edgeR]{estimateDisp}} for details. When estimating parameters on
+#' simulated data we found a broadly linear relationship between the true
+#' underlying common dispersion and the \code{edgR} estimate, therefore we
+#' apply a small correction, \code{disp = 0.1 + 0.25 * edgeR.disp}.
 #'
 #' @return SplatParams object with estimated values.
 splatEstBCV <- function(counts, params) {
@@ -165,7 +185,8 @@ splatEstBCV <- function(counts, params) {
     design <- matrix(1, ncol(counts), 1)
     disps <- edgeR::estimateDisp(counts, design = design)
 
-    params <- setParams(params, bcv.common = disps$common.dispersion,
+    params <- setParams(params,
+                        bcv.common = 0.1 + 0.25 * disps$common.dispersion,
                         bcv.df = disps$prior.df)
 
     return(params)

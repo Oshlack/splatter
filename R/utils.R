@@ -27,3 +27,26 @@ rbindMatched <- function(df1, df2) {
 
     return(combined)
 }
+
+#' Winsorize vector
+#'
+#' Set outliers in a numeric vector to a specified percentile.
+#'
+#' @param x Numeric vector to winsorize
+#' @param q Percentile to set from each end
+#'
+#' @return Winsorized numeric vector
+winsorize <- function(x, q) {
+
+    checkmate::check_numeric(x, any.missing = FALSE)
+    checkmate::check_number(q, lower = 0, upper = 1)
+
+    lohi <- stats::quantile(x, c(q, 1 - q), na.rm = TRUE)
+
+    if (diff(lohi) < 0) { lohi <- rev(lohi) }
+
+    x[!is.na(x) & x < lohi[1]] <- lohi[1]
+    x[!is.na(x) & x > lohi[2]] <- lohi[2]
+
+    return(x)
+}
