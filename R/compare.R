@@ -24,6 +24,8 @@
 #'             that is zero.}
 #'             \item{\code{ZerosCell}}{Boxplot of the percentage of each cell
 #'             that is zero.}
+#'             \item{\code{MeanZeros}}{Scatter plot with fitted lines showing
+#'             the mean-dropout relationship.}
 #'     }
 #'   }
 #' }
@@ -95,8 +97,8 @@ compareSCESets <- function(sces) {
 
     mean.var <- ggplot(fData.all,
                        aes_string(x = "mean_log_cpm", y = "var_log_cpm",
-                                  olour = "Dataset", fill = "Dataset")) +
-        geom_point() +
+                                  colour = "Dataset", fill = "Dataset")) +
+        geom_point(alpha = 0.2) +
         geom_smooth() +
         xlab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
         ylab(expression(paste("Variance ", log[2], "(CPM + 1)"))) +
@@ -130,6 +132,16 @@ compareSCESets <- function(sces) {
         ggtitle("Distribution of zeros per cell") +
         theme_minimal()
 
+    mean.zeros <- ggplot(fData.all,
+                         aes_string(x = "mean_log_cpm", y = "pct_dropout",
+                                    colour = "Dataset", fill = "Dataset")) +
+        geom_point(alpha = 0.2) +
+        geom_smooth() +
+        xlab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
+        ylab(expression(paste("Percentage zeros"))) +
+        ggtitle("Mean-dropout relationship") +
+        theme_minimal()
+
     comparison <- list(FeatureData = fData.all,
                        PhenoData = pData.all,
                        Plots = list(Means = means,
@@ -137,7 +149,8 @@ compareSCESets <- function(sces) {
                                     MeanVar = mean.var,
                                     LibrarySizes = libs,
                                     ZerosGene = z.gene,
-                                    ZerosCell = z.cell))
+                                    ZerosCell = z.cell,
+                                    MeanZeros = mean.zeros))
 
     return(comparison)
 }
