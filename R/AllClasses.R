@@ -96,8 +96,6 @@ setClass("SimpleParams",
 #'         \describe{
 #'             \item{\code{out.prob}}{Probability that a gene is an expression
 #'             outlier.}
-#'             \item{\code{out.loProb}}{Probability that an expression outlier
-#'             gene is lowly expressed.}
 #'             \item{\code{out.facLoc}}{Location (meanlog) parameter for the
 #'             expression outlier factor log-normal distribution.}
 #'             \item{\code{out.facScale}}{Scale (sdlog) parameter for the
@@ -182,7 +180,6 @@ setClass("SplatParams",
                    lib.loc = "numeric",
                    lib.scale = "numeric",
                    out.prob = "numeric",
-                   out.loProb = "numeric",
                    out.facLoc = "numeric",
                    out.facScale = "numeric",
                    de.prob = "numeric",
@@ -206,7 +203,6 @@ setClass("SplatParams",
                                lib.loc = 10,
                                lib.scale = 0.5,
                                out.prob = 0.1,
-                               out.loProb = 0.5,
                                out.facLoc = 4,
                                out.facScale = 1,
                                de.prob = 0.1,

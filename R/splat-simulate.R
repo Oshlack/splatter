@@ -280,7 +280,6 @@ splatSimGeneMeans <- function(sim, params) {
     mean.shape <- getParam(params, "mean.shape")
     mean.rate <- getParam(params, "mean.rate")
     out.prob <- getParam(params, "out.prob")
-    out.loProb <- getParam(params, "out.loProb")
     out.facLoc <- getParam(params, "out.facLoc")
     out.facScale <- getParam(params, "out.facScale")
 
@@ -288,7 +287,7 @@ splatSimGeneMeans <- function(sim, params) {
     base.means.gene <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
 
     # Add expression outliers
-    outlier.facs <- getLNormFactors(nGenes, out.prob, out.loProb, out.facLoc,
+    outlier.facs <- getLNormFactors(nGenes, out.prob, 0, out.facLoc,
                                     out.facScale)
     median.means.gene <- median(base.means.gene)
     outlier.means <- median.means.gene * outlier.facs
