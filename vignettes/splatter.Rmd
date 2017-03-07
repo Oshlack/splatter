@@ -102,8 +102,6 @@ The parameters required for the Splat simulation are briefly described here:
       distribution.
 * **Expression outlier parameters**
     * `out.prob` - Probability that a gene is an expression outlier.
-    * `out.loProb` - Probability that an expression outlier gene is lowly
-      expressed (other outliers are highly expressed).
     * `out.facLoc` - Location (meanlog) parameter for the expression outlier
       factor log-normal distribution.
     * `out.facScale` - Scale (sdlog) parameter for the expression outlier factor
