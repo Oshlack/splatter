@@ -21,13 +21,10 @@ median mean expression level.
 \details{
 Expression outlier genes are detected using the Median Absolute Deviation
 (MAD) from median method. If the log2 mean expression of a gene is greater
-than two MADs from the median log2 mean expression it is designated as a
+than two MADs above the median log2 mean expression it is designated as an
 outlier. The proportion of outlier genes is used to estimate the outlier
-probability. The low outlier probability is estimated as the proportion of
-outlier genes that have a log2 mean less than the median log2 mean. Factors
-for each outlier gene are calculated by dividing mean expression by the
-median mean expression. A log-normal distribution is then fitted to these
-factors in order to estimate the outlier factor location and scale
-parameters. See \code{\link[fitdistrplus]{fitdist}} for details on the
-fitting.
+probability. Factors for each outlier gene are calculated by dividing mean
+expression by the median mean expression. A log-normal distribution is then
+fitted to these factors in order to estimate the outlier factor location and
+scale parameters using \code{\link[fitdistrplus]{fitdist}}.
 }
