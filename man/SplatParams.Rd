@@ -40,8 +40,6 @@ The Splatter simulation requires the following parameters:
         \describe{
             \item{\code{out.prob}}{Probability that a gene is an expression
             outlier.}
-            \item{\code{out.loProb}}{Probability that an expression outlier
-            gene is lowly expressed.}
             \item{\code{out.facLoc}}{Location (meanlog) parameter for the
             expression outlier factor log-normal distribution.}
             \item{\code{out.facScale}}{Scale (sdlog) parameter for the

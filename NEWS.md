@@ -1,3 +1,10 @@
+# 0.99.10
+
+* Improve Splat estimation procedure
+* Update default Splat parameters
+* Remove out.loProb Splat parameter
+* Add MeanZeros plot to compareSCESets
+
 # 0.99.9
 
 * Add addGeneLengths function

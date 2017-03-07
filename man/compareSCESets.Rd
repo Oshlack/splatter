@@ -35,6 +35,8 @@ The return list has three items:
             that is zero.}
             \item{\code{ZerosCell}}{Boxplot of the percentage of each cell
             that is zero.}
+            \item{\code{MeanZeros}}{Scatter plot with fitted lines showing
+            the mean-dropout relationship.}
     }
   }
 }
