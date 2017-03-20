@@ -32,7 +32,8 @@ Imports:
     utils,
     matrixStats,
     ggplot2,
-    scales
+    scales,
+    BiocParallel
 Suggests:
     testthat,
     scran,

@@ -616,10 +616,8 @@ splatSimDropout <- function(sim, params) {
         cell.means <- get_exprs(sim, "CellMeans")
 
         # Generate probabilites based on expression
-        lib.sizes <- colSums(true.counts)
-        cell.facs <- log(lib.sizes) / median(lib.sizes)
         drop.prob <- sapply(seq_len(nCells), function(idx) {
-            eta <- cell.facs[idx] * (log(cell.means[, idx]))
+            eta <- log(cell.means[, idx])
             return(logistic(eta, x0 = dropout.mid, k = dropout.shape))
         })
 
