@@ -7,13 +7,13 @@
 \title{Estimate Lun2 simulation parameters}
 \usage{
 lun2Estimate(counts, plates, params = newLun2Params(), min.size = 200,
-  verbose = TRUE)
+  verbose = TRUE, BPPARAM = SerialParam())
 
 \method{lun2Estimate}{SCESet}(counts, plates, params = newLun2Params(),
-  min.size = 200, verbose = TRUE)
+  min.size = 200, verbose = TRUE, BPPARAM = SerialParam())
 
 \method{lun2Estimate}{matrix}(counts, plates, params = newLun2Params(),
-  min.size = 200, verbose = TRUE)
+  min.size = 200, verbose = TRUE, BPPARAM = SerialParam())
 }
 \arguments{
 \item{counts}{either a counts matrix or an SCESet object containing count
@@ -27,6 +27,10 @@ data to estimate parameters from.}
 the data.}
 
 \item{verbose}{logical. Whether to show progress messages.}
+
+\item{BPPARAM}{A \code{\link[BioParallel]{BiocParallelParam}} instance
+giving the parallel back-end to be used. Default is
+\code{\link[BiocParallel]{SerialParam}} which uses a single core.}
 }
 \value{
 LunParams object containing the estimated parameters.
