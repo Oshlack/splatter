@@ -1,3 +1,10 @@
+# 0.99.11
+
+* Add parallel option to lun2Estimate
+* Allow non-integer library sizes in Lun2Params
+* Adjust dropout eta value
+* Adjust comparison plots
+
 # 0.99.10
 
 * Improve Splat estimation procedure

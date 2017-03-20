@@ -44,7 +44,8 @@
 #' names(comparison)
 #' names(comparison$Plots)
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_smooth geom_boxplot
-#' geom_violin scale_y_continuous scale_y_log10 xlab ylab ggtitle theme_minimal
+#' geom_violin scale_y_continuous scale_y_log10 scale_x_log10 xlab ylab ggtitle
+#' theme_minimal
 #' @importFrom scater cpm<-
 #' @export
 compareSCESets <- function(sces) {
@@ -98,7 +99,7 @@ compareSCESets <- function(sces) {
     mean.var <- ggplot(fData.all,
                        aes_string(x = "mean_log_cpm", y = "var_log_cpm",
                                   colour = "Dataset", fill = "Dataset")) +
-        geom_point(alpha = 0.2) +
+        geom_point(size = 0.1, alpha = 0.1) +
         geom_smooth() +
         xlab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
         ylab(expression(paste("Variance ", log[2], "(CPM + 1)"))) +
@@ -133,12 +134,13 @@ compareSCESets <- function(sces) {
         theme_minimal()
 
     mean.zeros <- ggplot(fData.all,
-                         aes_string(x = "mean_log_cpm", y = "pct_dropout",
+                         aes_string(x = "mean_counts", y = "pct_dropout",
                                     colour = "Dataset", fill = "Dataset")) +
-        geom_point(alpha = 0.2) +
+        geom_point(size = 0.1, alpha = 0.1) +
         geom_smooth() +
-        xlab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
-        ylab(expression(paste("Percentage zeros"))) +
+        scale_x_log10(labels = scales::comma) +
+        xlab("Mean count") +
+        ylab("Percentage zeros") +
         ggtitle("Mean-dropout relationship") +
         theme_minimal()
 

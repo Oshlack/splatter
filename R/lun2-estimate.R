@@ -9,6 +9,9 @@
 #' @param min.size minimum size of clusters when identifying group of cells in
 #'        the data.
 #' @param verbose logical. Whether to show progress messages.
+#' @param BPPARAM A \code{\link[BiocParallel]{BiocParallelParam}} instance
+#'        giving the parallel back-end to be used. Default is
+#'        \code{\link[BiocParallel]{SerialParam}} which uses a single core.
 #'
 #' @details
 #' See \code{\link{Lun2Params}} for more details on the parameters.
@@ -23,16 +26,19 @@
 #' params <- lun2Estimate(sc_example_counts, plates, min.size = 20)
 #' params
 #' }
+#' @importFrom BiocParallel bplapply SerialParam
 #' @export
 lun2Estimate <- function(counts, plates, params = newLun2Params(),
-                         min.size = 200, verbose = TRUE) {
+                         min.size = 200, verbose = TRUE,
+                         BPPARAM = SerialParam()) {
     UseMethod("lun2Estimate")
 }
 
 #' @rdname lun2Estimate
 #' @export
 lun2Estimate.SCESet <- function(counts, plates, params = newLun2Params(),
-                                min.size = 200, verbose = TRUE) {
+                                min.size = 200, verbose = TRUE,
+                                BPPARAM = SerialParam()) {
     counts <- scater::counts(counts)
     lun2Estimate(counts, plates, params, min.size = min.size, verbose = verbose)
 }
@@ -42,7 +48,8 @@ lun2Estimate.SCESet <- function(counts, plates, params = newLun2Params(),
 #' @importFrom locfit locfit
 #' @export
 lun2Estimate.matrix <- function(counts, plates, params = newLun2Params(),
-                                min.size = 200, verbose = TRUE) {
+                                min.size = 200, verbose = TRUE,
+                                BPPARAM = SerialParam()) {
 
     # Check suggested packages
     if (!requireNamespace("scran", quietly = TRUE)) {
@@ -123,7 +130,7 @@ lun2Estimate.matrix <- function(counts, plates, params = newLun2Params(),
     # As well as errors glmer produces warnings. Stop these showing because we
     # expect them.
     suppressWarnings(
-    collected <- lapply(seq_len(nrow(dge)), function(i) {
+    collected <- bplapply(seq_len(nrow(dge)), function(i) {
         if (progress) {pb$tick()}
         tryCatch({
             out <- lme4::glmer(
@@ -138,7 +145,7 @@ lun2Estimate.matrix <- function(counts, plates, params = newLun2Params(),
             output <- NA_real_
             return(output)
         })
-    }))
+    }, BPPARAM = BPPARAM))
     sigma2 <- mean(unlist(collected), na.rm = TRUE)
 
     # Repeating the estimation of the dispersion with ZINB models.
@@ -156,16 +163,26 @@ lun2Estimate.matrix <- function(counts, plates, params = newLun2Params(),
         message("This may take some time. Install 'progress' to see a ",
                 "progress bar.")
     }
-    for (i in nonzeros) {
+    zinb.ests <- bplapply(nonzeros, function(i) {
         if (progress) {pb$tick()}
+        zinb.est <- c(mean = zinb.mean[i], prop = zinb.prop[i],
+                      disp = zinb.disp[i])
         tryCatch({
             zfit <- pscl::zeroinfl(dge$count[i, ] ~ 0 + plates | 1,
                                    dist = "negbin", offset = log(sum.facs))
-            zinb.mean[i] <- mean(exp(zfit$coefficients$count))
-            zinb.prop[i] <- zfit$coefficients$zero
-            zinb.disp[i] <- 1 / zfit$theta
+            zinb.est <- c(mean = mean(exp(zfit$coefficients$count)),
+                          prop = unname(zfit$coefficients$zero),
+                          disp = 1 / zfit$theta)
         }, error = function(err) {})
-    }
+        return(zinb.est)
+    }, BPPARAM = BPPARAM)
+
+    zinb.ests <- do.call("rbind", zinb.ests)
+
+    zinb.prop[nonzeros] <- zinb.ests[, "prop"]
+    zinb.disp[nonzeros] <- zinb.ests[, "disp"]
+    zinb.mean[nonzeros] <- zinb.ests[, "mean"]
+
     zinb.prop <- exp(zinb.prop) / (1 + exp(zinb.prop))
 
     params <- setParams(params, nGenes = length(logmeans),
