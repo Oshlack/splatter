@@ -98,7 +98,7 @@ compareSCESets <- function(sces) {
     mean.var <- ggplot(fData.all,
                        aes_string(x = "mean_log_cpm", y = "var_log_cpm",
                                   colour = "Dataset", fill = "Dataset")) +
-        geom_point(alpha = 0.2) +
+        geom_point(size = 0.1, alpha = 0.1) +
         geom_smooth() +
         xlab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
         ylab(expression(paste("Variance ", log[2], "(CPM + 1)"))) +
@@ -133,12 +133,13 @@ compareSCESets <- function(sces) {
         theme_minimal()
 
     mean.zeros <- ggplot(fData.all,
-                         aes_string(x = "mean_log_cpm", y = "pct_dropout",
+                         aes_string(x = "mean_counts", y = "pct_dropout",
                                     colour = "Dataset", fill = "Dataset")) +
-        geom_point(alpha = 0.2) +
+        geom_point(size = 0.1, alpha = 0.1) +
         geom_smooth() +
-        xlab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
-        ylab(expression(paste("Percentage zeros"))) +
+        scale_x_log10(labels = scales::comma) +
+        xlab("Mean count") +
+        ylab("Percentage zeros") +
         ggtitle("Mean-dropout relationship") +
         theme_minimal()
 
