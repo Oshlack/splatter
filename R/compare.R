@@ -44,7 +44,8 @@
 #' names(comparison)
 #' names(comparison$Plots)
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_smooth geom_boxplot
-#' geom_violin scale_y_continuous scale_y_log10 xlab ylab ggtitle theme_minimal
+#' geom_violin scale_y_continuous scale_y_log10 scale_x_log10 xlab ylab ggtitle
+#' theme_minimal
 #' @importFrom scater cpm<-
 #' @export
 compareSCESets <- function(sces) {

@@ -9,7 +9,7 @@
 #' @param min.size minimum size of clusters when identifying group of cells in
 #'        the data.
 #' @param verbose logical. Whether to show progress messages.
-#' @param BPPARAM A \code{\link[BioParallel]{BiocParallelParam}} instance
+#' @param BPPARAM A \code{\link[BiocParallel]{BiocParallelParam}} instance
 #'        giving the parallel back-end to be used. Default is
 #'        \code{\link[BiocParallel]{SerialParam}} which uses a single core.
 #'

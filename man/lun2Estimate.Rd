@@ -28,7 +28,7 @@ the data.}
 
 \item{verbose}{logical. Whether to show progress messages.}
 
-\item{BPPARAM}{A \code{\link[BioParallel]{BiocParallelParam}} instance
+\item{BPPARAM}{A \code{\link[BiocParallel]{BiocParallelParam}} instance
 giving the parallel back-end to be used. Default is
 \code{\link[BiocParallel]{SerialParam}} which uses a single core.}
 }
