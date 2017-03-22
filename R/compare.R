@@ -225,7 +225,7 @@ compareSCESets <- function(sces) {
 #' names(difference)
 #' names(difference$Plots)
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_boxplot xlab ylab
-#' ggtitle theme_minimal
+#' ggtitle theme_minimal geom_hline geom_abline
 #' @importFrom scater cpm<-
 #' @export
 diffSCESets <- function(sces, ref) {
