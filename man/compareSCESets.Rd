@@ -14,10 +14,10 @@ List containing the combined datasets and plots.
 }
 \description{
 Combine the data from several SCESet objects and produce some basic plots
-comparing.
+comparing them.
 }
 \details{
-The return list has three items:
+The returned list has three items:
 
 \describe{
     \item{\code{FeatureData}}{Combined feature data from the provided
