@@ -219,12 +219,11 @@ compareSCESets <- function(sces) {
 #' @examples
 #' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
-#' comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
-#' names(comparison)
-#' names(comparison$Plots)
-#' @importFrom ggplot2 ggplot aes_string geom_point geom_smooth geom_boxplot
-#' geom_violin scale_y_continuous scale_y_log10 scale_x_log10 xlab ylab ggtitle
-#' theme_minimal
+#' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
+#' names(difference)
+#' names(difference$Plots)
+#' @importFrom ggplot2 ggplot aes_string geom_point geom_boxplot xlab ylab
+#' ggtitle theme_minimal
 #' @importFrom scater cpm<-
 #' @export
 diffSCESets <- function(sces, ref) {
