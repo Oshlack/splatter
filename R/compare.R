@@ -14,8 +14,8 @@
 #'     \item{\code{PhenoData}}{Combined pheno data from the provided SCESets.}
 #'     \item{\code{Plots}}{Comparison plots
 #'         \describe{
-#'             \item{\code{Means}}{Violin plot of mean distribution.}
-#'             \item{\code{Variances}}{Violin plot of variance distribution.}
+#'             \item{\code{Means}}{Boxplot of mean distribution.}
+#'             \item{\code{Variances}}{Boxplot of variance distribution.}
 #'             \item{\code{MeanVar}}{Scatter plot with fitted lines showing the
 #'             mean-variance relationship.}
 #'             \item{\code{LibraySizes}}{Boxplot of the library size
@@ -82,7 +82,8 @@ compareSCESets <- function(sces) {
     means <- ggplot(fData.all,
                     aes_string(x = "Dataset", y = "mean_log_cpm",
                                colour = "Dataset")) +
-        geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) +
+        #geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) +
+        geom_boxplot() +
         ylab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
         ggtitle("Distribution of mean expression") +
         theme_minimal()
@@ -90,7 +91,8 @@ compareSCESets <- function(sces) {
     vars <- ggplot(fData.all,
                    aes_string(x = "Dataset", y = "var_cpm",
                               colour = "Dataset")) +
-        geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) +
+        #geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) +
+        geom_boxplot() +
         scale_y_log10(labels = scales::comma) +
         ylab("CPM Variance") +
         ggtitle("Distribution of variance") +

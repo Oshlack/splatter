@@ -25,8 +25,8 @@ The returned list has three items:
     \item{\code{PhenoData}}{Combined pheno data from the provided SCESets.}
     \item{\code{Plots}}{Comparison plots
         \describe{
-            \item{\code{Means}}{Violin plot of mean distribution.}
-            \item{\code{Variances}}{Violin plot of variance distribution.}
+            \item{\code{Means}}{Boxplot of mean distribution.}
+            \item{\code{Variances}}{Boxplot of variance distribution.}
             \item{\code{MeanVar}}{Scatter plot with fitted lines showing the
             mean-variance relationship.}
             \item{\code{LibraySizes}}{Boxplot of the library size
