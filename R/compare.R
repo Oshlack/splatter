@@ -80,7 +80,7 @@ compareSCESets <- function(sces) {
     pData.all$Dataset <- factor(pData.all$Dataset, levels = names(sces))
 
     means <- ggplot(fData.all,
-                    aes_string(x = "Dataset", y = "mean_log_cpm",
+                    aes_string(x = "Dataset", y = "MeanLogCPM",
                                colour = "Dataset")) +
         #geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) +
         geom_boxplot() +
@@ -89,7 +89,7 @@ compareSCESets <- function(sces) {
         theme_minimal()
 
     vars <- ggplot(fData.all,
-                   aes_string(x = "Dataset", y = "var_cpm",
+                   aes_string(x = "Dataset", y = "VarCPM",
                               colour = "Dataset")) +
         #geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) +
         geom_boxplot() +
@@ -99,7 +99,7 @@ compareSCESets <- function(sces) {
         theme_minimal()
 
     mean.var <- ggplot(fData.all,
-                       aes_string(x = "mean_log_cpm", y = "var_log_cpm",
+                       aes_string(x = "MeanLogCPM", y = "VarLogCPM",
                                   colour = "Dataset", fill = "Dataset")) +
         geom_point(size = 0.1, alpha = 0.1) +
         geom_smooth() +
@@ -136,7 +136,7 @@ compareSCESets <- function(sces) {
         theme_minimal()
 
     mean.zeros <- ggplot(fData.all,
-                         aes_string(x = "mean_counts", y = "pct_dropout",
+                         aes_string(x = "MeanCounts", y = "pct_dropout",
                                     colour = "Dataset", fill = "Dataset")) +
         geom_point(size = 0.1, alpha = 0.1) +
         geom_smooth() +
@@ -256,22 +256,23 @@ diffSCESets <- function(sces, ref) {
 
     ref.sce <- sces[[ref]]
 
-    ref.means <- sort(fData(ref.sce)$mean_log_cpm)
-    ref.vars <- sort(fData(ref.sce)$var_log_cpm)
+    ref.means <- sort(fData(ref.sce)$MeanLogCPM)
+    ref.vars <- sort(fData(ref.sce)$VarLogCPM)
     ref.libs <- sort(pData(ref.sce)$total_counts)
     ref.z.gene <- sort(fData(ref.sce)$pct_dropout)
     ref.z.cell <- sort(pData(ref.sce)$pct_dropout)
 
-    ref.vars.meanrank <- fData(ref.sce)$var_log_cpm[order(fData(ref.sce)$exprs_rank)]
-    ref.z.gene.meanrank <- fData(ref.sce)$pct_dropout[order(fData(ref.sce)$exprs_rank)]
+    ref.rank.ord <- order(fData(ref.sce)$exprs_rank)
+    ref.vars.rank <- fData(ref.sce)$VarLogCPM[ref.rank.ord]
+    ref.z.gene.rank <- fData(ref.sce)$pct_dropout[ref.rank.ord]
 
     for (name in names(sces)) {
         sce <- sces[[name]]
-        fData(sce)$RefRankMeanLogCPM <- ref.means[rank(fData(sce)$mean_log_cpm)]
-        fData(sce)$RankDiffMeanLogCPM <- fData(sce)$mean_log_cpm -
+        fData(sce)$RefRankMeanLogCPM <- ref.means[rank(fData(sce)$MeanLogCPM)]
+        fData(sce)$RankDiffMeanLogCPM <- fData(sce)$MeanLogCPM -
             fData(sce)$RefRankMeanLogCPM
-        fData(sce)$RefRankVarLogCPM <- ref.vars[rank(fData(sce)$var_log_cpm)]
-        fData(sce)$RankDiffVarLogCPM <- fData(sce)$var_log_cpm -
+        fData(sce)$RefRankVarLogCPM <- ref.vars[rank(fData(sce)$VarLogCPM)]
+        fData(sce)$RankDiffVarLogCPM <- fData(sce)$VarLogCPM -
             fData(sce)$RefRankVarLogCPM
         pData(sce)$RefRankLibSize <- ref.libs[rank(pData(sce)$total_counts)]
         pData(sce)$RankDiffLibSize <- pData(sce)$total_counts -
@@ -283,10 +284,10 @@ diffSCESets <- function(sces, ref) {
         pData(sce)$RankDiffZeros <- pData(sce)$pct_dropout -
             pData(sce)$RefRankZeros
 
-        fData(sce)$MeanRankVarDiff <- fData(sce)$var_log_cpm -
-            ref.vars.meanrank[fData(sce)$exprs_rank]
+        fData(sce)$MeanRankVarDiff <- fData(sce)$VarLogCPM -
+            ref.vars.rank[fData(sce)$exprs_rank]
         fData(sce)$MeanRankZerosDiff <- fData(sce)$pct_dropout -
-            ref.z.gene.meanrank[fData(sce)$exprs_rank]
+            ref.z.gene.rank[fData(sce)$exprs_rank]
 
         sces[[name]] <- sce
     }
@@ -376,7 +377,7 @@ diffSCESets <- function(sces, ref) {
         theme_minimal()
 
     means.qq <- ggplot(fData.all,
-                       aes_string(x = "RefRankMeanLogCPM", y = "mean_log_cpm",
+                       aes_string(x = "RefRankMeanLogCPM", y = "MeanLogCPM",
                                   colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
         geom_point() +
@@ -386,7 +387,7 @@ diffSCESets <- function(sces, ref) {
         theme_minimal()
 
     vars.qq <- ggplot(fData.all,
-                      aes_string(x = "RefRankVarLogCPM", y = "var_log_cpm",
+                      aes_string(x = "RefRankVarLogCPM", y = "VarLogCPM",
                                  colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
         geom_point() +
