@@ -452,6 +452,27 @@ ggplot(comparison$PhenoData,
     geom_point()
 ```
 
+## Comparing differences
+
+Sometimes instead of visually comparing datasets it may be more interesting to
+look at the differences between them. We can do this using the `diffSCESets`
+function. Similar to `compareSCESets` this function takes a list of `SCESet`
+objects but now we also specify one to be a reference. A series of similar plots
+are returned but instead of showing the overall distributions they demonstrate
+differences from the reference.
+
+```{r difference}
+difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
+difference$Plots$Means
+```
+
+We also get a series of Quantile-Quantile plot that can be used to compare
+distributions.
+
+```{r difference-qq}
+difference$QQPlots$Means
+```
+
 # Session information {-}
 
 ```{r sessionInfo}

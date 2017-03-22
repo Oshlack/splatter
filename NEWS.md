@@ -1,3 +1,11 @@
+# 0.99.12
+
+* Add diffSCESets function
+* Update compareSCESets plots
+* Modify Lun2 nGenes estimate
+* Modify how addFeatureStats names columns
+* Add infinte bcv.df warning to splatSimulate
+
 # 0.99.11
 
 * Add parallel option to lun2Estimate
