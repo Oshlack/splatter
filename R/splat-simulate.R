@@ -537,8 +537,13 @@ splatSimBCVMeans <- function(sim, params) {
     bcv.df <- getParam(params, "bcv.df")
     base.means.cell <- get_exprs(sim, "BaseCellMeans")
 
-    bcv <- (bcv.common + (1 / sqrt(base.means.cell))) *
-        sqrt(bcv.df / rchisq(nGenes, df = bcv.df))
+    if (is.finite(bcv.df)) {
+        bcv <- (bcv.common + (1 / sqrt(base.means.cell))) *
+            sqrt(bcv.df / rchisq(nGenes, df = bcv.df))
+    } else {
+        warning("'bcv.df' is infinite. This parameter will be ignored.")
+        bcv <- (bcv.common + (1 / sqrt(base.means.cell)))
+    }
 
     means.cell <- matrix(rgamma(nGenes * nCells, shape = 1 / (bcv ^ 2),
                                 scale = base.means.cell * (bcv ^ 2)),

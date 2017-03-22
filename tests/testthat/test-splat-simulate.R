@@ -15,3 +15,8 @@ test_that("one group switches to single mode", {
     expect_silent(splatSimulate(test.params, method = "paths",
                                 groupCells = c(10), verbose = FALSE))
 })
+
+test_that("infinite bcv.df is detected", {
+    expect_warning(splatSimulate(test.params, bcv.df = Inf),
+                   "'bcv.df' is infinite. This parameter will be ignored.")
+})
