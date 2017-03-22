@@ -30,6 +30,8 @@ Add additional feature statistics to an SCESet object
 \details{
 Currently adds the following statistics: mean, variance, coefficient of
 variation, median and median absolute deviation. Statistics are added to
-the \code{fData} slot and are named \code{stat_[log]_value_[no0]} where
-\code{log} and \code{no0} are added if those arguments are true.
+the \code{fData} slot and are named \code{Stat[Log]Value[No0]} where
+\code{Log} and \code{No0} are added if those arguments are true.
+UpperCamelCase is used to differentiate these columns from those added by
+\code{scater}.
 }
