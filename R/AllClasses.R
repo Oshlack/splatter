@@ -294,6 +294,17 @@ setClass("LunParams",
 #'     \item{\code{nGenes}}{The number of genes to simulate.}
 #'     \item{\code{nCells}}{The number of cells to simulate.}
 #'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\emph{Gene parameters}}{
+#'         \describe{
+#'             \item{\code{gene.params}}{A \code{data.frame} containing gene
+#'             parameters with two coloumns: \code{Mean} (mean expression for
+#'             each gene) and \code{Disp} (dispersion for each gene).}
+#'             \item{\code{zi.params}}{A \code{data.frame} containing
+#'             zero-inflated gene parameters with three coloumns: \code{Mean}
+#'             (mean expression for each gene), \code{Disp} (dispersion for
+#'             each, gene), and \code{Prop} (zero proportion for each gene).}
+#'         }
+#'     }
 #'     \item{\code{[nPlates]}}{The number of plates to simulate.}
 #'     \item{\emph{Plate parameters}}{
 #'         \describe{
@@ -302,15 +313,6 @@ setClass("LunParams",
 #'             \item{\code{plate.mod}}{Plate effect modifier factor. The plate
 #'             effect variance is divided by this value.}
 #'             \item{\code{plate.var}}{Plate effect variance.}
-#'         }
-#'     }
-#'     \item{\emph{Gene parameters}}{
-#'         \describe{
-#'             \item{\code{gene.means}}{Mean expression for each gene.}
-#'             \item{\code{gene.disps}}{Dispersion for each gene.}
-#'             \item{\code{gene.ziMeans}}{Zero-inflated gene means.}
-#'             \item{\code{gene.ziDisps}}{Zero-inflated gene dispersions.}
-#'             \item{\code{gene.ziProps}}{Zero-inflated gene zero proportions.}
 #'         }
 #'     }
 #'     \item{\emph{Cell parameters}}{

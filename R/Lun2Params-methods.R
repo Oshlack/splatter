@@ -69,35 +69,10 @@ setMethod("setParam", "Lun2Params", function(object, name, value) {
     }
 
     if (name == "cell.plates") {
-    #    old.nCells <- getParam(object, "nCells")
         object <- setParamUnchecked(object, "nCells", length(value))
         object <- setParamUnchecked(object, "nPlates", length(unique(value)))
-    #    if (length(value) != old.nCells) {
-    #        warning("nCells has been changed. cell.libSizes will be sampled ",
-    #                "to length nCells")
-    #        selected <- sample(seq_len(old.nCells), length(value),
-    #                           replace = TRUE)
-    #        old.libSizes <- getParam(object, "cell.libSizes")
-    #        object <- setParamUnchecked(object, "cell.libSizes",
-    #                                    old.libSizes[selected])
-    #    }
         value <- factor(value)
     }
-
-    #if (name == "nGenes") {
-    #    old.nGenes <- getParam(object, "nGenes")
-    #    if (value != old.nGenes) {
-    #        warning("nGenes has been changed. Gene parameter vectors will be ",
-    #                "sampled to length new nGenes.")
-    #        selected <- sample(seq_len(old.nGenes), size = value,
-    #                           replace = TRUE)
-    #        for (parameter in grep("gene", slotNames(object), value = TRUE)) {
-    #            old.value <- getParam(object, parameter)
-    #            object <- setParamUnchecked(object, parameter,
-    #                                        old.value[selected])
-    #        }
-    #    }
-    #}
 
     object <- callNextMethod()
 

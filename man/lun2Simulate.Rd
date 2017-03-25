@@ -32,6 +32,13 @@ simulation is the addition of plate effects. Differential expression can be
 added between two groups of plates (an "ingroup" and all other plates).
 Library size factors are also applied and optionally a zero-inflated
 negative-binomial can be used.
+
+If the number of genes to simulate differs from the number of provied gene
+parameters or the number of cells to simulate differs from the number of
+library sizes the relevant paramters will be sampled with a warning. This
+allows any number of genes or cells to be simulated regardless of the
+number in the dataset used in the estimation step but has the downside that
+some genes or cells may be simulated multiple times.
 }
 \examples{
 sim <- lun2Simulate()
