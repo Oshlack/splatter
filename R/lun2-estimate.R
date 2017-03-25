@@ -185,12 +185,13 @@ lun2Estimate.matrix <- function(counts, plates, params = newLun2Params(),
 
     zinb.prop <- exp(zinb.prop) / (1 + exp(zinb.prop))
 
-    params <- setParams(params, nGenes = nrow(counts),
+    params <- setParams(params, nGenes = length(logmeans),
                         cell.plates = plates, plate.var = sigma2,
-                        gene.means = exp(logmeans),
-                        gene.disps = dge$tagwise.dispersion,
-                        gene.ziMeans = zinb.mean, gene.ziDisps = zinb.disp,
-                        gene.ziProps = zinb.prop,
+                        gene.params = data.frame(Mean = exp(logmeans),
+                                                 Disp = dge$tagwise.dispersion),
+                        zi.params = data.frame(Mean = zinb.mean,
+                                               Disp = zinb.disp,
+                                               Prop = zinb.prop),
                         cell.libSizes = dge$samples$lib.size)
 
     return(params)

@@ -52,16 +52,53 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
     plate.var <- getParam(params, "plate.var") / getParam(params, "plate.mod")
     lib.sizes <- getParam(params, "cell.libSizes")
     lib.mod <- getParam(params, "cell.libMod")
-    # Select gene parameters depending on model
-    if (!zinb) {
-        gene.means <- getParam(params, "gene.means")
-        gene.disps <- getParam(params, "gene.disps")
-    } else {
-        gene.means <- getParam(params, "gene.ziMeans")
-        gene.disps <- getParam(params, "gene.ziDisps")
-        gene.ziProps <- getParam(params, "gene.ziProps")
+
+    # Sample lib.sizes if necessary
+    if (length(lib.sizes) != nCells) {
+        warning("Number of lib.sizes not equal to nCells. ",
+                "lib.sizes will be sampled.")
+        selected <- sample(length(lib.sizes), nCells, replace = TRUE)
+        libSizes <- lib.sizes[selected]
     }
+
+    # Select gene parameters depending on model
+    if (zinb) {
+        gene.params <- getParam(params, "zi.params")
+    } else {
+        gene.params <- getParam(params, "gene.params")
+    }
+
+    # Sample gene parameters if necessary
+    if (nrow(gene.params) != nGenes) {
+        warning("Number of gene parameters does not equal nGenes. ",
+                "Gene parameters will be sampled.")
+        selected <- sample(nrow(gene.params), nGenes, replace = TRUE)
+        gene.params <- gene.params[selected, ]
+    }
+
+    gene.means <- gene.params$Mean
+    gene.disps <- gene.params$Disp
+    if (zinb) {
+        gene.ziProps <- gene.params$Prop
+    }
+
     de.nGenes <- getParam(params, "de.nGenes")
+
+    #if (name == "nGenes") {
+    #    old.nGenes <- getParam(object, "nGenes")
+    #    if (value != old.nGenes) {
+    #        warning("nGenes has been changed. Gene parameter vectors will be ",
+    #                "sampled to length new nGenes.")
+    #        selected <- sample(seq_len(old.nGenes), size = value,
+    #                           replace = TRUE)
+    #        for (parameter in grep("gene", slotNames(object), value = TRUE)) {
+    #            old.value <- getParam(object, parameter)
+    #            object <- setParamUnchecked(object, parameter,
+    #                                        old.value[selected])
+    #        }
+    #    }
+    #}
+
 
     # Set up objects to store intermediate values
     cell.names <- paste0("Cell", seq_len(nCells))

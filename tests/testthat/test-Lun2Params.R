@@ -8,16 +8,11 @@ test_that("nCells checks work", {
                  "nPlates cannot be set directly, set cell.plates instead")
 })
 
-test_that("cell sampling works", {
+test_that("gene.params checks work", {
     params <- newLun2Params()
-    expect_warning(setParam(params, "cell.plates", 1),
-                   paste("nCells has been changed. cell.libSizes will be",
-                         "sampled to length nCells"))
-})
-
-test_that("gene sampling works", {
-    params <- newLun2Params()
-    expect_warning(setParam(params, "nGenes", 1),
-                   paste("nGenes has been changed. Gene parameter vectors will",
-                         "be sampled to length new nGenes."))
+    expect_error(setParam(params, "gene.params", data.frame(A = 1, B = 1)),
+                 "gene.params: Incorrect column names")
+    expect_error(setParam(params, "gene.params",
+                          data.frame(Mean = 1, Disp = "a")),
+                 "gene.params: May only contain the following types: numeric")
 })
