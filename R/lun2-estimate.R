@@ -71,7 +71,7 @@ lun2Estimate.matrix <- function(counts, plates, params = newLun2Params(),
     progress <- progress && verbose
 
     checkmate::assertClass(params, "Lun2Params")
-    checkmate::assertInt(min.size, lower = 20, upper = length(plates))
+    checkmate::assertInt(min.size, lower = 1, upper = length(plates))
     checkmate::assertIntegerish(plates, len = ncol(counts))
 
     if (length(unique(plates)) < 2) {
