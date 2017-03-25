@@ -1,3 +1,9 @@
+# 0.99.13
+
+* Modify how Lun2Params stores gene paramters to use data.frame
+* Move sampling of genes/cells to lun2Simulate
+* Return to old Lun2 nGenes estimate
+
 # 0.99.12
 
 * Add diffSCESets function
