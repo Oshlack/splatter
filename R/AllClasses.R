@@ -294,6 +294,17 @@ setClass("LunParams",
 #'     \item{\code{nGenes}}{The number of genes to simulate.}
 #'     \item{\code{nCells}}{The number of cells to simulate.}
 #'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\emph{Gene parameters}}{
+#'         \describe{
+#'             \item{\code{gene.params}}{A \code{data.frame} containing gene
+#'             parameters with two coloumns: \code{Mean} (mean expression for
+#'             each gene) and \code{Disp} (dispersion for each gene).}
+#'             \item{\code{zi.params}}{A \code{data.frame} containing
+#'             zero-inflated gene parameters with three coloumns: \code{Mean}
+#'             (mean expression for each gene), \code{Disp} (dispersion for
+#'             each, gene), and \code{Prop} (zero proportion for each gene).}
+#'         }
+#'     }
 #'     \item{\code{[nPlates]}}{The number of plates to simulate.}
 #'     \item{\emph{Plate parameters}}{
 #'         \describe{
@@ -302,15 +313,6 @@ setClass("LunParams",
 #'             \item{\code{plate.mod}}{Plate effect modifier factor. The plate
 #'             effect variance is divided by this value.}
 #'             \item{\code{plate.var}}{Plate effect variance.}
-#'         }
-#'     }
-#'     \item{\emph{Gene parameters}}{
-#'         \describe{
-#'             \item{\code{gene.means}}{Mean expression for each gene.}
-#'             \item{\code{gene.disps}}{Dispersion for each gene.}
-#'             \item{\code{gene.ziMeans}}{Zero-inflated gene means.}
-#'             \item{\code{gene.ziDisps}}{Zero-inflated gene dispersions.}
-#'             \item{\code{gene.ziProps}}{Zero-inflated gene zero proportions.}
 #'         }
 #'     }
 #'     \item{\emph{Cell parameters}}{
@@ -346,11 +348,8 @@ setClass("Lun2Params",
                    plate.ingroup = "character",
                    plate.mod = "numeric",
                    plate.var = "numeric",
-                   gene.means = "numeric",
-                   gene.disps = "numeric",
-                   gene.ziMeans = "numeric",
-                   gene.ziDisps = "numeric",
-                   gene.ziProps = "numeric",
+                   gene.params = "data.frame",
+                   zi.params = "data.frame",
                    cell.plates = "numeric",
                    cell.libSizes = "numeric",
                    cell.libMod = "numeric",
@@ -361,11 +360,13 @@ setClass("Lun2Params",
                                plate.ingroup = "1",
                                plate.mod = 1,
                                plate.var = 14,
-                               gene.means = rep(3.2, 10000),
-                               gene.disps = rep(0.03, 10000),
-                               gene.ziMeans = rep(1.6, 10000),
-                               gene.ziDisps = rep(0.1, 10000),
-                               gene.ziProps = rep(2.3e-6, 10000),
+                               gene.params = data.frame(Mean = rep(3.2, 10000),
+                                                        Disp = rep(0.03, 10000)
+                                                        ),
+                               zi.params = data.frame(Mean = rep(1.6, 10000),
+                                                      Disp = rep(0.1, 10000),
+                                                      Prop = rep(2.3e-6, 10000)
+                                                      ),
                                cell.libSizes = rep(70000, 100),
                                cell.libMod = 1,
                                de.nGenes = 0,
