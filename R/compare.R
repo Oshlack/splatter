@@ -4,6 +4,10 @@
 #' comparing them.
 #'
 #' @param sces named list of SCESet objects to combine and compare.
+#' @param point.size size of points in scatter plots.
+#' @param point.alpha opacity of points in scatter plots.
+#' @param fits whether to include fits in scatter plots.
+#' @param colours vector of colours to use for each dataset.
 #'
 #' @details
 #' The returned list has three items:
@@ -44,14 +48,25 @@
 #' names(comparison)
 #' names(comparison$Plots)
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_smooth geom_boxplot
-#' geom_violin scale_y_continuous scale_y_log10 scale_x_log10 xlab ylab ggtitle
+#' scale_y_continuous scale_y_log10 scale_x_log10 xlab ylab ggtitle
 #' theme_minimal
 #' @importFrom scater cpm<-
 #' @export
-compareSCESets <- function(sces) {
+compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
+                           fits = TRUE, colours = NULL) {
 
     checkmate::assertList(sces, types = "SCESet", any.missing = FALSE,
                           min.len = 1, names = "unique")
+    checkmate::assertNumber(point.size, finite = TRUE)
+    checkmate::assertNumber(point.alpha, lower = 0, upper = 1)
+    checkmate::assertLogical(fits, any.missing = FALSE, len = 1)
+
+    if (!is.null(colours)) {
+        checkmate::assertCharacter(colours, any.missing = FALSE,
+                                   len = length(sces))
+    } else {
+        colours <- scales::hue_pal()(length(sces))
+    }
 
     for (name in names(sces)) {
         sce <- sces[[name]]
@@ -84,6 +99,7 @@ compareSCESets <- function(sces) {
                                colour = "Dataset")) +
         #geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) +
         geom_boxplot() +
+        scale_colour_manual(values = colours) +
         ylab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
         ggtitle("Distribution of mean expression") +
         theme_minimal()
@@ -94,6 +110,7 @@ compareSCESets <- function(sces) {
         #geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) +
         geom_boxplot() +
         scale_y_log10(labels = scales::comma) +
+        scale_colour_manual(values = colours) +
         ylab("CPM Variance") +
         ggtitle("Distribution of variance") +
         theme_minimal()
@@ -101,8 +118,9 @@ compareSCESets <- function(sces) {
     mean.var <- ggplot(fData.all,
                        aes_string(x = "MeanLogCPM", y = "VarLogCPM",
                                   colour = "Dataset", fill = "Dataset")) +
-        geom_point(size = 0.1, alpha = 0.1) +
-        geom_smooth() +
+        geom_point(size = point.size, alpha = point.alpha) +
+        scale_colour_manual(values = colours) +
+        scale_fill_manual(values = colours) +
         xlab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
         ylab(expression(paste("Variance ", log[2], "(CPM + 1)"))) +
         ggtitle("Mean-variance relationship") +
@@ -113,6 +131,7 @@ compareSCESets <- function(sces) {
                               colour = "Dataset")) +
         geom_boxplot() +
         scale_y_continuous(labels = scales::comma) +
+        scale_colour_manual(values = colours) +
         ylab("Total counts per cell") +
         ggtitle("Distribution of library sizes") +
         theme_minimal()
@@ -122,6 +141,7 @@ compareSCESets <- function(sces) {
                                 colour = "Dataset")) +
         geom_boxplot() +
         scale_y_continuous(limits = c(0, 100)) +
+        scale_colour_manual(values = colours) +
         ylab("Percentage zeros per gene") +
         ggtitle("Distribution of zeros per gene") +
         theme_minimal()
@@ -131,6 +151,7 @@ compareSCESets <- function(sces) {
                                 colour = "Dataset")) +
         geom_boxplot() +
         scale_y_continuous(limits = c(0, 100)) +
+        scale_colour_manual(values = colours) +
         ylab("Percentage zeros per cell") +
         ggtitle("Distribution of zeros per cell") +
         theme_minimal()
@@ -138,13 +159,19 @@ compareSCESets <- function(sces) {
     mean.zeros <- ggplot(fData.all,
                          aes_string(x = "MeanCounts", y = "pct_dropout",
                                     colour = "Dataset", fill = "Dataset")) +
-        geom_point(size = 0.1, alpha = 0.1) +
-        geom_smooth() +
+        geom_point(size = point.size, alpha = point.alpha) +
         scale_x_log10(labels = scales::comma) +
+        scale_colour_manual(values = colours) +
+        scale_fill_manual(values = colours) +
         xlab("Mean count") +
         ylab("Percentage zeros") +
         ggtitle("Mean-dropout relationship") +
         theme_minimal()
+
+    if (fits) {
+        mean.var <- mean.var + geom_smooth()
+        mean.zeros <- mean.zeros + geom_smooth()
+    }
 
     comparison <- list(FeatureData = fData.all,
                        PhenoData = pData.all,
@@ -166,6 +193,10 @@ compareSCESets <- function(sces) {
 #'
 #' @param sces named list of SCESet objects to combine and compare.
 #' @param ref string giving the name of the SCESet to use as the reference
+#' @param point.size size of points in scatter plots.
+#' @param point.alpha opacity of points in scatter plots.
+#' @param fits whether to include fits in scatter plots.
+#' @param colours vector of colours to use for each dataset.
 #'
 #' @details
 #'
@@ -228,14 +259,25 @@ compareSCESets <- function(sces) {
 #' ggtitle theme_minimal geom_hline geom_abline
 #' @importFrom scater cpm<-
 #' @export
-diffSCESets <- function(sces, ref) {
+diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
+                        fits = TRUE, colours = NULL) {
 
     checkmate::assertList(sces, types = "SCESet", any.missing = FALSE,
                           min.len = 2, names = "unique")
     checkmate::assertString(ref)
+    checkmate::assertNumber(point.size, finite = TRUE)
+    checkmate::assertNumber(point.alpha, lower = 0, upper = 1)
+    checkmate::assertLogical(fits, any.missing = FALSE, len = 1)
 
     if (!(ref %in% names(sces))) {
         stop("'ref' must be the name of an SCESet in 'sces'")
+    }
+
+    if (!is.null(colours)) {
+        checkmate::assertCharacter(colours, any.missing = FALSE,
+                                   len = length(sces) - 1)
+    } else {
+        colours <- scales::hue_pal()(length(sces))
     }
 
     ref.dim <- dim(sces[[ref]])
@@ -314,6 +356,7 @@ diffSCESets <- function(sces, ref) {
                                colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_boxplot() +
+        scale_colour_manual(values = colours) +
         ylab(expression(paste("Rank difference mean ", log[2], "(CPM + 1)"))) +
         ggtitle("Difference in mean expression") +
         theme_minimal()
@@ -323,6 +366,7 @@ diffSCESets <- function(sces, ref) {
                                colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_boxplot() +
+        scale_colour_manual(values = colours) +
         ylab(expression(paste("Rank difference variance ", log[2],
                               "(CPM + 1)"))) +
         ggtitle("Difference in variance") +
@@ -330,9 +374,11 @@ diffSCESets <- function(sces, ref) {
 
     mean.var <- ggplot(fData.all,
                        aes_string(x = "exprs_rank", y = "MeanRankVarDiff",
-                                  colour = "Dataset")) +
+                                  colour = "Dataset", fill = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
-        geom_point() +
+        geom_point(size = point.size, alpha = point.alpha) +
+        scale_colour_manual(values = colours) +
+        scale_fill_manual(values = colours) +
         xlab("Expression rank") +
         ylab(expression(paste("Difference in variance ", log[2],
                               "(CPM + 1)"))) +
@@ -344,6 +390,7 @@ diffSCESets <- function(sces, ref) {
                               colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_boxplot() +
+        scale_colour_manual(values = colours) +
         ylab(paste("Rank difference libray size")) +
         ggtitle("Difference in library sizes") +
         theme_minimal()
@@ -353,6 +400,7 @@ diffSCESets <- function(sces, ref) {
                                 colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_boxplot() +
+        scale_colour_manual(values = colours) +
         ylab(paste("Rank difference percentage zeros")) +
         ggtitle("Difference in zeros per gene") +
         theme_minimal()
@@ -362,15 +410,18 @@ diffSCESets <- function(sces, ref) {
                                 colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_boxplot() +
+        scale_colour_manual(values = colours) +
         ylab(paste("Rank difference percentage zeros")) +
         ggtitle("Difference in zeros per cell") +
         theme_minimal()
 
     mean.zeros <- ggplot(fData.all,
                        aes_string(x = "exprs_rank", y = "MeanRankZerosDiff",
-                                  colour = "Dataset")) +
+                                  colour = "Dataset", fill = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
-        geom_point() +
+        geom_point(size = point.size, alpha = point.alpha) +
+        scale_colour_manual(values = colours) +
+        scale_fill_manual(values = colours) +
         xlab("Expression rank") +
         ylab("Difference in percentage zeros per gene") +
         ggtitle("Difference in mean-zeros relationship") +
@@ -380,7 +431,8 @@ diffSCESets <- function(sces, ref) {
                        aes_string(x = "RefRankMeanLogCPM", y = "MeanLogCPM",
                                   colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point() +
+        geom_point(size = point.size, alpha = point.alpha) +
+        scale_colour_manual(values = colours) +
         xlab(expression(paste("Reference mean ", log[2], "(CPM + 1)"))) +
         ylab(expression(paste("Alternative mean ", log[2], "(CPM + 1)"))) +
         ggtitle("Ranked means") +
@@ -390,7 +442,8 @@ diffSCESets <- function(sces, ref) {
                       aes_string(x = "RefRankVarLogCPM", y = "VarLogCPM",
                                  colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point() +
+        geom_point(size = point.size, alpha = point.alpha) +
+        scale_colour_manual(values = colours) +
         xlab(expression(paste("Reference variance ", log[2], "(CPM + 1)"))) +
         ylab(expression(paste("Alternative variance ", log[2], "(CPM + 1)"))) +
         ggtitle("Ranked variances") +
@@ -400,7 +453,8 @@ diffSCESets <- function(sces, ref) {
                       aes_string(x = "RefRankLibSize", y = "total_counts",
                                  colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point() +
+        geom_point(size = point.size, alpha = point.alpha) +
+        scale_colour_manual(values = colours) +
         xlab("Reference library size") +
         ylab("Alternative library size") +
         ggtitle("Ranked library sizes") +
@@ -410,7 +464,8 @@ diffSCESets <- function(sces, ref) {
                         aes_string(x = "RefRankZeros", y = "pct_dropout",
                                    colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point() +
+        geom_point(size = point.size, alpha = point.alpha) +
+        scale_colour_manual(values = colours) +
         xlab("Reference percentage zeros") +
         ylab("Alternative percentage zeros") +
         ggtitle("Ranked percentage zeros per gene") +
@@ -420,11 +475,17 @@ diffSCESets <- function(sces, ref) {
                         aes_string(x = "RefRankZeros", y = "pct_dropout",
                                    colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point() +
+        geom_point(size = point.size, alpha = point.alpha) +
+        scale_colour_manual(values = colours) +
         xlab("Reference percentage zeros") +
         ylab("Alternative percentage zeros") +
         ggtitle("Ranked percentage zeros per cell") +
         theme_minimal()
+
+    if (fits) {
+        mean.var <- mean.var + geom_smooth()
+        mean.zeros <- mean.zeros + geom_smooth()
+    }
 
     comparison <- list(Reference = ref.sce,
                        FeatureData = fData.all,
