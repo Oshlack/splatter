@@ -4,21 +4,29 @@
 \alias{makeCompPanel}
 \title{Make comparison panel}
 \usage{
-makeCompPanel(comp, labels = c("A", "B", "C", "D", "E", "F", "G", ""))
+makeCompPanel(comp, title = "Comparison", labels = c("Means", "Variance",
+  "Mean-variance relationship", "Library size", "Zeros per gene",
+  "Zeros per cell", "Mean-zeros relationship"))
 }
 \arguments{
-\item{comp}{list returned by \code{\link{combineSCESets}}.}
+\item{comp}{list returned by \code{\link{compareSCESets}}.}
+
+\item{title}{title for the panel.}
+
+\item{labels}{vector of labels for each of the seven plots.}
 }
 \value{
 Combined panel plot
 }
 \description{
-Combine the plots from \code{combineSCESets} into a single panel.
+Combine the plots from \code{compareSCESets} into a single panel.
 }
 \examples{
+\dontrun{
 sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
 sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
 panel <- makeCompPanel(comparison)
+}
 
 }

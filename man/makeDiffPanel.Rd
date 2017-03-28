@@ -4,11 +4,16 @@
 \alias{makeDiffPanel}
 \title{Make difference panel}
 \usage{
-makeDiffPanel(diff, labels = c("A", "B", "C", "D", "E", "F", "G", "H", "I",
-  "J", "K", "L", ""))
+makeDiffPanel(diff, title = "Difference comparison", labels = c("Means",
+  "Variance", "Library size", "Zeros per cell", "Zeros per gene",
+  "Mean-variance relationship", "Mean-zeros relationship"))
 }
 \arguments{
 \item{diff}{list returned by \code{\link{diffSCESets}}.}
+
+\item{title}{title for the panel.}
+
+\item{labels}{vector of labels for each of the seven sections.}
 }
 \value{
 Combined panel plot
@@ -17,9 +22,11 @@ Combined panel plot
 Combine the plots from \code{diffSCESets} into a single panel.
 }
 \examples{
+\dontrun{
 sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
 sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
-panel <- makeCompPanel(difference)
+panel <- makeDiffPanel(difference)
+}
 
 }

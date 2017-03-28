@@ -49,7 +49,7 @@
 #' names(comparison$Plots)
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_smooth geom_boxplot
 #' scale_y_continuous scale_y_log10 scale_x_log10 xlab ylab ggtitle
-#' theme_minimal
+#' theme_minimal scale_colour_manual scale_fill_manual
 #' @importFrom scater cpm<-
 #' @export
 compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
@@ -256,7 +256,8 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
 #' names(difference)
 #' names(difference$Plots)
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_boxplot xlab ylab
-#' ggtitle theme_minimal geom_hline geom_abline
+#' ggtitle theme_minimal geom_hline geom_abline scale_colour_manual
+#' scale_fill_manual
 #' @importFrom scater cpm<-
 #' @export
 diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
@@ -508,21 +509,23 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
 #' Make comparison panel
 #'
-#' Combine the plots from \code{combineSCESets} into a single panel.
+#' Combine the plots from \code{compareSCESets} into a single panel.
 #'
-#' @param comp list returned by \code{\link{combineSCESets}}.
+#' @param comp list returned by \code{\link{compareSCESets}}.
 #' @param title title for the panel.
-#' @paramlabels vector of labels for each of the seven plots.
+#' @param labels vector of labels for each of the seven plots.
 #'
 #' @return Combined panel plot
 #'
 #' @examples
+#' \dontrun{
 #' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
 #' panel <- makeCompPanel(comparison)
+#' }
 #'
-#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 theme element_blank
 #' @export
 makeCompPanel <- function(comp, title = "Comparison",
                           labels = c("Means", "Variance",
@@ -594,17 +597,19 @@ makeCompPanel <- function(comp, title = "Comparison",
 #'
 #' @param diff list returned by \code{\link{diffSCESets}}.
 #' @param title title for the panel.
-#' @paramlabels vector of labels for each of the seven sections.
+#' @param labels vector of labels for each of the seven sections.
 #'
 #' @return Combined panel plot
 #'
 #' @examples
+#' \dontrun{
 #' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
 #' panel <- makeDiffPanel(difference)
+#' }
 #'
-#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 theme element_blank
 #' @export
 makeDiffPanel <- function(diff, title = "Difference comparison",
                           labels = c("Means", "Variance", "Library size",
@@ -681,7 +686,7 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
 #' Combine the plots from \code{compSCESets} and \code{diffSCESets} into a
 #' single panel.
 #'
-#' @param comp list returned by \code{\link{compSCESets}}.
+#' @param comp list returned by \code{\link{compareSCESets}}.
 #' @param diff list returned by \code{\link{diffSCESets}}.
 #' @param title title for the panel.
 #' @param row.labels vector of labels for each of the seven rows.
@@ -689,13 +694,15 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
 #' @return Combined panel plot
 #'
 #' @examples
+#' \dontrun{
 #' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' comparison <- compSCESets(list(Splat = sim1, Simple = sim2))
 #' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
 #' panel <- makeOverallPanel(comparison, difference)
+#' }
 #'
-#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 theme element_blank
 #' @export
 makeOverallPanel <- function(comp, diff, title = "Overall comparison",
                              row.labels = c("Means", "Variance",
