@@ -4,12 +4,21 @@
 \alias{diffSCESets}
 \title{Diff SCESet objects}
 \usage{
-diffSCESets(sces, ref)
+diffSCESets(sces, ref, point.size = 0.1, point.alpha = 0.1, fits = TRUE,
+  colours = NULL)
 }
 \arguments{
 \item{sces}{named list of SCESet objects to combine and compare.}
 
 \item{ref}{string giving the name of the SCESet to use as the reference}
+
+\item{point.size}{size of points in scatter plots.}
+
+\item{point.alpha}{opacity of points in scatter plots.}
+
+\item{fits}{whether to include fits in scatter plots.}
+
+\item{colours}{vector of colours to use for each dataset.}
 }
 \value{
 List containing the combined datasets and plots.
