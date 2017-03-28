@@ -511,6 +511,8 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 #' Combine the plots from \code{combineSCESets} into a single panel.
 #'
 #' @param comp list returned by \code{\link{combineSCESets}}.
+#' @param title title for the panel.
+#' @paramlabels vector of labels for each of the seven plots.
 #'
 #' @return Combined panel plot
 #'
@@ -522,48 +524,65 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 #'
 #' @importFrom ggplot2 theme
 #' @export
-makeCompPanel <- function(comp,
-                          labels = c("A", "B", "C", "D", "E", "F", "G", "")) {
+makeCompPanel <- function(comp, title = "Comparison",
+                          labels = c("Means", "Variance",
+                                     "Mean-variance relationship",
+                                     "Library size", "Zeros per gene",
+                                     "Zeros per cell",
+                                     "Mean-zeros relationship")) {
 
     if (!requireNamespace("cowplot", quietly = TRUE)) {
         stop("The `cowplot` package is required to make panels.")
     }
 
-    p1 <- comp$Plots$Means + theme(legend.position = "none",
-                                   axis.title.x = element_blank())
-    p2 <- comp$Plots$Variances + theme(legend.position = "none",
-                                       axis.title.x = element_blank())
-    p3 <- comp$Plots$MeanVar + theme(legend.position = "none")
-    p4 <- comp$Plots$LibrarySizes + theme(legend.position = "none",
-                                          axis.title.x = element_blank())
-    p5 <- comp$Plots$ZerosGene + theme(legend.position = "none",
-                                       axis.title.x = element_blank())
-    p6 <-  comp$Plots$ZerosCell + theme(legend.position = "none",
-                                        axis.title.x = element_blank())
-    p7 <- comp$Plots$MeanZeros + theme(legend.position = "none")
-    leg <- cowplot::get_legend(p1 + theme(legend.position = "bottom"))
+    checkmate::assertList(comp, any.missing = FALSE, len = 3)
+    checkmate::checkString(title)
+    checkmate::checkCharacter(labels, len = 7)
 
-    #panel <- cowplot::plot_grid(p1, p2, p3, p4, p5, p6, p7, leg,
-    #                            ncol = 2,
-    #                            labels = c("A", "B", "C", "D", "E", "F", "G", ""))
+    plots <- list(p1 = comp$Plots$Means, p2 = comp$Plots$Variances,
+                  p3 = comp$Plots$MeanVar, p4 = comp$Plots$LibrarySizes,
+                  p5 = comp$Plots$ZerosGene, p6 = comp$Plots$ZerosCell,
+                  p7 = comp$Plots$MeanZeros)
+
+    # Remove titles and legends
+    for (plot in names(plots)) {
+        plots[[plot]] <- plots[[plot]] + theme(legend.position = "none",
+                                               plot.title = element_blank())
+    }
+
+    # Remove x-axis title from some plots
+    for (plot in paste0("p", c(1, 2, 4, 5, 6))) {
+        plots[[plot]] <- plots[[plot]] + theme(axis.title.x = element_blank())
+    }
+
+    plots$leg <- cowplot::get_legend(plots$p1 +
+                                         theme(legend.position = "bottom"))
 
     panel <- cowplot::ggdraw() +
-        cowplot::draw_label(labels[1], 0.01, 0.97, fontface = "bold") +
-        cowplot::draw_plot(p1,  0.0, 0.75, 0.5, 0.20) +
-        cowplot::draw_label(labels[2], 0.51, 0.97, fontface = "bold") +
-        cowplot::draw_plot(p2,  0.5, 0.75, 0.5, 0.20) +
-        cowplot::draw_label(labels[3], 0.01, 0.72, fontface = "bold") +
-        cowplot::draw_plot(p3,  0.0, 0.50, 0.5, 0.20) +
-        cowplot::draw_label(labels[4], 0.51, 0.72, fontface = "bold") +
-        cowplot::draw_plot(p4,  0.5, 0.50, 0.5, 0.20) +
-        cowplot::draw_label(labels[5], 0.01, 0.47, fontface = "bold") +
-        cowplot::draw_plot(p5,  0.0, 0.25, 0.5, 0.20) +
-        cowplot::draw_label(labels[6], 0.51, 0.47, fontface = "bold") +
-        cowplot::draw_plot(p6,  0.5, 0.25, 0.5, 0.20) +
-        cowplot::draw_label(labels[7], 0.01, 0.22, fontface = "bold") +
-        cowplot::draw_plot(p7,  0.0, 0.00, 0.5, 0.20) +
-        cowplot::draw_label(labels[8], 0.51, 0.22, fontface = "bold") +
-        cowplot::draw_plot(leg, 0.5, 0.00, 0.5, 0.20)
+        cowplot::draw_label(title, 0.5, 0.98,
+                            fontface = "bold", size = 18) +
+        cowplot::draw_label(labels[1], 0.01, 0.95,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p1,  0.0, 0.74, 0.5, 0.20) +
+        cowplot::draw_label(labels[2], 0.51, 0.95,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p2,  0.5, 0.74, 0.5, 0.20) +
+        cowplot::draw_label(labels[3], 0.01, 0.70,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p3,  0.0, 0.49, 0.5, 0.20) +
+        cowplot::draw_label(labels[4], 0.51, 0.70,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p4,  0.5, 0.49, 0.5, 0.20) +
+        cowplot::draw_label(labels[5], 0.01, 0.45,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p5,  0.0, 0.24, 0.5, 0.20) +
+        cowplot::draw_label(labels[6], 0.51, 0.45,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p6,  0.5, 0.24, 0.5, 0.20) +
+        cowplot::draw_label(labels[7], 0.01, 0.21,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p7,  0.0, 0.00, 0.5, 0.20) +
+        cowplot::draw_plot(plots$leg, 0.5, 0.00, 0.5, 0.20)
 
     return(panel)
 }
@@ -573,7 +592,9 @@ makeCompPanel <- function(comp,
 #'
 #' Combine the plots from \code{diffSCESets} into a single panel.
 #'
-#' @param comp list returned by \code{\link{diffSCESets}}.
+#' @param diff list returned by \code{\link{diffSCESets}}.
+#' @param title title for the panel.
+#' @paramlabels vector of labels for each of the seven sections.
 #'
 #' @return Combined panel plot
 #'
@@ -581,121 +602,179 @@ makeCompPanel <- function(comp,
 #' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
-#' panel <- makeCompPanel(difference)
+#' panel <- makeDiffPanel(difference)
 #'
 #' @importFrom ggplot2 theme
 #' @export
-makeDiffPanel <- function(diff,
-                          labels = c("A", "B", "C", "D", "E", "F", "G", "H",
-                                     "I", "J", "K", "L", "")) {
+makeDiffPanel <- function(diff, title = "Difference comparison",
+                          labels = c("Means", "Variance", "Library size",
+                                     "Zeros per cell", "Zeros per gene",
+                                     "Mean-variance relationship",
+                                     "Mean-zeros relationship")) {
 
     if (!requireNamespace("cowplot", quietly = TRUE)) {
         stop("The `cowplot` package is required to make panels.")
     }
 
-    p1 <- diff$Plots$Means + theme(legend.position = "none",
-                                   axis.title.x = element_blank())
-    p2 <- diff$QQPlots$Means + theme(legend.position = "none")
-    p3 <- diff$Plots$Variances + theme(legend.position = "none",
-                                       axis.title.x = element_blank())
-    p4 <- diff$QQPlots$Variances + theme(legend.position = "none")
-    p5 <- diff$Plots$MeanVar + theme(legend.position = "none")
-    p6 <- diff$Plots$LibrarySizes + theme(legend.position = "none",
-                                          axis.title.x = element_blank())
-    p7 <- diff$QQPlots$LibrarySizes + theme(legend.position = "none")
-    p8 <- diff$Plots$ZerosCell + theme(legend.position = "none",
-                                       axis.title.x = element_blank())
-    p9 <- diff$QQPlots$ZerosCell + theme(legend.position = "none")
-    p10 <- diff$Plots$ZerosGene + theme(legend.position = "none",
-                                       axis.title.x = element_blank())
-    p11 <- diff$QQPlots$ZerosGene + theme(legend.position = "none")
-    p12 <- diff$Plots$MeanZeros + theme(legend.position = "none")
+    checkmate::assertList(diff, any.missing = FALSE, len = 4)
+    checkmate::checkString(title)
+    checkmate::checkCharacter(labels, len = 7)
 
-    leg <- cowplot::get_legend(p1 + theme(legend.position = "bottom"))
+    plots <- list(p1 = diff$Plots$Means, p2 = diff$QQPlots$Means,
+                  p3 = diff$Plots$Variances, p4 = diff$QQPlots$Variances,
+                  p5 = diff$Plots$MeanVar, p6 = diff$Plots$LibrarySizes,
+                  p7 = diff$QQPlots$LibrarySizes, p8 = diff$Plots$ZerosCell,
+                  p9 = diff$QQPlots$ZerosCell, p10 = diff$Plots$ZerosGene,
+                  p11 = diff$QQPlots$ZerosGene, p12 = diff$Plots$MeanZeros)
 
-#    panel <- cowplot::ggdraw() +
-#        #cowplot::draw_label(labels[1], 0.01, 0.97, fontface = "bold") +
-#        cowplot::draw_plot(p1,  0.0, 0.86, 0.5, 0.14) +
-#        #cowplot::draw_label(labels[2], 0.51, 0.97, fontface = "bold") +
-#        cowplot::draw_plot(p2,  0.5, 0.86, 0.5, 0.14) +
-#        #cowplot::draw_label(labels[3], 0.01, 0.72, fontface = "bold") +
-#        cowplot::draw_plot(p3,  0.0, 0.72, 0.5, 0.14) +
-#        #cowplot::draw_label(labels[4], 0.51, 0.72, fontface = "bold") +
-#        cowplot::draw_plot(p4,  0.5, 0.72, 0.5, 0.14) +
-#        #cowplot::draw_label(labels[5], 0.01, 0.47, fontface = "bold") +
-#        cowplot::draw_plot(p5,  0.0, 0.58, 1.0, 0.14) +
-#        #cowplot::draw_label(labels[6], 0.51, 0.47, fontface = "bold") +
-#        cowplot::draw_plot(p6,  0.0, 0.44, 0.5, 0.14) +
-#        #cowplot::draw_label(labels[7], 0.01, 0.22, fontface = "bold") +
-#        cowplot::draw_plot(p7,  0.5, 0.44, 0.5, 0.14) +
-#        #cowplot::draw_label(labels[8], 0.51, 0.22, fontface = "bold") +
-#        cowplot::draw_plot(p8,  0.0, 0.30, 0.5, 0.14) +
-#        #cowplot::draw_label(labels[9], 0.51, 0.22, fontface = "bold") +
-#        cowplot::draw_plot(p9,  0.5, 0.30, 0.5, 0.14) +
-#        #cowplot::draw_label(labels[10], 0.51, 0.22, fontface = "bold") +
-#        cowplot::draw_plot(p10, 0.0, 0.16, 0.5, 0.14) +
-#        #cowplot::draw_label(labels[11], 0.51, 0.22, fontface = "bold") +
-#        cowplot::draw_plot(p11, 0.5, 0.16, 0.5, 0.14) +
-#        #cowplot::draw_label(labels[12], 0.51, 0.22, fontface = "bold") +
-#        cowplot::draw_plot(p12, 0.0, 0.02, 1.0, 0.14) +
-#        #cowplot::draw_label(labels[13], 0.51, 0.22, fontface = "bold") +
-#        cowplot::draw_plot(leg, 0.0, 0.00, 1.0, 0.02)
+    # Remove titles and legends
+    for (plot in names(plots)) {
+        plots[[plot]] <- plots[[plot]] + theme(legend.position = "none",
+                                               plot.title = element_blank())
+    }
 
-#    panel <- cowplot::ggdraw() +
-#            #cowplot::draw_label(labels[1], 0.01, 0.97, fontface = "bold") +
-#            cowplot::draw_plot(p1,  0.0, 0.8, 0.3, 0.20) +
-#            #cowplot::draw_label(labels[2], 0.51, 0.97, fontface = "bold") +
-#            cowplot::draw_plot(p2,  0.3, 0.8, 0.3, 0.20) +
-#            #cowplot::draw_label(labels[3], 0.01, 0.72, fontface = "bold") +
-#            cowplot::draw_plot(p3,  0.0, 0.6, 0.3, 0.20) +
-#            #cowplot::draw_label(labels[4], 0.51, 0.72, fontface = "bold") +
-#            cowplot::draw_plot(p4,  0.3, 0.6, 0.3, 0.20) +
-#            #cowplot::draw_label(labels[5], 0.01, 0.47, fontface = "bold") +
-#            cowplot::draw_plot(p5,  0.6, 0.6, 0.4, 0.40) +
-#            #cowplot::draw_label(labels[6], 0.51, 0.47, fontface = "bold") +
-#            cowplot::draw_plot(p6,  0.0, 0.4, 0.3, 0.20) +
-#           #cowplot::draw_label(labels[7], 0.01, 0.22, fontface = "bold") +
-#            cowplot::draw_plot(p7,  0.3, 0.4, 0.3, 0.20) +
-#            #cowplot::draw_label(labels[8], 0.51, 0.22, fontface = "bold") +
-#            cowplot::draw_plot(p8,  0.0, 0.2, 0.3, 0.20) +
-#            #cowplot::draw_label(labels[9], 0.51, 0.22, fontface = "bold") +
-#            cowplot::draw_plot(p9,  0.3, 0.2, 0.3, 0.20) +
-#            #cowplot::draw_label(labels[10], 0.51, 0.22, fontface = "bold") +
-#            cowplot::draw_plot(p12, 0.6, 0.2, 0.4, 0.40) +
-#            #cowplot::draw_label(labels[11], 0.51, 0.22, fontface = "bold") +
-#            cowplot::draw_plot(p10, 0.0, 0.0, 0.3, 0.20) +
-#            #cowplot::draw_label(labels[12], 0.51, 0.22, fontface = "bold") +
-#            cowplot::draw_plot(p11, 0.3, 0.0, 0.3, 0.20) +
-#            #cowplot::draw_label(labels[13], 0.51, 0.22, fontface = "bold") +
-#            cowplot::draw_plot(leg, 0.6, 0.0, 0.4, 0.20)
+    # Remove x-axis title from some plots
+    for (plot in paste0("p", c(1, 3, 6, 8, 10))) {
+        plots[[plot]] <- plots[[plot]] + theme(axis.title.x = element_blank())
+    }
+
+    plots$leg <- cowplot::get_legend(plots$p1 +
+                                         theme(legend.position = "bottom"))
 
     panel <- cowplot::ggdraw() +
-        #cowplot::draw_label(labels[1], 0.01, 0.97, fontface = "bold") +
-        cowplot::draw_plot(p1,  0.0, 0.6, 0.2, 0.4) +
-        #cowplot::draw_label(labels[2], 0.51, 0.97, fontface = "bold") +
-        cowplot::draw_plot(p2,  0.0, 0.2, 0.2, 0.4) +
-        #cowplot::draw_label(labels[3], 0.01, 0.72, fontface = "bold") +
-        cowplot::draw_plot(p3,  0.2, 0.6, 0.2, 0.4) +
-        #cowplot::draw_label(labels[4], 0.51, 0.72, fontface = "bold") +
-        cowplot::draw_plot(p4,  0.2, 0.2, 0.2, 0.4) +
-        #cowplot::draw_label(labels[5], 0.01, 0.47, fontface = "bold") +
-        cowplot::draw_plot(p5,  0.0, 0.0, 0.4, 0.2) +
-        #cowplot::draw_label(labels[6], 0.51, 0.47, fontface = "bold") +
-        cowplot::draw_plot(p6,  0.4, 0.6, 0.2, 0.4) +
-        #cowplot::draw_label(labels[7], 0.01, 0.22, fontface = "bold") +
-        cowplot::draw_plot(p7,  0.4, 0.2, 0.2, 0.4) +
-        #cowplot::draw_label(labels[8], 0.51, 0.22, fontface = "bold") +
-        cowplot::draw_plot(p8,  0.6, 0.6, 0.2, 0.4) +
-        #cowplot::draw_label(labels[9], 0.51, 0.22, fontface = "bold") +
-        cowplot::draw_plot(p9,  0.6, 0.2, 0.2, 0.4) +
-        #cowplot::draw_label(labels[10], 0.51, 0.22, fontface = "bold") +
-        cowplot::draw_plot(p12, 0.4, 0.0, 0.4, 0.2) +
-        #cowplot::draw_label(labels[11], 0.51, 0.22, fontface = "bold") +
-        cowplot::draw_plot(p10, 0.8, 0.6, 0.2, 0.4) +
-        #cowplot::draw_label(labels[12], 0.51, 0.22, fontface = "bold") +
-        cowplot::draw_plot(p11, 0.8, 0.2, 0.2, 0.4) +
-        #cowplot::draw_label(labels[13], 0.51, 0.22, fontface = "bold") +
-        cowplot::draw_plot(leg, 0.8, 0.0, 0.2, 0.2)
+        cowplot::draw_label(title, 0.5, 0.98,
+                            fontface = "bold", size = 18) +
+        cowplot::draw_label(labels[1], 0.0, 0.94,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p1,  0.0, 0.64, 0.18, 0.29) +
+        cowplot::draw_plot(plots$p2,  0.0, 0.32, 0.18, 0.29) +
+        cowplot::draw_label(labels[2], 0.21, 0.94,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p3,  0.21, 0.64, 0.18, 0.29) +
+        cowplot::draw_plot(plots$p4,  0.21, 0.32, 0.18, 0.29) +
+        cowplot::draw_label(labels[6], 0.0, 0.30,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p5,  0.0, 0.0, 0.38, 0.29) +
+        cowplot::draw_label(labels[3], 0.41, 0.94,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p6,  0.41, 0.64, 0.18, 0.29) +
+        cowplot::draw_plot(plots$p7,  0.41, 0.32, 0.18, 0.29) +
+        cowplot::draw_label(labels[4], 0.61, 0.94,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p8,  0.61, 0.64, 0.18, 0.29) +
+        cowplot::draw_plot(plots$p9,  0.61, 0.32, 0.18, 0.29) +
+        cowplot::draw_label(labels[7], 0.41, 0.30,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p12, 0.41, 0.0, 0.38, 0.29) +
+        cowplot::draw_label(labels[5], 0.81, 0.94,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p10, 0.81, 0.64, 0.18, 0.29) +
+        cowplot::draw_plot(plots$p11, 0.81, 0.32, 0.18, 0.29) +
+        cowplot::draw_plot(plots$leg, 0.81, 0.0, 0.2, 0.29)
+
+    return(panel)
+}
+
+
+#' Make overall panel
+#'
+#' Combine the plots from \code{compSCESets} and \code{diffSCESets} into a
+#' single panel.
+#'
+#' @param comp list returned by \code{\link{compSCESets}}.
+#' @param diff list returned by \code{\link{diffSCESets}}.
+#' @param title title for the panel.
+#' @param row.labels vector of labels for each of the seven rows.
+#'
+#' @return Combined panel plot
+#'
+#' @examples
+#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
+#' comparison <- compSCESets(list(Splat = sim1, Simple = sim2))
+#' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
+#' panel <- makeOverallPanel(comparison, difference)
+#'
+#' @importFrom ggplot2 theme
+#' @export
+makeOverallPanel <- function(comp, diff, title = "Overall comparison",
+                             row.labels = c("Means", "Variance",
+                                            "Mean-variance relationship",
+                                            "Library size", "Zeros per cell",
+                                            "Zeros per gene",
+                                            "Mean-zeros relationship")) {
+
+    if (!requireNamespace("cowplot", quietly = TRUE)) {
+        stop("The `cowplot` package is required to make panels.")
+    }
+
+    checkmate::assertList(comp, any.missing = FALSE, len = 3)
+    checkmate::assertList(diff, any.missing = FALSE, len = 4)
+    checkmate::checkString(title)
+    checkmate::checkCharacter(row.labels, len = 7)
+
+    plots <- list(p1 = comp$Plots$Means, p2 = diff$Plots$Means,
+                  p3 = diff$QQPlots$Means, p4 = comp$Plots$Variances,
+                  p5 = diff$Plots$Variances, p6 = diff$QQPlots$Variances,
+                  p7 = comp$Plots$MeanVar, p8 = diff$Plots$MeanVar,
+                  p9 = comp$Plots$LibrarySizes, p10 = diff$Plots$LibrarySizes,
+                  p11 = diff$QQPlots$LibrarySizes, p12 = comp$Plots$ZerosCell,
+                  p13 = diff$Plots$ZerosCell, p14 = diff$QQPlots$ZerosCell,
+                  p15 = comp$Plots$ZerosGene, p16 = diff$Plots$ZerosGene,
+                  p17 = diff$QQPlots$ZerosGene, p18 = comp$Plots$MeanZeros,
+                  p19 = diff$Plots$MeanZeros)
+
+    # Remove titles and legends
+    for (plot in names(plots)) {
+        plots[[plot]] <- plots[[plot]] + theme(legend.position = "none",
+                                               plot.title = element_blank())
+    }
+
+    # Remove x-axis title from some plots
+    for (plot in paste0("p", c(1, 2, 4, 5, 9, 10, 12, 13, 15, 16))) {
+        plots[[plot]] <- plots[[plot]] + theme(axis.title.x = element_blank())
+    }
+
+    plots$leg <- cowplot::get_legend(plots$p1 +
+                                         theme(legend.position = "bottom"))
+
+    panel <- cowplot::ggdraw() +
+        cowplot::draw_label(title, 0.5, 0.995,
+                            fontface = "bold", size = 18) +
+        cowplot::draw_label(row.labels[1], 0.01, 0.985,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p1,  0.00, 0.86, 0.32, 0.12) +
+        cowplot::draw_plot(plots$p2,  0.34, 0.86, 0.32, 0.12) +
+        cowplot::draw_plot(plots$p3,  0.67, 0.86, 0.32, 0.12) +
+        cowplot::draw_label(row.labels[2], 0.01, 0.845,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p4,  0.00, 0.72, 0.32, 0.12) +
+        cowplot::draw_plot(plots$p5,  0.34, 0.72, 0.32, 0.12) +
+        cowplot::draw_plot(plots$p6,  0.67, 0.72, 0.32, 0.12) +
+        cowplot::draw_label(row.labels[3], 0.01, 0.705,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p7,  0.00, 0.58, 0.49, 0.12) +
+        cowplot::draw_plot(plots$p8,  0.51, 0.58, 0.49, 0.12) +
+        cowplot::draw_label(row.labels[4], 0.01, 0.56,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p9,  0.00, 0.44, 0.32, 0.12) +
+        cowplot::draw_plot(plots$p10, 0.34, 0.44, 0.32, 0.12) +
+        cowplot::draw_plot(plots$p11, 0.67, 0.44, 0.32, 0.12) +
+        cowplot::draw_label(row.labels[5], 0.01, 0.425,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p12, 0.00, 0.30, 0.32, 0.12) +
+        cowplot::draw_plot(plots$p13, 0.34, 0.30, 0.32, 0.12) +
+        cowplot::draw_plot(plots$p14, 0.67, 0.30, 0.32, 0.12) +
+        cowplot::draw_label(row.labels[6], 0.01, 0.285,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p15, 0.00, 0.16, 0.32, 0.12) +
+        cowplot::draw_plot(plots$p16, 0.34, 0.16, 0.32, 0.12) +
+        cowplot::draw_plot(plots$p17, 0.67, 0.16, 0.32, 0.12) +
+        cowplot::draw_label(row.labels[7], 0.01, 0.145,
+                            fontface = "bold", hjust = 0, vjust = 0) +
+        cowplot::draw_plot(plots$p18, 0.00, 0.02, 0.49, 0.12) +
+        cowplot::draw_plot(plots$p19, 0.51, 0.02, 0.49, 0.12) +
+        cowplot::draw_plot(plots$leg, 0.00, 0.00, 1.00, 0.02)
 
     return(panel)
 }
