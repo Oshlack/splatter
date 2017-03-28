@@ -4,11 +4,11 @@
 \alias{makeDiffPanel}
 \title{Make difference panel}
 \usage{
-makeDiffPanel(comp, labels = c("A", "B", "C", "D", "E", "F", "G", "H", "I",
+makeDiffPanel(diff, labels = c("A", "B", "C", "D", "E", "F", "G", "H", "I",
   "J", "K", "L", ""))
 }
 \arguments{
-\item{comp}{list returned by \code{\link{diffSCESets}}.}
+\item{diff}{list returned by \code{\link{diffSCESets}}.}
 }
 \value{
 Combined panel plot
