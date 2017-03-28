@@ -4,10 +4,19 @@
 \alias{compareSCESets}
 \title{Compare SCESet objects}
 \usage{
-compareSCESets(sces)
+compareSCESets(sces, point.size = 0.1, point.alpha = 0.1, fits = TRUE,
+  colours = NULL)
 }
 \arguments{
 \item{sces}{named list of SCESet objects to combine and compare.}
+
+\item{point.size}{size of points in scatter plots.}
+
+\item{point.alpha}{opacity of points in scatter plots.}
+
+\item{fits}{whether to include fits in scatter plots.}
+
+\item{colours}{vector of colours to use for each dataset.}
 }
 \value{
 List containing the combined datasets and plots.
