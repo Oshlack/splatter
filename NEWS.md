@@ -1,3 +1,9 @@
+# 0.99.14
+
+* Add functions for making comparison panels
+* Add panel section to vignette
+* Change variance plot scale (for consistency)
+
 # 0.99.13
 
 * Modify how Lun2Params stores gene paramters to use data.frame
