@@ -105,13 +105,13 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
         theme_minimal()
 
     vars <- ggplot(fData.all,
-                   aes_string(x = "Dataset", y = "VarCPM",
+                   aes_string(x = "Dataset", y = "VarLogCPM",
                               colour = "Dataset")) +
         #geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) +
         geom_boxplot() +
         scale_y_log10(labels = scales::comma) +
         scale_colour_manual(values = colours) +
-        ylab("CPM Variance") +
+        ylab(expression(paste("Variance ", log[2], "(CPM + 1)"))) +
         ggtitle("Distribution of variance") +
         theme_minimal()
 
