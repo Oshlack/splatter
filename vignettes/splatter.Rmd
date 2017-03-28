@@ -473,6 +473,30 @@ distributions.
 difference$QQPlots$Means
 ```
 
+## Making panels
+
+Each of these comparisons makes several plots which can be a lot to look at. To
+make this easier, or to produce figures for publications, you can make use of
+the functions `makeCompPanel`, `makeDiffPanel` and `makeOverallPanel`.
+
+These functions combine the plots into a single panel using the `cowplot`
+package. The panels can be quite large and hard to view (for example in
+RStudio's plot viewer) so it can be better to output the panels and view them
+separately. Luckily `cowplot` provides a convenient function for saving the
+images. Here are some suggested parameters for outputting each of the panels:
+
+```{r save-panels, eval = FALSE}
+# This code is just an example and is not run
+panel <- makeCompPanel(comparison)
+cowplot::save_plot("comp_panel.png", panel, nrow = 4, ncol = 3)
+
+panel <- makeDiffPanel(difference)
+cowplot::save_plot("diff_panel.png", panel, nrow = 3, ncol = 5)
+
+panel <- makeOverallPanel(comparison, difference)
+cowplot::save_plot("overall_panel.png", panel, ncol = 4, nrow = 7)
+```
+
 # Session information {-}
 
 ```{r sessionInfo}
