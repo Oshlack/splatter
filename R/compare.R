@@ -621,7 +621,7 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
         stop("The `cowplot` package is required to make panels.")
     }
 
-    checkmate::assertList(diff, any.missing = FALSE, len = 4)
+    checkmate::assertList(diff, any.missing = FALSE, len = 5)
     checkmate::checkString(title)
     checkmate::checkCharacter(labels, len = 7)
 
@@ -716,7 +716,7 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
     }
 
     checkmate::assertList(comp, any.missing = FALSE, len = 3)
-    checkmate::assertList(diff, any.missing = FALSE, len = 4)
+    checkmate::assertList(diff, any.missing = FALSE, len = 5)
     checkmate::checkString(title)
     checkmate::checkCharacter(row.labels, len = 7)
 
