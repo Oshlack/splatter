@@ -7,6 +7,9 @@
 #' plots.
 #' @param plot.file File path to save plots as PDF.
 #' @param verbose logical. Whether to print progress messages
+#' @param BPPARAM A \code{\link[BiocParallel]{BiocParallelParam}} instance
+#'        giving the parallel back-end to be used. Default is
+#'        \code{\link[BiocParallel]{SerialParam}} which uses a single core.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
 #'
@@ -33,8 +36,10 @@
 #' }
 #' @export
 #' @importFrom scater newSCESet
+#' @importFrom BiocParallel SerialParam
 scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
-                         plot.file = NULL, verbose = TRUE, ...) {
+                         plot.file = NULL, verbose = TRUE,
+                         BPPARAM = SerialParam(), ...) {
 
     checkmate::assertClass(params, "SCDDParams")
     params <- setParams(params, ...)
@@ -62,7 +67,8 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
                                       plot.file = plot.file,
                                       random.seed = getParam(params, "seed"),
                                       varInflation = varInflation,
-                                      condition = getParam(params, "condition"))
+                                      condition = getParam(params, "condition"),
+                                      param = BPPARAM)
     } else {
         suppressMessages(
         scDD.sim <- scDD::simulateSet(SCdat = getParam(params, "SCdat"),
@@ -79,7 +85,8 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
                                       plot.file = plot.file,
                                       random.seed = getParam(params, "seed"),
                                       varInflation = varInflation,
-                                      condition = getParam(params, "condition"))
+                                      condition = getParam(params, "condition"),
+                                      param = BPPARAM)
         )
     }
 
