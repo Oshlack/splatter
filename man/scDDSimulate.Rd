@@ -5,7 +5,7 @@
 \title{scDD simulation}
 \usage{
 scDDSimulate(params = newSCDDParams(), plots = FALSE, plot.file = NULL,
-  verbose = TRUE, ...)
+  verbose = TRUE, BPPARAM = SerialParam(), ...)
 }
 \arguments{
 \item{params}{SCDDParams object containing simulation parameters.}
@@ -16,6 +16,10 @@ plots.}
 \item{plot.file}{File path to save plots as PDF.}
 
 \item{verbose}{logical. Whether to print progress messages}
+
+\item{BPPARAM}{A \code{\link[BiocParallel]{BiocParallelParam}} instance
+giving the parallel back-end to be used. Default is
+\code{\link[BiocParallel]{SerialParam}} which uses a single core.}
 
 \item{...}{any additional parameter settings to override what is provided in
 \code{params}.}
