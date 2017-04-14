@@ -1,8 +1,8 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 0.99.14
-Date: 2017-03-28
+Version: 0.99.15
+Date: 2017-04-14
 Author: Luke Zappia
 Authors@R:
     c(person("Luke", "Zappia", role = c("aut", "cre"),

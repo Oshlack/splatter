@@ -111,7 +111,7 @@ setMethod("show", "SplatParams", function(object) {
                                      "[Scale]"        = "de.facScale"),
                "BCV:"            = c("(Common Disp)"  = "bcv.common",
                                      "(DoF)"          = "bcv.df"),
-               "Dropout:"        = c("(Present)"      = "dropout.present",
+               "Dropout:"        = c("[Present]"      = "dropout.present",
                                      "(Midpoint)"     = "dropout.mid",
                                      "(Shape)"        = "dropout.shape"),
                "Paths:"          = c("[From]"         = "path.from",
