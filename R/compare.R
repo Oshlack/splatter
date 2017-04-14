@@ -400,6 +400,7 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                                 colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_boxplot() +
+        scale_y_continuous(limits = c(0, 100)) +
         scale_colour_manual(values = colours) +
         ylab(paste("Rank difference percentage zeros")) +
         ggtitle("Difference in zeros per gene") +
@@ -410,6 +411,7 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                                 colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_boxplot() +
+        scale_y_continuous(limits = c(0, 100)) +
         scale_colour_manual(values = colours) +
         ylab(paste("Rank difference percentage zeros")) +
         ggtitle("Difference in zeros per cell") +
