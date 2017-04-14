@@ -784,3 +784,66 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
 
     return(panel)
 }
+
+#' Summarise diffSCESets
+#'
+#' Summarise the results of \code{\link{diffSCESets}}. The various
+#' properties are sorted, differences calculated, the Median Absolute Deviation
+#' taken as the summary statistic and the ranks calculated.
+#'
+#' @param diff Output from \code{\link{diffSCESets}}
+#'
+#' @return List with MADs, ranks and both combined in long format
+#' @examples
+#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
+#' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
+#' summary <- summariseDiff(difference)
+#' names(summary)
+#' head(summary$Long)
+#' @export
+summariseDiff <- function(diff) {
+
+    datasets <- unique(diff$PhenoData$Dataset)
+
+    fData.mads <- sapply(datasets, function(dataset) {
+        df <- diff$FeatureData[diff$FeatureData$Dataset == dataset, ]
+        mean <- median(abs(df$RankDiffMeanLogCPM))
+        var <- median(abs(df$RankDiffVarLogCPM))
+        zeros <- median(abs(df$RankDiffZeros))
+        mean.var <- median(abs(df$MeanRankVarDiff))
+        mean.zeros <- median(abs(df$MeanRankZerosDiff))
+        return(c(Mean = mean, Variance = var, ZerosGene = zeros,
+                 MeanVar = mean.var, MeanZeros = mean.zeros))
+    })
+
+    pData.mads <- sapply(datasets, function(dataset) {
+        df <- diff$PhenoData[diff$PhenoData$Dataset == dataset, ]
+        lib.size <- median(abs(df$RankDiffLibSize))
+        zeros <- median(abs(df$RankDiffZeros))
+        return(c(LibSize = lib.size, ZerosCell = zeros))
+    })
+
+    mads <- data.frame(Dataset = datasets, t(fData.mads), t(pData.mads))
+
+    fData.ranks <- matrixStats::rowRanks(fData.mads)
+    pData.ranks <- matrixStats::rowRanks(pData.mads)
+
+    ranks <- data.frame(Dataset = datasets, t(fData.ranks), t(pData.ranks))
+    colnames(ranks) <- paste0(colnames(mads), "Rank")
+
+    mads.long <- stats::reshape(mads, varying = 2:8, direction = "long",
+                                idvar = "Dataset", timevar = "Statistic",
+                                times = colnames(mads)[2:8], v.names = "MAD")
+
+    ranks.long <- stats::reshape(ranks, varying = 2:8, direction = "long",
+                                 idvar = "Dataset", timevar = "Statistic",
+                                 times = colnames(ranks)[2:8], v.names = "Rank")
+
+    long <- data.frame(mads.long, Rank = ranks.long$Rank)
+    row.names(long) <- NULL
+
+    summary <- list(MADs = mads, Ranks = ranks, Long = long)
+
+    return(summary)
+}
