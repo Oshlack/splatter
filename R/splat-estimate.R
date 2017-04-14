@@ -195,8 +195,10 @@ splatEstBCV <- function(counts, params) {
 #' Estimate Splat dropout parameters
 #'
 #' Estimate the midpoint and shape parameters for the logistic function used
-#' when simulating dropout. Also estimates whether dropout is likely to be
-#' present in the dataset.
+#' when simulating dropout.
+#'
+# #' Also estimates whether dropout is likely to be
+# #' present in the dataset.
 #'
 #' @param norm.counts library size normalised counts matrix.
 #' @param params SplatParams object to store estimated values in.
@@ -204,17 +206,19 @@ splatEstBCV <- function(counts, params) {
 #' @details
 #' Logistic function parameters are estimated by fitting a logistic function
 #' to the relationship between log2 mean gene expression and the proportion of
-#' zeros in each gene. See \code{\link[stats]{nls}} for details of fitting. The
-#' presence of dropout is determined by comparing the observed number of zeros
-#' in each gene to the expected number of zeros from a negative binomial
-#' distribution with the gene mean and a dispersion of 0.1. If the maximum
-#' difference between the observed number of zeros and the expected number is
-#' greater than 10 percent of the number of cells
-#' (\code{max(obs.zeros - exp.zeros) > 0.1 * ncol(norm.counts)}) then dropout is
-#' considered to be present in the dataset. This is a somewhat crude measure
-#' but should give a reasonable indication. A more accurate approach is to look
-#' at a plot of log2 mean expression vs the difference between observed and
-#' expected number of zeros across all genes.
+#' zeros in each gene. See \code{\link[stats]{nls}} for details of fitting.
+#'
+# #' The
+# #' presence of dropout is determined by comparing the observed number of zeros
+# #' in each gene to the expected number of zeros from a negative binomial
+# #' distribution with the gene mean and a dispersion of 0.1. If the maximum
+# #' difference between the observed number of zeros and the expected number is
+# #' greater than 10 percent of the number of cells
+# #' (\code{max(obs.zeros - exp.zeros) > 0.1 * ncol(norm.counts)}) then dropout
+# #' is considered to be present in the dataset. This is a somewhat crude
+# #' measure but should give a reasonable indication. A more accurate approach
+# #' is to look at a plot of log2 mean expression vs the difference between
+# #' observed and expected number of zeros across all genes.
 #'
 #' @return SplatParams object with estimated values.
 #'
@@ -234,15 +238,14 @@ splatEstDropout <- function(norm.counts, params) {
     fit <- nls(y ~ logistic(x, x0 = x0, k = k), data = df,
                start = list(x0 = 0, k = -1))
 
-    exp.zeros <- dnbinom(0, mu = means, size = 1 / 0.1) * ncol(norm.counts)
+    #exp.zeros <- dnbinom(0, mu = means, size = 1 / 0.1) * ncol(norm.counts)
 
-    present <- max(obs.zeros - exp.zeros) > 0.1 * ncol(norm.counts)
+    #present <- max(obs.zeros - exp.zeros) > 0.1 * ncol(norm.counts)
 
     mid <- summary(fit)$coefficients["x0", "Estimate"]
     shape <- summary(fit)$coefficients["k", "Estimate"]
 
-    params <- setParams(params, dropout.present = present, dropout.mid = mid,
-                        dropout.shape = shape)
+    params <- setParams(params, dropout.mid = mid, dropout.shape = shape)
 
     return(params)
 }
