@@ -1,3 +1,11 @@
+# 0.99.15
+
+* Add summariseDiff function
+* Add BPPARAM argument to scDDSimulate
+* Adjust default Spalt DE factor parameters
+* Add limits to zeros diff plots
+* Remove estimation of dropout.present
+
 # 0.99.14
 
 * Add functions for making comparison panels
