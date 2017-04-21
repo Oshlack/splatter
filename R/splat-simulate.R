@@ -197,7 +197,10 @@ splatSimulate <- function(params = newSplatParams(),
 
     if (verbose) {message("Creating final SCESet...")}
     # Create new SCESet to make sure values are calculated correctly
-    sce <- newSCESet(countData = counts(sim),
+    yo <- counts(sim)
+    rownames(yo) <- featureNames(sim)
+    colnames(yo) <- sampleNames(sim)
+    sce <- newSCESet(countData = yo,
                      phenoData = new("AnnotatedDataFrame", data = pData(sim)),
                      featureData = new("AnnotatedDataFrame", data = fData(sim)))
 
