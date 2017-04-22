@@ -4,6 +4,7 @@ language: R
 r:
   - bioc-devel
   - bioc-release
+cran: https://cloud.r-project.org
 sudo: false
 cache: packages
 
