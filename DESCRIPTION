@@ -1,0 +1,58 @@
+Package: splatter
+Type: Package
+Title: Simple Simulation of Single-cell RNA Sequencing Data
+Version: 1.0.0
+Date: 2017-04-23
+Author: Luke Zappia
+Authors@R:
+    c(person("Luke", "Zappia", role = c("aut", "cre"),
+      email = "luke.zappia@mcri.edu.au"),
+      person("Belinda", "Phipson", role = c("aut"),
+      email = "belinda.phipson@mcri.edu.au"),
+      person("Alicia", "Oshlack", role = c("aut"),
+      email = "alicia.oshlack@mcri.edu.au"))
+Maintainer: Luke Zappia <luke.zappia@mcri.edu.au>
+Description: Splatter is a package for the simulation of single-cell RNA
+    sequencing count data. It provides a simple interface for creating complex
+    simulations that are reproducible and well-documented. Parameters can be
+    estimated from real data and functions are provided for comparing real and
+    simulated datasets.
+License: GPL-3 + file LICENSE
+LazyData: TRUE
+Depends:
+    R (>= 3.4),
+    scater
+Imports:
+    fitdistrplus,
+    edgeR,
+    stats,
+    locfit,
+    akima,
+    Biobase,
+    checkmate,
+    methods,
+    utils,
+    matrixStats,
+    ggplot2,
+    scales,
+    BiocParallel
+Suggests:
+    testthat,
+    scran,
+    progress,
+    lme4,
+    pscl,
+    scDD,
+    knitr,
+    rmarkdown,
+    BiocStyle,
+    covr,
+    S4Vectors,
+    SummarizedExperiment,
+    cowplot
+biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
+    Software
+URL: https://github.com/Oshlack/splatter
+BugReports: https://github.com/Oshlack/splatter/issues
+RoxygenNote: 6.0.1
+VignetteBuilder: knitr
