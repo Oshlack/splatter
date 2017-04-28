@@ -1,3 +1,13 @@
+# 1.0.1
+
+* Fix scales in some difference plots
+* Fix colours in difference plots
+* Fix panel legends
+
+# 1.0.0
+
+* Bioconductor 3.5 release
+
 # 0.99.15
 
 * Add summariseDiff function

@@ -271,6 +271,8 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     if (!(ref %in% names(sces))) {
         stop("'ref' must be the name of an SCESet in 'sces'")
+    } else {
+        ref.idx <- which(names(sces) == ref)
     }
 
     if (!is.null(colours)) {
@@ -278,6 +280,7 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                                    len = length(sces) - 1)
     } else {
         colours <- scales::hue_pal()(length(sces))
+        colours <- colours[-ref.idx]
     }
 
     ref.dim <- dim(sces[[ref]])
@@ -400,7 +403,6 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                                 colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_boxplot() +
-        scale_y_continuous(limits = c(0, 100)) +
         scale_colour_manual(values = colours) +
         ylab(paste("Rank difference percentage zeros")) +
         ggtitle("Difference in zeros per gene") +
@@ -411,7 +413,6 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                                 colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_boxplot() +
-        scale_y_continuous(limits = c(0, 100)) +
         scale_colour_manual(values = colours) +
         ylab(paste("Rank difference percentage zeros")) +
         ggtitle("Difference in zeros per cell") +
@@ -559,7 +560,7 @@ makeCompPanel <- function(comp, title = "Comparison",
         plots[[plot]] <- plots[[plot]] + theme(axis.title.x = element_blank())
     }
 
-    plots$leg <- cowplot::get_legend(plots$p1 +
+    plots$leg <- cowplot::get_legend(plots$p3 +
                                          theme(legend.position = "bottom"))
 
     panel <- cowplot::ggdraw() +
@@ -644,7 +645,7 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
         plots[[plot]] <- plots[[plot]] + theme(axis.title.x = element_blank())
     }
 
-    plots$leg <- cowplot::get_legend(plots$p1 +
+    plots$leg <- cowplot::get_legend(plots$p5 +
                                          theme(legend.position = "bottom"))
 
     panel <- cowplot::ggdraw() +
@@ -743,7 +744,7 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
         plots[[plot]] <- plots[[plot]] + theme(axis.title.x = element_blank())
     }
 
-    plots$leg <- cowplot::get_legend(plots$p1 +
+    plots$leg <- cowplot::get_legend(plots$p7 +
                                          theme(legend.position = "bottom"))
 
     panel <- cowplot::ggdraw() +
