@@ -62,3 +62,4 @@ This is a detailed document that introduces the main features of Splatter.
 [contrib]: https://github.com/Bioconductor/Contributions/issues/209
 [bioc]: https://bioconductor.org/packages/devel/bioc/html/splatter.html
 [vignette]: https://bioconductor.org/packages/devel/bioc/vignettes/splatter/inst/doc/splatter.html
+
