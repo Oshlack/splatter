@@ -7,6 +7,9 @@ r:
 sudo: false
 cache: packages
 
+bioc_packages:
+  - SummarizedExperiment
+
 after_success:
   - Rscript -e 'covr::codecov()'
 
