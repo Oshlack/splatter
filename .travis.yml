@@ -9,6 +9,10 @@ cache: packages
 
 bioc_packages:
   - SummarizedExperiment
+  - scran
+
+r_packages:
+  - testthat
 
 after_success:
   - Rscript -e 'covr::codecov()'
