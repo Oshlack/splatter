@@ -81,9 +81,9 @@ splatEstMean <- function(norm.counts, params) {
 
     means <- winsorize(means, q = 0.1)
 
-    fit <- try(fitdistrplus::fitdist(means, "gamma", method = "mge",
-                                     gof = "CvM"))
-    if (class(fit) == "try-error") {
+    fit <- fitdistrplus::fitdist(means, "gamma", method = "mge",
+                                 gof = "CvM")
+    if (fit$convergence > 0) {
         warning("Goodness of fit failed, using Method of Moments")
         fit <- fitdistrplus::fitdist(means, "gamma", method = "mme")
     }
