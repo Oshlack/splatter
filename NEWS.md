@@ -1,3 +1,7 @@
+# 1.0.2
+
+* Fix error handling when fitting means
+
 # 1.0.1
 
 * Fix scales in some difference plots
