@@ -497,6 +497,14 @@ panel <- makeOverallPanel(comparison, difference)
 cowplot::save_plot("overall_panel.png", panel, ncol = 4, nrow = 7)
 ```
 
+# Citing Splatter
+
+If you use Splatter in your work please cite our paper:
+
+```{r citation}
+citation("splatter")
+```
+
 # Session information {-}
 
 ```{r sessionInfo}
