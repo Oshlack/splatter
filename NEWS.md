@@ -1,3 +1,7 @@
+# 1.0.3
+
+* Update citation
+
 # 1.0.2
 
 * Fix error handling when fitting means
@@ -16,7 +20,7 @@
 
 * Add summariseDiff function
 * Add BPPARAM argument to scDDSimulate
-* Adjust default Spalt DE factor parameters
+* Adjust default Splat DE factor parameters
 * Add limits to zeros diff plots
 * Remove estimation of dropout.present
 
