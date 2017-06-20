@@ -23,6 +23,7 @@ setValidity("BASiCSParams", function(object) {
                                              types = "numeric",
                                              any.missing = FALSE,
                                              min.rows = 1, ncols = 2),
+                nSpikes = checkNumber(v$nSpikes, lower = 0, finite = TRUE),
                 spike.means = checkNumeric(v$spike.means, lower = 0,
                                            finite = TRUE),
                 cell.params = checkDataFrame(v$cell.params,
@@ -52,8 +53,9 @@ setValidity("BASiCSParams", function(object) {
 
 setMethod("show", "BASiCSParams", function(object) {
 
-    pp <- list("Spike-ins:"   = c("[Mean]"  = "spike.means"),
-               "Variability:" = c("[Theta]" = "theta"))
+    pp <- list("Spike-ins:"   = c("[Number]" = "nSpikes",
+                                  "[Means]"  = "spike.means"),
+               "Variability:" = c("[Theta]"  = "theta"))
 
     callNextMethod()
 
