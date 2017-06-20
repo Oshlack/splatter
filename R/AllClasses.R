@@ -449,6 +449,40 @@ setClass("SCDDParams",
 #'     \item{\code{nGenes}}{The number of genes to simulate.}
 #'     \item{\code{nCells}}{The number of cells to simulate.}
 #'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\emph{Batch parameters}}{
+#'         \describe{
+#'            \item{\code{nBatches}}{Number of batches to simulate.}
+#'            \item{\code{batchCells}}{Number of cells in each batch.}
+#'         }
+#'     }
+#'     \item{\emph{Gene parameters}}{
+#'         \describe{
+#'             \item{\code{gene.params}}{A \code{data.frame} containing gene
+#'             parameters with two coloumns: \code{Mean} (mean expression for
+#'             each biological gene) and \code{Delta} (cell-to-cell
+#'             heterogeneity for each biological gene).}
+#'         }
+#'     }
+#'     \item{\emph{Spike-in parameters}}{
+#'         \describe{
+#'             \item{\code{nSpikes}}{The number of spike-ins to simulate.}
+#'             \item{\code{spike.means}}{Input molecules for each spike-in.}
+#'         }
+#'     }
+#'     \item{\emph{Cell parameters}}{
+#'         \describe{
+#'             \item{\code{cell.params}}{A \code{data.frame} containing gene
+#'             parameters with two coloumns: \code{Phi} (mRNA content factor for
+#'             each cell, scaled to sum to the number of cells in each batch)
+#'             and \code{S} (capture efficient for each cell).}
+#'         }
+#'     }
+#'     \item{\emph{Variability parameters}}{
+#'         \describe{
+#'             \item{\code{theta}}{Technical variability parameter for each
+#'             batch.}
+#'         }
+#'     }
 #' }
 #'
 #' The parameters not shown in brackets can be estimated from real data using
