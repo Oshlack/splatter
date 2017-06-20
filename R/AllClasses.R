@@ -284,7 +284,7 @@ setClass("LunParams",
 
 #' The Lun2Params class
 #'
-#' S4 class that holds parameters for the Lun simulation.
+#' S4 class that holds parameters for the Lun2 simulation.
 #'
 #' @section Parameters:
 #'
@@ -436,3 +436,48 @@ setClass("SCDDParams",
                                modeFC = c(2, 3, 4),
                                varInflation = c(1, 1),
                                condition = "condition"))
+
+#' The BASiCSParams class
+#'
+#' S4 class that holds parameters for the BASiCS simulation.
+#'
+#' @section Parameters:
+#'
+#' The BASiCS simulation uses the following parameters:
+#'
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{BASiCSEstimate}}. For details of the BASiCS simulation see
+#' \code{\link{BASiCSSimulate}}.
+#'
+#' @name BASiCSParams
+#' @rdname BASiCSParams
+#' @aliases BASiCSParams-class
+#' @exportClass BASiCSParams
+setClass("BASiCSParams",
+         contains = "Params",
+         slots = c(gene.params = "data.frame",
+                   spike.means = "numeric",
+                   cell.params = "data.frame",
+                   theta = "numeric"),
+         prototype = prototype(gene.params =
+                                   data.frame(
+                                       Mean = c(8.36, 10.65, 4.88, 6.29, 21.72,
+                                                12.93, 30.19),
+                                       Delta = c(1.29, 0.88, 1.51, 1.49, 0.54,
+                                                 0.40, 0.85)
+                               ),
+                               spike.means = c(12.93, 30.19, 1010.72, 7.90,
+                                               31.59),
+                               cell.params =
+                                   data.frame(
+                                       Phi = c(1.00, 1.06, 1.09, 1.05, 0.80),
+                                       S = c(0.38, 0.40, 0.38, 0.39, 0.34)
+                               ),
+                               theta = 0.39)
+)
