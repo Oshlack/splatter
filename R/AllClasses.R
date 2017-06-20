@@ -461,12 +461,16 @@ setClass("SCDDParams",
 #' @exportClass BASiCSParams
 setClass("BASiCSParams",
          contains = "Params",
-         slots = c(gene.params = "data.frame",
+         slots = c(nBatches = "numeric",
+                   batchCells = "numeric",
+                   gene.params = "data.frame",
                    nSpikes = "numeric",
                    spike.means = "numeric",
                    cell.params = "data.frame",
                    theta = "numeric"),
-         prototype = prototype(gene.params =
+         prototype = prototype(nBatches = 1,
+                               batchCells = 100,
+                               gene.params =
                                    data.frame(
                                        Mean = c(8.36, 10.65, 4.88, 6.29, 21.72,
                                                 12.93, 30.19),
