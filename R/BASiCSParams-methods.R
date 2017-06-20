@@ -37,7 +37,7 @@ setValidity("BASiCSParams", function(object) {
     }
 
     if (!all(colnames(v$cell.params) == c("Phi", "S"))) {
-        checks <- c(checks, gene.params = "Incorrect column names")
+        checks <- c(checks, cell.params = "Incorrect column names")
     }
 
     if (all(checks == TRUE)) {
