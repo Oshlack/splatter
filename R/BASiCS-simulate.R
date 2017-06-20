@@ -32,11 +32,19 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "BASiCSParams")
     params <- setParams(params, ...)
+    params <- expandParams(params)
+    validObject(params)
+
+    # Set random seed
+    seed <- getParam(params, "seed")
+    set.seed(seed)
 
     if (verbose) {message("Getting parameters...")}
     nGenes <- getParam(params, "nGenes")
     nCells <- getParam(params, "nCells")
     nSpikes <- getParam(params, "nSpikes")
+    nBatches <- getParam(params, "nBatches")
+    batch.cells <- getParam(params, "batchCells")
 
     gene.params <- getParam(params, "gene.params")
     # Sample gene.params if necessary
@@ -47,15 +55,8 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
         gene.params <- gene.params[selected, ]
     }
 
-    cell.params <- getParam(params, "cell.params")
-    if (nrow(cell.params) != nCells) {
-        warning("Number of cell.params not equal to nCells, ",
-                "cell.params will be sampled.")
-        selected <- sample(nrow(cell.params), nCells, replace = TRUE)
-        cell.params <- cell.params[selected, ]
-    }
-
     mu <- gene.params$Mean
+    delta <- gene.params$Delta
 
     if (nSpikes > 0) {
         spike.mu <- getParam(params, "spike.means")
@@ -67,22 +68,36 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
         }
     }
 
-    delta <- gene.params$Delta
-
-    phi <- cell.params$Phi
-    if (!(sum(phi) == nCells)) {
-        warning("cell.params$Phi rescaled to sum to nCells")
-        phi <- (phi / sum(phi)) * nCells
+    cell.params <- getParam(params, "cell.params")
+    if (nrow(cell.params) != nCells) {
+        warning("Number of cell.params not equal to nCells, ",
+                "cell.params will be sampled.")
+        selected <- sample(nrow(cell.params), nCells, replace = TRUE)
+        cell.params <- cell.params[selected, ]
     }
 
-    s <- cell.params$S
-    theta <- getParam(params, "theta")
+    thetas <- getParam(params, "theta")
+
+    batches <- lapply(seq_len(nBatches), function(i, b) {rep(i, b[i])},
+                      b = batch.cells)
+    batches <- unlist(batches)
 
     if (verbose) {message("Simulating counts with BASiCS...")}
-    BASiCS.sim <- suppressMessages(BASiCS::BASiCS_Sim(mu, spike.mu, delta, phi,
-                                                      s, theta))
+    counts.list <- list()
+    for (batch in seq_len(nBatches)) {
+        batch.cells <- batches == batch
+        phi <- cell.params[batch.cells, "Phi"]
+        phi <- (phi / sum(phi)) * sum(batch.cells)
+        s <- cell.params[batch.cells, "S"]
+        theta <- thetas[batch]
+        BASiCS.sim <- suppressMessages(
+                          BASiCS::BASiCS_Sim(mu, spike.mu, delta, phi, s, theta)
+                      )
+        batch.counts <- assay(BASiCS.sim)
+        counts.list[[batch]] <- batch.counts
+    }
 
-    counts <- assay(BASiCS)
+    counts <- do.call(cbind, counts.list)
 
     if (verbose) {message("Creating SCESet...")}
     cell.names <- paste0("Cell", seq_len(nCells))
@@ -96,7 +111,9 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
     phenos <- new("AnnotatedDataFrame",
                   data = data.frame(Cell = cell.names,
                                     Phi = phi,
-                                    S = s))
+                                    S = s,
+                                    Batch = batches,
+                                    BatchTheta = thetas[batches]))
     rownames(phenos) <- cell.names
     features <- data.frame(Gene = gene.names,
                            Mean = c(mu, spike.mu),
