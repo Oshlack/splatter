@@ -93,7 +93,7 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
         BASiCS.sim <- suppressMessages(
                           BASiCS::BASiCS_Sim(mu, spike.mu, delta, phi, s, theta)
                       )
-        batch.counts <- assay(BASiCS.sim)
+        batch.counts <- SummarizedExperiment::assay(BASiCS.sim)
         counts.list[[batch]] <- batch.counts
     }
 
