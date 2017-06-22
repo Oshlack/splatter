@@ -3,6 +3,10 @@
 #' @export
 newBASiCSParams <- function(...) {
 
+    if (!requireNamespace("BASiCS", quietly = TRUE)) {
+        stop("The BASiCS simulation requires the 'BASiCS' package.")
+    }
+
     params <- new("BASiCSParams")
     params <- setParams(params, ...)
 
