@@ -87,11 +87,11 @@ setMethod("setParam", "BASiCSParams",function(object, name, value) {
 
 setMethod("show", "BASiCSParams", function(object) {
 
-    pp <- list("Batches:"     = c("[Batches]"     = "nBatches",
-                                  "[Batch Cells]" = "batchCells"),
-               "Spike-ins:"   = c("[Number]"      = "nSpikes",
-                                  "[Means]"       = "spike.means"),
-               "Variability:" = c("[Theta]"       = "theta"))
+    pp <- list("Batches:"     = c("(Batches)"     = "nBatches",
+                                  "(Batch Cells)" = "batchCells"),
+               "Spike-ins:"   = c("(Number)"      = "nSpikes",
+                                  "(Means)"       = "spike.means"),
+               "Variability:" = c("(Theta)"       = "theta"))
 
     callNextMethod()
 
