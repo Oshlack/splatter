@@ -56,22 +56,25 @@
 #'             \item{OutlierFactor}{Expression outlier factor for that gene.
 #'             Values of 1 indicate the gene is not an expression outlier.}
 #'             \item{GeneMean}{Expression level after applying outlier factors.}
+#'             \item{BatchFac[Batch]}{The batch effects factor for each gene for
+#'             a particular batch.}
 #'             \item{DEFac[Group]}{The differential expression factor for each
 #'             gene in a particular group. Values of 1 indicate the gene is not
 #'             differentially expressed.}
-#'             \item{GeneMean[Group]}{Expression level of a gene in a particular
-#'             group after applying differential expression factors.}
 #'             \item{SigmaFac[Path]}{Factor applied to genes that have
 #'             non-linear changes in expression along a path.}
 #'         }
 #'     }
 #'     \item{\code{assayData}}{
 #'         \describe{
-#'             \item{BaseCellMeans}{The expression of genes in each cell
-#'             adjusted for expected library size.}
+#'             \item{BatchCellMeans}{The mean expression of genes in each cell
+#'             after adding batch effects.}
+#'             \item{BaseCellMeans}{The mean expression of genes in each cell
+#'             after any differential expression and adjusted for expected
+#'             library size.}
 #'             \item{BCV}{The Biological Coefficient of Variation for each gene
 #'             in each cell.}
-#'             \item{CellMeans}{The expression level of genes in each cell
+#'             \item{CellMeans}{The mean expression level of genes in each cell
 #'             adjusted for BCV.}
 #'             \item{TrueCounts}{The simulated counts before dropout.}
 #'             \item{Dropout}{Logical matrix showing which values have been
@@ -89,6 +92,7 @@
 #'
 #' @seealso
 #' \code{\link{splatSimLibSizes}}, \code{\link{splatSimGeneMeans}},
+#' \code{\link{splatSimBatchEffects}}, \code{\link{splatSimBatchCellMeans}},
 #' \code{\link{splatSimDE}}, \code{\link{splatSimCellMeans}},
 #' \code{\link{splatSimBCVMeans}}, \code{\link{splatSimTrueCounts}},
 #' \code{\link{splatSimDropout}}
@@ -133,8 +137,10 @@ splatSimulate <- function(params = newSplatParams(),
     # Get the parameters we are going to use
     nCells <- getParam(params, "nCells")
     nGenes <- getParam(params, "nGenes")
+    nBatches <- getParam(params, "nBatches")
+    batch.cells <- getParam(params, "batchCells")
     nGroups <- getParam(params, "nGroups")
-    group.cells <- getParam(params, "groupCells")
+    group.prob <- getParam(params, "group.prob")
 
     if (nGroups == 1 && method == "groups") {
         warning("nGroups is 1, switching to single mode")
@@ -145,6 +151,7 @@ splatSimulate <- function(params = newSplatParams(),
     # Set up name vectors
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
+    batch.names <- paste0("Batch", seq_len(nBatches))
     if (method == "groups") {
         group.names <- paste0("Group", seq_len(nGroups))
     } else if (method == "paths") {
@@ -162,12 +169,16 @@ splatSimulate <- function(params = newSplatParams(),
     sim <- newSCESet(countData = dummy.counts, phenoData = phenos,
                      featureData = features)
 
-    # Make groups vector which is the index of param$groupCells repeated
-    # params$groupCells[index] times
+    # Make batches vector which is the index of param$batchCells repeated
+    # params$batchCells[index] times
+    batches <- lapply(seq_len(nBatches), function(i, b) {rep(i, b[i])},
+                      b = batch.cells)
+    batches <- unlist(batches)
+    pData(sim)$Batch <- batch.names[batches]
+
     if (method != "single") {
-        groups <- lapply(seq_len(nGroups), function(i, g) {rep(i, g[i])},
-                         g = group.cells)
-        groups <- unlist(groups)
+        groups <- sample(seq_len(nGroups), nCells, prob = group.prob,
+                         replace = TRUE)
         pData(sim)$Group <- group.names[groups]
     }
 
@@ -175,6 +186,11 @@ splatSimulate <- function(params = newSplatParams(),
     sim <- splatSimLibSizes(sim, params)
     if (verbose) {message("Simulating gene means...")}
     sim <- splatSimGeneMeans(sim, params)
+    if (nBatches > 1) {
+        if (verbose) {message("Simulating batch effects...")}
+        sim <- splatSimBatchEffects(sim, params)
+    }
+    sim <- splatSimBatchCellMeans(sim, params)
     if (method == "single") {
         sim <- splatSimSingleCellMeans(sim, params)
     } else if (method == "groups") {
@@ -302,12 +318,83 @@ splatSimGeneMeans <- function(sim, params) {
     return(sim)
 }
 
+#' Simulate batch effects
+#'
+#' Simulate batch effects. Batch effect factors for each batch are produced
+#' using \code{\link{getLNormFactors}} and these are added along with updated
+#' means for each batch.
+#'
+#' @param sim SCESet to add batch effects to.
+#' @param params SplatParams object with simulation parameters.
+#'
+#' @return SCESet with simulated batch effects.
+#'
+#' @importFrom Biobase fData fData<-
+splatSimBatchEffects <- function(sim, params) {
+
+    nGenes <- getParam(params, "nGenes")
+    nBatches <- getParam(params, "nBatches")
+    batch.facLoc <- getParam(params, "batch.facLoc")
+    batch.facScale <- getParam(params, "batch.facScale")
+    means.gene <- fData(sim)$GeneMean
+
+    for (idx in seq_len(nBatches)) {
+        batch.facs <- getLNormFactors(nGenes, 1, 0.5, batch.facLoc[idx],
+                                        batch.facScale[idx])
+        batch.means.gene <- means.gene * batch.facs
+        fData(sim)[[paste0("BatchFacBatch", idx)]] <- batch.facs
+    }
+
+    return(sim)
+}
+
+#' Simulate batch means
+#'
+#' Simulate a mean for each gene in each cell incorporating batch effect
+#' factors.
+#'
+#' @param sim SCESet to add batch means to.
+#' @param params SplatParams object with simulation parameters.
+#'
+#' @return SCESet with simulated batch means.
+#'
+#' @importFrom Biobase fData fData<-
+splatSimBatchCellMeans <- function(sim, params) {
+
+    nBatches <- getParam(params, "nBatches")
+    cell.names <- pData(sim)$Cell
+    gene.names <- fData(sim)$Gene
+    gene.means <- fData(sim)$GeneMean
+
+    if (nBatches > 1) {
+        batches <- pData(sim)$Batch
+        batch.names <- unique(batches)
+
+        batch.facs.gene <- fData(sim)[, paste0("BatchFac", batch.names)]
+        batch.facs.cell <- as.matrix(batch.facs.gene[, factor(batches)])
+
+    } else {
+        nCells <- getParam(params, "nCells")
+        nGenes <- getParam(params, "nGenes")
+
+        batch.facs.cell <- matrix(1, ncol = nCells, nrow = nGenes)
+    }
+
+    batch.means.cell <- batch.facs.cell * gene.means
+
+    colnames(batch.means.cell) <- cell.names
+    rownames(batch.means.cell) <- gene.names
+    set_exprs(sim, "BatchCellMeans") <- batch.means.cell
+
+    return(sim)
+}
+
 #' Simulate group differential expression
 #'
 #' Simulate differential expression. Differential expression factors for each
 #' group are produced using \code{\link{getLNormFactors}} and these are added
 #' along with updated means for each group. For paths care is taked to make sure
-#' they are simualated in the correct order.
+#' they are simulated in the correct order.
 #'
 #' @param sim SCESet to add differential expression to.
 #' @param params splatParams object with simulation parameters.
@@ -334,7 +421,6 @@ splatSimGroupDE <- function(sim, params) {
                                    de.facLoc[idx], de.facScale[idx])
         group.means.gene <- means.gene * de.facs
         fData(sim)[[paste0("DEFacGroup", idx)]] <- de.facs
-        fData(sim)[[paste0("GeneMeanGroup", idx)]] <- group.means.gene
     }
 
     return(sim)
@@ -363,7 +449,6 @@ splatSimPathDE <- function(sim, params) {
                                    de.facLoc[path], de.facScale[path])
         path.means.gene <- means.gene * de.facs
         fData(sim)[[paste0("DEFacPath", path)]] <- de.facs
-        fData(sim)[[paste0("GeneMeanPath", path)]] <- path.means.gene
     }
 
     return(sim)
@@ -387,15 +472,16 @@ NULL
 
 #' @rdname splatSimCellMeans
 #' @importFrom Biobase fData pData
-#' @importFrom scater set_exprs<-
+#' @importFrom scater set_exprs<- get_exprs
 splatSimSingleCellMeans <- function(sim, params) {
 
     nCells <- getParam(params, "nCells")
     cell.names <- pData(sim)$Cell
     gene.names <- fData(sim)$Gene
     exp.lib.sizes <- pData(sim)$ExpLibSize
+    batch.means.cell <- get_exprs(sim, "BatchCellMeans")
 
-    cell.means.gene <- as.matrix(fData(sim)[, rep("GeneMean", nCells)])
+    cell.means.gene <- batch.means.cell
     cell.props.gene <- t(t(cell.means.gene) / colSums(cell.means.gene))
     base.means.cell <- t(t(cell.props.gene) * exp.lib.sizes)
 
@@ -408,7 +494,7 @@ splatSimSingleCellMeans <- function(sim, params) {
 
 #' @rdname splatSimCellMeans
 #' @importFrom Biobase fData pData
-#' @importFrom scater set_exprs<-
+#' @importFrom scater get_exprs set_exprs<-
 splatSimGroupCellMeans <- function(sim, params) {
 
     nGroups <- getParam(params, "nGroups")
@@ -417,9 +503,11 @@ splatSimGroupCellMeans <- function(sim, params) {
     groups <- pData(sim)$Group
     group.names <- unique(groups)
     exp.lib.sizes <- pData(sim)$ExpLibSize
+    batch.means.cell <- get_exprs(sim, "BatchCellMeans")
 
-    group.means.gene <- fData(sim)[, paste0("GeneMean", group.names)]
-    cell.means.gene <- as.matrix(group.means.gene[, factor(groups)])
+    group.facs.gene <- fData(sim)[, paste0("DEFac", group.names)]
+    cell.facs.gene <- as.matrix(group.facs.gene[, factor(groups)])
+    cell.means.gene <- batch.means.cell * cell.facs.gene
     cell.props.gene <- t(t(cell.means.gene) / colSums(cell.means.gene))
     base.means.cell <- t(t(cell.props.gene) * exp.lib.sizes)
 
@@ -437,10 +525,10 @@ splatSimGroupCellMeans <- function(sim, params) {
 splatSimPathCellMeans <- function(sim, params) {
 
     nGenes <- getParam(params, "nGenes")
+    nCells <- getParam(params, "nCells")
     nGroups <- getParam(params, "nGroups")
     cell.names <- pData(sim)$Cell
     gene.names <- fData(sim)$Gene
-    group.cells <- getParam(params, "groupCells")
     path.from <- getParam(params, "path.from")
     path.length <- getParam(params, "path.length")
     path.skew <- getParam(params, "path.skew")
@@ -449,6 +537,9 @@ splatSimPathCellMeans <- function(sim, params) {
     groups <- pData(sim)$Group
     group.names <- unique(groups)
     exp.lib.sizes <- pData(sim)$ExpLibSize
+    batch.means.cell <- get_exprs(sim, "BatchCellMeans")
+
+    group.sizes <- table(groups)
 
     # Generate non-linear path factors
     for (idx in seq_along(path.from)) {
@@ -463,51 +554,55 @@ splatSimPathCellMeans <- function(sim, params) {
     # nGenes rows where the expression from each genes changes along the path.
     path.steps <- lapply(seq_along(path.from), function(idx) {
         from <- path.from[idx]
-        # Find the means at the starting position
+        # Find the factors at the starting position
         if (from == 0) {
-            means.start <- fData(sim)$GeneMean
+            facs.start <- rep(1, nGenes)
         } else {
-            means.start <- fData(sim)[[paste0("GeneMeanPath", from)]]
+            facs.start <- fData(sim)[[paste0("DEFacPath", from)]]
         }
-        # Find the means at the end position
-        means.end <- fData(sim)[[paste0("GeneMeanPath", idx)]]
+        # Find the factors at the end position
+        facs.end <- fData(sim)[[paste0("DEFacPath", idx)]]
 
         # Get the non-linear factors
         sigma.facs <- fData(sim)[[paste0("SigmaFacPath", idx)]]
 
         # Build Brownian bridges from start to end
-        steps <- buildBridges(means.start, means.end, n = path.length[idx],
+        steps <- buildBridges(facs.start, facs.end, n = path.length[idx],
                               sigma.fac = sigma.facs)
 
         return(t(steps))
     })
 
     # Randomly assign a position in the appropriate path to each cell
-    cell.steps <- lapply(seq_len(nGroups), function(idx) {
-        path.probs <- seq(path.skew[idx], 1 - path.skew[idx],
+    path.probs <- lapply(seq_len(nGroups), function(idx) {
+        probs <- seq(path.skew[idx], 1 - path.skew[idx],
                           length = path.length[idx])
-        path.probs <- path.probs / sum(path.probs)
-        steps <- sort(sample(seq_len(path.length[idx]), group.cells[idx],
-                             prob = path.probs, replace = TRUE))
+        probs <- probs / sum(probs)
+        return(probs)
+    })
 
-        return(steps)
+    steps <- sapply(factor(groups), function(path) {
+        step <- sample(seq_len(path.length[path]), 1, prob = path.probs[[path]])
     })
 
     # Collect the underlying expression levels for each cell
-    cell.means.gene <- lapply(seq_len(nGroups), function(idx) {
-        cell.means <- path.steps[[idx]][, cell.steps[[idx]]]
-        return(cell.means)
+    cell.facs.gene <- lapply(seq_len(nCells), function(idx) {
+        path <- factor(groups)[idx]
+        step <- steps[idx]
+        cell.means <- path.steps[[path]][, step]
     })
-    cell.means.gene <- do.call(cbind, cell.means.gene)
+    cell.facs.gene <- do.call(cbind, cell.facs.gene)
 
     # Adjust expression based on library size
+    cell.means.gene <- batch.means.cell * cell.facs.gene
     cell.props.gene <- t(t(cell.means.gene) / colSums(cell.means.gene))
     base.means.cell <- t(t(cell.props.gene) * exp.lib.sizes)
 
     colnames(base.means.cell) <- cell.names
     rownames(base.means.cell) <- gene.names
 
-    pData(sim)$Step <- unlist(cell.steps)
+    #pData(sim)$Step <- unlist(cell.steps)
+    pData(sim)$Step <- steps
     set_exprs(sim, "BaseCellMeans") <- base.means.cell
 
     return(sim)
