@@ -72,6 +72,7 @@ setClass("SimpleParams",
 #' \describe{
 #'     \item{\code{nGenes}}{The number of genes to simulate.}
 #'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
 #'     \item{\emph{Batch parameters}}{
 #'         \describe{
 #'             \item{\code{[nBatches]}}{The number of batches to simulate.}
@@ -83,7 +84,6 @@ setClass("SimpleParams",
 #'             batch effect factor log-normal distribution. Can be a vector.}
 #'         }
 #'     }
-#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
 #'     \item{\emph{Mean parameters}}{
 #'         \describe{
 #'             \item{\code{mean.shape}}{Shape parameter for the mean gamma
@@ -218,8 +218,8 @@ setClass("SplatParams",
                    path.sigmaFac = "numeric"),
          prototype = prototype(nBatches = 1,
                                batchCells = 100,
-                               batch.facLoc = 0,
-                               batch.facScale = 0,
+                               batch.facLoc = 0.1,
+                               batch.facScale = 0.1,
                                mean.rate = 0.3,
                                mean.shape = 0.6,
                                lib.loc = 11,

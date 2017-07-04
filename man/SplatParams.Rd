@@ -16,6 +16,7 @@ The Splatter simulation requires the following parameters:
 \describe{
     \item{\code{nGenes}}{The number of genes to simulate.}
     \item{\code{nCells}}{The number of cells to simulate.}
+    \item{\code{[seed]}}{Seed to use for generating random numbers.}
     \item{\emph{Batch parameters}}{
         \describe{
             \item{\code{[nBatches]}}{The number of batches to simulate.}
@@ -27,7 +28,6 @@ The Splatter simulation requires the following parameters:
             batch effect factor log-normal distribution. Can be a vector.}
         }
     }
-    \item{\code{[seed]}}{Seed to use for generating random numbers.}
     \item{\emph{Mean parameters}}{
         \describe{
             \item{\code{mean.shape}}{Shape parameter for the mean gamma
