@@ -21,7 +21,7 @@ test_that("path.from checks work", {
     expect_silent(validObject(params))
     params <- setParamUnchecked(params, "path.from", c(0, 3))
     expect_error(validObject(params),
-                 paste('invalid class “SplatParams” object: path.from:',
+                 paste('invalid class "SplatParams" object: path.from:',
                        "All elements must be <= 2"))
     params <- setParamUnchecked(params, "path.from", c(1, 0))
     expect_error(validObject(params), "path cannot begin at itself")

@@ -23,7 +23,7 @@ Combine the plots from \code{compareSCESets} into a single panel.
 }
 \examples{
 \dontrun{
-sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
 panel <- makeCompPanel(comparison)
