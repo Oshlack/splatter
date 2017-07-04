@@ -73,12 +73,12 @@ scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams(),
     res <- res[!is.na(res$DDcategory), ]
     dd.cats <- table(res$DDcategory)
 
-    not.dd <- res$DDcategory == "NC" | res$DDcategory == "NS"
+    not.dd <- res$DDcategory == "NS"
     nDE <- ifelse("DE" %in% names(dd.cats), dd.cats["DE"], 0)
     nDP <- ifelse("DP" %in% names(dd.cats), dd.cats["DP"], 0)
     nDM <- ifelse("DM" %in% names(dd.cats), dd.cats["DM"], 0)
     nDB <- ifelse("DB" %in% names(dd.cats), dd.cats["DB"], 0)
-    nEP <- sum(res$Clusters.c1[not.dd] > 1 | res$Clusters.c2[not.dd] > 1)
+    nEP <- sum(res$Clusters.c1[not.dd] > 1 & res$Clusters.c2[not.dd] > 1)
     nEE <- nrow(counts) - nDE - nDP - nDM - nDB - nEP
 
     params <- setParams(params,
