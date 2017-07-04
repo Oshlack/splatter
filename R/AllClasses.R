@@ -72,9 +72,17 @@ setClass("SimpleParams",
 #' \describe{
 #'     \item{\code{nGenes}}{The number of genes to simulate.}
 #'     \item{\code{nCells}}{The number of cells to simulate.}
-#'     \item{\code{[nGroups]}}{The number of groups or paths to simulate.}
-#'     \item{\code{[groupCells]}}{Vector giving the number of cells in each
-#'     simulation group/path.}
+#'     \item{\emph{Batch parameters}}{
+#'         \describe{
+#'             \item{\code{[nBatches]}}{The number of batches to simulate.}
+#'             \item{\code{[batchCells]}}{Vector giving the number of cells in
+#'             each batch.}
+#'             \item{\code{[batch.facLoc]}}{Location (meanlog) parameter for the
+#'             batch effect factor log-normal distribution. Can be a vector.}
+#'             \item{\code{[batch.facScale]}}{Scale (sdlog) parameter for the
+#'             batch effect factor log-normal distribution. Can be a vector.}
+#'         }
+#'     }
 #'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
 #'     \item{\emph{Mean parameters}}{
 #'         \describe{
@@ -100,6 +108,14 @@ setClass("SimpleParams",
 #'             expression outlier factor log-normal distribution.}
 #'             \item{\code{out.facScale}}{Scale (sdlog) parameter for the
 #'             expression outlier factor log-normal distribution.}
+#'         }
+#'     }
+#'     \item{\emph{Group parameters}}{
+#'         \describe{
+#'             \item{\code{[nGroups]}}{The number of groups or paths to
+#'             simulate.}
+#'             \item{\code{[group.prob]}}{Probability that a cell comes from a
+#'             group.}
 #'         }
 #'     }
 #'     \item{\emph{Differential expression parameters}}{
@@ -173,8 +189,10 @@ setClass("SimpleParams",
 #' @exportClass SplatParams
 setClass("SplatParams",
          contains = "Params",
-         slots = c(nGroups = "numeric",
-                   groupCells = "numeric",
+         slots = c(nBatches = "numeric",
+                   batchCells = "numeric",
+                   batch.facLoc = "numeric",
+                   batch.facScale = "numeric",
                    mean.shape = "numeric",
                    mean.rate = "numeric",
                    lib.loc = "numeric",
@@ -182,6 +200,8 @@ setClass("SplatParams",
                    out.prob = "numeric",
                    out.facLoc = "numeric",
                    out.facScale = "numeric",
+                   nGroups = "numeric",
+                   group.prob = "numeric",
                    de.prob = "numeric",
                    de.downProb = "numeric",
                    de.facLoc = "numeric",
@@ -196,8 +216,10 @@ setClass("SplatParams",
                    path.skew = "numeric",
                    path.nonlinearProb = "numeric",
                    path.sigmaFac = "numeric"),
-         prototype = prototype(nGroups = 1,
-                               groupCells = 100,
+         prototype = prototype(nBatches = 1,
+                               batchCells = 100,
+                               batch.facLoc = 0,
+                               batch.facScale = 0,
                                mean.rate = 0.3,
                                mean.shape = 0.6,
                                lib.loc = 11,
@@ -205,6 +227,8 @@ setClass("SplatParams",
                                out.prob = 0.05,
                                out.facLoc = 4,
                                out.facScale = 0.5,
+                               nGroups = 1,
+                               group.prob = 1,
                                de.prob = 0.1,
                                de.downProb = 0.5,
                                de.facLoc = 0.1,

@@ -16,9 +16,17 @@ The Splatter simulation requires the following parameters:
 \describe{
     \item{\code{nGenes}}{The number of genes to simulate.}
     \item{\code{nCells}}{The number of cells to simulate.}
-    \item{\code{[nGroups]}}{The number of groups or paths to simulate.}
-    \item{\code{[groupCells]}}{Vector giving the number of cells in each
-    simulation group/path.}
+    \item{\emph{Batch parameters}}{
+        \describe{
+            \item{\code{[nBatches]}}{The number of batches to simulate.}
+            \item{\code{[batchCells]}}{Vector giving the number of cells in
+            each batch.}
+            \item{\code{[batch.facLoc]}}{Location (meanlog) parameter for the
+            batch effect factor log-normal distribution. Can be a vector.}
+            \item{\code{[batch.facScale]}}{Scale (sdlog) parameter for the
+            batch effect factor log-normal distribution. Can be a vector.}
+        }
+    }
     \item{\code{[seed]}}{Seed to use for generating random numbers.}
     \item{\emph{Mean parameters}}{
         \describe{
@@ -44,6 +52,14 @@ The Splatter simulation requires the following parameters:
             expression outlier factor log-normal distribution.}
             \item{\code{out.facScale}}{Scale (sdlog) parameter for the
             expression outlier factor log-normal distribution.}
+        }
+    }
+    \item{\emph{Group parameters}}{
+        \describe{
+            \item{\code{[nGroups]}}{The number of groups or paths to
+            simulate.}
+            \item{\code{[group.prob]}}{Probability that a cell comes from a
+            group.}
         }
     }
     \item{\emph{Differential expression parameters}}{
