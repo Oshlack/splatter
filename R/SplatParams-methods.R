@@ -16,12 +16,16 @@ setValidity("SplatParams", function(object) {
     object <- expandParams(object)
     v <- getParams(object, c(slotNames(object)))
 
+    nBatches <- v$nBatches
     nGroups <- v$nGroups
     checks <- c(nGenes = checkInt(v$nGenes, lower = 1),
                 nCells = checkInt(v$nCells, lower = 1),
-                nGroups = checkInt(v$nGroups, lower = 1),
-                groupCells = checkIntegerish(v$groupCells, lower = 1,
-                                             len = nGroups),
+                nBatches = checkInt(v$nBatches, lower = 1),
+                batchCells = checkIntegerish(v$batchCells, lower = 1,
+                                             len = nBatches),
+                batch.facLoc = checkNumeric(v$batch.facLoc, len = nBatches),
+                batch.facScale = checkNumeric(v$batch.facScale, lower = 0,
+                                              len = nBatches),
                 mean.rate = checkNumber(v$mean.rate, lower = 0),
                 mean.shape = checkNumber(v$mean.shape, lower = 0),
                 lib.loc = checkNumber(v$lib.loc),
@@ -29,6 +33,9 @@ setValidity("SplatParams", function(object) {
                 out.prob = checkNumber(v$out.prob, lower = 0, upper = 1),
                 out.facLoc = checkNumber(v$out.facLoc),
                 out.facScale = checkNumber(v$out.facScale, lower = 0),
+                nGroups = checkInt(v$nGroups, lower = 1),
+                group.prob = checkNumeric(v$de.prob, lower = 0, upper = 1,
+                                          len = nGroups),
                 de.prob = checkNumeric(v$de.prob, lower = 0, upper = 1,
                                        len = nGroups),
                 de.downProb = checkNumeric(v$de.downProb, lower = 0, upper = 1,
@@ -52,10 +59,15 @@ setValidity("SplatParams", function(object) {
                 path.sigmaFac = checkNumber(v$path.sigmaFac, lower = 0),
                 seed = checkInt(v$seed, lower = 0))
 
-    # Check groupCells matches nCells, nGroups
-    if (v$nCells != sum(v$groupCells) || nGroups != length(v$groupCells)) {
+    # Check batchCells matches nCells, nBatches
+    if (v$nCells != sum(v$batchCells) || nBatches != length(v$batchCells)) {
         checks <- c(checks,
-                    "nCells, nGroups and groupCells are not consistent")
+                    "nCells, nBatches and batchesCells are not consistent")
+    }
+
+    # Check group.prob sums to 1
+    if (sum(v$group.prob) != 1) {
+        checks <- c(checks, "group.probs must sum to 1")
     }
 
     # Check path.from
@@ -79,12 +91,20 @@ setValidity("SplatParams", function(object) {
 setMethod("setParam", "SplatParams",function(object, name, value) {
     checkmate::assertString(name)
 
-    if (name == "nCells" || name == "nGroups") {
-        stop(name, " cannot be set directly, set groupCells instead")
+    if (name == "nCells" || name == "nBatches") {
+        stop(name, " cannot be set directly, set batchCells instead")
     }
 
-    if (name == "groupCells") {
+    if (name == "nGroups") {
+        stop(name, " cannot be set directly, set group.prob instead")
+    }
+
+    if (name == "batchCells") {
         object <- setParamUnchecked(object, "nCells", sum(value))
+        object <- setParamUnchecked(object, "nBatches", length(value))
+    }
+
+    if (name == "group.prob") {
         object <- setParamUnchecked(object, "nGroups", length(value))
     }
 
@@ -96,8 +116,10 @@ setMethod("setParam", "SplatParams",function(object, name, value) {
 #' @importFrom methods callNextMethod
 setMethod("show", "SplatParams", function(object) {
 
-    pp <- list("Groups:"         = c("[Groups]"       = "nGroups",
-                                     "[Group Cells]"  = "groupCells"),
+    pp <- list("Batches:"        = c("[Batches]"      = "nBatches",
+                                     "[Batch Cells]"  = "batchCells",
+                                     "[Location]"     = "batch.facLoc",
+                                     "[Scale]"        = "batch.facScale"),
                "Mean:"           = c("(Rate)"         = "mean.rate",
                                      "(Shape)"        = "mean.shape"),
                "Library size:"   = c("(Location)"     = "lib.loc",
@@ -105,6 +127,8 @@ setMethod("show", "SplatParams", function(object) {
                "Exprs outliers:" = c("(Probability)"  = "out.prob",
                                      "(Location)"     = "out.facLoc",
                                      "(Scale)"        = "out.facScale"),
+               "Groups:"         = c("[Groups]"       = "nGroups",
+                                     "[Group Probs]"  = "group.prob"),
                "Diff expr:"      = c("[Probability]"  = "de.prob",
                                      "[Down Prob]"    = "de.downProb",
                                      "[Location]"     = "de.facLoc",
@@ -126,6 +150,12 @@ setMethod("show", "SplatParams", function(object) {
 
 #' @rdname expandParams
 setMethod("expandParams", "SplatParams", function(object) {
+
+    n <- getParam(object, "nBatches")
+
+    vectors <- c("batch.facLoc", "batch.facScale")
+
+    object <- callNextMethod(object, vectors, n)
 
     n <- getParam(object, "nGroups")
 

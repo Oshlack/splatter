@@ -1,8 +1,36 @@
+# 1.1.1
+
+* Add batch effects to Splat simulation
+* Make Splat group assignment probabilistic
+* Update SplatParams with new parameters
+
+# 1.1.0
+
+* Bioconductor 3.6 devel
+
+# 1.0.3
+
+* Update citation
+
+# 1.0.2
+
+* Fix error handling when fitting means
+
+# 1.0.1
+
+* Fix scales in some difference plots
+* Fix colours in difference plots
+* Fix panel legends
+
+# 1.0.0
+
+* Bioconductor 3.5 release
+
 # 0.99.15
 
 * Add summariseDiff function
 * Add BPPARAM argument to scDDSimulate
-* Adjust default Spalt DE factor parameters
+* Adjust default Splat DE factor parameters
 * Add limits to zeros diff plots
 * Remove estimation of dropout.present
 
