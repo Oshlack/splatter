@@ -39,7 +39,7 @@
 #' params
 #' @export
 BASiCSEstimate <- function(counts, spike.info = NULL, batch = NULL,
-                           n = 40000, thin = 10, burn = 20000,
+                           n = 20000, thin = 10, burn = 5000,
                            params = newBASiCSParams(), verbose = TRUE,
                            progress = TRUE, ...) {
     UseMethod("BASiCSEstimate")
@@ -48,7 +48,7 @@ BASiCSEstimate <- function(counts, spike.info = NULL, batch = NULL,
 #' @rdname BASiCSEstimate
 #' @export
 BASiCSEstimate.SCESet <- function(counts, spike.info = NULL, batch = NULL,
-                                  n = 40000, thin = 10, burn = 20000,
+                                  n = 20000, thin = 10, burn = 5000,
                                   params = newBASiCSParams(), verbose = TRUE,
                                   progress = TRUE, ...) {
     counts <- scater::counts(counts)
@@ -58,7 +58,7 @@ BASiCSEstimate.SCESet <- function(counts, spike.info = NULL, batch = NULL,
 #' @rdname BASiCSEstimate
 #' @export
 BASiCSEstimate.matrix <- function(counts, spike.info = NULL, batch = NULL,
-                                  n = 40000, thin = 10, burn = 20000,
+                                  n = 20000, thin = 10, burn = 5000,
                                   params = newBASiCSParams(), verbose = TRUE,
                                   progress = TRUE, ...) {
 
