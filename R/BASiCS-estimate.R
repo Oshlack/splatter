@@ -35,7 +35,7 @@
 #' @export
 BASiCSEstimate <- function(counts, is.spike, spike.input,
                            batch = rep(1, ncol(counts)),
-                           n = 40000, thin = 10, burn = 20000,
+                           n = 20000, thin = 10, burn = 5000,
                            params = newBASiCSParams(), verbose = TRUE,
                            progress = TRUE, ...) {
     UseMethod("BASiCSEstimate")
