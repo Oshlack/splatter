@@ -14,15 +14,15 @@ data. Splatter provides a common interface to multiple simulations that have:
 * Functions for simulating counts using those parameters
 
 Splatter is built on top of [`scater`][scater] and stores simulations in
-`SCESet` objects.
+`SCESet` objects. Splatter also has functions for comparing simulations and real
+datasets.
 
 ## Installation.
 
 ### Development version
 
-Splatter has been accepted into the development version of [Bioconductor][bioc]
-and hence requires the development version of R (>=3.4) and the development
-version of Bioconductor (3.5).
+Splatter has been accepted into the latest version of [Bioconductor][bioc]
+and hence requires the latest version of R (>=3.4).
 
 If you have these installed Splatter can be installed from Bioconductor using
 `biocLite`:
@@ -43,13 +43,6 @@ aren't required for core functionality). Building the vignette may sometimes
 fail when run from the command line, if this happens try running the install
 command in RStudio.
 
-### Release version
-
-The last version of Splatter that is compatible with the current version of
-R (3.3) is v0.99.0 which can be downloaded [here][rel33]. There are no
-significant changes to functionality and this version should be fine for most
-users until the next R/Bioconductor release (in approximately April 2017).
-
 ## Getting started
 
 Once installed the best place to get started is the vignette. For most users
@@ -65,8 +58,26 @@ browseVignettes("splatter")
 
 This is a detailed document that introduces the main features of Splatter.
 
+## Citing Splatter
+
+If you use Splatter please cite our paper ["Zappia L, Phipson B, Oshlack A.
+Splatter: Simulation Of Single-Cell RNA Sequencing Data. bioRxiv. 2017;
+doi:10.1101/133173"][preprint].
+
+```
+@Article{,
+    author = {Luke Zappia and Belinda Phipson and Alicia Oshlack},
+    title = {Splatter: Simulation Of Single-Cell RNA Sequencing Data},
+    journal = {bioRxiv},
+    year = {2017},
+    url = {http://dx.doi.org/10.1101/133173},
+    doi = {10.1101/133173},
+  }
+```
+
 [scater]: https://github.com/davismcc/scater
 [contrib]: https://github.com/Bioconductor/Contributions/issues/209
 [bioc]: https://bioconductor.org/packages/devel/bioc/html/splatter.html
 [vignette]: https://bioconductor.org/packages/devel/bioc/vignettes/splatter/inst/doc/splatter.html
-[rel33]: https://github.com/Oshlack/splatter/releases/tag/v0.99.0
+[preprint]: http://dx.doi.org/10.1101/133173
+

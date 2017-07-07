@@ -42,7 +42,7 @@
 #'
 #' @return List containing the combined datasets and plots.
 #' @examples
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
 #' names(comparison)
@@ -249,7 +249,7 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
 #'
 #' @return List containing the combined datasets and plots.
 #' @examples
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
 #' names(difference)
@@ -271,6 +271,8 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     if (!(ref %in% names(sces))) {
         stop("'ref' must be the name of an SCESet in 'sces'")
+    } else {
+        ref.idx <- which(names(sces) == ref)
     }
 
     if (!is.null(colours)) {
@@ -278,6 +280,7 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                                    len = length(sces) - 1)
     } else {
         colours <- scales::hue_pal()(length(sces))
+        colours <- colours[-ref.idx]
     }
 
     ref.dim <- dim(sces[[ref]])
@@ -400,7 +403,6 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                                 colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_boxplot() +
-        scale_y_continuous(limits = c(0, 100)) +
         scale_colour_manual(values = colours) +
         ylab(paste("Rank difference percentage zeros")) +
         ggtitle("Difference in zeros per gene") +
@@ -411,7 +413,6 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                                 colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_boxplot() +
-        scale_y_continuous(limits = c(0, 100)) +
         scale_colour_manual(values = colours) +
         ylab(paste("Rank difference percentage zeros")) +
         ggtitle("Difference in zeros per cell") +
@@ -520,7 +521,7 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 #'
 #' @examples
 #' \dontrun{
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
 #' panel <- makeCompPanel(comparison)
@@ -559,7 +560,7 @@ makeCompPanel <- function(comp, title = "Comparison",
         plots[[plot]] <- plots[[plot]] + theme(axis.title.x = element_blank())
     }
 
-    plots$leg <- cowplot::get_legend(plots$p1 +
+    plots$leg <- cowplot::get_legend(plots$p3 +
                                          theme(legend.position = "bottom"))
 
     panel <- cowplot::ggdraw() +
@@ -604,7 +605,7 @@ makeCompPanel <- function(comp, title = "Comparison",
 #'
 #' @examples
 #' \dontrun{
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
 #' panel <- makeDiffPanel(difference)
@@ -644,7 +645,7 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
         plots[[plot]] <- plots[[plot]] + theme(axis.title.x = element_blank())
     }
 
-    plots$leg <- cowplot::get_legend(plots$p1 +
+    plots$leg <- cowplot::get_legend(plots$p5 +
                                          theme(legend.position = "bottom"))
 
     panel <- cowplot::ggdraw() +
@@ -696,7 +697,7 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
 #'
 #' @examples
 #' \dontrun{
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' comparison <- compSCESets(list(Splat = sim1, Simple = sim2))
 #' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
@@ -743,7 +744,7 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
         plots[[plot]] <- plots[[plot]] + theme(axis.title.x = element_blank())
     }
 
-    plots$leg <- cowplot::get_legend(plots$p1 +
+    plots$leg <- cowplot::get_legend(plots$p7 +
                                          theme(legend.position = "bottom"))
 
     panel <- cowplot::ggdraw() +
@@ -797,7 +798,7 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
 #'
 #' @return List with MADs, ranks and both combined in long format
 #' @examples
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
 #' summary <- summariseDiff(difference)

@@ -81,22 +81,25 @@ slots. This additional information includes:
             \item{OutlierFactor}{Expression outlier factor for that gene.
             Values of 1 indicate the gene is not an expression outlier.}
             \item{GeneMean}{Expression level after applying outlier factors.}
+            \item{BatchFac[Batch]}{The batch effects factor for each gene for
+            a particular batch.}
             \item{DEFac[Group]}{The differential expression factor for each
             gene in a particular group. Values of 1 indicate the gene is not
             differentially expressed.}
-            \item{GeneMean[Group]}{Expression level of a gene in a particular
-            group after applying differential expression factors.}
             \item{SigmaFac[Path]}{Factor applied to genes that have
             non-linear changes in expression along a path.}
         }
     }
     \item{\code{assayData}}{
         \describe{
-            \item{BaseCellMeans}{The expression of genes in each cell
-            adjusted for expected library size.}
+            \item{BatchCellMeans}{The mean expression of genes in each cell
+            after adding batch effects.}
+            \item{BaseCellMeans}{The mean expression of genes in each cell
+            after any differential expression and adjusted for expected
+            library size.}
             \item{BCV}{The Biological Coefficient of Variation for each gene
             in each cell.}
-            \item{CellMeans}{The expression level of genes in each cell
+            \item{CellMeans}{The mean expression level of genes in each cell
             adjusted for BCV.}
             \item{TrueCounts}{The simulated counts before dropout.}
             \item{Dropout}{Logical matrix showing which values have been
@@ -128,6 +131,7 @@ sim <- splatSimulate(method = "paths")
 }
 \seealso{
 \code{\link{splatSimLibSizes}}, \code{\link{splatSimGeneMeans}},
+\code{\link{splatSimBatchEffects}}, \code{\link{splatSimBatchCellMeans}},
 \code{\link{splatSimDE}}, \code{\link{splatSimCellMeans}},
 \code{\link{splatSimBCVMeans}}, \code{\link{splatSimTrueCounts}},
 \code{\link{splatSimDropout}}

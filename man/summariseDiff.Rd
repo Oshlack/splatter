@@ -18,7 +18,7 @@ properties are sorted, differences calculated, the Median Absolute Deviation
 taken as the summary statistic and the ranks calculated.
 }
 \examples{
-sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
 summary <- summariseDiff(difference)
