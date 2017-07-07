@@ -50,6 +50,9 @@ scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams(),
     }
 
     checkmate::assertClass(params, "SCDDParams")
+    checkmate::assertMatrix(counts, mode = "numeric", any.missing = FALSE,
+                            min.rows = 1, min.cols = 1, row.names = "unique",
+                            col.names = "unique")
     checkmate::assertIntegerish(conditions, len = ncol(counts), lower = 1,
                                 upper = 2)
 
