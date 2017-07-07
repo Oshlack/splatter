@@ -235,7 +235,7 @@ the following steps:
 5. Dropout parameters are estimated by checking if dropout is present and
    fitting a logistic function to the relationship between mean expression and
    proportion of zeros.
-   
+
 For more details of the estimation procedures see `?splatEstimate`.
 
 # Simulating counts

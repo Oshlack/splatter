@@ -550,6 +550,15 @@ splatSimPathCellMeans <- function(sim, params) {
         fData(sim)[[paste0("SigmaFacPath", idx)]] <- sigma.facs
     }
 
+    # Generate non-linear path factors
+    for (idx in seq_along(path.from)) {
+        # Select genes to follow a non-linear path
+        is.nonlinear <- as.logical(rbinom(nGenes, 1, path.nonlinearProb))
+        sigma.facs <- rep(0, nGenes)
+        sigma.facs[is.nonlinear] <- path.sigmaFac
+        fData(sim)[[paste0("SigmaFacPath", idx)]] <- sigma.facs
+    }
+
     # Generate paths. Each path is a matrix with path.length columns and
     # nGenes rows where the expression from each genes changes along the path.
     path.steps <- lapply(seq_along(path.from), function(idx) {
