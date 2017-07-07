@@ -6,25 +6,26 @@
 \alias{BASiCSEstimate.matrix}
 \title{Estimate BASiCS simulation parameters}
 \usage{
-BASiCSEstimate(counts, is.spike, spike.input, batch = rep(1, ncol(counts)),
+BASiCSEstimate(counts, spike.info = NULL, batch = NULL, n = 40000,
+  thin = 10, burn = 20000, params = newBASiCSParams(), verbose = TRUE,
+  progress = TRUE, ...)
+
+\method{BASiCSEstimate}{SCESet}(counts, spike.info = NULL, batch = NULL,
   n = 40000, thin = 10, burn = 20000, params = newBASiCSParams(),
   verbose = TRUE, progress = TRUE, ...)
 
-\method{BASiCSEstimate}{SCESet}(counts, is.spike, spike.input, batch = rep(1,
-  ncol(counts)), n = 40000, thin = 10, burn = 20000,
-  params = newBASiCSParams(), verbose = TRUE, progress = TRUE, ...)
-
-\method{BASiCSEstimate}{matrix}(counts, is.spike, spike.input, batch = rep(1,
-  ncol(counts)), n = 40000, thin = 10, burn = 20000,
-  params = newBASiCSParams(), verbose = TRUE, progress = TRUE, ...)
+\method{BASiCSEstimate}{matrix}(counts, spike.info = NULL, batch = NULL,
+  n = 40000, thin = 10, burn = 20000, params = newBASiCSParams(),
+  verbose = TRUE, progress = TRUE, ...)
 }
 \arguments{
 \item{counts}{either a counts matrix or an SCESet object containing count
 data to estimate parameters from.}
 
-\item{is.spike}{logical vector indicating which genes are spike-ins.}
-
-\item{spike.input}{number of input molecules for each spike-in.}
+\item{spike.info}{data.frame describing spike-ins with two columns: "Name"
+giving the names of the spike-in features (must match
+\code{rownames(counts)}) and "Input" giving the number of input
+molecules.}
 
 \item{batch}{vector giving the batch that each cell belongs to.}
 
@@ -53,14 +54,17 @@ Estimate simulation parameters for the BASiCS simulation from a real dataset.
 }
 \details{
 This function is just a wrapper around \code{\link[BASiCS]{BASiCS_MCMC}} that
-takes the output and converts it to a BASiCSParams object. See
+takes the output and converts it to a BASiCSParams object. Either a set of
+spike-ins or batch information (or both) must be supplied. If only batch
+information is provided there must be at least two batches. See
 \code{\link[BASiCS]{BASiCS_MCMC}} for details.
 }
 \examples{
 data("sc_example_counts")
-is.spike <- c(rep(FALSE, 40), rep(TRUE, 10))
-spike.input <- rnorm(10, 500, 200)
+spike.info <- data.frame(Name = rownames(counts)[1:10],
+                         Input = rnorm(10, 500, 200),
+                         stringsAsFactors = FALSE)
 params <- BASiCSEstimate(sc_example_counts[1:50, 1:20],
-                         is.spike, spike.input)
+                         spike.info)
 params
 }

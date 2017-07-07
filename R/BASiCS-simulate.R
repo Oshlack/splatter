@@ -66,6 +66,9 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
             selected <- sample(length(spike.mu), nSpikes, replace = TRUE)
             spike.mu <- spike.mu[selected]
         }
+    } else {
+        # Create dummy spike-ins to get around BASiCS_Sim...
+        spike.mu <- c(10, 10)
     }
 
     cell.params <- getParam(params, "cell.params")
@@ -104,14 +107,18 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
     gene.names <- paste0("Gene", seq_len(nGenes))
     if (nSpikes > 0) {
         gene.names <- c(gene.names, paste0("Spike", seq_len(nSpikes)))
+    } else {
+        # Remove dummy spikes
+        counts <- counts[1:(nrow(counts) - 2), ]
+        spike.mu <- numeric()
     }
 
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names
     phenos <- new("AnnotatedDataFrame",
                   data = data.frame(Cell = cell.names,
-                                    Phi = phi,
-                                    S = s,
+                                    Phi = cell.params[, "Phi"],
+                                    S = cell.params[, "S"],
                                     Batch = batches,
                                     BatchTheta = thetas[batches]))
     rownames(phenos) <- cell.names

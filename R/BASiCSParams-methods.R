@@ -32,7 +32,7 @@ setValidity("BASiCSParams", function(object) {
                                              types = "numeric",
                                              any.missing = FALSE,
                                              min.rows = 1, ncols = 2),
-                nSpikes = checkNumber(v$nSpikes, lower = 2, finite = TRUE),
+                nSpikes = checkNumber(v$nSpikes, lower = 0, finite = TRUE),
                 spike.means = checkNumeric(v$spike.means, lower = 0,
                                            finite = TRUE),
                 cell.params = checkDataFrame(v$cell.params,

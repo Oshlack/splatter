@@ -4,8 +4,10 @@
 #'
 #' @param counts either a counts matrix or an SCESet object containing count
 #'        data to estimate parameters from.
-#' @param is.spike logical vector indicating which genes are spike-ins.
-#' @param spike.input number of input molecules for each spike-in.
+#' @param spike.info data.frame describing spike-ins with two columns: "Name"
+#'        giving the names of the spike-in features (must match
+#'        \code{rownames(counts)}) and "Input" giving the number of input
+#'        molecules.
 #' @param batch vector giving the batch that each cell belongs to.
 #' @param n total number of MCMC iterations. Must be \code{>= max(4, thin)} and
 #' a multiple of \code{thin}.
@@ -20,22 +22,24 @@
 #'
 #' @details
 #' This function is just a wrapper around \code{\link[BASiCS]{BASiCS_MCMC}} that
-#' takes the output and converts it to a BASiCSParams object. See
+#' takes the output and converts it to a BASiCSParams object. Either a set of
+#' spike-ins or batch information (or both) must be supplied. If only batch
+#' information is provided there must be at least two batches. See
 #' \code{\link[BASiCS]{BASiCS_MCMC}} for details.
 #'
 #' @return BASiCSParams object containing the estimated parameters.
 #'
 #' @examples
 #' data("sc_example_counts")
-#' is.spike <- c(rep(FALSE, 40), rep(TRUE, 10))
-#' spike.input <- rnorm(10, 500, 200)
+#' spike.info <- data.frame(Name = rownames(counts)[1:10],
+#'                          Input = rnorm(10, 500, 200),
+#'                          stringsAsFactors = FALSE)
 #' params <- BASiCSEstimate(sc_example_counts[1:50, 1:20],
-#'                          is.spike, spike.input)
+#'                          spike.info)
 #' params
 #' @export
-BASiCSEstimate <- function(counts, is.spike, spike.input,
-                           batch = rep(1, ncol(counts)),
-                           n = 20000, thin = 10, burn = 5000,
+BASiCSEstimate <- function(counts, spike.info = NULL, batch = NULL,
+                           n = 40000, thin = 10, burn = 20000,
                            params = newBASiCSParams(), verbose = TRUE,
                            progress = TRUE, ...) {
     UseMethod("BASiCSEstimate")
@@ -43,8 +47,7 @@ BASiCSEstimate <- function(counts, is.spike, spike.input,
 
 #' @rdname BASiCSEstimate
 #' @export
-BASiCSEstimate.SCESet <- function(counts, is.spike, spike.input,
-                                  batch = rep(1, ncol(counts)),
+BASiCSEstimate.SCESet <- function(counts, spike.info = NULL, batch = NULL,
                                   n = 40000, thin = 10, burn = 20000,
                                   params = newBASiCSParams(), verbose = TRUE,
                                   progress = TRUE, ...) {
@@ -54,20 +57,40 @@ BASiCSEstimate.SCESet <- function(counts, is.spike, spike.input,
 
 #' @rdname BASiCSEstimate
 #' @export
-BASiCSEstimate.matrix <- function(counts, is.spike, spike.input,
-                                  batch = rep(1, ncol(counts)),
+BASiCSEstimate.matrix <- function(counts, spike.info = NULL, batch = NULL,
                                   n = 40000, thin = 10, burn = 20000,
                                   params = newBASiCSParams(), verbose = TRUE,
                                   progress = TRUE, ...) {
 
     checkmate::assertClass(params, "BASiCSParams")
-    checkmate::assertNumeric(counts, lower = 0, finite = TRUE,
-                             any.missing = FALSE)
-    checkmate::assertLogical(is.spike, any.missing = FALSE, len = nrow(counts))
-    checkmate::assertNumeric(spike.input, lower = 0, finite = TRUE,
-                             len = sum(is.spike))
-    checkmate::assertIntegerish(batch, lower = 0, any.missing = FALSE,
-                                len = ncol(counts))
+    checkmate::assertMatrix(counts, mode = "numeric", any.missing = FALSE,
+                            min.rows = 1, min.cols = 1, row.names = "unique",
+                            col.names = "unique")
+    if (is.null(spike.info) && is.null(batch)) {
+        stop("At least one of spike.info and batch must be provided")
+    }
+    if (!is.null(spike.info)) {
+        checkmate::assertDataFrame(spike.info, any.missing = FALSE,
+                                   min.rows = 1, ncols = 2)
+        if (!all(colnames(spike.info) == c("Name", "Input"))) {
+            stop("spike.info must have columns named 'Name' and 'Input'")
+        }
+        checkmate::assertCharacter(spike.info$Name, min.chars = 1,
+                                   unique = TRUE)
+        checkmate::assertNumeric(spike.info$Input, lower = 0, finite = TRUE)
+    } #else {
+    #    spike.info <- data.frame(Name = c(), Input = c())
+    #}
+    if (!is.null(batch)) {
+        checkmate::assertIntegerish(batch, lower = 0, any.missing = FALSE,
+                                    len = ncol(counts))
+        if (is.null(spike.info) && length(unique(batch)) == 1) {
+            stop("If spike.info is not provided there must be at least two ",
+                 "batches")
+        }
+    } else {
+        batch <- rep(1, ncol(counts))
+    }
     checkmate::assertInt(thin, lower = 2)
     checkmate::assertInt(n, lower = max(4, thin))
     if ((n %% thin) != 0) {
@@ -78,7 +101,7 @@ BASiCSEstimate.matrix <- function(counts, is.spike, spike.input,
         stop("'burn' must be a multiple of 'thin'")
     }
 
-    spike.info <- data.frame(rownames(counts)[is.spike], spike.input)
+    is.spike <- rownames(counts) %in% spike.info$Name
     BASiCS.data <- suppressMessages(
                        BASiCS::newBASiCS_Data(counts, is.spike, spike.info,
                                               batch)
@@ -108,7 +131,8 @@ BASiCSEstimate.matrix <- function(counts, is.spike, spike.input,
                         batchCells = as.vector(table(batch)),
                         gene.params = data.frame(Mean = means, Delta = deltas),
                         nSpikes = sum(is.spike),
-                        spike.means = spike.input,
+                        spike.means = ifelse(!is.null(spike.info),
+                                             spike.info$Input, numeric()),
                         cell.params = data.frame(Phi = phis, S = ss),
                         theta = thetas)
 
