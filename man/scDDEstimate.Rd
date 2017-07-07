@@ -6,11 +6,14 @@
 \alias{scDDEstimate.matrix}
 \title{Estimate scDD simulation parameters}
 \usage{
-scDDEstimate(counts, conditions, params = newSCDDParams())
+scDDEstimate(counts, conditions, params = newSCDDParams(),
+  BPPARAM = SerialParam())
 
-\method{scDDEstimate}{SCESet}(counts, conditions, params = newSCDDParams())
+\method{scDDEstimate}{SCESet}(counts, conditions, params = newSCDDParams(),
+  BPPARAM = SerialParam())
 
-\method{scDDEstimate}{matrix}(counts, conditions, params = newSCDDParams())
+\method{scDDEstimate}{matrix}(counts, conditions, params = newSCDDParams(),
+  BPPARAM = SerialParam())
 }
 \arguments{
 \item{counts}{either a counts matrix or an SCESet object containing count
@@ -20,6 +23,10 @@ data to estimate parameters from.}
 Conditions can be 1 or 2.}
 
 \item{params}{SCDDParams object to store estimated values in.}
+
+\item{BPPARAM}{A \code{\link[BiocParallel]{BiocParallelParam}} instance
+giving the parallel back-end to be used. Default is
+\code{\link[BiocParallel]{SerialParam}} which uses a single core.}
 }
 \value{
 SCDDParams object containing the estimated parameters.
@@ -28,9 +35,10 @@ SCDDParams object containing the estimated parameters.
 Estimate simulation parameters for the scDD simulation from a real dataset.
 }
 \details{
-This function is just a wrapper around \code{\link[scDD]{preprocess}} that
-takes the output and converts it to a SCDDParams object. See
-\code{\link[scDD]{preprocess}} for details.
+This function applies \code{\link[scDD]{preprocess}} to the counts then uses
+\code{\link[scDD]{scDD}} to estimate the numbers of each gene type to
+simulate. The output is then converted to a SCDDParams object. See
+\code{\link[scDD]{preprocess}} and \code{\link[scDD]{scDD}} for details.
 }
 \examples{
 data("sc_example_counts")

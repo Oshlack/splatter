@@ -7,11 +7,15 @@
 #' @param conditions Vector giving the condition that each cell belongs to.
 #'        Conditions can be 1 or 2.
 #' @param params SCDDParams object to store estimated values in.
+#' @param BPPARAM A \code{\link[BiocParallel]{BiocParallelParam}} instance
+#'        giving the parallel back-end to be used. Default is
+#'        \code{\link[BiocParallel]{SerialParam}} which uses a single core.
 #'
 #' @details
-#' This function is just a wrapper around \code{\link[scDD]{preprocess}} that
-#' takes the output and converts it to a SCDDParams object. See
-#' \code{\link[scDD]{preprocess}} for details.
+#' This function applies \code{\link[scDD]{preprocess}} to the counts then uses
+#' \code{\link[scDD]{scDD}} to estimate the numbers of each gene type to
+#' simulate. The output is then converted to a SCDDParams object. See
+#' \code{\link[scDD]{preprocess}} and \code{\link[scDD]{scDD}} for details.
 #'
 #' @return SCDDParams object containing the estimated parameters.
 #'
@@ -20,14 +24,17 @@
 #' conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
 #' params <- scDDEstimate(sc_example_counts, conditions)
 #' params
+#' @importFrom BiocParallel SerialParam
 #' @export
-scDDEstimate <- function(counts, conditions, params = newSCDDParams()) {
+scDDEstimate <- function(counts, conditions, params = newSCDDParams(),
+                         BPPARAM = SerialParam()) {
     UseMethod("scDDEstimate")
 }
 
 #' @rdname scDDEstimate
 #' @export
-scDDEstimate.SCESet <- function(counts, conditions, params = newSCDDParams()) {
+scDDEstimate.SCESet <- function(counts, conditions, params = newSCDDParams(),
+                                BPPARAM = SerialParam()) {
     counts <- scater::counts(counts)
     scDDEstimate(counts, conditions, params)
 }
@@ -35,7 +42,8 @@ scDDEstimate.SCESet <- function(counts, conditions, params = newSCDDParams()) {
 #' @rdname scDDEstimate
 #' @importFrom methods as
 #' @export
-scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams()) {
+scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams(),
+                                BPPARAM = SerialParam()) {
 
     if (!requireNamespace("scDD", quietly = TRUE)) {
         stop("The scDD simulation requires the 'scDD' package.")
@@ -59,8 +67,29 @@ scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams()) {
     SCdat <- SummarizedExperiment::SummarizedExperiment(assays = assays,
                                                         colData = colData)
 
-    params <- setParams(params, nCells = round(dim(SCdat)[2] / 2),
-                        SCdat = SCdat)
+    SCdat <- scDD::scDD(SCdat, testZeroes = FALSE, param = BPPARAM)
+
+    res <- scDD::results(SCdat)
+    res <- res[!is.na(res$DDcategory), ]
+    dd.cats <- table(res$DDcategory)
+
+    not.dd <- res$DDcategory == "NS"
+    nDE <- ifelse("DE" %in% names(dd.cats), dd.cats["DE"], 0)
+    nDP <- ifelse("DP" %in% names(dd.cats), dd.cats["DP"], 0)
+    nDM <- ifelse("DM" %in% names(dd.cats), dd.cats["DM"], 0)
+    nDB <- ifelse("DB" %in% names(dd.cats), dd.cats["DB"], 0)
+    nEP <- sum(res$Clusters.c1[not.dd] > 1 & res$Clusters.c2[not.dd] > 1)
+    nEE <- nrow(counts) - nDE - nDP - nDM - nDB - nEP
+
+    params <- setParams(params,
+                        nCells = round(dim(SCdat)[2] / 2),
+                        SCdat = SCdat,
+                        nDE = nDE,
+                        nDP = nDP,
+                        nDM = nDM,
+                        nDB = nDB,
+                        nEE = nEE,
+                        nEP = nEP)
 
     return(params)
 }

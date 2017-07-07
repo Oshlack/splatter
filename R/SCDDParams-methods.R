@@ -86,12 +86,12 @@ setMethod("setParam", "SCDDParams", function(object, name, value) {
 
 setMethod("show", "SCDDParams", function(object) {
 
-    pp <- list("Genes:"       = c("[nDE]"       = "nDE",
-                                  "[nDP]"       = "nDP",
-                                  "[nDM]"       = "nDM",
-                                  "[nDP]"       = "nDP",
-                                  "[nEE]"       = "nEE",
-                                  "[nEP]"       = "nEP"),
+    pp <- list("Genes:"       = c("(nDE)"       = "nDE",
+                                  "(nDP)"       = "nDP",
+                                  "(nDM)"       = "nDM",
+                                  "(nDP)"       = "nDP",
+                                  "(nEE)"       = "nEE",
+                                  "(nEP)"       = "nEP"),
                "Fold change:" = c("[SD Range]"  = "sd.range",
                                   "[Mode FC]"   = "modeFC"),
                "Variance:"    = c("[Inflation]" = "varInflation"),
