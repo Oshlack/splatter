@@ -42,7 +42,7 @@
 #'
 #' @return List containing the combined datasets and plots.
 #' @examples
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
 #' names(comparison)
@@ -249,7 +249,7 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
 #'
 #' @return List containing the combined datasets and plots.
 #' @examples
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
 #' names(difference)
@@ -521,7 +521,7 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 #'
 #' @examples
 #' \dontrun{
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
 #' panel <- makeCompPanel(comparison)
@@ -605,7 +605,7 @@ makeCompPanel <- function(comp, title = "Comparison",
 #'
 #' @examples
 #' \dontrun{
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
 #' panel <- makeDiffPanel(difference)
@@ -697,7 +697,7 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
 #'
 #' @examples
 #' \dontrun{
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' comparison <- compSCESets(list(Splat = sim1, Simple = sim2))
 #' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
@@ -798,7 +798,7 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
 #'
 #' @return List with MADs, ranks and both combined in long format
 #' @examples
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
 #' summary <- summariseDiff(difference)

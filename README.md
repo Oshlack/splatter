@@ -80,3 +80,4 @@ doi:10.1101/133173"][preprint].
 [bioc]: https://bioconductor.org/packages/devel/bioc/html/splatter.html
 [vignette]: https://bioconductor.org/packages/devel/bioc/vignettes/splatter/inst/doc/splatter.html
 [preprint]: http://dx.doi.org/10.1101/133173
+

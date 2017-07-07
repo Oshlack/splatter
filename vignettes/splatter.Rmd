@@ -89,9 +89,14 @@ The parameters required for the Splat simulation are briefly described here:
 * **Global parameters**
     * `nGenes` - The number of genes to simulate.
     * `nCells` - The number of cells to simulate.
-    * `nGroups` - The number of groups or paths to simulate.
-    * `groupCells` - The number of cells in each group/path.
     * `seed` - Seed to use for generating random numbers.
+* **Batch parameters**
+    * `nBatches` - The number of batches to simulate.
+    * `batchCells` - The number of cells in each batch.
+    * `batch.facLoc` - Location (meanlog) parameter for the batch effects factor
+      log-normal distribution.
+    * `batch.facScale` - Scale (sdlog) parameter for the batch effects factor
+      log-normal distribution.
 * **Mean parameters**
     * `mean.shape` - Shape parameter for the mean gamma distribution.
     * `mean.rate` - Rate parameter for the mean gamma distribution.
@@ -106,6 +111,9 @@ The parameters required for the Splat simulation are briefly described here:
       factor log-normal distribution.
     * `out.facScale` - Scale (sdlog) parameter for the expression outlier factor
       log-normal distribution.
+* **Group parameters**
+    * `nGroups` - The number of groups or paths to simulate.
+    * `group.prob` - The probabilities that cells come from particular groups.
 * **Differential expression parameters**
     * `de.prob` - Probability that a gene is differentially expressed in each
       group or path.
@@ -227,7 +235,7 @@ the following steps:
 5. Dropout parameters are estimated by checking if dropout is present and
    fitting a logistic function to the relationship between mean expression and
    proportion of zeros.
-   
+
 For more details of the estimation procedures see `?splatEstimate`.
 
 # Simulating counts
@@ -316,17 +324,22 @@ So far we have only simulated a single population of cells but often we are
 interested in investigating a mixed population of cells and looking to see what
 cell types are present or what differences there are between them. Splatter is
 able to simulate these situations by changing the `method` argument Here we are
-going to simulate two groups, each with 50 cells, by specifying the `groupCells`
-parameter and setting the `method` parameter to `"groups"`:
+going to simulate two groups, by specifying the `group.prob` parameter and 
+setting the `method` parameter to `"groups"`:
 
 (**NOTE:** We have also set the `verbose` argument to `FALSE` to stop Splatter
 printing progress messages.)
 
 ```{r groups}
-sim.groups <- splatSimulate(groupCells = c(100, 100), method = "groups",
+sim.groups <- splatSimulate(group.prob = c(0.5, 0.5), method = "groups",
                             verbose = FALSE)
 plotPCA(sim.groups, colour_by = "Group")
 ```
+
+As we have set both the group probabilites to 0.5 we should get approximately
+equal numbers of cells in each group (around 50 in this case). If we wanted
+uneven groups we could set `group.prob` to any set of probabilites that sum to
+1.
 
 ## Simulating paths
 
@@ -348,6 +361,35 @@ to the final, differentiated, cell type. By setting additional parameters it is
 possible to simulate more complex process (for example multiple mature cell
 types from a single progenitor).
 
+## Batch effects
+
+Another factor that is important in the analysis of any sequencing experiment
+are batch effects, technical variation that is common to a set of samples
+processed at the same time. We apply batch effects by telling Splatter how many
+cells are in each batch:
+
+```{r batches}
+sim.batches <- splatSimulate(batchCells = c(50, 50), verbose = FALSE)
+plotPCA(sim.batches, colour_by = "Batch")
+```
+
+This looks at lot like when we simulated groups and that is because the process
+is very similar. The difference is that batch effects are applied to all genes,
+not just those that are differentially expressed, and the effects are usually
+smaller. By combining groups and batches we can simulate both unwanted variation
+that we aren't interested in (batch) and the wanted variation we are looking for
+(group):
+
+```{r batch-groups}
+sim.groups <- splatSimulate(batchCells = c(50, 50), group.prob = c(0.5, 0.5),
+                            method = "groups", verbose = FALSE)
+plotPCA(sim.groups, shape_by = "Batch", colour_by = "Group")
+```
+
+Here we see that the effects of the group (first component) are stronger than
+the batch effects (second component) but by adjusting the parameters we could
+made the batch effects dominate.
+
 ## Convenience functions
 
 Each of the Splatter simulation methods has it's own convenience function.
@@ -359,7 +401,7 @@ simulate paths use `splatSimulatePaths()` (equivalent to
 
 # Other simulations
 
-As well as it's own simulation method the Splatter package contains
+As well as it's own Splat simulation method the Splatter package contains
 implementations of other single-cell RNA-seq simulations that have been
 published or wrappers around simulations included in other packages. To see all
 the available simulations run the `listSims()` function:
@@ -409,10 +451,10 @@ tpm(sim)[1:5, 1:5]
 
 The default method used by `addGeneLengths` to simulate lengths is to generate
 values from a log-normal distribution which are then rounded to give an integer
-length. The parameters for this distribution are based on human coding genes
-but can be adjusted if needed (for example for other species). Alternatively
-lengths can be sampled from a provided vector (see `?addGeneLengths` for details
-and an example).
+length. The parameters for this distribution are based on human protein coding 
+genes but can be adjusted if needed (for example for other species). 
+Alternatively lengths can be sampled from a provided vector (see 
+`?addGeneLengths` for details and an example).
 
 # Comparing simulations and real data
 
@@ -424,7 +466,7 @@ the datasets and produces some plots comparing them. Let's make two small
 simulations and see how they compare.
 
 ```{r comparison}
-sim1 <- splatSimulate(nGenes = 1000, groupCells = 20, verbose = FALSE)
+sim1 <- splatSimulate(nGenes = 1000, batchCells = 20, verbose = FALSE)
 sim2 <- simpleSimulate(nGenes = 1000, nCells = 20, verbose = FALSE)
 comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
 
