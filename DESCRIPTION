@@ -35,7 +35,8 @@ Imports:
     matrixStats,
     ggplot2,
     scales,
-    BiocParallel
+    BiocParallel,
+    SummarizedExperiment
 Suggests:
     testthat,
     scran,
@@ -48,8 +49,8 @@ Suggests:
     BiocStyle,
     covr,
     S4Vectors,
-    SummarizedExperiment,
-    cowplot
+    cowplot,
+    limSolve
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software
 URL: https://github.com/Oshlack/splatter
