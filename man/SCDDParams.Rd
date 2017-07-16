@@ -14,24 +14,24 @@ S4 class that holds parameters for the scDD simulation.
 The SCDD simulation uses the following parameters:
 
 \describe{
-    \item{\code{[nGenes]}}{The number of genes to simulate (not used).}
+    \item{\code{nGenes}}{The number of genes to simulate (not used).}
     \item{\code{nCells}}{The number of cells to simulate in each condition.}
     \item{\code{[seed]}}{Seed to use for generating random numbers.}
     \item{\code{SCdat}}{
     \code{\link[SummarizedExperiment]{SummarizedExperiment}} containing real
     data.}
-    \item{\code{[nDE]}}{Number of DE genes to simulate.}
-    \item{\code{[nDP]}}{Number of DP genes to simulate.}
-    \item{\code{[nDM]}}{Number of DM genes to simulate.}
-    \item{\code{[nDB]}}{Number of DB genes to simulate.}
-    \item{\code{[nEE]}}{Number of EE genes to simulate.}
-    \item{\code{[nEP]}}{Number of EP genes to simulate.}
+    \item{\code{nDE}}{Number of DE genes to simulate.}
+    \item{\code{nDP}}{Number of DP genes to simulate.}
+    \item{\code{nDM}}{Number of DM genes to simulate.}
+    \item{\code{nDB}}{Number of DB genes to simulate.}
+    \item{\code{nEE}}{Number of EE genes to simulate.}
+    \item{\code{nEP}}{Number of EP genes to simulate.}
     \item{\code{[sd.range]}}{Interval for fold change standard deviations.}
     \item{\code{[modeFC]}}{Values for DP, DM and DB mode fold changes.}
     \item{\code{[varInflation]}}{Variance inflation factors for each
-    condition. If all equal to 1 will be set to \code{NULL} (default)}
+    condition. If all equal to 1 will be set to \code{NULL} (default).}
     \item{\code{[condition]}}{String giving the column that represents
-    biological group of interest}
+    biological group of interest.}
 }
 
 The parameters not shown in brackets can be estimated from real data using
