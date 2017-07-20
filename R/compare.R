@@ -29,7 +29,7 @@
 #'             \item{\code{ZerosCell}}{Boxplot of the percentage of each cell
 #'             that is zero.}
 #'             \item{\code{MeanZeros}}{Scatter plot with fitted lines showing
-#'             the mean-dropout relationship.}
+#'             the mean-zeros relationship.}
 #'     }
 #'   }
 #' }
@@ -164,7 +164,7 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
         scale_fill_manual(values = colours) +
         xlab("Mean count") +
         ylab("Percentage zeros") +
-        ggtitle("Mean-dropout relationship") +
+        ggtitle("Mean-zeros relationship") +
         theme_minimal()
 
     if (fits) {
