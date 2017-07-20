@@ -1,3 +1,8 @@
+# 1.1.3
+
+* Add verbose option to scDDEstimate
+* Change "mean-dropout" to "mean-zeros" in compareSCESets
+
 # 1.1.2
 
 * Update summariseDiff
