@@ -7,6 +7,7 @@
 #' @param conditions Vector giving the condition that each cell belongs to.
 #'        Conditions can be 1 or 2.
 #' @param params SCDDParams object to store estimated values in.
+#' @param verbose logical. Whether to show progress messages.
 #' @param BPPARAM A \code{\link[BiocParallel]{BiocParallelParam}} instance
 #'        giving the parallel back-end to be used. Default is
 #'        \code{\link[BiocParallel]{SerialParam}} which uses a single core.
@@ -29,23 +30,23 @@
 #' @importFrom BiocParallel SerialParam
 #' @export
 scDDEstimate <- function(counts, conditions, params = newSCDDParams(),
-                         BPPARAM = SerialParam()) {
+                         verbose = TRUE, BPPARAM = SerialParam()) {
     UseMethod("scDDEstimate")
 }
 
 #' @rdname scDDEstimate
 #' @export
 scDDEstimate.SCESet <- function(counts, conditions, params = newSCDDParams(),
-                                BPPARAM = SerialParam()) {
+                                verbose = TRUE, BPPARAM = SerialParam()) {
     counts <- scater::counts(counts)
-    scDDEstimate(counts, conditions, params)
+    scDDEstimate(counts, conditions, params, verbose, BPPARAM)
 }
 
 #' @rdname scDDEstimate
 #' @importFrom methods as
 #' @export
 scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams(),
-                                BPPARAM = SerialParam()) {
+                                verbose = TRUE, BPPARAM = SerialParam()) {
 
     if (!requireNamespace("scDD", quietly = TRUE)) {
         stop("The scDD simulation requires the 'scDD' package.")
@@ -61,8 +62,15 @@ scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams(),
     counts.list <- list(Cond1 = counts[, conditions == 1],
                         Cond2 = counts[, conditions == 2])
 
-    processed <- scDD::preprocess(counts.list, c("Cond1", "Cond2"),
-                                  median_norm = TRUE)
+    if (verbose) {
+        processed <- scDD::preprocess(counts.list, c("Cond1", "Cond2"),
+                                      median_norm = TRUE)
+    } else {
+        suppressMessages(
+        processed <- scDD::preprocess(counts.list, c("Cond1", "Cond2"),
+                                      median_norm = TRUE)
+        )
+    }
 
     assays <- S4Vectors::SimpleList(NormCounts = processed)
 
@@ -72,7 +80,13 @@ scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams(),
     SCdat <- SummarizedExperiment::SummarizedExperiment(assays = assays,
                                                         colData = colData)
 
-    SCdat <- scDD::scDD(SCdat, testZeroes = FALSE, param = BPPARAM)
+    if (verbose) {
+        SCdat <- scDD::scDD(SCdat, testZeroes = FALSE, param = BPPARAM)
+    } else {
+        dummy <- capture.output(suppressMessages(
+        SCdat <- scDD::scDD(SCdat, testZeroes = FALSE, param = BPPARAM)
+        ))
+    }
 
     res <- scDD::results(SCdat)
     res <- res[!is.na(res$DDcategory), ]
