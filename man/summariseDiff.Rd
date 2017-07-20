@@ -10,18 +10,17 @@ summariseDiff(diff)
 \item{diff}{Output from \code{\link{diffSCESets}}}
 }
 \value{
-List with MADs, ranks and both combined in long format
+data.frame with MADs, MAEs, RMSEs, scaled statistics and ranks
 }
 \description{
-Summarise the results of \code{\link{diffSCESets}}. The various
-properties are sorted, differences calculated, the Median Absolute Deviation
-taken as the summary statistic and the ranks calculated.
+Summarise the results of \code{\link{diffSCESets}}. Calculates the Median
+Absolute Deviation (MAD), Mean Absolute Error (MAE) and Root Mean Squared
+Error (RMSE) for the various properties and ranks them.
 }
 \examples{
-sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
 summary <- summariseDiff(difference)
-names(summary)
-head(summary$Long)
+head(summary)
 }

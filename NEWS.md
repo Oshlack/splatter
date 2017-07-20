@@ -1,3 +1,20 @@
+# 1.1.2
+
+* Update summariseDiff
+* Update scDDEstimate, now estimates gene types
+* Fix error in lun2Estimate
+* Import SummarizedExperiment to avoid warnings
+
+# 1.1.1
+
+* Add batch effects to Splat simulation
+* Make Splat group assignment probabilistic
+* Update SplatParams with new parameters
+
+# 1.1.0
+
+* Bioconductor 3.6 devel
+
 # 1.0.3
 
 * Update citation

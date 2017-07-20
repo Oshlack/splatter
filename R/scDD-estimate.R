@@ -20,10 +20,12 @@
 #' @return SCDDParams object containing the estimated parameters.
 #'
 #' @examples
+#' \dontrun{
 #' data("sc_example_counts")
 #' conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
 #' params <- scDDEstimate(sc_example_counts, conditions)
 #' params
+#' }
 #' @importFrom BiocParallel SerialParam
 #' @export
 scDDEstimate <- function(counts, conditions, params = newSCDDParams(),

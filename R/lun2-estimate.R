@@ -64,6 +64,11 @@ lun2Estimate.matrix <- function(counts, plates, params = newLun2Params(),
         stop("The Lun2 simulation requires the 'pscl' package for estimation.")
     }
 
+    if (!requireNamespace("limSolve", quietly = TRUE)) {
+        stop("The Lun2 simulation requires the 'limSolve' package for ",
+             "estimation.")
+    }
+
     progress <- FALSE
     if (requireNamespace("progress", quietly = TRUE)) {
         progress <- TRUE
@@ -97,7 +102,12 @@ lun2Estimate.matrix <- function(counts, plates, params = newLun2Params(),
         sizes <- seq(20, 100, 20)
     }
     sum.facs <- scran::computeSumFactors(dge$counts, cluster = groups,
-                                         sizes = sizes)
+                                         sizes = sizes, positive = TRUE)
+    if (any(sum.facs == 0)) {
+        warning("Some sum factors are zero. See ?scran::computeSumFactors ",
+                "for details.")
+        sum.facs <- sum.facs + 1e-6
+    }
     dge$samples$norm.factors <- sum.facs / dge$samples$lib.size
     # Mean centre normalisation factors
     dge$samples$norm.factors <- dge$samples$norm.factors /

@@ -41,8 +41,10 @@ simulate. The output is then converted to a SCDDParams object. See
 \code{\link[scDD]{preprocess}} and \code{\link[scDD]{scDD}} for details.
 }
 \examples{
+\dontrun{
 data("sc_example_counts")
 conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
 params <- scDDEstimate(sc_example_counts, conditions)
 params
+}
 }

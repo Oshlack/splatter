@@ -51,7 +51,7 @@ splatEstimate.matrix <- function(counts, params = newSplatParams()) {
     params <- splatEstDropout(norm.counts, params)
 
     params <- setParams(params, nGenes = nrow(counts),
-                        groupCells = ncol(counts))
+                        batchCells = ncol(counts))
 
     return(params)
 }
