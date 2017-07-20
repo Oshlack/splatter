@@ -6,14 +6,14 @@
 \alias{scDDEstimate.matrix}
 \title{Estimate scDD simulation parameters}
 \usage{
-scDDEstimate(counts, conditions, params = newSCDDParams(),
+scDDEstimate(counts, conditions, params = newSCDDParams(), verbose = TRUE,
   BPPARAM = SerialParam())
 
 \method{scDDEstimate}{SCESet}(counts, conditions, params = newSCDDParams(),
-  BPPARAM = SerialParam())
+  verbose = TRUE, BPPARAM = SerialParam())
 
 \method{scDDEstimate}{matrix}(counts, conditions, params = newSCDDParams(),
-  BPPARAM = SerialParam())
+  verbose = TRUE, BPPARAM = SerialParam())
 }
 \arguments{
 \item{counts}{either a counts matrix or an SCESet object containing count
@@ -23,6 +23,8 @@ data to estimate parameters from.}
 Conditions can be 1 or 2.}
 
 \item{params}{SCDDParams object to store estimated values in.}
+
+\item{verbose}{logical. Whether to show progress messages.}
 
 \item{BPPARAM}{A \code{\link[BiocParallel]{BiocParallelParam}} instance
 giving the parallel back-end to be used. Default is
