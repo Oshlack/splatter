@@ -71,9 +71,7 @@
       
       </header><div class="row">
   <div class="contents col-md-9">
-    <div id="splatter" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#splatter" class="anchor"></a>Splatter</h1></div>
+    
 
 <p><img src="https://s16.postimg.org/xc6u52b0l/splatter_logo_small.png" alt="Splatter logo"></p>
 <p>Splatter is an R package for the simple simulation of single-cell RNA sequencing data. Splatter provides a common interface to multiple simulations that have:</p>
@@ -81,46 +79,39 @@
 <li>Functions for estimating simulation parameters</li>
 <li>Objects for storing those parameters</li>
 <li>Functions for simulating counts using those parameters</li>
+<li>Functions for comparing simulations and real datasets</li>
 </ul>
 <p>Splatter is built on top of <a href="https://github.com/davismcc/scater"><code>scater</code></a> and stores simulations in <code>SCESet</code> objects. Splatter also has functions for comparing simulations and real datasets.</p>
+<p><strong>!Please note!</strong> This site provides documentation for the development version of Splatter. For details on the current release please refer to [<a href="https://bioconductor.org/packages/splatter" class="uri">https://bioconductor.org/packages/splatter</a>].</p>
 <div id="installation-" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation-" class="anchor"></a>Installation.</h2>
-<div id="development-version" class="section level3">
+<div id="release-version" class="section level3">
 <h3 class="hasAnchor">
-<a href="#development-version" class="anchor"></a>Development version</h3>
-<p>Splatter has been accepted into the latest version of <a href="https://bioconductor.org/packages/devel/bioc/html/splatter.html">Bioconductor</a> and hence requires the latest version of R (&gt;=3.4).</p>
+<a href="#release-version" class="anchor"></a>Release version</h3>
+<p>Splatter has been accepted into the latest version of <a href="https://bioconductor.org/packages/splatter">Bioconductor</a> and hence requires the latest version of R (&gt;=3.4).</p>
 <p>If you have these installed Splatter can be installed from Bioconductor using <code>biocLite</code>:</p>
 <pre class="{r}"><code>source("https://bioconductor.org/biocLite.R")
 biocLite("splatter")</code></pre>
 <p>If you wish to build a local version of the vignette use:</p>
-<pre class="{r}"><code>biocLite("splatter", build_vignettes=TRUE)</code></pre>
+<pre class="{r}"><code><a href="http://www.rdocumentation.org/packages/BiocInstaller/topics/biocLite">biocLite("splatter", build_vignettes=TRUE)</a></code></pre>
 <p>This will also build the vignette and install all suggested dependencies (which aren’t required for core functionality). Building the vignette may sometimes fail when run from the command line, if this happens try running the install command in RStudio.</p>
 </div>
-</div>
-<div id="getting-started" class="section level2">
-<h2 class="hasAnchor">
-<a href="#getting-started" class="anchor"></a>Getting started</h2>
-<p>Once installed the best place to get started is the vignette. For most users the most convient way to access this is online <a href="https://bioconductor.org/packages/devel/bioc/vignettes/splatter/inst/doc/splatter.html">here</a>.</p>
-<p>Alternatively, if you chose to build the vignette, you can load Splatter, then browse the vignettes:</p>
-<pre class="{r}"><code>library(splatter)
-browseVignettes("splatter")</code></pre>
-<p>This is a detailed document that introduces the main features of Splatter.</p>
-</div>
-<div id="citing-splatter" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citing-splatter" class="anchor"></a>Citing Splatter</h2>
-<p>If you use Splatter please cite our paper <a href="http://dx.doi.org/10.1101/133173">“Zappia L, Phipson B, Oshlack A. Splatter: Simulation Of Single-Cell RNA Sequencing Data. bioRxiv. 2017; doi:10.1101/133173”</a>.</p>
-<pre><code>@Article{,
-    author = {Luke Zappia and Belinda Phipson and Alicia Oshlack},
-    title = {Splatter: Simulation Of Single-Cell RNA Sequencing Data},
-    journal = {bioRxiv},
-    year = {2017},
-    url = {http://dx.doi.org/10.1101/133173},
-    doi = {10.1101/133173},
-  }</code></pre>
+<div id="development-version" class="section level3">
+<h3 class="hasAnchor">
+<a href="#development-version" class="anchor"></a>Development version</h3>
+<p>If you want to try the [development version][deve] this can also be installed from Bioconductor:</p>
+<pre class="{r}"><code>library(BiocInstaller)
+useDevel()
+biocValid()              # checks for out of date packages
+biocLite()               # (optional) updates out of date packages
+biocLite("splatter")</code></pre>
+<p>Depending on the current release cycle you may also need to install the development version of R. See <a href="https://www.bioconductor.org/developers/how-to/useDevel/">here</a> for more details.</p>
+<p>Alternatively the development version can be installed directly from <a href="https://github.com/Oshlack/splatter">Github</a>:</p>
+<pre class="{r}"><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install">devtools::install("Oshlack/splatter")</a></code></pre>
 </div>
 </div>
+
   </div>
 
   <div class="col-md-3" id="sidebar">
@@ -150,6 +141,9 @@ browseVignettes("splatter")</code></pre>
 <li><a href="https://travis-ci.org/Oshlack/splatter"><img src="https://travis-ci.org/Oshlack/splatter.svg?branch=master" alt="Travis-CI Build Status"></a></li>
 <li><a href="https://codecov.io/github/Oshlack/splatter?branch=master"><img src="https://img.shields.io/codecov/c/github/Oshlack/splatter/master.svg" alt="Coverage Status"></a></li>
 <li><a href="https://ci.appveyor.com/project/Oshlack/splatter"><img src="https://ci.appveyor.com/api/projects/status/github/Oshlack/splatter?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
+<li><a href="https://bioconductor.org/packages/devel/bioc/html/splatter.html"><img src="https://bioconductor.org/shields/years-in-bioc/splatter.svg" alt="Bioconductor History"></a></li>
+<li><a href="https://bioconductor.org/packages/devel/bioc/html/splatter.html"><img src="https://bioconductor.org/shields/build/devel/bioc/splatter.svg" alt="Bioconductor Status"></a></li>
+<li><a href="https://bioconductor.org/packages/devel/bioc/html/splatter.html"><img src="https://bioconductor.org/shields/downloads/splatter.svg" alt="Bioconductor Downloads"></a></li>
 </ul>
 </div>
 </div>

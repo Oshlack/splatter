@@ -151,13 +151,13 @@ replacement) from a supplied vector.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Default generate method</span>
 <span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>()</div><div class='output co'>#&gt; <span class='message'>Simulating means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final SCESet...</span></div><div class='input'><span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'>addGeneLengths</span>(<span class='no'>sce</span>)
-<span class='fu'>head</span>(<span class='fu'>fData</span>(<span class='no'>sce</span>))</div><div class='output co'>#&gt;        Gene   GeneMean Length
-#&gt; Gene1 Gene1 0.11722336   1472
-#&gt; Gene2 Gene2 0.06408871   1265
-#&gt; Gene3 Gene3 0.94493523   5846
-#&gt; Gene4 Gene4 0.01420334    869
-#&gt; Gene5 Gene5 0.88761646  10791
-#&gt; Gene6 Gene6 0.51893805   7501</div><div class='input'># Sample method (human coding genes)
+<span class='fu'>head</span>(<span class='fu'>fData</span>(<span class='no'>sce</span>))</div><div class='output co'>#&gt;        Gene     GeneMean Length
+#&gt; Gene1 Gene1 1.885070e+00   2874
+#&gt; Gene2 Gene2 5.651522e+00   1169
+#&gt; Gene3 Gene3 1.109488e+01   2330
+#&gt; Gene4 Gene4 8.549893e-03   4415
+#&gt; Gene5 Gene5 5.620109e-04   7288
+#&gt; Gene6 Gene6 4.884267e-02   4316</div><div class='input'># Sample method (human coding genes)
 </div><span class='co'># NOT RUN {</span>
 <span class='fu'>library</span>(<span class='no'>TxDb.Hsapiens.UCSC.hg19.knownGene</span>)
 <span class='fu'>library</span>(<span class='no'>GenomicFeatures</span>)
