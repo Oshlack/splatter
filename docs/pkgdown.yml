@@ -1,0 +1,6 @@
+urls:
+  reference: http://oshlack.github.io/splatter/reference
+  article: http://oshlack.github.io/splatter/articles
+articles:
+  splatter: splatter.html
+
