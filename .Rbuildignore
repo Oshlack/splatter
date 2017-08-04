@@ -6,3 +6,4 @@
 ^NEWS\.md$
 ^\.git*
 ^docs$
+^_pkgdown\.yml$

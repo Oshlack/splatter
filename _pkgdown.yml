@@ -1,0 +1,6 @@
+title: Splatter
+url: http://oshlack.github.io/splatter
+template:
+  params:
+    bootswatch: cosmo
+    ganalytics: UA-52309538-4
