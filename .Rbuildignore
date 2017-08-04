@@ -7,3 +7,4 @@
 ^\.git*
 ^docs$
 ^_pkgdown\.yml$
+^pkgdown$
