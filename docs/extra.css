@@ -1,0 +1,9 @@
+.fl      {color: blue;}
+.fu      {color: #00ADEF;}  /* function */
+.ch,.st  {color: #F47920;}  /* string */
+.kw      {color: #7A52C7;}  /* keyword */
+.co      {color: #8DC63F;}  /* comment */
+
+.message { color: gray;   font-weight: bolder;}
+.error   { color: red;  font-weight: bolder;}
+.warning { color: purple; font-weight: bolder;}
