@@ -1,3 +1,7 @@
+# 1.1.4
+
+* Fix group factors bug
+
 # 1.1.3
 
 * Add verbose option to scDDEstimate
