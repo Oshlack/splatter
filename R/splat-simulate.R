@@ -501,7 +501,7 @@ splatSimGroupCellMeans <- function(sim, params) {
     cell.names <- pData(sim)$Cell
     gene.names <- fData(sim)$Gene
     groups <- pData(sim)$Group
-    group.names <- unique(groups)
+    group.names <- sort(unique(groups))
     exp.lib.sizes <- pData(sim)$ExpLibSize
     batch.means.cell <- get_exprs(sim, "BatchCellMeans")
 
@@ -535,7 +535,6 @@ splatSimPathCellMeans <- function(sim, params) {
     path.nonlinearProb <- getParam(params, "path.nonlinearProb")
     path.sigmaFac <- getParam(params, "path.sigmaFac")
     groups <- pData(sim)$Group
-    group.names <- unique(groups)
     exp.lib.sizes <- pData(sim)$ExpLibSize
     batch.means.cell <- get_exprs(sim, "BatchCellMeans")
 
