@@ -194,3 +194,4 @@
 
 * Added splatParams object
 * Added functions for interacting with splatParams
+
