@@ -28,7 +28,7 @@ simpleEstimate <- function(counts, params = newSimpleParams()) {
 #' @export
 simpleEstimate.SingleCellExperiment <- function(counts,
                                                 params = newSimpleParams()) {
-    counts <- SingleCellExperiment::counts(counts)
+    counts <- SummarizedExperiment::assays(counts)$counts
     simpleEstimate(counts, params)
 }
 

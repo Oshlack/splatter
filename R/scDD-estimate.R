@@ -40,7 +40,7 @@ scDDEstimate.SingleCellExperiment <- function(counts, conditions,
                                               params = newSCDDParams(),
                                               verbose = TRUE,
                                               BPPARAM = SerialParam()) {
-    counts <- SingleCellExperiment::counts(counts)
+    counts <- SummarizedExperiment::assays(counts)$counts
     scDDEstimate(counts, conditions, params, verbose, BPPARAM)
 }
 

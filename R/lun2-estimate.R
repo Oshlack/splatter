@@ -40,7 +40,7 @@ lun2Estimate.SingleCellExperiment <- function(counts, plates,
                                               params = newLun2Params(),
                                               min.size = 200, verbose = TRUE,
                                               BPPARAM = SerialParam()) {
-    counts <- SingleCellExperiment::counts(counts)
+    counts <- SummarizedExperiment::assays(counts)$counts
     lun2Estimate(counts, plates, params, min.size = min.size, verbose = verbose)
 }
 

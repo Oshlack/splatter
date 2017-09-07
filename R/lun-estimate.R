@@ -25,7 +25,7 @@ lunEstimate <- function(counts, params = newLunParams()) {
 #' @rdname lunEstimate
 #' @export
 lunEstimate.SingleCellExperiment <- function(counts, params = newLunParams()) {
-    counts <- SingleCellExperiment::counts(counts)
+    counts <- SummarizedExperiment::assays(counts)$counts
     lunEstimate(counts, params)
 }
 
