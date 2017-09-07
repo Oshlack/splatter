@@ -16,10 +16,11 @@
 #' @details
 #' This function is just a wrapper around \code{\link[scDD]{simulateSet}} that
 #' takes a \code{\link{SCDDParams}}, runs the simulation then converts the
-#' output to an \code{\link[scater]{SCESet}} object. See
-#' \code{\link[scDD]{simulateSet}} for more details of how the simulation works.
+#' output to a \code{\link[SingleCellExperiment]{SingleCellExperiment}} object.
+#' See \code{\link[scDD]{simulateSet}} for more details about how the simulation
+#' works.
 #'
-#' @return SCESet containing simulated counts
+#' @return SingleCellExperiment containing simulated counts
 #'
 #' @references
 #' Korthauer KD, Chu L-F, Newton MA, Li Y, Thomson J, Stewart R, et al. A
@@ -35,8 +36,8 @@
 #' sim <- scDDSimulate()
 #' }
 #' @export
-#' @importFrom scater newSCESet
 #' @importFrom BiocParallel SerialParam
+#' @importFrom SingleCellExperiment SingleCellExperiment
 scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
                          plot.file = NULL, verbose = TRUE,
                          BPPARAM = SerialParam(), ...) {
@@ -94,7 +95,7 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
     foldchanges <- scDD.sim[[2]]
     de.status <- rownames(counts)
 
-    if (verbose) {message("Creating SCESet...")}
+    if (verbose) {message("Creating final dataset...")}
     cell.names <- paste0("Cell", seq_len(nCells * 2))
     gene.names <- paste0("Gene", seq_len(getParam(params, "nGenes")))
 

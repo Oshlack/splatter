@@ -2,8 +2,8 @@
 #'
 #' Estimate simulation parameters for the simple simulation from a real dataset.
 #'
-#' @param counts either a counts matrix or an SCESet object containing count
-#'        data to estimate parameters from.
+#' @param counts either a counts matrix or a SingleCellExperiment object
+#'        containing count data to estimate parameters from.
 #' @param params SimpleParams object to store estimated values in.
 #'
 #' @details
@@ -26,8 +26,9 @@ simpleEstimate <- function(counts, params = newSimpleParams()) {
 
 #' @rdname simpleEstimate
 #' @export
-simpleEstimate.SCESet <- function(counts, params = newSimpleParams()) {
-    counts <- scater::counts(counts)
+simpleEstimate.SingleCellExperiment <- function(counts,
+                                                params = newSimpleParams()) {
+    counts <- SingleCellExperiment::counts(counts)
     simpleEstimate(counts, params)
 }
 

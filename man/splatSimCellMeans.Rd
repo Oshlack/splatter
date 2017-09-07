@@ -14,12 +14,12 @@ splatSimGroupCellMeans(sim, params)
 splatSimPathCellMeans(sim, params)
 }
 \arguments{
-\item{sim}{SCESet to add cell means to.}
+\item{sim}{SingleCellExperiment to add cell means to.}
 
 \item{params}{SplatParams object with simulation parameters.}
 }
 \value{
-SCESet with added cell means.
+SingleCellExperiment with added cell means.
 }
 \description{
 Simulate a gene by cell matrix giving the mean expression for each gene in

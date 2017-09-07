@@ -19,8 +19,8 @@
 #'
 #' See \code{\link{LunParams}} for details of the parameters.
 #'
-#' @return SCESet object containing the simulated counts and intermediate
-#' values.
+#' @return SingleCellExperiment object containing the simulated counts and
+#' intermediate values.
 #'
 #' @references
 #' Lun ATL, Bach K, Marioni JC. Pooling across cells to normalize single-cell
@@ -33,9 +33,8 @@
 #' @examples
 #' sim <- lunSimulate()
 #'
-#' @importFrom Biobase fData fData<- pData pData<-
-#' @importFrom methods new
-#' @importFrom scater newSCESet set_exprs<-
+#' @importFrom SummarizedExperiment rowData rowData<- colData colData<-
+#' @importFrom SingleCellExperiment SingleCellExperiment
 #' @importFrom stats rnorm rgamma rnbinom
 #' @export
 lunSimulate <- function(params = newLunParams(), verbose = TRUE, ...) {
@@ -110,7 +109,7 @@ lunSimulate <- function(params = newLunParams(), verbose = TRUE, ...) {
                              size = 1 / count.disp),
                      nrow = nGenes, ncol = nCells)
 
-    if (verbose) {message("Creating final SCESet...")}
+    if (verbose) {message("Creating final dataset...")}
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names
 

@@ -7,12 +7,12 @@
 splatSimTrueCounts(sim, params)
 }
 \arguments{
-\item{sim}{SCESet to add true counts to.}
+\item{sim}{SingleCellExperiment to add true counts to.}
 
 \item{params}{SplatParams object with simulation parameters.}
 }
 \value{
-SCESet with simulated true counts.
+SingleCellExperiment with simulated true counts.
 }
 \description{
 Simulate a true counts matrix. Counts are simulated from a poisson

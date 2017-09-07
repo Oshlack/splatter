@@ -2,8 +2,8 @@
 #'
 #' Estimate simulation parameters for the Lun2 simulation from a real dataset.
 #'
-#' @param counts either a counts matrix or an SCESet object containing count
-#'        data to estimate parameters from.
+#' @param counts either a counts matrix or a SingleCellExperiment object
+#'        containing count data to estimate parameters from.
 #' @param plates integer vector giving the plate that each cell originated from.
 #' @param params Lun2Params object to store estimated values in.
 #' @param min.size minimum size of clusters when identifying group of cells in
@@ -36,10 +36,11 @@ lun2Estimate <- function(counts, plates, params = newLun2Params(),
 
 #' @rdname lun2Estimate
 #' @export
-lun2Estimate.SCESet <- function(counts, plates, params = newLun2Params(),
-                                min.size = 200, verbose = TRUE,
-                                BPPARAM = SerialParam()) {
-    counts <- scater::counts(counts)
+lun2Estimate.SingleCellExperiment <- function(counts, plates,
+                                              params = newLun2Params(),
+                                              min.size = 200, verbose = TRUE,
+                                              BPPARAM = SerialParam()) {
+    counts <- SingleCellExperiment::counts(counts)
     lun2Estimate(counts, plates, params, min.size = min.size, verbose = verbose)
 }
 

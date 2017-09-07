@@ -2,22 +2,22 @@
 % Please edit documentation in R/scDD-estimate.R
 \name{scDDEstimate}
 \alias{scDDEstimate}
-\alias{scDDEstimate.SCESet}
+\alias{scDDEstimate.SingleCellExperiment}
 \alias{scDDEstimate.matrix}
 \title{Estimate scDD simulation parameters}
 \usage{
 scDDEstimate(counts, conditions, params = newSCDDParams(), verbose = TRUE,
   BPPARAM = SerialParam())
 
-\method{scDDEstimate}{SCESet}(counts, conditions, params = newSCDDParams(),
-  verbose = TRUE, BPPARAM = SerialParam())
+\method{scDDEstimate}{SingleCellExperiment}(counts, conditions,
+  params = newSCDDParams(), verbose = TRUE, BPPARAM = SerialParam())
 
 \method{scDDEstimate}{matrix}(counts, conditions, params = newSCDDParams(),
   verbose = TRUE, BPPARAM = SerialParam())
 }
 \arguments{
-\item{counts}{either a counts matrix or an SCESet object containing count
-data to estimate parameters from.}
+\item{counts}{either a counts matrix or a SingleCellExperiment object
+containing count data to estimate parameters from.}
 
 \item{conditions}{Vector giving the condition that each cell belongs to.
 Conditions can be 1 or 2.}

@@ -26,7 +26,7 @@
 #' number in the dataset used in the estimation step but has the downside that
 #' some genes or cells may be simulated multiple times.
 #'
-#' @return SCESet containing simulated counts.
+#' @return SingleCellExperiment containing simulated counts.
 #'
 #' @references
 #' Lun ATL, Marioni JC. Overcoming confounding plate effects in differential
@@ -39,8 +39,8 @@
 #' @examples
 #' sim <- lun2Simulate()
 #' @export
-#' @importFrom methods new
-#' @importFrom scater newSCESet set_exprs<-
+#' @importFrom SummarizedExperiment assays<-
+#' @importFrom SingleCellExperiment SingleCellExperiment
 lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
                          verbose = TRUE, ...) {
 
@@ -167,7 +167,7 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
         counts[is.zero] <- 0
     }
 
-    if (verbose) {message("Creating final SCESet...")}
+    if (verbose) {message("Creating final dataset...")}
 
     rownames(cells) <- cell.names
     rownames(features) <- gene.names

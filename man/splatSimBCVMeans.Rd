@@ -7,12 +7,12 @@
 splatSimBCVMeans(sim, params)
 }
 \arguments{
-\item{sim}{SCESet to add BCV means to.}
+\item{sim}{SingleCellExperiment to add BCV means to.}
 
 \item{params}{SplatParams object with simulation parameters.}
 }
 \value{
-SCESet with simulated BCV means.
+SingleCellExperiment with simulated BCV means.
 }
 \description{
 Simulate means for each gene in each cell that are adjusted to follow a

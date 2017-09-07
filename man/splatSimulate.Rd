@@ -31,8 +31,8 @@ trajectories (eg. differentiation processes).}
 \code{params}.}
 }
 \value{
-SCESet object containing the simulated counts and intermediate
-values.
+SingleCellExperiment object containing the simulated counts and
+intermediate values.
 }
 \description{
 Simulate count data from a fictional single-cell RNA-seq experiment using
@@ -56,15 +56,16 @@ The simulation involves the following steps:
     \item Simulate BCV adjusted cell means
     \item Simulate true counts
     \item Simulate dropout
-    \item Create final SCESet object
+    \item Create final dataset
 }
 
-The final output is an \code{\link[scater]{SCESet}} object that contains the
-simulated counts but also the values for various intermediate steps. These
-are stored in the \code{\link[Biobase]{phenoData}} (for cell specific
-information), \code{\link[Biobase]{featureData}} (for gene specific
-information) or \code{\link[Biobase]{assayData}} (for gene by cell matrices)
-slots. This additional information includes:
+The final output is a
+\code{\link[SingleCellExperiment]{SingleCellExperiment}} object that
+contains the simulated counts but also the values for various intermediate
+steps. These are stored in the \code{\link[SummarizedExperiment]{colData}}
+(for cell specific information), \code{\link[SummarizedExperiment]{rowData}}
+(for gene specific information) or \code{\link[SummarizedExperiment]{assays}}
+(for gene by cell matrices) slots. This additional information includes:
 \describe{
     \item{\code{phenoData}}{
         \describe{
@@ -108,9 +109,9 @@ slots. This additional information includes:
     }
 }
 
-Values that have been added by Splatter are named using \code{CamelCase} in
-order to differentiate them from the values added by Scater which uses
-\code{underscore_naming}.
+Values that have been added by Splatter are named using \code{UpperCamelCase}
+in order to differentiate them from the values added by analysis packages
+which typically use \code{underscore_naming}.
 }
 \examples{
 # Simulation with default parameters

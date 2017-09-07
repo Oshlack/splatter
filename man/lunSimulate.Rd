@@ -15,8 +15,8 @@ lunSimulate(params = newLunParams(), verbose = TRUE, ...)
 \code{params}.}
 }
 \value{
-SCESet object containing the simulated counts and intermediate
-values.
+SingleCellExperiment object containing the simulated counts and
+intermediate values.
 }
 \description{
 Simulate single-cell RNA-seq count data using the method described in Lun,

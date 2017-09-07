@@ -2,19 +2,20 @@
 % Please edit documentation in R/splat-estimate.R
 \name{splatEstimate}
 \alias{splatEstimate}
-\alias{splatEstimate.SCESet}
+\alias{splatEstimate.SingleCellExperiment}
 \alias{splatEstimate.matrix}
 \title{Estimate Splat simulation parameters}
 \usage{
 splatEstimate(counts, params = newSplatParams())
 
-\method{splatEstimate}{SCESet}(counts, params = newSplatParams())
+\method{splatEstimate}{SingleCellExperiment}(counts,
+  params = newSplatParams())
 
 \method{splatEstimate}{matrix}(counts, params = newSplatParams())
 }
 \arguments{
-\item{counts}{either a counts matrix or an SCESet object containing count
-data to estimate parameters from.}
+\item{counts}{either a counts matrix or a SingleCellExperiment object
+containing count data to estimate parameters from.}
 
 \item{params}{SplatParams object to store estimated values in.}
 }
