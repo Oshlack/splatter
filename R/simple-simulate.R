@@ -53,13 +53,15 @@ simpleSimulate <- function(params = newSimpleParams(), verbose = TRUE, ...) {
 
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names
-    phenos <- new("AnnotatedDataFrame", data = data.frame(Cell = cell.names))
-    rownames(phenos) <- cell.names
-    features <- new("AnnotatedDataFrame",
-                    data = data.frame(Gene = gene.names, GeneMean = means))
+    cells <- data.frame(Cell = cell.names)
+    rownames(cells) <- cell.names
+    features <- data.frame(Gene = gene.names, GeneMean = means)
     rownames(features) <- gene.names
-    sim <- newSCESet(countData = counts, phenoData = phenos,
-                     featureData = features)
+
+    sim <- SingleCellExperiment(assays = list(counts = counts),
+                                rowData = features,
+                                colData = cells,
+                                metadata = list(params = params))
 
     return(sim)
 }

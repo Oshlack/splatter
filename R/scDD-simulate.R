@@ -100,16 +100,19 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
 
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names
-    phenos <- new("AnnotatedDataFrame",
-                  data = data.frame(Cell = cell.names,
-                                    Condition = rep(1:2, each = nCells)))
-    rownames(phenos) <- cell.names
-    features <- new("AnnotatedDataFrame",
-                    data = data.frame(Gene = gene.names, DEStatus = de.status,
-                                      FoldChange = foldchanges))
+
+    cells <- data.frame(Cell = cell.names,
+                        Condition = rep(1:2, each = nCells))
+    rownames(cells) <- cell.names
+
+    features <- data.frame(Gene = gene.names, DEStatus = de.status,
+                           FoldChange = foldchanges)
     rownames(features) <- gene.names
-    sim <- newSCESet(countData = counts, phenoData = phenos,
-                     featureData = features)
+
+    sim <- SingleCellExperiment(assays = list(counts = counts),
+                                rowData = features,
+                                colData = cells,
+                                metadata = list(params = params))
 
     if (verbose) {message("Done!")}
 
