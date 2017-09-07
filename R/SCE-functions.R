@@ -1,11 +1,11 @@
 #' Add feature statistics
 #'
-#' Add additional feature statistics to an SCESet object
+#' Add additional feature statistics to a SingleCellExperiment object
 #'
-#' @param sce SCESet to add feature statistics to.
+#' @param sce SingleCellExperiment to add feature statistics to.
 #' @param value the expression value to calculate statistics for. Options are
 #'        "counts", "cpm", "tpm" or "fpkm". The values need to exist in the
-#'        given SCESet.
+#'        given SingleCellExperiment.
 #' @param log logical. Whether to take log2 before calculating statistics.
 #' @param offset offset to add to avoid taking log of zero.
 #' @param no.zeros logical. Whether to remove all zeros from each feature before
@@ -14,34 +14,38 @@
 #' @details
 #' Currently adds the following statistics: mean, variance, coefficient of
 #' variation, median and median absolute deviation. Statistics are added to
-#' the \code{fData} slot and are named \code{Stat[Log]Value[No0]} where
-#' \code{Log} and \code{No0} are added if those arguments are true.
-#' UpperCamelCase is used to differentiate these columns from those added by
-#' \code{scater}.
+#' the \code{\link[SummarizedExperiment]{rowData}} slot and are named
+#' \code{Stat[Log]Value[No0]} where \code{Log} and \code{No0} are added if those
+#' arguments are true. UpperCamelCase is used to differentiate these columns
+#' from those added by analysis packages.
 #'
-#' @return SCESet with additional feature statistics
+#' @return SingleCellExperiment with additional feature statistics
 #'
-#' @importFrom Biobase fData fData<-
+#' @importFrom SummarizedExperiment rowData rowData<-
 addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
                             log = FALSE, offset = 1, no.zeros = FALSE) {
 
+    checkmate::assertClass(sce, "SingleCellExperiment")
+    checkmate::assertLogical(log)
+    checkmate::assertNumber(offset, lower = 0)
+    checkmate::assertLogical(no.zeros)
     value <- match.arg(value)
 
     switch(value,
            counts = {
-               values = scater::counts(sce)
+               values = SummarizedExperiment::assays(sce)$counts
                suffix <- "Counts"
            },
            cpm = {
-               values = scater::cpm(sce)
+               values = SummarizedExperiment::assays(sce)$cpm
                suffix <- "CPM"
            },
            tpm = {
-               values = scater::tpm(sce)
+               values = SummarizedExperiment::assays(sce)$tpm
                suffix <- "TPM"
            },
            fpkm = {
-               values = scater::fpkm(sce)
+               values = SummarizedExperiment::assays(sce)$fpkm
                suffix <- "FPKM"
            }
     )
@@ -62,41 +66,43 @@ addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
     med.str  <- paste0("Med",  suffix)
     mad.str  <- paste0("MAD",  suffix)
 
-    fData(sce)[, mean.str] <- rowMeans(values, na.rm = TRUE)
-    fData(sce)[, var.str]  <- matrixStats::rowVars(values, na.rm = TRUE)
-    fData(sce)[, cv.str]   <- sqrt(fData(sce)[, var.str]) /
-        fData(sce)[, mean.str]
-    fData(sce)[, med.str]  <- matrixStats::rowMedians(values, na.rm = TRUE)
-    fData(sce)[, mad.str]  <- matrixStats::rowMads(values, na.rm = TRUE)
+    rowData(sce)[, mean.str] <- rowMeans(values, na.rm = TRUE)
+    rowData(sce)[, var.str]  <- matrixStats::rowVars(values, na.rm = TRUE)
+    rowData(sce)[, cv.str]   <- sqrt(rowData(sce)[, var.str]) /
+        rowData(sce)[, mean.str]
+    rowData(sce)[, med.str]  <- matrixStats::rowMedians(values, na.rm = TRUE)
+    rowData(sce)[, mad.str]  <- matrixStats::rowMads(values, na.rm = TRUE)
 
     return(sce)
 }
 
 #' Add gene lengths
 #'
-#' Add gene lengths to an SCESet object
+#' Add gene lengths to an SingleCellExperiment object
 #'
-#' @param sce SCESet to add gene lengths to.
+#' @param sce SingleCellExperiment to add gene lengths to.
 #' @param method Method to use for creating lengths.
 #' @param loc Location parameter for the generate method.
 #' @param scale Scale parameter for the generate method.
 #' @param lengths Vector of lengths for the sample method.
 #'
 #' @details
-#' This function adds simulated gene lengths to the \code{fData} slot of an
-#' \code{SCESet} object that can be used for calculating length normalised
-#' expression values such as TPM or FPKM. The \code{generate} simulates lengths
-#' using a (rounded) log-normal distribution, with the default \code{loc} and
-#' \code{scale} parameters based on human coding genes. Alternatively the
-#' \code{sample} method can be used which randomly samples lengths (with
-#' replacement) from a supplied vector.
+#' This function adds simulated gene lengths to the
+#' \code{\link[SummarizedExperiment]{rowData}} slot of a
+#' \code{\link[SingleCellExperiment]{SingleCellExperiment}} object that can be
+#' used for calculating length normalised expression values such as TPM or FPKM.
+#' The \code{generate} method simulates lengths using a (rounded) log-normal
+#' distribution, with the default \code{loc} and \code{scale} parameters based
+#' on human protein-coding genes. Alternatively the \code{sample} method can be
+#' used which randomly samples lengths (with replacement) from a supplied
+#' vector.
 #'
-#' @return SCESet with added gene lengths
+#' @return SingleCellExperiment with added gene lengths
 #' @examples
 #' # Default generate method
 #' sce <- simpleSimulate()
 #' sce <- addGeneLengths(sce)
-#' head(fData(sce))
+#' head(rowData(sce))
 #' # Sample method (human coding genes)
 #' \dontrun{
 #' library(TxDb.Hsapiens.UCSC.hg19.knownGene)
@@ -113,7 +119,7 @@ addGeneLengths <- function(sce, method = c("generate", "sample"), loc = 7.9,
                            scale = 0.7, lengths = NULL) {
 
     method <- match.arg(method)
-    checkmate::assertClass(sce, "SCESet")
+    checkmate::assertClass(sce, "SingleCellExperiment")
     checkmate::assertNumber(loc)
     checkmate::assertNumber(scale, lower = 0)
     checkmate::assertNumeric(lengths, lower = 0, null.ok = TRUE)
@@ -132,13 +138,7 @@ addGeneLengths <- function(sce, method = c("generate", "sample"), loc = 7.9,
            }
     )
 
-    fData(sce)$Length <- sim.lengths
+    rowData(sce)$Length <- sim.lengths
 
     return(sce)
 }
-
-#txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene::TxDb.Hsapiens.UCSC.hg19.knownGene
-#tx.lens <- GenomicFeatures::transcriptLengths(txdb, with.cds_len = TRUE)
-#tx.lens <- tx.lens[tx.lens$cds_len > 0, ]
-#gene.lens <- max(IRanges::splitAsList(tx.lens$tx_len, tx.lens$gene_id))
-#lens <- rlnorm(length(gene.lens), meanlog = 7.9, sdlog = 0.7)
