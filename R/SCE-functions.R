@@ -33,15 +33,15 @@ addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
 
     switch(value,
            counts = {
-               values = SummarizedExperiment::assays(sce)$counts
+               values = BiocGenerics::counts(sce)
                suffix <- "Counts"
            },
            cpm = {
-               values = SummarizedExperiment::assays(sce)$cpm
+               values = SingleCellExperiment::cpm(sce)
                suffix <- "CPM"
            },
            tpm = {
-               values = SummarizedExperiment::assays(sce)$tpm
+               values = SingleCellExperiment::tpm(sce)
                suffix <- "TPM"
            },
            fpkm = {

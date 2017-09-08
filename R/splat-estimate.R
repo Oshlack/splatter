@@ -28,7 +28,7 @@ splatEstimate <- function(counts, params = newSplatParams()) {
 #' @export
 splatEstimate.SingleCellExperiment <- function(counts,
                                                params = newSplatParams()) {
-    counts <- SummarizedExperiment::assays(counts)$counts
+    counts <- BiocGenerics::counts(counts)
     splatEstimate(counts, params)
 }
 
