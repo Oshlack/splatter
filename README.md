@@ -14,8 +14,8 @@ data. Splatter provides a common interface to multiple simulations that have:
 * Functions for simulating counts using those parameters
 
 Splatter is built on top of [`scater`][scater] and stores simulations in
-`SCESet` objects. Splatter also has functions for comparing simulations and real
-datasets.
+[`SingleCellExperiment`][SCE] objects. Splatter also has functions for comparing
+simulations and real datasets.
 
 ## Installation.
 
@@ -76,6 +76,7 @@ doi:10.1101/133173"][preprint].
 ```
 
 [scater]: https://github.com/davismcc/scater
+[SCE]: https://github.com/drisso/SingleCellExperiment
 [contrib]: https://github.com/Bioconductor/Contributions/issues/209
 [bioc]: https://bioconductor.org/packages/devel/bioc/html/splatter.html
 [vignette]: https://bioconductor.org/packages/devel/bioc/vignettes/splatter/inst/doc/splatter.html
