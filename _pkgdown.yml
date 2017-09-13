@@ -52,8 +52,8 @@ reference:
   - title: Comparison functions
     desc: Functions for comparing datasets
     contents:
-      - '`compareSCESets`'
-      - '`diffSCESets`'
+      - '`compareSCEs`'
+      - '`diffSCEs`'
       - '`makeCompPanel`'
       - '`makeDiffPanel`'
       - '`makeOverallPanel`'

@@ -108,9 +108,9 @@
     <pre class="usage"><span class='fu'>scDDEstimate</span>(<span class='no'>counts</span>, <span class='no'>conditions</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSCDDParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>())
 
-<span class='co'># S3 method for SCESet</span>
-<span class='fu'>scDDEstimate</span>(<span class='no'>counts</span>, <span class='no'>conditions</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSCDDParams</a></span>(),
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>())
+<span class='co'># S3 method for SingleCellExperiment</span>
+<span class='fu'>scDDEstimate</span>(<span class='no'>counts</span>, <span class='no'>conditions</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSCDDParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>())
 
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>scDDEstimate</span>(<span class='no'>counts</span>, <span class='no'>conditions</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSCDDParams</a></span>(),
@@ -121,8 +121,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>counts</th>
-      <td><p>either a counts matrix or an SCESet object containing count
-data to estimate parameters from.</p></td>
+      <td><p>either a counts matrix or a SingleCellExperiment object
+containing count data to estimate parameters from.</p></td>
     </tr>
     <tr>
       <th>conditions</th>

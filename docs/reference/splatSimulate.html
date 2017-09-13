@@ -143,8 +143,8 @@ trajectories (eg. differentiation processes).</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>SCESet object containing the simulated counts and intermediate
-values.</p>
+    <p>SingleCellExperiment object containing the simulated counts and
+intermediate values.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -163,14 +163,15 @@ can be used.</p>
 <li><p>Simulate BCV adjusted cell means</p></li>
 <li><p>Simulate true counts</p></li>
 <li><p>Simulate dropout</p></li>
-<li><p>Create final SCESet object</p></li>
+<li><p>Create final dataset</p></li>
 </ol>
-    <p>The final output is an <code><a href='http://www.rdocumentation.org/packages/scater/topics/SCESet'>SCESet</a></code> object that contains the
-simulated counts but also the values for various intermediate steps. These
-are stored in the <code><a href='http://www.rdocumentation.org/packages/Biobase/topics/phenoData'>phenoData</a></code> (for cell specific
-information), <code><a href='http://www.rdocumentation.org/packages/Biobase/topics/featureData'>featureData</a></code> (for gene specific
-information) or <code><a href='http://www.rdocumentation.org/packages/Biobase/topics/assayData'>assayData</a></code> (for gene by cell matrices)
-slots. This additional information includes:</p><dl class='dl-horizontal'>
+    <p>The final output is a
+<code><a href='http://www.rdocumentation.org/packages/SingleCellExperiment/topics/SingleCellExperiment'>SingleCellExperiment</a></code> object that
+contains the simulated counts but also the values for various intermediate
+steps. These are stored in the <code><a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/SummarizedExperiment-class'>colData</a></code>
+(for cell specific information), <code><a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/SummarizedExperiment-class'>rowData</a></code>
+(for gene specific information) or <code><a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/SummarizedExperiment-class'>assays</a></code>
+(for gene by cell matrices) slots. This additional information includes:</p><dl class='dl-horizontal'>
     <dt><code>phenoData</code></dt><dd><p><dl class='dl-horizontal'>
             <dt>Cell</dt><dd><p>Unique cell identifier.</p></dd>
             <dt>Group</dt><dd><p>The group or path the cell belongs to.</p></dd>
@@ -206,9 +207,9 @@ slots. This additional information includes:</p><dl class='dl-horizontal'>
             dropped in which cells.</p></dd>
         </dl></p></dd>
 </dl>
-    <p>Values that have been added by Splatter are named using <code>CamelCase</code> in
-order to differentiate them from the values added by Scater which uses
-<code>underscore_naming</code>.</p>
+    <p>Values that have been added by Splatter are named using <code>UpperCamelCase</code>
+in order to differentiate them from the values added by analysis packages
+which typically use <code>underscore_naming</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -220,9 +221,8 @@ order to differentiate them from the values added by Scater which uses
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># Simulation with default parameters
-</div><span class='co'># NOT RUN {</span>
-<span class='no'>sim</span> <span class='kw'>&lt;-</span> <span class='fu'>splatSimulate</span>()
+    <pre class="examples"><div class='input'><span class='co'># Simulation with default parameters</span>
+<span class='no'>sim</span> <span class='kw'>&lt;-</span> <span class='fu'>splatSimulate</span>()</div><div class='output co'>#&gt; <span class='message'>Getting parameters...</span></div><div class='output co'>#&gt; <span class='message'>Creating simulation object...</span></div><div class='output co'>#&gt; <span class='message'>Simulating library sizes...</span></div><div class='output co'>#&gt; <span class='message'>Simulating gene means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating BCV...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts..</span></div><div class='output co'>#&gt; <span class='message'>Simulating dropout (if needed)...</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div><span class='co'># NOT RUN {</span>
 <span class='co'># Simulation with different number of genes</span>
 <span class='no'>sim</span> <span class='kw'>&lt;-</span> <span class='fu'>splatSimulate</span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 <span class='co'># Simulation with custom parameters</span>

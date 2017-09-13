@@ -76,7 +76,7 @@
       <h1>Introduction to Splatter</h1>
                         <h4 class="author">Luke Zappia</h4>
             
-            <h4 class="date">2017-08-04</h4>
+            <h4 class="date">2017-09-13</h4>
           </div>
 
     
@@ -131,8 +131,38 @@
 ##     'browseVignettes()'. To cite Bioconductor, see
 ##     'citation("Biobase")', and for packages 'citation("pkgname")'.</code></pre>
 <pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## Loading required package: SingleCellExperiment</code></pre>
+<pre><code>## Loading required package: SummarizedExperiment</code></pre>
+<pre><code>## Loading required package: GenomicRanges</code></pre>
+<pre><code>## Loading required package: stats4</code></pre>
+<pre><code>## Loading required package: S4Vectors</code></pre>
+<pre><code>## 
+## Attaching package: 'S4Vectors'</code></pre>
+<pre><code>## The following object is masked from 'package:base':
+## 
+##     expand.grid</code></pre>
+<pre><code>## Loading required package: IRanges</code></pre>
+<pre><code>## Loading required package: GenomeInfoDb</code></pre>
+<pre><code>## Loading required package: DelayedArray</code></pre>
+<pre><code>## Loading required package: matrixStats</code></pre>
+<pre><code>## 
+## Attaching package: 'matrixStats'</code></pre>
+<pre><code>## The following objects are masked from 'package:Biobase':
+## 
+##     anyMissing, rowMedians</code></pre>
+<pre><code>## 
+## Attaching package: 'DelayedArray'</code></pre>
+<pre><code>## The following objects are masked from 'package:matrixStats':
+## 
+##     colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges</code></pre>
+<pre><code>## The following object is masked from 'package:base':
+## 
+##     apply</code></pre>
 <pre><code>## 
 ## Attaching package: 'scater'</code></pre>
+<pre><code>## The following object is masked from 'package:S4Vectors':
+## 
+##     rename</code></pre>
 <pre><code>## The following object is masked from 'package:stats':
 ## 
 ##     filter</code></pre>
@@ -149,7 +179,6 @@ sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSi
 <pre><code>## Simulating BCV...</code></pre>
 <pre><code>## Simulating counts..</code></pre>
 <pre><code>## Simulating dropout (if needed)...</code></pre>
-<pre><code>## Creating final SCESet...</code></pre>
 <pre><code>## Done!</code></pre>
 <p>These steps will be explained in detail in the following sections but briefly the first step takes a dataset and estimates simulation parameters from it and the second step takes those parameters and simulates a new dataset.</p>
 </div>
@@ -288,7 +317,7 @@ params</code></pre></div>
 ## 
 ## Global: 
 ## (Genes)  (Cells)   [Seed]  
-##   10000      100    98513  
+##   10000      100   918851  
 ## 
 ## 27 additional parameters 
 ## 
@@ -361,7 +390,7 @@ params</code></pre></div>
 ## 
 ## Global: 
 ## (GENES)  (Cells)   [Seed]  
-##    8000      100    98513  
+##    8000      100   918851  
 ## 
 ## 27 additional parameters 
 ## 
@@ -434,7 +463,7 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 ## Gene_0004        0        1        0        0        0
 ## Gene_0005        0        0       11        0        0</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatEstimate.html">splatEstimate</a></span>(sc_example_counts)</code></pre></div>
-<p>Here we estimated parameters from a counts matrix but <code>splatEstimate</code> can also take an <code>SCESet</code> object from the <code>scater</code> package. The estimation process has the following steps:</p>
+<p>Here we estimated parameters from a counts matrix but <code>splatEstimate</code> can also take a <code>SingleCellExperiment</code> object. The estimation process has the following steps:</p>
 <ol style="list-style-type: decimal">
 <li>Mean parameters are estimated by fitting a gamma distribution to the mean expression levels.</li>
 <li>Library size parameters are estimated by fitting a log-normal distribution to the library sizes.</li>
@@ -456,67 +485,66 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 <pre><code>## Simulating BCV...</code></pre>
 <pre><code>## Simulating counts..</code></pre>
 <pre><code>## Simulating dropout (if needed)...</code></pre>
-<pre><code>## Creating final SCESet...</code></pre>
 <pre><code>## Done!</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim</code></pre></div>
-<pre><code>## SCESet (storageMode: lockedEnvironment)
-## assayData: 1000 features, 40 samples 
-##   element names: BaseCellMeans, BatchCellMeans, BCV, CellMeans, counts, exprs, TrueCounts 
-## protocolData: none
-## phenoData
-##   sampleNames: Cell1 Cell2 ... Cell40 (40 total)
-##   varLabels: Cell Batch ExpLibSize
-##   varMetadata: labelDescription
-## featureData
-##   featureNames: Gene1 Gene2 ... Gene1000 (1000 total)
-##   fvarLabels: Gene BaseGeneMean OutlierFactor GeneMean
-##   fvarMetadata: labelDescription
-## experimentData: use 'experimentData(object)'
-## Annotation:</code></pre>
-<p>Looking at the output of <code>splatSimulate</code> we can see that <code>sim</code> is an <code>SCESet</code> object with 1000 features (genes) and 40 samples (cells). The main part of this object is a features by samples matrix containing the simulated counts (accessed using <code>counts</code>), although it can also hold other expression measures such as FPKM or TPM. Additionaly an <code>SCESet</code> contains phenotype information about each cell (accessed using <code>pData</code>) and feature information about each gene (accessed using <code>fData</code>). Splatter uses these slots to store information about the intermediate values of the simulation.</p>
+<pre><code>## class: SingleCellExperiment 
+## dim: 1000 40 
+## metadata(1): params
+## assays(6): BatchCellMeans BaseCellMeans ... TrueCounts counts
+## rownames(1000): Gene1 Gene2 ... Gene999 Gene1000
+## rowData names(4): Gene BaseGeneMean OutlierFactor GeneMean
+## colnames(40): Cell1 Cell2 ... Cell39 Cell40
+## colData names(3): Cell Batch ExpLibSize
+## reducedDimNames(0):
+## spikeNames(0):</code></pre>
+<p>Looking at the output of <code>splatSimulate</code> we can see that <code>sim</code> is <code>SingleCellExperiment</code> object with 1000 features (genes) and 40 samples (cells). The main part of this object is a features by samples matrix containing the simulated counts (accessed using <code>counts</code>), although it can also hold other expression measures such as FPKM or TPM. Additionaly a <code>SingleCellExperiment</code> contains phenotype information about each cell (accessed using <code>colData</code>) and feature information about each gene (accessed using <code>rowData</code>). Splatter uses these slots, as well as <code>assays</code>, to store information about the intermediate values of the simulation.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Access the counts</span>
 <span class="kw">counts</span>(sim)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</code></pre></div>
 <pre><code>##       Cell1 Cell2 Cell3 Cell4 Cell5
-## Gene1    71    18     0     0     0
-## Gene2     0   202    97     0    13
-## Gene3    76     0    70     0  4352
-## Gene4    13     0     0     0     0
-## Gene5   563    89    77     0    17</code></pre>
+## Gene1    94     0     0     0   102
+## Gene2     0    80     0    28     7
+## Gene3     0     1   321     4     0
+## Gene4     0     1   375     0     0
+## Gene5     0     0    42     1     0</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Information about genes</span>
-<span class="kw">head</span>(<span class="kw">fData</span>(sim))</code></pre></div>
-<pre><code>##        Gene BaseGeneMean OutlierFactor  GeneMean
-## Gene1 Gene1     12.15713             1  12.15713
-## Gene2 Gene2     24.31063             1  24.31063
-## Gene3 Gene3    297.25887             1 297.25887
-## Gene4 Gene4     59.50166             1  59.50166
-## Gene5 Gene5     22.53820             1  22.53820
-## Gene6 Gene6     20.61026             1  20.61026</code></pre>
+<span class="kw">head</span>(<span class="kw">rowData</span>(sim))</code></pre></div>
+<pre><code>## DataFrame with 6 rows and 4 columns
+##       Gene BaseGeneMean OutlierFactor   GeneMean
+##   &lt;factor&gt;    &lt;numeric&gt;     &lt;numeric&gt;  &lt;numeric&gt;
+## 1    Gene1    20.190793             1  20.190793
+## 2    Gene2   315.498092             1 315.498092
+## 3    Gene3    40.235698             1  40.235698
+## 4    Gene4     3.595814             1   3.595814
+## 5    Gene5     1.504027             1   1.504027
+## 6    Gene6    41.998472             1  41.998472</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Information about cells</span>
-<span class="kw">head</span>(<span class="kw">pData</span>(sim))</code></pre></div>
-<pre><code>##        Cell  Batch ExpLibSize
-## Cell1 Cell1 Batch1   95909.41
-## Cell2 Cell2 Batch1  244118.47
-## Cell3 Cell3 Batch1  240747.25
-## Cell4 Cell4 Batch1  271459.87
-## Cell5 Cell5 Batch1  424160.08
-## Cell6 Cell6 Batch1  228110.31</code></pre>
+<span class="kw">head</span>(<span class="kw">colData</span>(sim))</code></pre></div>
+<pre><code>## DataFrame with 6 rows and 3 columns
+##           Cell       Batch ExpLibSize
+##       &lt;factor&gt; &lt;character&gt;  &lt;numeric&gt;
+## Cell1    Cell1      Batch1   285352.9
+## Cell2    Cell2      Batch1   237166.0
+## Cell3    Cell3      Batch1   133623.1
+## Cell4    Cell4      Batch1   278033.4
+## Cell5    Cell5      Batch1   272639.2
+## Cell6    Cell6      Batch1   302447.6</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Gene by cell matrices</span>
-<span class="kw">names</span>(<span class="kw">assayData</span>(sim))</code></pre></div>
-<pre><code>## [1] "TrueCounts"     "BaseCellMeans"  "BatchCellMeans" "counts"        
-## [5] "BCV"            "CellMeans"      "exprs"</code></pre>
+<span class="kw">names</span>(<span class="kw">assays</span>(sim))</code></pre></div>
+<pre><code>## [1] "BatchCellMeans" "BaseCellMeans"  "BCV"            "CellMeans"     
+## [5] "TrueCounts"     "counts"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Example of cell means matrix</span>
-<span class="kw">get_exprs</span>(sim, <span class="st">"CellMeans"</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</code></pre></div>
-<pre><code>##             Cell1        Cell2        Cell3        Cell4        Cell5
-## Gene1  65.5696590 1.391352e+01   0.06193530 2.453784e-02 1.355897e-03
-## Gene2   0.4790134 2.126821e+02 102.46301607 3.225135e-09 9.960240e+00
-## Gene3  67.4445673 4.695054e-05  71.05222310 6.950506e-11 4.334285e+03
-## Gene4  10.4052334 9.127828e-08   0.01250279 1.721067e-07 1.163755e-16
-## Gene5 556.8580925 8.854150e+01  67.68883291 1.097594e-06 1.449732e+01</code></pre>
-<p>An additional (big) advantage of outputting an <code>SCESet</code> is that we get immediate access to all of the <code>scater</code> functions. For example we can make a PCA plot:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotPCA</span>(sim)</code></pre></div>
+<span class="kw">assays</span>(sim)<span class="op">$</span>CellMeans[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</code></pre></div>
+<pre><code>##              Cell1        Cell2        Cell3        Cell4        Cell5
+## Gene1 1.002071e+02 6.778755e-01 7.599324e-08 1.081554e-02 8.680064e+01
+## Gene2 2.358624e-03 8.386664e+01 6.321106e-02 2.583823e+01 8.731474e+00
+## Gene3 1.987226e-03 2.589992e-02 3.039511e+02 3.982977e+00 1.096817e-13
+## Gene4 1.173995e-08 2.266400e-01 3.745064e+02 2.686863e-32 1.253940e-01
+## Gene5 2.008658e-06 8.487400e-30 4.619085e+01 9.285997e-02 1.383831e-13</code></pre>
+<p>An additional (big) advantage of outputting a <code>SingleCellExperiment</code> is that we get immediate access to other analysis packages, such as the plotting functions in <code>scater</code>. For example we can make a PCA plot:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotPCA</span>(sim, <span class="dt">exprs_values =</span> <span class="st">"counts"</span>)</code></pre></div>
 <p><img src="splatter_files/figure-html/pca-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>(<strong>NOTE:</strong> Your values and plots may look different as the simulation is random and produces different results each time it is run.)</p>
-<p>For more details of the <code>SCESet</code> and what you can do with <code>scater</code> refer to the <code>scater</code> documentation and <a href="https://bioconductor.org/packages/release/bioc/vignettes/scater/inst/doc/vignette.html">vignette</a>.</p>
+<p>For more details about the <code>SingleCellExperiment</code> object refer to the <a href="https://bioconductor.org/packages/devel/bioc/vignettes/SingleCellExperiment/inst/doc/intro.html">vignette</a>. For information about what you can do with <code>scater</code> refer to the <code>scater</code> documentation and <a href="https://bioconductor.org/packages/release/bioc/vignettes/scater/inst/doc/vignette.html">vignette</a>.</p>
 <p>The <code>splatSimulate</code> function outputs the following additional information about the simulation:</p>
 <ul>
 <li>
@@ -565,7 +593,7 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 </ul>
 </li>
 </ul>
-<p>Values that have been added by Splatter are named using <code>UpperCamelCase</code> to separate them from the <code>underscore_naming</code> used by <code>scater</code>. For more information on the simulation see <code><a href="../reference/splatSimulate.html">?splatSimulate</a></code>.</p>
+<p>Values that have been added by Splatter are named using <code>UpperCamelCase</code> to separate them from the <code>underscore_naming</code> used by <code>scater</code> and other packages. For more information on the simulation see <code><a href="../reference/splatSimulate.html">?splatSimulate</a></code>.</p>
 <div id="simulating-groups" class="section level2">
 <h2 class="hasAnchor">
 <a href="#simulating-groups" class="anchor"></a>Simulating groups</h2>
@@ -573,7 +601,7 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 <p>(<strong>NOTE:</strong> We have also set the <code>verbose</code> argument to <code>FALSE</code> to stop Splatter printing progress messages.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim.groups &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">group.prob =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="dt">method =</span> <span class="st">"groups"</span>,
                             <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
-<span class="kw">plotPCA</span>(sim.groups, <span class="dt">colour_by =</span> <span class="st">"Group"</span>)</code></pre></div>
+<span class="kw">plotPCA</span>(sim.groups, <span class="dt">colour_by =</span> <span class="st">"Group"</span>, <span class="dt">exprs_values =</span> <span class="st">"counts"</span>)</code></pre></div>
 <p><img src="splatter_files/figure-html/groups-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>As we have set both the group probabilites to 0.5 we should get approximately equal numbers of cells in each group (around 50 in this case). If we wanted uneven groups we could set <code>group.prob</code> to any set of probabilites that sum to 1.</p>
 </div>
@@ -582,7 +610,7 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 <a href="#simulating-paths" class="anchor"></a>Simulating paths</h2>
 <p>The other situation that is often of interest is a differentiation process where one cell type is changing into another. Splatter approximates this process by simulating a series of steps between two groups and randomly assigning each cell to a step. We can create this kind of simulation using the <code>"paths"</code> method.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim.paths &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">method =</span> <span class="st">"paths"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
-<span class="kw">plotPCA</span>(sim.paths, <span class="dt">colour_by =</span> <span class="st">"Step"</span>)</code></pre></div>
+<span class="kw">plotPCA</span>(sim.paths, <span class="dt">colour_by =</span> <span class="st">"Step"</span>, <span class="dt">exprs_values =</span> <span class="st">"counts"</span>)</code></pre></div>
 <p><img src="splatter_files/figure-html/paths-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>Here the colours represent the “step” of each cell or how far along the differentiation path it is. We can see that the cells with dark colours are more similar to the originating cell type and the light coloured cells are closer to the final, differentiated, cell type. By setting additional parameters it is possible to simulate more complex process (for example multiple mature cell types from a single progenitor).</p>
 </div>
@@ -591,12 +619,13 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 <a href="#batch-effects" class="anchor"></a>Batch effects</h2>
 <p>Another factor that is important in the analysis of any sequencing experiment are batch effects, technical variation that is common to a set of samples processed at the same time. We apply batch effects by telling Splatter how many cells are in each batch:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim.batches &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">batchCells =</span> <span class="kw">c</span>(<span class="dv">50</span>, <span class="dv">50</span>), <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
-<span class="kw">plotPCA</span>(sim.batches, <span class="dt">colour_by =</span> <span class="st">"Batch"</span>)</code></pre></div>
+<span class="kw">plotPCA</span>(sim.batches, <span class="dt">colour_by =</span> <span class="st">"Batch"</span>, <span class="dt">exprs_values =</span> <span class="st">"counts"</span>)</code></pre></div>
 <p><img src="splatter_files/figure-html/batches-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>This looks at lot like when we simulated groups and that is because the process is very similar. The difference is that batch effects are applied to all genes, not just those that are differentially expressed, and the effects are usually smaller. By combining groups and batches we can simulate both unwanted variation that we aren’t interested in (batch) and the wanted variation we are looking for (group):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim.groups &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">batchCells =</span> <span class="kw">c</span>(<span class="dv">50</span>, <span class="dv">50</span>), <span class="dt">group.prob =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>),
                             <span class="dt">method =</span> <span class="st">"groups"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
-<span class="kw">plotPCA</span>(sim.groups, <span class="dt">shape_by =</span> <span class="st">"Batch"</span>, <span class="dt">colour_by =</span> <span class="st">"Group"</span>)</code></pre></div>
+<span class="kw">plotPCA</span>(sim.groups, <span class="dt">shape_by =</span> <span class="st">"Batch"</span>, <span class="dt">colour_by =</span> <span class="st">"Group"</span>,
+        <span class="dt">exprs_values =</span> <span class="st">"counts"</span>)</code></pre></div>
 <p><img src="splatter_files/figure-html/batch-groups-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>Here we see that the effects of the group (first component) are stronger than the batch effects (second component) but by adjusting the parameters we could made the batch effects dominate.</p>
 </div>
@@ -713,40 +742,42 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 </tr>
 </tbody>
 </table>
-<p>Each simulation has it’s own prefix which gives the name of the functions associated with that simulation. For example the prefix for the simple simulation is <code>simple</code> so it would store it’s parameters in a <code>SimpleParams</code> object that can be created using <code><a href="../reference/newParams.html">newSimpleParams()</a></code> or estimated from real data using <code><a href="../reference/simpleEstimate.html">simpleEstimate()</a></code>. To simulate data using that simulation you would use <code><a href="../reference/simpleSimulate.html">simpleSimulate()</a></code>. Each simulation returns an <code>SCESet</code> object with intermediate values similar to that returned by <code><a href="../reference/splatSimulate.html">splatSimulate()</a></code>. For more detailed information on each simulation see the appropriate help page (eg. <code><a href="../reference/simpleSimulate.html">?simpleSimulate</a></code> for information on how the simple simulation works or <code><a href="../reference/lun2Estimate.html">?lun2Estimate</a></code> for details of how the Lun 2 simulation estimates parameters) or refer to the appropriate paper or package.</p>
+<p>Each simulation has it’s own prefix which gives the name of the functions associated with that simulation. For example the prefix for the simple simulation is <code>simple</code> so it would store it’s parameters in a <code>SimpleParams</code> object that can be created using <code><a href="../reference/newParams.html">newSimpleParams()</a></code> or estimated from real data using <code><a href="../reference/simpleEstimate.html">simpleEstimate()</a></code>. To simulate data using that simulation you would use <code><a href="../reference/simpleSimulate.html">simpleSimulate()</a></code>. Each simulation returns a <code>SingleCellExperiment</code> object with intermediate values similar to that returned by <code><a href="../reference/splatSimulate.html">splatSimulate()</a></code>. For more detailed information on each simulation see the appropriate help page (eg. <code><a href="../reference/simpleSimulate.html">?simpleSimulate</a></code> for information on how the simple simulation works or <code><a href="../reference/lun2Estimate.html">? lun2Estimate</a></code> for details of how the Lun 2 simulation estimates parameters) or refer to the appropriate paper or package.</p>
 </div>
 <div id="other-expression-values" class="section level1">
 <h1 class="hasAnchor">
 <a href="#other-expression-values" class="anchor"></a>Other expression values</h1>
-<p>Splatter is designed to simulate count data but some analysis methods expect other expression values, particularly length-normalised values such as TPM or FPKM. The <code>scater</code> package has functions for adding these values to an <code>SCESet</code> object but they require a length for each gene. The <code>addGeneLengths</code> can be used to simulate these lengths:</p>
+<p>Splatter is designed to simulate count data but some analysis methods expect other expression values, particularly length-normalised values such as TPM or FPKM. The <code>scater</code> package has functions for adding these values to a <code>SingleCellExperiment</code> object but they require a length for each gene. The <code>addGeneLengths</code> function can be used to simulate these lengths:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/simpleSimulate.html">simpleSimulate</a></span>(<span class="dt">verbose =</span> <span class="ot">FALSE</span>)
 sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/addGeneLengths.html">addGeneLengths</a></span>(sim)
-<span class="kw">head</span>(<span class="kw">fData</span>(sim))</code></pre></div>
-<pre><code>##        Gene     GeneMean Length
-## Gene1 Gene1 0.0002067453   1694
-## Gene2 Gene2 0.2420681809   1908
-## Gene3 Gene3 1.1117145796   6058
-## Gene4 Gene4 0.1920623085  15962
-## Gene5 Gene5 0.1872010591   3664
-## Gene6 Gene6 0.2867576121  12947</code></pre>
+<span class="kw">head</span>(<span class="kw">rowData</span>(sim))</code></pre></div>
+<pre><code>## DataFrame with 6 rows and 3 columns
+##       Gene    GeneMean    Length
+##   &lt;factor&gt;   &lt;numeric&gt; &lt;numeric&gt;
+## 1    Gene1 0.486083183      1855
+## 2    Gene2 0.004635796      3158
+## 3    Gene3 0.401665079      1432
+## 4    Gene4 5.293414031      3396
+## 5    Gene5 0.022507485      2581
+## 6    Gene6 0.138698311      6003</code></pre>
 <p>We can then use <code>scater</code> to calculate TPM:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tpm</span>(sim) &lt;-<span class="st"> </span><span class="kw">calculateTPM</span>(sim, <span class="kw">fData</span>(sim)<span class="op">$</span>Length)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tpm</span>(sim) &lt;-<span class="st"> </span><span class="kw">calculateTPM</span>(sim, <span class="kw">rowData</span>(sim)<span class="op">$</span>Length)
 <span class="kw">tpm</span>(sim)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</code></pre></div>
-<pre><code>##          Cell1 Cell2    Cell3    Cell4 Cell5
-## Gene1  0.00000     0  0.00000  0.00000     0
-## Gene2  0.00000     0  0.00000  0.00000     0
-## Gene3 53.00124     0 26.08949 53.40399     0
-## Gene4  0.00000     0  0.00000  0.00000     0
-## Gene5 43.81571     0 43.13596  0.00000     0</code></pre>
+<pre><code>##          Cell1     Cell2    Cell3     Cell4    Cell5
+## Gene1   0.0000  82.60394  0.00000   0.00000   0.0000
+## Gene2   0.0000   0.00000  0.00000   0.00000   0.0000
+## Gene3 109.2362   0.00000  0.00000 105.56843   0.0000
+## Gene4 184.2476 315.84573 88.83347  44.51531 314.0713
+## Gene5   0.0000   0.00000  0.00000   0.00000   0.0000</code></pre>
 <p>The default method used by <code>addGeneLengths</code> to simulate lengths is to generate values from a log-normal distribution which are then rounded to give an integer length. The parameters for this distribution are based on human protein coding genes but can be adjusted if needed (for example for other species). Alternatively lengths can be sampled from a provided vector (see <code><a href="../reference/addGeneLengths.html">?addGeneLengths</a></code> for details and an example).</p>
 </div>
 <div id="comparing-simulations-and-real-data" class="section level1">
 <h1 class="hasAnchor">
 <a href="#comparing-simulations-and-real-data" class="anchor"></a>Comparing simulations and real data</h1>
-<p>One thing you might like to do after simulating data is to compare it to a real dataset, or compare simulations with different parameters or models. Splatter provides a function <code>compareSCESets</code> that aims to make these comparisons easier. As the name suggests this function takes a list of <code>SCESet</code> objects, combines the datasets and produces some plots comparing them. Let’s make two small simulations and see how they compare.</p>
+<p>One thing you might like to do after simulating data is to compare it to a real dataset, or compare simulations with different parameters or models. Splatter provides a function <code>compareSCEs</code> that aims to make these comparisons easier. As the name suggests this function takes a list of <code>SingleCellExperiment</code> objects, combines the datasets and produces some plots comparing them. Let’s make two small simulations and see how they compare.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">nGenes =</span> <span class="dv">1000</span>, <span class="dt">batchCells =</span> <span class="dv">20</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
 sim2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/simpleSimulate.html">simpleSimulate</a></span>(<span class="dt">nGenes =</span> <span class="dv">1000</span>, <span class="dt">nCells =</span> <span class="dv">20</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
-comparison &lt;-<span class="st"> </span><span class="kw"><a href="../reference/compareSCESets.html">compareSCESets</a></span>(<span class="kw">list</span>(<span class="dt">Splat =</span> sim1, <span class="dt">Simple =</span> sim2))
+comparison &lt;-<span class="st"> </span><span class="kw"><a href="../reference/compareSCEs.html">compareSCEs</a></span>(<span class="kw">list</span>(<span class="dt">Splat =</span> sim1, <span class="dt">Simple =</span> sim2))
 
 <span class="kw">names</span>(comparison)</code></pre></div>
 <pre><code>## [1] "FeatureData" "PhenoData"   "Plots"</code></pre>
@@ -765,8 +796,8 @@ comparison &lt;-<span class="st"> </span><span class="kw"><a href="../reference/
 <div id="comparing-differences" class="section level2">
 <h2 class="hasAnchor">
 <a href="#comparing-differences" class="anchor"></a>Comparing differences</h2>
-<p>Sometimes instead of visually comparing datasets it may be more interesting to look at the differences between them. We can do this using the <code>diffSCESets</code> function. Similar to <code>compareSCESets</code> this function takes a list of <code>SCESet</code> objects but now we also specify one to be a reference. A series of similar plots are returned but instead of showing the overall distributions they demonstrate differences from the reference.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">difference &lt;-<span class="st"> </span><span class="kw"><a href="../reference/diffSCESets.html">diffSCESets</a></span>(<span class="kw">list</span>(<span class="dt">Splat =</span> sim1, <span class="dt">Simple =</span> sim2), <span class="dt">ref =</span> <span class="st">"Simple"</span>)
+<p>Sometimes instead of visually comparing datasets it may be more interesting to look at the differences between them. We can do this using the <code>diffSCEs</code> function. Similar to <code>compareSCEs</code> this function takes a list of <code>SingleCellExperiment</code> objects but now we also specify one to be a reference. A series of similar plots are returned but instead of showing the overall distributions they demonstrate differences from the reference.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">difference &lt;-<span class="st"> </span><span class="kw"><a href="../reference/diffSCEs.html">diffSCEs</a></span>(<span class="kw">list</span>(<span class="dt">Splat =</span> sim1, <span class="dt">Simple =</span> sim2), <span class="dt">ref =</span> <span class="st">"Simple"</span>)
 difference<span class="op">$</span>Plots<span class="op">$</span>Means</code></pre></div>
 <p><img src="splatter_files/figure-html/difference-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>We also get a series of Quantile-Quantile plot that can be used to compare distributions.</p>
@@ -816,7 +847,7 @@ cowplot<span class="op">::</span><span class="kw"><a href="http://www.rdocumenta
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>## R version 3.4.1 (2017-06-30)
 ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
-## Running under: macOS Sierra 10.12.5
+## Running under: macOS Sierra 10.12.6
 ## 
 ## Matrix products: default
 ## BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
@@ -826,56 +857,58 @@ cowplot<span class="op">::</span><span class="kw"><a href="http://www.rdocumenta
 ## [1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
 ## 
 ## attached base packages:
-## [1] parallel  stats     graphics  grDevices utils     datasets  methods  
-## [8] base     
+## [1] stats4    parallel  stats     graphics  grDevices utils     datasets 
+## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] splatter_1.1.4      scater_1.4.0        ggplot2_2.2.1      
-## [4] Biobase_2.36.2      BiocGenerics_0.22.0
+##  [1] splatter_1.1.4              scater_1.5.12              
+##  [3] SingleCellExperiment_0.99.3 SummarizedExperiment_1.7.6 
+##  [5] DelayedArray_0.3.19         matrixStats_0.52.2         
+##  [7] GenomicRanges_1.29.13       GenomeInfoDb_1.13.4        
+##  [9] IRanges_2.11.15             S4Vectors_0.15.7           
+## [11] ggplot2_2.2.1               Biobase_2.37.2             
+## [13] BiocGenerics_0.23.1        
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] viridis_0.4.0              edgeR_3.18.1              
-##  [3] splines_3.4.1              bit64_0.9-7               
-##  [5] viridisLite_0.2.0          shiny_1.0.3               
-##  [7] assertthat_0.2.0           highr_0.6                 
-##  [9] sp_1.2-5                   stats4_3.4.1              
-## [11] blob_1.1.0                 GenomeInfoDbData_0.99.0   
-## [13] vipor_0.4.5                yaml_2.1.14               
-## [15] RSQLite_2.0                backports_1.1.0           
-## [17] lattice_0.20-35            glue_1.1.1                
-## [19] limma_3.32.4               digest_0.6.12             
-## [21] XVector_0.16.0             GenomicRanges_1.28.4      
-## [23] checkmate_1.8.3            colorspace_1.3-2          
-## [25] cowplot_0.7.0              htmltools_0.3.6           
-## [27] httpuv_1.3.5               Matrix_1.2-10             
-## [29] plyr_1.8.4                 XML_3.98-1.9              
-## [31] pkgconfig_2.0.1            biomaRt_2.32.1            
-## [33] zlibbioc_1.22.0            xtable_1.8-2              
-## [35] scales_0.4.1               BiocParallel_1.10.1       
-## [37] tibble_1.3.3               IRanges_2.10.2            
-## [39] SummarizedExperiment_1.6.3 lazyeval_0.2.0            
-## [41] survival_2.41-3            magrittr_1.5              
-## [43] mime_0.5                   memoise_1.1.0             
-## [45] evaluate_0.10.1            MASS_7.3-47               
-## [47] beeswarm_0.2.3             shinydashboard_0.6.1      
-## [49] fitdistrplus_1.0-9         tools_3.4.1               
-## [51] data.table_1.10.4          matrixStats_0.52.2        
-## [53] stringr_1.2.0              S4Vectors_0.14.3          
-## [55] munsell_0.4.3              locfit_1.5-9.1            
-## [57] DelayedArray_0.2.7         AnnotationDbi_1.38.1      
-## [59] bindrcpp_0.2               akima_0.6-2               
-## [61] compiler_3.4.1             GenomeInfoDb_1.12.2       
-## [63] rlang_0.1.1.9000           rhdf5_2.20.0              
-## [65] grid_3.4.1                 RCurl_1.95-4.8            
-## [67] tximport_1.4.0             rjson_0.2.15              
-## [69] labeling_0.3               bitops_1.0-6              
-## [71] rmarkdown_1.6              gtable_0.2.0              
-## [73] DBI_0.7                    reshape2_1.4.2            
-## [75] R6_2.2.2                   gridExtra_2.2.1           
-## [77] knitr_1.16                 dplyr_0.7.2               
-## [79] bit_1.1-12                 bindr_0.1                 
-## [81] rprojroot_1.2              stringi_1.1.5             
-## [83] ggbeeswarm_0.5.3           Rcpp_0.12.12</code></pre>
+##  [1] viridis_0.4.0           edgeR_3.19.3           
+##  [3] splines_3.4.1           bit64_0.9-7            
+##  [5] viridisLite_0.2.0       shiny_1.0.5            
+##  [7] assertthat_0.2.0        highr_0.6              
+##  [9] sp_1.2-5                blob_1.1.0             
+## [11] GenomeInfoDbData_0.99.1 vipor_0.4.5            
+## [13] yaml_2.1.14             progress_1.1.2         
+## [15] RSQLite_2.0             backports_1.1.0        
+## [17] lattice_0.20-35         glue_1.1.1             
+## [19] limma_3.33.9            digest_0.6.12          
+## [21] checkmate_1.8.3         XVector_0.17.1         
+## [23] colorspace_1.3-2        cowplot_0.8.0          
+## [25] htmltools_0.3.6         httpuv_1.3.5           
+## [27] Matrix_1.2-11           plyr_1.8.4             
+## [29] XML_3.98-1.9            pkgconfig_2.0.1        
+## [31] biomaRt_2.33.4          zlibbioc_1.23.0        
+## [33] xtable_1.8-2            scales_0.5.0           
+## [35] BiocParallel_1.11.8     tibble_1.3.4           
+## [37] lazyeval_0.2.0          survival_2.41-3        
+## [39] magrittr_1.5            mime_0.5               
+## [41] memoise_1.1.0           evaluate_0.10.1        
+## [43] MASS_7.3-47             beeswarm_0.2.3         
+## [45] shinydashboard_0.6.1    fitdistrplus_1.0-9     
+## [47] tools_3.4.1             data.table_1.10.4      
+## [49] prettyunits_1.0.2       stringr_1.2.0          
+## [51] munsell_0.4.3           locfit_1.5-9.1         
+## [53] AnnotationDbi_1.39.3    bindrcpp_0.2           
+## [55] akima_0.6-2             compiler_3.4.1         
+## [57] rlang_0.1.2             rhdf5_2.21.4           
+## [59] grid_3.4.1              RCurl_1.95-4.8         
+## [61] tximport_1.5.0          rjson_0.2.15           
+## [63] labeling_0.3            bitops_1.0-6           
+## [65] rmarkdown_1.6           gtable_0.2.0           
+## [67] DBI_0.7                 reshape2_1.4.2         
+## [69] R6_2.2.2                gridExtra_2.3          
+## [71] knitr_1.17              dplyr_0.7.3            
+## [73] bit_1.1-12              bindr_0.1              
+## [75] rprojroot_1.2           stringi_1.1.5          
+## [77] ggbeeswarm_0.6.0        Rcpp_0.12.12</code></pre>
 </div>
 </div>
   </div>
