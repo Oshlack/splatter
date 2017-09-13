@@ -109,8 +109,9 @@ is done.</p>
 
     <pre class="usage"><span class='fu'>splatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSplatParams</a></span>())
 
-<span class='co'># S3 method for SCESet</span>
-<span class='fu'>splatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSplatParams</a></span>())
+<span class='co'># S3 method for SingleCellExperiment</span>
+<span class='fu'>splatEstimate</span>(<span class='no'>counts</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSplatParams</a></span>())
 
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>splatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSplatParams</a></span>())</pre>
@@ -120,8 +121,8 @@ is done.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>counts</th>
-      <td><p>either a counts matrix or an SCESet object containing count
-data to estimate parameters from.</p></td>
+      <td><p>either a counts matrix or a SingleCellExperiment object
+containing count data to estimate parameters from.</p></td>
     </tr>
     <tr>
       <th>params</th>
@@ -148,7 +149,7 @@ data to estimate parameters from.</p></td>
 #&gt; 
 #&gt; Global: 
 #&gt; (GENES)  (CELLS)   [Seed]  
-#&gt;    2000       40    88458  
+#&gt;    2000       40   833962  
 #&gt; 
 #&gt; 27 additional parameters 
 #&gt; 

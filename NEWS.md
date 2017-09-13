@@ -1,3 +1,7 @@
+## Version 1.1.5 (2017-09-13)
+
+* Convert to SingleCellExperiment
+
 ## Version 1.1.4 (2017-08-04)
 
 * Fix group factors bug

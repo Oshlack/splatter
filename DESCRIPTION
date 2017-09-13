@@ -1,8 +1,8 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 1.1.4
-Date: 2017-08-04
+Version: 1.1.5
+Date: 2017-09-13
 Author: Luke Zappia
 Authors@R:
     c(person("Luke", "Zappia", role = c("aut", "cre"),
@@ -21,36 +21,37 @@ License: GPL-3 + file LICENSE
 LazyData: TRUE
 Depends:
     R (>= 3.4),
-    scater
+    scater,
+    SingleCellExperiment
 Imports:
-    fitdistrplus,
-    edgeR,
-    stats,
-    locfit,
     akima,
-    Biobase,
-    checkmate,
-    methods,
-    utils,
-    matrixStats,
-    ggplot2,
-    scales,
+    BiocGenerics,
     BiocParallel,
-    SummarizedExperiment
+    checkmate,
+    edgeR,
+    fitdistrplus,
+    ggplot2,
+    locfit,
+    matrixStats,
+    methods,
+    scales,
+    stats,
+    SummarizedExperiment,
+    utils
 Suggests:
-    testthat,
-    scran,
-    progress,
-    lme4,
-    pscl,
-    scDD,
-    knitr,
-    rmarkdown,
     BiocStyle,
     covr,
-    S4Vectors,
     cowplot,
-    limSolve
+    knitr,
+    limSolve,
+    lme4,
+    progress,
+    pscl,
+    testthat,
+    rmarkdown,
+    S4Vectors,
+    scDD,
+    scran
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software
 URL: https://github.com/Oshlack/splatter

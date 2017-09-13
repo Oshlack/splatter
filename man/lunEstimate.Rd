@@ -2,19 +2,19 @@
 % Please edit documentation in R/lun-estimate.R
 \name{lunEstimate}
 \alias{lunEstimate}
-\alias{lunEstimate.SCESet}
+\alias{lunEstimate.SingleCellExperiment}
 \alias{lunEstimate.matrix}
 \title{Estimate Lun simulation parameters}
 \usage{
 lunEstimate(counts, params = newLunParams())
 
-\method{lunEstimate}{SCESet}(counts, params = newLunParams())
+\method{lunEstimate}{SingleCellExperiment}(counts, params = newLunParams())
 
 \method{lunEstimate}{matrix}(counts, params = newLunParams())
 }
 \arguments{
-\item{counts}{either a counts matrix or an SCESet object containing count
-data to estimate parameters from.}
+\item{counts}{either a counts matrix or an SingleCellExperiment object
+containing count data to estimate parameters from.}
 
 \item{params}{LunParams object to store estimated values in.}
 }

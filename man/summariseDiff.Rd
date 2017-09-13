@@ -2,25 +2,25 @@
 % Please edit documentation in R/compare.R
 \name{summariseDiff}
 \alias{summariseDiff}
-\title{Summarise diffSCESets}
+\title{Summarise diffSCESs}
 \usage{
 summariseDiff(diff)
 }
 \arguments{
-\item{diff}{Output from \code{\link{diffSCESets}}}
+\item{diff}{Output from \code{\link{diffSCEs}}}
 }
 \value{
 data.frame with MADs, MAEs, RMSEs, scaled statistics and ranks
 }
 \description{
-Summarise the results of \code{\link{diffSCESets}}. Calculates the Median
+Summarise the results of \code{\link{diffSCEs}}. Calculates the Median
 Absolute Deviation (MAD), Mean Absolute Error (MAE) and Root Mean Squared
 Error (RMSE) for the various properties and ranks them.
 }
 \examples{
 sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
-difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
+difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
 summary <- summariseDiff(difference)
 head(summary)
 }

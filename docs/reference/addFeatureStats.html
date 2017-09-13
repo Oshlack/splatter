@@ -102,7 +102,7 @@
     </div>
 
     
-    <p>Add additional feature statistics to an SCESet object</p>
+    <p>Add additional feature statistics to a SingleCellExperiment object</p>
     
 
     <pre class="usage"><span class='fu'>addFeatureStats</span>(<span class='no'>sce</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"counts"</span>, <span class='st'>"cpm"</span>, <span class='st'>"tpm"</span>, <span class='st'>"fpkm"</span>), <span class='kw'>log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -113,13 +113,13 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>sce</th>
-      <td><p>SCESet to add feature statistics to.</p></td>
+      <td><p>SingleCellExperiment to add feature statistics to.</p></td>
     </tr>
     <tr>
       <th>value</th>
       <td><p>the expression value to calculate statistics for. Options are
 "counts", "cpm", "tpm" or "fpkm". The values need to exist in the
-given SCESet.</p></td>
+given SingleCellExperiment.</p></td>
     </tr>
     <tr>
       <th>log</th>
@@ -138,16 +138,16 @@ calculating statistics.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>SCESet with additional feature statistics</p>
+    <p>SingleCellExperiment with additional feature statistics</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Currently adds the following statistics: mean, variance, coefficient of
 variation, median and median absolute deviation. Statistics are added to
-the <code>fData</code> slot and are named <code>Stat[Log]Value[No0]</code> where
-<code>Log</code> and <code>No0</code> are added if those arguments are true.
-UpperCamelCase is used to differentiate these columns from those added by
-<code>scater</code>.</p>
+the <code><a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/SummarizedExperiment-class'>rowData</a></code> slot and are named
+<code>Stat[Log]Value[No0]</code> where <code>Log</code> and <code>No0</code> are added if those
+arguments are true. UpperCamelCase is used to differentiate these columns
+from those added by analysis packages.</p>
     
 
   </div>

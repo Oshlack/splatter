@@ -11,12 +11,12 @@ splatSimGroupDE(sim, params)
 splatSimPathDE(sim, params)
 }
 \arguments{
-\item{sim}{SCESet to add differential expression to.}
+\item{sim}{SingleCellExperiment to add differential expression to.}
 
 \item{params}{splatParams object with simulation parameters.}
 }
 \value{
-SCESet with simulated differential expression.
+SingleCellExperiment with simulated differential expression.
 }
 \description{
 Simulate differential expression. Differential expression factors for each

@@ -31,15 +31,16 @@
 #'     \item Simulate BCV adjusted cell means
 #'     \item Simulate true counts
 #'     \item Simulate dropout
-#'     \item Create final SCESet object
+#'     \item Create final dataset
 #' }
 #'
-#' The final output is an \code{\link[scater]{SCESet}} object that contains the
-#' simulated counts but also the values for various intermediate steps. These
-#' are stored in the \code{\link[Biobase]{phenoData}} (for cell specific
-#' information), \code{\link[Biobase]{featureData}} (for gene specific
-#' information) or \code{\link[Biobase]{assayData}} (for gene by cell matrices)
-#' slots. This additional information includes:
+#' The final output is a
+#' \code{\link[SingleCellExperiment]{SingleCellExperiment}} object that
+#' contains the simulated counts but also the values for various intermediate
+#' steps. These are stored in the \code{\link[SummarizedExperiment]{colData}}
+#' (for cell specific information), \code{\link[SummarizedExperiment]{rowData}}
+#' (for gene specific information) or \code{\link[SummarizedExperiment]{assays}}
+#' (for gene by cell matrices) slots. This additional information includes:
 #' \describe{
 #'     \item{\code{phenoData}}{
 #'         \describe{
@@ -83,12 +84,12 @@
 #'     }
 #' }
 #'
-#' Values that have been added by Splatter are named using \code{CamelCase} in
-#' order to differentiate them from the values added by Scater which uses
-#' \code{underscore_naming}.
+#' Values that have been added by Splatter are named using \code{UpperCamelCase}
+#' in order to differentiate them from the values added by analysis packages
+#' which typically use \code{underscore_naming}.
 #'
-#' @return SCESet object containing the simulated counts and intermediate
-#' values.
+#' @return SingleCellExperiment object containing the simulated counts and
+#' intermediate values.
 #'
 #' @seealso
 #' \code{\link{splatSimLibSizes}}, \code{\link{splatSimGeneMeans}},
@@ -99,8 +100,8 @@
 #'
 #' @examples
 #' # Simulation with default parameters
-#' \dontrun{
 #' sim <- splatSimulate()
+#' \dontrun{
 #' # Simulation with different number of genes
 #' sim <- splatSimulate(nGenes = 1000)
 #' # Simulation with custom parameters
@@ -113,9 +114,9 @@
 #' # Simulate paths
 #' sim <- splatSimulate(method = "paths")
 #' }
-#' @importFrom Biobase fData pData pData<- assayData
+#' @importFrom SummarizedExperiment rowData colData colData<- assays
+#' @importFrom SingleCellExperiment SingleCellExperiment
 #' @importFrom methods validObject
-#' @importFrom scater newSCESet counts set_exprs<- get_exprs
 #' @export
 splatSimulate <- function(params = newSplatParams(),
                           method = c("single", "groups", "paths"),
@@ -158,28 +159,25 @@ splatSimulate <- function(params = newSplatParams(),
         group.names <- paste0("Path", seq_len(nGroups))
     }
 
-    # Create SCESet with dummy counts to store simulation
-    dummy.counts <- matrix(1, ncol = nCells, nrow = nGenes)
-    rownames(dummy.counts) <- gene.names
-    colnames(dummy.counts) <- cell.names
-    phenos <- new("AnnotatedDataFrame", data = data.frame(Cell = cell.names))
-    rownames(phenos) <- cell.names
-    features <- new("AnnotatedDataFrame", data = data.frame(Gene = gene.names))
+    # Create SingleCellExperiment to store simulation
+    cells <-  data.frame(Cell = cell.names)
+    rownames(cells) <- cell.names
+    features <- data.frame(Gene = gene.names)
     rownames(features) <- gene.names
-    sim <- newSCESet(countData = dummy.counts, phenoData = phenos,
-                     featureData = features)
+    sim <- SingleCellExperiment(rowData = features, colData = cells,
+                                metadata = list(params = params))
 
     # Make batches vector which is the index of param$batchCells repeated
     # params$batchCells[index] times
     batches <- lapply(seq_len(nBatches), function(i, b) {rep(i, b[i])},
                       b = batch.cells)
     batches <- unlist(batches)
-    pData(sim)$Batch <- batch.names[batches]
+    colData(sim)$Batch <- batch.names[batches]
 
     if (method != "single") {
         groups <- sample(seq_len(nGroups), nCells, prob = group.prob,
                          replace = TRUE)
-        pData(sim)$Group <- group.names[groups]
+        colData(sim)$Group <- group.names[groups]
     }
 
     if (verbose) {message("Simulating library sizes...")}
@@ -211,21 +209,8 @@ splatSimulate <- function(params = newSplatParams(),
     if (verbose) {message("Simulating dropout (if needed)...")}
     sim <- splatSimDropout(sim, params)
 
-    if (verbose) {message("Creating final SCESet...")}
-    # Create new SCESet to make sure values are calculated correctly
-    sce <- newSCESet(countData = counts(sim),
-                     phenoData = new("AnnotatedDataFrame", data = pData(sim)),
-                     featureData = new("AnnotatedDataFrame", data = fData(sim)))
-
-    # Add intermediate matrices stored in assayData
-    for (assay.name in names(assayData(sim))) {
-        if (!(assay.name %in% names(assayData(sce)))) {
-            set_exprs(sce, assay.name) <- get_exprs(sim, assay.name)
-        }
-    }
-
     if (verbose) {message("Done!")}
-    return(sce)
+    return(sim)
 }
 
 #' @rdname splatSimulate
@@ -258,12 +243,12 @@ splatSimulatePaths <- function(params = newSplatParams(), verbose = TRUE, ...) {
 #'
 #' Simulate expected library sizes from a log-normal distribution
 #'
-#' @param sim SCESet to add library size to.
+#' @param sim SingleCellExperiment to add library size to.
 #' @param params SplatParams object with simulation parameters.
 #'
-#' @return SCESet with simulated library sizes.
+#' @return SingleCellExperiment with simulated library sizes.
 #'
-#' @importFrom Biobase pData pData<-
+#' @importFrom SummarizedExperiment colData colData<-
 #' @importFrom stats rlnorm
 splatSimLibSizes <- function(sim, params) {
 
@@ -272,7 +257,7 @@ splatSimLibSizes <- function(sim, params) {
     lib.scale <- getParam(params, "lib.scale")
 
     exp.lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
-    pData(sim)$ExpLibSize <- exp.lib.sizes
+    colData(sim)$ExpLibSize <- exp.lib.sizes
 
     return(sim)
 }
@@ -283,12 +268,12 @@ splatSimLibSizes <- function(sim, params) {
 #' expression factors. Genes with an outlier factor not equal to 1 are replaced
 #' with the median mean expression multiplied by the outlier factor.
 #'
-#' @param sim SCESet to add gene means to.
+#' @param sim SingleCellExperiment to add gene means to.
 #' @param params SplatParams object with simulation parameters.
 #'
-#' @return SCESet with simulated gene means.
+#' @return SingleCellExperiment with simulated gene means.
 #'
-#' @importFrom Biobase fData fData<-
+#' @importFrom SummarizedExperiment rowData rowData<-
 #' @importFrom stats rgamma median
 splatSimGeneMeans <- function(sim, params) {
 
@@ -311,9 +296,9 @@ splatSimGeneMeans <- function(sim, params) {
     means.gene <- base.means.gene
     means.gene[is.outlier] <- outlier.means[is.outlier]
 
-    fData(sim)$BaseGeneMean <- base.means.gene
-    fData(sim)$OutlierFactor <- outlier.facs
-    fData(sim)$GeneMean <- means.gene
+    rowData(sim)$BaseGeneMean <- base.means.gene
+    rowData(sim)$OutlierFactor <- outlier.facs
+    rowData(sim)$GeneMean <- means.gene
 
     return(sim)
 }
@@ -324,25 +309,25 @@ splatSimGeneMeans <- function(sim, params) {
 #' using \code{\link{getLNormFactors}} and these are added along with updated
 #' means for each batch.
 #'
-#' @param sim SCESet to add batch effects to.
+#' @param sim SingleCellExperiment to add batch effects to.
 #' @param params SplatParams object with simulation parameters.
 #'
-#' @return SCESet with simulated batch effects.
+#' @return SingleCellExperiment with simulated batch effects.
 #'
-#' @importFrom Biobase fData fData<-
+#' @importFrom SummarizedExperiment rowData rowData<-
 splatSimBatchEffects <- function(sim, params) {
 
     nGenes <- getParam(params, "nGenes")
     nBatches <- getParam(params, "nBatches")
     batch.facLoc <- getParam(params, "batch.facLoc")
     batch.facScale <- getParam(params, "batch.facScale")
-    means.gene <- fData(sim)$GeneMean
+    means.gene <- rowData(sim)$GeneMean
 
     for (idx in seq_len(nBatches)) {
         batch.facs <- getLNormFactors(nGenes, 1, 0.5, batch.facLoc[idx],
                                         batch.facScale[idx])
         batch.means.gene <- means.gene * batch.facs
-        fData(sim)[[paste0("BatchFacBatch", idx)]] <- batch.facs
+        rowData(sim)[[paste0("BatchFacBatch", idx)]] <- batch.facs
     }
 
     return(sim)
@@ -353,26 +338,26 @@ splatSimBatchEffects <- function(sim, params) {
 #' Simulate a mean for each gene in each cell incorporating batch effect
 #' factors.
 #'
-#' @param sim SCESet to add batch means to.
+#' @param sim SingleCellExperiment to add batch means to.
 #' @param params SplatParams object with simulation parameters.
 #'
-#' @return SCESet with simulated batch means.
+#' @return SingleCellExperiment with simulated batch means.
 #'
-#' @importFrom Biobase fData fData<-
+#' @importFrom SummarizedExperiment rowData rowData<-
 splatSimBatchCellMeans <- function(sim, params) {
 
     nBatches <- getParam(params, "nBatches")
-    cell.names <- pData(sim)$Cell
-    gene.names <- fData(sim)$Gene
-    gene.means <- fData(sim)$GeneMean
+    cell.names <- colData(sim)$Cell
+    gene.names <- rowData(sim)$Gene
+    gene.means <- rowData(sim)$GeneMean
 
     if (nBatches > 1) {
-        batches <- pData(sim)$Batch
+        batches <- colData(sim)$Batch
         batch.names <- unique(batches)
 
-        batch.facs.gene <- fData(sim)[, paste0("BatchFac", batch.names)]
-        batch.facs.cell <- as.matrix(batch.facs.gene[, factor(batches)])
-
+        batch.facs.gene <- rowData(sim)[, paste0("BatchFac", batch.names)]
+        batch.facs.cell <- as.matrix(batch.facs.gene[,
+                                                  as.numeric(factor(batches))])
     } else {
         nCells <- getParam(params, "nCells")
         nGenes <- getParam(params, "nGenes")
@@ -384,7 +369,7 @@ splatSimBatchCellMeans <- function(sim, params) {
 
     colnames(batch.means.cell) <- cell.names
     rownames(batch.means.cell) <- gene.names
-    set_exprs(sim, "BatchCellMeans") <- batch.means.cell
+    assays(sim)$BatchCellMeans <- batch.means.cell
 
     return(sim)
 }
@@ -396,16 +381,16 @@ splatSimBatchCellMeans <- function(sim, params) {
 #' along with updated means for each group. For paths care is taked to make sure
 #' they are simulated in the correct order.
 #'
-#' @param sim SCESet to add differential expression to.
+#' @param sim SingleCellExperiment to add differential expression to.
 #' @param params splatParams object with simulation parameters.
 #'
-#' @return SCESet with simulated differential expression.
+#' @return SingleCellExperiment with simulated differential expression.
 #'
 #' @name splatSimDE
 NULL
 
 #' @rdname splatSimDE
-#' @importFrom Biobase fData
+#' @importFrom SummarizedExperiment rowData
 splatSimGroupDE <- function(sim, params) {
 
     nGenes <- getParam(params, "nGenes")
@@ -414,20 +399,20 @@ splatSimGroupDE <- function(sim, params) {
     de.downProb <- getParam(params, "de.downProb")
     de.facLoc <- getParam(params, "de.facLoc")
     de.facScale <- getParam(params, "de.facScale")
-    means.gene <- fData(sim)$GeneMean
+    means.gene <- rowData(sim)$GeneMean
 
     for (idx in seq_len(nGroups)) {
         de.facs <- getLNormFactors(nGenes, de.prob[idx], de.downProb[idx],
                                    de.facLoc[idx], de.facScale[idx])
         group.means.gene <- means.gene * de.facs
-        fData(sim)[[paste0("DEFacGroup", idx)]] <- de.facs
+        rowData(sim)[[paste0("DEFacGroup", idx)]] <- de.facs
     }
 
     return(sim)
 }
 
 #' @rdname splatSimDE
-#' @importFrom Biobase fData
+#' @importFrom SummarizedExperiment rowData
 splatSimPathDE <- function(sim, params) {
 
     nGenes <- getParam(params, "nGenes")
@@ -441,14 +426,14 @@ splatSimPathDE <- function(sim, params) {
     for (path in path.order) {
         from <- path.from[path]
         if (from == 0) {
-            means.gene <- fData(sim)$GeneMean
+            means.gene <- rowData(sim)$GeneMean
         } else {
-            means.gene <- fData(sim)[[paste0("GeneMeanPath", from)]]
+            means.gene <- rowData(sim)[[paste0("GeneMeanPath", from)]]
         }
         de.facs <- getLNormFactors(nGenes, de.prob[path], de.downProb[path],
                                    de.facLoc[path], de.facScale[path])
         path.means.gene <- means.gene * de.facs
-        fData(sim)[[paste0("DEFacPath", path)]] <- de.facs
+        rowData(sim)[[paste0("DEFacPath", path)]] <- de.facs
     }
 
     return(sim)
@@ -462,24 +447,23 @@ splatSimPathDE <- function(sim, params) {
 #' random position on the appropriate path (when simulating paths). The selected
 #' means are adjusted for each cell's expected library size.
 #'
-#' @param sim SCESet to add cell means to.
+#' @param sim SingleCellExperiment to add cell means to.
 #' @param params SplatParams object with simulation parameters.
 #'
-#' @return SCESet with added cell means.
+#' @return SingleCellExperiment with added cell means.
 #'
 #' @name splatSimCellMeans
 NULL
 
 #' @rdname splatSimCellMeans
-#' @importFrom Biobase fData pData
-#' @importFrom scater set_exprs<- get_exprs
+#' @importFrom SummarizedExperiment rowData colData assays assays<-
 splatSimSingleCellMeans <- function(sim, params) {
 
     nCells <- getParam(params, "nCells")
-    cell.names <- pData(sim)$Cell
-    gene.names <- fData(sim)$Gene
-    exp.lib.sizes <- pData(sim)$ExpLibSize
-    batch.means.cell <- get_exprs(sim, "BatchCellMeans")
+    cell.names <- colData(sim)$Cell
+    gene.names <- rowData(sim)$Gene
+    exp.lib.sizes <- colData(sim)$ExpLibSize
+    batch.means.cell <- assays(sim)$BatchCellMeans
 
     cell.means.gene <- batch.means.cell
     cell.props.gene <- t(t(cell.means.gene) / colSums(cell.means.gene))
@@ -487,56 +471,54 @@ splatSimSingleCellMeans <- function(sim, params) {
 
     colnames(base.means.cell) <- cell.names
     rownames(base.means.cell) <- gene.names
-    set_exprs(sim, "BaseCellMeans") <- base.means.cell
+    assays(sim)$BaseCellMeans <- base.means.cell
 
     return(sim)
 }
 
 #' @rdname splatSimCellMeans
-#' @importFrom Biobase fData pData
-#' @importFrom scater get_exprs set_exprs<-
+#' @importFrom SummarizedExperiment rowData colData assays assays<-
 splatSimGroupCellMeans <- function(sim, params) {
 
     nGroups <- getParam(params, "nGroups")
-    cell.names <- pData(sim)$Cell
-    gene.names <- fData(sim)$Gene
-    groups <- pData(sim)$Group
+    cell.names <- colData(sim)$Cell
+    gene.names <- rowData(sim)$Gene
+    groups <- colData(sim)$Group
     group.names <- sort(unique(groups))
-    exp.lib.sizes <- pData(sim)$ExpLibSize
-    batch.means.cell <- get_exprs(sim, "BatchCellMeans")
+    exp.lib.sizes <- colData(sim)$ExpLibSize
+    batch.means.cell <- assays(sim)$BatchCellMeans
 
-    group.facs.gene <- fData(sim)[, paste0("DEFac", group.names)]
-    cell.facs.gene <- as.matrix(group.facs.gene[, factor(groups)])
+    group.facs.gene <- rowData(sim)[, paste0("DEFac", group.names)]
+    cell.facs.gene <- as.matrix(group.facs.gene[, paste0("DEFac", groups)])
     cell.means.gene <- batch.means.cell * cell.facs.gene
     cell.props.gene <- t(t(cell.means.gene) / colSums(cell.means.gene))
     base.means.cell <- t(t(cell.props.gene) * exp.lib.sizes)
 
     colnames(base.means.cell) <- cell.names
     rownames(base.means.cell) <- gene.names
-    set_exprs(sim, "BaseCellMeans") <- base.means.cell
+    assays(sim)$BaseCellMeans <- base.means.cell
 
     return(sim)
 }
 
 #' @rdname splatSimCellMeans
-#' @importFrom Biobase fData pData
-#' @importFrom scater set_exprs<-
+#' @importFrom SummarizedExperiment rowData colData colData<- assays assays<-
 #' @importFrom stats rbinom
 splatSimPathCellMeans <- function(sim, params) {
 
     nGenes <- getParam(params, "nGenes")
     nCells <- getParam(params, "nCells")
     nGroups <- getParam(params, "nGroups")
-    cell.names <- pData(sim)$Cell
-    gene.names <- fData(sim)$Gene
+    cell.names <- colData(sim)$Cell
+    gene.names <- rowData(sim)$Gene
     path.from <- getParam(params, "path.from")
     path.length <- getParam(params, "path.length")
     path.skew <- getParam(params, "path.skew")
     path.nonlinearProb <- getParam(params, "path.nonlinearProb")
     path.sigmaFac <- getParam(params, "path.sigmaFac")
-    groups <- pData(sim)$Group
-    exp.lib.sizes <- pData(sim)$ExpLibSize
-    batch.means.cell <- get_exprs(sim, "BatchCellMeans")
+    groups <- colData(sim)$Group
+    exp.lib.sizes <- colData(sim)$ExpLibSize
+    batch.means.cell <- assays(sim)$BatchCellMeans
 
     group.sizes <- table(groups)
 
@@ -546,7 +528,7 @@ splatSimPathCellMeans <- function(sim, params) {
         is.nonlinear <- as.logical(rbinom(nGenes, 1, path.nonlinearProb))
         sigma.facs <- rep(0, nGenes)
         sigma.facs[is.nonlinear] <- path.sigmaFac
-        fData(sim)[[paste0("SigmaFacPath", idx)]] <- sigma.facs
+        rowData(sim)[[paste0("SigmaFacPath", idx)]] <- sigma.facs
     }
 
     # Generate non-linear path factors
@@ -555,7 +537,7 @@ splatSimPathCellMeans <- function(sim, params) {
         is.nonlinear <- as.logical(rbinom(nGenes, 1, path.nonlinearProb))
         sigma.facs <- rep(0, nGenes)
         sigma.facs[is.nonlinear] <- path.sigmaFac
-        fData(sim)[[paste0("SigmaFacPath", idx)]] <- sigma.facs
+        rowData(sim)[[paste0("SigmaFacPath", idx)]] <- sigma.facs
     }
 
     # Generate paths. Each path is a matrix with path.length columns and
@@ -566,13 +548,13 @@ splatSimPathCellMeans <- function(sim, params) {
         if (from == 0) {
             facs.start <- rep(1, nGenes)
         } else {
-            facs.start <- fData(sim)[[paste0("DEFacPath", from)]]
+            facs.start <- rowData(sim)[[paste0("DEFacPath", from)]]
         }
         # Find the factors at the end position
-        facs.end <- fData(sim)[[paste0("DEFacPath", idx)]]
+        facs.end <- rowData(sim)[[paste0("DEFacPath", idx)]]
 
         # Get the non-linear factors
-        sigma.facs <- fData(sim)[[paste0("SigmaFacPath", idx)]]
+        sigma.facs <- rowData(sim)[[paste0("SigmaFacPath", idx)]]
 
         # Build Brownian bridges from start to end
         steps <- buildBridges(facs.start, facs.end, n = path.length[idx],
@@ -609,9 +591,8 @@ splatSimPathCellMeans <- function(sim, params) {
     colnames(base.means.cell) <- cell.names
     rownames(base.means.cell) <- gene.names
 
-    #pData(sim)$Step <- unlist(cell.steps)
-    pData(sim)$Step <- steps
-    set_exprs(sim, "BaseCellMeans") <- base.means.cell
+    colData(sim)$Step <- steps
+    assays(sim)$BaseCellMeans <- base.means.cell
 
     return(sim)
 }
@@ -622,23 +603,22 @@ splatSimPathCellMeans <- function(sim, params) {
 #' mean-variance trend using Biological Coefficient of Variation taken from
 #' and inverse gamma distribution.
 #'
-#' @param sim SCESet to add BCV means to.
+#' @param sim SingleCellExperiment to add BCV means to.
 #' @param params SplatParams object with simulation parameters.
 #'
-#' @return SCESet with simulated BCV means.
+#' @return SingleCellExperiment with simulated BCV means.
 #'
-#' @importFrom Biobase fData pData
-#' @importFrom scater get_exprs set_exprs<-
+#' @importFrom SummarizedExperiment rowData colData assays assays<-
 #' @importFrom stats rchisq rgamma
 splatSimBCVMeans <- function(sim, params) {
 
-    cell.names <- pData(sim)$Cell
-    gene.names <- fData(sim)$Gene
+    cell.names <- colData(sim)$Cell
+    gene.names <- rowData(sim)$Gene
     nGenes <- getParam(params, "nGenes")
     nCells <- getParam(params, "nCells")
     bcv.common <- getParam(params, "bcv.common")
     bcv.df <- getParam(params, "bcv.df")
-    base.means.cell <- get_exprs(sim, "BaseCellMeans")
+    base.means.cell <- assays(sim)$BaseCellMeans
 
     if (is.finite(bcv.df)) {
         bcv <- (bcv.common + (1 / sqrt(base.means.cell))) *
@@ -655,8 +635,8 @@ splatSimBCVMeans <- function(sim, params) {
     colnames(means.cell) <- cell.names
     rownames(means.cell) <- gene.names
 
-    set_exprs(sim, "BCV") <- bcv
-    set_exprs(sim, "CellMeans") <- means.cell
+    assays(sim)$BCV <- bcv
+    assays(sim)$CellMeans <- means.cell
 
     return(sim)
 }
@@ -667,21 +647,20 @@ splatSimBCVMeans <- function(sim, params) {
 #' distribution where Each gene in each cell has it's own mean based on the
 #' group (or path position), expected library size and BCV.
 #'
-#' @param sim SCESet to add true counts to.
+#' @param sim SingleCellExperiment to add true counts to.
 #' @param params SplatParams object with simulation parameters.
 #'
-#' @return SCESet with simulated true counts.
+#' @return SingleCellExperiment with simulated true counts.
 #'
-#' @importFrom Biobase fData pData
-#' @importFrom scater get_exprs set_exprs<-
+#' @importFrom SummarizedExperiment rowData colData assays assays<-
 #' @importFrom stats rpois
 splatSimTrueCounts <- function(sim, params) {
 
-    cell.names <- pData(sim)$Cell
-    gene.names <- fData(sim)$Gene
+    cell.names <- colData(sim)$Cell
+    gene.names <- rowData(sim)$Gene
     nGenes <- getParam(params, "nGenes")
     nCells <- getParam(params, "nCells")
-    cell.means <- get_exprs(sim, "CellMeans")
+    cell.means <- assays(sim)$CellMeans
 
     true.counts <- matrix(rpois(nGenes * nCells, lambda = cell.means),
                           nrow = nGenes, ncol = nCells)
@@ -689,7 +668,7 @@ splatSimTrueCounts <- function(sim, params) {
     colnames(true.counts) <- cell.names
     rownames(true.counts) <- gene.names
 
-    set_exprs(sim, "TrueCounts") <- true.counts
+    assays(sim)$TrueCounts <- true.counts
 
     return(sim)
 }
@@ -701,27 +680,26 @@ splatSimTrueCounts <- function(sim, params) {
 #' gene in each cell. These probabilities are used in a Bernoulli distribution
 #' to decide which counts should be dropped.
 #'
-#' @param sim SCESet to add dropout to.
+#' @param sim SingleCellExperiment to add dropout to.
 #' @param params SplatParams object with simulation parameters.
 #'
-#' @return SCESet with simulated dropout and observed counts.
+#' @return SingleCellExperiment with simulated dropout and observed counts.
 #'
-#' @importFrom Biobase fData pData
-#' @importFrom scater get_exprs set_exprs<-
+#' @importFrom SummarizedExperiment rowData colData assays assays<-
 #' @importFrom stats rbinom
 splatSimDropout <- function(sim, params) {
 
     dropout.present <- getParam(params, "dropout.present")
-    true.counts <- get_exprs(sim, "TrueCounts")
+    true.counts <- assays(sim)$TrueCounts
 
     if (dropout.present) {
-        cell.names <- pData(sim)$Cell
-        gene.names <- fData(sim)$Gene
+        cell.names <- colData(sim)$Cell
+        gene.names <- rowData(sim)$Gene
         nCells <- getParam(params, "nCells")
         nGenes <- getParam(params, "nGenes")
         dropout.mid <- getParam(params, "dropout.mid")
         dropout.shape <- getParam(params, "dropout.shape")
-        cell.means <- get_exprs(sim, "CellMeans")
+        cell.means <- assays(sim)$CellMeans
 
         # Generate probabilites based on expression
         drop.prob <- sapply(seq_len(nCells), function(idx) {
@@ -740,13 +718,13 @@ splatSimDropout <- function(sim, params) {
         colnames(keep) <- cell.names
         rownames(keep) <- gene.names
 
-        set_exprs(sim, "DropProb") <- drop.prob
-        set_exprs(sim, "Dropout") <- !keep
+        assays(sim)$DropProb <- drop.prob
+        assays(sim)$Dropout <- !keep
     } else {
         counts <- true.counts
     }
 
-    scater::counts(sim) <- counts
+    BiocGenerics::counts(sim) <- counts
 
     return(sim)
 }

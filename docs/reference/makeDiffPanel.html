@@ -102,7 +102,7 @@
     </div>
 
     
-    <p>Combine the plots from <code>diffSCESets</code> into a single panel.</p>
+    <p>Combine the plots from <code>diffSCEs</code> into a single panel.</p>
     
 
     <pre class="usage"><span class='fu'>makeDiffPanel</span>(<span class='no'>diff</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Difference comparison"</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Means"</span>,
@@ -114,7 +114,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>diff</th>
-      <td><p>list returned by <code><a href='diffSCESets.html'>diffSCESets</a></code>.</p></td>
+      <td><p>list returned by <code><a href='diffSCEs.html'>diffSCEs</a></code>.</p></td>
     </tr>
     <tr>
       <th>title</th>
@@ -135,7 +135,7 @@
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='no'>sim1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='splatSimulate.html'>splatSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>batchCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)
 <span class='no'>sim2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)
-<span class='no'>difference</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='diffSCESets.html'>diffSCESets</a></span>(<span class='fu'>list</span>(<span class='kw'>Splat</span> <span class='kw'>=</span> <span class='no'>sim1</span>, <span class='kw'>Simple</span> <span class='kw'>=</span> <span class='no'>sim2</span>), <span class='kw'>ref</span> <span class='kw'>=</span> <span class='st'>"Simple"</span>)
+<span class='no'>difference</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='diffSCEs.html'>diffSCEs</a></span>(<span class='fu'>list</span>(<span class='kw'>Splat</span> <span class='kw'>=</span> <span class='no'>sim1</span>, <span class='kw'>Simple</span> <span class='kw'>=</span> <span class='no'>sim2</span>), <span class='kw'>ref</span> <span class='kw'>=</span> <span class='st'>"Simple"</span>)
 <span class='no'>panel</span> <span class='kw'>&lt;-</span> <span class='fu'>makeDiffPanel</span>(<span class='no'>difference</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>

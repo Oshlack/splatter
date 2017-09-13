@@ -2,19 +2,20 @@
 % Please edit documentation in R/simple-estimate.R
 \name{simpleEstimate}
 \alias{simpleEstimate}
-\alias{simpleEstimate.SCESet}
+\alias{simpleEstimate.SingleCellExperiment}
 \alias{simpleEstimate.matrix}
 \title{Estimate simple simulation parameters}
 \usage{
 simpleEstimate(counts, params = newSimpleParams())
 
-\method{simpleEstimate}{SCESet}(counts, params = newSimpleParams())
+\method{simpleEstimate}{SingleCellExperiment}(counts,
+  params = newSimpleParams())
 
 \method{simpleEstimate}{matrix}(counts, params = newSimpleParams())
 }
 \arguments{
-\item{counts}{either a counts matrix or an SCESet object containing count
-data to estimate parameters from.}
+\item{counts}{either a counts matrix or a SingleCellExperiment object
+containing count data to estimate parameters from.}
 
 \item{params}{SimpleParams object to store estimated values in.}
 }

@@ -7,12 +7,12 @@
 splatSimGeneMeans(sim, params)
 }
 \arguments{
-\item{sim}{SCESet to add gene means to.}
+\item{sim}{SingleCellExperiment to add gene means to.}
 
 \item{params}{SplatParams object with simulation parameters.}
 }
 \value{
-SCESet with simulated gene means.
+SingleCellExperiment with simulated gene means.
 }
 \description{
 Simulate gene means from a gamma distribution. Also simulates outlier

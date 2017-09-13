@@ -2,8 +2,8 @@
 #'
 #' Estimate simulation parameters for the scDD simulation from a real dataset.
 #'
-#' @param counts either a counts matrix or an SCESet object containing count
-#'        data to estimate parameters from.
+#' @param counts either a counts matrix or a SingleCellExperiment object
+#'        containing count data to estimate parameters from.
 #' @param conditions Vector giving the condition that each cell belongs to.
 #'        Conditions can be 1 or 2.
 #' @param params SCDDParams object to store estimated values in.
@@ -36,9 +36,11 @@ scDDEstimate <- function(counts, conditions, params = newSCDDParams(),
 
 #' @rdname scDDEstimate
 #' @export
-scDDEstimate.SCESet <- function(counts, conditions, params = newSCDDParams(),
-                                verbose = TRUE, BPPARAM = SerialParam()) {
-    counts <- scater::counts(counts)
+scDDEstimate.SingleCellExperiment <- function(counts, conditions,
+                                              params = newSCDDParams(),
+                                              verbose = TRUE,
+                                              BPPARAM = SerialParam()) {
+    counts <- BiocGenerics::counts(counts)
     scDDEstimate(counts, conditions, params, verbose, BPPARAM)
 }
 

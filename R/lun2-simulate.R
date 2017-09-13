@@ -26,7 +26,7 @@
 #' number in the dataset used in the estimation step but has the downside that
 #' some genes or cells may be simulated multiple times.
 #'
-#' @return SCESet containing simulated counts.
+#' @return SingleCellExperiment containing simulated counts.
 #'
 #' @references
 #' Lun ATL, Marioni JC. Overcoming confounding plate effects in differential
@@ -39,8 +39,8 @@
 #' @examples
 #' sim <- lun2Simulate()
 #' @export
-#' @importFrom methods new
-#' @importFrom scater newSCESet set_exprs<-
+#' @importFrom SummarizedExperiment assays<-
+#' @importFrom SingleCellExperiment SingleCellExperiment
 lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
                          verbose = TRUE, ...) {
 
@@ -91,31 +91,13 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
 
     de.nGenes <- getParam(params, "de.nGenes")
 
-    #if (name == "nGenes") {
-    #    old.nGenes <- getParam(object, "nGenes")
-    #    if (value != old.nGenes) {
-    #        warning("nGenes has been changed. Gene parameter vectors will be ",
-    #                "sampled to length new nGenes.")
-    #        selected <- sample(seq_len(old.nGenes), size = value,
-    #                           replace = TRUE)
-    #        for (parameter in grep("gene", slotNames(object), value = TRUE)) {
-    #            old.value <- getParam(object, parameter)
-    #            object <- setParamUnchecked(object, parameter,
-    #                                        old.value[selected])
-    #        }
-    #    }
-    #}
-
-
     # Set up objects to store intermediate values
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
 
-    features <- new("AnnotatedDataFrame",
-                    data = data.frame(Gene = gene.names, GeneMean = gene.means,
-                                      GeneDisp = gene.disps))
-    phenos <- new("AnnotatedDataFrame",
-                  data = data.frame(Cell = cell.names, Plate = cell.plates))
+    features <- data.frame(Gene = gene.names, GeneMean = gene.means,
+                           GeneDisp = gene.disps)
+    cells <- data.frame(Cell = cell.names, Plate = cell.plates)
 
     if (zinb) {
         features$GeneZeroProp <- gene.ziProps
@@ -155,7 +137,7 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
         plate.means[, ingroup] <- plate.means[, ingroup] * de.facs
         plate.means[, -ingroup] <- plate.means[, -ingroup] * (1 / de.facs)
 
-        phenos$Ingroup <- cell.plates %in% plate.ingroup
+        cells$Ingroup <- cell.plates %in% plate.ingroup
         features$DEFacIngroup <- de.facs
         features$DEFacOutgroup <- 1 / de.facs
         for (idx in seq_len(nPlates)) {
@@ -166,7 +148,7 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
     if (verbose) {message("Simulating libray size factors...")}
     lib.facs <- lib.sizes / mean(lib.sizes)
     lib.facs <- sample(lib.facs, nCells, replace = TRUE) * lib.mod
-    phenos$LibSizeFac <- lib.facs
+    cells$LibSizeFac <- lib.facs
 
     if (verbose) {message("Simulating cell means...")}
     cell.means <- plate.means[, as.integer(cell.plates)]
@@ -185,27 +167,28 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
         counts[is.zero] <- 0
     }
 
-    if (verbose) {message("Creating final SCESet...")}
+    if (verbose) {message("Creating final dataset...")}
 
-    rownames(phenos) <- cell.names
+    rownames(cells) <- cell.names
     rownames(features) <- gene.names
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names
-    sim <- newSCESet(countData = counts, phenoData = phenos,
-                     featureData = features)
-
     rownames(cell.means) <- gene.names
     colnames(cell.means) <- cell.names
-    set_exprs(sim, "CellMeans") <- cell.means
-
     rownames(true.counts) <- gene.names
     colnames(true.counts) <- cell.names
-    set_exprs(sim, "TrueCounts") <- true.counts
+
+    sim <- SingleCellExperiment(assays = list(counts = counts,
+                                              CellMeans = cell.means,
+                                              TrueCounts <- true.counts),
+                                rowData = features,
+                                colData = cells,
+                                metadata = list(params = params))
 
     if (zinb) {
         rownames(is.zero) <- gene.names
         colnames(is.zero) <- cell.names
-        set_exprs(sim, "ZeroInflation") <- is.zero
+        assays(sim)$ZeroInflation <- is.zero
     }
 
     if (verbose) {message("Done!")}
