@@ -100,8 +100,8 @@
 #'
 #' @examples
 #' # Simulation with default parameters
-#' \dontrun{
 #' sim <- splatSimulate()
+#' \dontrun{
 #' # Simulation with different number of genes
 #' sim <- splatSimulate(nGenes = 1000)
 #' # Simulation with custom parameters
@@ -699,7 +699,7 @@ splatSimDropout <- function(sim, params) {
         nGenes <- getParam(params, "nGenes")
         dropout.mid <- getParam(params, "dropout.mid")
         dropout.shape <- getParam(params, "dropout.shape")
-        cell.means <- get_exprs(sim, "CellMeans")
+        cell.means <- assays(sim)$CellMeans
 
         # Generate probabilites based on expression
         drop.prob <- sapply(seq_len(nCells), function(idx) {
@@ -724,7 +724,7 @@ splatSimDropout <- function(sim, params) {
         counts <- true.counts
     }
 
-    counts(sim) <- counts
+    BiocGenerics::counts(sim) <- counts
 
     return(sim)
 }

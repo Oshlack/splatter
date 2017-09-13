@@ -137,7 +137,7 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
         plate.means[, ingroup] <- plate.means[, ingroup] * de.facs
         plate.means[, -ingroup] <- plate.means[, -ingroup] * (1 / de.facs)
 
-        phenos$Ingroup <- cell.plates %in% plate.ingroup
+        cells$Ingroup <- cell.plates %in% plate.ingroup
         features$DEFacIngroup <- de.facs
         features$DEFacOutgroup <- 1 / de.facs
         for (idx in seq_len(nPlates)) {
