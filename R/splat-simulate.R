@@ -356,8 +356,8 @@ splatSimBatchCellMeans <- function(sim, params) {
         batch.names <- unique(batches)
 
         batch.facs.gene <- rowData(sim)[, paste0("BatchFac", batch.names)]
-        batch.facs.cell <- as.matrix(batch.facs.gene[, factor(batches)])
-
+        batch.facs.cell <- as.matrix(batch.facs.gene[,
+                                                  as.numeric(factor(batches))])
     } else {
         nCells <- getParam(params, "nCells")
         nGenes <- getParam(params, "nGenes")
