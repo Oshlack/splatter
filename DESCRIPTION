@@ -51,7 +51,8 @@ Suggests:
     rmarkdown,
     S4Vectors,
     scDD,
-    scran
+    scran,
+    mfa
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software
 URL: https://github.com/Oshlack/splatter

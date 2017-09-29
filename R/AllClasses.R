@@ -7,12 +7,12 @@
 #' The Params class defines the following parameters:
 #'
 #' \describe{
-#'     \item{\code{[nGenes]}}{The number of genes to simulate.}
-#'     \item{\code{[nCells]}}{The number of cells to simulate.}
-#'     \item{\code{seed}}{Seed to use for generating random numbers.}
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
 #' }
 #'
-#' The parameters shown in brackets can be estimated from real data.
+#' The parameters not shown in brackets can be estimated from real data.
 #'
 #' @name Params
 #' @rdname Params
@@ -460,3 +460,43 @@ setClass("SCDDParams",
                                modeFC = c(2, 3, 4),
                                varInflation = c(1, 1),
                                condition = "condition"))
+
+#' The MFAParams class
+#'
+#' S4 class that holds parameters for the mfa simulation.
+#'
+#' @section Parameters:
+#'
+#' The mfa simulation uses the following parameters:
+#'
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\code{[trans.prop]}}{Proportion of genes that show transient
+#'     expression. These genes are briefly up or down-regulated before returning
+#'     to their initial state}
+#'     \item{\code{[zero.neg]}}{Logical. Whether to set negative expression
+#'     values to zero. This will zero-inflate the data.}
+#'     \item{\code{[dropout.present]}}{Logical. Whether to simulate dropout.}
+#'     \item{\code{dropout.lambda}}{Lambda parameter for the exponential
+#'     dropout function.}
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{mfaEstimate}}. See \code{\link[mfa]{create_synthetic}} for more
+#' details about the parameters. For details of the Splatter implementation of
+#' the mfa simulation see \code{\link{mfaSimulate}}.
+#'
+#' @name MFAParams
+#' @rdname MFAParams
+#' @aliases MFAParams-class
+#' @exportClass MFAParams
+setClass("MFAParams",
+         contains = "Params",
+         slots = c(trans.prop = "numeric",
+                   zero.neg = "logical",
+                   dropout.present = "logical",
+                   dropout.lambda = "numeric"),
+         prototype = prototype(trans.prop = 0, zero.neg = TRUE,
+                               dropout.present = FALSE, dropout.lambda = 1))
