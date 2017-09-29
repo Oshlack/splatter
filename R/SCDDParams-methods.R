@@ -26,7 +26,7 @@ setValidity("SCDDParams", function(object) {
     checks <- c(nGenes = checkInt(v$nGenes, lower = 1),
                 nCells = checkInt(v$nCells, lower = 1),
                 seed = checkInt(v$seed, lower = 0),
-                SCDat = checkClass(v$SCdat, "SummarizedExperiment"),
+                SCDat = checkClass(v$SCdat, "SingleCellExperiment"),
                 nDE = checkInt(v$nDE, lower = 0),
                 nDP = checkInt(v$nDP, lower = 0),
                 nDM = checkInt(v$nDM, lower = 0),
@@ -102,8 +102,8 @@ setMethod("show", "SCDDParams", function(object) {
     SCdat <- getParam(object, "SCdat")
     cat("Data:", "\n")
     cat("(SCdat)", "\n")
-    cat("SummarizedExperiment with", dim(SCdat)[1], "features and",
-        dim(SCdat)[2], "samples", "\n\n")
+    cat("SingleCellExperiment with", dim(SCdat)[1], "features and",
+        dim(SCdat)[2], "cells", "\n\n")
 
     showPP(object, pp)
 })

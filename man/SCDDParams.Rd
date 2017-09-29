@@ -18,7 +18,7 @@ The SCDD simulation uses the following parameters:
     \item{\code{nCells}}{The number of cells to simulate in each condition.}
     \item{\code{[seed]}}{Seed to use for generating random numbers.}
     \item{\code{SCdat}}{
-    \code{\link[SummarizedExperiment]{SummarizedExperiment}} containing real
+    \code{\link[SingleCellExperiment]{SingleCellExperiment}} containing real
     data.}
     \item{\code{nDE}}{Number of DE genes to simulate.}
     \item{\code{nDP}}{Number of DP genes to simulate.}
@@ -36,7 +36,7 @@ The SCDD simulation uses the following parameters:
 
 The parameters not shown in brackets can be estimated from real data using
 \code{\link{scDDEstimate}}. See \code{\link[scDD]{simulateSet}} for more
-details of the parameters. For details of the Splatter implementation of the
-scDD simulation see \code{\link{scDDSimulate}}.
+details about the parameters. For details of the Splatter implementation of
+the scDD simulation see \code{\link{scDDSimulate}}.
 }
 
