@@ -2,25 +2,25 @@
 % Please edit documentation in R/scDD-estimate.R
 \name{scDDEstimate}
 \alias{scDDEstimate}
-\alias{scDDEstimate.SingleCellExperiment}
 \alias{scDDEstimate.matrix}
+\alias{scDDEstimate.SingleCellExperiment}
+\alias{scDDEstimate.default}
 \title{Estimate scDD simulation parameters}
 \usage{
-scDDEstimate(counts, conditions, params = newSCDDParams(), verbose = TRUE,
-  BPPARAM = SerialParam())
-
-\method{scDDEstimate}{SingleCellExperiment}(counts, conditions,
-  params = newSCDDParams(), verbose = TRUE, BPPARAM = SerialParam())
+scDDEstimate(counts, params = newSCDDParams(), verbose = TRUE,
+  BPPARAM = SerialParam(), ...)
 
 \method{scDDEstimate}{matrix}(counts, conditions, params = newSCDDParams(),
-  verbose = TRUE, BPPARAM = SerialParam())
+  verbose = TRUE, BPPARAM = SerialParam(), ...)
+
+\method{scDDEstimate}{SingleCellExperiment}(counts, condition = "condition",
+  params = newSCDDParams(), verbose = TRUE, BPPARAM = SerialParam(), ...)
+
+\method{scDDEstimate}{default}(counts, condition, params, verbose, BPPARAM)
 }
 \arguments{
 \item{counts}{either a counts matrix or a SingleCellExperiment object
 containing count data to estimate parameters from.}
-
-\item{conditions}{Vector giving the condition that each cell belongs to.
-Conditions can be 1 or 2.}
 
 \item{params}{SCDDParams object to store estimated values in.}
 
@@ -29,6 +29,12 @@ Conditions can be 1 or 2.}
 \item{BPPARAM}{A \code{\link[BiocParallel]{BiocParallelParam}} instance
 giving the parallel back-end to be used. Default is
 \code{\link[BiocParallel]{SerialParam}} which uses a single core.}
+
+\item{conditions}{Vector giving the condition that each cell belongs to.
+Conditions can be 1 or 2.}
+
+\item{condition}{String giving the column that represents biological group of
+interest.}
 }
 \value{
 SCDDParams object containing the estimated parameters.
