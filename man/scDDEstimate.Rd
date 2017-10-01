@@ -10,13 +10,14 @@
 scDDEstimate(counts, params = newSCDDParams(), verbose = TRUE,
   BPPARAM = SerialParam(), ...)
 
-\method{scDDEstimate}{matrix}(counts, conditions, params = newSCDDParams(),
-  verbose = TRUE, BPPARAM = SerialParam(), ...)
+\method{scDDEstimate}{matrix}(counts, params = newSCDDParams(),
+  verbose = TRUE, BPPARAM = SerialParam(), conditions, ...)
 
-\method{scDDEstimate}{SingleCellExperiment}(counts, condition = "condition",
-  params = newSCDDParams(), verbose = TRUE, BPPARAM = SerialParam(), ...)
+\method{scDDEstimate}{SingleCellExperiment}(counts, params = newSCDDParams(),
+  verbose = TRUE, BPPARAM = SerialParam(), condition = "condition", ...)
 
-\method{scDDEstimate}{default}(counts, condition, params, verbose, BPPARAM)
+\method{scDDEstimate}{default}(counts, params = newSCDDParams(),
+  verbose = TRUE, BPPARAM = SerialParam(), condition, ...)
 }
 \arguments{
 \item{counts}{either a counts matrix or a SingleCellExperiment object
@@ -29,6 +30,8 @@ containing count data to estimate parameters from.}
 \item{BPPARAM}{A \code{\link[BiocParallel]{BiocParallelParam}} instance
 giving the parallel back-end to be used. Default is
 \code{\link[BiocParallel]{SerialParam}} which uses a single core.}
+
+\item{...}{further arguments passed to or from other methods.}
 
 \item{conditions}{Vector giving the condition that each cell belongs to.
 Conditions can be 1 or 2.}

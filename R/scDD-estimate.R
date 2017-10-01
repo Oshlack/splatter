@@ -13,6 +13,7 @@
 #' @param BPPARAM A \code{\link[BiocParallel]{BiocParallelParam}} instance
 #'        giving the parallel back-end to be used. Default is
 #'        \code{\link[BiocParallel]{SerialParam}} which uses a single core.
+#' @param ... further arguments passed to or from other methods.
 #'
 #' @details
 #' This function applies \code{\link[scDD]{preprocess}} to the counts then uses
@@ -31,8 +32,9 @@
 #' }
 #' @importFrom BiocParallel SerialParam
 #' @export
-scDDEstimate <- function(counts, params = newSCDDParams(),
-                         verbose = TRUE, BPPARAM = SerialParam(), ...) {
+scDDEstimate <- function(counts, #conditions, condition,
+                         params = newSCDDParams(), verbose = TRUE,
+                         BPPARAM = SerialParam(), ...) {
 
     if (!requireNamespace("scDD", quietly = TRUE)) {
         stop("The scDD simulation requires the 'scDD' package.")
@@ -44,8 +46,9 @@ scDDEstimate <- function(counts, params = newSCDDParams(),
 #' @rdname scDDEstimate
 #' @importFrom SingleCellExperiment SingleCellExperiment
 #' @export
-scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams(),
-                                verbose = TRUE, BPPARAM = SerialParam(), ...) {
+scDDEstimate.matrix <- function(counts, params = newSCDDParams(),
+                                verbose = TRUE, BPPARAM = SerialParam(),
+                                conditions, ...) {
 
     checkmate::assertMatrix(counts, mode = "numeric", any.missing = FALSE,
                             min.rows = 1, min.cols = 1, row.names = "unique",
@@ -60,17 +63,20 @@ scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams(),
 
 #' @rdname scDDEstimate
 #' @export
-scDDEstimate.SingleCellExperiment <- function(counts, condition = "condition",
+scDDEstimate.SingleCellExperiment <- function(counts,
                                               params = newSCDDParams(),
                                               verbose = TRUE,
-                                              BPPARAM = SerialParam(), ...) {
+                                              BPPARAM = SerialParam(),
+                                              condition = "condition", ...) {
     scDDEstimate.default(counts, condition, params, verbose, BPPARAM)
 }
 
 #' @rdname scDDEstimate
 #' @importFrom methods as
 #' @export
-scDDEstimate.default <- function(counts, condition, params, verbose, BPPARAM) {
+scDDEstimate.default <- function(counts,
+                                 params = newSCDDParams(), verbose = TRUE,
+                                 BPPARAM = SerialParam(), condition, ...) {
 
     checkmate::assertClass(params, "SCDDParams")
     checkmate::assertClass(counts, "SingleCellExperiment")
