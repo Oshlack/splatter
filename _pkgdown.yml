@@ -12,6 +12,7 @@ reference:
       - '`getParams`'
       - '`Lun2Params`'
       - '`LunParams`'
+      - '`MFAParams`'
       - '`newParams`'
       - '`Params`'
       - '`SCDDParams`'
@@ -24,6 +25,7 @@ reference:
     contents:
       - '`lun2Estimate`'
       - '`lunEstimate`'
+      - '`mfaEstimate`'
       - '`scDDEstimate`'
       - '`simpleEstimate`'
       - '`splatEstBCV`'
@@ -37,6 +39,7 @@ reference:
     contents:
       - '`lun2Simulate`'
       - '`lunSimulate`'
+      - '`mfaSimulate`'
       - '`scDDSimulate`'
       - '`simpleSimulate`'
       - '`splatSimBatchCellMeans`'

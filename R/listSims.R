@@ -15,7 +15,8 @@ listSims <- function(print = TRUE) {
     sims <- list(c("Splat", "splat", "", "",
                    "The Splat simulation generates means from a gamma
                    distribution, adjusts them for BCV and generates counts from
-                   a gamma-poisson. Dropout can be optionally added."),
+                   a gamma-poisson. Dropout and batch effects can be optionally
+                   added."),
                  c("Splat Single", "splatSingle", "", "",
                    "The Splat simulation with a single population."),
                  c("Splat Groups", "splatGroups", "", "",
@@ -46,12 +47,17 @@ listSims <- function(print = TRUE) {
                    "kdkorthauer/scDD",
                    "The scDD simulation samples a given dataset and can
                    simulate differentially expressed and differentially
-                   distributed genes between two conditions."))
+                   distributed genes between two conditions."),
+                 c("mfa", "mfa", "10.12688/wellcomeopenres.11087.1",
+                   "kieranrcampbell/mfa",
+                   "The mfa simulation produces a bifurcating pseudotime
+                   trajectory. This can optionally include genes with transient
+                   changes in expression and added dropout."))
 
     sims.table <- data.frame(Name        = rep(NA, length(sims)),
                              Prefix      = rep(NA, length(sims)),
                              DOI         = rep(NA, length(sims)),
-                             Github      = rep(NA, length(sims)),
+                             GitHub      = rep(NA, length(sims)),
                              Description = rep(NA, length(sims)))
 
     for (idx in seq_along(sims)) {
@@ -65,7 +71,7 @@ listSims <- function(print = TRUE) {
         for (idx in seq_len(nrow(sims.table))) {
             sim <- as.character(sims.table[idx, ])
             cat(sim[1], paste0("(", sim[2], ")"), "\n")
-            cat("DOI:", sim[3], "\t", "Github:", sim[4], "\n")
+            cat("DOI:", sim[3], "\t", "GitHub:", sim[4], "\n")
             cat(sim[5], "\n\n")
         }
     }
