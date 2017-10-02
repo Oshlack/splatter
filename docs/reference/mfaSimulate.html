@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Estimate simple simulation parameters — simpleEstimate • Splatter</title>
+<title>MFA simulation — mfaSimulate • Splatter</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -98,69 +98,56 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Estimate simple simulation parameters</h1>
+    <h1>MFA simulation</h1>
     </div>
 
     
-    <p>Estimate simulation parameters for the simple simulation from a real dataset.</p>
+    <p>Simulate a bifurcating pseudotime path using the mfa method.</p>
     
 
-    <pre class="usage"><span class='fu'>simpleEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSimpleParams</a></span>())
-
-<span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>simpleEstimate</span>(<span class='no'>counts</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSimpleParams</a></span>())
-
-<span class='co'># S3 method for matrix</span>
-<span class='fu'>simpleEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSimpleParams</a></span>())</pre>
+    <pre class="usage"><span class='fu'>mfaSimulate</span>(<span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newMFAParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>counts</th>
-      <td><p>either a counts matrix or a SingleCellExperiment object
-containing count data to estimate parameters from.</p></td>
+      <th>params</th>
+      <td><p>MFAParams object containing simulation parameters.</p></td>
     </tr>
     <tr>
-      <th>params</th>
-      <td><p>SimpleParams object to store estimated values in.</p></td>
+      <th>verbose</th>
+      <td><p>Logical. Whether to print progress messages.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>any additional parameter settings to override what is provided in
+<code>params</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>SimpleParams object containing the estimated parameters.</p>
+    <p>SingleCellExperiment containing simulated counts</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>nGenes</code> and <code>nCells</code> parameters are taken from the size of the
-input data. The mean parameters are estimated by fitting a gamma distribution
-to the library size normalised mean expression level using
-<code><a href='http://www.rdocumentation.org/packages/fitdistrplus/topics/fitdist'>fitdist</a></code>. See <code><a href='SimpleParams.html'>SimpleParams</a></code> for more
-details on the parameters.</p>
+    <p>This function is just a wrapper around <code><a href='http://www.rdocumentation.org/packages/mfa/topics/create_synthetic'>create_synthetic</a></code>
+that takes a <code><a href='MFAParams.html'>MFAParams</a></code>, runs the simulation then converts the
+output to a <code><a href='http://www.rdocumentation.org/packages/SingleCellExperiment/topics/SingleCellExperiment'>SingleCellExperiment</a></code> object.
+See <code><a href='http://www.rdocumentation.org/packages/mfa/topics/create_synthetic'>create_synthetic</a></code> and the mfa paper for more details
+about how the simulation works.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Campbell KR, Yau C. Probabilistic modeling of bifurcations in single-cell
+gene expression data using a Bayesian mixture of factor analyzers. Wellcome
+Open Research (2017).</p>
+<p>Paper: <a href='10.12688/wellcomeopenres.11087.1'>10.12688/wellcomeopenres.11087.1</a></p>
+<p>Code: <a href='https://github.com/kieranrcampbell/mfa'>https://github.com/kieranrcampbell/mfa</a></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"sc_example_counts"</span>)
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>simpleEstimate</span>(<span class='no'>sc_example_counts</span>)
-<span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class SimpleParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or 'NOT DEFAULT'. 
-#&gt; 
-#&gt; Global: 
-#&gt; (GENES)  (CELLS)   [Seed]  
-#&gt;    2000       40   116529  
-#&gt; 
-#&gt; 3 additional parameters 
-#&gt; 
-#&gt; Mean: 
-#&gt;             (RATE)             (SHAPE)  
-#&gt; 0.0008052293183292   0.131835949613878  
-#&gt; 
-#&gt; Counts: 
-#&gt; [Dispersion]  
-#&gt;          0.1  
-#&gt; </div></pre>
+    <pre class="examples"><div class='input'><span class='no'>sim</span> <span class='kw'>&lt;-</span> <span class='fu'>mfaSimulate</span>()</div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -170,6 +157,8 @@ details on the parameters.</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

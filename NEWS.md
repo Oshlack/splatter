@@ -1,3 +1,8 @@
+## Version 1.1.6 (2017-10-02)
+
+* Update scDD version
+* Add mfa simulation
+
 ## Version 1.1.5 (2017-09-13)
 
 * Convert to SingleCellExperiment
