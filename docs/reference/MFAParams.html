@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Estimate simple simulation parameters — simpleEstimate • Splatter</title>
+<title>The MFAParams class — MFAParams • Splatter</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -98,81 +98,43 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Estimate simple simulation parameters</h1>
+    <h1>The MFAParams class</h1>
     </div>
 
     
-    <p>Estimate simulation parameters for the simple simulation from a real dataset.</p>
+    <p>S4 class that holds parameters for the mfa simulation.</p>
     
 
-    <pre class="usage"><span class='fu'>simpleEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSimpleParams</a></span>())
+        
+    <h2 class="hasAnchor" id="parameters"><a class="anchor" href="#parameters"></a>Parameters</h2>
 
-<span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>simpleEstimate</span>(<span class='no'>counts</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSimpleParams</a></span>())
-
-<span class='co'># S3 method for matrix</span>
-<span class='fu'>simpleEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSimpleParams</a></span>())</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>counts</th>
-      <td><p>either a counts matrix or a SingleCellExperiment object
-containing count data to estimate parameters from.</p></td>
-    </tr>
-    <tr>
-      <th>params</th>
-      <td><p>SimpleParams object to store estimated values in.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>SimpleParams object containing the estimated parameters.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The <code>nGenes</code> and <code>nCells</code> parameters are taken from the size of the
-input data. The mean parameters are estimated by fitting a gamma distribution
-to the library size normalised mean expression level using
-<code><a href='http://www.rdocumentation.org/packages/fitdistrplus/topics/fitdist'>fitdist</a></code>. See <code><a href='SimpleParams.html'>SimpleParams</a></code> for more
-details on the parameters.</p>
+    <p>The mfa simulation uses the following parameters:</p><dl class='dl-horizontal'>
+    <dt><code>nGenes</code></dt><dd><p>The number of genes to simulate.</p></dd>
+    <dt><code>nCells</code></dt><dd><p>The number of cells to simulate.</p></dd>
+    <dt><code>[seed]</code></dt><dd><p>Seed to use for generating random numbers.</p></dd>
+    <dt><code>[trans.prop]</code></dt><dd><p>Proportion of genes that show transient
+    expression. These genes are briefly up or down-regulated before returning
+    to their initial state</p></dd>
+    <dt><code>[zero.neg]</code></dt><dd><p>Logical. Whether to set negative expression
+    values to zero. This will zero-inflate the data.</p></dd>
+    <dt><code>[dropout.present]</code></dt><dd><p>Logical. Whether to simulate dropout.</p></dd>
+    <dt><code>dropout.lambda</code></dt><dd><p>Lambda parameter for the exponential
+    dropout function.</p></dd>
+</dl>
+    <p>The parameters not shown in brackets can be estimated from real data using
+<code><a href='mfaEstimate.html'>mfaEstimate</a></code>. See <code><a href='http://www.rdocumentation.org/packages/mfa/topics/create_synthetic'>create_synthetic</a></code> for more
+details about the parameters. For details of the Splatter implementation of
+the mfa simulation see <code><a href='mfaSimulate.html'>mfaSimulate</a></code>.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"sc_example_counts"</span>)
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>simpleEstimate</span>(<span class='no'>sc_example_counts</span>)
-<span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class SimpleParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or 'NOT DEFAULT'. 
-#&gt; 
-#&gt; Global: 
-#&gt; (GENES)  (CELLS)   [Seed]  
-#&gt;    2000       40   116529  
-#&gt; 
-#&gt; 3 additional parameters 
-#&gt; 
-#&gt; Mean: 
-#&gt;             (RATE)             (SHAPE)  
-#&gt; 0.0008052293183292   0.131835949613878  
-#&gt; 
-#&gt; Counts: 
-#&gt; [Dispersion]  
-#&gt;          0.1  
-#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#parameters">Parameters</a></li>
+          </ul>
 
   </div>
 </div>
