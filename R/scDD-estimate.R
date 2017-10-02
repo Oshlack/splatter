@@ -6,11 +6,14 @@
 #'        containing count data to estimate parameters from.
 #' @param conditions Vector giving the condition that each cell belongs to.
 #'        Conditions can be 1 or 2.
+#' @param condition String giving the column that represents biological group of
+#'        interest.
 #' @param params SCDDParams object to store estimated values in.
 #' @param verbose logical. Whether to show progress messages.
 #' @param BPPARAM A \code{\link[BiocParallel]{BiocParallelParam}} instance
 #'        giving the parallel back-end to be used. Default is
 #'        \code{\link[BiocParallel]{SerialParam}} which uses a single core.
+#' @param ... further arguments passed to or from other methods.
 #'
 #' @details
 #' This function applies \code{\link[scDD]{preprocess}} to the counts then uses
@@ -29,64 +32,75 @@
 #' }
 #' @importFrom BiocParallel SerialParam
 #' @export
-scDDEstimate <- function(counts, conditions, params = newSCDDParams(),
-                         verbose = TRUE, BPPARAM = SerialParam()) {
-    UseMethod("scDDEstimate")
-}
-
-#' @rdname scDDEstimate
-#' @export
-scDDEstimate.SingleCellExperiment <- function(counts, conditions,
-                                              params = newSCDDParams(),
-                                              verbose = TRUE,
-                                              BPPARAM = SerialParam()) {
-    counts <- BiocGenerics::counts(counts)
-    scDDEstimate(counts, conditions, params, verbose, BPPARAM)
-}
-
-#' @rdname scDDEstimate
-#' @importFrom methods as
-#' @export
-scDDEstimate.matrix <- function(counts, conditions, params = newSCDDParams(),
-                                verbose = TRUE, BPPARAM = SerialParam()) {
+scDDEstimate <- function(counts, #conditions, condition,
+                         params = newSCDDParams(), verbose = TRUE,
+                         BPPARAM = SerialParam(), ...) {
 
     if (!requireNamespace("scDD", quietly = TRUE)) {
         stop("The scDD simulation requires the 'scDD' package.")
     }
 
-    checkmate::assertClass(params, "SCDDParams")
+    UseMethod("scDDEstimate")
+}
+
+#' @rdname scDDEstimate
+#' @importFrom SingleCellExperiment SingleCellExperiment
+#' @export
+scDDEstimate.matrix <- function(counts, params = newSCDDParams(),
+                                verbose = TRUE, BPPARAM = SerialParam(),
+                                conditions, ...) {
+
     checkmate::assertMatrix(counts, mode = "numeric", any.missing = FALSE,
                             min.rows = 1, min.cols = 1, row.names = "unique",
                             col.names = "unique")
     checkmate::assertIntegerish(conditions, len = ncol(counts), lower = 1,
                                 upper = 2)
 
-    counts.list <- list(Cond1 = counts[, conditions == 1],
-                        Cond2 = counts[, conditions == 2])
+    counts <- SingleCellExperiment(assays = list(counts = counts),
+                                   colData = data.frame(condition = conditions))
+    scDDEstimate.default(counts, "condition", params, verbose, BPPARAM)
+}
+
+#' @rdname scDDEstimate
+#' @export
+scDDEstimate.SingleCellExperiment <- function(counts,
+                                              params = newSCDDParams(),
+                                              verbose = TRUE,
+                                              BPPARAM = SerialParam(),
+                                              condition = "condition", ...) {
+    scDDEstimate.default(counts, condition, params, verbose, BPPARAM)
+}
+
+#' @rdname scDDEstimate
+#' @importFrom methods as
+#' @export
+scDDEstimate.default <- function(counts,
+                                 params = newSCDDParams(), verbose = TRUE,
+                                 BPPARAM = SerialParam(), condition, ...) {
+
+    checkmate::assertClass(params, "SCDDParams")
+    checkmate::assertClass(counts, "SingleCellExperiment")
+    checkmate::assertCharacter(condition, min.chars = 1, any.missing = FALSE,
+                               len = 1)
+    if (!(condition %in% colnames(SummarizedExperiment::colData(counts)))) {
+        stop("'condition' must be the name of a column in `colData(counts)`")
+    }
 
     if (verbose) {
-        processed <- scDD::preprocess(counts.list, c("Cond1", "Cond2"),
-                                      median_norm = TRUE)
+        processed <- scDD::preprocess(counts, condition, median_norm = TRUE)
     } else {
         suppressMessages(
-        processed <- scDD::preprocess(counts.list, c("Cond1", "Cond2"),
-                                      median_norm = TRUE)
+        processed <- scDD::preprocess(counts, condition, median_norm = TRUE)
         )
     }
 
-    assays <- S4Vectors::SimpleList(NormCounts = processed)
-
-    colData <- S4Vectors::DataFrame(condition = conditions,
-                                    row.names = colnames(processed))
-
-    SCdat <- SummarizedExperiment::SummarizedExperiment(assays = assays,
-                                                        colData = colData)
-
     if (verbose) {
-        SCdat <- scDD::scDD(SCdat, testZeroes = FALSE, param = BPPARAM)
+        SCdat <- scDD::scDD(processed, testZeroes = FALSE, param = BPPARAM,
+                            condition = condition)
     } else {
         dummy <- utils::capture.output(suppressMessages(
-        SCdat <- scDD::scDD(SCdat, testZeroes = FALSE, param = BPPARAM)
+        SCdat <- scDD::scDD(processed, testZeroes = FALSE, param = BPPARAM,
+                            condition = condition)
         ))
     }
 

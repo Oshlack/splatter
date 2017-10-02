@@ -91,9 +91,9 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
         )
     }
 
-    counts <- scDD.sim[[1]]
-    foldchanges <- scDD.sim[[2]]
-    de.status <- rownames(counts)
+    counts <- SummarizedExperiment::assays(scDD.sim)$normcounts
+    foldchanges <- SummarizedExperiment::rowData(scDD.sim)$FC
+    de.status <- SummarizedExperiment::rowData(scDD.sim)$Category
 
     if (verbose) {message("Creating final dataset...")}
     cell.names <- paste0("Cell", seq_len(nCells * 2))
