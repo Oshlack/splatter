@@ -573,4 +573,5 @@ setClass("PhenoParams",
 setClass("ZINBParams",
          contains = "Params",
          slots = c(model = "ZinbModel"),
-         prototype = prototype(model = zinbwave::zinbModel()))
+         prototype = prototype(nGenes = 100, nCells = 50,
+                               model = zinbwave::zinbModel()))
