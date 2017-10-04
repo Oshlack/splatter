@@ -20,9 +20,7 @@ test_that("path.from checks work", {
     params <- setParamUnchecked(params, "path.from", c(0, 1))
     expect_silent(validObject(params))
     params <- setParamUnchecked(params, "path.from", c(0, 3))
-    expect_error(validObject(params),
-                 paste('invalid class "SplatParams" object: path.from:',
-                       "All elements must be <= 2"))
+    expect_error(validObject(params), "invalid class")
     params <- setParamUnchecked(params, "path.from", c(1, 0))
     expect_error(validObject(params), "path cannot begin at itself")
     params <- newSplatParams()

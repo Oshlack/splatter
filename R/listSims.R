@@ -52,7 +52,11 @@ listSims <- function(print = TRUE) {
                    "kieranrcampbell/mfa",
                    "The mfa simulation produces a bifurcating pseudotime
                    trajectory. This can optionally include genes with transient
-                   changes in expression and added dropout."))
+                   changes in expression and added dropout."),
+                 c("PhenoPath", "pheno", "10.1101/159913",
+                   "kieranrcampbell/phenopath",
+                   "The PhenoPath simulation produces a pseudotime trajectory
+                   with different types of genes."))
 
     sims.table <- data.frame(Name        = rep(NA, length(sims)),
                              Prefix      = rep(NA, length(sims)),
