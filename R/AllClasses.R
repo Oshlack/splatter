@@ -500,3 +500,43 @@ setClass("MFAParams",
                    dropout.lambda = "numeric"),
          prototype = prototype(trans.prop = 0, zero.neg = TRUE,
                                dropout.present = FALSE, dropout.lambda = 1))
+
+
+#' The PhenoParams class
+#'
+#' S4 class that holds parameters for the PhenoPath simulation.
+#'
+#' @section Parameters:
+#'
+#' The PhenoPath simulation uses the following parameters:
+#'
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\code{[n.de]}}{Number of genes to simulate from the differential
+#'     expression regime}
+#'     \item{\code{[n.pst]}}{Number of genes to simulate from the pseudotime
+#'     regime}
+#'     \item{\code{[n.pst.beta]}}{Number of genes to simulate from the
+#'     pseudotime + beta interactions regime}
+#'     \item{\code{[n.de.pst.beta]}}{Number of genes to simulate from the
+#'     differential expression + pseudotime + interactions regime}
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{phenoEstimate}}. For details of the PhenoPath simulation
+#' see \code{\link{phenoSimulate}}.
+#'
+#' @name PhenoParams
+#' @rdname PhenoParams
+#' @aliases PhenoParams-class
+#' @exportClass PhenoParams
+setClass("PhenoParams",
+         contains = "Params",
+         slots = c(n.de = "numeric",
+                   n.pst = "numeric",
+                   n.pst.beta = "numeric",
+                   n.de.pst.beta = "numeric"),
+         prototype = prototype(n.de = 2500, n.pst = 2500, n.pst.beta = 2500,
+                               n.de.pst.beta = 2500))
