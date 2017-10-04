@@ -38,13 +38,18 @@ setValidity("ZINBParams", function(object) {
 setMethod("setParam", "ZINBParams", function(object, name, value) {
     checkmate::assertString(name)
 
-    if (name %in% names(getSlots("ZinbModel"))) {
-        model <- getParam(object, "model")
-        slot(model, name) <- value
-        object <- setParam(object, "model", model)
-    } else {
-        object <- callNextMethod()
+    if (name %in% c("nGenes", "nCells")) {
+        stop(name, " cannot be set directly, set model instead")
     }
+
+    if (name == "model") {
+        object <- setParamUnchecked(object, "nGenes",
+                                    zinbwave::nFeatures(value))
+        object <- setParamUnchecked(object, "nCells",
+                                    zinbwave::nSamples(value))
+    }
+
+    object <- cellNextMethod()
 
     return(object)
 })

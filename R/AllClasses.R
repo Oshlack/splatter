@@ -559,7 +559,8 @@ setClass("PhenoParams",
 #'
 #' The majority of the parameters for this simulation are stored in a
 #' \code{\link[zinbwave]{ZinbModel}} object. Please refer to the documentation
-#' for this class for details about all the parameters.
+#' for this class and its constructor(\code{\link[zinbwave]{zinbModel}}) for
+#' details about all the parameters.
 #'
 #' The parameters not shown in brackets can be estimated from real data using
 #' \code{\link{zinbEstimate}}. For details of the ZINB-WaVE simulation
