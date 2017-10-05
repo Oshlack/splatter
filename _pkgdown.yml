@@ -21,6 +21,7 @@ reference:
       - '`SplatParams`'
       - '`setParam`'
       - '`setParams`'
+      - '`ZINBParams`'
   - title: Estimation
     desc: Functions for estimating parameters
     contents:
@@ -36,6 +37,7 @@ reference:
       - '`splatEstLib`'
       - '`splatEstMean`'
       - '`splatEstOutlier`'
+      - '`zinbEstimate`'
   - title: Simulation
     desc: Functions for simulating datasets
     contents:
@@ -55,6 +57,7 @@ reference:
       - '`splatSimLibSizes`'
       - '`splatSimTrueCounts`'
       - '`splatSimulate`'
+      - '`zinbSimulate`'
   - title: Comparison functions
     desc: Functions for comparing datasets
     contents:
