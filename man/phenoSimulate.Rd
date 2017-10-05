@@ -24,7 +24,9 @@ Simulate counts from a pseudotime trajectory using the PhenoPath method.
 This function is just a wrapper around
 \code{\link[phenopath]{simulate_phenopath}} that takes a
 \code{\link{PhenoParams}}, runs the simulation then converts the
-output to a \code{\link[SingleCellExperiment]{SingleCellExperiment}} object.
+output from log-counts to counts and returns a
+\code{\link[SingleCellExperiment]{SingleCellExperiment}} object. The original
+simulated log-expression values are returned in the \code{LogExprs} asssay.
 See \code{\link[phenopath]{simulate_phenopath}} and the PhenoPath paper for
 more details about how the simulation works.
 }

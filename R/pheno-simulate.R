@@ -11,7 +11,9 @@
 #' This function is just a wrapper around
 #' \code{\link[phenopath]{simulate_phenopath}} that takes a
 #' \code{\link{PhenoParams}}, runs the simulation then converts the
-#' output to a \code{\link[SingleCellExperiment]{SingleCellExperiment}} object.
+#' output from log-counts to counts and returns a
+#' \code{\link[SingleCellExperiment]{SingleCellExperiment}} object. The original
+#' simulated log-expression values are returned in the \code{LogExprs} asssay.
 #' See \code{\link[phenopath]{simulate_phenopath}} and the PhenoPath paper for
 #' more details about how the simulation works.
 #'
@@ -59,7 +61,10 @@ phenoSimulate <- function(params = newPhenoParams(), verbose = TRUE, ...) {
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
 
-    counts <- t(pheno.sim$y)
+    exprs <- t(pheno.sim$y)
+    counts <- 2 ^ exprs - 1
+    counts[counts < 0] <- 0
+    counts <- round(counts)
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names
 
@@ -75,7 +80,8 @@ phenoSimulate <- function(params = newPhenoParams(), verbose = TRUE, ...) {
                            Regime = pheno.sim$parameters$regime)
     rownames(features) <- gene.names
 
-    sim <- SingleCellExperiment(assays = list(counts = counts),
+    sim <- SingleCellExperiment(assays = list(counts = counts,
+                                              LogExprs = exprs),
                                 rowData = features,
                                 colData = cells,
                                 metadata = list(params = params))
