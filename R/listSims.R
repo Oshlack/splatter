@@ -56,7 +56,12 @@ listSims <- function(print = TRUE) {
                  c("PhenoPath", "pheno", "10.1101/159913",
                    "kieranrcampbell/phenopath",
                    "The PhenoPath simulation produces a pseudotime trajectory
-                   with different types of genes."))
+                   with different types of genes."),
+                 c("ZINB-WaVE", "zinb", "10.1101/125112",
+                   "drisso/zinbwave",
+                   "The ZINB-WaVE simulation simulates counts from a
+                   sophisticated zero-inflated negative-binomial distribution
+                   including cell and gene-level covariates."))
 
     sims.table <- data.frame(Name        = rep(NA, length(sims)),
                              Prefix      = rep(NA, length(sims)),
