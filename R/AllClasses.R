@@ -540,3 +540,38 @@ setClass("PhenoParams",
                    n.de.pst.beta = "numeric"),
          prototype = prototype(n.de = 2500, n.pst = 2500, n.pst.beta = 2500,
                                n.de.pst.beta = 2500))
+
+
+#' The ZINBParams class
+#'
+#' S4 class that holds parameters for the ZINB-WaVE simulation.
+#'
+#' @section Parameters:
+#'
+#' The ZINB-WaVE simulation uses the following parameters:
+#'
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\code{model}}{Object describing a ZINB model.}
+#' }
+#'
+#' The majority of the parameters for this simulation are stored in a
+#' \code{\link[zinbwave]{ZinbModel}} object. Please refer to the documentation
+#' for this class and its constructor(\code{\link[zinbwave]{zinbModel}}) for
+#' details about all the parameters.
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{zinbEstimate}}. For details of the ZINB-WaVE simulation
+#' see \code{\link{zinbSimulate}}.
+#'
+#' @name ZINBParams
+#' @rdname ZINBParams
+#' @aliases ZINBParams-class
+#' @exportClass ZINBParams
+setClass("ZINBParams",
+         contains = "Params",
+         slots = c(model = "ZinbModel"),
+         prototype = prototype(nGenes = 100, nCells = 50,
+                               model = zinbwave::zinbModel()))

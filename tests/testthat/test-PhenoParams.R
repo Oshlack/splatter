@@ -1,7 +1,7 @@
 context("PhenoParams")
 
 test_that("constructor is valid", {
-    expect_true(validObject(newSCDDParams()))
+    expect_true(validObject(newPhenoParams()))
 })
 
 test_that("nGenes checks work", {
