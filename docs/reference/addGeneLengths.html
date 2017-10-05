@@ -154,14 +154,14 @@ vector.</p>
     <pre class="examples"><div class='input'><span class='co'># Default generate method</span>
 <span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>()</div><div class='output co'>#&gt; <span class='message'>Simulating means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div><div class='input'><span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'>addGeneLengths</span>(<span class='no'>sce</span>)
 <span class='fu'>head</span>(<span class='fu'>rowData</span>(<span class='no'>sce</span>))</div><div class='output co'>#&gt; DataFrame with 6 rows and 3 columns
-#&gt;       Gene   GeneMean    Length
-#&gt;   &lt;factor&gt;  &lt;numeric&gt; &lt;numeric&gt;
-#&gt; 1    Gene1 0.02190272      2415
-#&gt; 2    Gene2 0.42347583      4759
-#&gt; 3    Gene3 0.09714480      5381
-#&gt; 4    Gene4 0.77350851      4799
-#&gt; 5    Gene5 1.78755781      4590
-#&gt; 6    Gene6 0.06988693       925</div><div class='input'># Sample method (human coding genes)
+#&gt;       Gene  GeneMean    Length
+#&gt;   &lt;factor&gt; &lt;numeric&gt; &lt;numeric&gt;
+#&gt; 1    Gene1 0.8455684      1284
+#&gt; 2    Gene2 0.1606091      5127
+#&gt; 3    Gene3 6.7083234      1847
+#&gt; 4    Gene4 0.2917321      2194
+#&gt; 5    Gene5 1.4748643      1567
+#&gt; 6    Gene6 0.0326816      7629</div><div class='input'># Sample method (human coding genes)
 </div><span class='co'># NOT RUN {</span>
 <span class='fu'>library</span>(<span class='no'>TxDb.Hsapiens.UCSC.hg19.knownGene</span>)
 <span class='fu'>library</span>(<span class='no'>GenomicFeatures</span>)

@@ -59,11 +59,12 @@ mfaSimulate <- function(params = newMFAParams(), verbose = TRUE, ...) {
     gene.names <- paste0("Gene", seq_len(nGenes))
 
     exprs <- t(mfa.sim$X)
+    rownames(exprs) <- gene.names
+    colnames(exprs) <- cell.names
+
     counts <- 2 ^ exprs - 1
     counts[counts < 0] <- 0
     counts <- round(counts)
-    rownames(counts) <- gene.names
-    colnames(counts) <- cell.names
 
     cells <- data.frame(Cell = cell.names,
                         Branch = mfa.sim$branch,

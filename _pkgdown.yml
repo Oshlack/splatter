@@ -15,7 +15,7 @@ reference:
       - '`MFAParams`'
       - '`newParams`'
       - '`Params`'
-      - '`phenoParams`'
+      - '`PhenoParams`'
       - '`SCDDParams`'
       - '`SimpleParams`'
       - '`SplatParams`'

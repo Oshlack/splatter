@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarise diffSCESs — summariseDiff • Splatter</title>
+<title>PhenoPath simulation — phenoSimulate • Splatter</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -98,48 +98,60 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Summarise diffSCESs</h1>
+    <h1>PhenoPath simulation</h1>
     </div>
 
     
-    <p>Summarise the results of <code><a href='diffSCEs.html'>diffSCEs</a></code>. Calculates the Median
-Absolute Deviation (MAD), Mean Absolute Error (MAE) and Root Mean Squared
-Error (RMSE) for the various properties and ranks them.</p>
+    <p>Simulate counts from a pseudotime trajectory using the PhenoPath method.</p>
     
 
-    <pre class="usage"><span class='fu'>summariseDiff</span>(<span class='no'>diff</span>)</pre>
+    <pre class="usage"><span class='fu'>phenoSimulate</span>(<span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newPhenoParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>diff</th>
-      <td><p>Output from <code><a href='diffSCEs.html'>diffSCEs</a></code></p></td>
+      <th>params</th>
+      <td><p>PhenoParams object containing simulation parameters.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>logical. Whether to print progress messages</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>any additional parameter settings to override what is provided in
+<code>params</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame with MADs, MAEs, RMSEs, scaled statistics and ranks</p>
+    <p>SingleCellExperiment containing simulated counts</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function is just a wrapper around
+<code><a href='http://www.rdocumentation.org/packages/phenopath/topics/simulate_phenopath'>simulate_phenopath</a></code> that takes a
+<code><a href='PhenoParams.html'>PhenoParams</a></code>, runs the simulation then converts the
+output from log-expression to counts and returns a
+<code><a href='http://www.rdocumentation.org/packages/SingleCellExperiment/topics/SingleCellExperiment'>SingleCellExperiment</a></code> object. The original
+simulated log-expression values are returned in the <code>LogExprs</code> asssay.
+See <code><a href='http://www.rdocumentation.org/packages/phenopath/topics/simulate_phenopath'>simulate_phenopath</a></code> and the PhenoPath paper for
+more details about how the simulation works.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Campbell K, Yau C. Uncovering genomic trajectories with heterogeneous genetic
+and environmental backgrounds across single-cells and populations. bioRxiv
+(2017).</p>
+<p>Paper: <a href='10.1101/159913'>10.1101/159913</a></p>
+<p>Code: <a href='https://github.com/kieranrcampbell/phenopath'>https://github.com/kieranrcampbell/phenopath</a></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>sim1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='splatSimulate.html'>splatSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>batchCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='message'>Getting parameters...</span></div><div class='output co'>#&gt; <span class='message'>Creating simulation object...</span></div><div class='output co'>#&gt; <span class='message'>Simulating library sizes...</span></div><div class='output co'>#&gt; <span class='message'>Simulating gene means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating BCV...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts..</span></div><div class='output co'>#&gt; <span class='message'>Simulating dropout (if needed)...</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div><div class='input'><span class='no'>sim2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='message'>Simulating means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div><div class='input'><span class='no'>difference</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='diffSCEs.html'>diffSCEs</a></span>(<span class='fu'>list</span>(<span class='kw'>Splat</span> <span class='kw'>=</span> <span class='no'>sim1</span>, <span class='kw'>Simple</span> <span class='kw'>=</span> <span class='no'>sim2</span>), <span class='kw'>ref</span> <span class='kw'>=</span> <span class='st'>"Simple"</span>)
-<span class='no'>summary</span> <span class='kw'>&lt;-</span> <span class='fu'>summariseDiff</span>(<span class='no'>difference</span>)
-<span class='fu'>head</span>(<span class='no'>summary</span>)</div><div class='output co'>#&gt;   Dataset Statistic          MAD MADScaled MADRank          MAE MAEScaled
-#&gt; 1   Splat      Mean     2.338299       NaN       1     2.392073       NaN
-#&gt; 2   Splat  Variance    11.506849       NaN       1    10.222706       NaN
-#&gt; 3   Splat ZerosGene    30.000000       NaN       1    38.780000       NaN
-#&gt; 4   Splat   MeanVar     9.588721       NaN       1    11.820910       NaN
-#&gt; 5   Splat MeanZeros    45.000000       NaN       1    42.060000       NaN
-#&gt; 6   Splat   LibSize 55543.500000       NaN       1 58282.850000       NaN
-#&gt;   MAERank         RMSE RMSEScaled RMSERank
-#&gt; 1       1     2.907697        NaN        1
-#&gt; 2       1    12.865170        NaN        1
-#&gt; 3       1    44.006818        NaN        1
-#&gt; 4       1    14.953873        NaN        1
-#&gt; 5       1    51.575673        NaN        1
-#&gt; 6       1 59902.661935        NaN        1</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>sim</span> <span class='kw'>&lt;-</span> <span class='fu'>phenoSimulate</span>()</div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -147,6 +159,10 @@ Error (RMSE) for the various properties and ranks them.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

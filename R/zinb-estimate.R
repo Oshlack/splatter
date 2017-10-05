@@ -28,9 +28,11 @@
 #' @return ZINBParams object containing the estimated parameters.
 #'
 #' @examples
+#' \dontrun{
 #' data("sc_example_counts")
 #' params <- zinbEstimate(sc_example_counts)
 #' params
+#' }
 #' @importFrom BiocParallel SerialParam
 #' @export
 zinbEstimate <- function(counts, design.samples = NULL, design.genes = NULL,

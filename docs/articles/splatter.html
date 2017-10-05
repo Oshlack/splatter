@@ -76,7 +76,7 @@
       <h1>Introduction to Splatter</h1>
                         <h4 class="author">Luke Zappia</h4>
             
-            <h4 class="date">2017-10-02</h4>
+            <h4 class="date">2017-10-05</h4>
           </div>
 
     
@@ -317,7 +317,7 @@ params</code></pre></div>
 ## 
 ## Global: 
 ## (Genes)  (Cells)   [Seed]  
-##   10000      100   395011  
+##   10000      100   882480  
 ## 
 ## 27 additional parameters 
 ## 
@@ -390,7 +390,7 @@ params</code></pre></div>
 ## 
 ## Global: 
 ## (GENES)  (Cells)   [Seed]  
-##    8000      100   395011  
+##    8000      100   882480  
 ## 
 ## 27 additional parameters 
 ## 
@@ -501,45 +501,45 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Access the counts</span>
 <span class="kw">counts</span>(sim)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</code></pre></div>
 <pre><code>##       Cell1 Cell2 Cell3 Cell4 Cell5
-## Gene1     0   402    19   311     0
-## Gene2     0    12    25   252     0
-## Gene3     0     0     0     3     0
-## Gene4     0     0     0    14     3
-## Gene5     0    95     0     7     0</code></pre>
+## Gene1     0     0     2     0    22
+## Gene2 25024   156     1    24     0
+## Gene3   185   126     2     0     0
+## Gene4    17     0     1     0     0
+## Gene5     0     0     0     0     0</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Information about genes</span>
 <span class="kw">head</span>(<span class="kw">rowData</span>(sim))</code></pre></div>
 <pre><code>## DataFrame with 6 rows and 4 columns
-##       Gene BaseGeneMean OutlierFactor    GeneMean
-##   &lt;factor&gt;    &lt;numeric&gt;     &lt;numeric&gt;   &lt;numeric&gt;
-## 1    Gene1  210.1089973             1 210.1089973
-## 2    Gene2   45.3776510             1  45.3776510
-## 3    Gene3    0.6516767             1   0.6516767
-## 4    Gene4   74.2508364             1  74.2508364
-## 5    Gene5   13.9862181             1  13.9862181
-## 6    Gene6    6.9628144             1   6.9628144</code></pre>
+##       Gene BaseGeneMean OutlierFactor     GeneMean
+##   &lt;factor&gt;    &lt;numeric&gt;     &lt;numeric&gt;    &lt;numeric&gt;
+## 1    Gene1 5.975143e+00             1 5.975143e+00
+## 2    Gene2 6.047020e+02             1 6.047020e+02
+## 3    Gene3 3.407454e+02             1 3.407454e+02
+## 4    Gene4 1.041869e+00             1 1.041869e+00
+## 5    Gene5 6.429022e-03             1 6.429022e-03
+## 6    Gene6 5.051255e+02             1 5.051255e+02</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Information about cells</span>
 <span class="kw">head</span>(<span class="kw">colData</span>(sim))</code></pre></div>
 <pre><code>## DataFrame with 6 rows and 3 columns
 ##           Cell       Batch ExpLibSize
 ##       &lt;factor&gt; &lt;character&gt;  &lt;numeric&gt;
-## Cell1    Cell1      Batch1  1187108.5
-## Cell2    Cell2      Batch1   600191.4
-## Cell3    Cell3      Batch1   688730.7
-## Cell4    Cell4      Batch1   256123.3
-## Cell5    Cell5      Batch1   278401.4
-## Cell6    Cell6      Batch1   385774.4</code></pre>
+## Cell1    Cell1      Batch1   413957.7
+## Cell2    Cell2      Batch1   476887.9
+## Cell3    Cell3      Batch1   367310.0
+## Cell4    Cell4      Batch1   147775.6
+## Cell5    Cell5      Batch1   193681.3
+## Cell6    Cell6      Batch1   590802.3</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Gene by cell matrices</span>
 <span class="kw">names</span>(<span class="kw">assays</span>(sim))</code></pre></div>
 <pre><code>## [1] "BatchCellMeans" "BaseCellMeans"  "BCV"            "CellMeans"     
 ## [5] "TrueCounts"     "counts"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Example of cell means matrix</span>
 <span class="kw">assays</span>(sim)<span class="op">$</span>CellMeans[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</code></pre></div>
-<pre><code>##              Cell1        Cell2        Cell3      Cell4        Cell5
-## Gene1 8.281664e-05 4.086520e+02 1.480335e+01 306.253250 1.453613e-02
-## Gene2 2.394664e-13 1.278677e+01 2.171332e+01 278.515526 3.609326e-11
-## Gene3 7.817149e-21 5.174676e-13 3.583580e-01   2.217521 9.095013e-52
-## Gene4 1.737589e-08 4.257554e-11 1.005446e-07  16.146507 3.822216e+00
-## Gene5 2.822351e-22 1.094278e+02 9.679284e-05   8.000741 1.988529e-05</code></pre>
+<pre><code>##              Cell1        Cell2      Cell3        Cell4        Cell5
+## Gene1 4.400164e-01 6.304542e-02 1.10406696 8.139464e-10 2.335664e+01
+## Gene2 2.526252e+04 1.595860e+02 0.03470768 2.065810e+01 6.231519e-02
+## Gene3 1.899993e+02 1.229909e+02 1.03528470 4.606624e-03 1.921180e-06
+## Gene4 1.421395e+01 5.383794e-10 0.34678991 7.669389e-03 2.339044e-18
+## Gene5 3.522450e-87 2.621383e-03 0.01039596 3.410733e-82 1.870620e-46</code></pre>
 <p>An additional (big) advantage of outputting a <code>SingleCellExperiment</code> is that we get immediate access to other analysis packages, such as the plotting functions in <code>scater</code>. For example we can make a PCA plot:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotPCA</span>(sim, <span class="dt">exprs_values =</span> <span class="st">"counts"</span>)</code></pre></div>
 <p><img src="splatter_files/figure-html/pca-1.png" width="576" style="display: block; margin: auto;"></p>
@@ -640,39 +640,43 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 <a href="#other-simulations" class="anchor"></a>Other simulations</h1>
 <p>As well as it’s own Splat simulation method the Splatter package contains implementations of other single-cell RNA-seq simulations that have been published or wrappers around simulations included in other packages. To see all the available simulations run the <code><a href="../reference/listSims.html">listSims()</a></code> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/listSims.html">listSims</a></span>()</code></pre></div>
-<pre><code>## Splatter currently contains 8 simulations 
+<pre><code>## Splatter currently contains 9 simulations 
 ## 
 ## Splat (splat) 
-## DOI:      Github:  
-## The Splat simulation generates means from a gamma distribution, adjusts them for BCV and generates counts from a gamma-poisson. Dropout can be optionally added. 
+## DOI:      GitHub:  
+## The Splat simulation generates means from a gamma distribution, adjusts them for BCV and generates counts from a gamma-poisson. Dropout and batch effects can be optionally added. 
 ## 
 ## Splat Single (splatSingle) 
-## DOI:      Github:  
+## DOI:      GitHub:  
 ## The Splat simulation with a single population. 
 ## 
 ## Splat Groups (splatGroups) 
-## DOI:      Github:  
+## DOI:      GitHub:  
 ## The Splat simulation with multiple groups. Each group can have it's own differential expression probability and fold change distribution. 
 ## 
 ## Splat Paths (splatPaths) 
-## DOI:      Github:  
+## DOI:      GitHub:  
 ## The Splat simulation with differentiation paths. Each path can have it's own length, skew and probability. Genes can change in non-linear ways. 
 ## 
 ## Simple (simple) 
-## DOI:      Github:  
+## DOI:      GitHub:  
 ## A simple simulation with gamma means and negative binomial counts. 
 ## 
 ## Lun (lun) 
-## DOI: 10.1186/s13059-016-0947-7    Github: MarioniLab/Deconvolution2016 
+## DOI: 10.1186/s13059-016-0947-7    GitHub: MarioniLab/Deconvolution2016 
 ## Gamma distributed means and negative binomial counts. Cells are given a size factor and differential expression can be simulated with fixed fold changes. 
 ## 
 ## Lun 2 (lun2) 
-## DOI: 10.1101/073973   Github: MarioniLab/PlateEffects2016 
+## DOI: 10.1101/073973   GitHub: MarioniLab/PlateEffects2016 
 ## Negative binomial counts where the means and dispersions have been sampled from a real dataset. The core feature of the Lun 2 simulation is the addition of plate effects. Differential expression can be added between two groups of plates and optionally a zero-inflated negative-binomial can be used. 
 ## 
 ## scDD (scDD) 
-## DOI: 10.1186/s13059-016-1077-y    Github: kdkorthauer/scDD 
-## The scDD simulation samples a given dataset and can simulate differentially expressed and differentially distributed genes between two conditions.</code></pre>
+## DOI: 10.1186/s13059-016-1077-y    GitHub: kdkorthauer/scDD 
+## The scDD simulation samples a given dataset and can simulate differentially expressed and differentially distributed genes between two conditions. 
+## 
+## mfa (mfa) 
+## DOI: 10.12688/wellcomeopenres.11087.1     GitHub: kieranrcampbell/mfa 
+## The mfa simulation produces a bifurcating pseudotime trajectory. This can optionally include genes with transient changes in expression and added dropout.</code></pre>
 <p>(or more conveniently for the vignette as a table)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw"><a href="../reference/listSims.html">listSims</a></span>(<span class="dt">print =</span> <span class="ot">FALSE</span>))</code></pre></div>
 <table class="table">
@@ -680,7 +684,7 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 <th align="left">Name</th>
 <th align="left">Prefix</th>
 <th align="left">DOI</th>
-<th align="left">Github</th>
+<th align="left">GitHub</th>
 <th align="left">Description</th>
 </tr></thead>
 <tbody>
@@ -689,7 +693,7 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 <td align="left">splat</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">The Splat simulation generates means from a gamma distribution, adjusts them for BCV and generates counts from a gamma-poisson. Dropout can be optionally added.</td>
+<td align="left">The Splat simulation generates means from a gamma distribution, adjusts them for BCV and generates counts from a gamma-poisson. Dropout and batch effects can be optionally added.</td>
 </tr>
 <tr class="even">
 <td align="left">Splat Single</td>
@@ -740,6 +744,13 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 <td align="left">kdkorthauer/scDD</td>
 <td align="left">The scDD simulation samples a given dataset and can simulate differentially expressed and differentially distributed genes between two conditions.</td>
 </tr>
+<tr class="odd">
+<td align="left">mfa</td>
+<td align="left">mfa</td>
+<td align="left">10.12688/wellcomeopenres.11087.1</td>
+<td align="left">kieranrcampbell/mfa</td>
+<td align="left">The mfa simulation produces a bifurcating pseudotime trajectory. This can optionally include genes with transient changes in expression and added dropout.</td>
+</tr>
 </tbody>
 </table>
 <p>Each simulation has it’s own prefix which gives the name of the functions associated with that simulation. For example the prefix for the simple simulation is <code>simple</code> so it would store it’s parameters in a <code>SimpleParams</code> object that can be created using <code><a href="../reference/newParams.html">newSimpleParams()</a></code> or estimated from real data using <code><a href="../reference/simpleEstimate.html">simpleEstimate()</a></code>. To simulate data using that simulation you would use <code><a href="../reference/simpleSimulate.html">simpleSimulate()</a></code>. Each simulation returns a <code>SingleCellExperiment</code> object with intermediate values similar to that returned by <code><a href="../reference/splatSimulate.html">splatSimulate()</a></code>. For more detailed information on each simulation see the appropriate help page (eg. <code><a href="../reference/simpleSimulate.html">?simpleSimulate</a></code> for information on how the simple simulation works or <code><a href="../reference/lun2Estimate.html">? lun2Estimate</a></code> for details of how the Lun 2 simulation estimates parameters) or refer to the appropriate paper or package.</p>
@@ -752,23 +763,23 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/addGeneLengths.html">addGeneLengths</a></span>(sim)
 <span class="kw">head</span>(<span class="kw">rowData</span>(sim))</code></pre></div>
 <pre><code>## DataFrame with 6 rows and 3 columns
-##       Gene    GeneMean    Length
-##   &lt;factor&gt;   &lt;numeric&gt; &lt;numeric&gt;
-## 1    Gene1 10.53439855      5193
-## 2    Gene2  2.10971396      4499
-## 3    Gene3  4.47004567      5511
-## 4    Gene4  0.19267026      3381
-## 5    Gene5  0.06672189      2570
-## 6    Gene6  0.87920676       806</code></pre>
+##       Gene   GeneMean    Length
+##   &lt;factor&gt;  &lt;numeric&gt; &lt;numeric&gt;
+## 1    Gene1 1.60506942      1775
+## 2    Gene2 2.17500094      4361
+## 3    Gene3 1.16851643      2915
+## 4    Gene4 0.01040965     16794
+## 5    Gene5 0.06781127       948
+## 6    Gene6 3.03114500      3089</code></pre>
 <p>We can then use <code>scater</code> to calculate TPM:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tpm</span>(sim) &lt;-<span class="st"> </span><span class="kw">calculateTPM</span>(sim, <span class="kw">rowData</span>(sim)<span class="op">$</span>Length)
 <span class="kw">tpm</span>(sim)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</code></pre></div>
 <pre><code>##            Cell1      Cell2      Cell3      Cell4      Cell5
-## Gene1 0.22854912 0.16875798 0.23480191 0.20342087 0.21439203
-## Gene2 0.04946331 0.01623250 0.03387770 0.03354284 0.03299512
-## Gene3 0.05384030 0.07951009 0.02765665 0.04107491 0.02693613
+## Gene1 0.08215535 0.04069785 0.08360619 0.08404271 0.08403017
+## Gene2 0.03343860 0.01656470 0.13611647 0.00000000 0.06840337
+## Gene3 0.00000000 0.02478171 0.05090943 0.02558762 0.02558380
 ## Gene4 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-## Gene5 0.00000000 0.00000000 0.00000000 0.02935977 0.00000000</code></pre>
+## Gene5 0.00000000 0.07620114 0.00000000 0.00000000 0.00000000</code></pre>
 <p>The default method used by <code>addGeneLengths</code> to simulate lengths is to generate values from a log-normal distribution which are then rounded to give an integer length. The parameters for this distribution are based on human protein coding genes but can be adjusted if needed (for example for other species). Alternatively lengths can be sampled from a provided vector (see <code><a href="../reference/addGeneLengths.html">?addGeneLengths</a></code> for details and an example).</p>
 </div>
 <div id="comparing-simulations-and-real-data" class="section level1">
@@ -861,7 +872,7 @@ cowplot<span class="op">::</span><span class="kw"><a href="http://www.rdocumenta
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] splatter_1.1.5              scater_1.5.16              
+##  [1] splatter_1.1.6              scater_1.5.16              
 ##  [3] SingleCellExperiment_0.99.4 SummarizedExperiment_1.7.10
 ##  [5] DelayedArray_0.3.21         matrixStats_0.52.2         
 ##  [7] GenomicRanges_1.29.14       GenomeInfoDb_1.13.4        

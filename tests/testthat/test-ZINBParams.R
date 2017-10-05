@@ -9,5 +9,5 @@ test_that("nGenes checks work", {
     expect_error(setParam(params, "nGenes", 1),
                  "nGenes cannot be set directly")
     expect_error(setParam(params, "nCells", 1),
-                 "nGenes cannot be set directly")
+                 "nCells cannot be set directly")
 })
