@@ -23,9 +23,10 @@ Simulate a bifurcating pseudotime path using the mfa method.
 \details{
 This function is just a wrapper around \code{\link[mfa]{create_synthetic}}
 that takes a \code{\link{MFAParams}}, runs the simulation then converts the
-output to a \code{\link[SingleCellExperiment]{SingleCellExperiment}} object.
-See \code{\link[mfa]{create_synthetic}} and the mfa paper for more details
-about how the simulation works.
+output from log-expression to counts and returns a
+\code{\link[SingleCellExperiment]{SingleCellExperiment}} object. See
+\code{\link[mfa]{create_synthetic}} and the mfa paper for more details about
+how the simulation works.
 }
 \examples{
 sim <- mfaSimulate()

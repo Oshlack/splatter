@@ -10,9 +10,10 @@
 #' @details
 #' This function is just a wrapper around \code{\link[mfa]{create_synthetic}}
 #' that takes a \code{\link{MFAParams}}, runs the simulation then converts the
-#' output to a \code{\link[SingleCellExperiment]{SingleCellExperiment}} object.
-#' See \code{\link[mfa]{create_synthetic}} and the mfa paper for more details
-#' about how the simulation works.
+#' output from log-expression to counts and returns a
+#' \code{\link[SingleCellExperiment]{SingleCellExperiment}} object. See
+#' \code{\link[mfa]{create_synthetic}} and the mfa paper for more details about
+#' how the simulation works.
 #'
 #' @return SingleCellExperiment containing simulated counts
 #'
@@ -57,7 +58,10 @@ mfaSimulate <- function(params = newMFAParams(), verbose = TRUE, ...) {
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
 
-    counts <- t(mfa.sim$X)
+    exprs <- t(mfa.sim$X)
+    counts <- 2 ^ exprs - 1
+    counts[counts < 0] <- 0
+    counts <- round(counts)
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names
 
@@ -75,7 +79,8 @@ mfaSimulate <- function(params = newMFAParams(), verbose = TRUE, ...) {
                            DeltaBranch2 = mfa.sim$delta[, 2])
     rownames(features) <- gene.names
 
-    sim <- SingleCellExperiment(assays = list(counts = counts),
+    sim <- SingleCellExperiment(assays = list(counts = counts,
+                                              LogExprs = exprs),
                                 rowData = features,
                                 colData = cells,
                                 metadata = list(params = params))
