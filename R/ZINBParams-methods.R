@@ -49,7 +49,7 @@ setMethod("setParam", "ZINBParams", function(object, name, value) {
                                     zinbwave::nSamples(value))
     }
 
-    object <- cellNextMethod()
+    object <- callNextMethod()
 
     return(object)
 })
@@ -90,7 +90,7 @@ setMethod("show", "ZINBParams", function(object) {
     cat("Model:", "\n")
     cat("ZinbModel with", zinbwave::nFeatures(model), "features,",
         zinbwave::nSamples(model), "samples,", zinbwave::nFactors(model),
-        "factors and", zinbwave::nParams(model), "parameters", "\n\n")
+        "latent factors and", zinbwave::nParams(model), "parameters", "\n\n")
 
     default <- zinbwave::zinbModel()
     for (category in names(pp)) {
