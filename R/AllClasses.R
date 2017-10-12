@@ -7,12 +7,12 @@
 #' The Params class defines the following parameters:
 #'
 #' \describe{
-#'     \item{\code{[nGenes]}}{The number of genes to simulate.}
-#'     \item{\code{[nCells]}}{The number of cells to simulate.}
-#'     \item{\code{seed}}{Seed to use for generating random numbers.}
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
 #' }
 #'
-#' The parameters shown in brackets can be estimated from real data.
+#' The parameters not shown in brackets can be estimated from real data.
 #'
 #' @name Params
 #' @rdname Params
@@ -409,7 +409,7 @@ setClass("Lun2Params",
 #'     \item{\code{nCells}}{The number of cells to simulate in each condition.}
 #'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
 #'     \item{\code{SCdat}}{
-#'     \code{\link[SummarizedExperiment]{SummarizedExperiment}} containing real
+#'     \code{\link[SingleCellExperiment]{SingleCellExperiment}} containing real
 #'     data.}
 #'     \item{\code{nDE}}{Number of DE genes to simulate.}
 #'     \item{\code{nDP}}{Number of DP genes to simulate.}
@@ -427,8 +427,8 @@ setClass("Lun2Params",
 #'
 #' The parameters not shown in brackets can be estimated from real data using
 #' \code{\link{scDDEstimate}}. See \code{\link[scDD]{simulateSet}} for more
-#' details of the parameters. For details of the Splatter implementation of the
-#' scDD simulation see \code{\link{scDDSimulate}}.
+#' details about the parameters. For details of the Splatter implementation of
+#' the scDD simulation see \code{\link{scDDSimulate}}.
 #'
 #' @name SCDDParams
 #' @rdname SCDDParams
@@ -448,7 +448,7 @@ setClass("SCDDParams",
                    varInflation = "numeric",
                    condition = "character"),
           prototype = prototype(SCdat =
-                                   SummarizedExperiment::SummarizedExperiment(),
+                                   SingleCellExperiment::SingleCellExperiment(),
                                nCells = 100,
                                nDE = 250,
                                nDP = 250,
@@ -468,7 +468,6 @@ setClass("SCDDParams",
 #' @section Parameters:
 #'
 #' The BASiCS simulation uses the following parameters:
-#'
 #' \describe{
 #'     \item{\code{nGenes}}{The number of genes to simulate.}
 #'     \item{\code{nCells}}{The number of cells to simulate.}
@@ -545,3 +544,117 @@ setClass("BASiCSParams",
                                ),
                                theta = 0.39)
 )
+
+#' The MFAParams class
+#'
+#' S4 class that holds parameters for the mfa simulation.
+#'
+#' @section Parameters:
+#'
+#' The mfa simulation uses the following parameters:
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\code{[trans.prop]}}{Proportion of genes that show transient
+#'     expression. These genes are briefly up or down-regulated before returning
+#'     to their initial state}
+#'     \item{\code{[zero.neg]}}{Logical. Whether to set negative expression
+#'     values to zero. This will zero-inflate the data.}
+#'     \item{\code{[dropout.present]}}{Logical. Whether to simulate dropout.}
+#'     \item{\code{dropout.lambda}}{Lambda parameter for the exponential
+#'     dropout function.}
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{mfaEstimate}}. See \code{\link[mfa]{create_synthetic}} for more
+#' details about the parameters. For details of the Splatter implementation of
+#' the mfa simulation see \code{\link{mfaSimulate}}.
+#'
+#' @name MFAParams
+#' @rdname MFAParams
+#' @aliases MFAParams-class
+#' @exportClass MFAParams
+setClass("MFAParams",
+         contains = "Params",
+         slots = c(trans.prop = "numeric",
+                   zero.neg = "logical",
+                   dropout.present = "logical",
+                   dropout.lambda = "numeric"),
+         prototype = prototype(trans.prop = 0, zero.neg = TRUE,
+                               dropout.present = FALSE, dropout.lambda = 1))
+
+
+#' The PhenoParams class
+#'
+#' S4 class that holds parameters for the PhenoPath simulation.
+#'
+#' @section Parameters:
+#'
+#' The PhenoPath simulation uses the following parameters:
+#'
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\code{[n.de]}}{Number of genes to simulate from the differential
+#'     expression regime}
+#'     \item{\code{[n.pst]}}{Number of genes to simulate from the pseudotime
+#'     regime}
+#'     \item{\code{[n.pst.beta]}}{Number of genes to simulate from the
+#'     pseudotime + beta interactions regime}
+#'     \item{\code{[n.de.pst.beta]}}{Number of genes to simulate from the
+#'     differential expression + pseudotime + interactions regime}
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{phenoEstimate}}. For details of the PhenoPath simulation
+#' see \code{\link{phenoSimulate}}.
+#'
+#' @name PhenoParams
+#' @rdname PhenoParams
+#' @aliases PhenoParams-class
+#' @exportClass PhenoParams
+setClass("PhenoParams",
+         contains = "Params",
+         slots = c(n.de = "numeric",
+                   n.pst = "numeric",
+                   n.pst.beta = "numeric",
+                   n.de.pst.beta = "numeric"),
+         prototype = prototype(n.de = 2500, n.pst = 2500, n.pst.beta = 2500,
+                               n.de.pst.beta = 2500))
+
+
+#' The ZINBParams class
+#'
+#' S4 class that holds parameters for the ZINB-WaVE simulation.
+#'
+#' @section Parameters:
+#'
+#' The ZINB-WaVE simulation uses the following parameters:
+#'
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\code{model}}{Object describing a ZINB model.}
+#' }
+#'
+#' The majority of the parameters for this simulation are stored in a
+#' \code{\link[zinbwave]{ZinbModel}} object. Please refer to the documentation
+#' for this class and its constructor(\code{\link[zinbwave]{zinbModel}}) for
+#' details about all the parameters.
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{zinbEstimate}}. For details of the ZINB-WaVE simulation
+#' see \code{\link{zinbSimulate}}.
+#'
+#' @name ZINBParams
+#' @rdname ZINBParams
+#' @aliases ZINBParams-class
+#' @exportClass ZINBParams
+setClass("ZINBParams",
+         contains = "Params",
+         slots = c(model = "ZinbModel"),
+         prototype = prototype(nGenes = 100, nCells = 50,
+                               model = zinbwave::zinbModel()))

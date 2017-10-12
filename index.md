@@ -51,7 +51,7 @@ command in RStudio.
 
 ### Development version
 
-If you want to try the [development version][deve] this can also be installed
+If you want to try the [development version][devel] this can also be installed
 from Bioconductor:
 
 ```{r}

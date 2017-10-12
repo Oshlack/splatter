@@ -2,8 +2,8 @@
 #'
 #' Estimate simulation parameters for the Lun simulation from a real dataset.
 #'
-#' @param counts either a counts matrix or an SCESet object containing count
-#'        data to estimate parameters from.
+#' @param counts either a counts matrix or an SingleCellExperiment object
+#'        containing count data to estimate parameters from.
 #' @param params LunParams object to store estimated values in.
 #'
 #' @details
@@ -24,8 +24,8 @@ lunEstimate <- function(counts, params = newLunParams()) {
 
 #' @rdname lunEstimate
 #' @export
-lunEstimate.SCESet <- function(counts, params = newLunParams()) {
-    counts <- scater::counts(counts)
+lunEstimate.SingleCellExperiment <- function(counts, params = newLunParams()) {
+    counts <- BiocGenerics::counts(counts)
     lunEstimate(counts, params)
 }
 

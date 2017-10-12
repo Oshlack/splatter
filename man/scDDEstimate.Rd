@@ -2,25 +2,26 @@
 % Please edit documentation in R/scDD-estimate.R
 \name{scDDEstimate}
 \alias{scDDEstimate}
-\alias{scDDEstimate.SCESet}
 \alias{scDDEstimate.matrix}
+\alias{scDDEstimate.SingleCellExperiment}
+\alias{scDDEstimate.default}
 \title{Estimate scDD simulation parameters}
 \usage{
-scDDEstimate(counts, conditions, params = newSCDDParams(), verbose = TRUE,
-  BPPARAM = SerialParam())
+scDDEstimate(counts, params = newSCDDParams(), verbose = TRUE,
+  BPPARAM = SerialParam(), ...)
 
-\method{scDDEstimate}{SCESet}(counts, conditions, params = newSCDDParams(),
-  verbose = TRUE, BPPARAM = SerialParam())
+\method{scDDEstimate}{matrix}(counts, params = newSCDDParams(),
+  verbose = TRUE, BPPARAM = SerialParam(), conditions, ...)
 
-\method{scDDEstimate}{matrix}(counts, conditions, params = newSCDDParams(),
-  verbose = TRUE, BPPARAM = SerialParam())
+\method{scDDEstimate}{SingleCellExperiment}(counts, params = newSCDDParams(),
+  verbose = TRUE, BPPARAM = SerialParam(), condition = "condition", ...)
+
+\method{scDDEstimate}{default}(counts, params = newSCDDParams(),
+  verbose = TRUE, BPPARAM = SerialParam(), condition, ...)
 }
 \arguments{
-\item{counts}{either a counts matrix or an SCESet object containing count
-data to estimate parameters from.}
-
-\item{conditions}{Vector giving the condition that each cell belongs to.
-Conditions can be 1 or 2.}
+\item{counts}{either a counts matrix or a SingleCellExperiment object
+containing count data to estimate parameters from.}
 
 \item{params}{SCDDParams object to store estimated values in.}
 
@@ -29,6 +30,14 @@ Conditions can be 1 or 2.}
 \item{BPPARAM}{A \code{\link[BiocParallel]{BiocParallelParam}} instance
 giving the parallel back-end to be used. Default is
 \code{\link[BiocParallel]{SerialParam}} which uses a single core.}
+
+\item{...}{further arguments passed to or from other methods.}
+
+\item{conditions}{Vector giving the condition that each cell belongs to.
+Conditions can be 1 or 2.}
+
+\item{condition}{String giving the column that represents biological group of
+interest.}
 }
 \value{
 SCDDParams object containing the estimated parameters.

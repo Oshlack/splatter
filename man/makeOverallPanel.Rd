@@ -10,9 +10,9 @@ makeOverallPanel(comp, diff, title = "Overall comparison",
   "Mean-zeros relationship"))
 }
 \arguments{
-\item{comp}{list returned by \code{\link{compareSCESets}}.}
+\item{comp}{list returned by \code{\link{compareSCEs}}.}
 
-\item{diff}{list returned by \code{\link{diffSCESets}}.}
+\item{diff}{list returned by \code{\link{diffSCEs}}.}
 
 \item{title}{title for the panel.}
 
@@ -22,7 +22,7 @@ makeOverallPanel(comp, diff, title = "Overall comparison",
 Combined panel plot
 }
 \description{
-Combine the plots from \code{compSCESets} and \code{diffSCESets} into a
+Combine the plots from \code{compSCEs} and \code{diffSCEs} into a
 single panel.
 }
 \examples{

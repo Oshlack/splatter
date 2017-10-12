@@ -12,18 +12,23 @@ reference:
       - '`getParams`'
       - '`Lun2Params`'
       - '`LunParams`'
+      - '`MFAParams`'
       - '`newParams`'
       - '`Params`'
+      - '`PhenoParams`'
       - '`SCDDParams`'
       - '`SimpleParams`'
       - '`SplatParams`'
       - '`setParam`'
       - '`setParams`'
+      - '`ZINBParams`'
   - title: Estimation
     desc: Functions for estimating parameters
     contents:
       - '`lun2Estimate`'
       - '`lunEstimate`'
+      - '`mfaEstimate`'
+      - '`phenoEstimate`'
       - '`scDDEstimate`'
       - '`simpleEstimate`'
       - '`splatEstBCV`'
@@ -32,11 +37,14 @@ reference:
       - '`splatEstLib`'
       - '`splatEstMean`'
       - '`splatEstOutlier`'
+      - '`zinbEstimate`'
   - title: Simulation
     desc: Functions for simulating datasets
     contents:
       - '`lun2Simulate`'
       - '`lunSimulate`'
+      - '`mfaSimulate`'
+      - '`phenoEstimate`'
       - '`scDDSimulate`'
       - '`simpleSimulate`'
       - '`splatSimBatchCellMeans`'
@@ -49,11 +57,12 @@ reference:
       - '`splatSimLibSizes`'
       - '`splatSimTrueCounts`'
       - '`splatSimulate`'
+      - '`zinbSimulate`'
   - title: Comparison functions
     desc: Functions for comparing datasets
     contents:
-      - '`compareSCESets`'
-      - '`diffSCESets`'
+      - '`compareSCEs`'
+      - '`diffSCEs`'
       - '`makeCompPanel`'
       - '`makeDiffPanel`'
       - '`makeOverallPanel`'

@@ -102,7 +102,7 @@
     </div>
 
     
-    <p>Combine the plots from <code>compareSCESets</code> into a single panel.</p>
+    <p>Combine the plots from <code>compareSCEs</code> into a single panel.</p>
     
 
     <pre class="usage"><span class='fu'>makeCompPanel</span>(<span class='no'>comp</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Comparison"</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Means"</span>, <span class='st'>"Variance"</span>,
@@ -114,7 +114,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>comp</th>
-      <td><p>list returned by <code><a href='compareSCESets.html'>compareSCESets</a></code>.</p></td>
+      <td><p>list returned by <code><a href='compareSCEs.html'>compareSCEs</a></code>.</p></td>
     </tr>
     <tr>
       <th>title</th>
@@ -135,7 +135,7 @@
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='no'>sim1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='splatSimulate.html'>splatSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>batchCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)
 <span class='no'>sim2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)
-<span class='no'>comparison</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compareSCESets.html'>compareSCESets</a></span>(<span class='fu'>list</span>(<span class='kw'>Splat</span> <span class='kw'>=</span> <span class='no'>sim1</span>, <span class='kw'>Simple</span> <span class='kw'>=</span> <span class='no'>sim2</span>))
+<span class='no'>comparison</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compareSCEs.html'>compareSCEs</a></span>(<span class='fu'>list</span>(<span class='kw'>Splat</span> <span class='kw'>=</span> <span class='no'>sim1</span>, <span class='kw'>Simple</span> <span class='kw'>=</span> <span class='no'>sim2</span>))
 <span class='no'>panel</span> <span class='kw'>&lt;-</span> <span class='fu'>makeCompPanel</span>(<span class='no'>comparison</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>

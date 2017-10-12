@@ -1,3 +1,18 @@
+## Version 1.1.7 (2017-10-05)
+
+* Add PhenoPath simulation
+* Add ZINB-WaVE simulation
+* Adjust mfaSimulate output
+
+## Version 1.1.6 (2017-10-02)
+
+* Update scDD version
+* Add mfa simulation
+
+## Version 1.1.5 (2017-09-13)
+
+* Convert to SingleCellExperiment
+
 ## Version 1.1.4 (2017-08-04)
 
 * Fix group factors bug
@@ -194,3 +209,4 @@
 
 * Added splatParams object
 * Added functions for interacting with splatParams
+

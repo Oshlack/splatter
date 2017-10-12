@@ -7,12 +7,12 @@
 splatSimBatchEffects(sim, params)
 }
 \arguments{
-\item{sim}{SCESet to add batch effects to.}
+\item{sim}{SingleCellExperiment to add batch effects to.}
 
 \item{params}{SplatParams object with simulation parameters.}
 }
 \value{
-SCESet with simulated batch effects.
+SingleCellExperiment with simulated batch effects.
 }
 \description{
 Simulate batch effects. Batch effect factors for each batch are produced

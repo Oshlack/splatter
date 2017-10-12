@@ -102,7 +102,7 @@
     </div>
 
     
-    <p>Add gene lengths to an SCESet object</p>
+    <p>Add gene lengths to an SingleCellExperiment object</p>
     
 
     <pre class="usage"><span class='fu'>addGeneLengths</span>(<span class='no'>sce</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"generate"</span>, <span class='st'>"sample"</span>), <span class='kw'>loc</span> <span class='kw'>=</span> <span class='fl'>7.9</span>,
@@ -113,7 +113,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>sce</th>
-      <td><p>SCESet to add gene lengths to.</p></td>
+      <td><p>SingleCellExperiment to add gene lengths to.</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -135,29 +135,33 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>SCESet with added gene lengths</p>
+    <p>SingleCellExperiment with added gene lengths</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function adds simulated gene lengths to the <code>fData</code> slot of an
-<code>SCESet</code> object that can be used for calculating length normalised
-expression values such as TPM or FPKM. The <code>generate</code> simulates lengths
-using a (rounded) log-normal distribution, with the default <code>loc</code> and
-<code>scale</code> parameters based on human coding genes. Alternatively the
-<code>sample</code> method can be used which randomly samples lengths (with
-replacement) from a supplied vector.</p>
+    <p>This function adds simulated gene lengths to the
+<code><a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/SummarizedExperiment-class'>rowData</a></code> slot of a
+<code><a href='http://www.rdocumentation.org/packages/SingleCellExperiment/topics/SingleCellExperiment'>SingleCellExperiment</a></code> object that can be
+used for calculating length normalised expression values such as TPM or FPKM.
+The <code>generate</code> method simulates lengths using a (rounded) log-normal
+distribution, with the default <code>loc</code> and <code>scale</code> parameters based
+on human protein-coding genes. Alternatively the <code>sample</code> method can be
+used which randomly samples lengths (with replacement) from a supplied
+vector.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Default generate method</span>
-<span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>()</div><div class='output co'>#&gt; <span class='message'>Simulating means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final SCESet...</span></div><div class='input'><span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'>addGeneLengths</span>(<span class='no'>sce</span>)
-<span class='fu'>head</span>(<span class='fu'>fData</span>(<span class='no'>sce</span>))</div><div class='output co'>#&gt;        Gene   GeneMean Length
-#&gt; Gene1 Gene1 2.48516793   4364
-#&gt; Gene2 Gene2 2.66764544   2293
-#&gt; Gene3 Gene3 1.63746271   1981
-#&gt; Gene4 Gene4 5.95066226   8532
-#&gt; Gene5 Gene5 1.79688466   2083
-#&gt; Gene6 Gene6 0.09561467   3011</div><div class='input'># Sample method (human coding genes)
+<span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>()</div><div class='output co'>#&gt; <span class='message'>Simulating means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div><div class='input'><span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'>addGeneLengths</span>(<span class='no'>sce</span>)
+<span class='fu'>head</span>(<span class='fu'>rowData</span>(<span class='no'>sce</span>))</div><div class='output co'>#&gt; DataFrame with 6 rows and 3 columns
+#&gt;       Gene  GeneMean    Length
+#&gt;   &lt;factor&gt; &lt;numeric&gt; &lt;numeric&gt;
+#&gt; 1    Gene1 0.8455684      1284
+#&gt; 2    Gene2 0.1606091      5127
+#&gt; 3    Gene3 6.7083234      1847
+#&gt; 4    Gene4 0.2917321      2194
+#&gt; 5    Gene5 1.4748643      1567
+#&gt; 6    Gene6 0.0326816      7629</div><div class='input'># Sample method (human coding genes)
 </div><span class='co'># NOT RUN {</span>
 <span class='fu'>library</span>(<span class='no'>TxDb.Hsapiens.UCSC.hg19.knownGene</span>)
 <span class='fu'>library</span>(<span class='no'>GenomicFeatures</span>)

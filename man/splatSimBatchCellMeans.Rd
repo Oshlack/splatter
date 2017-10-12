@@ -7,12 +7,12 @@
 splatSimBatchCellMeans(sim, params)
 }
 \arguments{
-\item{sim}{SCESet to add batch means to.}
+\item{sim}{SingleCellExperiment to add batch means to.}
 
 \item{params}{SplatParams object with simulation parameters.}
 }
 \value{
-SCESet with simulated batch means.
+SingleCellExperiment with simulated batch means.
 }
 \description{
 Simulate a mean for each gene in each cell incorporating batch effect

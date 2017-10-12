@@ -17,7 +17,7 @@ lun2Simulate(params = newLun2Params(), zinb = FALSE, verbose = TRUE, ...)
 \code{params}.}
 }
 \value{
-SCESet containing simulated counts.
+SingleCellExperiment containing simulated counts.
 }
 \description{
 Simulate single-cell RNA-seq count data using the method described in Lun
