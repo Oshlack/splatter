@@ -40,7 +40,7 @@ listSims <- function(print = TRUE) {
                    "Gamma distributed means and negative binomial counts. Cells
                    are given a size factor and differential expression can be
                    simulated with fixed fold changes."),
-                 c("Lun 2", "lun2", "10.1101/073973",
+                 c("Lun 2", "lun2", "10.1093/biostatistics/kxw055",
                    "MarioniLab/PlateEffects2016",
                    "Negative binomial counts where the means and dispersions
                    have been sampled from a real dataset. The core feature of
