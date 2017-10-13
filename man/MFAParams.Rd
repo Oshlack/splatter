@@ -12,7 +12,6 @@ S4 class that holds parameters for the mfa simulation.
 
 
 The mfa simulation uses the following parameters:
-
 \describe{
     \item{\code{nGenes}}{The number of genes to simulate.}
     \item{\code{nCells}}{The number of cells to simulate.}

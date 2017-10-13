@@ -61,7 +61,9 @@ the fitted model and inserts it into a \code{\link{ZINBParams}} object. See
 \code{\link[zinbwave]{zinbFit}} for details of the estimation procedure.
 }
 \examples{
+\dontrun{
 data("sc_example_counts")
 params <- zinbEstimate(sc_example_counts)
 params
+}
 }

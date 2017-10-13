@@ -308,7 +308,7 @@ setClass("LunParams",
 
 #' The Lun2Params class
 #'
-#' S4 class that holds parameters for the Lun simulation.
+#' S4 class that holds parameters for the Lun2 simulation.
 #'
 #' @section Parameters:
 #'
@@ -461,6 +461,90 @@ setClass("SCDDParams",
                                varInflation = c(1, 1),
                                condition = "condition"))
 
+#' The BASiCSParams class
+#'
+#' S4 class that holds parameters for the BASiCS simulation.
+#'
+#' @section Parameters:
+#'
+#' The BASiCS simulation uses the following parameters:
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\emph{Batch parameters}}{
+#'         \describe{
+#'            \item{\code{nBatches}}{Number of batches to simulate.}
+#'            \item{\code{batchCells}}{Number of cells in each batch.}
+#'         }
+#'     }
+#'     \item{\emph{Gene parameters}}{
+#'         \describe{
+#'             \item{\code{gene.params}}{A \code{data.frame} containing gene
+#'             parameters with two coloumns: \code{Mean} (mean expression for
+#'             each biological gene) and \code{Delta} (cell-to-cell
+#'             heterogeneity for each biological gene).}
+#'         }
+#'     }
+#'     \item{\emph{Spike-in parameters}}{
+#'         \describe{
+#'             \item{\code{nSpikes}}{The number of spike-ins to simulate.}
+#'             \item{\code{spike.means}}{Input molecules for each spike-in.}
+#'         }
+#'     }
+#'     \item{\emph{Cell parameters}}{
+#'         \describe{
+#'             \item{\code{cell.params}}{A \code{data.frame} containing gene
+#'             parameters with two coloumns: \code{Phi} (mRNA content factor for
+#'             each cell, scaled to sum to the number of cells in each batch)
+#'             and \code{S} (capture efficient for each cell).}
+#'         }
+#'     }
+#'     \item{\emph{Variability parameters}}{
+#'         \describe{
+#'             \item{\code{theta}}{Technical variability parameter for each
+#'             batch.}
+#'         }
+#'     }
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{BASiCSEstimate}}. For details of the BASiCS simulation see
+#' \code{\link{BASiCSSimulate}}.
+#'
+#' @name BASiCSParams
+#' @rdname BASiCSParams
+#' @aliases BASiCSParams-class
+#' @exportClass BASiCSParams
+setClass("BASiCSParams",
+         contains = "Params",
+         slots = c(nBatches = "numeric",
+                   batchCells = "numeric",
+                   gene.params = "data.frame",
+                   nSpikes = "numeric",
+                   spike.means = "numeric",
+                   cell.params = "data.frame",
+                   theta = "numeric"),
+         prototype = prototype(nBatches = 1,
+                               batchCells = 100,
+                               gene.params =
+                                   data.frame(
+                                       Mean = c(8.36, 10.65, 4.88, 6.29, 21.72,
+                                                12.93, 30.19),
+                                       Delta = c(1.29, 0.88, 1.51, 1.49, 0.54,
+                                                 0.40, 0.85)
+                               ),
+                               nSpikes = 5,
+                               spike.means = c(12.93, 30.19, 1010.72, 7.90,
+                                               31.59),
+                               cell.params =
+                                   data.frame(
+                                       Phi = c(1.00, 1.06, 1.09, 1.05, 0.80),
+                                       S = c(0.38, 0.40, 0.38, 0.39, 0.34)
+                               ),
+                               theta = 0.39)
+)
+
 #' The MFAParams class
 #'
 #' S4 class that holds parameters for the mfa simulation.
@@ -468,7 +552,6 @@ setClass("SCDDParams",
 #' @section Parameters:
 #'
 #' The mfa simulation uses the following parameters:
-#'
 #' \describe{
 #'     \item{\code{nGenes}}{The number of genes to simulate.}
 #'     \item{\code{nCells}}{The number of cells to simulate.}

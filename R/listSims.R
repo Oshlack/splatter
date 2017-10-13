@@ -48,6 +48,11 @@ listSims <- function(print = TRUE) {
                    "The scDD simulation samples a given dataset and can
                    simulate differentially expressed and differentially
                    distributed genes between two conditions."),
+                 c("BASiCS", "BASiCS", "10.1371/journal.pcbi.1004333",
+                   "catavallejos/BASiCS",
+                   "The BASiCS simulation is based on a bayesian model used to
+                   deconvolve biological and technical variation and
+                   includes spike-ins and batch effects."),
                  c("mfa", "mfa", "10.12688/wellcomeopenres.11087.1",
                    "kieranrcampbell/mfa",
                    "The mfa simulation produces a bifurcating pseudotime
