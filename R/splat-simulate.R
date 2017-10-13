@@ -91,6 +91,14 @@
 #' @return SingleCellExperiment object containing the simulated counts and
 #' intermediate values.
 #'
+#' @references
+#' Zappia L, Phipson B, Oshlack A. Splatter: simulation of single-cell RNA
+#' sequencing data. Genome Biology (2017).
+#'
+#' Paper: \url{10.1186/s13059-017-1305-0}
+#'
+#' Code: \url{https://github.com/Oshlack/splatter}
+#'
 #' @seealso
 #' \code{\link{splatSimLibSizes}}, \code{\link{splatSimGeneMeans}},
 #' \code{\link{splatSimBatchEffects}}, \code{\link{splatSimBatchCellMeans}},

@@ -12,22 +12,27 @@
 #' @export
 listSims <- function(print = TRUE) {
 
-    sims <- list(c("Splat", "splat", "", "",
+    sims <- list(c("Splat", "splat", "10.1186/s13059-017-1305-0",
+                   "Oshlack/splatter",
                    "The Splat simulation generates means from a gamma
                    distribution, adjusts them for BCV and generates counts from
                    a gamma-poisson. Dropout and batch effects can be optionally
                    added."),
-                 c("Splat Single", "splatSingle", "", "",
+                 c("Splat Single", "splatSingle", "10.1186/s13059-017-1305-0",
+                   "Oshlack/splatter",
                    "The Splat simulation with a single population."),
-                 c("Splat Groups", "splatGroups", "", "",
+                 c("Splat Groups", "splatGroups", "10.1186/s13059-017-1305-0",
+                   "Oshlack/splatter",
                    "The Splat simulation with multiple groups. Each group can
                    have it's own differential expression probability and
                    fold change distribution."),
-                 c("Splat Paths", "splatPaths", "", "",
+                 c("Splat Paths", "splatPaths", "10.1186/s13059-017-1305-0",
+                   "Oshlack/splatter",
                    "The Splat simulation with differentiation paths. Each
                    path can have it's own length, skew and probability. Genes
                    can change in non-linear ways."),
-                 c("Simple", "simple", "", "",
+                 c("Simple", "simple", "10.1186/s13059-017-1305-0",
+                   "Oshlack/splatter",
                    "A simple simulation with gamma means and negative binomial
                    counts."),
                  c("Lun", "lun", "10.1186/s13059-016-0947-7",
