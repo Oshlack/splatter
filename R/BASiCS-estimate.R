@@ -30,13 +30,15 @@
 #' @return BASiCSParams object containing the estimated parameters.
 #'
 #' @examples
+#' \dontrun{
 #' data("sc_example_counts")
-#' spike.info <- data.frame(Name = rownames(counts)[1:10],
+#' spike.info <- data.frame(Name = rownames(sc_example_counts)[1:10],
 #'                          Input = rnorm(10, 500, 200),
 #'                          stringsAsFactors = FALSE)
 #' params <- BASiCSEstimate(sc_example_counts[1:50, 1:20],
 #'                          spike.info)
 #' params
+#' }
 #' @export
 BASiCSEstimate <- function(counts, spike.info = NULL, batch = NULL,
                            n = 20000, thin = 10, burn = 5000,
@@ -51,7 +53,7 @@ BASiCSEstimate.SCESet <- function(counts, spike.info = NULL, batch = NULL,
                                   n = 20000, thin = 10, burn = 5000,
                                   params = newBASiCSParams(), verbose = TRUE,
                                   progress = TRUE, ...) {
-    counts <- scater::counts(counts)
+    counts <- BiocGenerics::counts(counts)
     BASiCSEstimate(counts, params)
 }
 

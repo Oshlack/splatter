@@ -60,11 +60,13 @@ information is provided there must be at least two batches. See
 \code{\link[BASiCS]{BASiCS_MCMC}} for details.
 }
 \examples{
+\dontrun{
 data("sc_example_counts")
-spike.info <- data.frame(Name = rownames(counts)[1:10],
+spike.info <- data.frame(Name = rownames(sc_example_counts)[1:10],
                          Input = rnorm(10, 500, 200),
                          stringsAsFactors = FALSE)
 params <- BASiCSEstimate(sc_example_counts[1:50, 1:20],
                          spike.info)
 params
+}
 }
