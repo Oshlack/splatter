@@ -188,71 +188,11 @@ the fitted model and inserts it into a <code><a href='ZINBParams.html'>ZINBParam
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='st'>"sc_example_counts"</span>)
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>zinbEstimate</span>(<span class='no'>sc_example_counts</span>)</div><div class='output co'>#&gt; <span class='message'>Removing all zero genes...</span></div><div class='output co'>#&gt; <span class='message'>Fitting model...</span></div><div class='output co'>#&gt; <span class='message'>Create model:</span></div><div class='output co'>#&gt; <span class='message'>ok</span></div><div class='output co'>#&gt; <span class='message'>Initialize parameters:</span></div><div class='output co'>#&gt; <span class='message'>ok</span></div><div class='output co'>#&gt; <span class='message'>Optimize parameters:</span></div><div class='output co'>#&gt; <span class='message'>Iteration 1</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -451653.610681949</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   8.840   0.506   9.391 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -451653.610681949</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.573   0.041   0.617 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>Iteration 2</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -200962.486229372</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -451653.610681949</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   6.414   0.345   6.790 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -451653.610681949</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.616   0.025   0.643 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>Iteration 3</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -196682.271688862</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -451653.610681949</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   5.893   0.319   6.260 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -451653.610681949</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.616   0.022   0.640 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>Iteration 4</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -195719.09604664</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -451653.610681949</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   4.808   0.251   5.075 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -451653.610681949</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.600   0.013   0.615 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>Iteration 5</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -195487.316905869</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -451653.610681949</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   4.661   0.251   4.938 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -451653.610681949</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.613   0.021   0.636 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>Iteration 6</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -195438.512431125</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -451653.610681949</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   4.363   0.219   4.594 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -451653.610681949</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.520   0.019   0.540 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -451653.610681949</span></div><div class='output co'>#&gt; <span class='message'>Iteration 7</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -195429.243799278</span></div><div class='output co'>#&gt; <span class='message'>ok</span></div><div class='input'><span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class ZINBParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or 'NOT DEFAULT'. 
-#&gt; 
-#&gt; Global: 
-#&gt; (GENES)  (CELLS)   [Seed]  
-#&gt;    1973       40    80751  
-#&gt; 
-#&gt; 1 additional parameters 
-#&gt; 
-#&gt; Model: 
-#&gt; ZinbModel with 1973 features, 40 samples, 0 latent factors and 4027 parameters 
-#&gt; 
-#&gt; Model Design: 
-#&gt;      (SAMPLES)         (GENES)  
-#&gt; 1, 1, 1, 1,...  1, 1, 1, 1,...  
-#&gt; 
-#&gt; Model Offsets: 
-#&gt;             (MU)              (PI)  
-#&gt; 40 x 1973 matrix  40 x 1973 matrix  
-#&gt; 
-#&gt; Model Indices: 
-#&gt; (Sample Mu)    (Gene Mu)  (Sample Pi)    (Gene Pi)  
-#&gt;           1            1            1            1  
-#&gt; 
-#&gt; Model Intercepts: 
-#&gt; (Sample Mu)    (Gene Mu)  (Sample Pi)    (Gene Pi)  
-#&gt;        TRUE         TRUE         TRUE         TRUE  
-#&gt; 
-#&gt; Model Latent factors: 
-#&gt;           (W)  
-#&gt; 40 x 0 matrix  
-#&gt; 
-#&gt; Model Coefficients: 
-#&gt;                                                                      (SAMPLE MU)  
-#&gt;        2.92563256904469, 2.4987993436997, 2.58202880827954, 1.97900548945704,...  
-#&gt;                                                                        (GENE MU)  
-#&gt;       3.47522026895399, 2.47301357124798, 3.24285373024315, 3.18809031726884,...  
-#&gt;                                                                      (Latent Mu)  
-#&gt;                                                                  0 x 1973 matrix  
-#&gt;                                                                      (SAMPLE PI)  
-#&gt;  -0.71252392787508, -2.22126441075684, -0.171737848601069, -1.44324267217097,...  
-#&gt;                                                                        (GENE PI)  
-#&gt; -0.0394934045621859, 0.702003614655306, 0.522586914345766, 0.331946546846606,...  
-#&gt;                                                                      (Latent Pi)  
-#&gt;                                                                  0 x 1973 matrix  
-#&gt; 
-#&gt; Model Regularisation: 
-#&gt;     (Sample Mu)        (GENE MU)      (Sample Pi)        (GENE PI)  
-#&gt;               1           49.325                1           49.325  
-#&gt;        (LATENT)  (Latent coeffs)           (ZETA)          (Logit)  
-#&gt;          49.325                1             1973            0.001  
-#&gt; </div></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>data</span>(<span class='st'>"sc_example_counts"</span>)
+<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>zinbEstimate</span>(<span class='no'>sc_example_counts</span>)
+<span class='no'>params</span>
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

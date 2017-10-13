@@ -1,3 +1,9 @@
+## Version 1.1.8 (2017-10-13)
+
+* Add BASiCS simulation
+* Update Splatter citation
+* Update Lun2 reference
+
 ## Version 1.1.7 (2017-10-05)
 
 * Add PhenoPath simulation
@@ -209,4 +215,3 @@
 
 * Added splatParams object
 * Added functions for interacting with splatParams
-

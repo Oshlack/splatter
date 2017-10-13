@@ -76,7 +76,7 @@
       <h1>Introduction to Splatter</h1>
                         <h4 class="author">Luke Zappia</h4>
             
-            <h4 class="date">2017-10-05</h4>
+            <h4 class="date">2017-10-13</h4>
           </div>
 
     
@@ -317,7 +317,7 @@ params</code></pre></div>
 ## 
 ## Global: 
 ## (Genes)  (Cells)   [Seed]  
-##   10000      100   882480  
+##   10000      100   237407  
 ## 
 ## 27 additional parameters 
 ## 
@@ -390,7 +390,7 @@ params</code></pre></div>
 ## 
 ## Global: 
 ## (GENES)  (Cells)   [Seed]  
-##    8000      100   882480  
+##    8000      100   237407  
 ## 
 ## 27 additional parameters 
 ## 
@@ -501,45 +501,45 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Access the counts</span>
 <span class="kw">counts</span>(sim)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</code></pre></div>
 <pre><code>##       Cell1 Cell2 Cell3 Cell4 Cell5
-## Gene1     0     0     2     0    22
-## Gene2 25024   156     1    24     0
-## Gene3   185   126     2     0     0
-## Gene4    17     0     1     0     0
-## Gene5     0     0     0     0     0</code></pre>
+## Gene1   208     2     0     0     0
+## Gene2    48     0     0     0     0
+## Gene3     0     0     0   240     0
+## Gene4     0     0    12   626     0
+## Gene5    58     0    47     0     0</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Information about genes</span>
 <span class="kw">head</span>(<span class="kw">rowData</span>(sim))</code></pre></div>
 <pre><code>## DataFrame with 6 rows and 4 columns
-##       Gene BaseGeneMean OutlierFactor     GeneMean
-##   &lt;factor&gt;    &lt;numeric&gt;     &lt;numeric&gt;    &lt;numeric&gt;
-## 1    Gene1 5.975143e+00             1 5.975143e+00
-## 2    Gene2 6.047020e+02             1 6.047020e+02
-## 3    Gene3 3.407454e+02             1 3.407454e+02
-## 4    Gene4 1.041869e+00             1 1.041869e+00
-## 5    Gene5 6.429022e-03             1 6.429022e-03
-## 6    Gene6 5.051255e+02             1 5.051255e+02</code></pre>
+##       Gene BaseGeneMean OutlierFactor    GeneMean
+##   &lt;factor&gt;    &lt;numeric&gt;     &lt;numeric&gt;   &lt;numeric&gt;
+## 1    Gene1   8.84938916             1  8.84938916
+## 2    Gene2   2.09254274             1  2.09254274
+## 3    Gene3  76.54642638             1 76.54642638
+## 4    Gene4  48.29447650             1 48.29447650
+## 5    Gene5   8.38049805             1  8.38049805
+## 6    Gene6   0.03711706             1  0.03711706</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Information about cells</span>
 <span class="kw">head</span>(<span class="kw">colData</span>(sim))</code></pre></div>
 <pre><code>## DataFrame with 6 rows and 3 columns
 ##           Cell       Batch ExpLibSize
 ##       &lt;factor&gt; &lt;character&gt;  &lt;numeric&gt;
-## Cell1    Cell1      Batch1   413957.7
-## Cell2    Cell2      Batch1   476887.9
-## Cell3    Cell3      Batch1   367310.0
-## Cell4    Cell4      Batch1   147775.6
-## Cell5    Cell5      Batch1   193681.3
-## Cell6    Cell6      Batch1   590802.3</code></pre>
+## Cell1    Cell1      Batch1   369673.5
+## Cell2    Cell2      Batch1   837884.1
+## Cell3    Cell3      Batch1   211900.0
+## Cell4    Cell4      Batch1   469342.1
+## Cell5    Cell5      Batch1   358101.8
+## Cell6    Cell6      Batch1   984061.6</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Gene by cell matrices</span>
 <span class="kw">names</span>(<span class="kw">assays</span>(sim))</code></pre></div>
 <pre><code>## [1] "BatchCellMeans" "BaseCellMeans"  "BCV"            "CellMeans"     
 ## [5] "TrueCounts"     "counts"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Example of cell means matrix</span>
 <span class="kw">assays</span>(sim)<span class="op">$</span>CellMeans[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</code></pre></div>
-<pre><code>##              Cell1        Cell2      Cell3        Cell4        Cell5
-## Gene1 4.400164e-01 6.304542e-02 1.10406696 8.139464e-10 2.335664e+01
-## Gene2 2.526252e+04 1.595860e+02 0.03470768 2.065810e+01 6.231519e-02
-## Gene3 1.899993e+02 1.229909e+02 1.03528470 4.606624e-03 1.921180e-06
-## Gene4 1.421395e+01 5.383794e-10 0.34678991 7.669389e-03 2.339044e-18
-## Gene5 3.522450e-87 2.621383e-03 0.01039596 3.410733e-82 1.870620e-46</code></pre>
+<pre><code>##              Cell1        Cell2        Cell3        Cell4        Cell5
+## Gene1 1.777352e+02 6.087412e-01 6.358857e-17 5.040406e-01 3.086920e-06
+## Gene2 5.735710e+01 8.038331e-06 1.675001e-06 9.275255e-02 5.368496e-08
+## Gene3 1.307104e-03 4.675363e-09 7.657201e-20 2.453874e+02 1.578852e+00
+## Gene4 2.107991e-04 1.060652e-03 1.201788e+01 6.365346e+02 5.394848e-17
+## Gene5 6.441256e+01 8.666657e-05 4.797971e+01 9.699099e-08 8.152520e-15</code></pre>
 <p>An additional (big) advantage of outputting a <code>SingleCellExperiment</code> is that we get immediate access to other analysis packages, such as the plotting functions in <code>scater</code>. For example we can make a PCA plot:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotPCA</span>(sim, <span class="dt">exprs_values =</span> <span class="st">"counts"</span>)</code></pre></div>
 <p><img src="splatter_files/figure-html/pca-1.png" width="576" style="display: block; margin: auto;"></p>
@@ -640,7 +640,7 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 <a href="#other-simulations" class="anchor"></a>Other simulations</h1>
 <p>As well as it’s own Splat simulation method the Splatter package contains implementations of other single-cell RNA-seq simulations that have been published or wrappers around simulations included in other packages. To see all the available simulations run the <code><a href="../reference/listSims.html">listSims()</a></code> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/listSims.html">listSims</a></span>()</code></pre></div>
-<pre><code>## Splatter currently contains 9 simulations 
+<pre><code>## Splatter currently contains 11 simulations 
 ## 
 ## Splat (splat) 
 ## DOI:      GitHub:  
@@ -676,7 +676,15 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 ## 
 ## mfa (mfa) 
 ## DOI: 10.12688/wellcomeopenres.11087.1     GitHub: kieranrcampbell/mfa 
-## The mfa simulation produces a bifurcating pseudotime trajectory. This can optionally include genes with transient changes in expression and added dropout.</code></pre>
+## The mfa simulation produces a bifurcating pseudotime trajectory. This can optionally include genes with transient changes in expression and added dropout. 
+## 
+## PhenoPath (pheno) 
+## DOI: 10.1101/159913   GitHub: kieranrcampbell/phenopath 
+## The PhenoPath simulation produces a pseudotime trajectory with different types of genes. 
+## 
+## ZINB-WaVE (zinb) 
+## DOI: 10.1101/125112   GitHub: drisso/zinbwave 
+## The ZINB-WaVE simulation simulates counts from a sophisticated zero-inflated negative-binomial distribution including cell and gene-level covariates.</code></pre>
 <p>(or more conveniently for the vignette as a table)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(<span class="kw"><a href="../reference/listSims.html">listSims</a></span>(<span class="dt">print =</span> <span class="ot">FALSE</span>))</code></pre></div>
 <table class="table">
@@ -751,6 +759,20 @@ sc_example_counts[<span class="dv">1</span><span class="op">:</span><span class=
 <td align="left">kieranrcampbell/mfa</td>
 <td align="left">The mfa simulation produces a bifurcating pseudotime trajectory. This can optionally include genes with transient changes in expression and added dropout.</td>
 </tr>
+<tr class="even">
+<td align="left">PhenoPath</td>
+<td align="left">pheno</td>
+<td align="left">10.1101/159913</td>
+<td align="left">kieranrcampbell/phenopath</td>
+<td align="left">The PhenoPath simulation produces a pseudotime trajectory with different types of genes.</td>
+</tr>
+<tr class="odd">
+<td align="left">ZINB-WaVE</td>
+<td align="left">zinb</td>
+<td align="left">10.1101/125112</td>
+<td align="left">drisso/zinbwave</td>
+<td align="left">The ZINB-WaVE simulation simulates counts from a sophisticated zero-inflated negative-binomial distribution including cell and gene-level covariates.</td>
+</tr>
 </tbody>
 </table>
 <p>Each simulation has it’s own prefix which gives the name of the functions associated with that simulation. For example the prefix for the simple simulation is <code>simple</code> so it would store it’s parameters in a <code>SimpleParams</code> object that can be created using <code><a href="../reference/newParams.html">newSimpleParams()</a></code> or estimated from real data using <code><a href="../reference/simpleEstimate.html">simpleEstimate()</a></code>. To simulate data using that simulation you would use <code><a href="../reference/simpleSimulate.html">simpleSimulate()</a></code>. Each simulation returns a <code>SingleCellExperiment</code> object with intermediate values similar to that returned by <code><a href="../reference/splatSimulate.html">splatSimulate()</a></code>. For more detailed information on each simulation see the appropriate help page (eg. <code><a href="../reference/simpleSimulate.html">?simpleSimulate</a></code> for information on how the simple simulation works or <code><a href="../reference/lun2Estimate.html">? lun2Estimate</a></code> for details of how the Lun 2 simulation estimates parameters) or refer to the appropriate paper or package.</p>
@@ -765,21 +787,21 @@ sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/addGene
 <pre><code>## DataFrame with 6 rows and 3 columns
 ##       Gene   GeneMean    Length
 ##   &lt;factor&gt;  &lt;numeric&gt; &lt;numeric&gt;
-## 1    Gene1 1.60506942      1775
-## 2    Gene2 2.17500094      4361
-## 3    Gene3 1.16851643      2915
-## 4    Gene4 0.01040965     16794
-## 5    Gene5 0.06781127       948
-## 6    Gene6 3.03114500      3089</code></pre>
+## 1    Gene1 0.11512934      9592
+## 2    Gene2 1.08395798      1260
+## 3    Gene3 0.07297126      7150
+## 4    Gene4 0.52861074      2131
+## 5    Gene5 2.07154719      1787
+## 6    Gene6 1.48581784       885</code></pre>
 <p>We can then use <code>scater</code> to calculate TPM:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tpm</span>(sim) &lt;-<span class="st"> </span><span class="kw">calculateTPM</span>(sim, <span class="kw">rowData</span>(sim)<span class="op">$</span>Length)
 <span class="kw">tpm</span>(sim)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</code></pre></div>
 <pre><code>##            Cell1      Cell2      Cell3      Cell4      Cell5
-## Gene1 0.08215535 0.04069785 0.08360619 0.08404271 0.08403017
-## Gene2 0.03343860 0.01656470 0.13611647 0.00000000 0.06840337
-## Gene3 0.00000000 0.02478171 0.05090943 0.02558762 0.02558380
-## Gene4 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-## Gene5 0.00000000 0.07620114 0.00000000 0.00000000 0.00000000</code></pre>
+## Gene1 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
+## Gene2 0.06020259 0.00000000 0.05823678 0.00000000 0.11723920
+## Gene3 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
+## Gene4 0.00000000 0.03420037 0.00000000 0.00000000 0.00000000
+## Gene5 0.12734516 0.16313595 0.08212461 0.08100124 0.08266446</code></pre>
 <p>The default method used by <code>addGeneLengths</code> to simulate lengths is to generate values from a log-normal distribution which are then rounded to give an integer length. The parameters for this distribution are based on human protein coding genes but can be adjusted if needed (for example for other species). Alternatively lengths can be sampled from a provided vector (see <code><a href="../reference/addGeneLengths.html">?addGeneLengths</a></code> for details and an example).</p>
 </div>
 <div id="comparing-simulations-and-real-data" class="section level1">
@@ -856,7 +878,7 @@ cowplot<span class="op">::</span><span class="kw"><a href="http://www.rdocumenta
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
-<pre><code>## R version 3.4.1 (2017-06-30)
+<pre><code>## R version 3.4.2 (2017-09-28)
 ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
 ## Running under: macOS Sierra 10.12.6
 ## 
@@ -872,54 +894,61 @@ cowplot<span class="op">::</span><span class="kw"><a href="http://www.rdocumenta
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] splatter_1.1.6              scater_1.5.16              
+##  [1] splatter_1.1.7              scater_1.5.16              
 ##  [3] SingleCellExperiment_0.99.4 SummarizedExperiment_1.7.10
 ##  [5] DelayedArray_0.3.21         matrixStats_0.52.2         
-##  [7] GenomicRanges_1.29.14       GenomeInfoDb_1.13.4        
-##  [9] IRanges_2.11.17             S4Vectors_0.15.10          
-## [11] ggplot2_2.2.1.9000          Biobase_2.37.2             
-## [13] BiocGenerics_0.23.2        
+##  [7] GenomicRanges_1.29.15       GenomeInfoDb_1.13.5        
+##  [9] IRanges_2.11.19             S4Vectors_0.15.12          
+## [11] ggplot2_2.2.1               Biobase_2.37.2             
+## [13] BiocGenerics_0.23.3        
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] viridis_0.4.0           edgeR_3.19.6           
-##  [3] splines_3.4.1           bit64_0.9-7            
-##  [5] viridisLite_0.2.0       shiny_1.0.5            
-##  [7] assertthat_0.2.0        highr_0.6              
-##  [9] sp_1.2-5                blob_1.1.0             
-## [11] GenomeInfoDbData_0.99.1 vipor_0.4.5            
-## [13] yaml_2.1.14             progress_1.1.2         
-## [15] RSQLite_2.0             backports_1.1.1        
-## [17] lattice_0.20-35         glue_1.1.1             
-## [19] limma_3.33.12           digest_0.6.12          
-## [21] checkmate_1.8.4         XVector_0.17.1         
-## [23] colorspace_1.3-2        cowplot_0.8.0          
-## [25] htmltools_0.3.6         httpuv_1.3.5           
-## [27] Matrix_1.2-11           plyr_1.8.4             
-## [29] XML_3.98-1.9            pkgconfig_2.0.1        
-## [31] biomaRt_2.33.4          zlibbioc_1.23.0        
-## [33] xtable_1.8-2            scales_0.5.0.9000      
-## [35] BiocParallel_1.11.9     tibble_1.3.4           
-## [37] lazyeval_0.2.0          survival_2.41-3        
-## [39] magrittr_1.5            mime_0.5               
-## [41] memoise_1.1.0           evaluate_0.10.1        
-## [43] MASS_7.3-47             beeswarm_0.2.3         
-## [45] shinydashboard_0.6.1    fitdistrplus_1.0-9     
-## [47] tools_3.4.1             data.table_1.10.4      
-## [49] prettyunits_1.0.2       stringr_1.2.0          
-## [51] munsell_0.4.3           locfit_1.5-9.1         
-## [53] AnnotationDbi_1.39.3    bindrcpp_0.2           
-## [55] akima_0.6-2             compiler_3.4.1         
-## [57] rlang_0.1.2             rhdf5_2.21.6           
-## [59] grid_3.4.1              RCurl_1.95-4.8         
-## [61] tximport_1.5.0          rjson_0.2.15           
-## [63] labeling_0.3            bitops_1.0-6           
-## [65] rmarkdown_1.6           gtable_0.2.0           
-## [67] DBI_0.7                 reshape2_1.4.2         
-## [69] R6_2.2.2                gridExtra_2.3          
-## [71] knitr_1.17              dplyr_0.7.4            
-## [73] bit_1.1-12              bindr_0.1              
-## [75] rprojroot_1.2           stringi_1.1.5          
-## [77] ggbeeswarm_0.6.0        Rcpp_0.12.13</code></pre>
+##  [1] bitops_1.0-6            bit64_0.9-7            
+##  [3] progress_1.1.2          rprojroot_1.2          
+##  [5] zinbwave_0.99.9         numDeriv_2016.8-1      
+##  [7] tools_3.4.2             backports_1.1.1        
+##  [9] R6_2.2.2                vipor_0.4.5            
+## [11] DBI_0.7                 lazyeval_0.2.0         
+## [13] colorspace_1.3-2        sp_1.2-5               
+## [15] gridExtra_2.3           prettyunits_1.0.2      
+## [17] bit_1.1-12              compiler_3.4.2         
+## [19] glmnet_2.0-13           pspline_1.0-18         
+## [21] labeling_0.3            scales_0.5.0           
+## [23] checkmate_1.8.4         mvtnorm_1.0-6          
+## [25] stringr_1.2.0           digest_0.6.12          
+## [27] rmarkdown_1.6           XVector_0.17.1         
+## [29] pkgconfig_2.0.1         htmltools_0.3.6        
+## [31] akima_0.6-2             highr_0.6              
+## [33] stabledist_0.7-1        ADGofTest_0.3          
+## [35] limma_3.33.14           rlang_0.1.2.9000       
+## [37] RSQLite_2.0             shiny_1.0.5            
+## [39] bindr_0.1               BiocParallel_1.11.11   
+## [41] dplyr_0.7.4             RCurl_1.95-4.8         
+## [43] magrittr_1.5            GenomeInfoDbData_0.99.1
+## [45] Matrix_1.2-11           Rcpp_0.12.13           
+## [47] ggbeeswarm_0.6.0        munsell_0.4.3          
+## [49] viridis_0.4.0           stringi_1.1.5          
+## [51] yaml_2.1.14             edgeR_3.19.7           
+## [53] MASS_7.3-47             zlibbioc_1.23.0        
+## [55] rhdf5_2.21.6            plyr_1.8.4             
+## [57] grid_3.4.2              blob_1.1.0             
+## [59] shinydashboard_0.6.1    lattice_0.20-35        
+## [61] cowplot_0.8.0           splines_3.4.2          
+## [63] locfit_1.5-9.1          knitr_1.17             
+## [65] rjson_0.2.15            softImpute_1.4         
+## [67] codetools_0.2-15        reshape2_1.4.2         
+## [69] biomaRt_2.33.4          XML_3.98-1.9           
+## [71] glue_1.1.1              evaluate_0.10.1        
+## [73] data.table_1.10.4-2     httpuv_1.3.5           
+## [75] foreach_1.4.3           gtable_0.2.0           
+## [77] assertthat_0.2.0        mime_0.5               
+## [79] xtable_1.8-2            survival_2.41-3        
+## [81] pcaPP_1.9-72            viridisLite_0.2.0      
+## [83] gsl_1.9-10.3            tibble_1.3.4           
+## [85] copula_0.999-18         iterators_1.0.8        
+## [87] AnnotationDbi_1.39.4    beeswarm_0.2.3         
+## [89] memoise_1.1.0           tximport_1.5.1         
+## [91] bindrcpp_0.2            fitdistrplus_1.0-9</code></pre>
 </div>
 </div>
   </div>

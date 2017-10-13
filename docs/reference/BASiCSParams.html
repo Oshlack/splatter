@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • Splatter</title>
+<title>The BASiCSParams class — BASiCSParams • Splatter</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -49,7 +49,7 @@
   </head>
 
   <body>
-    <div class="container template-vignette-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -95,20 +95,62 @@
       
       </header>
 
-      <div class="page-header">
-  <h1>Articles <small>version&nbsp;1.1.8</small></h1>
-</div>
-
-<div class="row">
-  <div class="col-md-9">
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <ul>
-        <li><a href="splatter.html">Introduction to Splatter</a></li>
-      </ul>
+      <div class="row">
+  <div class="col-md-9 contents">
+    <div class="page-header">
+    <h1>The BASiCSParams class</h1>
     </div>
+
+    
+    <p>S4 class that holds parameters for the BASiCS simulation.</p>
+    
+
+        
+    <h2 class="hasAnchor" id="parameters"><a class="anchor" href="#parameters"></a>Parameters</h2>
+
+    
+    <p>The BASiCS simulation uses the following parameters:</p><dl class='dl-horizontal'>
+    <dt><code>nGenes</code></dt><dd><p>The number of genes to simulate.</p></dd>
+    <dt><code>nCells</code></dt><dd><p>The number of cells to simulate.</p></dd>
+    <dt><code>[seed]</code></dt><dd><p>Seed to use for generating random numbers.</p></dd>
+    <dt><em>Batch parameters</em></dt><dd><p><dl class='dl-horizontal'>
+           <dt><code>nBatches</code></dt><dd><p>Number of batches to simulate.</p></dd>
+           <dt><code>batchCells</code></dt><dd><p>Number of cells in each batch.</p></dd>
+        </dl></p></dd>
+    <dt><em>Gene parameters</em></dt><dd><p><dl class='dl-horizontal'>
+            <dt><code>gene.params</code></dt><dd><p>A <code>data.frame</code> containing gene
+            parameters with two coloumns: <code>Mean</code> (mean expression for
+            each biological gene) and <code>Delta</code> (cell-to-cell
+            heterogeneity for each biological gene).</p></dd>
+        </dl></p></dd>
+    <dt><em>Spike-in parameters</em></dt><dd><p><dl class='dl-horizontal'>
+            <dt><code>nSpikes</code></dt><dd><p>The number of spike-ins to simulate.</p></dd>
+            <dt><code>spike.means</code></dt><dd><p>Input molecules for each spike-in.</p></dd>
+        </dl></p></dd>
+    <dt><em>Cell parameters</em></dt><dd><p><dl class='dl-horizontal'>
+            <dt><code>cell.params</code></dt><dd><p>A <code>data.frame</code> containing gene
+            parameters with two coloumns: <code>Phi</code> (mRNA content factor for
+            each cell, scaled to sum to the number of cells in each batch)
+            and <code>S</code> (capture efficient for each cell).</p></dd>
+        </dl></p></dd>
+    <dt><em>Variability parameters</em></dt><dd><p><dl class='dl-horizontal'>
+            <dt><code>theta</code></dt><dd><p>Technical variability parameter for each
+            batch.</p></dd>
+        </dl></p></dd>
+</dl>
+    <p>The parameters not shown in brackets can be estimated from real data using
+<code><a href='BASiCSEstimate.html'>BASiCSEstimate</a></code>. For details of the BASiCS simulation see
+<code><a href='BASiCSSimulate.html'>BASiCSSimulate</a></code>.</p>
+    
+
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      
+      <li><a href="#parameters">Parameters</a></li>
+          </ul>
+
   </div>
 </div>
 
