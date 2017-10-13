@@ -8,23 +8,25 @@ reference:
   - title: Parameters
     desc: Parameters functions and classes
     contents:
+      - '`newParams`'
       - '`getParam`'
       - '`getParams`'
+      - '`setParam`'
+      - '`setParams`'
+      - '`BASiCSParams`'
       - '`Lun2Params`'
       - '`LunParams`'
       - '`MFAParams`'
-      - '`newParams`'
       - '`Params`'
       - '`PhenoParams`'
       - '`SCDDParams`'
       - '`SimpleParams`'
       - '`SplatParams`'
-      - '`setParam`'
-      - '`setParams`'
       - '`ZINBParams`'
   - title: Estimation
     desc: Functions for estimating parameters
     contents:
+      - '`BASiCSEstimate`'
       - '`lun2Estimate`'
       - '`lunEstimate`'
       - '`mfaEstimate`'
@@ -41,6 +43,7 @@ reference:
   - title: Simulation
     desc: Functions for simulating datasets
     contents:
+      - '`BASiCSSimulate`'
       - '`lun2Simulate`'
       - '`lunSimulate`'
       - '`mfaSimulate`'
