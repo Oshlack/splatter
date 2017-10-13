@@ -14,7 +14,7 @@
 #' \code{\link[BASiCS]{BASiCS_Sim}} for more details of how the simulation
 #' works.
 #'
-#' @return SCESet containing simulated counts
+#' @return SingleCellExperiment containing simulated counts
 #'
 #' @references
 #' Vallejos CA, Marioni JC, Richardson S. BASiCS: Bayesian Analysis of
@@ -45,8 +45,8 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
     nSpikes <- getParam(params, "nSpikes")
     nBatches <- getParam(params, "nBatches")
     batch.cells <- getParam(params, "batchCells")
-
     gene.params <- getParam(params, "gene.params")
+
     # Sample gene.params if necessary
     if (nrow(gene.params) != nGenes) {
         warning("Number of gene.params not equal to nGenes, ",
@@ -102,7 +102,7 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
 
     counts <- do.call(cbind, counts.list)
 
-    if (verbose) {message("Creating SCESet...")}
+    if (verbose) {message("Creating final dataset...")}
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
     if (nSpikes > 0) {
@@ -115,22 +115,24 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
 
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names
-    phenos <- new("AnnotatedDataFrame",
-                  data = data.frame(Cell = cell.names,
-                                    Phi = cell.params[, "Phi"],
-                                    S = cell.params[, "S"],
-                                    Batch = batches,
-                                    BatchTheta = thetas[batches]))
-    rownames(phenos) <- cell.names
+
+    cells <- data.frame(Cell = cell.names,
+                        Phi = cell.params[, "Phi"],
+                        S = cell.params[, "S"],
+                        Batch = batches,
+                        BatchTheta = thetas[batches])
+    rownames(cells) <- cell.names
+
     features <- data.frame(Gene = gene.names,
                            Mean = c(mu, spike.mu),
                            Delta = c(delta, rep(NA, nSpikes)),
                            IsSpike = c(rep(FALSE, nGenes), rep(TRUE, nSpikes)))
-    features <- new("AnnotatedDataFrame",
-                    data = features)
     rownames(features) <- gene.names
-    sim <- newSCESet(countData = counts, phenoData = phenos,
-                     featureData = features)
+
+    sim <- SingleCellExperiment(assays = list(counts = counts),
+                                rowData = features,
+                                colData = cells,
+                                metadata = list(params = params))
 
     if (verbose) {message("Done!")}
     return(sim)

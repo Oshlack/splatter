@@ -15,7 +15,7 @@ BASiCSSimulate(params = newBASiCSParams(), verbose = TRUE, ...)
 \code{params}.}
 }
 \value{
-SCESet containing simulated counts
+SingleCellExperiment containing simulated counts
 }
 \description{
 Simulate counts using the BASiCS method.
