@@ -37,7 +37,8 @@ Imports:
     scales,
     stats,
     SummarizedExperiment,
-    utils
+    utils,
+    zinbwave
 Suggests:
     BiocStyle,
     covr,
@@ -54,7 +55,6 @@ Suggests:
     scran,
     mfa,
     phenopath,
-    zinbwave,
     BASiCS
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software
