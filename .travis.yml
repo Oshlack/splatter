@@ -2,6 +2,7 @@
 
 language: R
 r:
+  - bioc-devel
   - bioc-release
 sudo: false
 cache: packages
@@ -13,7 +14,8 @@ addons:
       - gsl-bin
       - libgsl-dev
 
-r_check_args: "--no-clean --no-codoc --no-examples --no-install --no-tests --no-manual --no-vignettes --no-build-vignettes"
+after_success:
+  - Rscript -e 'covr::codecov()'
 
 notifications:
   email:
