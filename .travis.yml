@@ -13,7 +13,7 @@ addons:
       - gsl-bin
       - libgsl-dev
 
-r_check_args: "--no-clean --no-codoc --no-examples --no-install --no-tests --no-manual --no-vignettes --no-build-vignettes",
+r_check_args: "--no-clean --no-codoc --no-examples --no-install --no-tests --no-manual --no-vignettes --no-build-vignettes"
 
 notifications:
   email:
