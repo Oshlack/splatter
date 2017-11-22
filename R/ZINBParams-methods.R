@@ -8,7 +8,9 @@ newZINBParams <- function(...) {
     }
 
     params <- new("ZINBParams")
+    default.model <- zinbwave::zinbModel()
 
+    params <- setParams(params, model = default.model)
     params <- setParams(params, ...)
 
     return(params)
@@ -43,6 +45,7 @@ setMethod("setParam", "ZINBParams", function(object, name, value) {
     }
 
     if (name == "model") {
+        checkmate::assertClass(value, "ZinbModel")
         object <- setParamUnchecked(object, "nGenes",
                                     zinbwave::nFeatures(value))
         object <- setParamUnchecked(object, "nCells",

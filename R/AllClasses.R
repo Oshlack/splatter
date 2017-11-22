@@ -655,6 +655,5 @@ setClass("PhenoParams",
 #' @exportClass ZINBParams
 setClass("ZINBParams",
          contains = "Params",
-         slots = c(model = "ZinbModel"),
-         prototype = prototype(nGenes = 100, nCells = 50,
-                               model = zinbwave::zinbModel()))
+         slots = c(model = "ANY"),
+         prototype = prototype(nGenes = 100, nCells = 50))
