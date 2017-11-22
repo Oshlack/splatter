@@ -37,8 +37,7 @@ Imports:
     scales,
     stats,
     SummarizedExperiment,
-    utils,
-    zinbwave
+    utils
 Suggests:
     BiocStyle,
     covr,
@@ -55,7 +54,8 @@ Suggests:
     scran,
     mfa,
     phenopath,
-    BASiCS
+    BASiCS,
+    zinbwave
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software
 URL: https://github.com/Oshlack/splatter

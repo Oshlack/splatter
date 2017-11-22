@@ -7,13 +7,6 @@ r:
 sudo: false
 cache: packages
 
-# dependency for gsl>copula>zinbwave
-addons:
-  apt:
-    packages:
-      - gsl-bin
-      - libgsl-dev
-
 after_success:
   - Rscript -e 'covr::codecov()'
 
