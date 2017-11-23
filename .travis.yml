@@ -7,6 +7,16 @@ r:
 sudo: false
 cache: packages
 
+# dependency for gsl>copula>zinbwave
+addons:
+  apt:
+    packages:
+      - libgsl-dev
+
+install:
+  - R -e 'install.packages("devtools")'
+  - R -e 'devtools::install(dependencies = TRUE, upgrade_dependencies = TRUE)'
+
 after_success:
   - Rscript -e 'covr::codecov()'
 
