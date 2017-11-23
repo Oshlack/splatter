@@ -1,3 +1,11 @@
+## Version 1.2.1 (2017-11-23)
+
+* Fix zinbwave installation error
+
+# Version 1.2.0 (2017-10-30)
+
+* Bioconductor 3.6 release
+
 ## Version 1.1.8 (2017-10-13)
 
 * Add BASiCS simulation
