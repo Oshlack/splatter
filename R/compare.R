@@ -75,7 +75,7 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         rowData(sce)$Dataset <- name
         colData(sce)$Dataset <- name
         sce <- scater::calculateQCMetrics(sce)
-        cpm(sce) <- scater::calculateCPM(sce, use.size.factors = FALSE)
+        cpm(sce) <- scater::calculateCPM(sce, use_size_factors = FALSE)
         sce <- addFeatureStats(sce, "counts")
         sce <- addFeatureStats(sce, "cpm")
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
@@ -301,7 +301,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         rowData(sce)$Dataset <- name
         colData(sce)$Dataset <- name
         sce <- scater::calculateQCMetrics(sce)
-        cpm(sce) <- scater::calculateCPM(sce, use.size.factors = FALSE)
+        cpm(sce) <- scater::calculateCPM(sce, use_size_factors = FALSE)
         sce <- addFeatureStats(sce, "counts")
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
         colData(sce)$PctZero <- 100 * (1 - colData(sce)$total_features /

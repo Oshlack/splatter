@@ -278,7 +278,10 @@ get immediate access to other analysis packages, such as the plotting functions
 in `scater`. For example we can make a PCA plot:
 
 ```{r pca}
-plotPCA(sim, exprs_values = "counts")
+# Use scater to calculate logcounts
+sim <- normalise(sim)
+# Plot PCA
+plotPCA(sim)
 ```
 
 (**NOTE:** Your values and plots may look different as the simulation is random
@@ -336,7 +339,8 @@ printing progress messages.)
 ```{r groups}
 sim.groups <- splatSimulate(group.prob = c(0.5, 0.5), method = "groups",
                             verbose = FALSE)
-plotPCA(sim.groups, colour_by = "Group", exprs_values = "counts")
+sim.groups <- normalise(sim.groups)
+plotPCA(sim.groups, colour_by = "Group")
 ```
 
 As we have set both the group probabilites to 0.5 we should get approximately
@@ -354,7 +358,8 @@ method.
 
 ```{r paths}
 sim.paths <- splatSimulate(method = "paths", verbose = FALSE)
-plotPCA(sim.paths, colour_by = "Step", exprs_values = "counts")
+sim.paths <- normalise(sim.paths)
+plotPCA(sim.paths, colour_by = "Step")
 ```
 
 Here the colours represent the "step" of each cell or how far along the 
@@ -373,7 +378,8 @@ cells are in each batch:
 
 ```{r batches}
 sim.batches <- splatSimulate(batchCells = c(50, 50), verbose = FALSE)
-plotPCA(sim.batches, colour_by = "Batch", exprs_values = "counts")
+sim.batches <- normalise(sim.batches)
+plotPCA(sim.batches, colour_by = "Batch")
 ```
 
 This looks at lot like when we simulated groups and that is because the process
@@ -386,6 +392,7 @@ that we aren't interested in (batch) and the wanted variation we are looking for
 ```{r batch-groups}
 sim.groups <- splatSimulate(batchCells = c(50, 50), group.prob = c(0.5, 0.5),
                             method = "groups", verbose = FALSE)
+sim.groups <- normalise(sim.groups)
 plotPCA(sim.groups, shape_by = "Batch", colour_by = "Group",
         exprs_values = "counts")
 ```
