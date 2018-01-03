@@ -2,7 +2,7 @@
 
 * Fix error in vignette caused by changes in scater
 
-## Version 1.3.0 (2018-01-03)
+## Version 1.3.0 (2017-10-13)
 
 * Bioconductor 3.7 devel 
 
