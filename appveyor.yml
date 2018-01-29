@@ -16,7 +16,7 @@ environment:
     matrix:
     - R_VERSION: devel
     - R_VERSION: release
-    - R_VERSION: 3.4.0
+    USE_RTOOLS: true
 
 build_script:
   - travis-tool.sh install_bioc_deps
