@@ -10,9 +10,9 @@ makeOverallPanel(comp, diff, title = "Overall comparison",
   "Mean-zeros relationship"))
 }
 \arguments{
-\item{comp}{list returned by \code{\link{compareSCESets}}.}
+\item{comp}{list returned by \code{\link{compareSCEs}}.}
 
-\item{diff}{list returned by \code{\link{diffSCESets}}.}
+\item{diff}{list returned by \code{\link{diffSCEs}}.}
 
 \item{title}{title for the panel.}
 
@@ -22,12 +22,12 @@ makeOverallPanel(comp, diff, title = "Overall comparison",
 Combined panel plot
 }
 \description{
-Combine the plots from \code{compSCESets} and \code{diffSCESets} into a
+Combine the plots from \code{compSCEs} and \code{diffSCEs} into a
 single panel.
 }
 \examples{
 \dontrun{
-sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 comparison <- compSCESets(list(Splat = sim1, Simple = sim2))
 difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")

@@ -89,9 +89,14 @@ The parameters required for the Splat simulation are briefly described here:
 * **Global parameters**
     * `nGenes` - The number of genes to simulate.
     * `nCells` - The number of cells to simulate.
-    * `nGroups` - The number of groups or paths to simulate.
-    * `groupCells` - The number of cells in each group/path.
     * `seed` - Seed to use for generating random numbers.
+* **Batch parameters**
+    * `nBatches` - The number of batches to simulate.
+    * `batchCells` - The number of cells in each batch.
+    * `batch.facLoc` - Location (meanlog) parameter for the batch effects factor
+      log-normal distribution.
+    * `batch.facScale` - Scale (sdlog) parameter for the batch effects factor
+      log-normal distribution.
 * **Mean parameters**
     * `mean.shape` - Shape parameter for the mean gamma distribution.
     * `mean.rate` - Rate parameter for the mean gamma distribution.
@@ -106,6 +111,9 @@ The parameters required for the Splat simulation are briefly described here:
       factor log-normal distribution.
     * `out.facScale` - Scale (sdlog) parameter for the expression outlier factor
       log-normal distribution.
+* **Group parameters**
+    * `nGroups` - The number of groups or paths to simulate.
+    * `group.prob` - The probabilities that cells come from particular groups.
 * **Differential expression parameters**
     * `de.prob` - Probability that a gene is differentially expressed in each
       group or path.
@@ -212,8 +220,8 @@ params <- splatEstimate(sc_example_counts)
 ```
 
 Here we estimated parameters from a counts matrix but `splatEstimate` can also
-take an `SCESet` object from the `scater` package. The estimation process has
-the following steps:
+take a `SingleCellExperiment` object. The estimation process has the following
+steps:
 
 1. Mean parameters are estimated by fitting a gamma distribution to the mean
    expression levels.
@@ -227,7 +235,7 @@ the following steps:
 5. Dropout parameters are estimated by checking if dropout is present and
    fitting a logistic function to the relationship between mean expression and
    proportion of zeros.
-   
+
 For more details of the estimation procedures see `?splatEstimate`.
 
 # Simulating counts
@@ -242,39 +250,45 @@ sim <- splatSimulate(params, nGenes = 1000, dropout.present = FALSE)
 sim
 ```
 
-Looking at the output of `splatSimulate` we can see that `sim` is an `SCESet`
-object with `r nrow(sim)` features (genes) and `r ncol(sim)` samples
-(cells). The main part of this object is a features by samples matrix containing
-the simulated counts (accessed using `counts`), although it can also hold other
-expression measures such as FPKM or TPM. Additionaly an `SCESet` contains
-phenotype information about each cell (accessed using `pData`) and feature
-information about each gene (accessed using `fData`). Splatter uses these slots
-to store information about the intermediate values of the simulation.
+Looking at the output of `splatSimulate` we can see that `sim` is
+`SingleCellExperiment` object with `r nrow(sim)` features (genes) and
+`r ncol(sim)` samples (cells). The main part of this object is a features
+by samples matrix containing the simulated counts (accessed using `counts`),
+although it can also hold other expression measures such as FPKM or TPM.
+Additionaly a `SingleCellExperiment` contains phenotype information about
+each cell (accessed using `colData`) and feature information about each gene
+(accessed using `rowData`). Splatter uses these slots, as well as `assays`, to
+store information about the intermediate values of the simulation.
 
-```{r SCESet}
+```{r SCE}
 # Access the counts
 counts(sim)[1:5, 1:5]
 # Information about genes
-head(fData(sim))
+head(rowData(sim))
 # Information about cells
-head(pData(sim))
+head(colData(sim))
 # Gene by cell matrices
-names(assayData(sim))
+names(assays(sim))
 # Example of cell means matrix
-get_exprs(sim, "CellMeans")[1:5, 1:5]
+assays(sim)$CellMeans[1:5, 1:5]
 ```
 
-An additional (big) advantage of outputting an `SCESet` is that we get immediate
-access to all of the `scater` functions. For example we can make a PCA plot:
+An additional (big) advantage of outputting a `SingleCellExperiment` is that we
+get immediate access to other analysis packages, such as the plotting functions
+in `scater`. For example we can make a PCA plot:
 
 ```{r pca}
+# Use scater to calculate logcounts
+sim <- normalise(sim)
+# Plot PCA
 plotPCA(sim)
 ```
 
 (**NOTE:** Your values and plots may look different as the simulation is random
 and produces different results each time it is run.)
 
-For more details of the `SCESet` and what you can do with `scater` refer to the
+For more details about the `SingleCellExperiment` object refer to the [vignette]
+[SCE-vignette]. For information about what you can do with `scater` refer to the
 `scater` documentation and [vignette][scater-vignette].
 
 The `splatSimulate` function outputs the following additional information about
@@ -307,8 +321,8 @@ the simulation:
       cells.
 
 Values that have been added by Splatter are named using `UpperCamelCase` to
-separate them from the `underscore_naming` used by `scater`. For more
-information on the simulation see `?splatSimulate`.
+separate them from the `underscore_naming` used by `scater` and other packages.
+For more information on the simulation see `?splatSimulate`.
 
 ## Simulating groups
 
@@ -316,17 +330,23 @@ So far we have only simulated a single population of cells but often we are
 interested in investigating a mixed population of cells and looking to see what
 cell types are present or what differences there are between them. Splatter is
 able to simulate these situations by changing the `method` argument Here we are
-going to simulate two groups, each with 50 cells, by specifying the `groupCells`
-parameter and setting the `method` parameter to `"groups"`:
+going to simulate two groups, by specifying the `group.prob` parameter and 
+setting the `method` parameter to `"groups"`:
 
 (**NOTE:** We have also set the `verbose` argument to `FALSE` to stop Splatter
 printing progress messages.)
 
 ```{r groups}
-sim.groups <- splatSimulate(groupCells = c(100, 100), method = "groups",
+sim.groups <- splatSimulate(group.prob = c(0.5, 0.5), method = "groups",
                             verbose = FALSE)
+sim.groups <- normalise(sim.groups)
 plotPCA(sim.groups, colour_by = "Group")
 ```
+
+As we have set both the group probabilites to 0.5 we should get approximately
+equal numbers of cells in each group (around 50 in this case). If we wanted
+uneven groups we could set `group.prob` to any set of probabilites that sum to
+1.
 
 ## Simulating paths
 
@@ -338,6 +358,7 @@ method.
 
 ```{r paths}
 sim.paths <- splatSimulate(method = "paths", verbose = FALSE)
+sim.paths <- normalise(sim.paths)
 plotPCA(sim.paths, colour_by = "Step")
 ```
 
@@ -347,6 +368,38 @@ similar to the originating cell type and the light coloured cells are closer
 to the final, differentiated, cell type. By setting additional parameters it is
 possible to simulate more complex process (for example multiple mature cell
 types from a single progenitor).
+
+## Batch effects
+
+Another factor that is important in the analysis of any sequencing experiment
+are batch effects, technical variation that is common to a set of samples
+processed at the same time. We apply batch effects by telling Splatter how many
+cells are in each batch:
+
+```{r batches}
+sim.batches <- splatSimulate(batchCells = c(50, 50), verbose = FALSE)
+sim.batches <- normalise(sim.batches)
+plotPCA(sim.batches, colour_by = "Batch")
+```
+
+This looks at lot like when we simulated groups and that is because the process
+is very similar. The difference is that batch effects are applied to all genes,
+not just those that are differentially expressed, and the effects are usually
+smaller. By combining groups and batches we can simulate both unwanted variation
+that we aren't interested in (batch) and the wanted variation we are looking for
+(group):
+
+```{r batch-groups}
+sim.groups <- splatSimulate(batchCells = c(50, 50), group.prob = c(0.5, 0.5),
+                            method = "groups", verbose = FALSE)
+sim.groups <- normalise(sim.groups)
+plotPCA(sim.groups, shape_by = "Batch", colour_by = "Group",
+        exprs_values = "counts")
+```
+
+Here we see that the effects of the group (first component) are stronger than
+the batch effects (second component) but by adjusting the parameters we could
+made the batch effects dominate.
 
 ## Convenience functions
 
@@ -359,7 +412,7 @@ simulate paths use `splatSimulatePaths()` (equivalent to
 
 # Other simulations
 
-As well as it's own simulation method the Splatter package contains
+As well as it's own Splat simulation method the Splatter package contains
 implementations of other single-cell RNA-seq simulations that have been
 published or wrappers around simulations included in other packages. To see all
 the available simulations run the `listSims()` function:
@@ -379,54 +432,54 @@ associated with that simulation. For example the prefix for the simple
 simulation is `simple` so it would store it's parameters in a `SimpleParams`
 object that can be created using `newSimpleParams()` or estimated from real
 data using `simpleEstimate()`. To simulate data using that simulation you
-would use `simpleSimulate()`. Each simulation returns an `SCESet` object with
-intermediate values similar to that returned by `splatSimulate()`. For more
-detailed information on each simulation see the appropriate help page (eg.
-`?simpleSimulate` for information on how the simple simulation works or
-`?lun2Estimate` for details of how the Lun 2 simulation estimates
-parameters) or refer to the appropriate paper or package.
+would use `simpleSimulate()`. Each simulation returns a `SingleCellExperiment`
+object with intermediate values similar to that returned by `splatSimulate()`.
+For more detailed information on each simulation see the appropriate help page
+(eg. `?simpleSimulate` for information on how the simple simulation works or `?
+lun2Estimate` for details of how the Lun 2 simulation estimates parameters) or
+refer to the appropriate paper or package.
 
 # Other expression values
 
 Splatter is designed to simulate count data but some analysis methods expect
-other expression values, particularly length-normalised values such as TPM or
-FPKM. The `scater` package has functions for adding these values to an `SCESet`
-object but they require a length for each gene. The `addGeneLengths` can be
-used to simulate these lengths:
+other expression values, particularly length-normalised values such as TPM
+or FPKM. The `scater` package has functions for adding these values to a
+`SingleCellExperiment` object but they require a length for each gene. The
+`addGeneLengths` function can be used to simulate these lengths:
 
 ```{r lengths}
 sim <- simpleSimulate(verbose = FALSE)
 sim <- addGeneLengths(sim)
-head(fData(sim))
+head(rowData(sim))
 ```
 
 We can then use `scater` to calculate TPM:
 
 ```{r TPM}
-tpm(sim) <- calculateTPM(sim, fData(sim)$Length)
+tpm(sim) <- calculateTPM(sim, rowData(sim)$Length)
 tpm(sim)[1:5, 1:5]
 ```
 
 The default method used by `addGeneLengths` to simulate lengths is to generate
 values from a log-normal distribution which are then rounded to give an integer
-length. The parameters for this distribution are based on human coding genes
-but can be adjusted if needed (for example for other species). Alternatively
-lengths can be sampled from a provided vector (see `?addGeneLengths` for details
-and an example).
+length. The parameters for this distribution are based on human protein coding 
+genes but can be adjusted if needed (for example for other species). 
+Alternatively lengths can be sampled from a provided vector (see 
+`?addGeneLengths` for details and an example).
 
 # Comparing simulations and real data
 
 One thing you might like to do after simulating data is to compare it to a real
 dataset, or compare simulations with different parameters or models. Splatter
-provides a function `compareSCESets` that aims to make these comparisons easier.
-As the name suggests this function takes a list of `SCESet` objects, combines
-the datasets and produces some plots comparing them. Let's make two small
-simulations and see how they compare.
+provides a function `compareSCEs` that aims to make these comparisons easier. As
+the name suggests this function takes a list of `SingleCellExperiment` objects,
+combines the datasets and produces some plots comparing them. Let's make two
+small simulations and see how they compare.
 
 ```{r comparison}
-sim1 <- splatSimulate(nGenes = 1000, groupCells = 20, verbose = FALSE)
+sim1 <- splatSimulate(nGenes = 1000, batchCells = 20, verbose = FALSE)
 sim2 <- simpleSimulate(nGenes = 1000, nCells = 20, verbose = FALSE)
-comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
+comparison <- compareSCEs(list(Splat = sim1, Simple = sim2))
 
 names(comparison)
 names(comparison$Plots)
@@ -454,15 +507,15 @@ ggplot(comparison$PhenoData,
 
 ## Comparing differences
 
-Sometimes instead of visually comparing datasets it may be more interesting to
-look at the differences between them. We can do this using the `diffSCESets`
-function. Similar to `compareSCESets` this function takes a list of `SCESet`
-objects but now we also specify one to be a reference. A series of similar plots
-are returned but instead of showing the overall distributions they demonstrate
-differences from the reference.
+Sometimes instead of visually comparing datasets it may be more interesting
+to look at the differences between them. We can do this using the
+`diffSCEs` function. Similar to `compareSCEs` this function takes a list of
+`SingleCellExperiment` objects but now we also specify one to be a reference.
+A series of similar plots are returned but instead of showing the overall
+distributions they demonstrate differences from the reference.
 
 ```{r difference}
-difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
+difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
 difference$Plots$Means
 ```
 
@@ -497,6 +550,14 @@ panel <- makeOverallPanel(comparison, difference)
 cowplot::save_plot("overall_panel.png", panel, ncol = 4, nrow = 7)
 ```
 
+# Citing Splatter
+
+If you use Splatter in your work please cite our paper:
+
+```{r citation}
+citation("splatter")
+```
+
 # Session information {-}
 
 ```{r sessionInfo}
@@ -506,3 +567,4 @@ sessionInfo()
 [gamma]: https://en.wikipedia.org/wiki/Gamma_distribution
 [poisson]: https://en.wikipedia.org/wiki/Poisson_distribution
 [scater-vignette]: https://bioconductor.org/packages/release/bioc/vignettes/scater/inst/doc/vignette.html
+[SCE-vignette]: https://bioconductor.org/packages/devel/bioc/vignettes/SingleCellExperiment/inst/doc/intro.html

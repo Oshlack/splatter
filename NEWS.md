@@ -1,34 +1,105 @@
-# 1.0.1
+## Version 1.3.1 (2018-01-03)
+
+* Fix error in vignette caused by changes in scater
+
+## Version 1.3.0 (2017-10-13)
+
+* Bioconductor 3.7 devel 
+
+## Version 1.2.1 (2017-11-23)
+
+* Fix zinbwave installation error
+
+# Version 1.2.0 (2017-10-30)
+
+* Bioconductor 3.6 release
+
+## Version 1.1.8 (2017-10-13)
+
+* Add BASiCS simulation
+* Update Splatter citation
+* Update Lun2 reference
+
+## Version 1.1.7 (2017-10-05)
+
+* Add PhenoPath simulation
+* Add ZINB-WaVE simulation
+* Adjust mfaSimulate output
+
+## Version 1.1.6 (2017-10-02)
+
+* Update scDD version
+* Add mfa simulation
+
+## Version 1.1.5 (2017-09-13)
+
+* Convert to SingleCellExperiment
+
+## Version 1.1.4 (2017-08-04)
+
+* Fix group factors bug
+
+## Version 1.1.3 (2017-07-20)
+
+* Add verbose option to scDDEstimate
+* Change "mean-dropout" to "mean-zeros" in compareSCESets
+
+## Version 1.1.2 (2017-07-16)
+
+* Update summariseDiff
+* Update scDDEstimate, now estimates gene types
+* Fix error in lun2Estimate
+* Import SummarizedExperiment to avoid warnings
+
+## Version 1.1.1 (2017-07-07)
+
+* Add batch effects to Splat simulation
+* Make Splat group assignment probabilistic
+* Update SplatParams with new parameters
+
+## Version 1.1.0 (2017-07-07)
+
+* Bioconductor 3.6 devel
+
+## Version 1.0.3 (2017-05-26)
+
+* Update citation
+
+## Version 1.0.2 (2017-05-15)
+
+* Fix error handling when fitting means
+
+## Version 1.0.1 (2017-04-28)
 
 * Fix scales in some difference plots
 * Fix colours in difference plots
 * Fix panel legends
 
-# 1.0.0
+# Version 1.0.0 (2017-04-28)
 
 * Bioconductor 3.5 release
 
-# 0.99.15
+## Version 0.99.15 (2017-04-14)
 
 * Add summariseDiff function
 * Add BPPARAM argument to scDDSimulate
-* Adjust default Spalt DE factor parameters
+* Adjust default Splat DE factor parameters
 * Add limits to zeros diff plots
 * Remove estimation of dropout.present
 
-# 0.99.14
+## Version 0.99.14 (2017-03-28)
 
 * Add functions for making comparison panels
 * Add panel section to vignette
 * Change variance plot scale (for consistency)
 
-# 0.99.13
+## Version 0.99.13 (2017-03-25)
 
 * Modify how Lun2Params stores gene paramters to use data.frame
 * Move sampling of genes/cells to lun2Simulate
 * Return to old Lun2 nGenes estimate
 
-# 0.99.12
+## Version 0.99.12 (2017-03-22)
 
 * Add diffSCESets function
 * Update compareSCESets plots
@@ -36,127 +107,127 @@
 * Modify how addFeatureStats names columns
 * Add infinte bcv.df warning to splatSimulate
 
-# 0.99.11
+## Version 0.99.11 (2017-03-20)
 
 * Add parallel option to lun2Estimate
 * Allow non-integer library sizes in Lun2Params
 * Adjust dropout eta value
 * Adjust comparison plots
 
-# 0.99.10
+## Version 0.99.10 (2017-03-07)
 
 * Improve Splat estimation procedure
 * Update default Splat parameters
 * Remove out.loProb Splat parameter
 * Add MeanZeros plot to compareSCESets
 
-# 0.99.9
+## Version 0.99.9 (2017-02-02)
 
 * Add addGeneLengths function
 * Update scDD reference
 
-# 0.99.8
+## Version 0.99.8 (2017-01-23)
 
 * Fix bug that meant non-linear path factors weren't stored in output
 
-# 0.99.7
+## Version 0.99.7 (2017-01-10)
 
 * Small changes to avoid NOTEs and reduce check time
 
-# 0.99.6
+## Version 0.99.6 (2016-12-29)
 
 * Add installation to vignette
 * Add detail about counts matrix to vignette
 * Replace 1:x with seq_len/seq_along
 
-# 0.99.5
+## Version 0.99.5 (2016-12-28)
 
 * Set R_TESTS environment
 
-# 0.99.4
+## Version 0.99.4 (2016-12-23)
 
 * Version bump to start build
 
-# splatter 0.99.3
+## Version 0.99.3 (2016-12-21)
 
 * Fix to match Bioconductor version of scDD
 * Add logo to repository
 
-# splatter 0.99.2
+## Version 0.99.2 (2016-12-13)
 
 * Add rownames, colnames to matrices in splatSimulate, lunSimulate
 * Bump R version to 3.4
 
-# splatter 0.99.1
+## Version 0.99.1 (2016-12-12)
 
 * Address Biocondutor build warnings, notes
 
-# splatter 0.99.0
+# Version 0.99.0 (2016-12-05)
 
 * Submit to Bioconductor
 
-# splatter 0.12.1
+## Version 0.12.1 (2016-11-25)
 
 * Fix bug in compareSCESets
 * Dataset order is now kept in plots
 
-# splatter 0.12.0
+## Version 0.12.0 (2016-10-25)
 
 * Add compareSCESets function
 * Update vignette
 * Fix LunParams validity bug
 * Add logo
 
-# splatter 0.11.1
+## Version 0.11.1 (2016-11-23)
 
 * Fix bug in splatSimulatePaths that caused NAs
 
-# splatter 0.11.0
+## Version 0.11.0 (2016-11-22)
 
 * Make compatible with Bioconductor 3.4
 
-# splatter 0.10.1
+## Version 0.10.1 (2016-10-17)
 
 * Fix error for SCESets in lun2Estimate, scDDEstimate
 
-# splatter 0.10.0
+## Version 0.10.0 (2016-10-16)
 
 * Add listSims function
 * Add vignette
 
-# splatter 0.9.0
+## Version 0.9.0 (2016-10-15)
 
 * Add scDD simulation
 
-# splatter 0.8.0
+## Version 0.8.0 (2016-10-15)
 
 * Add Lun2 simulation
 
-# splatter 0.7.0
+## Version 0.7.0 (2016-10-14)
 
 * Redesign how parameters are stored
 * Each simulation now has it's own S4 Params class
 * Modify exisiting simulations to use new parameter objects
 
-# splatter 0.6.0
+## Version 0.6.0 (2016-10-12)
 
 * Add Lun simulation
 * Modify splatParams to take Lun parameters
 
-# splatter 0.5.0
+## Version 0.5.0 (2016-10-12)
 
 * Add simple simulation
 
-# splatter 0.4.0
+## Version 0.4.0 (2016-10-12)
 
 * Add splatter simulations
 * Modify some parts of splatParams and fix bugs
 
-# splatter 0.3.0
+## Version 0.3.0 (2016-10-06)
 
 * Added parameter estimation functions
 
-# splatter 0.2.0
+## Version 0.2.0 (2016-10-06)
 
 * Added splatParams object
 * Added functions for interacting with splatParams

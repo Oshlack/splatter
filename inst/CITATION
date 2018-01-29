@@ -1,0 +1,10 @@
+citEntry(
+    entry = "article",
+    author = "Luke Zappia and Belinda Phipson and Alicia Oshlack",
+    title = "Splatter: simulation of single-cell RNA sequencing data",
+    journal = "Genome Biology",
+    year = "2017",
+    url = "http://dx.doi.org/10.1186/s13059-017-1305-0",
+    doi =  "10.1186/s13059-017-1305-0",
+    textVersion = "Zappia L, Phipson B, Oshlack A. Splatter: Simulation of single-cell RNA sequencing data. Genome Biology. 2017; doi:10.1186/s13059-017-1305-0"
+)

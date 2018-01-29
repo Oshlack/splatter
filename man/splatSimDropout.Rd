@@ -7,12 +7,12 @@
 splatSimDropout(sim, params)
 }
 \arguments{
-\item{sim}{SCESet to add dropout to.}
+\item{sim}{SingleCellExperiment to add dropout to.}
 
 \item{params}{SplatParams object with simulation parameters.}
 }
 \value{
-SCESet with simulated dropout and observed counts.
+SingleCellExperiment with simulated dropout and observed counts.
 }
 \description{
 A logistic function is used to form a relationshop between the expression

@@ -31,8 +31,8 @@ trajectories (eg. differentiation processes).}
 \code{params}.}
 }
 \value{
-SCESet object containing the simulated counts and intermediate
-values.
+SingleCellExperiment object containing the simulated counts and
+intermediate values.
 }
 \description{
 Simulate count data from a fictional single-cell RNA-seq experiment using
@@ -56,15 +56,16 @@ The simulation involves the following steps:
     \item Simulate BCV adjusted cell means
     \item Simulate true counts
     \item Simulate dropout
-    \item Create final SCESet object
+    \item Create final dataset
 }
 
-The final output is an \code{\link[scater]{SCESet}} object that contains the
-simulated counts but also the values for various intermediate steps. These
-are stored in the \code{\link[Biobase]{phenoData}} (for cell specific
-information), \code{\link[Biobase]{featureData}} (for gene specific
-information) or \code{\link[Biobase]{assayData}} (for gene by cell matrices)
-slots. This additional information includes:
+The final output is a
+\code{\link[SingleCellExperiment]{SingleCellExperiment}} object that
+contains the simulated counts but also the values for various intermediate
+steps. These are stored in the \code{\link[SummarizedExperiment]{colData}}
+(for cell specific information), \code{\link[SummarizedExperiment]{rowData}}
+(for gene specific information) or \code{\link[SummarizedExperiment]{assays}}
+(for gene by cell matrices) slots. This additional information includes:
 \describe{
     \item{\code{phenoData}}{
         \describe{
@@ -81,22 +82,25 @@ slots. This additional information includes:
             \item{OutlierFactor}{Expression outlier factor for that gene.
             Values of 1 indicate the gene is not an expression outlier.}
             \item{GeneMean}{Expression level after applying outlier factors.}
+            \item{BatchFac[Batch]}{The batch effects factor for each gene for
+            a particular batch.}
             \item{DEFac[Group]}{The differential expression factor for each
             gene in a particular group. Values of 1 indicate the gene is not
             differentially expressed.}
-            \item{GeneMean[Group]}{Expression level of a gene in a particular
-            group after applying differential expression factors.}
             \item{SigmaFac[Path]}{Factor applied to genes that have
             non-linear changes in expression along a path.}
         }
     }
     \item{\code{assayData}}{
         \describe{
-            \item{BaseCellMeans}{The expression of genes in each cell
-            adjusted for expected library size.}
+            \item{BatchCellMeans}{The mean expression of genes in each cell
+            after adding batch effects.}
+            \item{BaseCellMeans}{The mean expression of genes in each cell
+            after any differential expression and adjusted for expected
+            library size.}
             \item{BCV}{The Biological Coefficient of Variation for each gene
             in each cell.}
-            \item{CellMeans}{The expression level of genes in each cell
+            \item{CellMeans}{The mean expression level of genes in each cell
             adjusted for BCV.}
             \item{TrueCounts}{The simulated counts before dropout.}
             \item{Dropout}{Logical matrix showing which values have been
@@ -105,14 +109,14 @@ slots. This additional information includes:
     }
 }
 
-Values that have been added by Splatter are named using \code{CamelCase} in
-order to differentiate them from the values added by Scater which uses
-\code{underscore_naming}.
+Values that have been added by Splatter are named using \code{UpperCamelCase}
+in order to differentiate them from the values added by analysis packages
+which typically use \code{underscore_naming}.
 }
 \examples{
 # Simulation with default parameters
-\dontrun{
 sim <- splatSimulate()
+\dontrun{
 # Simulation with different number of genes
 sim <- splatSimulate(nGenes = 1000)
 # Simulation with custom parameters
@@ -126,8 +130,17 @@ sim <- splatSimulate(method = "groups")
 sim <- splatSimulate(method = "paths")
 }
 }
+\references{
+Zappia L, Phipson B, Oshlack A. Splatter: simulation of single-cell RNA
+sequencing data. Genome Biology (2017).
+
+Paper: \url{10.1186/s13059-017-1305-0}
+
+Code: \url{https://github.com/Oshlack/splatter}
+}
 \seealso{
 \code{\link{splatSimLibSizes}}, \code{\link{splatSimGeneMeans}},
+\code{\link{splatSimBatchEffects}}, \code{\link{splatSimBatchCellMeans}},
 \code{\link{splatSimDE}}, \code{\link{splatSimCellMeans}},
 \code{\link{splatSimBCVMeans}}, \code{\link{splatSimTrueCounts}},
 \code{\link{splatSimDropout}}

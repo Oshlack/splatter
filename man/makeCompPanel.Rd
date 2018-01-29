@@ -9,7 +9,7 @@ makeCompPanel(comp, title = "Comparison", labels = c("Means", "Variance",
   "Zeros per cell", "Mean-zeros relationship"))
 }
 \arguments{
-\item{comp}{list returned by \code{\link{compareSCESets}}.}
+\item{comp}{list returned by \code{\link{compareSCEs}}.}
 
 \item{title}{title for the panel.}
 
@@ -19,13 +19,13 @@ makeCompPanel(comp, title = "Comparison", labels = c("Means", "Variance",
 Combined panel plot
 }
 \description{
-Combine the plots from \code{compareSCESets} into a single panel.
+Combine the plots from \code{compareSCEs} into a single panel.
 }
 \examples{
 \dontrun{
-sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
-comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
+comparison <- compareSCEs(list(Splat = sim1, Simple = sim2))
 panel <- makeCompPanel(comparison)
 }
 

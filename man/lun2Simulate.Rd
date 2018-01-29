@@ -17,7 +17,7 @@ lun2Simulate(params = newLun2Params(), zinb = FALSE, verbose = TRUE, ...)
 \code{params}.}
 }
 \value{
-SCESet containing simulated counts.
+SingleCellExperiment containing simulated counts.
 }
 \description{
 Simulate single-cell RNA-seq count data using the method described in Lun
@@ -45,9 +45,9 @@ sim <- lun2Simulate()
 }
 \references{
 Lun ATL, Marioni JC. Overcoming confounding plate effects in differential
-expression analyses of single-cell RNA-seq data. bioRxiv (2016).
+expression analyses of single-cell RNA-seq data. Biostatistics (2017).
 
-Paper: \url{dx.doi.org/10.1101/073973}
+Paper: \url{dx.doi.org/10.1093/biostatistics/kxw055}
 
 Code: \url{https://github.com/MarioniLab/PlateEffects2016}
 }

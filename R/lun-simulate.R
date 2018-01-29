@@ -19,8 +19,8 @@
 #'
 #' See \code{\link{LunParams}} for details of the parameters.
 #'
-#' @return SCESet object containing the simulated counts and intermediate
-#' values.
+#' @return SingleCellExperiment object containing the simulated counts and
+#' intermediate values.
 #'
 #' @references
 #' Lun ATL, Bach K, Marioni JC. Pooling across cells to normalize single-cell
@@ -33,9 +33,8 @@
 #' @examples
 #' sim <- lunSimulate()
 #'
-#' @importFrom Biobase fData fData<- pData pData<-
-#' @importFrom methods new
-#' @importFrom scater newSCESet set_exprs<-
+#' @importFrom SummarizedExperiment rowData rowData<- colData colData<-
+#' @importFrom SingleCellExperiment SingleCellExperiment
 #' @importFrom stats rnorm rgamma rnbinom
 #' @export
 lunSimulate <- function(params = newLunParams(), verbose = TRUE, ...) {
@@ -62,6 +61,9 @@ lunSimulate <- function(params = newLunParams(), verbose = TRUE, ...) {
     de.upProp <- getParam(params, "de.upProp")
     de.upFC <- getParam(params, "de.upFC")
     de.downFC <- getParam(params, "de.downFC")
+
+    cell.names <- paste0("Cell", seq_len(nCells))
+    gene.names <- paste0("Gene", seq_len(nGenes))
 
     if (verbose) {message("Simulating means...")}
     gene.means <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
@@ -99,39 +101,40 @@ lunSimulate <- function(params = newLunParams(), verbose = TRUE, ...) {
         cell.facs <- unlist(cell.facs)
         groups <- unlist(groups)
     }
+    colnames(cell.means) <- cell.names
+    rownames(cell.means) <- gene.names
 
     if (verbose) {message("Simulating counts...")}
     counts <- matrix(rnbinom(nGenes * nCells, mu = cell.means,
                              size = 1 / count.disp),
                      nrow = nGenes, ncol = nCells)
 
-    if (verbose) {message("Creating final SCESet...")}
-    cell.names <- paste0("Cell", seq_len(nCells))
-    gene.names <- paste0("Gene", seq_len(nGenes))
+    if (verbose) {message("Creating final dataset...")}
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names
 
-    phenos <- new("AnnotatedDataFrame",
-                  data = data.frame(Cell = cell.names, CellFac = cell.facs))
-    rownames(phenos) <- cell.names
-    features <- new("AnnotatedDataFrame",
-                    data = data.frame(Gene = gene.names, GeneMean = gene.means))
-    rownames(features) <- gene.names
-    sim <- newSCESet(countData = counts, phenoData = phenos,
-                     featureData = features)
+    cells <- data.frame(Cell = cell.names, CellFac = cell.facs)
+    rownames(cells) <- cell.names
 
-    colnames(cell.means) <- cell.names
-    rownames(cell.means) <- gene.names
-    set_exprs(sim, "CellMeans") <- cell.means
+    features <- data.frame(Gene = gene.names, GeneMean = gene.means)
+    rownames(features) <- gene.names
 
     if (nGroups > 1) {
-        pData(sim)$Group <- groups
+        cells$Group <- groups
         for (idx in seq_along(de.facs)) {
-            fData(sim)[[paste0("DEFacGroup", idx)]] <- de.facs[[idx]]
-            fData(sim)[[paste0("GeneMeanGroup", idx)]] <- gene.means *
+            features[[paste0("DEFacGroup", idx)]] <- de.facs[[idx]]
+            features[[paste0("GeneMeanGroup", idx)]] <- gene.means *
                 de.facs[[idx]]
         }
     }
+
+    sim <- SingleCellExperiment(assays = list(counts = counts,
+                                              CellMeans = cell.means),
+                                rowData = features,
+                                colData = cells,
+                                metadata = list(params = params))
+
+    if (verbose) {message("Done!")}
 
     return(sim)
 }

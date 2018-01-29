@@ -7,12 +7,12 @@
 #' The Params class defines the following parameters:
 #'
 #' \describe{
-#'     \item{\code{[nGenes]}}{The number of genes to simulate.}
-#'     \item{\code{[nCells]}}{The number of cells to simulate.}
-#'     \item{\code{seed}}{Seed to use for generating random numbers.}
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
 #' }
 #'
-#' The parameters shown in brackets can be estimated from real data.
+#' The parameters not shown in brackets can be estimated from real data.
 #'
 #' @name Params
 #' @rdname Params
@@ -72,10 +72,18 @@ setClass("SimpleParams",
 #' \describe{
 #'     \item{\code{nGenes}}{The number of genes to simulate.}
 #'     \item{\code{nCells}}{The number of cells to simulate.}
-#'     \item{\code{[nGroups]}}{The number of groups or paths to simulate.}
-#'     \item{\code{[groupCells]}}{Vector giving the number of cells in each
-#'     simulation group/path.}
 #'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\emph{Batch parameters}}{
+#'         \describe{
+#'             \item{\code{[nBatches]}}{The number of batches to simulate.}
+#'             \item{\code{[batchCells]}}{Vector giving the number of cells in
+#'             each batch.}
+#'             \item{\code{[batch.facLoc]}}{Location (meanlog) parameter for the
+#'             batch effect factor log-normal distribution. Can be a vector.}
+#'             \item{\code{[batch.facScale]}}{Scale (sdlog) parameter for the
+#'             batch effect factor log-normal distribution. Can be a vector.}
+#'         }
+#'     }
 #'     \item{\emph{Mean parameters}}{
 #'         \describe{
 #'             \item{\code{mean.shape}}{Shape parameter for the mean gamma
@@ -100,6 +108,14 @@ setClass("SimpleParams",
 #'             expression outlier factor log-normal distribution.}
 #'             \item{\code{out.facScale}}{Scale (sdlog) parameter for the
 #'             expression outlier factor log-normal distribution.}
+#'         }
+#'     }
+#'     \item{\emph{Group parameters}}{
+#'         \describe{
+#'             \item{\code{[nGroups]}}{The number of groups or paths to
+#'             simulate.}
+#'             \item{\code{[group.prob]}}{Probability that a cell comes from a
+#'             group.}
 #'         }
 #'     }
 #'     \item{\emph{Differential expression parameters}}{
@@ -173,8 +189,10 @@ setClass("SimpleParams",
 #' @exportClass SplatParams
 setClass("SplatParams",
          contains = "Params",
-         slots = c(nGroups = "numeric",
-                   groupCells = "numeric",
+         slots = c(nBatches = "numeric",
+                   batchCells = "numeric",
+                   batch.facLoc = "numeric",
+                   batch.facScale = "numeric",
                    mean.shape = "numeric",
                    mean.rate = "numeric",
                    lib.loc = "numeric",
@@ -182,6 +200,8 @@ setClass("SplatParams",
                    out.prob = "numeric",
                    out.facLoc = "numeric",
                    out.facScale = "numeric",
+                   nGroups = "numeric",
+                   group.prob = "numeric",
                    de.prob = "numeric",
                    de.downProb = "numeric",
                    de.facLoc = "numeric",
@@ -196,8 +216,10 @@ setClass("SplatParams",
                    path.skew = "numeric",
                    path.nonlinearProb = "numeric",
                    path.sigmaFac = "numeric"),
-         prototype = prototype(nGroups = 1,
-                               groupCells = 100,
+         prototype = prototype(nBatches = 1,
+                               batchCells = 100,
+                               batch.facLoc = 0.1,
+                               batch.facScale = 0.1,
                                mean.rate = 0.3,
                                mean.shape = 0.6,
                                lib.loc = 11,
@@ -205,6 +227,8 @@ setClass("SplatParams",
                                out.prob = 0.05,
                                out.facLoc = 4,
                                out.facScale = 0.5,
+                               nGroups = 1,
+                               group.prob = 1,
                                de.prob = 0.1,
                                de.downProb = 0.5,
                                de.facLoc = 0.1,
@@ -284,7 +308,7 @@ setClass("LunParams",
 
 #' The Lun2Params class
 #'
-#' S4 class that holds parameters for the Lun simulation.
+#' S4 class that holds parameters for the Lun2 simulation.
 #'
 #' @section Parameters:
 #'
@@ -381,30 +405,30 @@ setClass("Lun2Params",
 #' The SCDD simulation uses the following parameters:
 #'
 #' \describe{
-#'     \item{\code{[nGenes]}}{The number of genes to simulate (not used).}
+#'     \item{\code{nGenes}}{The number of genes to simulate (not used).}
 #'     \item{\code{nCells}}{The number of cells to simulate in each condition.}
 #'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
 #'     \item{\code{SCdat}}{
-#'     \code{\link[SummarizedExperiment]{SummarizedExperiment}} containing real
+#'     \code{\link[SingleCellExperiment]{SingleCellExperiment}} containing real
 #'     data.}
-#'     \item{\code{[nDE]}}{Number of DE genes to simulate.}
-#'     \item{\code{[nDP]}}{Number of DP genes to simulate.}
-#'     \item{\code{[nDM]}}{Number of DM genes to simulate.}
-#'     \item{\code{[nDB]}}{Number of DB genes to simulate.}
-#'     \item{\code{[nEE]}}{Number of EE genes to simulate.}
-#'     \item{\code{[nEP]}}{Number of EP genes to simulate.}
+#'     \item{\code{nDE}}{Number of DE genes to simulate.}
+#'     \item{\code{nDP}}{Number of DP genes to simulate.}
+#'     \item{\code{nDM}}{Number of DM genes to simulate.}
+#'     \item{\code{nDB}}{Number of DB genes to simulate.}
+#'     \item{\code{nEE}}{Number of EE genes to simulate.}
+#'     \item{\code{nEP}}{Number of EP genes to simulate.}
 #'     \item{\code{[sd.range]}}{Interval for fold change standard deviations.}
 #'     \item{\code{[modeFC]}}{Values for DP, DM and DB mode fold changes.}
 #'     \item{\code{[varInflation]}}{Variance inflation factors for each
-#'     condition. If all equal to 1 will be set to \code{NULL} (default)}
+#'     condition. If all equal to 1 will be set to \code{NULL} (default).}
 #'     \item{\code{[condition]}}{String giving the column that represents
-#'     biological group of interest}
+#'     biological group of interest.}
 #' }
 #'
 #' The parameters not shown in brackets can be estimated from real data using
 #' \code{\link{scDDEstimate}}. See \code{\link[scDD]{simulateSet}} for more
-#' details of the parameters. For details of the Splatter implementation of the
-#' scDD simulation see \code{\link{scDDSimulate}}.
+#' details about the parameters. For details of the Splatter implementation of
+#' the scDD simulation see \code{\link{scDDSimulate}}.
 #'
 #' @name SCDDParams
 #' @rdname SCDDParams
@@ -424,7 +448,7 @@ setClass("SCDDParams",
                    varInflation = "numeric",
                    condition = "character"),
           prototype = prototype(SCdat =
-                                   SummarizedExperiment::SummarizedExperiment(),
+                                   SingleCellExperiment::SingleCellExperiment(),
                                nCells = 100,
                                nDE = 250,
                                nDP = 250,
@@ -436,3 +460,200 @@ setClass("SCDDParams",
                                modeFC = c(2, 3, 4),
                                varInflation = c(1, 1),
                                condition = "condition"))
+
+#' The BASiCSParams class
+#'
+#' S4 class that holds parameters for the BASiCS simulation.
+#'
+#' @section Parameters:
+#'
+#' The BASiCS simulation uses the following parameters:
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\emph{Batch parameters}}{
+#'         \describe{
+#'            \item{\code{nBatches}}{Number of batches to simulate.}
+#'            \item{\code{batchCells}}{Number of cells in each batch.}
+#'         }
+#'     }
+#'     \item{\emph{Gene parameters}}{
+#'         \describe{
+#'             \item{\code{gene.params}}{A \code{data.frame} containing gene
+#'             parameters with two coloumns: \code{Mean} (mean expression for
+#'             each biological gene) and \code{Delta} (cell-to-cell
+#'             heterogeneity for each biological gene).}
+#'         }
+#'     }
+#'     \item{\emph{Spike-in parameters}}{
+#'         \describe{
+#'             \item{\code{nSpikes}}{The number of spike-ins to simulate.}
+#'             \item{\code{spike.means}}{Input molecules for each spike-in.}
+#'         }
+#'     }
+#'     \item{\emph{Cell parameters}}{
+#'         \describe{
+#'             \item{\code{cell.params}}{A \code{data.frame} containing gene
+#'             parameters with two coloumns: \code{Phi} (mRNA content factor for
+#'             each cell, scaled to sum to the number of cells in each batch)
+#'             and \code{S} (capture efficient for each cell).}
+#'         }
+#'     }
+#'     \item{\emph{Variability parameters}}{
+#'         \describe{
+#'             \item{\code{theta}}{Technical variability parameter for each
+#'             batch.}
+#'         }
+#'     }
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{BASiCSEstimate}}. For details of the BASiCS simulation see
+#' \code{\link{BASiCSSimulate}}.
+#'
+#' @name BASiCSParams
+#' @rdname BASiCSParams
+#' @aliases BASiCSParams-class
+#' @exportClass BASiCSParams
+setClass("BASiCSParams",
+         contains = "Params",
+         slots = c(nBatches = "numeric",
+                   batchCells = "numeric",
+                   gene.params = "data.frame",
+                   nSpikes = "numeric",
+                   spike.means = "numeric",
+                   cell.params = "data.frame",
+                   theta = "numeric"),
+         prototype = prototype(nBatches = 1,
+                               batchCells = 100,
+                               gene.params =
+                                   data.frame(
+                                       Mean = c(8.36, 10.65, 4.88, 6.29, 21.72,
+                                                12.93, 30.19),
+                                       Delta = c(1.29, 0.88, 1.51, 1.49, 0.54,
+                                                 0.40, 0.85)
+                               ),
+                               nSpikes = 5,
+                               spike.means = c(12.93, 30.19, 1010.72, 7.90,
+                                               31.59),
+                               cell.params =
+                                   data.frame(
+                                       Phi = c(1.00, 1.06, 1.09, 1.05, 0.80),
+                                       S = c(0.38, 0.40, 0.38, 0.39, 0.34)
+                               ),
+                               theta = 0.39)
+)
+
+#' The MFAParams class
+#'
+#' S4 class that holds parameters for the mfa simulation.
+#'
+#' @section Parameters:
+#'
+#' The mfa simulation uses the following parameters:
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\code{[trans.prop]}}{Proportion of genes that show transient
+#'     expression. These genes are briefly up or down-regulated before returning
+#'     to their initial state}
+#'     \item{\code{[zero.neg]}}{Logical. Whether to set negative expression
+#'     values to zero. This will zero-inflate the data.}
+#'     \item{\code{[dropout.present]}}{Logical. Whether to simulate dropout.}
+#'     \item{\code{dropout.lambda}}{Lambda parameter for the exponential
+#'     dropout function.}
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{mfaEstimate}}. See \code{\link[mfa]{create_synthetic}} for more
+#' details about the parameters. For details of the Splatter implementation of
+#' the mfa simulation see \code{\link{mfaSimulate}}.
+#'
+#' @name MFAParams
+#' @rdname MFAParams
+#' @aliases MFAParams-class
+#' @exportClass MFAParams
+setClass("MFAParams",
+         contains = "Params",
+         slots = c(trans.prop = "numeric",
+                   zero.neg = "logical",
+                   dropout.present = "logical",
+                   dropout.lambda = "numeric"),
+         prototype = prototype(trans.prop = 0, zero.neg = TRUE,
+                               dropout.present = FALSE, dropout.lambda = 1))
+
+
+#' The PhenoParams class
+#'
+#' S4 class that holds parameters for the PhenoPath simulation.
+#'
+#' @section Parameters:
+#'
+#' The PhenoPath simulation uses the following parameters:
+#'
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\code{[n.de]}}{Number of genes to simulate from the differential
+#'     expression regime}
+#'     \item{\code{[n.pst]}}{Number of genes to simulate from the pseudotime
+#'     regime}
+#'     \item{\code{[n.pst.beta]}}{Number of genes to simulate from the
+#'     pseudotime + beta interactions regime}
+#'     \item{\code{[n.de.pst.beta]}}{Number of genes to simulate from the
+#'     differential expression + pseudotime + interactions regime}
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{phenoEstimate}}. For details of the PhenoPath simulation
+#' see \code{\link{phenoSimulate}}.
+#'
+#' @name PhenoParams
+#' @rdname PhenoParams
+#' @aliases PhenoParams-class
+#' @exportClass PhenoParams
+setClass("PhenoParams",
+         contains = "Params",
+         slots = c(n.de = "numeric",
+                   n.pst = "numeric",
+                   n.pst.beta = "numeric",
+                   n.de.pst.beta = "numeric"),
+         prototype = prototype(n.de = 2500, n.pst = 2500, n.pst.beta = 2500,
+                               n.de.pst.beta = 2500))
+
+
+#' The ZINBParams class
+#'
+#' S4 class that holds parameters for the ZINB-WaVE simulation.
+#'
+#' @section Parameters:
+#'
+#' The ZINB-WaVE simulation uses the following parameters:
+#'
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\code{model}}{Object describing a ZINB model.}
+#' }
+#'
+#' The majority of the parameters for this simulation are stored in a
+#' \code{\link[zinbwave]{ZinbModel}} object. Please refer to the documentation
+#' for this class and its constructor(\code{\link[zinbwave]{zinbModel}}) for
+#' details about all the parameters.
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{zinbEstimate}}. For details of the ZINB-WaVE simulation
+#' see \code{\link{zinbSimulate}}.
+#'
+#' @name ZINBParams
+#' @rdname ZINBParams
+#' @aliases ZINBParams-class
+#' @exportClass ZINBParams
+setClass("ZINBParams",
+         contains = "Params",
+         slots = c(model = "ANY"),
+         prototype = prototype(nGenes = 100, nCells = 50))

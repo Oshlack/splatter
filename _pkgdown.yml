@@ -1,0 +1,91 @@
+title: Splatter
+url: http://oshlack.github.io/splatter
+template:
+  params:
+    bootswatch: cosmo
+    ganalytics: UA-52309538-4
+reference:
+  - title: Parameters
+    desc: Parameters functions and classes
+    contents:
+      - '`newParams`'
+      - '`getParam`'
+      - '`getParams`'
+      - '`setParam`'
+      - '`setParams`'
+      - '`BASiCSParams`'
+      - '`Lun2Params`'
+      - '`LunParams`'
+      - '`MFAParams`'
+      - '`Params`'
+      - '`PhenoParams`'
+      - '`SCDDParams`'
+      - '`SimpleParams`'
+      - '`SplatParams`'
+      - '`ZINBParams`'
+  - title: Estimation
+    desc: Functions for estimating parameters
+    contents:
+      - '`BASiCSEstimate`'
+      - '`lun2Estimate`'
+      - '`lunEstimate`'
+      - '`mfaEstimate`'
+      - '`phenoEstimate`'
+      - '`scDDEstimate`'
+      - '`simpleEstimate`'
+      - '`splatEstBCV`'
+      - '`splatEstDropout`'
+      - '`splatEstimate`'
+      - '`splatEstLib`'
+      - '`splatEstMean`'
+      - '`splatEstOutlier`'
+      - '`zinbEstimate`'
+  - title: Simulation
+    desc: Functions for simulating datasets
+    contents:
+      - '`BASiCSSimulate`'
+      - '`lun2Simulate`'
+      - '`lunSimulate`'
+      - '`mfaSimulate`'
+      - '`phenoEstimate`'
+      - '`scDDSimulate`'
+      - '`simpleSimulate`'
+      - '`splatSimBatchCellMeans`'
+      - '`splatSimBatchEffects`'
+      - '`splatSimBCVMeans`'
+      - '`splatSimCellMeans`'
+      - '`splatSimDE`'
+      - '`splatSimDropout`'
+      - '`splatSimGeneMeans`'
+      - '`splatSimLibSizes`'
+      - '`splatSimTrueCounts`'
+      - '`splatSimulate`'
+      - '`zinbSimulate`'
+  - title: Comparison functions
+    desc: Functions for comparing datasets
+    contents:
+      - '`compareSCEs`'
+      - '`diffSCEs`'
+      - '`makeCompPanel`'
+      - '`makeDiffPanel`'
+      - '`makeOverallPanel`'
+      - '`summariseDiff`'
+  - title: Other exported functions
+    desc: Additional functions exported by Splatter
+    contents:
+      - '`addFeatureStats`'
+      - '`addGeneLengths`'
+      - '`listSims`'
+  - title: Internals
+    desc: Internal functions and helpers
+    contents:
+      - '`bridge`'
+      - '`expandParams`'
+      - '`getLNormFactors`'
+      - '`getPathOrder`'
+      - '`logistic`'
+      - '`rbindMatched`'
+      - '`setParamsUnchecked`'
+      - '`setParamUnchecked`'
+      - '`showPP`'
+      - '`winsorize`'

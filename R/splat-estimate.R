@@ -4,8 +4,8 @@
 #' dataset. See the individual estimation functions for more details on how this
 #' is done.
 #'
-#' @param counts either a counts matrix or an SCESet object containing count
-#'        data to estimate parameters from.
+#' @param counts either a counts matrix or a SingleCellExperiment object
+#'        containing count data to estimate parameters from.
 #' @param params SplatParams object to store estimated values in.
 #'
 #' @seealso
@@ -26,8 +26,9 @@ splatEstimate <- function(counts, params = newSplatParams()) {
 
 #' @rdname splatEstimate
 #' @export
-splatEstimate.SCESet <- function(counts, params = newSplatParams()) {
-    counts <- scater::counts(counts)
+splatEstimate.SingleCellExperiment <- function(counts,
+                                               params = newSplatParams()) {
+    counts <- BiocGenerics::counts(counts)
     splatEstimate(counts, params)
 }
 
@@ -51,7 +52,7 @@ splatEstimate.matrix <- function(counts, params = newSplatParams()) {
     params <- splatEstDropout(norm.counts, params)
 
     params <- setParams(params, nGenes = nrow(counts),
-                        groupCells = ncol(counts))
+                        batchCells = ncol(counts))
 
     return(params)
 }
@@ -81,9 +82,9 @@ splatEstMean <- function(norm.counts, params) {
 
     means <- winsorize(means, q = 0.1)
 
-    fit <- try(fitdistrplus::fitdist(means, "gamma", method = "mge",
-                                     gof = "CvM"))
-    if (class(fit) == "try-error") {
+    fit <- fitdistrplus::fitdist(means, "gamma", method = "mge",
+                                 gof = "CvM")
+    if (fit$convergence > 0) {
         warning("Goodness of fit failed, using Method of Moments")
         fit <- fitdistrplus::fitdist(means, "gamma", method = "mme")
     }

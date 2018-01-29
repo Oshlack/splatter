@@ -9,7 +9,7 @@ makeDiffPanel(diff, title = "Difference comparison", labels = c("Means",
   "Mean-variance relationship", "Mean-zeros relationship"))
 }
 \arguments{
-\item{diff}{list returned by \code{\link{diffSCESets}}.}
+\item{diff}{list returned by \code{\link{diffSCEs}}.}
 
 \item{title}{title for the panel.}
 
@@ -19,13 +19,13 @@ makeDiffPanel(diff, title = "Difference comparison", labels = c("Means",
 Combined panel plot
 }
 \description{
-Combine the plots from \code{diffSCESets} into a single panel.
+Combine the plots from \code{diffSCEs} into a single panel.
 }
 \examples{
 \dontrun{
-sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
-difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
+difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
 panel <- makeDiffPanel(difference)
 }
 

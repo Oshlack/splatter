@@ -2,24 +2,42 @@
 % Please edit documentation in R/scDD-estimate.R
 \name{scDDEstimate}
 \alias{scDDEstimate}
-\alias{scDDEstimate.SCESet}
 \alias{scDDEstimate.matrix}
+\alias{scDDEstimate.SingleCellExperiment}
+\alias{scDDEstimate.default}
 \title{Estimate scDD simulation parameters}
 \usage{
-scDDEstimate(counts, conditions, params = newSCDDParams())
+scDDEstimate(counts, params = newSCDDParams(), verbose = TRUE,
+  BPPARAM = SerialParam(), ...)
 
-\method{scDDEstimate}{SCESet}(counts, conditions, params = newSCDDParams())
+\method{scDDEstimate}{matrix}(counts, params = newSCDDParams(),
+  verbose = TRUE, BPPARAM = SerialParam(), conditions, ...)
 
-\method{scDDEstimate}{matrix}(counts, conditions, params = newSCDDParams())
+\method{scDDEstimate}{SingleCellExperiment}(counts, params = newSCDDParams(),
+  verbose = TRUE, BPPARAM = SerialParam(), condition = "condition", ...)
+
+\method{scDDEstimate}{default}(counts, params = newSCDDParams(),
+  verbose = TRUE, BPPARAM = SerialParam(), condition, ...)
 }
 \arguments{
-\item{counts}{either a counts matrix or an SCESet object containing count
-data to estimate parameters from.}
+\item{counts}{either a counts matrix or a SingleCellExperiment object
+containing count data to estimate parameters from.}
+
+\item{params}{SCDDParams object to store estimated values in.}
+
+\item{verbose}{logical. Whether to show progress messages.}
+
+\item{BPPARAM}{A \code{\link[BiocParallel]{BiocParallelParam}} instance
+giving the parallel back-end to be used. Default is
+\code{\link[BiocParallel]{SerialParam}} which uses a single core.}
+
+\item{...}{further arguments passed to or from other methods.}
 
 \item{conditions}{Vector giving the condition that each cell belongs to.
 Conditions can be 1 or 2.}
 
-\item{params}{SCDDParams object to store estimated values in.}
+\item{condition}{String giving the column that represents biological group of
+interest.}
 }
 \value{
 SCDDParams object containing the estimated parameters.
@@ -28,13 +46,16 @@ SCDDParams object containing the estimated parameters.
 Estimate simulation parameters for the scDD simulation from a real dataset.
 }
 \details{
-This function is just a wrapper around \code{\link[scDD]{preprocess}} that
-takes the output and converts it to a SCDDParams object. See
-\code{\link[scDD]{preprocess}} for details.
+This function applies \code{\link[scDD]{preprocess}} to the counts then uses
+\code{\link[scDD]{scDD}} to estimate the numbers of each gene type to
+simulate. The output is then converted to a SCDDParams object. See
+\code{\link[scDD]{preprocess}} and \code{\link[scDD]{scDD}} for details.
 }
 \examples{
+\dontrun{
 data("sc_example_counts")
 conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
 params <- scDDEstimate(sc_example_counts, conditions)
 params
+}
 }

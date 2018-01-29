@@ -5,3 +5,7 @@
 ^appveyor\.yml$
 ^NEWS\.md$
 ^\.git*
+^docs$
+^index\.md$
+^_pkgdown\.yml$
+^pkgdown$
