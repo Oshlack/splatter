@@ -7,12 +7,12 @@
 splatSimLibSizes(sim, params)
 }
 \arguments{
-\item{sim}{SCESet to add library size to.}
+\item{sim}{SingleCellExperiment to add library size to.}
 
 \item{params}{SplatParams object with simulation parameters.}
 }
 \value{
-SCESet with simulated library sizes.
+SingleCellExperiment with simulated library sizes.
 }
 \description{
 Simulate expected library sizes from a log-normal distribution

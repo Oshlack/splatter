@@ -16,10 +16,11 @@
 #' @details
 #' This function is just a wrapper around \code{\link[scDD]{simulateSet}} that
 #' takes a \code{\link{SCDDParams}}, runs the simulation then converts the
-#' output to an \code{\link[scater]{SCESet}} object. See
-#' \code{\link[scDD]{simulateSet}} for more details of how the simulation works.
+#' output to a \code{\link[SingleCellExperiment]{SingleCellExperiment}} object.
+#' See \code{\link[scDD]{simulateSet}} for more details about how the simulation
+#' works.
 #'
-#' @return SCESet containing simulated counts
+#' @return SingleCellExperiment containing simulated counts
 #'
 #' @references
 #' Korthauer KD, Chu L-F, Newton MA, Li Y, Thomson J, Stewart R, et al. A
@@ -35,8 +36,8 @@
 #' sim <- scDDSimulate()
 #' }
 #' @export
-#' @importFrom scater newSCESet
 #' @importFrom BiocParallel SerialParam
+#' @importFrom SingleCellExperiment SingleCellExperiment
 scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
                          plot.file = NULL, verbose = TRUE,
                          BPPARAM = SerialParam(), ...) {
@@ -90,26 +91,29 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
         )
     }
 
-    counts <- scDD.sim[[1]]
-    foldchanges <- scDD.sim[[2]]
-    de.status <- rownames(counts)
+    counts <- SummarizedExperiment::assays(scDD.sim)$normcounts
+    foldchanges <- SummarizedExperiment::rowData(scDD.sim)$FC
+    de.status <- SummarizedExperiment::rowData(scDD.sim)$Category
 
-    if (verbose) {message("Creating SCESet...")}
+    if (verbose) {message("Creating final dataset...")}
     cell.names <- paste0("Cell", seq_len(nCells * 2))
     gene.names <- paste0("Gene", seq_len(getParam(params, "nGenes")))
 
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names
-    phenos <- new("AnnotatedDataFrame",
-                  data = data.frame(Cell = cell.names,
-                                    Condition = rep(1:2, each = nCells)))
-    rownames(phenos) <- cell.names
-    features <- new("AnnotatedDataFrame",
-                    data = data.frame(Gene = gene.names, DEStatus = de.status,
-                                      FoldChange = foldchanges))
+
+    cells <- data.frame(Cell = cell.names,
+                        Condition = rep(1:2, each = nCells))
+    rownames(cells) <- cell.names
+
+    features <- data.frame(Gene = gene.names, DEStatus = de.status,
+                           FoldChange = foldchanges)
     rownames(features) <- gene.names
-    sim <- newSCESet(countData = counts, phenoData = phenos,
-                     featureData = features)
+
+    sim <- SingleCellExperiment(assays = list(counts = counts),
+                                rowData = features,
+                                colData = cells,
+                                metadata = list(params = params))
 
     if (verbose) {message("Done!")}
 

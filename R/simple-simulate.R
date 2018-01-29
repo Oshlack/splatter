@@ -15,14 +15,14 @@
 #' \code{size = 1 / counts.disp}. See \code{\link{SimpleParams}} for more
 #' details of the parameters.
 #'
-#' @return SCESet containing simulated counts
+#' @return SingleCellExperiment containing simulated counts
 #' @examples
 #' sim <- simpleSimulate()
 #' # Override default parameters
 #' sim <- simpleSimulate(nGenes = 1000, nCells = 50)
 #' @export
 #' @importFrom stats rgamma rnbinom
-#' @importFrom scater newSCESet
+#' @importFrom SingleCellExperiment SingleCellExperiment
 simpleSimulate <- function(params = newSimpleParams(), verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "SimpleParams")
@@ -47,19 +47,21 @@ simpleSimulate <- function(params = newSimpleParams(), verbose = TRUE, ...) {
                              size = 1 / count.disp),
                      nrow = nGenes, ncol = nCells)
 
-    if (verbose) {message("Creating final SCESet...")}
+    if (verbose) {message("Creating final dataset...")}
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
 
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names
-    phenos <- new("AnnotatedDataFrame", data = data.frame(Cell = cell.names))
-    rownames(phenos) <- cell.names
-    features <- new("AnnotatedDataFrame",
-                    data = data.frame(Gene = gene.names, GeneMean = means))
+    cells <- data.frame(Cell = cell.names)
+    rownames(cells) <- cell.names
+    features <- data.frame(Gene = gene.names, GeneMean = means)
     rownames(features) <- gene.names
-    sim <- newSCESet(countData = counts, phenoData = phenos,
-                     featureData = features)
+
+    sim <- SingleCellExperiment(assays = list(counts = counts),
+                                rowData = features,
+                                colData = cells,
+                                metadata = list(params = params))
 
     return(sim)
 }

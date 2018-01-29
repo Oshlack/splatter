@@ -6,7 +6,7 @@
 \alias{Lun2Params-class}
 \title{The Lun2Params class}
 \description{
-S4 class that holds parameters for the Lun simulation.
+S4 class that holds parameters for the Lun2 simulation.
 }
 \section{Parameters}{
 

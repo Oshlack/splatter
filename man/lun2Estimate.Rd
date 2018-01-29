@@ -2,22 +2,23 @@
 % Please edit documentation in R/lun2-estimate.R
 \name{lun2Estimate}
 \alias{lun2Estimate}
-\alias{lun2Estimate.SCESet}
+\alias{lun2Estimate.SingleCellExperiment}
 \alias{lun2Estimate.matrix}
 \title{Estimate Lun2 simulation parameters}
 \usage{
 lun2Estimate(counts, plates, params = newLun2Params(), min.size = 200,
   verbose = TRUE, BPPARAM = SerialParam())
 
-\method{lun2Estimate}{SCESet}(counts, plates, params = newLun2Params(),
-  min.size = 200, verbose = TRUE, BPPARAM = SerialParam())
+\method{lun2Estimate}{SingleCellExperiment}(counts, plates,
+  params = newLun2Params(), min.size = 200, verbose = TRUE,
+  BPPARAM = SerialParam())
 
 \method{lun2Estimate}{matrix}(counts, plates, params = newLun2Params(),
   min.size = 200, verbose = TRUE, BPPARAM = SerialParam())
 }
 \arguments{
-\item{counts}{either a counts matrix or an SCESet object containing count
-data to estimate parameters from.}
+\item{counts}{either a counts matrix or a SingleCellExperiment object
+containing count data to estimate parameters from.}
 
 \item{plates}{integer vector giving the plate that each cell originated from.}
 

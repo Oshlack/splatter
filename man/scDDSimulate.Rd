@@ -25,7 +25,7 @@ giving the parallel back-end to be used. Default is
 \code{params}.}
 }
 \value{
-SCESet containing simulated counts
+SingleCellExperiment containing simulated counts
 }
 \description{
 Simulate counts using the scDD method.
@@ -33,8 +33,9 @@ Simulate counts using the scDD method.
 \details{
 This function is just a wrapper around \code{\link[scDD]{simulateSet}} that
 takes a \code{\link{SCDDParams}}, runs the simulation then converts the
-output to an \code{\link[scater]{SCESet}} object. See
-\code{\link[scDD]{simulateSet}} for more details of how the simulation works.
+output to a \code{\link[SingleCellExperiment]{SingleCellExperiment}} object.
+See \code{\link[scDD]{simulateSet}} for more details about how the simulation
+works.
 }
 \examples{
 \dontrun{

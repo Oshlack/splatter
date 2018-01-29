@@ -1,9 +1,10 @@
-#' Compare SCESet objects
+#' Compare SingleCellExperiment objects
 #'
-#' Combine the data from several SCESet objects and produce some basic plots
-#' comparing them.
+#' Combine the data from several SingleCellExperiment objects and produce some
+#' basic plots comparing them.
 #'
-#' @param sces named list of SCESet objects to combine and compare.
+#' @param sces named list of SingleCellExperiment objects to combine and
+#'        compare.
 #' @param point.size size of points in scatter plots.
 #' @param point.alpha opacity of points in scatter plots.
 #' @param fits whether to include fits in scatter plots.
@@ -14,8 +15,9 @@
 #'
 #' \describe{
 #'     \item{\code{FeatureData}}{Combined feature data from the provided
-#'     SCESets.}
-#'     \item{\code{PhenoData}}{Combined pheno data from the provided SCESets.}
+#'     SingleCellExperiments.}
+#'     \item{\code{PhenoData}}{Combined pheno data from the provided
+#'     SingleCellExperiments.}
 #'     \item{\code{Plots}}{Comparison plots
 #'         \describe{
 #'             \item{\code{Means}}{Boxplot of mean distribution.}
@@ -29,7 +31,7 @@
 #'             \item{\code{ZerosCell}}{Boxplot of the percentage of each cell
 #'             that is zero.}
 #'             \item{\code{MeanZeros}}{Scatter plot with fitted lines showing
-#'             the mean-dropout relationship.}
+#'             the mean-zeros relationship.}
 #'     }
 #'   }
 #' }
@@ -42,21 +44,21 @@
 #'
 #' @return List containing the combined datasets and plots.
 #' @examples
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
-#' comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
+#' comparison <- compareSCEs(list(Splat = sim1, Simple = sim2))
 #' names(comparison)
 #' names(comparison$Plots)
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_smooth geom_boxplot
 #' scale_y_continuous scale_y_log10 scale_x_log10 xlab ylab ggtitle
 #' theme_minimal scale_colour_manual scale_fill_manual
-#' @importFrom scater cpm<-
+#' @importFrom SingleCellExperiment cpm<-
 #' @export
-compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
-                           fits = TRUE, colours = NULL) {
+compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
+                        fits = TRUE, colours = NULL) {
 
-    checkmate::assertList(sces, types = "SCESet", any.missing = FALSE,
-                          min.len = 1, names = "unique")
+    checkmate::assertList(sces, types = "SingleCellExperiment",
+                          any.missing = FALSE, min.len = 1, names = "unique")
     checkmate::assertNumber(point.size, finite = TRUE)
     checkmate::assertNumber(point.alpha, lower = 0, upper = 1)
     checkmate::assertLogical(fits, any.missing = FALSE, len = 1)
@@ -70,51 +72,53 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
 
     for (name in names(sces)) {
         sce <- sces[[name]]
-        fData(sce)$Dataset <- name
-        pData(sce)$Dataset <- name
+        rowData(sce)$Dataset <- name
+        colData(sce)$Dataset <- name
         sce <- scater::calculateQCMetrics(sce)
-        cpm(sce) <- edgeR::cpm(counts(sce))
+        cpm(sce) <- scater::calculateCPM(sce, use_size_factors = FALSE)
         sce <- addFeatureStats(sce, "counts")
         sce <- addFeatureStats(sce, "cpm")
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
+        colData(sce)$PctZero <- 100 * (1 - colData(sce)$total_features /
+                                           nrow(sce))
         sces[[name]] <- sce
     }
 
-    fData.all <- fData(sces[[1]])
-    pData.all <- pData(sces[[1]])
+    features <- rowData(sces[[1]])
+    cells <- colData(sces[[1]])
 
     if (length(sces) > 1) {
         for (name in names(sces)[-1]) {
             sce <- sces[[name]]
-            fData.all <- rbindMatched(fData.all, fData(sce))
-            pData.all <- rbindMatched(pData.all, pData(sce))
+            features <- rbindMatched(features, rowData(sce))
+            cells <- rbindMatched(cells, colData(sce))
         }
     }
 
-    fData.all$Dataset <- factor(fData.all$Dataset, levels = names(sces))
-    pData.all$Dataset <- factor(pData.all$Dataset, levels = names(sces))
+    features$Dataset <- factor(features$Dataset, levels = names(sces))
+    cells$Dataset <- factor(cells$Dataset, levels = names(sces))
+    features <- data.frame(features)
+    cells <- data.frame(cells)
 
-    means <- ggplot(fData.all,
+    means <- ggplot(features,
                     aes_string(x = "Dataset", y = "MeanLogCPM",
                                colour = "Dataset")) +
-        #geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) +
         geom_boxplot() +
         scale_colour_manual(values = colours) +
         ylab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
         ggtitle("Distribution of mean expression") +
         theme_minimal()
 
-    vars <- ggplot(fData.all,
+    vars <- ggplot(features,
                    aes_string(x = "Dataset", y = "VarLogCPM",
                               colour = "Dataset")) +
-        #geom_violin(draw_quantiles = c(0.25, 0.5, 0.75)) +
         geom_boxplot() +
         scale_colour_manual(values = colours) +
         ylab(expression(paste("Variance ", log[2], "(CPM + 1)"))) +
         ggtitle("Distribution of variance") +
         theme_minimal()
 
-    mean.var <- ggplot(fData.all,
+    mean.var <- ggplot(features,
                        aes_string(x = "MeanLogCPM", y = "VarLogCPM",
                                   colour = "Dataset", fill = "Dataset")) +
         geom_point(size = point.size, alpha = point.alpha) +
@@ -125,7 +129,7 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Mean-variance relationship") +
         theme_minimal()
 
-    libs <- ggplot(pData.all,
+    libs <- ggplot(cells,
                    aes_string(x = "Dataset", y = "total_counts",
                               colour = "Dataset")) +
         geom_boxplot() +
@@ -135,8 +139,8 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Distribution of library sizes") +
         theme_minimal()
 
-    z.gene <- ggplot(fData.all,
-                     aes_string(x = "Dataset", y = "pct_dropout",
+    z.gene <- ggplot(features,
+                     aes_string(x = "Dataset", y = "pct_dropout_counts",
                                 colour = "Dataset")) +
         geom_boxplot() +
         scale_y_continuous(limits = c(0, 100)) +
@@ -145,8 +149,8 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Distribution of zeros per gene") +
         theme_minimal()
 
-    z.cell <- ggplot(pData.all,
-                     aes_string(x = "Dataset", y = "pct_dropout",
+    z.cell <- ggplot(cells,
+                     aes_string(x = "Dataset", y = "PctZero",
                                 colour = "Dataset")) +
         geom_boxplot() +
         scale_y_continuous(limits = c(0, 100)) +
@@ -155,8 +159,8 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Distribution of zeros per cell") +
         theme_minimal()
 
-    mean.zeros <- ggplot(fData.all,
-                         aes_string(x = "MeanCounts", y = "pct_dropout",
+    mean.zeros <- ggplot(features,
+                         aes_string(x = "MeanCounts", y = "pct_dropout_counts",
                                     colour = "Dataset", fill = "Dataset")) +
         geom_point(size = point.size, alpha = point.alpha) +
         scale_x_log10(labels = scales::comma) +
@@ -164,7 +168,7 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
         scale_fill_manual(values = colours) +
         xlab("Mean count") +
         ylab("Percentage zeros") +
-        ggtitle("Mean-dropout relationship") +
+        ggtitle("Mean-zeros relationship") +
         theme_minimal()
 
     if (fits) {
@@ -172,8 +176,8 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
         mean.zeros <- mean.zeros + geom_smooth()
     }
 
-    comparison <- list(FeatureData = fData.all,
-                       PhenoData = pData.all,
+    comparison <- list(FeatureData = features,
+                       PhenoData = cells,
                        Plots = list(Means = means,
                                     Variances = vars,
                                     MeanVar = mean.var,
@@ -185,13 +189,15 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
     return(comparison)
 }
 
-#' Diff SCESet objects
+#' Diff SingleCellExperiment objects
 #'
-#' Combine the data from several SCESet objects and produce some basic plots
-#' comparing them to a reference.
+#' Combine the data from several SingleCellExperiment objects and produce some
+#' basic plots comparing them to a reference.
 #'
-#' @param sces named list of SCESet objects to combine and compare.
-#' @param ref string giving the name of the SCESet to use as the reference
+#' @param sces named list of SingleCellExperiment objects to combine and
+#'        compare.
+#' @param ref string giving the name of the SingleCellExperiment to use as the
+#'        reference
 #' @param point.size size of points in scatter plots.
 #' @param point.alpha opacity of points in scatter plots.
 #' @param fits whether to include fits in scatter plots.
@@ -199,19 +205,21 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
 #'
 #' @details
 #'
-#' This function aims to look at the differences between a reference SCESet and
-#' one or more others. It requires each SCESet to have the same dimensions.
-#' Properties are compared by ranks, for example when comparing the means the
-#' values are ordered and the differences between the reference and another
-#' dataset plotted. A series of Q-Q plots are also returned.
+#' This function aims to look at the differences between a reference
+#' SingleCellExperiment and one or more others. It requires each
+#' SingleCellExperiment to have the same dimensions. Properties are compared by
+#' ranks, for example when comparing the means the values are ordered and the
+#' differences between the reference and another dataset plotted. A series of
+#' Q-Q plots are also returned.
 #'
 #' The returned list has five items:
 #'
 #' \describe{
-#'     \item{\code{Reference}}{The SCESet used as the reference.}
+#'     \item{\code{Reference}}{The SingleCellExperiment used as the reference.}
 #'     \item{\code{FeatureData}}{Combined feature data from the provided
-#'     SCESets.}
-#'     \item{\code{PhenoData}}{Combined pheno data from the provided SCESets.}
+#'     SingleCellExperiments.}
+#'     \item{\code{PhenoData}}{Combined pheno data from the provided
+#'     SingleCellExperiments.}
 #'     \item{\code{Plots}}{Difference plots
 #'         \describe{
 #'             \item{\code{Means}}{Boxplot of mean differences.}
@@ -249,28 +257,28 @@ compareSCESets <- function(sces, point.size = 0.1, point.alpha = 0.1,
 #'
 #' @return List containing the combined datasets and plots.
 #' @examples
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
-#' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
+#' difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
 #' names(difference)
 #' names(difference$Plots)
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_boxplot xlab ylab
 #' ggtitle theme_minimal geom_hline geom_abline scale_colour_manual
 #' scale_fill_manual
-#' @importFrom scater cpm<-
+#' @importFrom SingleCellExperiment cpm<-
 #' @export
-diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
-                        fits = TRUE, colours = NULL) {
+diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
+                     fits = TRUE, colours = NULL) {
 
-    checkmate::assertList(sces, types = "SCESet", any.missing = FALSE,
-                          min.len = 2, names = "unique")
+    checkmate::assertList(sces, types = "SingleCellExperiment",
+                          any.missing = FALSE, min.len = 2, names = "unique")
     checkmate::assertString(ref)
     checkmate::assertNumber(point.size, finite = TRUE)
     checkmate::assertNumber(point.alpha, lower = 0, upper = 1)
     checkmate::assertLogical(fits, any.missing = FALSE, len = 1)
 
     if (!(ref %in% names(sces))) {
-        stop("'ref' must be the name of an SCESet in 'sces'")
+        stop("'ref' must be the name of a SingleCellExperiment in 'sces'")
     } else {
         ref.idx <- which(names(sces) == ref)
     }
@@ -290,49 +298,54 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         if (!identical(dim(sce), ref.dim)) {
             stop("SCESets must have the same dimensions")
         }
-        fData(sce)$Dataset <- name
-        pData(sce)$Dataset <- name
+        rowData(sce)$Dataset <- name
+        colData(sce)$Dataset <- name
         sce <- scater::calculateQCMetrics(sce)
-        cpm(sce) <- edgeR::cpm(counts(sce))
+        cpm(sce) <- scater::calculateCPM(sce, use_size_factors = FALSE)
         sce <- addFeatureStats(sce, "counts")
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
+        colData(sce)$PctZero <- 100 * (1 - colData(sce)$total_features /
+                                                              nrow(sce))
         sces[[name]] <- sce
     }
 
     ref.sce <- sces[[ref]]
 
-    ref.means <- sort(fData(ref.sce)$MeanLogCPM)
-    ref.vars <- sort(fData(ref.sce)$VarLogCPM)
-    ref.libs <- sort(pData(ref.sce)$total_counts)
-    ref.z.gene <- sort(fData(ref.sce)$pct_dropout)
-    ref.z.cell <- sort(pData(ref.sce)$pct_dropout)
+    ref.means <- sort(rowData(ref.sce)$MeanLogCPM)
+    ref.vars <- sort(rowData(ref.sce)$VarLogCPM)
+    ref.libs <- sort(colData(ref.sce)$total_counts)
+    ref.z.gene <- sort(rowData(ref.sce)$pct_dropout_counts)
+    ref.z.cell <- sort(colData(ref.sce)$PctZero)
 
-    ref.rank.ord <- order(fData(ref.sce)$exprs_rank)
-    ref.vars.rank <- fData(ref.sce)$VarLogCPM[ref.rank.ord]
-    ref.z.gene.rank <- fData(ref.sce)$pct_dropout[ref.rank.ord]
+    ref.rank.ord <- order(rowData(ref.sce)$rank_counts)
+    ref.vars.rank <- rowData(ref.sce)$VarLogCPM[ref.rank.ord]
+    ref.z.gene.rank <- rowData(ref.sce)$pct_dropout_counts[ref.rank.ord]
 
     for (name in names(sces)) {
         sce <- sces[[name]]
-        fData(sce)$RefRankMeanLogCPM <- ref.means[rank(fData(sce)$MeanLogCPM)]
-        fData(sce)$RankDiffMeanLogCPM <- fData(sce)$MeanLogCPM -
-            fData(sce)$RefRankMeanLogCPM
-        fData(sce)$RefRankVarLogCPM <- ref.vars[rank(fData(sce)$VarLogCPM)]
-        fData(sce)$RankDiffVarLogCPM <- fData(sce)$VarLogCPM -
-            fData(sce)$RefRankVarLogCPM
-        pData(sce)$RefRankLibSize <- ref.libs[rank(pData(sce)$total_counts)]
-        pData(sce)$RankDiffLibSize <- pData(sce)$total_counts -
-            pData(sce)$RefRankLibSize
-        fData(sce)$RefRankZeros <- ref.z.gene[rank(fData(sce)$pct_dropout)]
-        fData(sce)$RankDiffZeros <- fData(sce)$pct_dropout -
-            fData(sce)$RefRankZeros
-        pData(sce)$RefRankZeros <- ref.z.cell[rank(pData(sce)$pct_dropout)]
-        pData(sce)$RankDiffZeros <- pData(sce)$pct_dropout -
-            pData(sce)$RefRankZeros
+        rowData(sce)$RefRankMeanLogCPM <- ref.means[
+                                              rank(rowData(sce)$MeanLogCPM)]
+        rowData(sce)$RankDiffMeanLogCPM <- rowData(sce)$MeanLogCPM -
+            rowData(sce)$RefRankMeanLogCPM
+        rowData(sce)$RefRankVarLogCPM <- ref.vars[rank(rowData(sce)$VarLogCPM)]
+        rowData(sce)$RankDiffVarLogCPM <- rowData(sce)$VarLogCPM -
+            rowData(sce)$RefRankVarLogCPM
+        colData(sce)$RefRankLibSize <- ref.libs[rank(colData(sce)$total_counts)]
+        colData(sce)$RankDiffLibSize <- colData(sce)$total_counts -
+            colData(sce)$RefRankLibSize
+        rowData(sce)$RefRankZeros <- ref.z.gene[rank(
+                                               rowData(sce)$pct_dropout_counts)]
+        rowData(sce)$RankDiffZeros <- rowData(sce)$pct_dropout_counts -
+            rowData(sce)$RefRankZeros
+        colData(sce)$RefRankZeros <- ref.z.cell[rank(
+                                               colData(sce)$PctZero)]
+        colData(sce)$RankDiffZeros <- colData(sce)$PctZero -
+            colData(sce)$RefRankZeros
 
-        fData(sce)$MeanRankVarDiff <- fData(sce)$VarLogCPM -
-            ref.vars.rank[fData(sce)$exprs_rank]
-        fData(sce)$MeanRankZerosDiff <- fData(sce)$pct_dropout -
-            ref.z.gene.rank[fData(sce)$exprs_rank]
+        rowData(sce)$MeanRankVarDiff <- rowData(sce)$VarLogCPM -
+            ref.vars.rank[rowData(sce)$rank_counts]
+        rowData(sce)$MeanRankZerosDiff <- rowData(sce)$pct_dropout_counts -
+            ref.z.gene.rank[rowData(sce)$rank_counts]
 
         sces[[name]] <- sce
     }
@@ -340,21 +353,23 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
     ref.sce <- sces[[ref]]
     sces[[ref]] <- NULL
 
-    fData.all <- fData(sces[[1]])
-    pData.all <- pData(sces[[1]])
+    features <- rowData(sces[[1]])
+    cells <- colData(sces[[1]])
 
     if (length(sces) > 1) {
         for (name in names(sces)[-1]) {
             sce <- sces[[name]]
-            fData.all <- rbindMatched(fData.all, fData(sce))
-            pData.all <- rbindMatched(pData.all, pData(sce))
+            features <- rbindMatched(features, rowData(sce))
+            cells <- rbindMatched(cells, colData(sce))
         }
     }
 
-    fData.all$Dataset <- factor(fData.all$Dataset, levels = names(sces))
-    pData.all$Dataset <- factor(pData.all$Dataset, levels = names(sces))
+    features$Dataset <- factor(features$Dataset, levels = names(sces))
+    cells$Dataset <- factor(cells$Dataset, levels = names(sces))
+    features <- data.frame(features)
+    cells <- data.frame(cells)
 
-    means <- ggplot(fData.all,
+    means <- ggplot(features,
                     aes_string(x = "Dataset", y = "RankDiffMeanLogCPM",
                                colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
@@ -364,7 +379,7 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Difference in mean expression") +
         theme_minimal()
 
-    vars <- ggplot(fData.all,
+    vars <- ggplot(features,
                     aes_string(x = "Dataset", y = "RankDiffVarLogCPM",
                                colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
@@ -375,8 +390,8 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Difference in variance") +
         theme_minimal()
 
-    mean.var <- ggplot(fData.all,
-                       aes_string(x = "exprs_rank", y = "MeanRankVarDiff",
+    mean.var <- ggplot(features,
+                       aes_string(x = "rank_counts", y = "MeanRankVarDiff",
                                   colour = "Dataset", fill = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_point(size = point.size, alpha = point.alpha) +
@@ -388,7 +403,7 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Difference in mean-variance relationship") +
         theme_minimal()
 
-    libs <- ggplot(pData.all,
+    libs <- ggplot(cells,
                    aes_string(x = "Dataset", y = "RankDiffLibSize",
                               colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
@@ -398,7 +413,7 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Difference in library sizes") +
         theme_minimal()
 
-    z.gene <- ggplot(fData.all,
+    z.gene <- ggplot(features,
                      aes_string(x = "Dataset", y = "RankDiffZeros",
                                 colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
@@ -408,7 +423,7 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Difference in zeros per gene") +
         theme_minimal()
 
-    z.cell <- ggplot(pData.all,
+    z.cell <- ggplot(cells,
                      aes_string(x = "Dataset", y = "RankDiffZeros",
                                 colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
@@ -418,8 +433,8 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Difference in zeros per cell") +
         theme_minimal()
 
-    mean.zeros <- ggplot(fData.all,
-                       aes_string(x = "exprs_rank", y = "MeanRankZerosDiff",
+    mean.zeros <- ggplot(features,
+                       aes_string(x = "rank_counts", y = "MeanRankZerosDiff",
                                   colour = "Dataset", fill = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_point(size = point.size, alpha = point.alpha) +
@@ -430,7 +445,7 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Difference in mean-zeros relationship") +
         theme_minimal()
 
-    means.qq <- ggplot(fData.all,
+    means.qq <- ggplot(features,
                        aes_string(x = "RefRankMeanLogCPM", y = "MeanLogCPM",
                                   colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
@@ -441,7 +456,7 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Ranked means") +
         theme_minimal()
 
-    vars.qq <- ggplot(fData.all,
+    vars.qq <- ggplot(features,
                       aes_string(x = "RefRankVarLogCPM", y = "VarLogCPM",
                                  colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
@@ -452,7 +467,7 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Ranked variances") +
         theme_minimal()
 
-    libs.qq <- ggplot(pData.all,
+    libs.qq <- ggplot(cells,
                       aes_string(x = "RefRankLibSize", y = "total_counts",
                                  colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
@@ -463,8 +478,8 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Ranked library sizes") +
         theme_minimal()
 
-    z.gene.qq <- ggplot(fData.all,
-                        aes_string(x = "RefRankZeros", y = "pct_dropout",
+    z.gene.qq <- ggplot(features,
+                        aes_string(x = "RefRankZeros", y = "pct_dropout_counts",
                                    colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
         geom_point(size = point.size, alpha = point.alpha) +
@@ -474,8 +489,8 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Ranked percentage zeros per gene") +
         theme_minimal()
 
-    z.cell.qq <- ggplot(pData.all,
-                        aes_string(x = "RefRankZeros", y = "pct_dropout",
+    z.cell.qq <- ggplot(cells,
+                        aes_string(x = "RefRankZeros", y = "PctZero",
                                    colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
         geom_point(size = point.size, alpha = point.alpha) +
@@ -491,8 +506,8 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
     }
 
     comparison <- list(Reference = ref.sce,
-                       FeatureData = fData.all,
-                       PhenoData = pData.all,
+                       FeatureData = features,
+                       PhenoData = cells,
                        Plots = list(Means = means,
                                     Variances = vars,
                                     MeanVar = mean.var,
@@ -511,9 +526,9 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
 #' Make comparison panel
 #'
-#' Combine the plots from \code{compareSCESets} into a single panel.
+#' Combine the plots from \code{compareSCEs} into a single panel.
 #'
-#' @param comp list returned by \code{\link{compareSCESets}}.
+#' @param comp list returned by \code{\link{compareSCEs}}.
 #' @param title title for the panel.
 #' @param labels vector of labels for each of the seven plots.
 #'
@@ -521,9 +536,9 @@ diffSCESets <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 #'
 #' @examples
 #' \dontrun{
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
-#' comparison <- compareSCESets(list(Splat = sim1, Simple = sim2))
+#' comparison <- compareSCEs(list(Splat = sim1, Simple = sim2))
 #' panel <- makeCompPanel(comparison)
 #' }
 #'
@@ -595,9 +610,9 @@ makeCompPanel <- function(comp, title = "Comparison",
 
 #' Make difference panel
 #'
-#' Combine the plots from \code{diffSCESets} into a single panel.
+#' Combine the plots from \code{diffSCEs} into a single panel.
 #'
-#' @param diff list returned by \code{\link{diffSCESets}}.
+#' @param diff list returned by \code{\link{diffSCEs}}.
 #' @param title title for the panel.
 #' @param labels vector of labels for each of the seven sections.
 #'
@@ -605,9 +620,9 @@ makeCompPanel <- function(comp, title = "Comparison",
 #'
 #' @examples
 #' \dontrun{
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
-#' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
+#' difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
 #' panel <- makeDiffPanel(difference)
 #' }
 #'
@@ -685,11 +700,11 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
 
 #' Make overall panel
 #'
-#' Combine the plots from \code{compSCESets} and \code{diffSCESets} into a
+#' Combine the plots from \code{compSCEs} and \code{diffSCEs} into a
 #' single panel.
 #'
-#' @param comp list returned by \code{\link{compareSCESets}}.
-#' @param diff list returned by \code{\link{diffSCESets}}.
+#' @param comp list returned by \code{\link{compareSCEs}}.
+#' @param diff list returned by \code{\link{diffSCEs}}.
 #' @param title title for the panel.
 #' @param row.labels vector of labels for each of the seven rows.
 #'
@@ -697,7 +712,7 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
 #'
 #' @examples
 #' \dontrun{
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' comparison <- compSCESets(list(Splat = sim1, Simple = sim2))
 #' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
@@ -788,22 +803,21 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
     return(panel)
 }
 
-#' Summarise diffSCESets
+#' Summarise diffSCESs
 #'
-#' Summarise the results of \code{\link{diffSCESets}}. The various
-#' properties are sorted, differences calculated, the Median Absolute Deviation
-#' taken as the summary statistic and the ranks calculated.
+#' Summarise the results of \code{\link{diffSCEs}}. Calculates the Median
+#' Absolute Deviation (MAD), Mean Absolute Error (MAE) and Root Mean Squared
+#' Error (RMSE) for the various properties and ranks them.
 #'
-#' @param diff Output from \code{\link{diffSCESets}}
+#' @param diff Output from \code{\link{diffSCEs}}
 #'
-#' @return List with MADs, ranks and both combined in long format
+#' @return data.frame with MADs, MAEs, RMSEs, scaled statistics and ranks
 #' @examples
-#' sim1 <- splatSimulate(nGenes = 1000, groupCells = 20)
+#' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
-#' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
+#' difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
 #' summary <- summariseDiff(difference)
-#' names(summary)
-#' head(summary$Long)
+#' head(summary)
 #' @export
 summariseDiff <- function(diff) {
 
@@ -819,6 +833,7 @@ summariseDiff <- function(diff) {
         return(c(Mean = mean, Variance = var, ZerosGene = zeros,
                  MeanVar = mean.var, MeanZeros = mean.zeros))
     })
+    fData.mads.z <- t(scale(t(fData.mads)))
 
     pData.mads <- sapply(datasets, function(dataset) {
         df <- diff$PhenoData[diff$PhenoData$Dataset == dataset, ]
@@ -826,27 +841,124 @@ summariseDiff <- function(diff) {
         zeros <- median(abs(df$RankDiffZeros))
         return(c(LibSize = lib.size, ZerosCell = zeros))
     })
+    pData.mads.z <- t(scale(t(pData.mads)))
 
     mads <- data.frame(Dataset = datasets, t(fData.mads), t(pData.mads))
+    mads.z <- data.frame(Dataset = datasets, t(fData.mads.z), t(pData.mads.z))
 
     fData.ranks <- matrixStats::rowRanks(fData.mads)
     pData.ranks <- matrixStats::rowRanks(pData.mads)
 
-    ranks <- data.frame(Dataset = datasets, t(fData.ranks), t(pData.ranks))
-    colnames(ranks) <- paste0(colnames(mads), "Rank")
+    ranks.mads <- data.frame(Dataset = datasets, t(fData.ranks), t(pData.ranks))
+    colnames(ranks.mads) <- paste0(colnames(mads), "Rank")
 
-    mads.long <- stats::reshape(mads, varying = 2:8, direction = "long",
-                                idvar = "Dataset", timevar = "Statistic",
-                                times = colnames(mads)[2:8], v.names = "MAD")
+    fData.maes <- sapply(datasets, function(dataset) {
+        df <- diff$FeatureData[diff$FeatureData$Dataset == dataset, ]
+        mean <- mean(abs(df$RankDiffMeanLogCPM))
+        var <- mean(abs(df$RankDiffVarLogCPM))
+        zeros <- mean(abs(df$RankDiffZeros))
+        mean.var <- mean(abs(df$MeanRankVarDiff))
+        mean.zeros <- mean(abs(df$MeanRankZerosDiff))
+        return(c(Mean = mean, Variance = var, ZerosGene = zeros,
+                 MeanVar = mean.var, MeanZeros = mean.zeros))
+    })
+    fData.maes.z <- t(scale(t(fData.maes)))
 
-    ranks.long <- stats::reshape(ranks, varying = 2:8, direction = "long",
+    pData.maes <- sapply(datasets, function(dataset) {
+        df <- diff$PhenoData[diff$PhenoData$Dataset == dataset, ]
+        lib.size <- mean(abs(df$RankDiffLibSize))
+        zeros <- mean(abs(df$RankDiffZeros))
+        return(c(LibSize = lib.size, ZerosCell = zeros))
+    })
+    pData.maes.z <- t(scale(t(pData.maes)))
+
+    maes <- data.frame(Dataset = datasets, t(fData.maes), t(pData.maes))
+    maes.z <- data.frame(Dataset = datasets, t(fData.maes.z), t(pData.maes.z))
+
+    fData.ranks <- matrixStats::rowRanks(fData.maes)
+    pData.ranks <- matrixStats::rowRanks(pData.maes)
+
+    ranks.maes <- data.frame(Dataset = datasets, t(fData.ranks), t(pData.ranks))
+    colnames(ranks.maes) <- paste0(colnames(mads), "Rank")
+
+    fData.rmse <- sapply(datasets, function(dataset) {
+        df <- diff$FeatureData[diff$FeatureData$Dataset == dataset, ]
+        mean <- sqrt(mean(df$RankDiffMeanLogCPM ^ 2))
+        var <- sqrt(mean(df$RankDiffVarLogCPM ^ 2))
+        zeros <- sqrt(mean(df$RankDiffZeros ^ 2))
+        mean.var <- sqrt(mean(df$MeanRankVarDiff ^ 2))
+        mean.zeros <- sqrt(mean(df$MeanRankZerosDiff ^ 2))
+        return(c(Mean = mean, Variance = var, ZerosGene = zeros,
+                 MeanVar = mean.var, MeanZeros = mean.zeros))
+    })
+    fData.rmse.z <- t(scale(t(fData.rmse)))
+
+    pData.rmse <- sapply(datasets, function(dataset) {
+        df <- diff$PhenoData[diff$PhenoData$Dataset == dataset, ]
+        lib.size <- sqrt(mean(df$RankDiffLibSize ^ 2))
+        zeros <- sqrt(mean(df$RankDiffZeros ^ 2))
+        return(c(LibSize = lib.size, ZerosCell = zeros))
+    })
+    pData.rmse.z <- t(scale(t(pData.rmse)))
+
+    rmse <- data.frame(Dataset = datasets, t(fData.rmse), t(pData.rmse))
+    rmse.z <- data.frame(Dataset = datasets, t(fData.rmse.z), t(pData.rmse.z))
+
+    fData.ranks <- matrixStats::rowRanks(fData.rmse)
+    pData.ranks <- matrixStats::rowRanks(pData.rmse)
+
+    ranks.rmse <- data.frame(Dataset = datasets, t(fData.ranks), t(pData.ranks))
+    colnames(ranks.rmse) <- paste0(colnames(rmse), "Rank")
+
+    mads <- stats::reshape(mads, varying = 2:8, direction = "long",
+                           idvar = "Dataset", timevar = "Statistic",
+                           times = colnames(mads)[2:8], v.names = "MAD")
+
+    mads.z <- stats::reshape(mads.z, varying = 2:8, direction = "long",
+                             idvar = "Dataset", timevar = "Statistic",
+                             times = colnames(mads)[2:8],
+                             v.names = "MADScaled")
+
+    ranks.mads <- stats::reshape(ranks.mads, varying = 2:8, direction = "long",
                                  idvar = "Dataset", timevar = "Statistic",
-                                 times = colnames(ranks)[2:8], v.names = "Rank")
+                                 times = colnames(ranks.mads)[2:8],
+                                 v.names = "Rank")
 
-    long <- data.frame(mads.long, Rank = ranks.long$Rank)
-    row.names(long) <- NULL
+    maes <- stats::reshape(maes, varying = 2:8, direction = "long",
+                           idvar = "Dataset", timevar = "Statistic",
+                           times = colnames(maes)[2:8], v.names = "MAE")
 
-    summary <- list(MADs = mads, Ranks = ranks, Long = long)
+    maes.z <- stats::reshape(maes.z, varying = 2:8, direction = "long",
+                             idvar = "Dataset", timevar = "Statistic",
+                             times = colnames(mads)[2:8],
+                             v.names = "MAEScaled")
+
+    ranks.maes <- stats::reshape(ranks.maes, varying = 2:8, direction = "long",
+                                 idvar = "Dataset", timevar = "Statistic",
+                                 times = colnames(ranks.maes)[2:8],
+                                 v.names = "Rank")
+
+    rmse <- stats::reshape(rmse, varying = 2:8, direction = "long",
+                           idvar = "Dataset", timevar = "Statistic",
+                           times = colnames(mads)[2:8], v.names = "RMSE")
+
+    rmse.z <- stats::reshape(rmse.z, varying = 2:8, direction = "long",
+                             idvar = "Dataset", timevar = "Statistic",
+                             times = colnames(mads)[2:8],
+                             v.names = "RMSEScaled")
+
+    ranks.rmse <- stats::reshape(ranks.rmse, varying = 2:8, direction = "long",
+                                 idvar = "Dataset", timevar = "Statistic",
+                                 times = colnames(ranks.rmse)[2:8],
+                                 v.names = "Rank")
+
+    summary <- data.frame(mads, MADScaled = mads.z$MADScaled,
+                          MADRank = ranks.mads$Rank,
+                          MAE = maes$MAE, MAEScaled = maes.z$MAEScaled,
+                          MAERank = ranks.maes$Rank,
+                          RMSE = rmse$RMSE, RMSEScaled = rmse.z$RMSEScaled,
+                          RMSERank = ranks.rmse$Rank)
+    row.names(summary) <- NULL
 
     return(summary)
 }

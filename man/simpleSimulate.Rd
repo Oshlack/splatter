@@ -15,7 +15,7 @@ simpleSimulate(params = newSimpleParams(), verbose = TRUE, ...)
 \code{params}.}
 }
 \value{
-SCESet containing simulated counts
+SingleCellExperiment containing simulated counts
 }
 \description{
 Simulate counts from a simple negative binomial distribution without
