@@ -20,7 +20,7 @@ environment:
 
 build_script:
   - travis-tool.sh install_bioc_deps
-  - travis-tool.sh install_bioc BASiCS
+  - travis-tool.sh install_bioc GenomeInfoDb
 
 test_script:
   - travis-tool.sh run_tests
