@@ -29,7 +29,10 @@
 #'
 #' @examples
 #' \dontrun{
+#' # Load example data
+#' library(scater)
 #' data("sc_example_counts")
+#'
 #' params <- zinbEstimate(sc_example_counts)
 #' params
 #' }

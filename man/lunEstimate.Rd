@@ -30,7 +30,10 @@ input data. No other parameters are estimated. See \code{\link{LunParams}}
 for more details on the parameters.
 }
 \examples{
+# Load example data
+library(scater)
 data("sc_example_counts")
+
 params <- lunEstimate(sc_example_counts)
 params
 }

@@ -47,7 +47,7 @@ reference:
       - '`lun2Simulate`'
       - '`lunSimulate`'
       - '`mfaSimulate`'
-      - '`phenoEstimate`'
+      - '`phenoSimulate`'
       - '`scDDSimulate`'
       - '`simpleSimulate`'
       - '`splatSimBatchCellMeans`'

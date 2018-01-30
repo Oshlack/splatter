@@ -14,7 +14,10 @@
 #' @return LunParams object containing the estimated parameters.
 #'
 #' @examples
+#' # Load example data
+#' library(scater)
 #' data("sc_example_counts")
+#'
 #' params <- lunEstimate(sc_example_counts)
 #' params
 #' @export
