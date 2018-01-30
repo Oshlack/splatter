@@ -31,7 +31,10 @@
 #'
 #' @examples
 #' \dontrun{
+#' # Load example data
+#' library(scater)
 #' data("sc_example_counts")
+#'
 #' spike.info <- data.frame(Name = rownames(sc_example_counts)[1:10],
 #'                          Input = rnorm(10, 500, 200),
 #'                          stringsAsFactors = FALSE)
