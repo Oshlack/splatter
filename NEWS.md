@@ -1,3 +1,10 @@
+## Version 1.3.2 (2018-01-31)
+
+* Fix QC names that have been changed in scater
+* Move scater to Imports and add scater version
+* Remove lingering references to SCESets
+* Add more tests
+
 ## Version 1.3.1 (2018-01-03)
 
 * Fix error in vignette caused by changes in scater
