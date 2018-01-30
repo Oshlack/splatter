@@ -21,7 +21,7 @@ License: GPL-3 + file LICENSE
 LazyData: TRUE
 Depends:
     R (>= 3.4),
-    scater,
+    scater (>= 1.7.4),
     SingleCellExperiment
 Imports:
     akima,
