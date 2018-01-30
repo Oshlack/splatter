@@ -1,4 +1,4 @@
-context("SCESet functions")
+context("SCE functions")
 
 test_that("addGeneLengths generate method works", {
     sce <- simpleSimulate()
