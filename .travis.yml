@@ -3,7 +3,7 @@
 language: R
 r:
   - bioc-devel
-  - bioc-release
+#  - bioc-release
 sudo: false
 cache: packages
 
