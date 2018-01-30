@@ -36,7 +36,7 @@ biocLite("splatter")
 To install the most recent development version from Github use:
 
 ```{r install-github, eval = FALSE}
-biocLite("Oshlack/splatter", dependencies = TRUE, 
+biocLite("Oshlack/splatter", dependencies = TRUE,
          build_vignettes = TRUE)
 ```
 
@@ -51,6 +51,7 @@ Splatter. Here is an example using the example dataset in the `scater` package:
 library(splatter)
 
 # Load example data
+library(scater)
 data("sc_example_counts")
 # Estimate parameters from example data
 params <- splatEstimate(sc_example_counts)
@@ -160,7 +161,7 @@ As well as telling us what type of object we have ("A `Params` object of class
 some extra information. We can see which parameters can be estimated by the
 `splatEstimate` function (those in parentheses), which can't be estimated
 (those in brackets) and which have been changed from their default values (those
-in ALL CAPS). 
+in ALL CAPS).
 
 ## Getting and setting
 
@@ -330,7 +331,7 @@ So far we have only simulated a single population of cells but often we are
 interested in investigating a mixed population of cells and looking to see what
 cell types are present or what differences there are between them. Splatter is
 able to simulate these situations by changing the `method` argument Here we are
-going to simulate two groups, by specifying the `group.prob` parameter and 
+going to simulate two groups, by specifying the `group.prob` parameter and
 setting the `method` parameter to `"groups"`:
 
 (**NOTE:** We have also set the `verbose` argument to `FALSE` to stop Splatter
@@ -354,7 +355,7 @@ The other situation that is often of interest is a differentiation process where
 one cell type is changing into another. Splatter approximates this process by
 simulating a series of steps between two groups and randomly assigning each
 cell to a step. We can create this kind of simulation using the `"paths"`
-method. 
+method.
 
 ```{r paths}
 sim.paths <- splatSimulate(method = "paths", verbose = FALSE)
@@ -362,7 +363,7 @@ sim.paths <- normalise(sim.paths)
 plotPCA(sim.paths, colour_by = "Step")
 ```
 
-Here the colours represent the "step" of each cell or how far along the 
+Here the colours represent the "step" of each cell or how far along the
 differentiation path it is. We can see that the cells with dark colours are more
 similar to the originating cell type and the light coloured cells are closer
 to the final, differentiated, cell type. By setting additional parameters it is
@@ -462,9 +463,9 @@ tpm(sim)[1:5, 1:5]
 
 The default method used by `addGeneLengths` to simulate lengths is to generate
 values from a log-normal distribution which are then rounded to give an integer
-length. The parameters for this distribution are based on human protein coding 
-genes but can be adjusted if needed (for example for other species). 
-Alternatively lengths can be sampled from a provided vector (see 
+length. The parameters for this distribution are based on human protein coding
+genes but can be adjusted if needed (for example for other species).
+Alternatively lengths can be sampled from a provided vector (see
 `?addGeneLengths` for details and an example).
 
 # Comparing simulations and real data

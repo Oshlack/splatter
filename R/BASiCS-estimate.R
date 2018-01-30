@@ -2,8 +2,8 @@
 #'
 #' Estimate simulation parameters for the BASiCS simulation from a real dataset.
 #'
-#' @param counts either a counts matrix or an SCESet object containing count
-#'        data to estimate parameters from.
+#' @param counts either a counts matrix or a SingleCellExperiment object
+#'        containing count data to estimate parameters from.
 #' @param spike.info data.frame describing spike-ins with two columns: "Name"
 #'        giving the names of the spike-in features (must match
 #'        \code{rownames(counts)}) and "Input" giving the number of input
@@ -31,7 +31,10 @@
 #'
 #' @examples
 #' \dontrun{
+#' # Load example data
+#' library(scater)
 #' data("sc_example_counts")
+#'
 #' spike.info <- data.frame(Name = rownames(sc_example_counts)[1:10],
 #'                          Input = rnorm(10, 500, 200),
 #'                          stringsAsFactors = FALSE)
@@ -49,10 +52,12 @@ BASiCSEstimate <- function(counts, spike.info = NULL, batch = NULL,
 
 #' @rdname BASiCSEstimate
 #' @export
-BASiCSEstimate.SCESet <- function(counts, spike.info = NULL, batch = NULL,
-                                  n = 20000, thin = 10, burn = 5000,
-                                  params = newBASiCSParams(), verbose = TRUE,
-                                  progress = TRUE, ...) {
+BASiCSEstimate.SingleCellExperiment <- function(counts, spike.info = NULL,
+                                                batch = NULL, n = 20000,
+                                                thin = 10, burn = 5000,
+                                                params = newBASiCSParams(),
+                                                verbose = TRUE, progress = TRUE,
+                                                ...) {
     counts <- BiocGenerics::counts(counts)
     BASiCSEstimate(counts, params)
 }

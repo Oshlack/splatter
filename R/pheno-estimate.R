@@ -15,7 +15,10 @@
 #' @return PhenoParams object containing the estimated parameters.
 #'
 #' @examples
+#' # Load example data
+#' library(scater)
 #' data("sc_example_counts")
+#'
 #' params <- phenoEstimate(sc_example_counts)
 #' params
 #' @export

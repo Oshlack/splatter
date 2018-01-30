@@ -39,7 +39,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="/index.html">
+  <a href="index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -82,14 +82,10 @@
 <li>Functions for simulating counts using those parameters</li>
 <li>Functions for comparing simulations and real datasets</li>
 </ul>
-<p>Splatter is built on top of <a href="https://github.com/davismcc/scater"><code>scater</code></a> and stores simulations in <code>SCESet</code> objects. Splatter also has functions for comparing simulations and real datasets.</p>
+<p>Splatter is built on top of <a href="https://github.com/davismcc/scater"><code>scater</code></a> and stores simulations in <a href="https://github.com/drisso/SingleCellExperiment"><code>SingleCellExperiment</code></a> objects. Splatter also has functions for comparing simulations and real datasets.</p>
 <p><strong>!Please note!</strong> This site provides documentation for the development version of Splatter. For details on the current release please refer to <a href="https://bioconductor.org/packages/splatter" class="uri">https://bioconductor.org/packages/splatter</a>.</p>
-<div id="installation-" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation-" class="anchor"></a>Installation.</h2>
-<div id="release-version" class="section level3">
-<h3 class="hasAnchor">
-<a href="#release-version" class="anchor"></a>Release version</h3>
+<section class="level2"><h2>Installation.</h2>
+<section class="level3"><h3>Release version</h3>
 <p>Splatter has been accepted into the latest version of <a href="https://bioconductor.org/packages/splatter">Bioconductor</a> and hence requires the latest version of R (&gt;=3.4).</p>
 <p>If you have these installed Splatter can be installed from Bioconductor using <code>biocLite</code>:</p>
 <pre class="{r}"><code>source("https://bioconductor.org/biocLite.R")
@@ -97,10 +93,7 @@ biocLite("splatter")</code></pre>
 <p>If you wish to build a local version of the vignette use:</p>
 <pre class="{r}"><code><a href="http://www.rdocumentation.org/packages/BiocInstaller/topics/biocLite">biocLite("splatter", build_vignettes=TRUE)</a></code></pre>
 <p>This will also build the vignette and install all suggested dependencies (which aren’t required for core functionality). Building the vignette may sometimes fail when run from the command line, if this happens try running the install command in RStudio.</p>
-</div>
-<div id="development-version" class="section level3">
-<h3 class="hasAnchor">
-<a href="#development-version" class="anchor"></a>Development version</h3>
+</section><section class="level3"><h3>Development version</h3>
 <p>If you want to try the <a href="https://bioconductor.org/packages/devel/bioc/html/splatter.html">development version</a> this can also be installed from Bioconductor:</p>
 <pre class="{r}"><code>library(BiocInstaller)
 useDevel()
@@ -110,10 +103,8 @@ biocLite("splatter")</code></pre>
 <p>Depending on the current release cycle you may also need to install the development version of R. See <a href="https://www.bioconductor.org/developers/how-to/useDevel/">here</a> for more details.</p>
 <p>Alternatively the development version can be installed directly from <a href="https://github.com/Oshlack/splatter">Github</a>:</p>
 <pre class="{r}"><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install">devtools::install("Oshlack/splatter")</a></code></pre>
+</section></section>
 </div>
-</div>
-
-  </div>
 
   <div class="col-md-3" id="sidebar">
     <h2>Links</h2>
@@ -155,7 +146,7 @@ biocLite("splatter")</code></pre>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>

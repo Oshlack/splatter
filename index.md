@@ -16,8 +16,8 @@ data. Splatter provides a common interface to multiple simulations that have:
 * Functions for comparing simulations and real datasets
 
 Splatter is built on top of [`scater`][scater] and stores simulations in
-`SCESet` objects. Splatter also has functions for comparing simulations and real
-datasets.
+[`SingleCellExperiment`][SCE] objects. Splatter also has functions for comparing
+simulations and real datasets.
 
 **!Please note!** This site provides documentation for the development version
 of Splatter. For details on the current release please refer to
@@ -45,7 +45,7 @@ biocLite("splatter", build_vignettes=TRUE)
 ```
 
 This will also build the vignette and install all suggested dependencies (which
-aren't required for core functionality). Building the vignette may sometimes 
+aren't required for core functionality). Building the vignette may sometimes
 fail when run from the command line, if this happens try running the install
 command in RStudio.
 
@@ -73,6 +73,7 @@ devtools::install("Oshlack/splatter")
 ```
 
 [scater]: https://github.com/davismcc/scater
+[SCE]: https://github.com/drisso/SingleCellExperiment
 [bioc]: https://bioconductor.org/packages/splatter
 [devel]: https://bioconductor.org/packages/devel/bioc/html/splatter.html
 [bioc-install]: https://www.bioconductor.org/developers/how-to/useDevel/

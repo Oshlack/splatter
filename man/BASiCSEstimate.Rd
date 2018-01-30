@@ -2,7 +2,7 @@
 % Please edit documentation in R/BASiCS-estimate.R
 \name{BASiCSEstimate}
 \alias{BASiCSEstimate}
-\alias{BASiCSEstimate.SCESet}
+\alias{BASiCSEstimate.SingleCellExperiment}
 \alias{BASiCSEstimate.matrix}
 \title{Estimate BASiCS simulation parameters}
 \usage{
@@ -10,17 +10,17 @@ BASiCSEstimate(counts, spike.info = NULL, batch = NULL, n = 20000,
   thin = 10, burn = 5000, params = newBASiCSParams(), verbose = TRUE,
   progress = TRUE, ...)
 
-\method{BASiCSEstimate}{SCESet}(counts, spike.info = NULL, batch = NULL,
-  n = 20000, thin = 10, burn = 5000, params = newBASiCSParams(),
-  verbose = TRUE, progress = TRUE, ...)
+\method{BASiCSEstimate}{SingleCellExperiment}(counts, spike.info = NULL,
+  batch = NULL, n = 20000, thin = 10, burn = 5000,
+  params = newBASiCSParams(), verbose = TRUE, progress = TRUE, ...)
 
 \method{BASiCSEstimate}{matrix}(counts, spike.info = NULL, batch = NULL,
   n = 20000, thin = 10, burn = 5000, params = newBASiCSParams(),
   verbose = TRUE, progress = TRUE, ...)
 }
 \arguments{
-\item{counts}{either a counts matrix or an SCESet object containing count
-data to estimate parameters from.}
+\item{counts}{either a counts matrix or a SingleCellExperiment object
+containing count data to estimate parameters from.}
 
 \item{spike.info}{data.frame describing spike-ins with two columns: "Name"
 giving the names of the spike-in features (must match
@@ -61,7 +61,10 @@ information is provided there must be at least two batches. See
 }
 \examples{
 \dontrun{
+# Load example data
+library(scater)
 data("sc_example_counts")
+
 spike.info <- data.frame(Name = rownames(sc_example_counts)[1:10],
                          Input = rnorm(10, 500, 200),
                          stringsAsFactors = FALSE)
