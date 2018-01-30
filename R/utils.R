@@ -23,6 +23,9 @@ logistic <- function(x, x0, k) {
 #'         common columns.
 rbindMatched <- function(df1, df2) {
     common.names <- intersect(colnames(df1), colnames(df2))
+    if (length(common.names) < 2) {
+        stop("There must be at least two columns in common")
+    }
     combined <- rbind(df1[, common.names], df2[, common.names])
 
     return(combined)

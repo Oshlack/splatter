@@ -68,7 +68,7 @@ setValidity("BASiCSParams", function(object) {
 })
 
 #' @rdname setParam
-setMethod("setParam", "BASiCSParams",function(object, name, value) {
+setMethod("setParam", "BASiCSParams", function(object, name, value) {
     checkmate::assertString(name)
 
     if (name == "nCells" || name == "nBatches") {

@@ -33,7 +33,10 @@ to the library size normalised mean expression level using
 details on the parameters.
 }
 \examples{
+# Load example data
+library(scater)
 data("sc_example_counts")
+
 params <- simpleEstimate(sc_example_counts)
 params
 }
