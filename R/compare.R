@@ -306,6 +306,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
         colData(sce)$PctZero <- 100 * (1 - colData(sce)$total_features /
                                                               nrow(sce))
+        rowData(sce)$RankCounts <- rank(rowData(sce)$mean_counts)
         sces[[name]] <- sce
     }
 
@@ -317,7 +318,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
     ref.z.gene <- sort(rowData(ref.sce)$pct_dropout_counts)
     ref.z.cell <- sort(colData(ref.sce)$PctZero)
 
-    ref.rank.ord <- order(rowData(ref.sce)$rank_counts)
+    ref.rank.ord <- order(rowData(ref.sce)$RankCounts)
     ref.vars.rank <- rowData(ref.sce)$VarLogCPM[ref.rank.ord]
     ref.z.gene.rank <- rowData(ref.sce)$pct_dropout_counts[ref.rank.ord]
 
@@ -343,9 +344,9 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
             colData(sce)$RefRankZeros
 
         rowData(sce)$MeanRankVarDiff <- rowData(sce)$VarLogCPM -
-            ref.vars.rank[rowData(sce)$rank_counts]
+            ref.vars.rank[rowData(sce)$RankCounts]
         rowData(sce)$MeanRankZerosDiff <- rowData(sce)$pct_dropout_counts -
-            ref.z.gene.rank[rowData(sce)$rank_counts]
+            ref.z.gene.rank[rowData(sce)$RankCounts]
 
         sces[[name]] <- sce
     }
@@ -391,7 +392,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         theme_minimal()
 
     mean.var <- ggplot(features,
-                       aes_string(x = "rank_counts", y = "MeanRankVarDiff",
+                       aes_string(x = "RankCounts", y = "MeanRankVarDiff",
                                   colour = "Dataset", fill = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_point(size = point.size, alpha = point.alpha) +
@@ -434,7 +435,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         theme_minimal()
 
     mean.zeros <- ggplot(features,
-                       aes_string(x = "rank_counts", y = "MeanRankZerosDiff",
+                       aes_string(x = "RankCounts", y = "MeanRankZerosDiff",
                                   colour = "Dataset", fill = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
         geom_point(size = point.size, alpha = point.alpha) +
