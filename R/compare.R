@@ -79,8 +79,8 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         sce <- addFeatureStats(sce, "counts")
         sce <- addFeatureStats(sce, "cpm")
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
-        colData(sce)$PctZero <- 100 * (1 - colData(sce)$total_features /
-                                           nrow(sce))
+        n.features <- colData(sce)$total_features_by_counts
+        colData(sce)$PctZero <- 100 * (1 - n.features / nrow(sce))
         sces[[name]] <- sce
     }
 
@@ -140,7 +140,7 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         theme_minimal()
 
     z.gene <- ggplot(features,
-                     aes_string(x = "Dataset", y = "pct_dropout_counts",
+                     aes_string(x = "Dataset", y = "pct_dropout_by_counts",
                                 colour = "Dataset")) +
         geom_boxplot() +
         scale_y_continuous(limits = c(0, 100)) +
@@ -160,7 +160,8 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         theme_minimal()
 
     mean.zeros <- ggplot(features,
-                         aes_string(x = "MeanCounts", y = "pct_dropout_counts",
+                         aes_string(x = "MeanCounts",
+                                    y = "pct_dropout_by_counts",
                                     colour = "Dataset", fill = "Dataset")) +
         geom_point(size = point.size, alpha = point.alpha) +
         scale_x_log10(labels = scales::comma) +
@@ -304,8 +305,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         cpm(sce) <- scater::calculateCPM(sce, use_size_factors = FALSE)
         sce <- addFeatureStats(sce, "counts")
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
-        colData(sce)$PctZero <- 100 * (1 - colData(sce)$total_features /
-                                                              nrow(sce))
+        n.features <- colData(sce)$total_features_by_counts
+        colData(sce)$PctZero <- 100 * (1 - n.features / nrow(sce))
         rowData(sce)$RankCounts <- rank(rowData(sce)$mean_counts)
         sces[[name]] <- sce
     }
@@ -315,12 +316,12 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
     ref.means <- sort(rowData(ref.sce)$MeanLogCPM)
     ref.vars <- sort(rowData(ref.sce)$VarLogCPM)
     ref.libs <- sort(colData(ref.sce)$total_counts)
-    ref.z.gene <- sort(rowData(ref.sce)$pct_dropout_counts)
+    ref.z.gene <- sort(rowData(ref.sce)$pct_dropout_by_counts)
     ref.z.cell <- sort(colData(ref.sce)$PctZero)
 
     ref.rank.ord <- order(rowData(ref.sce)$RankCounts)
     ref.vars.rank <- rowData(ref.sce)$VarLogCPM[ref.rank.ord]
-    ref.z.gene.rank <- rowData(ref.sce)$pct_dropout_counts[ref.rank.ord]
+    ref.z.gene.rank <- rowData(ref.sce)$pct_dropout_by_counts[ref.rank.ord]
 
     for (name in names(sces)) {
         sce <- sces[[name]]
@@ -335,8 +336,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         colData(sce)$RankDiffLibSize <- colData(sce)$total_counts -
             colData(sce)$RefRankLibSize
         rowData(sce)$RefRankZeros <- ref.z.gene[rank(
-                                               rowData(sce)$pct_dropout_counts)]
-        rowData(sce)$RankDiffZeros <- rowData(sce)$pct_dropout_counts -
+                                               rowData(sce)$pct_dropout_by_counts)]
+        rowData(sce)$RankDiffZeros <- rowData(sce)$pct_dropout_by_counts -
             rowData(sce)$RefRankZeros
         colData(sce)$RefRankZeros <- ref.z.cell[rank(
                                                colData(sce)$PctZero)]
@@ -345,7 +346,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
         rowData(sce)$MeanRankVarDiff <- rowData(sce)$VarLogCPM -
             ref.vars.rank[rowData(sce)$RankCounts]
-        rowData(sce)$MeanRankZerosDiff <- rowData(sce)$pct_dropout_counts -
+        rowData(sce)$MeanRankZerosDiff <- rowData(sce)$pct_dropout_by_counts -
             ref.z.gene.rank[rowData(sce)$RankCounts]
 
         sces[[name]] <- sce
@@ -480,7 +481,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         theme_minimal()
 
     z.gene.qq <- ggplot(features,
-                        aes_string(x = "RefRankZeros", y = "pct_dropout_counts",
+                        aes_string(x = "RefRankZeros",
+                                   y = "pct_dropout_by_counts",
                                    colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
         geom_point(size = point.size, alpha = point.alpha) +
