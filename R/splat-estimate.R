@@ -16,7 +16,10 @@
 #' @return SplatParams object containing the estimated parameters.
 #'
 #' @examples
+#' # Load example data
+#' library(scater)
 #' data("sc_example_counts")
+#'
 #' params <- splatEstimate(sc_example_counts)
 #' params
 #' @export

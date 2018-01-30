@@ -20,8 +20,11 @@
 #'
 #' @examples
 #' \dontrun{
+#' # Load example data
+#' library(scater)
 #' data("sc_example_counts")
 #' data("sc_example_cell_info")
+#' 
 #' plates <- factor(sc_example_cell_info$Mutation_Status)
 #' params <- lun2Estimate(sc_example_counts, plates, min.size = 20)
 #' params

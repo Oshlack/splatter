@@ -62,7 +62,10 @@ the fitted model and inserts it into a \code{\link{ZINBParams}} object. See
 }
 \examples{
 \dontrun{
+# Load example data
+library(scater)
 data("sc_example_counts")
+
 params <- zinbEstimate(sc_example_counts)
 params
 }

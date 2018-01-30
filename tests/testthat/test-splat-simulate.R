@@ -4,9 +4,11 @@ test.params <- newSplatParams(nGenes = 100, batchCells = c(5, 5),
                               group.prob = c(0.5, 0.5), lib.scale = 0)
 
 test_that("splatSimulate output is valid", {
-    expect_true(validObject(splatSimulate(test.params, method = "single")))
+    expect_true(validObject(splatSimulate(test.params, method = "single",
+                                          dropout.present = TRUE)))
     expect_true(validObject(splatSimulate(test.params, method = "groups")))
-    expect_true(validObject(splatSimulate(test.params, method = "paths")))
+    expect_true(validObject(splatSimulate(test.params, method = "paths",
+                                          path.from = c(0, 1))))
 })
 
 test_that("one group switches to single mode", {
