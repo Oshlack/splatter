@@ -28,7 +28,10 @@ dataset. See the individual estimation functions for more details on how this
 is done.
 }
 \examples{
+# Load example data
+library(scater)
 data("sc_example_counts")
+
 params <- splatEstimate(sc_example_counts)
 params
 }
