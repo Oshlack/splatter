@@ -15,11 +15,12 @@ install:
 environment:
     matrix:
     - R_VERSION: devel
-
-    - R_VERSION: release
+#    - R_VERSION: release
+    USE_RTOOLS: true
 
 build_script:
   - travis-tool.sh install_bioc_deps
+  - travis-tool.sh install_bioc GenomeInfoDb DelayedArray BASiCS
 
 test_script:
   - travis-tool.sh run_tests

@@ -27,7 +27,6 @@
 #' @examples
 #' sim <- BASiCSSimulate()
 #' @export
-#' @importFrom scater newSCESet
 BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "BASiCSParams")
