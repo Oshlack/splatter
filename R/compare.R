@@ -297,7 +297,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
     for (name in names(sces)) {
         sce <- sces[[name]]
         if (!identical(dim(sce), ref.dim)) {
-            stop("SCESets must have the same dimensions")
+            stop("all datasets in 'sces' must have the same dimensions")
         }
         rowData(sce)$Dataset <- name
         colData(sce)$Dataset <- name
@@ -717,8 +717,8 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
 #' \dontrun{
 #' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
-#' comparison <- compSCESets(list(Splat = sim1, Simple = sim2))
-#' difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
+#' comparison <- compSCEs(list(Splat = sim1, Simple = sim2))
+#' difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
 #' panel <- makeOverallPanel(comparison, difference)
 #' }
 #'
