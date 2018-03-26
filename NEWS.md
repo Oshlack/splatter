@@ -1,3 +1,7 @@
+## Version 1.3.3 (2018-03-27)
+
+* Fix parameter passing bug in scDDEstimate
+
 ## Version 1.3.2 (2018-01-31)
 
 * Fix QC names that have been changed in scater
