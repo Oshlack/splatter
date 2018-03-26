@@ -30,7 +30,7 @@
 #' data("sc_example_counts")
 #'
 #' conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
-#' params <- scDDEstimate(sc_example_counts, conditions)
+#' params <- scDDEstimate(sc_example_counts, conditions = conditions)
 #' params
 #' }
 #' @importFrom BiocParallel SerialParam
@@ -61,7 +61,8 @@ scDDEstimate.matrix <- function(counts, params = newSCDDParams(),
 
     counts <- SingleCellExperiment(assays = list(counts = counts),
                                    colData = data.frame(condition = conditions))
-    scDDEstimate.default(counts, "condition", params, verbose, BPPARAM)
+    scDDEstimate.default(counts, params, verbose, BPPARAM,
+                         condition = "condition")
 }
 
 #' @rdname scDDEstimate
@@ -71,7 +72,8 @@ scDDEstimate.SingleCellExperiment <- function(counts,
                                               verbose = TRUE,
                                               BPPARAM = SerialParam(),
                                               condition = "condition", ...) {
-    scDDEstimate.default(counts, condition, params, verbose, BPPARAM)
+    scDDEstimate.default(counts, params, verbose, BPPARAM,
+                         condition = condition)
 }
 
 #' @rdname scDDEstimate
