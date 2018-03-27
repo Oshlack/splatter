@@ -15,7 +15,11 @@
 
 ## Version 1.3.0 (2017-10-13)
 
-* Bioconductor 3.7 devel 
+* Bioconductor 3.7 devel
+
+## Version 1.2.2 (2018-03-27)
+
+* Fix parameter passing bug in scDDEstimate
 
 ## Version 1.2.1 (2017-11-23)
 

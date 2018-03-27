@@ -177,7 +177,7 @@ simulate. The output is then converted to a SCDDParams object. See
 <span class='fu'>data</span>(<span class='st'>"sc_example_counts"</span>)
 
 <span class='no'>conditions</span> <span class='kw'>&lt;-</span> <span class='fu'>sample</span>(<span class='fl'>1</span>:<span class='fl'>2</span>, <span class='fu'>ncol</span>(<span class='no'>sc_example_counts</span>), <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>scDDEstimate</span>(<span class='no'>sc_example_counts</span>, <span class='no'>conditions</span>)
+<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>scDDEstimate</span>(<span class='no'>sc_example_counts</span>, <span class='kw'>conditions</span> <span class='kw'>=</span> <span class='no'>conditions</span>)
 <span class='no'>params</span>
 <span class='co'># }</span></pre>
   </div>
