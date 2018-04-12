@@ -89,7 +89,8 @@ The Splatter simulation requires the following parameters:
             \item{\code{dropout.type}}{The type of dropout to simulate.
             "none" indicates no dropout, "experiment" is global dropout using
             the same parameters for every cell, "batch" uses the same
-            parameters for every cell in each batch and "cell" uses a
+            parameters for every cell in each batch, "group" uses the same
+            parameters for every cell in each groups and "cell" uses a
             different set of parameters for each cell.}
             \item{\code{dropout.mid}}{Midpoint parameter for the dropout
             logistic function.}
