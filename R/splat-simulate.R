@@ -351,7 +351,7 @@ splatSimBatchEffects <- function(sim, params) {
 #'
 #' @return SingleCellExperiment with simulated batch means.
 #'
-#' @importFrom SummarizedExperiment rowData rowData<-
+#' @importFrom SummarizedExperiment rowData rowData<- colData
 splatSimBatchCellMeans <- function(sim, params) {
 
     nBatches <- getParam(params, "nBatches")
@@ -697,22 +697,54 @@ splatSimTrueCounts <- function(sim, params) {
 #' @importFrom stats rbinom
 splatSimDropout <- function(sim, params) {
 
-    dropout.present <- getParam(params, "dropout.present")
+    dropout.type <- getParam(params, "dropout.type")
     true.counts <- assays(sim)$TrueCounts
+    dropout.mid <- getParam(params, "dropout.mid")
+    dropout.shape <- getParam(params, "dropout.shape")
+    cell.names <- colData(sim)$Cell
+    gene.names <- rowData(sim)$Gene
+    nCells <- getParam(params, "nCells")
+    nGenes <- getParam(params, "nGenes")
+    nBatches <- getParam(params, "nBatches")
+    cell.means <- assays(sim)$CellMeans
 
-    if (dropout.present) {
-        cell.names <- colData(sim)$Cell
-        gene.names <- rowData(sim)$Gene
-        nCells <- getParam(params, "nCells")
-        nGenes <- getParam(params, "nGenes")
-        dropout.mid <- getParam(params, "dropout.mid")
-        dropout.shape <- getParam(params, "dropout.shape")
-        cell.means <- assays(sim)$CellMeans
+    switch(dropout.type,
+           experiment = {
+               if ((length(dropout.mid) != 1) || length(dropout.shape) != 1) {
+                   stop("dropout.type is set to 'experiment' but dropout.mid ",
+                        "and dropout.shape aren't length 1")
+               }
+
+               dropout.mid <- rep(dropout.mid, nCells)
+               dropout.shape <- rep(dropout.shape, nCells)
+           },
+           batch = {
+               if ((length(dropout.mid) != nBatches) ||
+                   length(dropout.shape) != nBatches) {
+                   stop("dropout.type is set to 'batch' but dropout.mid ",
+                        "and dropout.shape aren't length equal to nBatches ",
+                        "(", nBatches, ")")
+               }
+
+               batches <- as.numeric(factor(colData(sim)$Batch))
+               dropout.mid <- dropout.mid[batches]
+               dropout.shape <- dropout.shape[batches]
+           },
+           cell = {
+               if ((length(dropout.mid) != nCells) ||
+                   length(dropout.shape) != nCells) {
+                   stop("dropout.type is set to 'cell' but dropout.mid ",
+                        "and dropout.shape aren't length equal to nCells ",
+                        "(", nCells, ")")
+               }
+           })
+
+    if (dropout.type != "none") {
 
         # Generate probabilites based on expression
         drop.prob <- sapply(seq_len(nCells), function(idx) {
             eta <- log(cell.means[, idx])
-            return(logistic(eta, x0 = dropout.mid, k = dropout.shape))
+            return(logistic(eta, x0 = dropout.mid[idx], k = dropout.shape[idx]))
         })
 
         # Decide which counts to keep
