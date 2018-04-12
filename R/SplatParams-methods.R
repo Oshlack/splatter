@@ -45,9 +45,12 @@ setValidity("SplatParams", function(object) {
                                            len = nGroups),
                 bcv.common = checkNumber(v$bcv.common, lower = 0),
                 bcv.df = checkNumber(v$bcv.df, lower = 0),
-                dropout.present = checkFlag(v$dropout.present),
-                dropout.mid = checkNumber(v$dropout.mid),
-                dropout.shape = checkNumber(v$dropout.shape),
+                dropout.type = checkCharacter(v$dropout.type, len = 1,
+                                              any.missing = FALSE),
+                dropout.mid = checkNumeric(v$dropout.mid, finite = TRUE,
+                                           any.missing = FALSE, min.len = 1),
+                dropout.shape = checkNumeric(v$dropout.shape, finite = TRUE,
+                                             any.missing = FALSE, min.len = 1),
                 path.from = checkIntegerish(v$path.from, lower = 0,
                                             upper = nGroups, len = nGroups),
                 path.length = checkIntegerish(v$path.length, lower = 1,
@@ -74,7 +77,14 @@ setValidity("SplatParams", function(object) {
     if (!(0 %in% v$path.from)) {
        checks <- c(checks, path.from = "origin must be specified in path.from")
     } else if (any(v$path.from == seq_len(nGroups))) {
-        checks <- c(checks, stop("path cannot begin at itself"))
+        checks <- c(checks, "path cannot begin at itself")
+    }
+
+    # Check dropout type
+    if (!(v$dropout.type %in% c("none", "experiment", "batch", "cell"))) {
+        checks <- c(checks,
+                    paste("dropout.type must be one of: 'none', 'experiment',",
+                          "'batch', 'cell'"))
     }
 
     if (all(checks == TRUE)) {
@@ -108,6 +118,36 @@ setMethod("setParam", "SplatParams",function(object, name, value) {
         object <- setParamUnchecked(object, "nGroups", length(value))
     }
 
+    if (name == "dropout.type") {
+        mid.len <- length(getParam(object, "dropout.mid"))
+        mid.shape <- length(getParam(object, "dropout.shape"))
+        if ((value == "experiment")) {
+            if ((mid.len != 1) | (mid.shape != 1)) {
+                stop("dropout.type cannot be set to 'experiment' because ",
+                     "dropout.mid and dropout.shape aren't length 1, ",
+                     "set dropout.mid and dropout.shape first")
+            }
+        }
+        if ((value == "batch")) {
+            n <- getParam(object, "nBatches")
+            if ((mid.len != n) | (mid.shape != n)) {
+                stop("dropout.type cannot be set to 'batch' because ",
+                     "dropout.mid and dropout.shape aren't length equal to ",
+                     "nBatches (", n, "), set dropout.mid and dropout.shape ",
+                     "first")
+            }
+        }
+        if ((value == "cell")) {
+            n <- getParam(object, "nCells")
+            if ((mid.len != n) | (mid.shape != n)) {
+                stop("dropout.type cannot be set to 'cell' because ",
+                     "dropout.mid and dropout.shape aren't length equal to ",
+                     "nCells (", n, "), set dropout.mid and dropout.shape ",
+                     "first")
+            }
+        }
+    }
+
     object <- callNextMethod()
 
     return(object)
@@ -135,7 +175,7 @@ setMethod("show", "SplatParams", function(object) {
                                      "[Scale]"        = "de.facScale"),
                "BCV:"            = c("(Common Disp)"  = "bcv.common",
                                      "(DoF)"          = "bcv.df"),
-               "Dropout:"        = c("[Present]"      = "dropout.present",
+               "Dropout:"        = c("[Type]"         = "dropout.type",
                                      "(Midpoint)"     = "dropout.mid",
                                      "(Shape)"        = "dropout.shape"),
                "Paths:"          = c("[From]"         = "path.from",
