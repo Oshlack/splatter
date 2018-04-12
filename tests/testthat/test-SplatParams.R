@@ -31,3 +31,13 @@ test_that("path.from checks work", {
     pp <- setParamUnchecked(pp, "path.from", c(2, 1, 1))
     expect_error(validObject(pp), "origin must be specified in path.from")
 })
+
+test_that("dropout.type checks work", {
+    expect_error(setParam(params, "dropout.type", "cell"),
+                 "dropout.type cannot be set to 'cell'")
+    pp <- setParams(params, dropout.mid = rep(1, 100),
+                    dropout.shape = rep(1, 100))
+    expect_silent(setParam(pp, "dropout.type", "cell"))
+    expect_error(setParam(params, "dropout.type", "a"),
+                 "dropout.type must be one of: ")
+})
