@@ -1,3 +1,8 @@
+### Version 1.3.3.9000 (2018-04-12)
+
+* Replace dropout.present with dropout.type in SplatParams
+    * Allows more control over dropout.mid and dropout.shape
+
 ## Version 1.3.3 (2018-03-27)
 
 * Fix parameter passing bug in scDDEstimate
