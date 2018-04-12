@@ -706,6 +706,7 @@ splatSimDropout <- function(sim, params) {
     nCells <- getParam(params, "nCells")
     nGenes <- getParam(params, "nGenes")
     nBatches <- getParam(params, "nBatches")
+    nGroups <- getParam(params, "nGroups")
     cell.means <- assays(sim)$CellMeans
 
     switch(dropout.type,
@@ -729,6 +730,24 @@ splatSimDropout <- function(sim, params) {
                batches <- as.numeric(factor(colData(sim)$Batch))
                dropout.mid <- dropout.mid[batches]
                dropout.shape <- dropout.shape[batches]
+           },
+           group = {
+               if ((length(dropout.mid) != nGroups) ||
+                   length(dropout.shape) != nGroups) {
+                   stop("dropout.type is set to 'group' but dropout.mid ",
+                        "and dropout.shape aren't length equal to nGroups ",
+                        "(", nGroups, ")")
+               }
+
+               if ("Group" %in% colnames(colData(sim))) {
+                   groups <- as.numeric(factor(colData(sim)$Group))
+               } else {
+                   stop("dropout.type is set to 'group' but groups have not ",
+                        "been simulated")
+               }
+
+               dropout.mid <- dropout.mid[groups]
+               dropout.shape <- dropout.shape[groups]
            },
            cell = {
                if ((length(dropout.mid) != nCells) ||

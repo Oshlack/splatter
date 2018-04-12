@@ -81,10 +81,11 @@ setValidity("SplatParams", function(object) {
     }
 
     # Check dropout type
-    if (!(v$dropout.type %in% c("none", "experiment", "batch", "cell"))) {
+    if (!(v$dropout.type %in%
+          c("none", "experiment", "batch", "group", "cell"))) {
         checks <- c(checks,
                     paste("dropout.type must be one of: 'none', 'experiment',",
-                          "'batch', 'cell'"))
+                          "'batch', 'group', 'cell'"))
     }
 
     if (all(checks == TRUE)) {
@@ -134,6 +135,15 @@ setMethod("setParam", "SplatParams",function(object, name, value) {
                 stop("dropout.type cannot be set to 'batch' because ",
                      "dropout.mid and dropout.shape aren't length equal to ",
                      "nBatches (", n, "), set dropout.mid and dropout.shape ",
+                     "first")
+            }
+        }
+        if ((value == "group")) {
+            n <- getParam(object, "nGroups")
+            if ((mid.len != n) | (mid.shape != n)) {
+                stop("dropout.type cannot be set to 'group' because ",
+                     "dropout.mid and dropout.shape aren't length equal to ",
+                     "nGroups (", n, "), set dropout.mid and dropout.shape ",
                      "first")
             }
         }

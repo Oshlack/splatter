@@ -28,4 +28,8 @@ test_that("dropout.type checks work", {
     expect_true(validObject(splatSimulate(pp, method = "single")))
     pp <- setParams(pp, dropout.mid = 1:2)
     expect_error(splatSimulate(pp), "aren't length 1")
+    pp <- setParams(test.params, group.prob = c(0.5, 0.5),
+                    dropout.mid = c(1, 2), dropout.shape = c(-1, -0.5),
+                    dropout.type = "group")
+    expect_error(splatSimulate(pp), "groups have not been simulated")
 })
