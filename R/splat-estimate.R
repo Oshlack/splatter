@@ -100,8 +100,10 @@ splatEstMean <- function(norm.counts, params) {
 
 #' Estimate Splat library size parameters
 #'
-#' A log-normal distribution is fitted to the library sizes and the estimated
-#' parameters are added to the params object. See
+#' The Shapiro-Wilk test is used to determine if the library sizes are
+#' normally distributed. If so a normal distribution is fitted to the library
+#' sizes, if not (most cases) a log-normal distribution is fitted and the
+#' estimated parameters are added to the params object. See
 #' \code{\link[fitdistrplus]{fitdist}} for details on the fitting.
 #'
 #' @param counts counts matrix to estimate parameters from.
@@ -111,10 +113,21 @@ splatEstMean <- function(norm.counts, params) {
 splatEstLib <- function(counts, params) {
 
     lib.sizes <- colSums(counts)
-    fit <- fitdistrplus::fitdist(lib.sizes, "lnorm")
+    norm.test <- shapiro.test(lib.sizes)
+    lib.norm <- norm.test$p.value < 0.05
 
-    params <- setParams(params, lib.loc = unname(fit$estimate["meanlog"]),
-                        lib.scale = unname(fit$estimate["sdlog"]))
+    if (lib.norm) {
+        fit <- fitdistrplus::fitdist(lib.sizes, "norm")
+        lib.loc <- unname(fit$estimate["mean"])
+        lib.scale <- unname(fit$estimate["sd"])
+    } else {
+        fit <- fitdistrplus::fitdist(lib.sizes, "lnorm")
+        lib.loc <- unname(fit$estimate["meanlog"])
+        lib.scale <- unname(fit$estimate["sdlog"])
+    }
+
+    params <- setParams(params, lib.loc = lib.loc, lib.scale = lib.scale,
+                        lib.norm = lib.norm)
 
     return(params)
 }
