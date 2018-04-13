@@ -15,5 +15,7 @@ splatSimLibSizes(sim, params)
 SingleCellExperiment with simulated library sizes.
 }
 \description{
-Simulate expected library sizes from a log-normal distribution
+Simulate expected library sizes. Typically a log-normal distribution is used
+but there is also the option to use a normal distribution. In this case any
+negative values are set to 0.
 }
