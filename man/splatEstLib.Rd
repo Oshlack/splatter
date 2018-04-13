@@ -15,7 +15,9 @@ splatEstLib(counts, params)
 splatParams object with estimated values.
 }
 \description{
-A log-normal distribution is fitted to the library sizes and the estimated
-parameters are added to the params object. See
+The Shapiro-Wilk test is used to determine if the library sizes are
+normally distributed. If so a normal distribution is fitted to the library
+sizes, if not (most cases) a log-normal distribution is fitted and the
+estimated parameters are added to the params object. See
 \code{\link[fitdistrplus]{fitdist}} for details on the fitting.
 }
