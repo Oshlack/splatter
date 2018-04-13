@@ -110,6 +110,8 @@ splatEstMean <- function(norm.counts, params) {
 #' @param params splatParams object to store estimated values in.
 #'
 #' @return splatParams object with estimated values.
+#'
+#' @importFrom stats shapiro.test
 splatEstLib <- function(counts, params) {
 
     lib.sizes <- colSums(counts)

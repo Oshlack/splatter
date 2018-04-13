@@ -251,7 +251,7 @@ splatSimulatePaths <- function(params = newSplatParams(), verbose = TRUE, ...) {
 #'
 #' Simulate expected library sizes. Typically a log-normal distribution is used
 #' but there is also the option to use a normal distribution. In this case any
-#' negative values are set to 0.
+#' negative values are set to half the minimum non-zero value.
 #'
 #' @param sim SingleCellExperiment to add library size to.
 #' @param params SplatParams object with simulation parameters.
@@ -269,7 +269,8 @@ splatSimLibSizes <- function(sim, params) {
 
     if (lib.norm) {
         exp.lib.sizes <- rnorm(nCells, lib.loc, lib.scale)
-        exp.lib.sizes[exp.lib.sizes < 0] <- 0
+        min.lib <- min(exp.lib.sizes[exp.lib.sizes > 0])
+        exp.lib.sizes[exp.lib.sizes < 0] <- min.lib / 2
     } else {
         exp.lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
     }
