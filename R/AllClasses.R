@@ -95,9 +95,13 @@ setClass("SimpleParams",
 #'     \item{\emph{Library size parameters}}{
 #'         \describe{
 #'             \item{\code{lib.loc}}{Location (meanlog) parameter for the
-#'             library size log-normal distribution.}
+#'             library size log-normal distribution, or mean parameter if a
+#'             normal distribution is used.}
 #'             \item{\code{lib.scale}}{Scale (sdlog) parameter for the library
-#'             size log-normal distribution.}
+#'             size log-normal distribution, or sd parameter if a normal
+#'             distribution is used.}
+#'             \item{\code{lib.norm}}{Logical. Whether to use a normal
+#'             distribution for library sizes instead of a log-normal.}
 #'         }
 #'     }
 #'     \item{\emph{Expression outlier parameters}}{
@@ -197,6 +201,7 @@ setClass("SplatParams",
                    mean.rate = "numeric",
                    lib.loc = "numeric",
                    lib.scale = "numeric",
+                   lib.norm = "logical",
                    out.prob = "numeric",
                    out.facLoc = "numeric",
                    out.facScale = "numeric",
@@ -224,6 +229,7 @@ setClass("SplatParams",
                                mean.shape = 0.6,
                                lib.loc = 11,
                                lib.scale = 0.2,
+                               lib.norm = FALSE,
                                out.prob = 0.05,
                                out.facLoc = 4,
                                out.facScale = 0.5,
