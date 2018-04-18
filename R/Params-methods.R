@@ -28,9 +28,10 @@ setMethod("show", "Params", function(object) {
                              "(Cells)" = "nCells",
                              "[Seed]"  = "seed"))
 
-    cat("A Params object of class", class(object), "\n")
-    cat("Parameters can be (estimable) or [not estimable],",
-        "'Default' or 'NOT DEFAULT'.", "\n\n")
+    cat("A", crayon::bold("Params"), "object of class",
+        crayon::bold(class(object)), "\n")
+    cat("Parameters can be (estimable) or", crayon::blue("[not estimable],"),
+        "'Default' or ", crayon::bold(crayon::green("'NOT DEFAULT'")), "\n\n")
     showPP(object, pp)
     cat(length(slotNames(object)) - 3, "additional parameters", "\n\n")
 })
