@@ -89,8 +89,10 @@ listSims <- function(print = TRUE) {
         cat("Splatter currently contains", length(sims), "simulations", "\n\n")
         for (idx in seq_len(nrow(sims.table))) {
             sim <- as.character(sims.table[idx, ])
-            cat(sim[1], paste0("(", sim[2], ")"), "\n")
-            cat("DOI:", sim[3], "\t", "GitHub:", sim[4], "\n")
+            cat(crayon::bold(sim[1]), crayon::yellow(paste0("(", sim[2], ")")),
+                "\n")
+            cat(crayon::bold("DOI:"), crayon::cyan(sim[3]), "\t",
+                crayon::bold("GitHub:"), crayon::cyan(sim[4]), "\n")
             cat(sim[5], "\n\n")
         }
     }
