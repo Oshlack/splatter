@@ -9,9 +9,9 @@
 #' @param min.size minimum size of clusters when identifying group of cells in
 #'        the data.
 #' @param verbose logical. Whether to show progress messages.
-#' @param BPPARAM A \code{\link[BiocParallel]{BiocParallelParam}} instance
-#'        giving the parallel back-end to be used. Default is
-#'        \code{\link[BiocParallel]{SerialParam}} which uses a single core.
+#' @param BPPARAM A \code{\link{BiocParallelParam}} instance giving the parallel
+#'        back-end to be used. Default is \code{\link{SerialParam}} which uses a
+#'        single core.
 #'
 #' @details
 #' See \code{\link{Lun2Params}} for more details on the parameters.
@@ -24,7 +24,7 @@
 #' library(scater)
 #' data("sc_example_counts")
 #' data("sc_example_cell_info")
-#' 
+#'
 #' plates <- factor(sc_example_cell_info$Mutation_Status)
 #' params <- lun2Estimate(sc_example_counts, plates, min.size = 20)
 #' params

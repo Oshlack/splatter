@@ -27,9 +27,9 @@ containing count data to estimate parameters from.}
 
 \item{verbose}{logical. Whether to show progress messages.}
 
-\item{BPPARAM}{A \code{\link[BiocParallel]{BiocParallelParam}} instance
-giving the parallel back-end to be used. Default is
-\code{\link[BiocParallel]{SerialParam}} which uses a single core.}
+\item{BPPARAM}{A \code{\link{BiocParallelParam}} instance giving the parallel
+back-end to be used. Default is \code{\link{SerialParam}} which uses a
+single core.}
 
 \item{...}{further arguments passed to or from other methods.}
 

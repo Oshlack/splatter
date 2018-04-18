@@ -37,10 +37,10 @@
 #' The final output is a
 #' \code{\link[SingleCellExperiment]{SingleCellExperiment}} object that
 #' contains the simulated counts but also the values for various intermediate
-#' steps. These are stored in the \code{\link[SummarizedExperiment]{colData}}
-#' (for cell specific information), \code{\link[SummarizedExperiment]{rowData}}
-#' (for gene specific information) or \code{\link[SummarizedExperiment]{assays}}
-#' (for gene by cell matrices) slots. This additional information includes:
+#' steps. These are stored in the \code{\link{colData}} (for cell specific
+#' information), \code{\link{rowData}} (for gene specific information) or
+#' \code{\link{assays}} (for gene by cell matrices) slots. This additional
+#' information includes:
 #' \describe{
 #'     \item{\code{phenoData}}{
 #'         \describe{
