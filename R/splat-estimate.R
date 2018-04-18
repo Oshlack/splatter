@@ -88,7 +88,8 @@ splatEstMean <- function(norm.counts, params) {
     fit <- fitdistrplus::fitdist(means, "gamma", method = "mge",
                                  gof = "CvM")
     if (fit$convergence > 0) {
-        warning("Goodness of fit failed, using Method of Moments")
+        warning("Fitting means using the Goodness of Fit method failed, ",
+                "using the Method of Moments instead")
         fit <- fitdistrplus::fitdist(means, "gamma", method = "mme")
     }
 
@@ -122,6 +123,9 @@ splatEstLib <- function(counts, params) {
         fit <- fitdistrplus::fitdist(lib.sizes, "norm")
         lib.loc <- unname(fit$estimate["mean"])
         lib.scale <- unname(fit$estimate["sd"])
+        message("NOTE: Library sizes have been found to be normally ",
+                "distributed instead of log-normal. You may want to check ",
+                "this is correct.")
     } else {
         fit <- fitdistrplus::fitdist(lib.sizes, "lnorm")
         lib.loc <- unname(fit$estimate["meanlog"])
