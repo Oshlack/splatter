@@ -103,9 +103,11 @@ The parameters required for the Splat simulation are briefly described here:
     * `mean.rate` - Rate parameter for the mean gamma distribution.
 * **Library size parameters**
     * `lib.loc` - Location (meanlog) parameter for the library size log-normal
-      distribution.
+      distribution, or mean for the normal distribution.
     * `lib.scale` - Scale (sdlog) parameter for the library size log-normal
-      distribution.
+      distribution, or sd for the normal distribution.
+    * `lib.norm` - Whether to use a normal distribution instead of the usual
+      log-normal distribution.
 * **Expression outlier parameters**
     * `out.prob` - Probability that a gene is an expression outlier.
     * `out.facLoc` - Location (meanlog) parameter for the expression outlier
@@ -247,7 +249,7 @@ can provide them as additional arguments, alternatively if we don't supply any
 parameters the defaults will be used:
 
 ```{r splatSimulate}
-sim <- splatSimulate(params, nGenes = 1000, dropout.present = FALSE)
+sim <- splatSimulate(params, nGenes = 1000, dropout.present = FALSE, seed = 0)
 sim
 ```
 
@@ -394,8 +396,7 @@ that we aren't interested in (batch) and the wanted variation we are looking for
 sim.groups <- splatSimulate(batchCells = c(50, 50), group.prob = c(0.5, 0.5),
                             method = "groups", verbose = FALSE)
 sim.groups <- normalise(sim.groups)
-plotPCA(sim.groups, shape_by = "Batch", colour_by = "Group",
-        exprs_values = "counts")
+plotPCA(sim.groups, shape_by = "Batch", colour_by = "Group")
 ```
 
 Here we see that the effects of the group (first component) are stronger than

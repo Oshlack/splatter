@@ -1,8 +1,8 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 1.3.3
-Date: 2018-03-27
+Version: 1.3.3.9010
+Date: 2018-04-12
 Author: Luke Zappia
 Authors@R:
     c(person("Luke", "Zappia", role = c("aut", "cre"),
@@ -12,8 +12,8 @@ Authors@R:
       email = "belinda.phipson@mcri.edu.au",
       comment = c(ORCID = "0000-0002-1711-7454")),
       person("Alicia", "Oshlack", role = c("aut"),
-      email = "alicia.oshlack@mcri.edu.au"),
-      comment = c(ORCID = "0000-0001-9788-5690"))
+      email = "alicia.oshlack@mcri.edu.au",
+      comment = c(ORCID = "0000-0001-9788-5690")))
 Maintainer: Luke Zappia <luke.zappia@mcri.edu.au>
 Description: Splatter is a package for the simulation of single-cell RNA
     sequencing count data. It provides a simple interface for creating complex
