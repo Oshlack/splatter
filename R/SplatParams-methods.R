@@ -107,6 +107,11 @@ setMethod("setParam", "SplatParams",function(object, name, value) {
 
     if (name == "group.prob") {
         object <- setParamUnchecked(object, "nGroups", length(value))
+        path.from <- getParam(object, "path.from")
+        if (length(path.from) > 1 & length(path.from) != length(value)) {
+            warning("nGroups has changed, resetting path.from")
+            object <- setParam(object, "path.from", 0)
+        }
     }
 
     object <- callNextMethod()
