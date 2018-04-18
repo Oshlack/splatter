@@ -87,27 +87,15 @@ setMethod("setParam", "BASiCSParams", function(object, name, value) {
 
 setMethod("show", "BASiCSParams", function(object) {
 
-    pp <- list("Batches:"     = c("(Batches)"     = "nBatches",
+    pp <- list("Genes:"       = c("(Params)"      = "gene.params"),
+               "Cells:"       = c("(Params)"      = "cell.params"),
+               "Batches:"     = c("(Batches)"     = "nBatches",
                                   "(Batch Cells)" = "batchCells"),
                "Spike-ins:"   = c("(Number)"      = "nSpikes",
                                   "(Means)"       = "spike.means"),
                "Variability:" = c("(Theta)"       = "theta"))
 
     callNextMethod()
-
-    gene.params <- getParam(object, "gene.params")
-    cell.params <- getParam(object, "cell.params")
-    cat("Genes:", "\n")
-    cat("(Params)", "\n")
-    cat("data.frame with", dim(gene.params)[1], "features\n")
-    print(head(gene.params, n = 3))
-    cat("  ...  ...\n\n")
-
-    cat("Cells:", "\n")
-    cat("(Params)", "\n")
-    cat("data.frame with", dim(cell.params)[1], "features\n")
-    print(head(cell.params, n = 3))
-    cat("  ...  ...\n\n")
 
     showPP(object, pp)
 })
