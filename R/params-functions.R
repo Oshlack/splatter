@@ -106,8 +106,6 @@ setParamsUnchecked <- function(params, update = NULL, ...) {
 #' @param pp list specifying how the object should be displayed.
 #'
 #' @return Print params object to console
-#'
-#' @importFrom utils head
 showPP <- function(params, pp) {
 
     checkmate::assertClass(params, classes = "Params")
@@ -117,20 +115,67 @@ showPP <- function(params, pp) {
     for (category in names(pp)) {
         parameters <- pp[[category]]
         values <- getParams(params, parameters)
-        short.values <- sapply(values, function(x) {
-            if (length(x) > 4) {
-                paste0(paste(head(x, n = 4), collapse = ", "), ",...")
-            } else {
-                paste(x, collapse = ", ")
-            }
-        })
-        values <- sapply(values, paste, collapse = ", ")
+        is.df <- sapply(values, is.data.frame)
+
         default.values <- getParams(default, parameters)
-        default.values <- sapply(default.values, paste, collapse = ", ")
-        not.default <- values != default.values
-        names(short.values)[not.default] <- toupper(names(values[not.default]))
+        not.default <- sapply(seq_along(values), function(i) {
+            !identical(values[i], default.values[i])
+        })
+
         cat(category, "\n")
-        print(noquote(short.values), print.gap = 2)
+        if (sum(!is.df) > 0) {
+            showValues(values[!is.df], not.default[!is.df])
+        }
+        if (sum(is.df) > 0) {
+            showDFs(values[is.df], not.default[is.df])
+        }
         cat("\n")
+    }
+}
+
+#' Show vales
+#'
+#' Function used for pretty printing scale or vector parameters.
+#'
+#' @param values list of values to show.
+#' @param not.default logical vector giving which have changed from the default.
+#'
+#' @importFrom utils head
+showValues <- function(values, not.default) {
+
+    short.values <- sapply(values, function(x) {
+        if (length(x) > 4) {
+            paste0(paste(head(x, n = 4), collapse = ", "), ",...")
+        } else {
+            paste(x, collapse = ", ")
+        }
+    })
+
+    names(short.values)[not.default] <- toupper(names(values[not.default]))
+
+    print(noquote(short.values), print.gap = 2)
+}
+
+#' Show data.frame
+#'
+#' Function used for pretty printing data.frame parameters.
+#'
+#' @param dfs list of data.frames to show.
+#' @param not.default logical vector giving which have changed from the default.
+#'
+#' @importFrom utils head
+showDFs <- function(dfs, not.default) {
+
+    names(dfs)[not.default] <- toupper(names(dfs)[not.default])
+
+    for (i in seq_along(dfs)) {
+        df <- dfs[[i]]
+        name <- names(dfs)[i]
+
+        cat(paste0("\n", name, "\n"))
+        cat("data.frame", paste0("(", nrow(df), " x ", ncol(df), ")"),
+            "with columns:", paste(colnames(df), collapse = ", "), "\n")
+        print(head(df, n = 4))
+        cat("# ... with", nrow(df) - 4, "more rows\n")
     }
 }

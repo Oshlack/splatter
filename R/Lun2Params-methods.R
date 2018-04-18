@@ -81,7 +81,9 @@ setMethod("setParam", "Lun2Params", function(object, name, value) {
 
 setMethod("show", "Lun2Params", function(object) {
 
-    pp <- list("Plates:"    = c("[Number]"        = "nPlates",
+    pp <- list("Genes:"     = c("(Params)"        = "gene.params",
+                                "(ZI Params)"     = "zi.params"),
+               "Plates:"    = c("[Number]"        = "nPlates",
                                 "[Modifier]"      = "plate.mod",
                                 "(Variance)"      = "plate.var"),
                "Cells:"     = c("[Plates]"        = "cell.plates",
@@ -91,18 +93,6 @@ setMethod("show", "Lun2Params", function(object) {
                                 "[Fold change]"   = "de.fc"))
 
     callNextMethod()
-
-    gene.params <- getParam(object, "gene.params")
-    zi.params <- getParam(object, "zi.params")
-    cat("Genes:", "\n")
-    cat("(Params)", "\n")
-    cat("data.frame with", dim(gene.params)[1], "features\n")
-    print(head(gene.params, n = 3))
-    cat("  ...  ...\n")
-    cat("(ZI Params)", "\n")
-    cat("data.frame with", dim(zi.params)[1], "features\n")
-    print(head(zi.params, n = 3))
-    cat("  ...  ...  ...\n\n")
 
     showPP(object, pp)
 })
