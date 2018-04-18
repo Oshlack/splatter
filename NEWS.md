@@ -1,3 +1,7 @@
+### Version 1.3.3.9010 (2018-04-12)
+
+* Add option to use a normal distribution for library sizes in Splat simulations
+
 ## Version 1.3.3 (2018-03-27)
 
 * Fix parameter passing bug in scDDEstimate
