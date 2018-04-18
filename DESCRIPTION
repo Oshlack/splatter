@@ -40,7 +40,8 @@ Imports:
     scater (>= 1.7.4),
     stats,
     SummarizedExperiment,
-    utils
+    utils,
+    crayon
 Suggests:
     BiocStyle,
     covr,
