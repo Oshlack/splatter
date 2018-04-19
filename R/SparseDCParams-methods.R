@@ -20,7 +20,7 @@ setValidity("SparseDCParams", function(object) {
     checks <- c(nGenes = checkmate::checkInt(v$nGenes, lower = 1),
                 nCells = checkmate::checkInt(v$nCells, lower = 1),
                 markers.n = checkmate::checkInt(v$markers.n, lower = 0,
-                                                upper = v$nCells),
+                                                upper = v$nGenes),
                 markers.shared = checkmate::checkInt(v$markers.shared,
                                                      lower = 0,
                                                      upper = v$markers.n),
