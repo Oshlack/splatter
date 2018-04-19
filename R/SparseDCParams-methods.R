@@ -68,11 +68,11 @@ setValidity("SparseDCParams", function(object) {
 
 setMethod("show", "SparseDCParams", function(object) {
 
-    pp <- list("Markers:"  = c("[Number]"      = "markers.n",
-                               "[Shared]"      = "markers.shared",
+    pp <- list("Markers:"  = c("(Number)"      = "markers.n",
+                               "(Shared)"      = "markers.shared",
                                "[Same]"        = "markers.same"),
-               "Clusters:" = c("[Condition 1]" = "clusts.c1",
-                               "[Condition 2]" = "clusts.c2"),
+               "Clusters:" = c("(Condition 1)" = "clusts.c1",
+                               "(Condition 2)" = "clusts.c2"),
                "Means:"    = c("[Lower]"       = "mean.lower",
                                "[Upper]"       = "mean.upper"))
 

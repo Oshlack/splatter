@@ -72,7 +72,7 @@ sparseDCSimulate <- function(params = newSparseDCParams(),
     gene.names <- paste0("Gene", seq_len(nGenes))
 
     exprs <- cbind(sparsedc.sim$dat.1, sparsedc.sim$dat.2)
-    counts <- 2 ^ exprs - 1
+    counts <- exp(exprs) - 1
     counts[counts < 0] <- 0
     counts <- round(counts)
     rownames(counts) <- gene.names
