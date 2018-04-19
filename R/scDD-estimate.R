@@ -10,9 +10,9 @@
 #'        interest.
 #' @param params SCDDParams object to store estimated values in.
 #' @param verbose logical. Whether to show progress messages.
-#' @param BPPARAM A \code{\link[BiocParallel]{BiocParallelParam}} instance
-#'        giving the parallel back-end to be used. Default is
-#'        \code{\link[BiocParallel]{SerialParam}} which uses a single core.
+#' @param BPPARAM A \code{\link{BiocParallelParam}} instance giving the parallel
+#'        back-end to be used. Default is \code{\link{SerialParam}} which uses a
+#'        single core.
 #' @param ... further arguments passed to or from other methods.
 #'
 #' @details

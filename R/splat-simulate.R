@@ -37,10 +37,10 @@
 #' The final output is a
 #' \code{\link[SingleCellExperiment]{SingleCellExperiment}} object that
 #' contains the simulated counts but also the values for various intermediate
-#' steps. These are stored in the \code{\link[SummarizedExperiment]{colData}}
-#' (for cell specific information), \code{\link[SummarizedExperiment]{rowData}}
-#' (for gene specific information) or \code{\link[SummarizedExperiment]{assays}}
-#' (for gene by cell matrices) slots. This additional information includes:
+#' steps. These are stored in the \code{\link{colData}} (for cell specific
+#' information), \code{\link{rowData}} (for gene specific information) or
+#' \code{\link{assays}} (for gene by cell matrices) slots. This additional
+#' information includes:
 #' \describe{
 #'     \item{\code{phenoData}}{
 #'         \describe{
@@ -173,7 +173,7 @@ splatSimulate <- function(params = newSplatParams(),
     features <- data.frame(Gene = gene.names)
     rownames(features) <- gene.names
     sim <- SingleCellExperiment(rowData = features, colData = cells,
-                                metadata = list(params = params))
+                                metadata = list(Params = params))
 
     # Make batches vector which is the index of param$batchCells repeated
     # params$batchCells[index] times
@@ -249,7 +249,9 @@ splatSimulatePaths <- function(params = newSplatParams(), verbose = TRUE, ...) {
 
 #' Simulate library sizes
 #'
-#' Simulate expected library sizes from a log-normal distribution
+#' Simulate expected library sizes. Typically a log-normal distribution is used
+#' but there is also the option to use a normal distribution. In this case any
+#' negative values are set to half the minimum non-zero value.
 #'
 #' @param sim SingleCellExperiment to add library size to.
 #' @param params SplatParams object with simulation parameters.
@@ -257,14 +259,22 @@ splatSimulatePaths <- function(params = newSplatParams(), verbose = TRUE, ...) {
 #' @return SingleCellExperiment with simulated library sizes.
 #'
 #' @importFrom SummarizedExperiment colData colData<-
-#' @importFrom stats rlnorm
+#' @importFrom stats rlnorm rnorm
 splatSimLibSizes <- function(sim, params) {
 
     nCells <- getParam(params, "nCells")
     lib.loc <- getParam(params, "lib.loc")
     lib.scale <- getParam(params, "lib.scale")
+    lib.norm <- getParam(params, "lib.norm")
 
-    exp.lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
+    if (lib.norm) {
+        exp.lib.sizes <- rnorm(nCells, lib.loc, lib.scale)
+        min.lib <- min(exp.lib.sizes[exp.lib.sizes > 0])
+        exp.lib.sizes[exp.lib.sizes < 0] <- min.lib / 2
+    } else {
+        exp.lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
+    }
+
     colData(sim)$ExpLibSize <- exp.lib.sizes
 
     return(sim)

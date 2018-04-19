@@ -90,12 +90,20 @@ setMethod("show", "ZINBParams", function(object) {
     callNextMethod()
 
     model <- getParam(object, "model")
-    cat("Model:", "\n")
-    cat("ZinbModel with", zinbwave::nFeatures(model), "features,",
-        zinbwave::nSamples(model), "samples,", zinbwave::nFactors(model),
-        "latent factors and", zinbwave::nParams(model), "parameters", "\n\n")
-
     default <- zinbwave::zinbModel()
+    not.default <- !identical(model, default)
+    cat(crayon::bold("Model:"), "\n")
+    msg <- paste("ZinbModel with", zinbwave::nFeatures(model), "features,",
+                 zinbwave::nSamples(model), "samples,",
+                 zinbwave::nFactors(model), "latent factors and",
+                 zinbwave::nParams(model), "parameters")
+    if (not.default) {
+        msg <- crayon::bold(crayon::green(msg))
+    }
+    cat(msg, "\n\n")
+
+
+    cat(crayon::bold("Parameters of the ZinbModel"), "\n\n")
     for (category in names(pp)) {
         parameters <- pp[[category]]
         values <- lapply(parameters, function(x) {slot(model, x)})
@@ -118,9 +126,8 @@ setMethod("show", "ZINBParams", function(object) {
         default.values <- lapply(parameters, function(x) {slot(default, x)})
         default.values <- sapply(default.values, paste, collapse = ", ")
         not.default <- values != default.values
-        names(short.values)[not.default] <- toupper(names(values[not.default]))
-        cat("Model", category, "\n")
-        print(noquote(short.values), print.gap = 2)
+        cat(crayon::bold(c("Model", category)), "\n")
+        showValues(short.values, not.default)
         cat("\n")
     }
 

@@ -30,6 +30,9 @@ test_that("path.from checks work", {
     pp <- setParams(pp, group.prob = c(0.3, 0.3, 0.4))
     pp <- setParamUnchecked(pp, "path.from", c(2, 1, 1))
     expect_error(validObject(pp), "origin must be specified in path.from")
+    pp <- setParams(params, group.prob = c(0.5, 0.5), path.from = c(0, 1))
+    expect_warning(setParam(pp, "group.prob", 1),
+                   "nGroups has changed, resetting path.from")
 })
 
 test_that("dropout.type checks work", {

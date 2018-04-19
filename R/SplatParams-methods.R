@@ -30,6 +30,7 @@ setValidity("SplatParams", function(object) {
                 mean.shape = checkNumber(v$mean.shape, lower = 0),
                 lib.loc = checkNumber(v$lib.loc),
                 lib.scale = checkNumber(v$lib.scale, lower = 0),
+                lib.norm = checkFlag(v$lib.norm),
                 out.prob = checkNumber(v$out.prob, lower = 0, upper = 1),
                 out.facLoc = checkNumber(v$out.facLoc),
                 out.facScale = checkNumber(v$out.facScale, lower = 0),
@@ -117,6 +118,11 @@ setMethod("setParam", "SplatParams",function(object, name, value) {
 
     if (name == "group.prob") {
         object <- setParamUnchecked(object, "nGroups", length(value))
+        path.from <- getParam(object, "path.from")
+        if (length(path.from) > 1 & length(path.from) != length(value)) {
+            warning("nGroups has changed, resetting path.from")
+            object <- setParam(object, "path.from", 0)
+        }
     }
 
     if (name == "dropout.type") {
@@ -173,7 +179,8 @@ setMethod("show", "SplatParams", function(object) {
                "Mean:"           = c("(Rate)"         = "mean.rate",
                                      "(Shape)"        = "mean.shape"),
                "Library size:"   = c("(Location)"     = "lib.loc",
-                                     "(Scale)"        = "lib.scale"),
+                                     "(Scale)"        = "lib.scale",
+                                     "(Norm)"         = "lib.norm"),
                "Exprs outliers:" = c("(Probability)"  = "out.prob",
                                      "(Location)"     = "out.facLoc",
                                      "(Scale)"        = "out.facScale"),
