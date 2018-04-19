@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Estimate simple simulation parameters — simpleEstimate • Splatter</title>
+<title>Estimate SparseDC simulation parameters — sparseDCEstimate • Splatter</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -98,47 +98,65 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Estimate simple simulation parameters</h1>
+    <h1>Estimate SparseDC simulation parameters</h1>
     </div>
 
     
-    <p>Estimate simulation parameters for the simple simulation from a real dataset.</p>
+    <p>Estimate simulation parameters for the SparseDC simulation from a real
+dataset.</p>
     
 
-    <pre class="usage"><span class='fu'>simpleEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSimpleParams</a></span>())
+    <pre class="usage"><span class='fu'>sparseDCEstimate</span>(<span class='no'>counts</span>, <span class='no'>conditions</span>, <span class='no'>nclusters</span>, <span class='kw'>norm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSparseDCParams</a></span>())
 
 <span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>simpleEstimate</span>(<span class='no'>counts</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSimpleParams</a></span>())
+<span class='fu'>sparseDCEstimate</span>(<span class='no'>counts</span>, <span class='no'>conditions</span>, <span class='no'>nclusters</span>,
+  <span class='kw'>norm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSparseDCParams</a></span>())
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>simpleEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSimpleParams</a></span>())</pre>
+<span class='fu'>sparseDCEstimate</span>(<span class='no'>counts</span>, <span class='no'>conditions</span>, <span class='no'>nclusters</span>, <span class='kw'>norm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSparseDCParams</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>counts</th>
-      <td><p>either a counts matrix or a SingleCellExperiment object
+      <td><p>either a counts matrix or an SingleCellExperiment object
 containing count data to estimate parameters from.</p></td>
     </tr>
     <tr>
+      <th>conditions</th>
+      <td><p>numeric vector giving the condition each cell belongs to.</p></td>
+    </tr>
+    <tr>
+      <th>nclusters</th>
+      <td><p>number of cluster present in the dataset.</p></td>
+    </tr>
+    <tr>
+      <th>norm</th>
+      <td><p>logical, whether to libray size normalise counts before
+estimation. Set this to FALSE if counts is already normalised.</p></td>
+    </tr>
+    <tr>
       <th>params</th>
-      <td><p>SimpleParams object to store estimated values in.</p></td>
+      <td><p>PhenoParams object to store estimated values in.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>SimpleParams object containing the estimated parameters.</p>
+    <p>SparseParams object containing the estimated parameters.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>nGenes</code> and <code>nCells</code> parameters are taken from the size of the
-input data. The mean parameters are estimated by fitting a gamma distribution
-to the library size normalised mean expression level using
-<code><a href='http://www.rdocumentation.org/packages/fitdistrplus/topics/fitdist'>fitdist</a></code>. See <code><a href='SimpleParams.html'>SimpleParams</a></code> for more
-details on the parameters.</p>
+input data. The counts are preprocessed using
+<code><a href='http://www.rdocumentation.org/packages/SparseDC/topics/pre_proc_data'>pre_proc_data</a></code> and then parameters are estimated using
+<code><a href='http://www.rdocumentation.org/packages/SparseDC/topics/sparsedc_cluster'>sparsedc_cluster</a></code> using lambda values calculated using
+<code><a href='http://www.rdocumentation.org/packages/SparseDC/topics/lambda1_calculator'>lambda1_calculator</a></code> and
+<code><a href='http://www.rdocumentation.org/packages/SparseDC/topics/lambda2_calculator'>lambda2_calculator</a></code>.</p>
+<p>See <code><a href='SparseDCParams.html'>SparseDCParams</a></code> for more details on the parameters.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -146,23 +164,30 @@ details on the parameters.</p>
 <span class='fu'>library</span>(<span class='no'>scater</span>)
 <span class='fu'>data</span>(<span class='st'>"sc_example_counts"</span>)
 
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>simpleEstimate</span>(<span class='no'>sc_example_counts</span>)
-<span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class SimpleParams 
+<span class='no'>conditions</span> <span class='kw'>&lt;-</span> <span class='fu'>sample</span>(<span class='fl'>1</span>:<span class='fl'>2</span>, <span class='fu'>ncol</span>(<span class='no'>sc_example_counts</span>), <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>sparseDCEstimate</span>(<span class='no'>sc_example_counts</span>[<span class='fl'>1</span>:<span class='fl'>500</span>, ], <span class='no'>conditions</span>,
+                           <span class='kw'>nclusters</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class SparseDCParams 
 #&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
 #&gt; 
 #&gt; Global: 
 #&gt; (GENES)  (CELLS)   [Seed] 
-#&gt;    2000       40   457996 
+#&gt;     500       20   457996 
 #&gt; 
-#&gt; 3 additional parameters 
+#&gt; 7 additional parameters 
 #&gt; 
-#&gt; Mean: 
-#&gt;             (RATE)             (SHAPE) 
-#&gt; 0.0008052293183292   0.131835949613878 
+#&gt; Markers: 
+#&gt; (NUMBER)  (SHARED)    [Same] 
+#&gt;        1         1     FALSE 
 #&gt; 
-#&gt; Counts: 
-#&gt; [Dispersion] 
-#&gt;          0.1 
+#&gt; Clusters: 
+#&gt; (CONDITION 1)  (CONDITION 2) 
+#&gt;       1, 2, 3        1, 2, 3 
+#&gt; 
+#&gt; Means: 
+#&gt; [Lower]  [Upper] 
+#&gt;       1        2 
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

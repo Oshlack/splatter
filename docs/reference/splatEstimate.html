@@ -146,51 +146,50 @@ containing count data to estimate parameters from.</p></td>
 <span class='fu'>library</span>(<span class='no'>scater</span>)
 <span class='fu'>data</span>(<span class='st'>"sc_example_counts"</span>)
 
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>splatEstimate</span>(<span class='no'>sc_example_counts</span>)
-<span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class SplatParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or 'NOT DEFAULT'. 
+<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>splatEstimate</span>(<span class='no'>sc_example_counts</span>)</div><div class='output co'>#&gt; <span class='message'>NOTE: Library sizes have been found to be normally distributed instead of log-normal. You may want to check this is correct.</span></div><div class='input'><span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class SplatParams 
+#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
 #&gt; 
 #&gt; Global: 
-#&gt; (GENES)  (CELLS)   [Seed]  
-#&gt;    2000       40   578513  
+#&gt; (GENES)  (CELLS)   [Seed] 
+#&gt;    2000       40   457996 
 #&gt; 
-#&gt; 27 additional parameters 
+#&gt; 28 additional parameters 
 #&gt; 
 #&gt; Batches: 
-#&gt;     [Batches]  [BATCH CELLS]     [Location]        [Scale]  
-#&gt;             1             40            0.1            0.1  
+#&gt;     [BATCHES]  [BATCH CELLS]     [Location]        [Scale] 
+#&gt;             1             40            0.1            0.1 
 #&gt; 
 #&gt; Mean: 
-#&gt;             (RATE)             (SHAPE)  
-#&gt; 0.0032639148887191   0.419304527025529  
+#&gt;             (RATE)             (SHAPE) 
+#&gt; 0.0032639148887191   0.419304527025529 
 #&gt; 
 #&gt; Library size: 
-#&gt;       (LOCATION)           (SCALE)  
-#&gt; 12.7053037408488  0.58910919018286  
+#&gt;       (LOCATION)           (SCALE)            (NORM) 
+#&gt;       388947.775  231618.775891602              TRUE 
 #&gt; 
 #&gt; Exprs outliers: 
-#&gt;       (PROBABILITY)           (LOCATION)              (SCALE)  
-#&gt; 0.00623376623376623     4.22280669039478    0.422108697251885  
+#&gt;       (PROBABILITY)           (LOCATION)              (SCALE) 
+#&gt; 0.00623376623376623     4.22280669039478    0.422108697251885 
 #&gt; 
 #&gt; Groups: 
-#&gt;      [Groups]  [Group Probs]  
-#&gt;             1              1  
+#&gt;      [Groups]  [Group Probs] 
+#&gt;             1              1 
 #&gt; 
 #&gt; Diff expr: 
-#&gt; [Probability]    [Down Prob]     [Location]        [Scale]  
-#&gt;           0.1            0.5            0.1            0.4  
+#&gt; [Probability]    [Down Prob]     [Location]        [Scale] 
+#&gt;           0.1            0.5            0.1            0.4 
 #&gt; 
 #&gt; BCV: 
-#&gt;    (COMMON DISP)             (DOF)  
-#&gt; 3.21969047393022  14.7262017878812  
+#&gt;    (COMMON DISP)             (DOF) 
+#&gt; 3.21969047393022  14.7262017878812 
 #&gt; 
 #&gt; Dropout: 
-#&gt;          [Present]          (MIDPOINT)             (SHAPE)  
-#&gt;              FALSE    5.00420976858168  -0.652889139821156  
+#&gt;          [Present]          (MIDPOINT)             (SHAPE) 
+#&gt;              FALSE    5.00420976858168  -0.652889139821156 
 #&gt; 
 #&gt; Paths: 
-#&gt;         [From]        [Length]          [Skew]    [Non-linear]  [Sigma Factor]  
-#&gt;              0             100             0.5             0.1             0.8  
+#&gt;         [From]        [Length]          [Skew]    [Non-linear]  [Sigma Factor] 
+#&gt;              0             100             0.5             0.1             0.8 
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
