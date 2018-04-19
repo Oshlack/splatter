@@ -9,7 +9,7 @@
 #'
 #' @details
 #' This function is just a wrapper around
-#' \code{\link[SparsDC]{sim_data}} that takes a
+#' \code{\link[SparseDC]{sim_data}} that takes a
 #' \code{\link{SparseDCParams}}, runs the simulation then converts the
 #' output from log-expression to counts and returns a
 #' \code{\link[SingleCellExperiment]{SingleCellExperiment}} object. The original

@@ -5,7 +5,7 @@
 #'
 #' @param counts either a counts matrix or an SingleCellExperiment object
 #'        containing count data to estimate parameters from.
-#' @param condition numeric vector giving the condition each cell belongs to.
+#' @param conditions numeric vector giving the condition each cell belongs to.
 #' @param nclusters number of cluster present in the dataset.
 #' @param norm logical, whether to libray size normalise counts before
 #'        estimation. Set this to FALSE if counts is already normalised.
@@ -13,12 +13,13 @@
 #'
 #' @details
 #' The \code{nGenes} and \code{nCells} parameters are taken from the size of the
-#' input data. The counts are preprocessed using \code{\link{pre_proc_data}} and
-#' then parameters are estimated using \code{\link{sparsedc_cluster}} using
-#' lambda values calculated using \code{\link{lambda1_calculator}} and
-#' \code{\link{lambda2_calculator}}.
+#' input data. The counts are preprocessed using
+#' \code{\link[SparseDC]{pre_proc_data}} and then parameters are estimated using
+#' \code{\link[SparseDC]{sparsedc_cluster}} using lambda values calculated using
+#' \code{\link[SparseDC]{lambda1_calculator}} and
+#' \code{\link[SparseDC]{lambda2_calculator}}.
 #'
-#' See \code{\link{SparsDCParams}} for more details on the parameters.
+#' See \code{\link{SparseDCParams}} for more details on the parameters.
 #'
 #' @return SparseParams object containing the estimated parameters.
 #'
@@ -87,8 +88,8 @@ sparseDCEstimate.matrix <- function(counts, conditions, nclusters, norm = TRUE,
                         nCells = round(ncol(counts) / 2),
                         markers.n = markers.n,
                         markers.shared = markers.n - markers.diff,
-                        clusts.c1 = sort(unique(sdc_res$clusters1)),
-                        clusts.c2 = sort(unique(sdc_res$clusters2)))
+                        clusts.c1 = sort(unique(sdc.res$clusters1)),
+                        clusts.c2 = sort(unique(sdc.res$clusters2)))
 
     return(params)
 }
