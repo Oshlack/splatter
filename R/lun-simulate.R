@@ -132,7 +132,7 @@ lunSimulate <- function(params = newLunParams(), verbose = TRUE, ...) {
                                               CellMeans = cell.means),
                                 rowData = features,
                                 colData = cells,
-                                metadata = list(params = params))
+                                metadata = list(Params = params))
 
     if (verbose) {message("Done!")}
 

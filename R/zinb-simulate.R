@@ -68,7 +68,7 @@ zinbSimulate <- function(params = newZINBParams(), verbose = TRUE, ...) {
                                               Dropouts = zinb.sim$dataDropouts),
                                 rowData = features,
                                 colData = cells,
-                                metadata = list(params = params))
+                                metadata = list(Params = params))
 
     return(sim)
 }

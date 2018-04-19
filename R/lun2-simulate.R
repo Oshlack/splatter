@@ -183,7 +183,7 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
                                               TrueCounts <- true.counts),
                                 rowData = features,
                                 colData = cells,
-                                metadata = list(params = params))
+                                metadata = list(Params = params))
 
     if (zinb) {
         rownames(is.zero) <- gene.names

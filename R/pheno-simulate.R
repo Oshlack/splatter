@@ -84,7 +84,7 @@ phenoSimulate <- function(params = newPhenoParams(), verbose = TRUE, ...) {
                                               LogExprs = exprs),
                                 rowData = features,
                                 colData = cells,
-                                metadata = list(params = params))
+                                metadata = list(Params = params))
 
     return(sim)
 }
