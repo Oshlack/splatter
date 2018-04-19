@@ -196,7 +196,7 @@ showDFs <- function(dfs, not.default) {
     checkmate::check_list(dfs, types = "data.frame", any.missing = FALSE,
                           min.len = 1)
     checkmate::check_logical(not.default, any.missing = FALSE,
-                             len = length(values))
+                             len = length(dfs))
 
     names(dfs)[not.default] <- toupper(names(dfs)[not.default])
 

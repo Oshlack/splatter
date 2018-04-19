@@ -59,7 +59,8 @@ Suggests:
     mfa,
     phenopath,
     BASiCS,
-    zinbwave
+    zinbwave,
+    SparseDC
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software
 URL: https://github.com/Oshlack/splatter

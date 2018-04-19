@@ -663,3 +663,58 @@ setClass("ZINBParams",
          contains = "Params",
          slots = c(model = "ANY"),
          prototype = prototype(nGenes = 100, nCells = 50))
+
+
+#' The SparseDCParams class
+#'
+#' S4 class that holds parameters for the SparseDC simulation.
+#'
+#' @section Parameters:
+#'
+#' The SparseDC simulation uses the following parameters:
+#'
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate in each condition.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\code{markers.n}}{Number of marker genes to simulate for each
+#'     cluster.}
+#'     \item{\code{markers.shared}}{Number of marker genes for each cluster
+#'     shared between conditions. Must be less than or equal to
+#'     \code{markers.n}}.
+#'     \item{\code{[markers.same]}}{Logical. Whether each cluster should have
+#'     the same set of marker genes.}
+#'     \item{\code{clusts.c1}}{Numeric vector of clusters present in
+#'     condition 1. The number of times a cluster is repeated controls the
+#'     proportion of cells from that cluster.}
+#'     \item{\code{clusts.c2}}{Numeric vector of clusters present in
+#'     condition 2. The number of times a cluster is repeated controls the
+#'     proportion of cells from that cluster.}
+#'     \item{\code{[mean.lower]}}{Lower bound for cluster gene means.}
+#'     \item{\code{[mean.upper]}}{Upper bound for cluster gene means.}
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{sparseDCEstimate}}. For details of the SparseDC simulation
+#' see \code{\link{sparseDCSimulate}}.
+#'
+#' @name SparseDCParams
+#' @rdname SparseDCParams
+#' @aliases SparseDCParams-class
+#' @exportClass SparseDCParams
+setClass("SparseDCParams",
+         contains = "Params",
+         slots = c(markers.n = "numeric",
+                   markers.shared = "numeric",
+                   markers.same = "logical",
+                   clusts.c1 = "numeric",
+                   clusts.c2 = "numeric",
+                   mean.lower = "numeric",
+                   mean.upper = "numeric"),
+         prototype = prototype(markers.n = 0,
+                               markers.shared = 0,
+                               markers.same = FALSE,
+                               clusts.c1 = 1,
+                               clusts.c2 = 1,
+                               mean.lower = 1,
+                               mean.upper = 2))
