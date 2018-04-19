@@ -71,7 +71,12 @@ listSims <- function(print = TRUE) {
                    "drisso/zinbwave",
                    "The ZINB-WaVE simulation simulates counts from a
                    sophisticated zero-inflated negative-binomial distribution
-                   including cell and gene-level covariates."))
+                   including cell and gene-level covariates."),
+                 c("SparseDC", "sparseDC", "10.1093/nar/gkx1113",
+                   "cran/SparseDC",
+                   "The SparseDC simulation simulates a set of clusters
+                   across two conditions, where some clusters may be present in
+                   only one condition."))
 
     sims.table <- data.frame(Name        = rep(NA, length(sims)),
                              Prefix      = rep(NA, length(sims)),
