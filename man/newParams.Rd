@@ -2,7 +2,7 @@
 % Please edit documentation in R/AllGenerics.R, R/BASiCSParams-methods.R,
 %   R/Lun2Params-methods.R, R/LunParams-methods.R, R/MFAParams-methods.R,
 %   R/PhenoParams-methods.R, R/SCDDParams-methods.R, R/SimpleParams-methods.R,
-%   R/SplatParams-methods.R, R/ZINBParams-methods.R
+%   R/SparseDCParams-methods.R, R/SplatParams-methods.R, R/ZINBParams-methods.R
 \name{newParams}
 \alias{newParams}
 \alias{newBASiCSParams}
@@ -12,6 +12,7 @@
 \alias{newPhenoParams}
 \alias{newSCDDParams}
 \alias{newSimpleParams}
+\alias{newSparseDCParams}
 \alias{newSplatParams}
 \alias{newZINBParams}
 \title{New Params}
@@ -29,6 +30,8 @@ newPhenoParams(...)
 newSCDDParams(...)
 
 newSimpleParams(...)
+
+newSparseDCParams(...)
 
 newSplatParams(...)
 
