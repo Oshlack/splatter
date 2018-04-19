@@ -13,7 +13,7 @@
 #' \code{\link{PhenoParams}}, runs the simulation then converts the
 #' output from log-expression to counts and returns a
 #' \code{\link[SingleCellExperiment]{SingleCellExperiment}} object. The original
-#' simulated log-expression values are returned in the \code{LogExprs} asssay.
+#' simulated log-expression values are returned in the \code{LogExprs} assay.
 #' See \code{\link[phenopath]{simulate_phenopath}} and the PhenoPath paper for
 #' more details about how the simulation works.
 #'
