@@ -53,7 +53,7 @@ setValidity("SparseDCParams", function(object) {
 
     clusts.combined <- c(v$clusts.c1, v$clusts.c2)
     if (!all(seq_len(max(clusts.combined)) %in% clusts.combined)) {
-        checks <- c(checks, clusts = "Cluster labels must be seqential")
+        checks <- c(checks, clusts = "Cluster labels must be sequential")
     }
 
     if (all(checks == TRUE)) {

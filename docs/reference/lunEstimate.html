@@ -140,34 +140,38 @@ for more details on the parameters.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'>library</span>(<span class='no'>scater</span>)
-<span class='fu'>data</span>(<span class='st'>"sc_example_counts"</span>)
+<span class='fu'>library</span>(<span class='no'>scater</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘scater’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:S4Vectors’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    rename</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    filter</span></div><div class='input'><span class='fu'>data</span>(<span class='st'>"sc_example_counts"</span>)
 
 <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>lunEstimate</span>(<span class='no'>sc_example_counts</span>)
 <span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class LunParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or 'NOT DEFAULT'. 
+#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
 #&gt; 
 #&gt; Global: 
-#&gt; (GENES)  (CELLS)   [Seed]  
-#&gt;    2000       40   578513  
+#&gt; (GENES)  (CELLS)   [Seed] 
+#&gt;    2000       40   457996 
 #&gt; 
 #&gt; 9 additional parameters 
 #&gt; 
 #&gt; Mean: 
-#&gt;  [Rate]  [Shape]  
-#&gt;       2        2  
+#&gt;  [Rate]  [Shape] 
+#&gt;       2        2 
 #&gt; 
 #&gt; Counts: 
-#&gt; [Dispersion]  
-#&gt;          0.1  
+#&gt; [Dispersion] 
+#&gt;          0.1 
 #&gt; 
 #&gt; Groups: 
-#&gt;      [Groups]  [GROUP CELLS]  
-#&gt;             1             40  
+#&gt;      [GROUPS]  [GROUP CELLS] 
+#&gt;             1             40 
 #&gt; 
 #&gt; Diff expr: 
-#&gt;   [Genes]  [Up Prop]    [Up FC]  [Down FC]  
-#&gt;      1000        0.5          5          0  
+#&gt;   [Genes]  [Up Prop]    [Up FC]  [Down FC] 
+#&gt;      1000        0.5          5          0 
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

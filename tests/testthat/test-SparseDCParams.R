@@ -16,7 +16,7 @@ test_that("clusts checks work", {
     expect_error(setParam(params, "clusts.c2", 2),
                  "is length 1 it must equal 1")
     expect_error(setParam(params, "clusts.c1", c(1, 3)),
-                 "Cluster labels must be seqential")
+                 "Cluster labels must be sequential")
     expect_error(setParam(params, "clusts.c2", c(1, 3)),
-                 "Cluster labels must be seqential")
+                 "Cluster labels must be sequential")
 })
