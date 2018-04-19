@@ -1,6 +1,21 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
+\section{Version 1.3.4, Bioconductor 3.7 Release (2017-04-19)}{
+  \itemize{
+    \item{Move scater to Imports and add scater version}
+    \item{Remove lingering references to SCESets}
+    \item{Add option to use a normal distribution for library sizes in Splat
+    simulations}
+    \item{Add SparseDC simulation}
+    \item{Rename params in metadata slot of simulation to Params for
+    consistency}
+    \item{Improve and colourise Params print output}
+    \item{Improve test coverage}
+    \item{Various other minor updates and bug fixes}
+  }
+}
+
 \section{Version 1.1.8, Bioconductor 3.6 Release (2017-10-13)}{
   \itemize{
     \item{Now published in Genome Biology!}

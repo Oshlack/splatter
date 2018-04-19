@@ -84,7 +84,7 @@ mfaSimulate <- function(params = newMFAParams(), verbose = TRUE, ...) {
                                               LogExprs = exprs),
                                 rowData = features,
                                 colData = cells,
-                                metadata = list(params = params))
+                                metadata = list(Params = params))
 
     return(sim)
 }

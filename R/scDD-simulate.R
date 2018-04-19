@@ -7,9 +7,9 @@
 #' plots.
 #' @param plot.file File path to save plots as PDF.
 #' @param verbose logical. Whether to print progress messages
-#' @param BPPARAM A \code{\link[BiocParallel]{BiocParallelParam}} instance
-#'        giving the parallel back-end to be used. Default is
-#'        \code{\link[BiocParallel]{SerialParam}} which uses a single core.
+#' @param BPPARAM A \code{\link{BiocParallelParam}} instance giving the parallel
+#'        back-end to be used. Default is \code{\link{SerialParam}} which uses a
+#'        single core.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
 #'
@@ -113,7 +113,7 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
     sim <- SingleCellExperiment(assays = list(counts = counts),
                                 rowData = features,
                                 colData = cells,
-                                metadata = list(params = params))
+                                metadata = list(Params = params))
 
     if (verbose) {message("Done!")}
 

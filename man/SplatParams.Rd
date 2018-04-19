@@ -39,9 +39,13 @@ The Splatter simulation requires the following parameters:
     \item{\emph{Library size parameters}}{
         \describe{
             \item{\code{lib.loc}}{Location (meanlog) parameter for the
-            library size log-normal distribution.}
+            library size log-normal distribution, or mean parameter if a
+            normal distribution is used.}
             \item{\code{lib.scale}}{Scale (sdlog) parameter for the library
-            size log-normal distribution.}
+            size log-normal distribution, or sd parameter if a normal
+            distribution is used.}
+            \item{\code{lib.norm}}{Logical. Whether to use a normal
+            distribution for library sizes instead of a log-normal.}
         }
     }
     \item{\emph{Expression outlier parameters}}{

@@ -1,3 +1,18 @@
+## Version 1.3.4 (2018-04-19)
+
+* Add option to use a normal distribution for library sizes in Splat simulations
+* Add SparseDC simulation
+* Rename params in metadata slot of simulation to Params for consistency
+* Add checks to SplatParams to reset path.from if nGroups changes
+* Improve printing of parameters stored as data.frames
+* Colourise Params print output and listSims output
+* Improve warning message when fitting means in splatEstimate fails
+* Simplify problematic documentation links
+
+### Version 1.3.3.9010 (2018-04-12)
+
+* Add option to use a normal distribution for library sizes in Splat simulations
+
 ### Version 1.3.3.9000 (2018-04-12)
 
 * Replace dropout.present with dropout.type in SplatParams

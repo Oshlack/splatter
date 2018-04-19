@@ -106,8 +106,6 @@ setParamsUnchecked <- function(params, update = NULL, ...) {
 #' @param pp list specifying how the object should be displayed.
 #'
 #' @return Print params object to console
-#'
-#' @importFrom utils head
 showPP <- function(params, pp) {
 
     checkmate::assertClass(params, classes = "Params")
@@ -117,20 +115,109 @@ showPP <- function(params, pp) {
     for (category in names(pp)) {
         parameters <- pp[[category]]
         values <- getParams(params, parameters)
-        short.values <- sapply(values, function(x) {
-            if (length(x) > 4) {
-                paste0(paste(head(x, n = 4), collapse = ", "), ",...")
-            } else {
-                paste(x, collapse = ", ")
-            }
-        })
-        values <- sapply(values, paste, collapse = ", ")
+        is.df <- sapply(values, is.data.frame)
+
         default.values <- getParams(default, parameters)
-        default.values <- sapply(default.values, paste, collapse = ", ")
-        not.default <- values != default.values
-        names(short.values)[not.default] <- toupper(names(values[not.default]))
-        cat(category, "\n")
-        print(noquote(short.values), print.gap = 2)
+        not.default <- sapply(seq_along(values), function(i) {
+            !identical(values[i], default.values[i])
+        })
+
+        cat(crayon::bold(category), "\n")
+        if (sum(!is.df) > 0) {
+            showValues(values[!is.df], not.default[!is.df])
+        }
+        if (sum(is.df) > 0) {
+            showDFs(values[is.df], not.default[is.df])
+        }
         cat("\n")
+    }
+}
+
+#' Show vales
+#'
+#' Function used for pretty printing scale or vector parameters.
+#'
+#' @param values list of values to show.
+#' @param not.default logical vector giving which have changed from the default.
+#'
+#' @importFrom utils head
+showValues <- function(values, not.default) {
+
+    checkmate::check_list(values, any.missing = FALSE, min.len = 1)
+    checkmate::check_logical(not.default, any.missing = FALSE,
+                             len = length(values))
+
+    short.values <- sapply(values, function(x) {
+        if (length(x) > 4) {
+            paste0(paste(head(x, n = 4), collapse = ", "), ",...")
+        } else {
+            paste(x, collapse = ", ")
+        }
+    })
+
+    names(short.values)[not.default] <- toupper(names(values[not.default]))
+
+    max.len <- max(nchar(short.values), nchar(names(short.values)))
+
+    screen.width <- options("width")$width
+    items.per.line <- floor(screen.width / (max.len + 2))
+
+    short.names <- names(short.values)
+    short.values <- crayon::col_align(short.values, max.len, "right")
+    short.names <- crayon::col_align(short.names, max.len, "right")
+
+    not.est <- !grepl("\\(", short.names)
+    short.names[not.est] <- crayon::blue(short.names[not.est])
+    short.names[not.default] <- crayon::bold(short.names[not.default])
+    short.values[not.default] <- crayon::green(short.values[not.default])
+    short.values[not.default] <- crayon::bold(short.values[not.default])
+
+    names(short.values) <- short.names
+
+    values.list <- split(short.values,
+                         ceiling(seq_along(short.values) / items.per.line))
+
+    for (line in values.list) {
+        cat(paste(names(line), collapse = "  "), "\n")
+        cat(paste(unname(line), collapse = "  "), "\n")
+    }
+}
+
+#' Show data.frame
+#'
+#' Function used for pretty printing data.frame parameters.
+#'
+#' @param dfs list of data.frames to show.
+#' @param not.default logical vector giving which have changed from the default.
+#'
+#' @importFrom utils head
+showDFs <- function(dfs, not.default) {
+
+    checkmate::check_list(dfs, types = "data.frame", any.missing = FALSE,
+                          min.len = 1)
+    checkmate::check_logical(not.default, any.missing = FALSE,
+                             len = length(dfs))
+
+    names(dfs)[not.default] <- toupper(names(dfs)[not.default])
+
+    not.est <- !grepl("\\(", names(dfs))
+    names(dfs)[not.est] <- crayon::blue(names(dfs)[not.est])
+    names(dfs)[not.default] <- crayon::bold(names(dfs)[not.default])
+
+    for (i in seq_along(dfs)) {
+        df <- dfs[[i]]
+        name <- names(dfs)[i]
+
+        msg <- paste0("data.frame (", nrow(df), " x ", ncol(df),
+                      ") with columns: ", paste(colnames(df), collapse = ", "))
+
+        if (not.default[i]) {
+            msg <- crayon::bold(crayon::green(msg))
+        }
+
+        cat(paste0("\n", name, "\n"))
+        cat(msg, "\n")
+        print(head(df, n = 4))
+        cat("# ... with", nrow(df) - 4, "more rows\n")
     }
 }
