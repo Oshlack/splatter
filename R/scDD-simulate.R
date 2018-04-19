@@ -113,7 +113,7 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
     sim <- SingleCellExperiment(assays = list(counts = counts),
                                 rowData = features,
                                 colData = cells,
-                                metadata = list(params = params))
+                                metadata = list(Params = params))
 
     if (verbose) {message("Done!")}
 

@@ -173,7 +173,7 @@ splatSimulate <- function(params = newSplatParams(),
     features <- data.frame(Gene = gene.names)
     rownames(features) <- gene.names
     sim <- SingleCellExperiment(rowData = features, colData = cells,
-                                metadata = list(params = params))
+                                metadata = list(Params = params))
 
     # Make batches vector which is the index of param$batchCells repeated
     # params$batchCells[index] times
