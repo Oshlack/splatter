@@ -171,8 +171,12 @@
             chi-squared distribution.</p></dd>
         </dl></p></dd>
     <dt><em>Dropout parameters</em></dt><dd><p><dl class='dl-horizontal'>
-            <dt><code>dropout.present</code></dt><dd><p>Logical. Whether to simulate
-            dropout.</p></dd>
+            <dt><code>dropout.type</code></dt><dd><p>The type of dropout to simulate.
+            "none" indicates no dropout, "experiment" is global dropout using
+            the same parameters for every cell, "batch" uses the same
+            parameters for every cell in each batch, "group" uses the same
+            parameters for every cell in each groups and "cell" uses a
+            different set of parameters for each cell.</p></dd>
             <dt><code>dropout.mid</code></dt><dd><p>Midpoint parameter for the dropout
             logistic function.</p></dd>
             <dt><code>dropout.shape</code></dt><dd><p>Shape parameter for the dropout

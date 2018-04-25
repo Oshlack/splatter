@@ -1,12 +1,14 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
-\section{Version 1.3.4, Bioconductor 3.7 Release (2017-04-19)}{
+\section{Version 1.3.5, Bioconductor 3.7 Release (2017-04-25)}{
   \itemize{
     \item{Move scater to Imports and add scater version}
     \item{Remove lingering references to SCESets}
     \item{Add option to use a normal distribution for library sizes in Splat
     simulations}
+    \item{Allow Splat dropout parameters to be specified by experiment, batch,
+    group or cell}
     \item{Add SparseDC simulation}
     \item{Rename params in metadata slot of simulation to Params for
     consistency}
