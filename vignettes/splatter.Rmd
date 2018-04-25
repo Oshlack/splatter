@@ -56,7 +56,7 @@ data("sc_example_counts")
 # Estimate parameters from example data
 params <- splatEstimate(sc_example_counts)
 # Simulate data using estimated parameters
-sim <- splatSimulate(params, dropout.present = FALSE)
+sim <- splatSimulate(params)
 ```
 
 These steps will be explained in detail in the following sections but briefly
@@ -131,7 +131,7 @@ The parameters required for the Splat simulation are briefly described here:
     * `bcv.df` - Degrees of Freedom for the BCV inverse chi-squared
       distribution.
 * **Dropout parameters**
-    * `dropout.present` - Logical. Whether to simulate dropout.
+    * `dropout.type` - Type of dropout to simulate.
     * `dropout.mid` - Midpoint parameter for the dropout logistic function.
     * `dropout.shape` - Shape parameter for the dropout logistic function.
 * **Differentiation path parameters**
@@ -249,7 +249,7 @@ can provide them as additional arguments, alternatively if we don't supply any
 parameters the defaults will be used:
 
 ```{r splatSimulate}
-sim <- splatSimulate(params, nGenes = 1000, dropout.present = FALSE, seed = 0)
+sim <- splatSimulate(params, nGenes = 1000)
 sim
 ```
 
