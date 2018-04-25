@@ -140,12 +140,8 @@ for more details on the parameters.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'>library</span>(<span class='no'>scater</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘scater’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:S4Vectors’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    rename</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter</span></div><div class='input'><span class='fu'>data</span>(<span class='st'>"sc_example_counts"</span>)
+<span class='fu'>library</span>(<span class='no'>scater</span>)
+<span class='fu'>data</span>(<span class='st'>"sc_example_counts"</span>)
 
 <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>lunEstimate</span>(<span class='no'>sc_example_counts</span>)
 <span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class LunParams 
@@ -153,7 +149,7 @@ for more details on the parameters.</p>
 #&gt; 
 #&gt; Global: 
 #&gt; (GENES)  (CELLS)   [Seed] 
-#&gt;    2000       40   457996 
+#&gt;    2000       40    33804 
 #&gt; 
 #&gt; 9 additional parameters 
 #&gt; 

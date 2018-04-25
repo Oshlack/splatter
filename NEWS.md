@@ -1,3 +1,8 @@
+## Version 1.3.4 (2018-04-25)
+
+* Replace dropout.present with dropout.type in SplatParams
+    * Allows users to set dropout by experiment, batch, group or cell
+
 ## Version 1.3.4 (2018-04-19)
 
 * Add option to use a normal distribution for library sizes in Splat simulations
