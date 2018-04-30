@@ -9,7 +9,7 @@
 [![Bioc Stats](https://bioconductor.org/shields/downloads/splatter.svg)](https://bioconductor.org/packages/devel/bioc/html/splatter.html)
 [![Bioc Build](https://bioconductor.org/shields/build/devel/bioc/splatter.svg)](https://bioconductor.org/packages/devel/bioc/html/splatter.html)
 
-![Splatter logo](https://s16.postimg.org/xc6u52b0l/splatter_logo_small.png)
+![Splatter logo](vignettes/splatter-logo-small.png)
 
 Splatter is an R package for the simple simulation of single-cell RNA sequencing
 data. Splatter provides a common interface to multiple simulations that have:
