@@ -164,6 +164,7 @@ input data. The counts are preprocessed using
 <span class='fu'>library</span>(<span class='no'>scater</span>)
 <span class='fu'>data</span>(<span class='st'>"sc_example_counts"</span>)
 
+<span class='fu'>set.seed</span>(<span class='fl'>1</span>)
 <span class='no'>conditions</span> <span class='kw'>&lt;-</span> <span class='fu'>sample</span>(<span class='fl'>1</span>:<span class='fl'>2</span>, <span class='fu'>ncol</span>(<span class='no'>sc_example_counts</span>), <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>sparseDCEstimate</span>(<span class='no'>sc_example_counts</span>[<span class='fl'>1</span>:<span class='fl'>500</span>, ], <span class='no'>conditions</span>,
@@ -173,7 +174,7 @@ input data. The counts are preprocessed using
 #&gt; 
 #&gt; Global: 
 #&gt; (GENES)  (CELLS)   [Seed] 
-#&gt;     500       20    33804 
+#&gt;     500       20   239255 
 #&gt; 
 #&gt; 7 additional parameters 
 #&gt; 
