@@ -1,4 +1,8 @@
-## Version 1.3.4 (2018-04-25)
+## Version 1.3.6 (2018-04-30)
+
+* Set seed in sparseDCEstimate tests
+
+## Version 1.3.5 (2018-04-25)
 
 * Replace dropout.present with dropout.type in SplatParams
     * Allows users to set dropout by experiment, batch, group or cell

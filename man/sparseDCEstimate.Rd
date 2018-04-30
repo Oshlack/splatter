@@ -50,6 +50,7 @@ See \code{\link{SparseDCParams}} for more details on the parameters.
 library(scater)
 data("sc_example_counts")
 
+set.seed(1)
 conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
 
 params <- sparseDCEstimate(sc_example_counts[1:500, ], conditions,
