@@ -14,8 +14,8 @@ install:
 
 environment:
     matrix:
-    - R_VERSION: devel
-#    - R_VERSION: release
+#    - R_VERSION: devel
+    - R_VERSION: release
     USE_RTOOLS: true
 
 build_script:
