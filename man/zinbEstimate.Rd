@@ -41,9 +41,9 @@ features is estimated.}
 
 \item{verbose}{logical. Whether to print progress messages.}
 
-\item{BPPARAM}{A \code{\link[BiocParallel]{BiocParallelParam}} instance
-giving the parallel back-end to be used. Default is
-\code{\link[BiocParallel]{SerialParam}} which uses a single core.}
+\item{BPPARAM}{A \code{\link{BiocParallelParam}} instance giving the parallel
+back-end to be used. Default is \code{\link{SerialParam}} which uses a
+single core.}
 
 \item{...}{additional arguments passes to \code{\link[zinbwave]{zinbFit}}.}
 }
@@ -62,7 +62,10 @@ the fitted model and inserts it into a \code{\link{ZINBParams}} object. See
 }
 \examples{
 \dontrun{
+# Load example data
+library(scater)
 data("sc_example_counts")
+
 params <- zinbEstimate(sc_example_counts)
 params
 }

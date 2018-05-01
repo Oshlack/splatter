@@ -95,9 +95,13 @@ setClass("SimpleParams",
 #'     \item{\emph{Library size parameters}}{
 #'         \describe{
 #'             \item{\code{lib.loc}}{Location (meanlog) parameter for the
-#'             library size log-normal distribution.}
+#'             library size log-normal distribution, or mean parameter if a
+#'             normal distribution is used.}
 #'             \item{\code{lib.scale}}{Scale (sdlog) parameter for the library
-#'             size log-normal distribution.}
+#'             size log-normal distribution, or sd parameter if a normal
+#'             distribution is used.}
+#'             \item{\code{lib.norm}}{Logical. Whether to use a normal
+#'             distribution for library sizes instead of a log-normal.}
 #'         }
 #'     }
 #'     \item{\emph{Expression outlier parameters}}{
@@ -142,8 +146,12 @@ setClass("SimpleParams",
 #'     }
 #'     \item{\emph{Dropout parameters}}{
 #'         \describe{
-#'             \item{\code{dropout.present}}{Logical. Whether to simulate
-#'             dropout.}
+#'             \item{\code{dropout.type}}{The type of dropout to simulate.
+#'             "none" indicates no dropout, "experiment" is global dropout using
+#'             the same parameters for every cell, "batch" uses the same
+#'             parameters for every cell in each batch, "group" uses the same
+#'             parameters for every cell in each groups and "cell" uses a
+#'             different set of parameters for each cell.}
 #'             \item{\code{dropout.mid}}{Midpoint parameter for the dropout
 #'             logistic function.}
 #'             \item{\code{dropout.shape}}{Shape parameter for the dropout
@@ -197,6 +205,7 @@ setClass("SplatParams",
                    mean.rate = "numeric",
                    lib.loc = "numeric",
                    lib.scale = "numeric",
+                   lib.norm = "logical",
                    out.prob = "numeric",
                    out.facLoc = "numeric",
                    out.facScale = "numeric",
@@ -208,7 +217,7 @@ setClass("SplatParams",
                    de.facScale = "numeric",
                    bcv.common = "numeric",
                    bcv.df = "numeric",
-                   dropout.present = "logical",
+                   dropout.type = "character",
                    dropout.mid = "numeric",
                    dropout.shape = "numeric",
                    path.from = "numeric",
@@ -224,6 +233,7 @@ setClass("SplatParams",
                                mean.shape = 0.6,
                                lib.loc = 11,
                                lib.scale = 0.2,
+                               lib.norm = FALSE,
                                out.prob = 0.05,
                                out.facLoc = 4,
                                out.facScale = 0.5,
@@ -235,7 +245,7 @@ setClass("SplatParams",
                                de.facScale = 0.4,
                                bcv.common = 0.1,
                                bcv.df = 60,
-                               dropout.present = FALSE,
+                               dropout.type = "none",
                                dropout.mid = 0,
                                dropout.shape = -1,
                                path.from = 0,
@@ -657,3 +667,58 @@ setClass("ZINBParams",
          contains = "Params",
          slots = c(model = "ANY"),
          prototype = prototype(nGenes = 100, nCells = 50))
+
+
+#' The SparseDCParams class
+#'
+#' S4 class that holds parameters for the SparseDC simulation.
+#'
+#' @section Parameters:
+#'
+#' The SparseDC simulation uses the following parameters:
+#'
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate in each condition.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\code{markers.n}}{Number of marker genes to simulate for each
+#'     cluster.}
+#'     \item{\code{markers.shared}}{Number of marker genes for each cluster
+#'     shared between conditions. Must be less than or equal to
+#'     \code{markers.n}}.
+#'     \item{\code{[markers.same]}}{Logical. Whether each cluster should have
+#'     the same set of marker genes.}
+#'     \item{\code{clusts.c1}}{Numeric vector of clusters present in
+#'     condition 1. The number of times a cluster is repeated controls the
+#'     proportion of cells from that cluster.}
+#'     \item{\code{clusts.c2}}{Numeric vector of clusters present in
+#'     condition 2. The number of times a cluster is repeated controls the
+#'     proportion of cells from that cluster.}
+#'     \item{\code{[mean.lower]}}{Lower bound for cluster gene means.}
+#'     \item{\code{[mean.upper]}}{Upper bound for cluster gene means.}
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{sparseDCEstimate}}. For details of the SparseDC simulation
+#' see \code{\link{sparseDCSimulate}}.
+#'
+#' @name SparseDCParams
+#' @rdname SparseDCParams
+#' @aliases SparseDCParams-class
+#' @exportClass SparseDCParams
+setClass("SparseDCParams",
+         contains = "Params",
+         slots = c(markers.n = "numeric",
+                   markers.shared = "numeric",
+                   markers.same = "logical",
+                   clusts.c1 = "numeric",
+                   clusts.c2 = "numeric",
+                   mean.lower = "numeric",
+                   mean.upper = "numeric"),
+         prototype = prototype(markers.n = 0,
+                               markers.shared = 0,
+                               markers.same = FALSE,
+                               clusts.c1 = 1,
+                               clusts.c2 = 1,
+                               mean.lower = 1,
+                               mean.upper = 2))

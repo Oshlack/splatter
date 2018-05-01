@@ -14,10 +14,10 @@
 #' @details
 #' Currently adds the following statistics: mean, variance, coefficient of
 #' variation, median and median absolute deviation. Statistics are added to
-#' the \code{\link[SummarizedExperiment]{rowData}} slot and are named
-#' \code{Stat[Log]Value[No0]} where \code{Log} and \code{No0} are added if those
-#' arguments are true. UpperCamelCase is used to differentiate these columns
-#' from those added by analysis packages.
+#' the \code{\link{rowData}} slot and are named \code{Stat[Log]Value[No0]} where
+#' \code{Log} and \code{No0} are added if those arguments are true.
+#' UpperCamelCase is used to differentiate these columns from those added by
+#' analysis packages.
 #'
 #' @return SingleCellExperiment with additional feature statistics
 #'
@@ -88,7 +88,7 @@ addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
 #'
 #' @details
 #' This function adds simulated gene lengths to the
-#' \code{\link[SummarizedExperiment]{rowData}} slot of a
+#' \code{\link{rowData}} slot of a
 #' \code{\link[SingleCellExperiment]{SingleCellExperiment}} object that can be
 #' used for calculating length normalised expression values such as TPM or FPKM.
 #' The \code{generate} method simulates lengths using a (rounded) log-normal

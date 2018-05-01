@@ -1,16 +1,19 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 1.3.1
-Date: 2018-01-03
+Version: 1.5.0
+Date: 2018-05-02
 Author: Luke Zappia
 Authors@R:
     c(person("Luke", "Zappia", role = c("aut", "cre"),
-      email = "luke.zappia@mcri.edu.au"),
+      email = "luke.zappia@mcri.edu.au",
+      comment = c(ORCID = "0000-0001-7744-8565")),
       person("Belinda", "Phipson", role = c("aut"),
-      email = "belinda.phipson@mcri.edu.au"),
+      email = "belinda.phipson@mcri.edu.au",
+      comment = c(ORCID = "0000-0002-1711-7454")),
       person("Alicia", "Oshlack", role = c("aut"),
-      email = "alicia.oshlack@mcri.edu.au"))
+      email = "alicia.oshlack@mcri.edu.au",
+      comment = c(ORCID = "0000-0001-9788-5690")))
 Maintainer: Luke Zappia <luke.zappia@mcri.edu.au>
 Description: Splatter is a package for the simulation of single-cell RNA
     sequencing count data. It provides a simple interface for creating complex
@@ -21,7 +24,6 @@ License: GPL-3 + file LICENSE
 LazyData: TRUE
 Depends:
     R (>= 3.4),
-    scater,
     SingleCellExperiment
 Imports:
     akima,
@@ -35,9 +37,11 @@ Imports:
     matrixStats,
     methods,
     scales,
+    scater (>= 1.7.4),
     stats,
     SummarizedExperiment,
-    utils
+    utils,
+    crayon
 Suggests:
     BiocStyle,
     covr,
@@ -55,7 +59,8 @@ Suggests:
     mfa,
     phenopath,
     BASiCS,
-    zinbwave
+    zinbwave,
+    SparseDC
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software
 URL: https://github.com/Oshlack/splatter

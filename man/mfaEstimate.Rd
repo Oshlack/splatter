@@ -31,7 +31,10 @@ input data. The dropout lambda parameter is estimate using
 details on the parameters.
 }
 \examples{
+# Load example data
+library(scater)
 data("sc_example_counts")
+
 params <- mfaEstimate(sc_example_counts)
 params
 }

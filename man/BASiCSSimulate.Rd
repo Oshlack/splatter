@@ -23,8 +23,8 @@ Simulate counts using the BASiCS method.
 \details{
 This function is just a wrapper around \code{\link[BASiCS]{BASiCS_Sim}} that
 takes a \code{\link{BASiCSParams}}, runs the simulation then converts the
-output to an \code{\link[scater]{SCESet}} object. See
-\code{\link[BASiCS]{BASiCS_Sim}} for more details of how the simulation
+output to a \code{\link[SingleCellExperiment]{SingleCellExperiment}} object.
+See \code{\link[BASiCS]{BASiCS_Sim}} for more details of how the simulation
 works.
 }
 \examples{

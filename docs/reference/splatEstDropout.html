@@ -64,7 +64,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -129,7 +129,9 @@ when simulating dropout.</p>
 
     <p>Logistic function parameters are estimated by fitting a logistic function
 to the relationship between log2 mean gene expression and the proportion of
-zeros in each gene. See <code><a href='http://www.rdocumentation.org/packages/stats/topics/nls'>nls</a></code> for details of fitting.</p>
+zeros in each gene. See <code><a href='http://www.rdocumentation.org/packages/stats/topics/nls'>nls</a></code> for details of fitting.
+Note this is done on the experiment level, more granular (eg. group or cell)
+level dropout is not estimated.</p>
     
 
   </div>
@@ -152,7 +154,7 @@ zeros in each gene. See <code><a href='http://www.rdocumentation.org/packages/st
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>

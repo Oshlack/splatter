@@ -16,7 +16,10 @@
 #' @return SplatParams object containing the estimated parameters.
 #'
 #' @examples
+#' # Load example data
+#' library(scater)
 #' data("sc_example_counts")
+#'
 #' params <- splatEstimate(sc_example_counts)
 #' params
 #' @export
@@ -85,7 +88,8 @@ splatEstMean <- function(norm.counts, params) {
     fit <- fitdistrplus::fitdist(means, "gamma", method = "mge",
                                  gof = "CvM")
     if (fit$convergence > 0) {
-        warning("Goodness of fit failed, using Method of Moments")
+        warning("Fitting means using the Goodness of Fit method failed, ",
+                "using the Method of Moments instead")
         fit <- fitdistrplus::fitdist(means, "gamma", method = "mme")
     }
 
@@ -97,21 +101,39 @@ splatEstMean <- function(norm.counts, params) {
 
 #' Estimate Splat library size parameters
 #'
-#' A log-normal distribution is fitted to the library sizes and the estimated
-#' parameters are added to the params object. See
+#' The Shapiro-Wilk test is used to determine if the library sizes are
+#' normally distributed. If so a normal distribution is fitted to the library
+#' sizes, if not (most cases) a log-normal distribution is fitted and the
+#' estimated parameters are added to the params object. See
 #' \code{\link[fitdistrplus]{fitdist}} for details on the fitting.
 #'
 #' @param counts counts matrix to estimate parameters from.
 #' @param params splatParams object to store estimated values in.
 #'
 #' @return splatParams object with estimated values.
+#'
+#' @importFrom stats shapiro.test
 splatEstLib <- function(counts, params) {
 
     lib.sizes <- colSums(counts)
-    fit <- fitdistrplus::fitdist(lib.sizes, "lnorm")
+    norm.test <- shapiro.test(lib.sizes)
+    lib.norm <- norm.test$p.value < 0.05
 
-    params <- setParams(params, lib.loc = unname(fit$estimate["meanlog"]),
-                        lib.scale = unname(fit$estimate["sdlog"]))
+    if (lib.norm) {
+        fit <- fitdistrplus::fitdist(lib.sizes, "norm")
+        lib.loc <- unname(fit$estimate["mean"])
+        lib.scale <- unname(fit$estimate["sd"])
+        message("NOTE: Library sizes have been found to be normally ",
+                "distributed instead of log-normal. You may want to check ",
+                "this is correct.")
+    } else {
+        fit <- fitdistrplus::fitdist(lib.sizes, "lnorm")
+        lib.loc <- unname(fit$estimate["meanlog"])
+        lib.scale <- unname(fit$estimate["sdlog"])
+    }
+
+    params <- setParams(params, lib.loc = lib.loc, lib.scale = lib.scale,
+                        lib.norm = lib.norm)
 
     return(params)
 }
@@ -208,6 +230,8 @@ splatEstBCV <- function(counts, params) {
 #' Logistic function parameters are estimated by fitting a logistic function
 #' to the relationship between log2 mean gene expression and the proportion of
 #' zeros in each gene. See \code{\link[stats]{nls}} for details of fitting.
+#' Note this is done on the experiment level, more granular (eg. group or cell)
+#' level dropout is not estimated.
 #'
 # #' The
 # #' presence of dropout is determined by comparing the observed number of zeros

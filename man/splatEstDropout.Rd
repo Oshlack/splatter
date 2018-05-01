@@ -22,4 +22,6 @@ when simulating dropout.
 Logistic function parameters are estimated by fitting a logistic function
 to the relationship between log2 mean gene expression and the proportion of
 zeros in each gene. See \code{\link[stats]{nls}} for details of fitting.
+Note this is done on the experiment level, more granular (eg. group or cell)
+level dropout is not estimated.
 }
