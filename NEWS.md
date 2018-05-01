@@ -1,3 +1,7 @@
+## Version 1.5.0 (2018-01-02)
+
+* Bioconductor 3.7 devel
+
 # Version 1.4.0 (2018-01-02)
 
 * Bioconductor 3.7 release
