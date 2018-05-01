@@ -1,10 +1,62 @@
+## Version 1.5.0 (2018-01-02)
+
+* Bioconductor 3.7 devel
+
+# Version 1.4.0 (2018-01-02)
+
+* Bioconductor 3.7 release
+
+## Version 1.3.6 (2018-04-30)
+
+* Set seed in sparseDCEstimate tests
+
+## Version 1.3.5 (2018-04-25)
+
+* Replace dropout.present with dropout.type in SplatParams
+    * Allows users to set dropout by experiment, batch, group or cell
+
+## Version 1.3.4 (2018-04-19)
+
+* Add option to use a normal distribution for library sizes in Splat simulations
+* Add SparseDC simulation
+* Rename params in metadata slot of simulation to Params for consistency
+* Add checks to SplatParams to reset path.from if nGroups changes
+* Improve printing of parameters stored as data.frames
+* Colourise Params print output and listSims output
+* Improve warning message when fitting means in splatEstimate fails
+* Simplify problematic documentation links
+
+### Version 1.3.3.9010 (2018-04-12)
+
+* Add option to use a normal distribution for library sizes in Splat simulations
+
+### Version 1.3.3.9000 (2018-04-12)
+
+* Replace dropout.present with dropout.type in SplatParams
+    * Allows more control over dropout.mid and dropout.shape
+
+## Version 1.3.3 (2018-03-27)
+
+* Fix parameter passing bug in scDDEstimate
+
+## Version 1.3.2 (2018-01-31)
+
+* Fix QC names that have been changed in scater
+* Move scater to Imports and add scater version
+* Remove lingering references to SCESets
+* Add more tests
+
 ## Version 1.3.1 (2018-01-03)
 
 * Fix error in vignette caused by changes in scater
 
 ## Version 1.3.0 (2017-10-13)
 
-* Bioconductor 3.7 devel 
+* Bioconductor 3.7 devel
+
+## Version 1.2.2 (2018-03-27)
+
+* Fix parameter passing bug in scDDEstimate
 
 ## Version 1.2.1 (2017-11-23)
 

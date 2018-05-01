@@ -14,9 +14,9 @@
 #' @param stop.opt stopping criterion for optimization.
 #' @param params ZINBParams object to store estimated values in.
 #' @param verbose logical. Whether to print progress messages.
-#' @param BPPARAM A \code{\link[BiocParallel]{BiocParallelParam}} instance
-#'        giving the parallel back-end to be used. Default is
-#'        \code{\link[BiocParallel]{SerialParam}} which uses a single core.
+#' @param BPPARAM A \code{\link{BiocParallelParam}} instance giving the parallel
+#'        back-end to be used. Default is \code{\link{SerialParam}} which uses a
+#'        single core.
 #' @param ... additional arguments passes to \code{\link[zinbwave]{zinbFit}}.
 #'
 #' @details
@@ -29,7 +29,10 @@
 #'
 #' @examples
 #' \dontrun{
+#' # Load example data
+#' library(scater)
 #' data("sc_example_counts")
+#'
 #' params <- zinbEstimate(sc_example_counts)
 #' params
 #' }

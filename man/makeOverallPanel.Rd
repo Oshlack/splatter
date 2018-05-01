@@ -29,8 +29,8 @@ single panel.
 \dontrun{
 sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
-comparison <- compSCESets(list(Splat = sim1, Simple = sim2))
-difference <- diffSCESets(list(Splat = sim1, Simple = sim2), ref = "Simple")
+comparison <- compSCEs(list(Splat = sim1, Simple = sim2))
+difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
 panel <- makeOverallPanel(comparison, difference)
 }
 

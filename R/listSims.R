@@ -71,7 +71,12 @@ listSims <- function(print = TRUE) {
                    "drisso/zinbwave",
                    "The ZINB-WaVE simulation simulates counts from a
                    sophisticated zero-inflated negative-binomial distribution
-                   including cell and gene-level covariates."))
+                   including cell and gene-level covariates."),
+                 c("SparseDC", "sparseDC", "10.1093/nar/gkx1113",
+                   "cran/SparseDC",
+                   "The SparseDC simulation simulates a set of clusters
+                   across two conditions, where some clusters may be present in
+                   only one condition."))
 
     sims.table <- data.frame(Name        = rep(NA, length(sims)),
                              Prefix      = rep(NA, length(sims)),
@@ -89,8 +94,10 @@ listSims <- function(print = TRUE) {
         cat("Splatter currently contains", length(sims), "simulations", "\n\n")
         for (idx in seq_len(nrow(sims.table))) {
             sim <- as.character(sims.table[idx, ])
-            cat(sim[1], paste0("(", sim[2], ")"), "\n")
-            cat("DOI:", sim[3], "\t", "GitHub:", sim[4], "\n")
+            cat(crayon::bold(sim[1]), crayon::yellow(paste0("(", sim[2], ")")),
+                "\n")
+            cat(crayon::bold("DOI:"), crayon::cyan(sim[3]), "\t",
+                crayon::bold("GitHub:"), crayon::cyan(sim[4]), "\n")
             cat(sim[5], "\n\n")
         }
     }

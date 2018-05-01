@@ -64,7 +64,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -130,9 +130,13 @@
         </dl></p></dd>
     <dt><em>Library size parameters</em></dt><dd><p><dl class='dl-horizontal'>
             <dt><code>lib.loc</code></dt><dd><p>Location (meanlog) parameter for the
-            library size log-normal distribution.</p></dd>
+            library size log-normal distribution, or mean parameter if a
+            normal distribution is used.</p></dd>
             <dt><code>lib.scale</code></dt><dd><p>Scale (sdlog) parameter for the library
-            size log-normal distribution.</p></dd>
+            size log-normal distribution, or sd parameter if a normal
+            distribution is used.</p></dd>
+            <dt><code>lib.norm</code></dt><dd><p>Logical. Whether to use a normal
+            distribution for library sizes instead of a log-normal.</p></dd>
         </dl></p></dd>
     <dt><em>Expression outlier parameters</em></dt><dd><p><dl class='dl-horizontal'>
             <dt><code>out.prob</code></dt><dd><p>Probability that a gene is an expression
@@ -167,8 +171,12 @@
             chi-squared distribution.</p></dd>
         </dl></p></dd>
     <dt><em>Dropout parameters</em></dt><dd><p><dl class='dl-horizontal'>
-            <dt><code>dropout.present</code></dt><dd><p>Logical. Whether to simulate
-            dropout.</p></dd>
+            <dt><code>dropout.type</code></dt><dd><p>The type of dropout to simulate.
+            "none" indicates no dropout, "experiment" is global dropout using
+            the same parameters for every cell, "batch" uses the same
+            parameters for every cell in each batch, "group" uses the same
+            parameters for every cell in each groups and "cell" uses a
+            different set of parameters for each cell.</p></dd>
             <dt><code>dropout.mid</code></dt><dd><p>Midpoint parameter for the dropout
             logistic function.</p></dd>
             <dt><code>dropout.shape</code></dt><dd><p>Shape parameter for the dropout
@@ -222,7 +230,7 @@ see <code><a href='splatSimulate.html'>splatSimulate</a></code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
