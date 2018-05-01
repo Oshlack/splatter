@@ -1,3 +1,7 @@
+# Version 1.4.0 (2018-01-02)
+
+* Bioconductor 3.7 release
+
 ## Version 1.3.6 (2018-04-30)
 
 * Set seed in sparseDCEstimate tests
