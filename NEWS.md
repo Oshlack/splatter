@@ -8,6 +8,12 @@
 
 * Bioconductor 3.7 devel
 
+## Version 1.4.1 (2018-06-12)
+
+* Fix normality testing error in splatEstLib
+* Correct p-value cutoff in normality test
+* Sample library sizes for normality testing if > 5000 cells
+
 # Version 1.4.0 (2018-05-02)
 
 * Bioconductor 3.7 release
