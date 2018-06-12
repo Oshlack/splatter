@@ -212,7 +212,7 @@ splatSimulate <- function(params = newSplatParams(),
     }
     if (verbose) {message("Simulating BCV...")}
     sim <- splatSimBCVMeans(sim, params)
-    if (verbose) {message("Simulating counts..")}
+    if (verbose) {message("Simulating counts...")}
     sim <- splatSimTrueCounts(sim, params)
     if (verbose) {message("Simulating dropout (if needed)...")}
     sim <- splatSimDropout(sim, params)
