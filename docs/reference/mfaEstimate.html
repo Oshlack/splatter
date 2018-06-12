@@ -18,13 +18,27 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
   <link href="../extra.css" rel="stylesheet">
   
+<meta property="og:title" content="Estimate mfa simulation parameters — mfaEstimate" />
+
+<meta property="og:description" content="Estimate simulation parameters for the mfa simulation from a real dataset." />
+<meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -34,16 +48,14 @@
 <![endif]-->
 
 
-<!-- Google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-52309538-4"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  ga('create', 'UA-52309538-4', 'auto');
-  ga('send', 'pageview');
-
+  gtag('config', 'UA-52309538-4');
 </script>
 
   </head>
@@ -59,8 +71,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">splatter</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">Splatter</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -70,13 +86,13 @@
   </a>
 </li>
 <li>
-  <a href="../articles/splatter.html">Get Started</a>
+  <a href="../articles/splatter.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -88,6 +104,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -95,15 +112,19 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Estimate mfa simulation parameters</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Oshlack/splatter/blob/master/R/mfa-estimate.R'><code>R/mfa-estimate.R</code></a></small>
+    <div class="hidden name"><code>mfaEstimate.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Estimate simulation parameters for the mfa simulation from a real dataset.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>mfaEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newMFAParams</a></span>())
 
@@ -113,7 +134,7 @@
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>mfaEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newMFAParams</a></span>())</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -144,13 +165,12 @@ details on the parameters.</p>
 <span class='fu'>library</span>(<span class='no'>scater</span>)
 <span class='fu'>data</span>(<span class='st'>"sc_example_counts"</span>)
 
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>mfaEstimate</span>(<span class='no'>sc_example_counts</span>)
-<span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class MFAParams 
+<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>mfaEstimate</span>(<span class='no'>sc_example_counts</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: replacing previous import ‘ggplot2::exprs’ by ‘Biobase::exprs’ when loading ‘mfa’</span></div><div class='input'><span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class MFAParams 
 #&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
 #&gt; 
 #&gt; Global: 
 #&gt; (GENES)  (CELLS)   [Seed] 
-#&gt;    2000       40   171612 
+#&gt;    2000       40   298655 
 #&gt; 
 #&gt; 4 additional parameters 
 #&gt; 
@@ -194,5 +214,8 @@ details on the parameters.</p>
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
