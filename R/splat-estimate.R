@@ -101,7 +101,7 @@ splatEstMean <- function(norm.counts, params) {
 
 #' Estimate Splat library size parameters
 #'
-#' The Shapiro-Wilk test is used to determine if the library sizes are
+#' The Shapiro-Wilks test is used to determine if the library sizes are
 #' normally distributed. If so a normal distribution is fitted to the library
 #' sizes, if not (most cases) a log-normal distribution is fitted and the
 #' estimated parameters are added to the params object. See
@@ -116,8 +116,17 @@ splatEstMean <- function(norm.counts, params) {
 splatEstLib <- function(counts, params) {
 
     lib.sizes <- colSums(counts)
-    norm.test <- shapiro.test(lib.sizes)
-    lib.norm <- norm.test$p.value < 0.05
+
+    if (length(lib.sizes) > 5000) {
+        message("NOTE: More than 5000 cells provided. ",
+                "5000 sampled library sizes will be used to test normality.")
+        lib.sizes.sampled <- sample(lib.sizes, 5000, replace = FALSE)
+    } else {
+        lib.sizes.sampled <- lib.sizes
+    }
+
+    norm.test <- shapiro.test(lib.sizes.sampled)
+    lib.norm <- norm.test$p.value > 0.2
 
     if (lib.norm) {
         fit <- fitdistrplus::fitdist(lib.sizes, "norm")
