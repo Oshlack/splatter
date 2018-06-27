@@ -819,8 +819,7 @@ getLNormFactors <- function(n.facs, sel.prob, neg.prob, fac.loc, fac.scale) {
     dir.selected <- (-1) ^ rbinom(n.selected, 1, neg.prob)
     facs.selected <- rlnorm(n.selected, fac.loc, fac.scale)
     # Reverse directions for factors that are less than one
-    dir.selected[facs.selected < 1 & dir.selected == -1] <- 1
-    dir.selected[facs.selected < 1 & dir.selected == 1] <- -1
+    dir.selected[facs.selected < 1] <- -1 * dir.selected[facs.selected < 1]
     factors <- rep(1, n.facs)
     factors[is.selected] <- facs.selected ^ dir.selected
 
