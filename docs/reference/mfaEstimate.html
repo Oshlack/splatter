@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.2</span>
       </span>
     </div>
 
@@ -129,7 +129,8 @@
     <pre class="usage"><span class='fu'>mfaEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newMFAParams</a></span>())
 
 <span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>mfaEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newMFAParams</a></span>())
+<span class='fu'>mfaEstimate</span>(<span class='no'>counts</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newMFAParams</a></span>())
 
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>mfaEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newMFAParams</a></span>())</pre>
@@ -165,12 +166,13 @@ details on the parameters.</p>
 <span class='fu'>library</span>(<span class='no'>scater</span>)
 <span class='fu'>data</span>(<span class='st'>"sc_example_counts"</span>)
 
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>mfaEstimate</span>(<span class='no'>sc_example_counts</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: replacing previous import ‘ggplot2::exprs’ by ‘Biobase::exprs’ when loading ‘mfa’</span></div><div class='input'><span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class MFAParams 
+<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>mfaEstimate</span>(<span class='no'>sc_example_counts</span>)
+<span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class MFAParams 
 #&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
 #&gt; 
 #&gt; Global: 
 #&gt; (GENES)  (CELLS)   [Seed] 
-#&gt;    2000       40   298655 
+#&gt;    2000       40   949886 
 #&gt; 
 #&gt; 4 additional parameters 
 #&gt; 
