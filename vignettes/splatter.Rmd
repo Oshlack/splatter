@@ -503,7 +503,7 @@ number of expressed genes against the library size:
 ```{r comparison-libsize-features}
 library("ggplot2")
 ggplot(comparison$PhenoData,
-       aes(x = total_counts, y = total_features, colour = Dataset)) +
+       aes(x = total_counts, y = total_features_by_counts, colour = Dataset)) +
     geom_point()
 ```
 
