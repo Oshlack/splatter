@@ -14,6 +14,8 @@
 #' @param thin thining period for the MCMC sampler. Must be \code{>= 2}.
 #' @param burn burn-in period for the MCMC sampler. Must be in the range
 #' \code{1 <= burn < n} and a multiple of \code{thin}.
+#' @param regression logical. Whether to use regression to identify
+#' over-dispersion. See \code{\link[BASiCS]{BASiCS_MCMC}} for details.
 #' @param params BASiCSParams object to store estimated values in.
 #' @param verbose logical. Whether to print progress messages.
 #' @param progress logical. Whether to print additional BASiCS progress
@@ -45,6 +47,7 @@
 #' @export
 BASiCSEstimate <- function(counts, spike.info = NULL, batch = NULL,
                            n = 20000, thin = 10, burn = 5000,
+                           regression = TRUE,
                            params = newBASiCSParams(), verbose = TRUE,
                            progress = TRUE, ...) {
     UseMethod("BASiCSEstimate")
@@ -55,6 +58,7 @@ BASiCSEstimate <- function(counts, spike.info = NULL, batch = NULL,
 BASiCSEstimate.SingleCellExperiment <- function(counts, spike.info = NULL,
                                                 batch = NULL, n = 20000,
                                                 thin = 10, burn = 5000,
+                                                regression = TRUE,
                                                 params = newBASiCSParams(),
                                                 verbose = TRUE, progress = TRUE,
                                                 ...) {
@@ -66,6 +70,7 @@ BASiCSEstimate.SingleCellExperiment <- function(counts, spike.info = NULL,
 #' @export
 BASiCSEstimate.matrix <- function(counts, spike.info = NULL, batch = NULL,
                                   n = 20000, thin = 10, burn = 5000,
+                                  regression = TRUE,
                                   params = newBASiCSParams(), verbose = TRUE,
                                   progress = TRUE, ...) {
 
@@ -107,6 +112,7 @@ BASiCSEstimate.matrix <- function(counts, spike.info = NULL, batch = NULL,
     if ((burn %% thin) != 0) {
         stop("'burn' must be a multiple of 'thin'")
     }
+    checkmate::assertFlag(regression)
 
     is.spike <- rownames(counts) %in% spike.info$Name
     BASiCS.data <- suppressMessages(
@@ -116,12 +122,13 @@ BASiCSEstimate.matrix <- function(counts, spike.info = NULL, batch = NULL,
 
     if (verbose) {
         mcmc <- BASiCS::BASiCS_MCMC(Data = BASiCS.data, N = n, Thin = thin,
-                                    Burn = burn, PrintProgress = progress, ...)
+                                    Burn = burn, Regression = regression,
+                                    PrintProgress = progress, ...)
     } else {
         mcmc <- suppressMessages(
                     BASiCS::BASiCS_MCMC(Data = BASiCS.data, N = n, Thin = thin,
-                                        Burn = burn, PrintProgress = progress,
-                                        ...)
+                                        Burn = burn, Regression = regression,
+                                        PrintProgress = progress, ...)
         )
     }
 
