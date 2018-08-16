@@ -1,3 +1,10 @@
+## Version 1.5.2 (2018-08-16)
+
+* Fix bug in getLNormFactors when reversing factors less than one
+* Update documentation to new Roxygen version (6.1.0)
+* Change varible name in vignette for compatibility with scater
+* Add suggested package checks to tests
+
 ## Version 1.5.1 (2018-06-12)
 
 * Fix normality testing error in splatEstLib

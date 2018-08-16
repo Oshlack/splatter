@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.2</span>
       </span>
     </div>
 
@@ -175,14 +175,14 @@ vector.</p>
     <pre class="examples"><div class='input'><span class='co'># Default generate method</span>
 <span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>()</div><div class='output co'>#&gt; <span class='message'>Simulating means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div><div class='input'><span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'>addGeneLengths</span>(<span class='no'>sce</span>)
 <span class='fu'>head</span>(<span class='fu'>rowData</span>(<span class='no'>sce</span>))</div><div class='output co'>#&gt; DataFrame with 6 rows and 3 columns
-#&gt;       Gene           GeneMean    Length
-#&gt;   &lt;factor&gt;          &lt;numeric&gt; &lt;numeric&gt;
-#&gt; 1    Gene1 0.0900534552218277      1226
-#&gt; 2    Gene2  0.522555935307216      1595
-#&gt; 3    Gene3  0.106387591749603      1829
-#&gt; 4    Gene4 0.0338275734283078      1985
-#&gt; 5    Gene5   2.50286626681109      3068
-#&gt; 6    Gene6   0.01126651860221      1939</div><div class='input'># Sample method (human coding genes)
+#&gt;           Gene            GeneMean    Length
+#&gt;       &lt;factor&gt;           &lt;numeric&gt; &lt;numeric&gt;
+#&gt; Gene1    Gene1 0.00149439660500624      9480
+#&gt; Gene2    Gene2   0.638530797284861      1256
+#&gt; Gene3    Gene3    0.66978667504377      3699
+#&gt; Gene4    Gene4   0.062491626218548       541
+#&gt; Gene5    Gene5    8.35161494115053      2356
+#&gt; Gene6    Gene6    1.73313242191663      3962</div><div class='input'># Sample method (human coding genes)
 </div><span class='co'># NOT RUN {</span>
 <span class='fu'>library</span>(<span class='no'>TxDb.Hsapiens.UCSC.hg19.knownGene</span>)
 <span class='fu'>library</span>(<span class='no'>GenomicFeatures</span>)

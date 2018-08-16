@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.2</span>
       </span>
     </div>
 
@@ -129,7 +129,8 @@
     <pre class="usage"><span class='fu'>lunEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newLunParams</a></span>())
 
 <span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>lunEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newLunParams</a></span>())
+<span class='fu'>lunEstimate</span>(<span class='no'>counts</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newLunParams</a></span>())
 
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>lunEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newLunParams</a></span>())</pre>
@@ -161,10 +162,7 @@ for more details on the parameters.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'>library</span>(<span class='no'>scater</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘ggplot2’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:Biobase’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    exprs</span></div><div class='output co'>#&gt; <span class='message'></span>
+<span class='fu'>library</span>(<span class='no'>scater</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: package ‘scater’ was built under R version 3.5.1</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘scater’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:S4Vectors’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    rename</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
@@ -177,7 +175,7 @@ for more details on the parameters.</p>
 #&gt; 
 #&gt; Global: 
 #&gt; (GENES)  (CELLS)   [Seed] 
-#&gt;    2000       40   298655 
+#&gt;    2000       40   949886 
 #&gt; 
 #&gt; 9 additional parameters 
 #&gt; 
