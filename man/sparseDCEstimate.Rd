@@ -9,11 +9,11 @@
 sparseDCEstimate(counts, conditions, nclusters, norm = TRUE,
   params = newSparseDCParams())
 
-\method{sparseDCEstimate}{SingleCellExperiment}(counts, conditions, nclusters,
-  norm = TRUE, params = newSparseDCParams())
+\method{sparseDCEstimate}{SingleCellExperiment}(counts, conditions,
+  nclusters, norm = TRUE, params = newSparseDCParams())
 
-\method{sparseDCEstimate}{matrix}(counts, conditions, nclusters, norm = TRUE,
-  params = newSparseDCParams())
+\method{sparseDCEstimate}{matrix}(counts, conditions, nclusters,
+  norm = TRUE, params = newSparseDCParams())
 }
 \arguments{
 \item{counts}{either a counts matrix or an SingleCellExperiment object

@@ -4,9 +4,9 @@
 \alias{makeCompPanel}
 \title{Make comparison panel}
 \usage{
-makeCompPanel(comp, title = "Comparison", labels = c("Means", "Variance",
-  "Mean-variance relationship", "Library size", "Zeros per gene",
-  "Zeros per cell", "Mean-zeros relationship"))
+makeCompPanel(comp, title = "Comparison", labels = c("Means",
+  "Variance", "Mean-variance relationship", "Library size",
+  "Zeros per gene", "Zeros per cell", "Mean-zeros relationship"))
 }
 \arguments{
 \item{comp}{list returned by \code{\link{compareSCEs}}.}

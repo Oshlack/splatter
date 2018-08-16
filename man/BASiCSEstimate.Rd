@@ -7,16 +7,16 @@
 \title{Estimate BASiCS simulation parameters}
 \usage{
 BASiCSEstimate(counts, spike.info = NULL, batch = NULL, n = 20000,
-  thin = 10, burn = 5000, params = newBASiCSParams(), verbose = TRUE,
-  progress = TRUE, ...)
+  thin = 10, burn = 5000, params = newBASiCSParams(),
+  verbose = TRUE, progress = TRUE, ...)
 
 \method{BASiCSEstimate}{SingleCellExperiment}(counts, spike.info = NULL,
   batch = NULL, n = 20000, thin = 10, burn = 5000,
   params = newBASiCSParams(), verbose = TRUE, progress = TRUE, ...)
 
-\method{BASiCSEstimate}{matrix}(counts, spike.info = NULL, batch = NULL,
-  n = 20000, thin = 10, burn = 5000, params = newBASiCSParams(),
-  verbose = TRUE, progress = TRUE, ...)
+\method{BASiCSEstimate}{matrix}(counts, spike.info = NULL,
+  batch = NULL, n = 20000, thin = 10, burn = 5000,
+  params = newBASiCSParams(), verbose = TRUE, progress = TRUE, ...)
 }
 \arguments{
 \item{counts}{either a counts matrix or a SingleCellExperiment object
