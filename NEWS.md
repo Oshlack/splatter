@@ -1,3 +1,8 @@
+## Version 1.4.2 (2018-08-16)
+
+* Add missing regression argument to BASiCSEstimate
+* Add new BASiCS tests
+
 ## Version 1.4.1 (2018-06-12)
 
 * Fix normality testing error in splatEstLib
