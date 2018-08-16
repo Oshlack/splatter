@@ -4,7 +4,8 @@
 \alias{lun2Simulate}
 \title{Lun2 simulation}
 \usage{
-lun2Simulate(params = newLun2Params(), zinb = FALSE, verbose = TRUE, ...)
+lun2Simulate(params = newLun2Params(), zinb = FALSE, verbose = TRUE,
+  ...)
 }
 \arguments{
 \item{params}{Lun2Params object containing simulation parameters.}

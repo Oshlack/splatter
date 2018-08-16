@@ -65,5 +65,6 @@ biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software
 URL: https://github.com/Oshlack/splatter
 BugReports: https://github.com/Oshlack/splatter/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
+Encoding: UTF-8
 VignetteBuilder: knitr
