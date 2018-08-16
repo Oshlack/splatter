@@ -7,16 +7,18 @@
 \title{Estimate BASiCS simulation parameters}
 \usage{
 BASiCSEstimate(counts, spike.info = NULL, batch = NULL, n = 20000,
-  thin = 10, burn = 5000, params = newBASiCSParams(), verbose = TRUE,
-  progress = TRUE, ...)
+  thin = 10, burn = 5000, regression = TRUE,
+  params = newBASiCSParams(), verbose = TRUE, progress = TRUE, ...)
 
 \method{BASiCSEstimate}{SingleCellExperiment}(counts, spike.info = NULL,
   batch = NULL, n = 20000, thin = 10, burn = 5000,
-  params = newBASiCSParams(), verbose = TRUE, progress = TRUE, ...)
+  regression = TRUE, params = newBASiCSParams(), verbose = TRUE,
+  progress = TRUE, ...)
 
-\method{BASiCSEstimate}{matrix}(counts, spike.info = NULL, batch = NULL,
-  n = 20000, thin = 10, burn = 5000, params = newBASiCSParams(),
-  verbose = TRUE, progress = TRUE, ...)
+\method{BASiCSEstimate}{matrix}(counts, spike.info = NULL,
+  batch = NULL, n = 20000, thin = 10, burn = 5000,
+  regression = TRUE, params = newBASiCSParams(), verbose = TRUE,
+  progress = TRUE, ...)
 }
 \arguments{
 \item{counts}{either a counts matrix or a SingleCellExperiment object
@@ -36,6 +38,9 @@ a multiple of \code{thin}.}
 
 \item{burn}{burn-in period for the MCMC sampler. Must be in the range
 \code{1 <= burn < n} and a multiple of \code{thin}.}
+
+\item{regression}{logical. Whether to use regression to identify
+over-dispersion. See \code{\link[BASiCS]{BASiCS_MCMC}} for details.}
 
 \item{params}{BASiCSParams object to store estimated values in.}
 
