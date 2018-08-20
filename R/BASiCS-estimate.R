@@ -136,7 +136,11 @@ BASiCSEstimate.matrix <- function(counts, spike.info = NULL, batch = NULL,
 
     means <- BASiCS::displaySummaryBASiCS(mcmc.summ, Param = "mu")[, 1]
     deltas <- BASiCS::displaySummaryBASiCS(mcmc.summ, Param = "delta")[, 1]
-    phis <- BASiCS::displaySummaryBASiCS(mcmc.summ, Param = "phi")[, 1]
+    if (!is.null(spike.info)) {
+        phis <- BASiCS::displaySummaryBASiCS(mcmc.summ, Param = "phi")[, 1]
+    } else {
+        phis <- rep(1, ncol(counts))
+    }
     ss <- BASiCS::displaySummaryBASiCS(mcmc.summ, Param = "s")[, 1]
     thetas <- BASiCS::displaySummaryBASiCS(mcmc.summ, Param = "theta")[, 1]
 
