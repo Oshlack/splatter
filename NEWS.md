@@ -1,4 +1,4 @@
-### Version 1.5.3 (2018-08-20)
+## Version 1.5.3 (2018-08-20)
 
 * Fix bug in BASiCSEstimate when no spike-ins provided
 
@@ -23,6 +23,10 @@
 ## Version 1.5.0 (2018-05-02)
 
 * Bioconductor 3.7 devel
+
+## Version 1.4.3 (2018-08-20)
+
+* Fix bug in BASiCSEstimate when no spike-ins provided
 
 ## Version 1.4.2 (2018-08-16)
 
