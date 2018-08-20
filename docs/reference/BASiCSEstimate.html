@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.2</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.3</span>
       </span>
     </div>
 
@@ -127,18 +127,20 @@
     </div>
 
     <pre class="usage"><span class='fu'>BASiCSEstimate</span>(<span class='no'>counts</span>, <span class='kw'>spike.info</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>20000</span>,
-  <span class='kw'>thin</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>burn</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newBASiCSParams</a></span>(),
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+  <span class='kw'>thin</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>burn</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>regression</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newBASiCSParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for SingleCellExperiment</span>
 <span class='fu'>BASiCSEstimate</span>(<span class='no'>counts</span>, <span class='kw'>spike.info</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>batch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>20000</span>, <span class='kw'>thin</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>burn</span> <span class='kw'>=</span> <span class='fl'>5000</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newBASiCSParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+  <span class='kw'>regression</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newBASiCSParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>BASiCSEstimate</span>(<span class='no'>counts</span>, <span class='kw'>spike.info</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>batch</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>20000</span>, <span class='kw'>thin</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>burn</span> <span class='kw'>=</span> <span class='fl'>5000</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newBASiCSParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>regression</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newBASiCSParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>progress</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,6 +174,11 @@ a multiple of <code>thin</code>.</p></td>
       <th>burn</th>
       <td><p>burn-in period for the MCMC sampler. Must be in the range
 <code>1 &lt;= burn &lt; n</code> and a multiple of <code>thin</code>.</p></td>
+    </tr>
+    <tr>
+      <th>regression</th>
+      <td><p>logical. Whether to use regression to identify
+over-dispersion. See <code><a href='http://www.rdocumentation.org/packages/BASiCS/topics/BASiCS_MCMC'>BASiCS_MCMC</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>params</th>
