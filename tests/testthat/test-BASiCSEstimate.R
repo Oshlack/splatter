@@ -15,3 +15,14 @@ test_that("BASiCSEstimate works", {
                              spike.info, verbose = FALSE, progress = FALSE)
     expect_true(validObject(params))
 })
+
+test_that("BASiCSEstimate works without spikes", {
+    skip_if_not_installed("BASiCS")
+    set.seed(1)
+    counts <- sc_example_counts[, 1:20]
+    counts <- counts[rowSums(counts) != 0, ]
+    batch <- sample(1:2, ncol(counts), replace = TRUE)
+    params <- BASiCSEstimate(counts[1:100, ], batch = batch,
+                             verbose = FALSE, progress = FALSE)
+    expect_true(validObject(params))
+})
