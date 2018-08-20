@@ -1,4 +1,8 @@
-## Version 1.5.2.9000 (2018-08-16)
+### Version 1.5.3 (2018-08-20)
+
+* Fix bug in BASiCSEstimate when no spike-ins provided
+
+### Version 1.5.2.9000 (2018-08-16)
 
 * Add missing regression argument to BASiCSEstimate
 * Add new BASiCS tests
