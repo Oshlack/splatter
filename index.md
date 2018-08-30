@@ -34,14 +34,15 @@ If you have these installed Splatter can be installed from Bioconductor using
 `biocLite`:
 
 ```{r}
-source("https://bioconductor.org/biocLite.R")
-biocLite("splatter")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("splatter")
 ```
 
 If you wish to build a local version of the vignette use:
 
 ```{r}
-biocLite("splatter", build_vignettes=TRUE)
+BiocManager::install("splatter", build_vignettes=TRUE)
 ```
 
 This will also build the vignette and install all suggested dependencies (which
@@ -55,11 +56,11 @@ If you want to try the [development version][devel] this can also be installed
 from Bioconductor:
 
 ```{r}
-library(BiocInstaller)
+library(BiocManager)
 useDevel()
 biocValid()              # checks for out of date packages
-biocLite()               # (optional) updates out of date packages
-biocLite("splatter")
+BiocManager::install()               # (optional) updates out of date packages
+BiocManager::install("splatter")
 ```
 
 Depending on the current release cycle you may also need to install the
