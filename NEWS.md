@@ -1,3 +1,7 @@
+## Version 1.5.3 (2018-08-30)
+
+* Fix installation instructions
+
 ## Version 1.5.3 (2018-08-20)
 
 * Fix bug in BASiCSEstimate when no spike-ins provided
