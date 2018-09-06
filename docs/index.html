@@ -99,22 +99,24 @@
 <h3 class="hasAnchor">
 <a href="#release-version" class="anchor"></a>Release version</h3>
 <p>Splatter has been accepted into the latest version of <a href="https://bioconductor.org/packages/splatter">Bioconductor</a> and hence requires the latest version of R (&gt;=3.4).</p>
-<p>If you have these installed Splatter can be installed from Bioconductor using <code>biocLite</code>:</p>
-<pre class="{r}"><code>source("https://bioconductor.org/biocLite.R")
-biocLite("splatter")</code></pre>
+<p>If you have these installed Splatter can be installed from Bioconductor with:</p>
+<pre class="{r}"><code>
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("splatter")
+</code></pre>
 <p>If you wish to build a local version of the vignette use:</p>
-<pre class="{r}"><code><a href="http://www.rdocumentation.org/packages/BiocInstaller/topics/biocLite">biocLite("splatter", build_vignettes=TRUE)</a></code></pre>
+<pre class="{r}"><code>
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("splatter", build_vignettes=TRUE, dependencies=TRUE)
+</code></pre>
 <p>This will also build the vignette and install all suggested dependencies (which aren’t required for core functionality). Building the vignette may sometimes fail when run from the command line, if this happens try running the install command in RStudio.</p>
 </div>
 <div id="development-version" class="section level3">
 <h3 class="hasAnchor">
 <a href="#development-version" class="anchor"></a>Development version</h3>
-<p>If you want to try the <a href="https://bioconductor.org/packages/devel/bioc/html/splatter.html">development version</a> this can also be installed from Bioconductor:</p>
-<pre class="{r}"><code>library(BiocInstaller)
-useDevel()
-biocValid()              # checks for out of date packages
-biocLite()               # (optional) updates out of date packages
-biocLite("splatter")</code></pre>
+<p>To try the development version, follow the instructions provided on the <a href="https://bioconductor.org/packages/devel/bioc/html/splatter.html">landing page of the development version</a>.</p>
 <p>Depending on the current release cycle you may also need to install the development version of R. See <a href="https://www.bioconductor.org/developers/how-to/useDevel/">here</a> for more details.</p>
 <p>Alternatively the development version can be installed directly from <a href="https://github.com/Oshlack/splatter">Github</a>:</p>
 <pre class="{r}"><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install">devtools::install("Oshlack/splatter")</a></code></pre>

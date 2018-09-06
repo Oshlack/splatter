@@ -30,8 +30,7 @@ https://bioconductor.org/packages/splatter.
 Splatter has been accepted into the latest version of [Bioconductor][bioc]
 and hence requires the latest version of R (>=3.4).
 
-If you have these installed Splatter can be installed from Bioconductor using
-`biocLite`:
+It can be installed from Bioconductor with:
 
 ```{r}
 if (!requireNamespace("BiocManager", quietly=TRUE))
