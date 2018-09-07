@@ -56,8 +56,7 @@ from Bioconductor:
 
 ```{r}
 library(BiocManager)
-useDevel()
-biocValid()              # checks for out of date packages
+valid()              # checks for out of date packages
 BiocManager::install()               # (optional) updates out of date packages
 BiocManager::install("splatter")
 ```
