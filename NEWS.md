@@ -1,4 +1,8 @@
-## Version 1.5.3 (2018-08-30)
+## Version 1.5.5 (2018-10-03)
+
+* Fix BASiCSEstimate tests
+
+## Version 1.5.4 (2018-08-30)
 
 * Fix installation instructions
 
