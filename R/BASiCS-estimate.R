@@ -40,7 +40,7 @@
 #' spike.info <- data.frame(Name = rownames(sc_example_counts)[1:10],
 #'                          Input = rnorm(10, 500, 200),
 #'                          stringsAsFactors = FALSE)
-#' params <- BASiCSEstimate(sc_example_counts[1:50, 1:20],
+#' params <- BASiCSEstimate(sc_example_counts[1:100, 1:30],
 #'                          spike.info)
 #' params
 #' }
