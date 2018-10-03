@@ -1,4 +1,4 @@
-## Version 1.5.5 (2018-10-03)
+## Version 1.5.7 (2018-10-03)
 
 * Fix BASiCSEstimate tests
 

@@ -26,8 +26,7 @@ simulations and real datasets.
 
 Splatter is available from [Bioconductor][bioc] for R >=3.4.
 
-If you have this installed Splatter can be installed from Bioconductor using
-`biocLite`:
+It can be installed from Bioconductor with:
 
 ```{r}
 if (!requireNamespace("BiocManager", quietly=TRUE))
