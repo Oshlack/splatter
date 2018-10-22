@@ -1,3 +1,7 @@
+## Version 1.5.8 (2018-10-22)
+
+* Add WithSpikes argument when calling BASiCS::BASiCS_MCMC()
+
 ## Version 1.5.7 (2018-10-03)
 
 * Fix BASiCSEstimate tests

@@ -115,20 +115,25 @@ BASiCSEstimate.matrix <- function(counts, spike.info = NULL, batch = NULL,
     checkmate::assertFlag(regression)
 
     is.spike <- rownames(counts) %in% spike.info$Name
+
     BASiCS.data <- suppressMessages(
                        BASiCS::newBASiCS_Data(counts, is.spike, spike.info,
                                               batch)
     )
 
+    with.spikes <- sum(is.spike) > 1
+
     if (verbose) {
         mcmc <- BASiCS::BASiCS_MCMC(Data = BASiCS.data, N = n, Thin = thin,
                                     Burn = burn, Regression = regression,
-                                    PrintProgress = progress, ...)
+                                    PrintProgress = progress,
+                                    WithSpikes = with.spikes, ...)
     } else {
         mcmc <- suppressMessages(
                     BASiCS::BASiCS_MCMC(Data = BASiCS.data, N = n, Thin = thin,
                                         Burn = burn, Regression = regression,
-                                        PrintProgress = progress, ...)
+                                        PrintProgress = progress,
+                                        WithSpikes = with.spikes, ...)
         )
     }
 
