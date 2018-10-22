@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.3</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.8</span>
       </span>
     </div>
 
@@ -221,7 +221,7 @@ information is provided there must be at least two batches. See
 <span class='no'>spike.info</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>Name</span> <span class='kw'>=</span> <span class='fu'>rownames</span>(<span class='no'>sc_example_counts</span>)[<span class='fl'>1</span>:<span class='fl'>10</span>],
                          <span class='kw'>Input</span> <span class='kw'>=</span> <span class='fu'>rnorm</span>(<span class='fl'>10</span>, <span class='fl'>500</span>, <span class='fl'>200</span>),
                          <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>BASiCSEstimate</span>(<span class='no'>sc_example_counts</span>[<span class='fl'>1</span>:<span class='fl'>50</span>, <span class='fl'>1</span>:<span class='fl'>20</span>],
+<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>BASiCSEstimate</span>(<span class='no'>sc_example_counts</span>[<span class='fl'>1</span>:<span class='fl'>100</span>, <span class='fl'>1</span>:<span class='fl'>30</span>],
                          <span class='no'>spike.info</span>)
 <span class='no'>params</span>
 <span class='co'># }</span></pre>
