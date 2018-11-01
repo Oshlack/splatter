@@ -75,7 +75,7 @@ Error (RMSE) for the various properties and ranks them." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.6.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.7.0</span>
       </span>
     </div>
 
@@ -150,20 +150,20 @@ Error (RMSE) for the various properties and ranks them.</p>
     <pre class="examples"><div class='input'><span class='no'>sim1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='splatSimulate.html'>splatSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>batchCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='message'>Getting parameters...</span></div><div class='output co'>#&gt; <span class='message'>Creating simulation object...</span></div><div class='output co'>#&gt; <span class='message'>Simulating library sizes...</span></div><div class='output co'>#&gt; <span class='message'>Simulating gene means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating BCV...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Simulating dropout (if needed)...</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div><div class='input'><span class='no'>sim2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='message'>Simulating means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div><div class='input'><span class='no'>difference</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='diffSCEs.html'>diffSCEs</a></span>(<span class='fu'>list</span>(<span class='kw'>Splat</span> <span class='kw'>=</span> <span class='no'>sim1</span>, <span class='kw'>Simple</span> <span class='kw'>=</span> <span class='no'>sim2</span>), <span class='kw'>ref</span> <span class='kw'>=</span> <span class='st'>"Simple"</span>)</div><div class='output co'>#&gt; <span class='message'>Note that the names of some metrics have changed, see 'Renamed metrics' in ?calculateQCMetrics.</span>
 #&gt; <span class='message'>Old names are currently maintained for back-compatibility, but may be removed in future releases.</span></div><div class='output co'>#&gt; <span class='message'>Note that the names of some metrics have changed, see 'Renamed metrics' in ?calculateQCMetrics.</span>
 #&gt; <span class='message'>Old names are currently maintained for back-compatibility, but may be removed in future releases.</span></div><div class='input'><span class='no'>summary</span> <span class='kw'>&lt;-</span> <span class='fu'>summariseDiff</span>(<span class='no'>difference</span>)
-<span class='fu'>head</span>(<span class='no'>summary</span>)</div><div class='output co'>#&gt;   Dataset Statistic         MAD MADScaled MADRank          MAE MAEScaled
-#&gt; 1   Splat      Mean     2.91420       NaN       1     2.699822       NaN
-#&gt; 2   Splat  Variance    11.87313       NaN       1    10.433146       NaN
-#&gt; 3   Splat ZerosGene    40.00000       NaN       1    45.545000       NaN
-#&gt; 4   Splat   MeanVar    11.35143       NaN       1    12.185829       NaN
-#&gt; 5   Splat MeanZeros    45.00000       NaN       1    45.065000       NaN
-#&gt; 6   Splat   LibSize 59524.50000       NaN       1 62164.900000       NaN
-#&gt;   MAERank         RMSE RMSEScaled RMSERank
-#&gt; 1       1     3.240761        NaN        1
-#&gt; 2       1    13.125369        NaN        1
-#&gt; 3       1    49.070103        NaN        1
-#&gt; 4       1    15.258433        NaN        1
-#&gt; 5       1    54.676549        NaN        1
-#&gt; 6       1 63270.772188        NaN        1</div></pre>
+<span class='fu'>head</span>(<span class='no'>summary</span>)</div><div class='output co'>#&gt;   Dataset Statistic          MAD MADScaled MADRank          MAE MAEScaled
+#&gt; 1   Splat      Mean     2.623408       NaN       1     2.659195       NaN
+#&gt; 2   Splat  Variance    11.848783       NaN       1    10.505147       NaN
+#&gt; 3   Splat ZerosGene    40.000000       NaN       1    44.110000       NaN
+#&gt; 4   Splat   MeanVar    11.400920       NaN       1    12.415584       NaN
+#&gt; 5   Splat MeanZeros    45.000000       NaN       1    43.945000       NaN
+#&gt; 6   Splat   LibSize 55997.500000       NaN       1 56484.550000       NaN
+#&gt;   MAERank        RMSE RMSEScaled RMSERank
+#&gt; 1       1     3.21666        NaN        1
+#&gt; 2       1    13.21816        NaN        1
+#&gt; 3       1    47.71111        NaN        1
+#&gt; 4       1    15.39405        NaN        1
+#&gt; 5       1    53.33878        NaN        1
+#&gt; 6       1 57530.14610        NaN        1</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
