@@ -1,3 +1,7 @@
+# Version 1.6.0 (2018-11-01)
+
+Bioconductor 3.8 release
+
 ## Version 1.5.8 (2018-10-22)
 
 * Add WithSpikes argument when calling BASiCS::BASiCS_MCMC()
