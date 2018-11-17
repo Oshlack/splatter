@@ -1,3 +1,7 @@
+## Version 1.7.1 (2018-11-17)
+
+* Fix bugs in vignette
+
 ## Version 1.7.0 (2018-11-01)
 
 Bioconductor 3.9 devel
