@@ -283,7 +283,7 @@ in `scater`. For example we can make a PCA plot:
 
 ```{r pca}
 # Use scater to calculate logcounts
-sim <- normalise(sim)
+sim <- normalize(sim)
 # Plot PCA
 plotPCA(sim)
 ```
@@ -343,7 +343,7 @@ printing progress messages.)
 ```{r groups}
 sim.groups <- splatSimulate(group.prob = c(0.5, 0.5), method = "groups",
                             verbose = FALSE)
-sim.groups <- normalise(sim.groups)
+sim.groups <- normalize(sim.groups)
 plotPCA(sim.groups, colour_by = "Group")
 ```
 
@@ -362,7 +362,7 @@ method.
 
 ```{r paths}
 sim.paths <- splatSimulate(method = "paths", verbose = FALSE)
-sim.paths <- normalise(sim.paths)
+sim.paths <- normalize(sim.paths)
 plotPCA(sim.paths, colour_by = "Step")
 ```
 
@@ -382,7 +382,7 @@ cells are in each batch:
 
 ```{r batches}
 sim.batches <- splatSimulate(batchCells = c(50, 50), verbose = FALSE)
-sim.batches <- normalise(sim.batches)
+sim.batches <- normalize(sim.batches)
 plotPCA(sim.batches, colour_by = "Batch")
 ```
 
@@ -396,7 +396,7 @@ that we aren't interested in (batch) and the wanted variation we are looking for
 ```{r batch-groups}
 sim.groups <- splatSimulate(batchCells = c(50, 50), group.prob = c(0.5, 0.5),
                             method = "groups", verbose = FALSE)
-sim.groups <- normalise(sim.groups)
+sim.groups <- normalize(sim.groups)
 plotPCA(sim.groups, shape_by = "Batch", colour_by = "Group")
 ```
 
