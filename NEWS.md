@@ -1,14 +1,22 @@
+## Version 1.7.2 (2018-12-06)
+
+* Add ImmunoOncology biocViews tag at request of Bioconductor team
+
 ## Version 1.7.1 (2018-11-17)
 
 * Fix bugs in vignette
 
 ## Version 1.7.0 (2018-11-01)
 
-Bioconductor 3.9 devel
+ * Bioconductor 3.9 devel
+
+## Version 1.6.1 (2018-12-06)
+
+* Add ImmunoOncology biocViews tag at request of Bioconductor team
 
 # Version 1.6.0 (2018-11-01)
 
-Bioconductor 3.8 release
+* Bioconductor 3.8 release
 
 ## Version 1.5.8 (2018-10-22)
 
