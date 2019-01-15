@@ -4,6 +4,7 @@ library(scater)
 data("sc_example_counts")
 
 test_that("sparseDCEstimate works", {
+    skip_if_not_installed("SparseDC")
     set.seed(1)
     conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
     params <- sparseDCEstimate(sc_example_counts, conditions,

@@ -18,13 +18,28 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
   <link href="../extra.css" rel="stylesheet">
   
+<meta property="og:title" content="Compare SingleCellExperiment objects — compareSCEs" />
+
+<meta property="og:description" content="Combine the data from several SingleCellExperiment objects and produce some
+basic plots comparing them." />
+<meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -34,16 +49,14 @@
 <![endif]-->
 
 
-<!-- Google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-52309538-4"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  ga('create', 'UA-52309538-4', 'auto');
-  ga('send', 'pageview');
-
+  gtag('config', 'UA-52309538-4');
 </script>
 
   </head>
@@ -59,8 +72,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">splatter</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">Splatter</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.7.0</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -70,13 +87,13 @@
   </a>
 </li>
 <li>
-  <a href="../articles/splatter.html">Get Started</a>
+  <a href="../articles/splatter.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -88,6 +105,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -95,21 +113,25 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Compare SingleCellExperiment objects</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Oshlack/splatter/blob/master/R/compare.R'><code>R/compare.R</code></a></small>
+    <div class="hidden name"><code>compareSCEs.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Combine the data from several SingleCellExperiment objects and produce some
 basic plots comparing them.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>compareSCEs</span>(<span class='no'>sces</span>, <span class='kw'>point.size</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>point.alpha</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>fits</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>colours</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -141,7 +163,8 @@ compare.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The returned list has three items:</p><dl class='dl-horizontal'>
+    <p>The returned list has three items:</p>
+<dl class='dl-horizontal'>
     <dt><code>FeatureData</code></dt><dd><p>Combined feature data from the provided
     SingleCellExperiments.</p></dd>
     <dt><code>PhenoData</code></dt><dd><p>Combined pheno data from the provided
@@ -163,14 +186,14 @@ compare.</p></td>
     </dl></p></dd>
 </dl>
     <p>The plots returned by this function are created using
-<code><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></code> and are only a sample of the kind of plots you
+<code><a href='ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></code> and are only a sample of the kind of plots you
 might like to consider. The data used to create these plots is also returned
 and should be in the correct format to allow you to create further plots
-using <code><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></code>.</p>
+using <code><a href='ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>sim1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='splatSimulate.html'>splatSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>batchCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='message'>Getting parameters...</span></div><div class='output co'>#&gt; <span class='message'>Creating simulation object...</span></div><div class='output co'>#&gt; <span class='message'>Simulating library sizes...</span></div><div class='output co'>#&gt; <span class='message'>Simulating gene means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating BCV...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts..</span></div><div class='output co'>#&gt; <span class='message'>Simulating dropout (if needed)...</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div><div class='input'><span class='no'>sim2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='message'>Simulating means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div><div class='input'><span class='no'>comparison</span> <span class='kw'>&lt;-</span> <span class='fu'>compareSCEs</span>(<span class='fu'>list</span>(<span class='kw'>Splat</span> <span class='kw'>=</span> <span class='no'>sim1</span>, <span class='kw'>Simple</span> <span class='kw'>=</span> <span class='no'>sim2</span>))</div><div class='output co'>#&gt; <span class='message'>Note that the names of some metrics have changed, see 'Renamed metrics' in ?calculateQCMetrics.</span>
+    <pre class="examples"><div class='input'><span class='no'>sim1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='splatSimulate.html'>splatSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>batchCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='message'>Getting parameters...</span></div><div class='output co'>#&gt; <span class='message'>Creating simulation object...</span></div><div class='output co'>#&gt; <span class='message'>Simulating library sizes...</span></div><div class='output co'>#&gt; <span class='message'>Simulating gene means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating BCV...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Simulating dropout (if needed)...</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div><div class='input'><span class='no'>sim2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='message'>Simulating means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div><div class='input'><span class='no'>comparison</span> <span class='kw'>&lt;-</span> <span class='fu'>compareSCEs</span>(<span class='fu'>list</span>(<span class='kw'>Splat</span> <span class='kw'>=</span> <span class='no'>sim1</span>, <span class='kw'>Simple</span> <span class='kw'>=</span> <span class='no'>sim2</span>))</div><div class='output co'>#&gt; <span class='message'>Note that the names of some metrics have changed, see 'Renamed metrics' in ?calculateQCMetrics.</span>
 #&gt; <span class='message'>Old names are currently maintained for back-compatibility, but may be removed in future releases.</span></div><div class='output co'>#&gt; <span class='message'>Note that the names of some metrics have changed, see 'Renamed metrics' in ?calculateQCMetrics.</span>
 #&gt; <span class='message'>Old names are currently maintained for back-compatibility, but may be removed in future releases.</span></div><div class='input'><span class='fu'>names</span>(<span class='no'>comparison</span>)</div><div class='output co'>#&gt; [1] "FeatureData" "PhenoData"   "Plots"      </div><div class='input'><span class='fu'>names</span>(<span class='no'>comparison</span>$<span class='no'>Plots</span>)</div><div class='output co'>#&gt; [1] "Means"        "Variances"    "MeanVar"      "LibrarySizes" "ZerosGene"   
 #&gt; [6] "ZerosCell"    "MeanZeros"   </div></pre>
@@ -202,5 +225,8 @@ using <code><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplo
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

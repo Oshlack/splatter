@@ -1,7 +1,17 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
-\section{Version 1.3.5, Bioconductor 3.7 Release (2017-04-25)}{
+\section{Version 1.6.0, Bioconductor 3.8 Release (2018-10-29)}{
+  \itemize{
+    \item{Fix bug and improve normality testing in splatEstLib}
+    \item{Fixes for compatibility with the latest version of BASiCS,
+          BASiCSEstimate now uses the regression method}
+    \item{Fix bug in getLNormFactors when reversing factors less than one}
+    \item{Various updates to tests and documentation}
+  }
+}
+
+\section{Version 1.3.5, Bioconductor 3.7 Release (2018-04-25)}{
   \itemize{
     \item{Move scater to Imports and add scater version}
     \item{Remove lingering references to SCESets}

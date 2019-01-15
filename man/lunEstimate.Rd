@@ -8,7 +8,8 @@
 \usage{
 lunEstimate(counts, params = newLunParams())
 
-\method{lunEstimate}{SingleCellExperiment}(counts, params = newLunParams())
+\method{lunEstimate}{SingleCellExperiment}(counts,
+  params = newLunParams())
 
 \method{lunEstimate}{matrix}(counts, params = newLunParams())
 }

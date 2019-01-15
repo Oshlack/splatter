@@ -4,8 +4,8 @@
 \alias{addFeatureStats}
 \title{Add feature statistics}
 \usage{
-addFeatureStats(sce, value = c("counts", "cpm", "tpm", "fpkm"), log = FALSE,
-  offset = 1, no.zeros = FALSE)
+addFeatureStats(sce, value = c("counts", "cpm", "tpm", "fpkm"),
+  log = FALSE, offset = 1, no.zeros = FALSE)
 }
 \arguments{
 \item{sce}{SingleCellExperiment to add feature statistics to.}

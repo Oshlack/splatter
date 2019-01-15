@@ -4,8 +4,8 @@
 \alias{scDDSimulate}
 \title{scDD simulation}
 \usage{
-scDDSimulate(params = newSCDDParams(), plots = FALSE, plot.file = NULL,
-  verbose = TRUE, BPPARAM = SerialParam(), ...)
+scDDSimulate(params = newSCDDParams(), plots = FALSE,
+  plot.file = NULL, verbose = TRUE, BPPARAM = SerialParam(), ...)
 }
 \arguments{
 \item{params}{SCDDParams object containing simulation parameters.}

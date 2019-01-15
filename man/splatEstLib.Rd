@@ -15,7 +15,7 @@ splatEstLib(counts, params)
 splatParams object with estimated values.
 }
 \description{
-The Shapiro-Wilk test is used to determine if the library sizes are
+The Shapiro-Wilks test is used to determine if the library sizes are
 normally distributed. If so a normal distribution is fitted to the library
 sizes, if not (most cases) a log-normal distribution is fitted and the
 estimated parameters are added to the params object. See
