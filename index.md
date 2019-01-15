@@ -30,18 +30,18 @@ https://bioconductor.org/packages/splatter.
 Splatter has been accepted into the latest version of [Bioconductor][bioc]
 and hence requires the latest version of R (>=3.4).
 
-If you have these installed Splatter can be installed from Bioconductor using
-`biocLite`:
+It can be installed from Bioconductor with:
 
 ```{r}
-source("https://bioconductor.org/biocLite.R")
-biocLite("splatter")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("splatter")
 ```
 
 If you wish to build a local version of the vignette use:
 
 ```{r}
-biocLite("splatter", build_vignettes=TRUE)
+BiocManager::install("splatter", build_vignettes=TRUE)
 ```
 
 This will also build the vignette and install all suggested dependencies (which
@@ -55,11 +55,10 @@ If you want to try the [development version][devel] this can also be installed
 from Bioconductor:
 
 ```{r}
-library(BiocInstaller)
-useDevel()
-biocValid()              # checks for out of date packages
-biocLite()               # (optional) updates out of date packages
-biocLite("splatter")
+library(BiocManager)
+valid()              # checks for out of date packages
+BiocManager::install()               # (optional) updates out of date packages
+BiocManager::install("splatter")
 ```
 
 Depending on the current release cycle you may also need to install the

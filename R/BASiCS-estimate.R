@@ -14,6 +14,8 @@
 #' @param thin thining period for the MCMC sampler. Must be \code{>= 2}.
 #' @param burn burn-in period for the MCMC sampler. Must be in the range
 #' \code{1 <= burn < n} and a multiple of \code{thin}.
+#' @param regression logical. Whether to use regression to identify
+#' over-dispersion. See \code{\link[BASiCS]{BASiCS_MCMC}} for details.
 #' @param params BASiCSParams object to store estimated values in.
 #' @param verbose logical. Whether to print progress messages.
 #' @param progress logical. Whether to print additional BASiCS progress
@@ -38,13 +40,14 @@
 #' spike.info <- data.frame(Name = rownames(sc_example_counts)[1:10],
 #'                          Input = rnorm(10, 500, 200),
 #'                          stringsAsFactors = FALSE)
-#' params <- BASiCSEstimate(sc_example_counts[1:50, 1:20],
+#' params <- BASiCSEstimate(sc_example_counts[1:100, 1:30],
 #'                          spike.info)
 #' params
 #' }
 #' @export
 BASiCSEstimate <- function(counts, spike.info = NULL, batch = NULL,
                            n = 20000, thin = 10, burn = 5000,
+                           regression = TRUE,
                            params = newBASiCSParams(), verbose = TRUE,
                            progress = TRUE, ...) {
     UseMethod("BASiCSEstimate")
@@ -55,6 +58,7 @@ BASiCSEstimate <- function(counts, spike.info = NULL, batch = NULL,
 BASiCSEstimate.SingleCellExperiment <- function(counts, spike.info = NULL,
                                                 batch = NULL, n = 20000,
                                                 thin = 10, burn = 5000,
+                                                regression = TRUE,
                                                 params = newBASiCSParams(),
                                                 verbose = TRUE, progress = TRUE,
                                                 ...) {
@@ -66,6 +70,7 @@ BASiCSEstimate.SingleCellExperiment <- function(counts, spike.info = NULL,
 #' @export
 BASiCSEstimate.matrix <- function(counts, spike.info = NULL, batch = NULL,
                                   n = 20000, thin = 10, burn = 5000,
+                                  regression = TRUE,
                                   params = newBASiCSParams(), verbose = TRUE,
                                   progress = TRUE, ...) {
 
@@ -107,21 +112,28 @@ BASiCSEstimate.matrix <- function(counts, spike.info = NULL, batch = NULL,
     if ((burn %% thin) != 0) {
         stop("'burn' must be a multiple of 'thin'")
     }
+    checkmate::assertFlag(regression)
 
     is.spike <- rownames(counts) %in% spike.info$Name
+
     BASiCS.data <- suppressMessages(
                        BASiCS::newBASiCS_Data(counts, is.spike, spike.info,
                                               batch)
     )
 
+    with.spikes <- sum(is.spike) > 1
+
     if (verbose) {
         mcmc <- BASiCS::BASiCS_MCMC(Data = BASiCS.data, N = n, Thin = thin,
-                                    Burn = burn, PrintProgress = progress, ...)
+                                    Burn = burn, Regression = regression,
+                                    PrintProgress = progress,
+                                    WithSpikes = with.spikes, ...)
     } else {
         mcmc <- suppressMessages(
                     BASiCS::BASiCS_MCMC(Data = BASiCS.data, N = n, Thin = thin,
-                                        Burn = burn, PrintProgress = progress,
-                                        ...)
+                                        Burn = burn, Regression = regression,
+                                        PrintProgress = progress,
+                                        WithSpikes = with.spikes, ...)
         )
     }
 
@@ -129,7 +141,11 @@ BASiCSEstimate.matrix <- function(counts, spike.info = NULL, batch = NULL,
 
     means <- BASiCS::displaySummaryBASiCS(mcmc.summ, Param = "mu")[, 1]
     deltas <- BASiCS::displaySummaryBASiCS(mcmc.summ, Param = "delta")[, 1]
-    phis <- BASiCS::displaySummaryBASiCS(mcmc.summ, Param = "phi")[, 1]
+    if (!is.null(spike.info)) {
+        phis <- BASiCS::displaySummaryBASiCS(mcmc.summ, Param = "phi")[, 1]
+    } else {
+        phis <- rep(1, ncol(counts))
+    }
     ss <- BASiCS::displaySummaryBASiCS(mcmc.summ, Param = "s")[, 1]
     thetas <- BASiCS::displaySummaryBASiCS(mcmc.summ, Param = "theta")[, 1]
 

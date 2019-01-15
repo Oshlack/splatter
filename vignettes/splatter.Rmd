@@ -29,14 +29,15 @@ introduction to Splatter's functionality.
 Splatter can be installed from Bioconductor:
 
 ```{r install, eval = FALSE}
-source("https://bioconductor.org/biocLite.R")
-biocLite("splatter")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("splatter")
 ```
 
 To install the most recent development version from Github use:
 
 ```{r install-github, eval = FALSE}
-biocLite("Oshlack/splatter", dependencies = TRUE,
+BiocManager::install("Oshlack/splatter", dependencies = TRUE,
          build_vignettes = TRUE)
 ```
 
@@ -282,7 +283,7 @@ in `scater`. For example we can make a PCA plot:
 
 ```{r pca}
 # Use scater to calculate logcounts
-sim <- normalise(sim)
+sim <- normalize(sim)
 # Plot PCA
 plotPCA(sim)
 ```
@@ -342,7 +343,7 @@ printing progress messages.)
 ```{r groups}
 sim.groups <- splatSimulate(group.prob = c(0.5, 0.5), method = "groups",
                             verbose = FALSE)
-sim.groups <- normalise(sim.groups)
+sim.groups <- normalize(sim.groups)
 plotPCA(sim.groups, colour_by = "Group")
 ```
 
@@ -361,7 +362,7 @@ method.
 
 ```{r paths}
 sim.paths <- splatSimulate(method = "paths", verbose = FALSE)
-sim.paths <- normalise(sim.paths)
+sim.paths <- normalize(sim.paths)
 plotPCA(sim.paths, colour_by = "Step")
 ```
 
@@ -381,7 +382,7 @@ cells are in each batch:
 
 ```{r batches}
 sim.batches <- splatSimulate(batchCells = c(50, 50), verbose = FALSE)
-sim.batches <- normalise(sim.batches)
+sim.batches <- normalize(sim.batches)
 plotPCA(sim.batches, colour_by = "Batch")
 ```
 
@@ -395,7 +396,7 @@ that we aren't interested in (batch) and the wanted variation we are looking for
 ```{r batch-groups}
 sim.groups <- splatSimulate(batchCells = c(50, 50), group.prob = c(0.5, 0.5),
                             method = "groups", verbose = FALSE)
-sim.groups <- normalise(sim.groups)
+sim.groups <- normalize(sim.groups)
 plotPCA(sim.groups, shape_by = "Batch", colour_by = "Group")
 ```
 
@@ -503,7 +504,7 @@ number of expressed genes against the library size:
 ```{r comparison-libsize-features}
 library("ggplot2")
 ggplot(comparison$PhenoData,
-       aes(x = total_counts, y = total_features, colour = Dataset)) +
+       aes(x = total_counts, y = total_features_by_counts, colour = Dataset)) +
     geom_point()
 ```
 

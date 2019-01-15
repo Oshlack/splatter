@@ -1,8 +1,77 @@
-## Version 1.5.0 (2018-01-02)
+## Version 1.7.2 (2018-12-06)
+
+* Add ImmunoOncology biocViews tag at request of Bioconductor team
+
+## Version 1.7.1 (2018-11-17)
+
+* Fix bugs in vignette
+
+## Version 1.7.0 (2018-11-01)
+
+ * Bioconductor 3.9 devel
+
+## Version 1.6.1 (2018-12-06)
+
+* Add ImmunoOncology biocViews tag at request of Bioconductor team
+
+# Version 1.6.0 (2018-11-01)
+
+* Bioconductor 3.8 release
+
+## Version 1.5.8 (2018-10-22)
+
+* Add WithSpikes argument when calling BASiCS::BASiCS_MCMC()
+
+## Version 1.5.7 (2018-10-03)
+
+* Fix BASiCSEstimate tests
+
+## Version 1.5.4 (2018-08-30)
+
+* Fix installation instructions
+
+## Version 1.5.3 (2018-08-20)
+
+* Fix bug in BASiCSEstimate when no spike-ins provided
+
+### Version 1.5.2.9000 (2018-08-16)
+
+* Add missing regression argument to BASiCSEstimate
+* Add new BASiCS tests
+
+## Version 1.5.2 (2018-08-16)
+
+* Fix bug in getLNormFactors when reversing factors less than one
+* Update documentation to new Roxygen version (6.1.0)
+* Change varible name in vignette for compatibility with scater
+* Add suggested package checks to tests
+
+## Version 1.5.1 (2018-06-12)
+
+* Fix normality testing error in splatEstLib
+* Correct p-value cutoff in normality test
+* Sample library sizes for normality testing if > 5000 cells
+
+## Version 1.5.0 (2018-05-02)
 
 * Bioconductor 3.7 devel
 
-# Version 1.4.0 (2018-01-02)
+## Version 1.4.3 (2018-08-20)
+
+* Fix bug in BASiCSEstimate when no spike-ins provided
+
+## Version 1.4.2 (2018-08-16)
+
+* Add missing regression argument to BASiCSEstimate
+* Add new BASiCS tests
+
+## Version 1.4.1 (2018-06-12)
+
+* Fix normality testing error in splatEstLib
+* Correct p-value cutoff in normality test
+* Sample library sizes for normality testing if > 5000 cells
+
+# Version 1.4.0 (2018-05-02)
 
 * Bioconductor 3.7 release
 
