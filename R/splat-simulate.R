@@ -646,9 +646,10 @@ splatSimBCVMeans <- function(sim, params) {
         bcv <- (bcv.common + (1 / sqrt(base.means.cell)))
     }
 
-    means.cell <- matrix(rgamma(nGenes * nCells, shape = 1 / (bcv ^ 2),
-                                scale = base.means.cell * (bcv ^ 2)),
-                         nrow = nGenes, ncol = nCells)
+    means.cell <- matrix(rgamma(
+        as.numeric(nGenes) * as.numeric(nCells),
+        shape = 1 / (bcv ^ 2), scale = base.means.cell * (bcv ^ 2)),
+    nrow = nGenes, ncol = nCells)
 
     colnames(means.cell) <- cell.names
     rownames(means.cell) <- gene.names
@@ -680,8 +681,10 @@ splatSimTrueCounts <- function(sim, params) {
     nCells <- getParam(params, "nCells")
     cell.means <- assays(sim)$CellMeans
 
-    true.counts <- matrix(rpois(nGenes * nCells, lambda = cell.means),
-                          nrow = nGenes, ncol = nCells)
+    true.counts <- matrix(rpois(
+        as.numeric(nGenes) * as.numeric(nCells),
+        lambda = cell.means),
+    nrow = nGenes, ncol = nCells)
 
     colnames(true.counts) <- cell.names
     rownames(true.counts) <- gene.names
