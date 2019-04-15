@@ -67,7 +67,7 @@ information), \code{\link{rowData}} (for gene specific information) or
 \code{\link{assays}} (for gene by cell matrices) slots. This additional
 information includes:
 \describe{
-    \item{\code{phenoData}}{
+    \item{\code{colData}}{
         \describe{
             \item{Cell}{Unique cell identifier.}
             \item{Group}{The group or path the cell belongs to.}
@@ -75,7 +75,7 @@ information includes:
             \item{Step (paths only)}{how far along the path each cell is.}
         }
     }
-    \item{\code{featureData}}{
+    \item{\code{rowData}}{
         \describe{
             \item{Gene}{Unique gene identifier.}
             \item{BaseGeneMean}{The base expression level for that gene.}
@@ -91,7 +91,7 @@ information includes:
             non-linear changes in expression along a path.}
         }
     }
-    \item{\code{assayData}}{
+    \item{\code{assays}}{
         \describe{
             \item{BatchCellMeans}{The mean expression of genes in each cell
             after adding batch effects.}

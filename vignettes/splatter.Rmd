@@ -121,7 +121,7 @@ The parameters required for the Splat simulation are briefly described here:
 * **Differential expression parameters**
     * `de.prob` - Probability that a gene is differentially expressed in each
       group or path.
-    * `de.loProb` - Probability that a differentially expressed gene is
+    * `de.downProb` - Probability that a differentially expressed gene is
       down-regulated.
     * `de.facLoc` - Location (meanlog) parameter for the differential expression
       factor log-normal distribution.
@@ -298,12 +298,12 @@ For more details about the `SingleCellExperiment` object refer to the [vignette]
 The `splatSimulate` function outputs the following additional information about
 the simulation:
 
-* **Cell information (`pData`)**
+* **Cell information (`colData`)**
     * `Cell` - Unique cell identifier.
     * `Group` - The group or path the cell belongs to.
     * `ExpLibSize` - The expected library size for that cell.
     * `Step` (paths only) - How far along the path each cell is.
-* **Gene information (`fData`)**
+* **Gene information (`rowData`)**
     * `Gene` - Unique gene identifier.
     * `BaseGeneMean` - The base expression level for that gene.
     * `OutlierFactor` - Expression outlier factor for that gene (1 is not an
@@ -313,7 +313,7 @@ the simulation:
       in a particular group (1 is not differentially expressed).
     * `GeneMean[Group]` - Expression level of a gene in a particular group after
       applying differential expression factors.
-* **Gene by cell information (`assayData`)**
+* **Gene by cell information (`assays`)**
     * `BaseCellMeans` - The expression of genes in each cell adjusted for
       expected library size.
     * `BCV` - The Biological Coefficient of Variation for each gene in
@@ -489,7 +489,7 @@ names(comparison$Plots)
 ```
 
 The returned list has three items. The first two are the combined datasets by
-gene (`FeatureData`) and by cell (`PhenoData`) and the third contains some
+gene (`RowData`) and by cell (`ColData`) and the third contains some
 comparison plots (produced using `ggplot2`), for example a plot of the
 distribution of means:
 
@@ -503,7 +503,7 @@ number of expressed genes against the library size:
 
 ```{r comparison-libsize-features}
 library("ggplot2")
-ggplot(comparison$PhenoData,
+ggplot(comparison$ColData,
        aes(x = total_counts, y = total_features_by_counts, colour = Dataset)) +
     geom_point()
 ```

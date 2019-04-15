@@ -30,9 +30,9 @@ basic plots comparing them.
 The returned list has three items:
 
 \describe{
-    \item{\code{FeatureData}}{Combined feature data from the provided
+    \item{\code{RowData}}{Combined row data from the provided
     SingleCellExperiments.}
-    \item{\code{PhenoData}}{Combined pheno data from the provided
+    \item{\code{ColData}}{Combined column data from the provided
     SingleCellExperiments.}
     \item{\code{Plots}}{Comparison plots
         \describe{
