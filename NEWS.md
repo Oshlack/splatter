@@ -1,3 +1,9 @@
+## Version 1.7.3 (2018-04-15)
+
+* Minor changes to documentation
+* Protect against integer overflow in simulation functions
+* Fix order of groups in splatSimulate
+
 ## Version 1.7.2 (2018-12-06)
 
 * Add ImmunoOncology biocViews tag at request of Bioconductor team

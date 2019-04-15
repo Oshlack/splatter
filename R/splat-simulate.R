@@ -185,7 +185,7 @@ splatSimulate <- function(params = newSplatParams(),
     if (method != "single") {
         groups <- sample(seq_len(nGroups), nCells, prob = group.prob,
                          replace = TRUE)
-        colData(sim)$Group <- group.names[groups]
+        colData(sim)$Group <- factor(group.names[groups], levels = group.names)
     }
 
     if (verbose) {message("Simulating library sizes...")}
@@ -502,7 +502,7 @@ splatSimGroupCellMeans <- function(sim, params) {
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
     groups <- colData(sim)$Group
-    group.names <- sort(unique(groups))
+    group.names <- levels(groups)
     exp.lib.sizes <- colData(sim)$ExpLibSize
     batch.means.cell <- assays(sim)$BatchCellMeans
 
@@ -753,7 +753,7 @@ splatSimDropout <- function(sim, params) {
                }
 
                if ("Group" %in% colnames(colData(sim))) {
-                   groups <- as.numeric(factor(colData(sim)$Group))
+                   groups <- as.numeric(colData(sim)$Group)
                } else {
                    stop("dropout.type is set to 'group' but groups have not ",
                         "been simulated")
