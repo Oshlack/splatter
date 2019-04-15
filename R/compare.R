@@ -14,9 +14,9 @@
 #' The returned list has three items:
 #'
 #' \describe{
-#'     \item{\code{FeatureData}}{Combined feature data from the provided
+#'     \item{\code{RowData}}{Combined row data from the provided
 #'     SingleCellExperiments.}
-#'     \item{\code{PhenoData}}{Combined pheno data from the provided
+#'     \item{\code{ColData}}{Combined column data from the provided
 #'     SingleCellExperiments.}
 #'     \item{\code{Plots}}{Comparison plots
 #'         \describe{
@@ -177,8 +177,8 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         mean.zeros <- mean.zeros + geom_smooth()
     }
 
-    comparison <- list(FeatureData = features,
-                       PhenoData = cells,
+    comparison <- list(RowData = features,
+                       ColData = cells,
                        Plots = list(Means = means,
                                     Variances = vars,
                                     MeanVar = mean.var,
@@ -217,9 +217,9 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
 #'
 #' \describe{
 #'     \item{\code{Reference}}{The SingleCellExperiment used as the reference.}
-#'     \item{\code{FeatureData}}{Combined feature data from the provided
+#'     \item{\code{RowData}}{Combined feature data from the provided
 #'     SingleCellExperiments.}
-#'     \item{\code{PhenoData}}{Combined pheno data from the provided
+#'     \item{\code{ColData}}{Combined column data from the provided
 #'     SingleCellExperiments.}
 #'     \item{\code{Plots}}{Difference plots
 #'         \describe{
@@ -509,8 +509,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
     }
 
     comparison <- list(Reference = ref.sce,
-                       FeatureData = features,
-                       PhenoData = cells,
+                       RowData = features,
+                       ColData = cells,
                        Plots = list(Means = means,
                                     Variances = vars,
                                     MeanVar = mean.var,
@@ -824,10 +824,10 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
 #' @export
 summariseDiff <- function(diff) {
 
-    datasets <- unique(diff$PhenoData$Dataset)
+    datasets <- unique(diff$ColData$Dataset)
 
-    fData.mads <- sapply(datasets, function(dataset) {
-        df <- diff$FeatureData[diff$FeatureData$Dataset == dataset, ]
+    rowData.mads <- sapply(datasets, function(dataset) {
+        df <- diff$RowData[diff$RowData$Dataset == dataset, ]
         mean <- median(abs(df$RankDiffMeanLogCPM))
         var <- median(abs(df$RankDiffVarLogCPM))
         zeros <- median(abs(df$RankDiffZeros))
@@ -836,27 +836,29 @@ summariseDiff <- function(diff) {
         return(c(Mean = mean, Variance = var, ZerosGene = zeros,
                  MeanVar = mean.var, MeanZeros = mean.zeros))
     })
-    fData.mads.z <- t(scale(t(fData.mads)))
+    rowData.mads.z <- t(scale(t(rowData.mads)))
 
-    pData.mads <- sapply(datasets, function(dataset) {
-        df <- diff$PhenoData[diff$PhenoData$Dataset == dataset, ]
+    colData.mads <- sapply(datasets, function(dataset) {
+        df <- diff$ColData[diff$ColData$Dataset == dataset, ]
         lib.size <- median(abs(df$RankDiffLibSize))
         zeros <- median(abs(df$RankDiffZeros))
         return(c(LibSize = lib.size, ZerosCell = zeros))
     })
-    pData.mads.z <- t(scale(t(pData.mads)))
+    colData.mads.z <- t(scale(t(colData.mads)))
 
-    mads <- data.frame(Dataset = datasets, t(fData.mads), t(pData.mads))
-    mads.z <- data.frame(Dataset = datasets, t(fData.mads.z), t(pData.mads.z))
+    mads <- data.frame(Dataset = datasets, t(rowData.mads), t(colData.mads))
+    mads.z <- data.frame(Dataset = datasets, t(rowData.mads.z),
+                         t(colData.mads.z))
 
-    fData.ranks <- matrixStats::rowRanks(fData.mads)
-    pData.ranks <- matrixStats::rowRanks(pData.mads)
+    rowData.ranks <- matrixStats::rowRanks(rowData.mads)
+    colData.ranks <- matrixStats::rowRanks(colData.mads)
 
-    ranks.mads <- data.frame(Dataset = datasets, t(fData.ranks), t(pData.ranks))
+    ranks.mads <- data.frame(Dataset = datasets, t(rowData.ranks),
+                             t(colData.ranks))
     colnames(ranks.mads) <- paste0(colnames(mads), "Rank")
 
-    fData.maes <- sapply(datasets, function(dataset) {
-        df <- diff$FeatureData[diff$FeatureData$Dataset == dataset, ]
+    rowData.maes <- sapply(datasets, function(dataset) {
+        df <- diff$RowData[diff$RowData$Dataset == dataset, ]
         mean <- mean(abs(df$RankDiffMeanLogCPM))
         var <- mean(abs(df$RankDiffVarLogCPM))
         zeros <- mean(abs(df$RankDiffZeros))
@@ -865,27 +867,28 @@ summariseDiff <- function(diff) {
         return(c(Mean = mean, Variance = var, ZerosGene = zeros,
                  MeanVar = mean.var, MeanZeros = mean.zeros))
     })
-    fData.maes.z <- t(scale(t(fData.maes)))
+    rowData.maes.z <- t(scale(t(rowData.maes)))
 
-    pData.maes <- sapply(datasets, function(dataset) {
-        df <- diff$PhenoData[diff$PhenoData$Dataset == dataset, ]
+    colData.maes <- sapply(datasets, function(dataset) {
+        df <- diff$ColData[diff$ColData$Dataset == dataset, ]
         lib.size <- mean(abs(df$RankDiffLibSize))
         zeros <- mean(abs(df$RankDiffZeros))
         return(c(LibSize = lib.size, ZerosCell = zeros))
     })
-    pData.maes.z <- t(scale(t(pData.maes)))
+    colData.maes.z <- t(scale(t(colData.maes)))
 
-    maes <- data.frame(Dataset = datasets, t(fData.maes), t(pData.maes))
-    maes.z <- data.frame(Dataset = datasets, t(fData.maes.z), t(pData.maes.z))
+    maes <- data.frame(Dataset = datasets, t(rowData.maes), t(colData.maes))
+    maes.z <- data.frame(Dataset = datasets, t(rowData.maes.z),
+                         t(colData.maes.z))
 
-    fData.ranks <- matrixStats::rowRanks(fData.maes)
-    pData.ranks <- matrixStats::rowRanks(pData.maes)
+    rowData.ranks <- matrixStats::rowRanks(rowData.maes)
+    colData.ranks <- matrixStats::rowRanks(colData.maes)
 
-    ranks.maes <- data.frame(Dataset = datasets, t(fData.ranks), t(pData.ranks))
+    ranks.maes <- data.frame(Dataset = datasets, t(rowData.ranks), t(colData.ranks))
     colnames(ranks.maes) <- paste0(colnames(mads), "Rank")
 
-    fData.rmse <- sapply(datasets, function(dataset) {
-        df <- diff$FeatureData[diff$FeatureData$Dataset == dataset, ]
+    rowData.rmse <- sapply(datasets, function(dataset) {
+        df <- diff$RowData[diff$RowData$Dataset == dataset, ]
         mean <- sqrt(mean(df$RankDiffMeanLogCPM ^ 2))
         var <- sqrt(mean(df$RankDiffVarLogCPM ^ 2))
         zeros <- sqrt(mean(df$RankDiffZeros ^ 2))
@@ -894,23 +897,25 @@ summariseDiff <- function(diff) {
         return(c(Mean = mean, Variance = var, ZerosGene = zeros,
                  MeanVar = mean.var, MeanZeros = mean.zeros))
     })
-    fData.rmse.z <- t(scale(t(fData.rmse)))
+    rowData.rmse.z <- t(scale(t(rowData.rmse)))
 
-    pData.rmse <- sapply(datasets, function(dataset) {
-        df <- diff$PhenoData[diff$PhenoData$Dataset == dataset, ]
+    colData.rmse <- sapply(datasets, function(dataset) {
+        df <- diff$ColData[diff$ColData$Dataset == dataset, ]
         lib.size <- sqrt(mean(df$RankDiffLibSize ^ 2))
         zeros <- sqrt(mean(df$RankDiffZeros ^ 2))
         return(c(LibSize = lib.size, ZerosCell = zeros))
     })
-    pData.rmse.z <- t(scale(t(pData.rmse)))
+    colData.rmse.z <- t(scale(t(colData.rmse)))
 
-    rmse <- data.frame(Dataset = datasets, t(fData.rmse), t(pData.rmse))
-    rmse.z <- data.frame(Dataset = datasets, t(fData.rmse.z), t(pData.rmse.z))
+    rmse <- data.frame(Dataset = datasets, t(rowData.rmse), t(colData.rmse))
+    rmse.z <- data.frame(Dataset = datasets, t(rowData.rmse.z),
+                         t(colData.rmse.z))
 
-    fData.ranks <- matrixStats::rowRanks(fData.rmse)
-    pData.ranks <- matrixStats::rowRanks(pData.rmse)
+    rowData.ranks <- matrixStats::rowRanks(rowData.rmse)
+    colData.ranks <- matrixStats::rowRanks(colData.rmse)
 
-    ranks.rmse <- data.frame(Dataset = datasets, t(fData.ranks), t(pData.ranks))
+    ranks.rmse <- data.frame(Dataset = datasets, t(rowData.ranks),
+                             t(colData.ranks))
     colnames(ranks.rmse) <- paste0(colnames(rmse), "Rank")
 
     mads <- stats::reshape(mads, varying = 2:8, direction = "long",

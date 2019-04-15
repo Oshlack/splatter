@@ -41,9 +41,9 @@ The returned list has five items:
 
 \describe{
     \item{\code{Reference}}{The SingleCellExperiment used as the reference.}
-    \item{\code{FeatureData}}{Combined feature data from the provided
+    \item{\code{RowData}}{Combined feature data from the provided
     SingleCellExperiments.}
-    \item{\code{PhenoData}}{Combined pheno data from the provided
+    \item{\code{ColData}}{Combined column data from the provided
     SingleCellExperiments.}
     \item{\code{Plots}}{Difference plots
         \describe{
