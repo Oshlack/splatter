@@ -21,6 +21,24 @@ setMethod("setParamUnchecked", "Params", function(object, name, value) {
     return(object)
 })
 
+#' @rdname setParams
+setMethod("setParams", "Params", function(object, update = NULL, ...) {
+
+    checkmate::assertClass(object, classes = "Params")
+    checkmate::assertList(update, null.ok = TRUE)
+
+    update <- c(update, list(...))
+
+    if (length(update) > 0) {
+        for (name in names(update)) {
+            value <- update[[name]]
+            object <- setParam(object, name, value)
+        }
+    }
+
+    return(object)
+})
+
 #' @importFrom methods slotNames
 setMethod("show", "Params", function(object) {
 

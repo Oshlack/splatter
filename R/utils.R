@@ -31,6 +31,33 @@ rbindMatched <- function(df1, df2) {
     return(combined)
 }
 
+#' Bring items forward
+#'
+#' Move selected items to the start of a list.
+#'
+#' @param ll list to adjust item order.
+#' @param items vector of items to bring to the front. Any not in the list will
+#'        be ignored.
+#'
+#' @return list with selected items first
+bringItemsForward <- function(ll, items) {
+
+    checkmate::check_list(ll, min.len = 1, names = "unique")
+    checkmate::check_character(items, any.missing = FALSE, min.len = 1,
+                               unique = TRUE)
+
+    items <- items[items %in% names(ll)]
+
+    if (length(items) > 0) {
+        ll.front <- ll[items]
+        ll.back <- ll[!(names(ll) %in% items)]
+
+        ll <- c(ll.front, ll.back)
+    }
+
+    return(ll)
+}
+
 #' Winsorize vector
 #'
 #' Set outliers in a numeric vector to a specified percentile.
