@@ -100,7 +100,7 @@ setValidity("SplatParams", function(object) {
 })
 
 #' @rdname setParam
-setMethod("setParam", "SplatParams",function(object, name, value) {
+setMethod("setParam", "SplatParams", function(object, name, value) {
     checkmate::assertString(name)
 
     if (name == "nCells" || name == "nBatches") {
@@ -165,6 +165,21 @@ setMethod("setParam", "SplatParams",function(object, name, value) {
     }
 
     object <- callNextMethod()
+
+    return(object)
+})
+
+#' @rdname setParams
+setMethod("setParams", "SplatParams", function(object, update = NULL, ...) {
+
+    checkmate::assertClass(object, classes = "SplatParams")
+    checkmate::assertList(update, null.ok = TRUE)
+
+    update <- c(update, list(...))
+
+    update <- bringItemsForward(update, c("batchCells", "group.prob"))
+
+    object <- callNextMethod(object, update)
 
     return(object)
 })

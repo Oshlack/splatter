@@ -1,3 +1,7 @@
+## Version 1.7.4 (2018-04-17)
+
+* Allow SplatParams parameters to be set in any order
+
 ## Version 1.7.3 (2018-04-15)
 
 * Minor changes to documentation
