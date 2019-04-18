@@ -24,7 +24,7 @@
 #'             \item{\code{Variances}}{Boxplot of variance distribution.}
 #'             \item{\code{MeanVar}}{Scatter plot with fitted lines showing the
 #'             mean-variance relationship.}
-#'             \item{\code{LibraySizes}}{Boxplot of the library size
+#'             \item{\code{LibrarySizes}}{Boxplot of the library size
 #'             distribution.}
 #'             \item{\code{ZerosGene}}{Boxplot of the percentage of each gene
 #'             that is zero.}
@@ -227,7 +227,7 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
 #'             \item{\code{Variances}}{Boxplot of variance differences.}
 #'             \item{\code{MeanVar}}{Scatter plot showing the difference from
 #'             the reference variance across expression ranks.}
-#'             \item{\code{LibraySizes}}{Boxplot of the library size
+#'             \item{\code{LibraeySizes}}{Boxplot of the library size
 #'             differences.}
 #'             \item{\code{ZerosGene}}{Boxplot of the differences in the
 #'             percentage of each gene that is zero.}
@@ -411,7 +411,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         geom_hline(yintercept = 0, colour = "red") +
         geom_boxplot() +
         scale_colour_manual(values = colours) +
-        ylab(paste("Rank difference libray size")) +
+        ylab(paste("Rank difference library size")) +
         ggtitle("Difference in library sizes") +
         theme_minimal()
 

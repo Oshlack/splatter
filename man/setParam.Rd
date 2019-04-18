@@ -39,7 +39,7 @@ setParam(object, name, value)
 
 \item{name}{name of the parameter to set.}
 
-\item{value}{value to set the paramter to.}
+\item{value}{value to set the parameter to.}
 }
 \value{
 Object with new parameter value.

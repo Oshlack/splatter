@@ -40,7 +40,7 @@ The returned list has three items:
             \item{\code{Variances}}{Boxplot of variance distribution.}
             \item{\code{MeanVar}}{Scatter plot with fitted lines showing the
             mean-variance relationship.}
-            \item{\code{LibraySizes}}{Boxplot of the library size
+            \item{\code{LibrarySizes}}{Boxplot of the library size
             distribution.}
             \item{\code{ZerosGene}}{Boxplot of the percentage of each gene
             that is zero.}

@@ -52,6 +52,9 @@
     <loc>http://oshlack.github.io/splatter/reference/bridge.html</loc>
   </url>
   <url>
+    <loc>http://oshlack.github.io/splatter/reference/bringItemsForward.html</loc>
+  </url>
+  <url>
     <loc>http://oshlack.github.io/splatter/reference/compareSCEs.html</loc>
   </url>
   <url>
@@ -218,6 +221,9 @@
   </url>
   <url>
     <loc>http://oshlack.github.io/splatter/reference/zinbSimulate.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/articles/splat_params.html</loc>
   </url>
   <url>
     <loc>http://oshlack.github.io/splatter/articles/splatter.html</loc>

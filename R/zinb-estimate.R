@@ -9,7 +9,7 @@
 #' @param design.genes design matrix of gene-level covariates.
 #' @param common.disp logical. Whether or not a single dispersion for all
 #'        features is estimated.
-#' @param iter.init number of iterations to use for initalization.
+#' @param iter.init number of iterations to use for initialization.
 #' @param iter.opt number of iterations to use for optimization.
 #' @param stop.opt stopping criterion for optimization.
 #' @param params ZINBParams object to store estimated values in.

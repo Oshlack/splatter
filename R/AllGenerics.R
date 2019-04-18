@@ -36,7 +36,7 @@ setGeneric("getParam", function(object, name) {standardGeneric("getParam")})
 #'
 #' @param object object to set parameter in.
 #' @param name name of the parameter to set.
-#' @param value value to set the paramter to.
+#' @param value value to set the parameter to.
 #'
 #' @return Object with new parameter value.
 #'
@@ -57,7 +57,7 @@ setGeneric("setParam", function(object, name, value) {
 #'
 #' @param object object to set parameter in.
 #' @param name name of the parameter to set.
-#' @param value value to set the paramter to.
+#' @param value value to set the parameter to.
 #'
 #' @return Object with new parameter value.
 #'

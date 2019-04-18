@@ -51,7 +51,7 @@ The returned list has five items:
             \item{\code{Variances}}{Boxplot of variance differences.}
             \item{\code{MeanVar}}{Scatter plot showing the difference from
             the reference variance across expression ranks.}
-            \item{\code{LibraySizes}}{Boxplot of the library size
+            \item{\code{LibraeySizes}}{Boxplot of the library size
             differences.}
             \item{\code{ZerosGene}}{Boxplot of the differences in the
             percentage of each gene that is zero.}
