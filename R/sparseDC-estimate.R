@@ -7,7 +7,7 @@
 #'        containing count data to estimate parameters from.
 #' @param conditions numeric vector giving the condition each cell belongs to.
 #' @param nclusters number of cluster present in the dataset.
-#' @param norm logical, whether to libray size normalise counts before
+#' @param norm logical, whether to library size normalise counts before
 #'        estimation. Set this to FALSE if counts is already normalised.
 #' @param params PhenoParams object to store estimated values in.
 #'

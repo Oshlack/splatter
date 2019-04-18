@@ -84,71 +84,6 @@ types of cells or differentiation paths between different cells types where
 expression changes in a continuous way. These are described further in the
 [simulating counts] section.
 
-## Parameters
-
-The parameters required for the Splat simulation are briefly described here:
-
-* **Global parameters**
-    * `nGenes` - The number of genes to simulate.
-    * `nCells` - The number of cells to simulate.
-    * `seed` - Seed to use for generating random numbers.
-* **Batch parameters**
-    * `nBatches` - The number of batches to simulate.
-    * `batchCells` - The number of cells in each batch.
-    * `batch.facLoc` - Location (meanlog) parameter for the batch effects factor
-      log-normal distribution.
-    * `batch.facScale` - Scale (sdlog) parameter for the batch effects factor
-      log-normal distribution.
-* **Mean parameters**
-    * `mean.shape` - Shape parameter for the mean gamma distribution.
-    * `mean.rate` - Rate parameter for the mean gamma distribution.
-* **Library size parameters**
-    * `lib.loc` - Location (meanlog) parameter for the library size log-normal
-      distribution, or mean for the normal distribution.
-    * `lib.scale` - Scale (sdlog) parameter for the library size log-normal
-      distribution, or sd for the normal distribution.
-    * `lib.norm` - Whether to use a normal distribution instead of the usual
-      log-normal distribution.
-* **Expression outlier parameters**
-    * `out.prob` - Probability that a gene is an expression outlier.
-    * `out.facLoc` - Location (meanlog) parameter for the expression outlier
-      factor log-normal distribution.
-    * `out.facScale` - Scale (sdlog) parameter for the expression outlier factor
-      log-normal distribution.
-* **Group parameters**
-    * `nGroups` - The number of groups or paths to simulate.
-    * `group.prob` - The probabilities that cells come from particular groups.
-* **Differential expression parameters**
-    * `de.prob` - Probability that a gene is differentially expressed in each
-      group or path.
-    * `de.downProb` - Probability that a differentially expressed gene is
-      down-regulated.
-    * `de.facLoc` - Location (meanlog) parameter for the differential expression
-      factor log-normal distribution.
-    * `de.facScale` - Scale (sdlog) parameter for the differential expression
-      factor log-normal distribution.
-* **Biological Coefficient of Variation parameters**
-    * `bcv.common` - Underlying common dispersion across all genes.
-    * `bcv.df` - Degrees of Freedom for the BCV inverse chi-squared
-      distribution.
-* **Dropout parameters**
-    * `dropout.type` - Type of dropout to simulate.
-    * `dropout.mid` - Midpoint parameter for the dropout logistic function.
-    * `dropout.shape` - Shape parameter for the dropout logistic function.
-* **Differentiation path parameters**
-    * `path.from` - Vector giving the originating point of each path.
-    * `path.steps` - Vector giving the number of steps to simulate along each
-      path.
-    * `path.skew` - Vector giving the skew of each path.
-    * `path.nonlinearProb` - Probability that a gene changes expression in a
-      non-linear way along the differentiation path.
-    * `path.sigmaFac` - Sigma factor for non-linear gene paths.
-
-While this may look like a lot of parameters Splatter attempts to make it easy
-for the user, both by providing sensible defaults and making it easy to estimate
-many of the parameters from real data. For more details on the parameters see
-`?SplatParams`.
-
 # The `SplatParams` object
 
 All the parameters for the Splat simulation are stored in a `SplatParams`
@@ -164,7 +99,8 @@ As well as telling us what type of object we have ("A `Params` object of class
 some extra information. We can see which parameters can be estimated by the
 `splatEstimate` function (those in parentheses), which can't be estimated
 (those in brackets) and which have been changed from their default values (those
-in ALL CAPS).
+in ALL CAPS). For more details about the parameters of the Splat simulation
+refer to the [Splat parameters vignette](splat_params.html).
 
 ## Getting and setting
 
@@ -259,7 +195,7 @@ Looking at the output of `splatSimulate` we can see that `sim` is
 `r ncol(sim)` samples (cells). The main part of this object is a features
 by samples matrix containing the simulated counts (accessed using `counts`),
 although it can also hold other expression measures such as FPKM or TPM.
-Additionaly a `SingleCellExperiment` contains phenotype information about
+Additionally a `SingleCellExperiment` contains phenotype information about
 each cell (accessed using `colData`) and feature information about each gene
 (accessed using `rowData`). Splatter uses these slots, as well as `assays`, to
 store information about the intermediate values of the simulation.
@@ -347,9 +283,9 @@ sim.groups <- normalize(sim.groups)
 plotPCA(sim.groups, colour_by = "Group")
 ```
 
-As we have set both the group probabilites to 0.5 we should get approximately
+As we have set both the group probabilities to 0.5 we should get approximately
 equal numbers of cells in each group (around 50 in this case). If we wanted
-uneven groups we could set `group.prob` to any set of probabilites that sum to
+uneven groups we could set `group.prob` to any set of probabilities that sum to
 1.
 
 ## Simulating paths
@@ -408,7 +344,7 @@ made the batch effects dominate.
 
 Each of the Splatter simulation methods has it's own convenience function.
 To simulate a single population use `splatSimulateSingle()` (equivalent to
-`splatSimulate(method = "single")`), to simulate grops use
+`splatSimulate(method = "single")`), to simulate groups use
 `splatSimulateGroups()` (equivalent to `splatSimulate(method = "groups")`) or to
 simulate paths use `splatSimulatePaths()` (equivalent to
 `splatSimulate(method = "paths")`).
@@ -422,12 +358,6 @@ the available simulations run the `listSims()` function:
 
 ```{r listSims}
 listSims()
-```
-
-(or more conveniently for the vignette as a table)
-
-```{r listSims-table}
-knitr::kable(listSims(print = FALSE))
 ```
 
 Each simulation has it's own prefix which gives the name of the functions

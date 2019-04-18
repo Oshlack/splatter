@@ -23,7 +23,7 @@ containing count data to estimate parameters from.}
 
 \item{nclusters}{number of cluster present in the dataset.}
 
-\item{norm}{logical, whether to libray size normalise counts before
+\item{norm}{logical, whether to library size normalise counts before
 estimation. Set this to FALSE if counts is already normalised.}
 
 \item{params}{PhenoParams object to store estimated values in.}

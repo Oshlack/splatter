@@ -32,7 +32,7 @@ sim <- BASiCSSimulate()
 }
 \references{
 Vallejos CA, Marioni JC, Richardson S. BASiCS: Bayesian Analysis of
-Single-Cell Sequencing data. PLoS Comput. Biol. (2015).
+Single-Cell Sequencing data. PLoS Computational Biology (2015).
 
 Paper: \url{10.1371/journal.pcbi.1004333}
 

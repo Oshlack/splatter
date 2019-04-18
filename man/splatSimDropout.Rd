@@ -15,7 +15,7 @@ splatSimDropout(sim, params)
 SingleCellExperiment with simulated dropout and observed counts.
 }
 \description{
-A logistic function is used to form a relationshop between the expression
+A logistic function is used to form a relationship between the expression
 level of a gene and the probability of dropout, giving a probability for each
 gene in each cell. These probabilities are used in a Bernoulli distribution
 to decide which counts should be dropped.

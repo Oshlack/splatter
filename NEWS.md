@@ -1,3 +1,8 @@
+## Version 1.7.5 (2018-04-18)
+
+* Add Splat parameters vignette
+* Fix spelling
+
 ## Version 1.7.4 (2018-04-17)
 
 * Allow SplatParams parameters to be set in any order
@@ -53,7 +58,7 @@
 
 * Fix bug in getLNormFactors when reversing factors less than one
 * Update documentation to new Roxygen version (6.1.0)
-* Change varible name in vignette for compatibility with scater
+* Change variable name in vignette for compatibility with scater
 * Add suggested package checks to tests
 
 ## Version 1.5.1 (2018-06-12)
@@ -226,7 +231,7 @@
 
 ## Version 0.99.13 (2017-03-25)
 
-* Modify how Lun2Params stores gene paramters to use data.frame
+* Modify how Lun2Params stores gene parameters to use data.frame
 * Move sampling of genes/cells to lun2Simulate
 * Return to old Lun2 nGenes estimate
 
@@ -236,7 +241,7 @@
 * Update compareSCESets plots
 * Modify Lun2 nGenes estimate
 * Modify how addFeatureStats names columns
-* Add infinte bcv.df warning to splatSimulate
+* Add infinite bcv.df warning to splatSimulate
 
 ## Version 0.99.11 (2017-03-20)
 
@@ -338,7 +343,7 @@
 
 * Redesign how parameters are stored
 * Each simulation now has it's own S4 Params class
-* Modify exisiting simulations to use new parameter objects
+* Modify existing simulations to use new parameter objects
 
 ## Version 0.6.0 (2016-10-12)
 

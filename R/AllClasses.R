@@ -332,10 +332,10 @@ setClass("LunParams",
 #'     \item{\emph{Gene parameters}}{
 #'         \describe{
 #'             \item{\code{gene.params}}{A \code{data.frame} containing gene
-#'             parameters with two coloumns: \code{Mean} (mean expression for
+#'             parameters with two columns: \code{Mean} (mean expression for
 #'             each gene) and \code{Disp} (dispersion for each gene).}
 #'             \item{\code{zi.params}}{A \code{data.frame} containing
-#'             zero-inflated gene parameters with three coloumns: \code{Mean}
+#'             zero-inflated gene parameters with three columns: \code{Mean}
 #'             (mean expression for each gene), \code{Disp} (dispersion for
 #'             each, gene), and \code{Prop} (zero proportion for each gene).}
 #'         }
@@ -343,7 +343,7 @@ setClass("LunParams",
 #'     \item{\code{[nPlates]}}{The number of plates to simulate.}
 #'     \item{\emph{Plate parameters}}{
 #'         \describe{
-#'             \item{\code{plate.ingroup}}{Character vecotor giving the plates
+#'             \item{\code{plate.ingroup}}{Character vector giving the plates
 #'             considered to be part of the "ingroup".}
 #'             \item{\code{plate.mod}}{Plate effect modifier factor. The plate
 #'             effect variance is divided by this value.}
@@ -492,7 +492,7 @@ setClass("SCDDParams",
 #'     \item{\emph{Gene parameters}}{
 #'         \describe{
 #'             \item{\code{gene.params}}{A \code{data.frame} containing gene
-#'             parameters with two coloumns: \code{Mean} (mean expression for
+#'             parameters with two columns: \code{Mean} (mean expression for
 #'             each biological gene) and \code{Delta} (cell-to-cell
 #'             heterogeneity for each biological gene).}
 #'         }
@@ -506,7 +506,7 @@ setClass("SCDDParams",
 #'     \item{\emph{Cell parameters}}{
 #'         \describe{
 #'             \item{\code{cell.params}}{A \code{data.frame} containing gene
-#'             parameters with two coloumns: \code{Phi} (mRNA content factor for
+#'             parameters with two columns: \code{Phi} (mRNA content factor for
 #'             each cell, scaled to sum to the number of cells in each batch)
 #'             and \code{S} (capture efficient for each cell).}
 #'         }

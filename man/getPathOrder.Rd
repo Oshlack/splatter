@@ -7,7 +7,7 @@
 getPathOrder(path.from)
 }
 \arguments{
-\item{path.from}{vector giving the path endpoints that each path orginates
+\item{path.from}{vector giving the path endpoints that each path originates
 from.}
 }
 \value{

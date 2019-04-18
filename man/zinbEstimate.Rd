@@ -33,7 +33,7 @@ containing count data to estimate parameters from.}
 \item{common.disp}{logical. Whether or not a single dispersion for all
 features is estimated.}
 
-\item{iter.init}{number of iterations to use for initalization.}
+\item{iter.init}{number of iterations to use for initialization.}
 
 \item{iter.opt}{number of iterations to use for optimization.}
 

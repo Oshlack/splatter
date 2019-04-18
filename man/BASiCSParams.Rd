@@ -25,7 +25,7 @@ The BASiCS simulation uses the following parameters:
     \item{\emph{Gene parameters}}{
         \describe{
             \item{\code{gene.params}}{A \code{data.frame} containing gene
-            parameters with two coloumns: \code{Mean} (mean expression for
+            parameters with two columns: \code{Mean} (mean expression for
             each biological gene) and \code{Delta} (cell-to-cell
             heterogeneity for each biological gene).}
         }
@@ -39,7 +39,7 @@ The BASiCS simulation uses the following parameters:
     \item{\emph{Cell parameters}}{
         \describe{
             \item{\code{cell.params}}{A \code{data.frame} containing gene
-            parameters with two coloumns: \code{Phi} (mRNA content factor for
+            parameters with two columns: \code{Phi} (mRNA content factor for
             each cell, scaled to sum to the number of cells in each batch)
             and \code{S} (capture efficient for each cell).}
         }

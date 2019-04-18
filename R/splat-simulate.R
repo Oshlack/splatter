@@ -396,7 +396,7 @@ splatSimBatchCellMeans <- function(sim, params) {
 #'
 #' Simulate differential expression. Differential expression factors for each
 #' group are produced using \code{\link{getLNormFactors}} and these are added
-#' along with updated means for each group. For paths care is taked to make sure
+#' along with updated means for each group. For paths care is taken to make sure
 #' they are simulated in the correct order.
 #'
 #' @param sim SingleCellExperiment to add differential expression to.
@@ -696,7 +696,7 @@ splatSimTrueCounts <- function(sim, params) {
 
 #' Simulate dropout
 #'
-#' A logistic function is used to form a relationshop between the expression
+#' A logistic function is used to form a relationship between the expression
 #' level of a gene and the probability of dropout, giving a probability for each
 #' gene in each cell. These probabilities are used in a Bernoulli distribution
 #' to decide which counts should be dropped.
@@ -773,7 +773,7 @@ splatSimDropout <- function(sim, params) {
 
     if (dropout.type != "none") {
 
-        # Generate probabilites based on expression
+        # Generate probabilities based on expression
         drop.prob <- sapply(seq_len(nCells), function(idx) {
             eta <- log(cell.means[, idx])
             return(logistic(eta, x0 = dropout.mid[idx], k = dropout.shape[idx]))
@@ -834,7 +834,7 @@ getLNormFactors <- function(n.facs, sel.prob, neg.prob, fac.loc, fac.scale) {
 #' Identify the correct order to process paths so that preceding paths have
 #' already been simulated.
 #'
-#' @param path.from vector giving the path endpoints that each path orginates
+#' @param path.from vector giving the path endpoints that each path originates
 #'        from.
 #'
 #' @return Vector giving the order to process paths in.
