@@ -111,9 +111,10 @@ The Splatter simulation requires the following parameters:
             this form would have a "from" parameter of c(0, 1, 1) (where 0 is
             the origin). If no vector is given all paths will start at the
             origin.}
-            \item{\code{[path.length]}}{Vector giving the number of steps to
+            \item{\code{[path.nSteps]}}{Vector giving the number of steps to
             simulate along each path. If a single value is given it will be
-            applied to all paths.}
+            applied to all paths. This parameter was previously called
+            \code{path.length}.}
             \item{\code{[path.skew]}}{Vector giving the skew of each path.
             Values closer to 1 will give more cells towards the starting
             population, values closer to 0 will give more cells towards the

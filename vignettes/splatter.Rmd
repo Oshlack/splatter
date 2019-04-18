@@ -137,7 +137,7 @@ The parameters required for the Splat simulation are briefly described here:
     * `dropout.shape` - Shape parameter for the dropout logistic function.
 * **Differentiation path parameters**
     * `path.from` - Vector giving the originating point of each path.
-    * `path.length` - Vector giving the number of steps to simulate along each
+    * `path.steps` - Vector giving the number of steps to simulate along each
       path.
     * `path.skew` - Vector giving the skew of each path.
     * `path.nonlinearProb` - Probability that a gene changes expression in a

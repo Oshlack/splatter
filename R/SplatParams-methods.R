@@ -54,8 +54,8 @@ setValidity("SplatParams", function(object) {
                                              any.missing = FALSE, min.len = 1),
                 path.from = checkIntegerish(v$path.from, lower = 0,
                                             upper = nGroups, len = nGroups),
-                path.length = checkIntegerish(v$path.length, lower = 1,
-                                               len = nGroups),
+                path.nSteps = checkIntegerish(v$path.nSteps, lower = 1,
+                                              len = nGroups),
                 path.skew = checkNumeric(v$path.skew, lower = 0, upper = 1,
                                          len = nGroups),
                 path.nonlinearProb = checkNumber(v$path.nonlinearProb,
@@ -102,6 +102,12 @@ setValidity("SplatParams", function(object) {
 #' @rdname setParam
 setMethod("setParam", "SplatParams", function(object, name, value) {
     checkmate::assertString(name)
+
+    if (name == "path.length") {
+        warning("path.length has been renamed path.nSteps, ",
+                "please use path.nSteps in the future.")
+        name <- "path.nSteps"
+    }
 
     if (name == "nCells" || name == "nBatches") {
         stop(name, " cannot be set directly, set batchCells instead")
@@ -211,7 +217,7 @@ setMethod("show", "SplatParams", function(object) {
                                      "(Midpoint)"     = "dropout.mid",
                                      "(Shape)"        = "dropout.shape"),
                "Paths:"          = c("[From]"         = "path.from",
-                                     "[Length]"       = "path.length",
+                                     "[Steps]"        = "path.nSteps",
                                      "[Skew]"         = "path.skew",
                                      "[Non-linear]"   = "path.nonlinearProb",
                                      "[Sigma Factor]" = "path.sigmaFac"))
@@ -232,7 +238,7 @@ setMethod("expandParams", "SplatParams", function(object) {
     n <- getParam(object, "nGroups")
 
     vectors <- c("de.prob", "de.downProb", "de.facLoc", "de.facScale",
-                 "path.from", "path.length", "path.skew")
+                 "path.from", "path.nSteps", "path.skew")
 
     object <- callNextMethod(object, vectors, n)
 
