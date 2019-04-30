@@ -26,6 +26,10 @@ The Splatter simulation requires the following parameters:
             batch effect factor log-normal distribution. Can be a vector.}
             \item{\code{[batch.facScale]}}{Scale (sdlog) parameter for the
             batch effect factor log-normal distribution. Can be a vector.}
+            \item{\code{[batch.rmEffect]}}{Logical, removes the batch effect
+            and continues with the simulation when TRUE. This allows the 
+            user to test batch removal algorithms without having to calculate
+            the new expected cell means with batch removed.}
         }
     }
     \item{\emph{Mean parameters}}{
