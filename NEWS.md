@@ -1,3 +1,7 @@
+# Version 1.8.0 (2019-05-03)
+
+* Bioconductor 3.9 release
+
 ## Version 1.7.5 (2018-04-18)
 
 * Add Splat parameters vignette
