@@ -173,8 +173,10 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         theme_minimal()
 
     if (fits) {
-        mean.var <- mean.var + geom_smooth()
-        mean.zeros <- mean.zeros + geom_smooth()
+        mean.var <- mean.var + geom_smooth(method = "gam",
+                                           formula = y ~ s(x, bs = "cs"))
+        mean.zeros <- mean.zeros + geom_smooth(method = "gam",
+                                               formula = y ~ s(x, bs = "cs"))
     }
 
     comparison <- list(RowData = features,
@@ -504,8 +506,10 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         theme_minimal()
 
     if (fits) {
-        mean.var <- mean.var + geom_smooth()
-        mean.zeros <- mean.zeros + geom_smooth()
+        mean.var <- mean.var + geom_smooth(method = "gam",
+                                           formula = y ~ s(x, bs = "cs"))
+        mean.zeros <- mean.zeros + geom_smooth(method = "gam",
+                                               formula = y ~ s(x, bs = "cs"))
     }
 
     comparison <- list(Reference = ref.sce,
