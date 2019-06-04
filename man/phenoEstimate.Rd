@@ -32,10 +32,12 @@ input data. The total number of genes is evenly divided into the four types.
 See \code{\link{PhenoParams}} for more details on the parameters.
 }
 \examples{
-# Load example data
-library(scater)
-data("sc_example_counts")
+if (requireNamespace("phenopath", quietly = TRUE)) {
+    # Load example data
+    library(scater)
+    data("sc_example_counts")
 
-params <- phenoEstimate(sc_example_counts)
-params
+    params <- phenoEstimate(sc_example_counts)
+    params
+}
 }

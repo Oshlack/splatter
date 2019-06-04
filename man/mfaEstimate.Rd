@@ -33,9 +33,11 @@ details on the parameters.
 }
 \examples{
 # Load example data
-library(scater)
-data("sc_example_counts")
+if (requireNamespace("mfa", quietly = TRUE)) {
+    library(scater)
+    data("sc_example_counts")
 
-params <- mfaEstimate(sc_example_counts)
-params
+    params <- mfaEstimate(sc_example_counts)
+    params
+}
 }

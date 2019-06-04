@@ -28,7 +28,9 @@ See \code{\link[BASiCS]{BASiCS_Sim}} for more details of how the simulation
 works.
 }
 \examples{
-sim <- BASiCSSimulate()
+if (requireNamespace("BASiCS", quietly = TRUE)) {
+    sim <- BASiCSSimulate()
+}
 }
 \references{
 Vallejos CA, Marioni JC, Richardson S. BASiCS: Bayesian Analysis of

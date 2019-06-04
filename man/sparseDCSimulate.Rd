@@ -31,8 +31,9 @@ See \code{\link[SparseDC]{sim_data}} and the SparseDC paper for
 more details about how the simulation works.
 }
 \examples{
-sim <- sparseDCSimulate()
-
+if (requireNamespace("SparseDC", quietly = TRUE)) {
+    sim <- sparseDCSimulate()
+}
 }
 \references{
 Campbell K, Yau C. Uncovering genomic trajectories with heterogeneous genetic

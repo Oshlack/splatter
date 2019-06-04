@@ -15,12 +15,14 @@
 #' @return PhenoParams object containing the estimated parameters.
 #'
 #' @examples
-#' # Load example data
-#' library(scater)
-#' data("sc_example_counts")
+#' if (requireNamespace("phenopath", quietly = TRUE)) {
+#'     # Load example data
+#'     library(scater)
+#'     data("sc_example_counts")
 #'
-#' params <- phenoEstimate(sc_example_counts)
-#' params
+#'     params <- phenoEstimate(sc_example_counts)
+#'     params
+#' }
 #' @export
 phenoEstimate <- function(counts, params = newPhenoParams()) {
     UseMethod("phenoEstimate")
