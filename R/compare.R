@@ -828,149 +828,120 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
 #' @export
 summariseDiff <- function(diff) {
 
-    datasets <- unique(diff$ColData$Dataset)
+    row.stats <- c(Mean = "RankDiffMeanLogCPM",
+                   Variance = "RankDiffVarLogCPM",
+                   ZerosGene = "RankDiffZeros",
+                   MeanVar = "MeanRankVarDiff",
+                   MeanZeros = "MeanRankZerosDiff")
 
-    rowData.mads <- sapply(datasets, function(dataset) {
-        df <- diff$RowData[diff$RowData$Dataset == dataset, ]
-        mean <- median(abs(df$RankDiffMeanLogCPM))
-        var <- median(abs(df$RankDiffVarLogCPM))
-        zeros <- median(abs(df$RankDiffZeros))
-        mean.var <- median(abs(df$MeanRankVarDiff))
-        mean.zeros <- median(abs(df$MeanRankZerosDiff))
-        return(c(Mean = mean, Variance = var, ZerosGene = zeros,
-                 MeanVar = mean.var, MeanZeros = mean.zeros))
-    })
-    rowData.mads.z <- t(scale(t(rowData.mads)))
+    row.mad <- summariseStats(diff$RowData, "Dataset", row.stats, "MAD")
+    row.mae <- summariseStats(diff$RowData, "Dataset", row.stats, "MAE")
+    row.rmse <- summariseStats(diff$RowData, "Dataset", row.stats, "RMSE")
 
-    colData.mads <- sapply(datasets, function(dataset) {
-        df <- diff$ColData[diff$ColData$Dataset == dataset, ]
-        lib.size <- median(abs(df$RankDiffLibSize))
-        zeros <- median(abs(df$RankDiffZeros))
-        return(c(LibSize = lib.size, ZerosCell = zeros))
-    })
-    colData.mads.z <- t(scale(t(colData.mads)))
+    row.list <- list(row.mad, row.mae, row.rmse)
+    row.list <- lapply(row.list, function(summ) {summ[, -c(1, 2)]})
+    row.summ <- data.frame(Dataset = row.mad$Dataset,
+                           Statistic = row.mad$Statistic)
+    row.list <- c(row.summ, row.list)
+    row.summ <- do.call("cbind", row.list)
 
-    mads <- data.frame(Dataset = datasets, t(rowData.mads), t(colData.mads))
-    mads.z <- data.frame(Dataset = datasets, t(rowData.mads.z),
-                         t(colData.mads.z))
+    col.stats <- c(LibSize = "RankDiffLibSize",
+                   ZerosCell = "RankDiffZeros")
 
-    rowData.ranks <- matrixStats::rowRanks(rowData.mads)
-    colData.ranks <- matrixStats::rowRanks(colData.mads)
+    col.mad <- summariseStats(diff$ColData, "Dataset", col.stats, "MAD")
+    col.mae <- summariseStats(diff$ColData, "Dataset", col.stats, "MAE")
+    col.rmse <- summariseStats(diff$ColData, "Dataset", col.stats, "RMSE")
 
-    ranks.mads <- data.frame(Dataset = datasets, t(rowData.ranks),
-                             t(colData.ranks))
-    colnames(ranks.mads) <- paste0(colnames(mads), "Rank")
+    col.list <- list(col.mad, col.mae, col.rmse)
+    col.list <- lapply(col.list, function(summ) {summ[, -c(1, 2)]})
+    col.summ <- data.frame(Dataset = col.mad$Dataset,
+                           Statistic = col.mad$Statistic)
+    col.list <- c(col.summ, col.list)
+    col.summ <- do.call("cbind", col.list)
 
-    rowData.maes <- sapply(datasets, function(dataset) {
-        df <- diff$RowData[diff$RowData$Dataset == dataset, ]
-        mean <- mean(abs(df$RankDiffMeanLogCPM))
-        var <- mean(abs(df$RankDiffVarLogCPM))
-        zeros <- mean(abs(df$RankDiffZeros))
-        mean.var <- mean(abs(df$MeanRankVarDiff))
-        mean.zeros <- mean(abs(df$MeanRankZerosDiff))
-        return(c(Mean = mean, Variance = var, ZerosGene = zeros,
-                 MeanVar = mean.var, MeanZeros = mean.zeros))
-    })
-    rowData.maes.z <- t(scale(t(rowData.maes)))
-
-    colData.maes <- sapply(datasets, function(dataset) {
-        df <- diff$ColData[diff$ColData$Dataset == dataset, ]
-        lib.size <- mean(abs(df$RankDiffLibSize))
-        zeros <- mean(abs(df$RankDiffZeros))
-        return(c(LibSize = lib.size, ZerosCell = zeros))
-    })
-    colData.maes.z <- t(scale(t(colData.maes)))
-
-    maes <- data.frame(Dataset = datasets, t(rowData.maes), t(colData.maes))
-    maes.z <- data.frame(Dataset = datasets, t(rowData.maes.z),
-                         t(colData.maes.z))
-
-    rowData.ranks <- matrixStats::rowRanks(rowData.maes)
-    colData.ranks <- matrixStats::rowRanks(colData.maes)
-
-    ranks.maes <- data.frame(Dataset = datasets, t(rowData.ranks), t(colData.ranks))
-    colnames(ranks.maes) <- paste0(colnames(mads), "Rank")
-
-    rowData.rmse <- sapply(datasets, function(dataset) {
-        df <- diff$RowData[diff$RowData$Dataset == dataset, ]
-        mean <- sqrt(mean(df$RankDiffMeanLogCPM ^ 2))
-        var <- sqrt(mean(df$RankDiffVarLogCPM ^ 2))
-        zeros <- sqrt(mean(df$RankDiffZeros ^ 2))
-        mean.var <- sqrt(mean(df$MeanRankVarDiff ^ 2))
-        mean.zeros <- sqrt(mean(df$MeanRankZerosDiff ^ 2))
-        return(c(Mean = mean, Variance = var, ZerosGene = zeros,
-                 MeanVar = mean.var, MeanZeros = mean.zeros))
-    })
-    rowData.rmse.z <- t(scale(t(rowData.rmse)))
-
-    colData.rmse <- sapply(datasets, function(dataset) {
-        df <- diff$ColData[diff$ColData$Dataset == dataset, ]
-        lib.size <- sqrt(mean(df$RankDiffLibSize ^ 2))
-        zeros <- sqrt(mean(df$RankDiffZeros ^ 2))
-        return(c(LibSize = lib.size, ZerosCell = zeros))
-    })
-    colData.rmse.z <- t(scale(t(colData.rmse)))
-
-    rmse <- data.frame(Dataset = datasets, t(rowData.rmse), t(colData.rmse))
-    rmse.z <- data.frame(Dataset = datasets, t(rowData.rmse.z),
-                         t(colData.rmse.z))
-
-    rowData.ranks <- matrixStats::rowRanks(rowData.rmse)
-    colData.ranks <- matrixStats::rowRanks(colData.rmse)
-
-    ranks.rmse <- data.frame(Dataset = datasets, t(rowData.ranks),
-                             t(colData.ranks))
-    colnames(ranks.rmse) <- paste0(colnames(rmse), "Rank")
-
-    mads <- stats::reshape(mads, varying = 2:8, direction = "long",
-                           idvar = "Dataset", timevar = "Statistic",
-                           times = colnames(mads)[2:8], v.names = "MAD")
-
-    mads.z <- stats::reshape(mads.z, varying = 2:8, direction = "long",
-                             idvar = "Dataset", timevar = "Statistic",
-                             times = colnames(mads)[2:8],
-                             v.names = "MADScaled")
-
-    ranks.mads <- stats::reshape(ranks.mads, varying = 2:8, direction = "long",
-                                 idvar = "Dataset", timevar = "Statistic",
-                                 times = colnames(ranks.mads)[2:8],
-                                 v.names = "Rank")
-
-    maes <- stats::reshape(maes, varying = 2:8, direction = "long",
-                           idvar = "Dataset", timevar = "Statistic",
-                           times = colnames(maes)[2:8], v.names = "MAE")
-
-    maes.z <- stats::reshape(maes.z, varying = 2:8, direction = "long",
-                             idvar = "Dataset", timevar = "Statistic",
-                             times = colnames(mads)[2:8],
-                             v.names = "MAEScaled")
-
-    ranks.maes <- stats::reshape(ranks.maes, varying = 2:8, direction = "long",
-                                 idvar = "Dataset", timevar = "Statistic",
-                                 times = colnames(ranks.maes)[2:8],
-                                 v.names = "Rank")
-
-    rmse <- stats::reshape(rmse, varying = 2:8, direction = "long",
-                           idvar = "Dataset", timevar = "Statistic",
-                           times = colnames(mads)[2:8], v.names = "RMSE")
-
-    rmse.z <- stats::reshape(rmse.z, varying = 2:8, direction = "long",
-                             idvar = "Dataset", timevar = "Statistic",
-                             times = colnames(mads)[2:8],
-                             v.names = "RMSEScaled")
-
-    ranks.rmse <- stats::reshape(ranks.rmse, varying = 2:8, direction = "long",
-                                 idvar = "Dataset", timevar = "Statistic",
-                                 times = colnames(ranks.rmse)[2:8],
-                                 v.names = "Rank")
-
-    summary <- data.frame(mads, MADScaled = mads.z$MADScaled,
-                          MADRank = ranks.mads$Rank,
-                          MAE = maes$MAE, MAEScaled = maes.z$MAEScaled,
-                          MAERank = ranks.maes$Rank,
-                          RMSE = rmse$RMSE, RMSEScaled = rmse.z$RMSEScaled,
-                          RMSERank = ranks.rmse$Rank)
-    row.names(summary) <- NULL
+    summary <- rbind(row.summ, col.summ)
 
     return(summary)
 }
+
+#' Summarise statistics
+#'
+#' Summarise columns of a data.frame using a single measure.
+#'
+#' @param data The data.frame to summarise
+#' @param split.col Name of the column used to split the dataset
+#' @param stat.cols Names of the columns to summarise. If this vector is named
+#' those names will be used in the output.
+#' @param measure The measure to use for summarisation.
+#'
+#' @return data.frame with the summarised measure, scaled and ranked
+#'
+#' @importFrom stats aggregate
+summariseStats <- function(data, split.col, stat.cols,
+                           measure = c("MAD", "MAE", "RMSE")) {
+
+    measure <- match.arg(measure)
+
+    if (is.null(names(stat.cols))) {
+        names(stat.cols) <- stat.cols
+    }
+
+    switch (measure,
+            "MAD" = {
+                measure_fun <- function(x) {median(abs(x))}
+            },
+            "MAE" = {
+                measure_fun <- function(x) {mean(abs(x))}
+            },
+            "RMSE" = {
+                measure_fun <- function(x) {sqrt(mean(abs(x ^ 2)))}
+            }
+    )
+
+    summ <- aggregate(data[, stat.cols], list(Dataset = data[[split.col]]),
+                      measure_fun)
+    colnames(summ) <- c(split.col, names(stat.cols))
+
+    tidy.summ <- tidyStatSumm(summ, measure)
+
+    return(tidy.summ)
+}
+
+#' Tidy summarised statistics
+#'
+#' Convert a statistic summary to tidy format and add ranks and scaled values
+#'
+#' @param stat.summ The summary to convert
+#' @param measure The name of the summarisation measure
+#'
+#' @return tidy data.frame with the summarised measure, scaled and ranked
+tidyStatSumm <- function(stat.summ, measure = c("MAD", "MAE", "RMSE")) {
+
+    measure <- match.arg(measure)
+
+    summ.mat <- t(stat.summ[, -1])
+    colnames(summ.mat) <- stat.summ[, 1]
+
+    scale.summ <- apply(summ.mat, 1, scale)
+    # Check if apply has returned a vector
+    if (is.vector(scale.summ)) {
+        scale.summ <- t(as.matrix(scale.summ))
+    }
+
+    rank.summ <- apply(summ.mat, 1, rank)
+    if (is.vector(rank.summ)) {
+        rank.summ <- t(as.matrix(rank.summ))
+    }
+
+    tidy.summ <- as.data.frame.table(t(summ.mat))
+    colnames(tidy.summ) <- c("Dataset", "Statistic", measure)
+
+    tidy.scale <- as.data.frame.table(scale.summ)
+    tidy.rank <- as.data.frame.table(rank.summ)
+
+    tidy.summ[[paste0(measure, "Scaled")]] <- tidy.scale[, 3]
+    tidy.summ[[paste0(measure, "Rank")]] <- tidy.rank[, 3]
+
+    return(tidy.summ)
+}
+
