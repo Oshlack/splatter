@@ -25,7 +25,9 @@
 #' Code: \url{https://github.com/catavallejos/BASiCS}
 #'
 #' @examples
-#' sim <- BASiCSSimulate()
+#' if (requireNamespace("BASiCS", quietly = TRUE)) {
+#'     sim <- BASiCSSimulate()
+#' }
 #' @export
 BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
 

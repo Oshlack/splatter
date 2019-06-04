@@ -46,14 +46,16 @@ input data. The counts are preprocessed using
 See \code{\link{SparseDCParams}} for more details on the parameters.
 }
 \examples{
-# Load example data
-library(scater)
-data("sc_example_counts")
+if (requireNamespace("SparseDC", quietly = TRUE)) {
+    # Load example data
+    library(scater)
+    data("sc_example_counts")
 
-set.seed(1)
-conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
+    set.seed(1)
+    conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
 
-params <- sparseDCEstimate(sc_example_counts[1:500, ], conditions,
-                           nclusters = 3)
-params
+    params <- sparseDCEstimate(sc_example_counts[1:500, ], conditions,
+                               nclusters = 3)
+    params
+}
 }

@@ -31,8 +31,9 @@
 #' Paper: \url{10.1093/nar/gkx1113}
 #'
 #' @examples
-#' sim <- sparseDCSimulate()
-#'
+#' if (requireNamespace("SparseDC", quietly = TRUE)) {
+#'     sim <- sparseDCSimulate()
+#' }
 #' @export
 #' @importFrom SingleCellExperiment SingleCellExperiment
 sparseDCSimulate <- function(params = newSparseDCParams(),

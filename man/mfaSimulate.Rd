@@ -29,7 +29,9 @@ output from log-expression to counts and returns a
 how the simulation works.
 }
 \examples{
-sim <- mfaSimulate()
+if (requireNamespace("mfa", quietly = TRUE)) {
+    sim <- mfaSimulate()
+}
 }
 \references{
 Campbell KR, Yau C. Probabilistic modeling of bifurcations in single-cell
