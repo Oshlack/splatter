@@ -214,6 +214,15 @@
     <loc>http://oshlack.github.io/splatter/reference/summariseDiff.html</loc>
   </url>
   <url>
+    <loc>http://oshlack.github.io/splatter/reference/summariseKS.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/summariseStats.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/tidyStatSumm.html</loc>
+  </url>
+  <url>
     <loc>http://oshlack.github.io/splatter/reference/winsorize.html</loc>
   </url>
   <url>

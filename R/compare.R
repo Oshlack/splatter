@@ -826,6 +826,7 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
 #' summary <- summariseDiff(difference)
 #' head(summary)
 #' @export
+#' @importFrom SummarizedExperiment rowData
 summariseDiff <- function(diff) {
 
     row.stats <- c(Mean = "RankDiffMeanLogCPM",
@@ -834,11 +835,20 @@ summariseDiff <- function(diff) {
                    MeanVar = "MeanRankVarDiff",
                    MeanZeros = "MeanRankZerosDiff")
 
+    row.ks.stats <- c(Mean = "MeanLogCPM",
+                      Variance = "VarLogCPM",
+                      ZerosGene = "pct_dropout_by_counts",
+                      MeanVar = NA,
+                      MeanZeros = NA)
+
     row.mad <- summariseStats(diff$RowData, "Dataset", row.stats, "MAD")
     row.mae <- summariseStats(diff$RowData, "Dataset", row.stats, "MAE")
     row.rmse <- summariseStats(diff$RowData, "Dataset", row.stats, "RMSE")
+    row.ks <- summariseKS(diff$RowData,
+                          SummarizedExperiment::rowData(diff$Reference),
+                          "Dataset", row.ks.stats)
 
-    row.list <- list(row.mad, row.mae, row.rmse)
+    row.list <- list(row.mad, row.mae, row.rmse, row.ks)
     row.list <- lapply(row.list, function(summ) {summ[, -c(1, 2)]})
     row.summ <- data.frame(Dataset = row.mad$Dataset,
                            Statistic = row.mad$Statistic)
@@ -848,11 +858,17 @@ summariseDiff <- function(diff) {
     col.stats <- c(LibSize = "RankDiffLibSize",
                    ZerosCell = "RankDiffZeros")
 
+    col.ks.stats <- c(LibSize = "total_counts",
+                      ZerosCell = "PctZero")
+
     col.mad <- summariseStats(diff$ColData, "Dataset", col.stats, "MAD")
     col.mae <- summariseStats(diff$ColData, "Dataset", col.stats, "MAE")
     col.rmse <- summariseStats(diff$ColData, "Dataset", col.stats, "RMSE")
+    col.ks <- summariseKS(diff$ColData,
+                          SummarizedExperiment::colData(diff$Reference),
+                          "Dataset", col.ks.stats)
 
-    col.list <- list(col.mad, col.mae, col.rmse)
+    col.list <- list(col.mad, col.mae, col.rmse, col.ks)
     col.list <- lapply(col.list, function(summ) {summ[, -c(1, 2)]})
     col.summ <- data.frame(Dataset = col.mad$Dataset,
                            Statistic = col.mad$Statistic)
@@ -905,6 +921,58 @@ summariseStats <- function(data, split.col, stat.cols,
     tidy.summ <- tidyStatSumm(summ, measure)
 
     return(tidy.summ)
+}
+
+#' Summarise KS
+#'
+#' Summarise columns of a data.frame compared to a referenc using the KS test.
+#'
+#' @param data The data.frame to summarise
+#' @param ref The reference data.frame
+#' @param split.col Name of the column used to split the dataset
+#' @param stat.cols Names of the columns to summarise. If this vector is named
+#' those names will be used in the output.
+#'
+#' @return data.frame with the summarised measure, scaled and ranked
+#' @importFrom stats ks.test
+summariseKS <- function(data, ref, split.col, stat.cols) {
+
+    if (is.null(names(stat.cols))) {
+        names(stat.cols) <- stat.cols
+    }
+
+    splits <- unique(data[[split.col]])
+
+    summ <- expand.grid(Dataset = splits, Statistic = names(stat.cols),
+                        stringsAsFactors = FALSE)
+
+    ks.res <- mapply(function(split, stat.name) {
+        stat <- stat.cols[stat.name]
+        if (!is.na(stat)) {
+            data.stat <- data[data[[split.col]] == split, stat]
+            ref.stat <- ref[[stat]]
+
+            ks <- suppressWarnings(ks.test(ref.stat, data.stat))
+            ks.out <- c(KS = unname(ks$statistic), KSPVal = ks$p.value)
+        } else {
+            ks.out <- c(KS = NA, KSPVal = NA)
+        }
+
+        return(ks.out)
+    }, summ$Dataset, summ$Statistic)
+
+    summ$KS <- ks.res["KS", ]
+    summ$KSPVal <- ks.res["KSPVal", ]
+
+    ks.ranks <- lapply(split(summ, summ$Statistic), function(x) {
+        rank(x$KS)
+    })
+    ks.ranks <- unlist(ks.ranks)
+
+    summ$KSRank <- ks.ranks
+    summ$KSRank[is.na(summ$KS)] <- NA
+
+    return(summ)
 }
 
 #' Tidy summarised statistics

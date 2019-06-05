@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BASiCS simulation — BASiCSSimulate • Splatter</title>
+<title>Tidy summarised statistics — tidyStatSumm • Splatter</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="BASiCS simulation — BASiCSSimulate" />
+<meta property="og:title" content="Tidy summarised statistics — tidyStatSumm" />
 
-<meta property="og:description" content="Simulate counts using the BASiCS method." />
+<meta property="og:description" content="Convert a statistic summary to tidy format and add ranks and scaled values" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -129,61 +129,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>BASiCS simulation</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Oshlack/splatter/blob/master/R/BASiCS-simulate.R'><code>R/BASiCS-simulate.R</code></a></small>
-    <div class="hidden name"><code>BASiCSSimulate.Rd</code></div>
+    <h1>Tidy summarised statistics</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Oshlack/splatter/blob/master/R/compare.R'><code>R/compare.R</code></a></small>
+    <div class="hidden name"><code>tidyStatSumm.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Simulate counts using the BASiCS method.</p>
+    <p>Convert a statistic summary to tidy format and add ranks and scaled values</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>BASiCSSimulate</span>(<span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newBASiCSParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>tidyStatSumm</span>(<span class='no'>stat.summ</span>, <span class='kw'>measure</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"MAD"</span>, <span class='st'>"MAE"</span>, <span class='st'>"RMSE"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>params</th>
-      <td><p>BASiCSParams object containing simulation parameters.</p></td>
+      <th>stat.summ</th>
+      <td><p>The summary to convert</p></td>
     </tr>
     <tr>
-      <th>verbose</th>
-      <td><p>logical. Whether to print progress messages</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>any additional parameter settings to override what is provided in
-<code>params</code>.</p></td>
+      <th>measure</th>
+      <td><p>The name of the summarisation measure</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>SingleCellExperiment containing simulated counts</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>This function is just a wrapper around <code><a href='https://www.rdocumentation.org/packages/BASiCS/topics/BASiCS_Sim'>BASiCS_Sim</a></code> that
-takes a <code><a href='BASiCSParams.html'>BASiCSParams</a></code>, runs the simulation then converts the
-output to a <code><a href='https://www.rdocumentation.org/packages/SingleCellExperiment/topics/SingleCellExperiment'>SingleCellExperiment</a></code> object.
-See <code><a href='https://www.rdocumentation.org/packages/BASiCS/topics/BASiCS_Sim'>BASiCS_Sim</a></code> for more details of how the simulation
-works.</p>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Vallejos CA, Marioni JC, Richardson S. BASiCS: Bayesian Analysis of
-Single-Cell Sequencing data. PLoS Computational Biology (2015).</p>
-<p>Paper: <a href='10.1371/journal.pcbi.1004333'>10.1371/journal.pcbi.1004333</a></p>
-<p>Code: <a href='https://github.com/catavallejos/BASiCS'>https://github.com/catavallejos/BASiCS</a></p>
+    <p>tidy data.frame with the summarised measure, scaled and ranked</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace</a></span>(<span class='st'>"BASiCS"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
-    <span class='no'>sim</span> <span class='kw'>&lt;-</span> <span class='fu'>BASiCSSimulate</span>()
-}</div><div class='output co'>#&gt; <span class='message'>Getting parameters...</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Number of gene.params not equal to nGenes, gene.params will be sampled.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Number of cell.params not equal to nCells, cell.params will be sampled.</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts with BASiCS...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -191,13 +167,7 @@ Single-Cell Sequencing data. PLoS Computational Biology (2015).</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
