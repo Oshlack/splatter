@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.1</span>
       </span>
     </div>
 
@@ -177,16 +177,18 @@ details on the parameters.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>scater</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"sc_example_counts"</span>)
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace</a></span>(<span class='st'>"mfa"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+    <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>scater</span>)
+    <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"sc_example_counts"</span>)
 
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>mfaEstimate</span>(<span class='no'>sc_example_counts</span>)
-<span class='no'>params</span></div><div class='output co'>#&gt; A <span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>MFAParams</span><span> 
+    <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>mfaEstimate</span>(<span class='no'>sc_example_counts</span>)
+    <span class='no'>params</span>
+}</div><div class='output co'>#&gt; A <span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>MFAParams</span><span> 
 #&gt; Parameters can be (estimable) or </span><span style='color: #0000BB;'>[not estimable],</span><span> 'Default' or  </span><span style='color: #00BB00;font-weight: bold;'>'NOT DEFAULT'</span><span> 
 #&gt; 
 #&gt; </span><span style='font-weight: bold;'>Global:</span><span> 
 #&gt; </span><span style='font-weight: bold;'>(GENES)</span><span>  </span><span style='font-weight: bold;'>(CELLS)</span><span>  </span><span style='color: #0000BB;'> [Seed]</span><span> 
-#&gt; </span><span style='color: #00BB00;font-weight: bold;'>   2000</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>     40</span><span>    74391 
+#&gt; </span><span style='color: #00BB00;font-weight: bold;'>   2000</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>     40</span><span>    42837 
 #&gt; 
 #&gt; 4 additional parameters 
 #&gt; 
@@ -200,7 +202,7 @@ details on the parameters.</p>
 #&gt; 
 #&gt; </span><span style='font-weight: bold;'>Dropout:</span><span> 
 #&gt; </span><span style='color: #0000BB;'>          [Present]</span><span>  </span><span style='font-weight: bold;'>           (LAMBDA)</span><span> 
-#&gt;               FALSE  </span><span style='color: #00BB00;font-weight: bold;'>0.00352186230722432</span><span> 
+#&gt;               FALSE  </span><span style='color: #00BB00;font-weight: bold;'>0.00352186231063193</span><span> 
 #&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

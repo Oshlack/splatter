@@ -1,3 +1,10 @@
+## Version 1.9.1 (2019-06-05)
+
+* Refactor the summariseDiff function
+* Add the KS statistic to summariseDiff
+* Set gam method for fitted lines in comparison plots
+* Add checks for suggested packages in examples
+
 ## Version 1.9.0 (2019-05-03)
 
 * Bioconductor 3.10 devel
@@ -31,7 +38,7 @@
 
 ## Version 1.7.0 (2018-11-01)
 
- * Bioconductor 3.9 devel
+* Bioconductor 3.9 devel
 
 ## Version 1.6.1 (2018-12-06)
 
