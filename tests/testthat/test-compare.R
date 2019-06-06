@@ -12,9 +12,9 @@ test_that("compareSCEs works", {
                         names(comparison)))
     checkmate::expect_class(comparison$ColData, "data.frame")
     checkmate::expect_class(comparison$RowData, "data.frame")
-    expect_length(comparison$Plots, 7)
+    expect_length(comparison$Plots, 8)
     expect_true(all(c("Means", "Variances", "MeanVar", "LibrarySizes",
-                      "ZerosGene", "ZerosCell", "MeanZeros") %in%
+                      "ZerosGene", "ZerosCell", "MeanZeros", "VarGeneCor") %in%
                         names(comparison$Plots)))
     for (plot in names(comparison$Plots)) {
         checkmate::expect_class(comparison$Plots[[plot]], "ggplot")
