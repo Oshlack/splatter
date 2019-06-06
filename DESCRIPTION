@@ -41,7 +41,8 @@ Imports:
     stats,
     SummarizedExperiment,
     utils,
-    crayon
+    crayon,
+    S4Vectors
 Suggests:
     BiocStyle,
     covr,
@@ -53,7 +54,6 @@ Suggests:
     pscl,
     testthat,
     rmarkdown,
-    S4Vectors,
     scDD,
     scran,
     mfa,

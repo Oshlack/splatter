@@ -50,9 +50,12 @@
 #' names(comparison)
 #' names(comparison$Plots)
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_smooth geom_boxplot
-#' scale_y_continuous scale_y_log10 scale_x_log10 xlab ylab ggtitle
-#' theme_minimal scale_colour_manual scale_fill_manual
-#' @importFrom SingleCellExperiment cpm<-
+#' geom_tile scale_y_continuous scale_y_log10 scale_x_log10 scale_colour_manual
+#' scale_fill_manual scale_fill_distiller coord_fixed facet_wrap xlab ylab
+#' ggtitle theme_minimal
+#' @importFrom S4Vectors metadata<- metadata
+#' @importFrom SingleCellExperiment cpm<- cpm
+#' @importFrom stats cor
 #' @export
 compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
                         fits = TRUE, colours = NULL) {
@@ -81,22 +84,37 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
         n.features <- colData(sce)$total_features_by_counts
         colData(sce)$PctZero <- 100 * (1 - n.features / nrow(sce))
+
+        var.genes <- rev(order(rowData(sce)$VarLogCPM))[1:100]
+        var.cpm <- log2(cpm(sce)[var.genes, ] + 1)
+        var.cors <- as.data.frame.table(cor(t(var.cpm), method = "spearman"))
+        colnames(var.cors) <- c("GeneA", "GeneB", "Correlation")
+        var.cors$VarGeneA <- rep(paste0("VarGene", 1:100), 100)
+        var.cors$VarGeneB <- rep(paste0("VarGene", 1:100), each = 100)
+        var.cors$Dataset <- name
+        var.cors <- var.cors[, c("Dataset", "GeneA", "GeneB", "VarGeneA",
+                                 "VarGeneB", "Correlation")]
+        metadata(sce)$VarGeneCorrelation <- var.cors
+
         sces[[name]] <- sce
     }
 
     features <- rowData(sces[[1]])
     cells <- colData(sces[[1]])
+    var.cors <- metadata(sces[[1]])$VarGeneCorrelation
 
     if (length(sces) > 1) {
         for (name in names(sces)[-1]) {
             sce <- sces[[name]]
             features <- rbindMatched(features, rowData(sce))
             cells <- rbindMatched(cells, colData(sce))
+            var.cors <- rbindMatched(var.cors, metadata(sce)$VarGeneCorrelation)
         }
     }
 
     features$Dataset <- factor(features$Dataset, levels = names(sces))
     cells$Dataset <- factor(cells$Dataset, levels = names(sces))
+    var.cors$Dataset <- factor(var.cors$Dataset, levels = names(sces))
     features <- data.frame(features)
     cells <- data.frame(cells)
 
@@ -172,6 +190,18 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         ggtitle("Mean-zeros relationship") +
         theme_minimal()
 
+    var.correlation <- ggplot(var.cors,
+                              aes_string(x = "VarGeneA", y = "VarGeneB",
+                                         fill = "Correlation")) +
+        geom_tile() +
+        scale_fill_distiller(palette = "RdBu", limits = c(-1, 1)) +
+        coord_fixed() +
+        facet_wrap(~ Dataset) +
+        ggtitle("Correlation - 100 variable genes") +
+        theme_minimal() +
+        theme(axis.title = element_blank(),
+              axis.text = element_blank())
+
     if (fits) {
         mean.var <- mean.var + geom_smooth(method = "gam",
                                            formula = y ~ s(x, bs = "cs"))
@@ -187,7 +217,8 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
                                     LibrarySizes = libs,
                                     ZerosGene = z.gene,
                                     ZerosCell = z.cell,
-                                    MeanZeros = mean.zeros))
+                                    MeanZeros = mean.zeros,
+                                    VarGeneCor = var.correlation))
 
     return(comparison)
 }
