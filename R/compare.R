@@ -32,6 +32,8 @@
 #'             that is zero.}
 #'             \item{\code{MeanZeros}}{Scatter plot with fitted lines showing
 #'             the mean-zeros relationship.}
+#'             \item{\code{VarGeneCor}}{Heatmap of correlation of the 100 most
+#'             variable genes.}
 #'     }
 #'   }
 #' }
@@ -752,7 +754,7 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
 #' \dontrun{
 #' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
-#' comparison <- compSCEs(list(Splat = sim1, Simple = sim2))
+#' comparison <- compareSCEs(list(Splat = sim1, Simple = sim2))
 #' difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
 #' panel <- makeOverallPanel(comparison, difference)
 #' }
@@ -844,8 +846,9 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
 #' Summarise diffSCESs
 #'
 #' Summarise the results of \code{\link{diffSCEs}}. Calculates the Median
-#' Absolute Deviation (MAD), Mean Absolute Error (MAE) and Root Mean Squared
-#' Error (RMSE) for the various properties and ranks them.
+#' Absolute Deviation (MAD), Mean Absolute Error (MAE), Root Mean Squared
+#' Error (RMSE) and Kolmogorov-Smirnov (KS) statistics for the various
+#' properties and ranks them.
 #'
 #' @param diff Output from \code{\link{diffSCEs}}
 #'

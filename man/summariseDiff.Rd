@@ -14,8 +14,9 @@ data.frame with MADs, MAEs, RMSEs, scaled statistics and ranks
 }
 \description{
 Summarise the results of \code{\link{diffSCEs}}. Calculates the Median
-Absolute Deviation (MAD), Mean Absolute Error (MAE) and Root Mean Squared
-Error (RMSE) for the various properties and ranks them.
+Absolute Deviation (MAD), Mean Absolute Error (MAE), Root Mean Squared
+Error (RMSE) and Kolmogorov-Smirnov (KS) statistics for the various
+properties and ranks them.
 }
 \examples{
 sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
