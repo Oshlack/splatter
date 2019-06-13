@@ -48,6 +48,8 @@ The returned list has three items:
             that is zero.}
             \item{\code{MeanZeros}}{Scatter plot with fitted lines showing
             the mean-zeros relationship.}
+            \item{\code{VarGeneCor}}{Heatmap of correlation of the 100 most
+            variable genes.}
     }
   }
 }

@@ -1,3 +1,7 @@
+## Version 1.9.2 (2019-06-13)
+
+* Add variable gene correlation plot to compareSCEs
+
 ## Version 1.9.1 (2019-06-05)
 
 * Refactor the summariseDiff function
