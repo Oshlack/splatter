@@ -76,6 +76,8 @@ showPP <- function(params, pp) {
         not.default <- sapply(seq_along(values), function(i) {
             !identical(values[i], default.values[i])
         })
+        null.values <- sapply(values, is.null)
+        values[null.values] <- "Not set"
 
         cat(crayon::bold(category), "\n")
         if (sum(!is.df) > 0) {
@@ -88,9 +90,9 @@ showPP <- function(params, pp) {
     }
 }
 
-#' Show vales
+#' Show values
 #'
-#' Function used for pretty printing scale or vector parameters.
+#' Function used for pretty printing scalar or vector parameters.
 #'
 #' @param values list of values to show.
 #' @param not.default logical vector giving which have changed from the default.

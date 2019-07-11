@@ -63,11 +63,11 @@ setClass("SimpleParams",
 
 #' The SplatParams class
 #'
-#' S4 class that holds parameters for the Splatter simulation.
+#' S4 class that holds parameters for the Splat simulation.
 #'
 #' @section Parameters:
 #'
-#' The Splatter simulation requires the following parameters:
+#' The Splat simulation requires the following parameters:
 #'
 #' \describe{
 #'     \item{\code{nGenes}}{The number of genes to simulate.}
@@ -189,7 +189,7 @@ setClass("SimpleParams",
 #' }
 #'
 #' The parameters not shown in brackets can be estimated from real data using
-#' \code{\link{splatEstimate}}. For details of the Splatter simulation
+#' \code{\link{splatEstimate}}. For details of the Splat simulation
 #' see \code{\link{splatSimulate}}.
 #'
 #' @name SplatParams
@@ -254,6 +254,37 @@ setClass("SplatParams",
                                path.skew = 0.5,
                                path.nonlinearProb = 0.1,
                                path.sigmaFac = 0.8))
+
+#' The SplotchParams class
+#'
+#' S4 class that holds parameters for the Splotch simulation.
+#'
+#' @section Parameters:
+#'
+#' The Splotch simulation uses the following parameters:
+#'
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\code{[network.graph]}}{Graph containing the gene network.}
+#'     \item{\code{[network.nRegs]}}{Number of regulators in a the network.}
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{splotchEstimate}}. For details of the Splotch simulation
+#' see \code{\link{splotchSimulate}}.
+#'
+#' @name SplotchParams
+#' @rdname SplotchParams
+#' @aliases SplotchParams-class
+#' @exportClass SplotchParams
+setClass("SplotchParams",
+         contains = "Params",
+         slots = c(network.graph = "ANY",
+                   network.nRegs = "numeric"),
+         prototype = prototype(network.graph = NULL,
+                               network.nRegs = 100))
 
 #' The LunParams class
 #'
