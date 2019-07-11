@@ -1,3 +1,7 @@
+### Version 1.9.2.9000 (2019-07-11)
+
+* Add SplotchParams object
+
 ## Version 1.9.2 (2019-06-13)
 
 * Add variable gene correlation plot to compareSCEs
