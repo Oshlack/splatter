@@ -76,8 +76,10 @@ showPP <- function(params, pp) {
         not.default <- sapply(seq_along(values), function(i) {
             !identical(values[i], default.values[i])
         })
-        null.values <- sapply(values, is.null)
-        values[null.values] <- "Not set"
+        empty.values <- sapply(values, function(x) {
+            is.null(x) || length(x) == 0
+        })
+        values[empty.values] <- "Not set"
 
         cat(crayon::bold(category), "\n")
         if (sum(!is.df) > 0) {

@@ -267,8 +267,22 @@ setClass("SplatParams",
 #'     \item{\code{nGenes}}{The number of genes to simulate.}
 #'     \item{\code{nCells}}{The number of cells to simulate.}
 #'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
-#'     \item{\code{[network.graph]}}{Graph containing the gene network.}
-#'     \item{\code{[network.nRegs]}}{Number of regulators in a the network.}
+#'     \item{\emph{Mean parameters}}{
+#'         \describe{
+#'             \item{\code{mean.shape}}{Shape parameter for the mean gamma
+#'             distribution.}
+#'             \item{\code{mean.rate}}{Rate parameter for the mean gamma
+#'             distribution.}
+#'             \item{\code{mean.values}}{Vector of means for each gene.}
+#'         }
+#'     }
+#'     \item{\emph{Network parameters}}{
+#'         \describe{
+#'             \item{\code{[network.graph]}}{Graph containing the gene network.}
+#'             \item{\code{[network.nRegs]}}{Number of regulators in the
+#'             network.}
+#'         }
+#'     }
 #' }
 #'
 #' The parameters not shown in brackets can be estimated from real data using
@@ -281,10 +295,18 @@ setClass("SplatParams",
 #' @exportClass SplotchParams
 setClass("SplotchParams",
          contains = "Params",
-         slots = c(network.graph = "ANY",
-                   network.nRegs = "numeric"),
-         prototype = prototype(network.graph = NULL,
-                               network.nRegs = 100))
+         slots = c(mean.shape = "numeric",
+                   mean.rate = "numeric",
+                   mean.values = "numeric",
+                   network.graph = "ANY",
+                   network.nRegs = "numeric",
+                   network.regsSet = "logical"),
+         prototype = prototype(mean.rate = 0.3,
+                               mean.shape = 0.6,
+                               mean.values = numeric(),
+                               network.graph = NULL,
+                               network.nRegs = 100,
+                               network.regsSet = FALSE))
 
 #' The LunParams class
 #'

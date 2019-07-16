@@ -17,8 +17,22 @@ The Splotch simulation uses the following parameters:
     \item{\code{nGenes}}{The number of genes to simulate.}
     \item{\code{nCells}}{The number of cells to simulate.}
     \item{\code{[seed]}}{Seed to use for generating random numbers.}
-    \item{\code{[network.graph]}}{Graph containing the gene network.}
-    \item{\code{[network.nRegs]}}{Number of regulators in a the network.}
+    \item{\emph{Mean parameters}}{
+        \describe{
+            \item{\code{mean.shape}}{Shape parameter for the mean gamma
+            distribution.}
+            \item{\code{mean.rate}}{Rate parameter for the mean gamma
+            distribution.}
+            \item{\code{mean.values}}{Vector of means for each gene.}
+        }
+    }
+    \item{\emph{Network parameters}}{
+        \describe{
+            \item{\code{[network.graph]}}{Graph containing the gene network.}
+            \item{\code{[network.nRegs]}}{Number of regulators in the
+            network.}
+        }
+    }
 }
 
 The parameters not shown in brackets can be estimated from real data using

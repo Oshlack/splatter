@@ -6,12 +6,12 @@
 \alias{SplatParams-class}
 \title{The SplatParams class}
 \description{
-S4 class that holds parameters for the Splatter simulation.
+S4 class that holds parameters for the Splat simulation.
 }
 \section{Parameters}{
 
 
-The Splatter simulation requires the following parameters:
+The Splat simulation requires the following parameters:
 
 \describe{
     \item{\code{nGenes}}{The number of genes to simulate.}
@@ -133,7 +133,7 @@ The Splatter simulation requires the following parameters:
 }
 
 The parameters not shown in brackets can be estimated from real data using
-\code{\link{splatEstimate}}. For details of the Splatter simulation
+\code{\link{splatEstimate}}. For details of the Splat simulation
 see \code{\link{splatSimulate}}.
 }
 
