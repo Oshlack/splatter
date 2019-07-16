@@ -2,7 +2,7 @@
 % Please edit documentation in R/AllGenerics.R, R/BASiCSParams-methods.R,
 %   R/Lun2Params-methods.R, R/LunParams-methods.R, R/Params-methods.R,
 %   R/PhenoParams-methods.R, R/SCDDParams-methods.R, R/SplatParams-methods.R,
-%   R/ZINBParams-methods.R
+%   R/SplotchParams-methods.R, R/ZINBParams-methods.R
 \docType{methods}
 \name{setParam}
 \alias{setParam}
@@ -13,6 +13,7 @@
 \alias{setParam,PhenoParams-method}
 \alias{setParam,SCDDParams-method}
 \alias{setParam,SplatParams-method}
+\alias{setParam,SplotchParams-method}
 \alias{setParam,ZINBParams-method}
 \title{Set a parameter}
 \usage{
@@ -31,6 +32,8 @@ setParam(object, name, value)
 \S4method{setParam}{SCDDParams}(object, name, value)
 
 \S4method{setParam}{SplatParams}(object, name, value)
+
+\S4method{setParam}{SplotchParams}(object, name, value)
 
 \S4method{setParam}{ZINBParams}(object, name, value)
 }

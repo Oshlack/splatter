@@ -1,3 +1,7 @@
+### Version 1.9.2.9001 (2019-07-16)
+
+* Add mean parameters
+
 ### Version 1.9.2.9000 (2019-07-11)
 
 * Add SplotchParams object
