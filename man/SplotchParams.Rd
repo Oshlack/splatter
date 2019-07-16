@@ -33,6 +33,13 @@ The Splotch simulation uses the following parameters:
             network.}
         }
     }
+    \item{\emph{Paths parameters}}{
+        \describe{
+            \item{\code{[paths.programs]}}{Number of expression programs.}
+            \item{\code{[paths.design]}}{data.frame describing path
+            structure.}
+        }
+    }
 }
 
 The parameters not shown in brackets can be estimated from real data using

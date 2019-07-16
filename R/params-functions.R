@@ -122,14 +122,18 @@ showValues <- function(values, not.default) {
     items.per.line <- floor(screen.width / (max.len + 2))
 
     short.names <- names(short.values)
-    short.values <- crayon::col_align(short.values, max.len, "right")
-    short.names <- crayon::col_align(short.names, max.len, "right")
-
     not.est <- !grepl("\\(", short.names)
+    secondary <- grepl("\\*", short.names)
+    short.names <- gsub("\\*", "", short.names)
+
     short.names[not.est] <- crayon::blue(short.names[not.est])
+    short.names[secondary] <- crayon::bgYellow(short.names[secondary])
     short.names[not.default] <- crayon::bold(short.names[not.default])
     short.values[not.default] <- crayon::green(short.values[not.default])
     short.values[not.default] <- crayon::bold(short.values[not.default])
+
+    short.values <- crayon::col_align(short.values, max.len, "right")
+    short.names <- crayon::col_align(short.names, max.len, "right")
 
     names(short.values) <- short.names
 
@@ -177,6 +181,8 @@ showDFs <- function(dfs, not.default) {
         cat(paste0("\n", name, "\n"))
         cat(msg, "\n")
         print(head(df, n = 4))
-        cat("# ... with", nrow(df) - 4, "more rows\n")
+        if (nrow(df) > 4) {
+            cat("# ... with", nrow(df) - 4, "more rows\n")
+        }
     }
 }
