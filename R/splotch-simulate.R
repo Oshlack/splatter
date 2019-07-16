@@ -45,6 +45,7 @@ splotchSimulate <- function(params = newSplotchParams(), verbose = TRUE, ...) {
         if (verbose) {message("Using selected regulators...")}
     }
 
+    # Generate means
     if (length(getParam(params, "mean.values")) == 0) {
         if (verbose) {message("Simulating means...")}
         mean.shape <- getParam(params, "mean.shape")
@@ -54,6 +55,54 @@ splotchSimulate <- function(params = newSplotchParams(), verbose = TRUE, ...) {
     } else {
         if (verbose) {message("Using defined means...")}
     }
+
+    # Generate paths
+    paths.design <- getParam(params, "paths.design")
+    network.graph <- getParam(params, "network.graph")
+    network.weights <- igraph::as_adjacency_matrix(network.graph,
+                                                   attr = "weight")
+    network.nRegs <- getParam(params, "network.nRegs")
+    network.isReg <- igraph::vertex_attr(network.graph, "IsReg")
+    paths.nPrograms <- getParam(params, "paths.nPrograms")
+    programs.weights <- matrix(rnorm(network.nRegs * paths.nPrograms),
+                               nrow = network.nRegs, ncol = paths.nPrograms)
+    paths.changes <- vector("list", nrow(paths.design))
+    paths.factors <- vector("list", nrow(paths.design))
+    for (path in seq_len(nrow(paths.design))) {
+        nSteps <- paths.design$Steps[path]
+        from <- paths.design$From[path]
+        changes <- matrix(0, nrow = nGenes, ncol = nSteps + 1)
+
+        if (from != 0) {
+            from.changes <- paths.changes[[from]]
+            changes[, 1] <- from.changes[, ncol(from.changes)]
+        }
+
+        for (step in seq_len(nSteps) + 1) {
+            programs.changes <- rnorm(paths.nPrograms)
+            reg.changes <- as.vector(programs.weights %*% programs.changes)
+            changes[network.isReg, step] <- reg.changes
+            change <- as.vector(changes[, step - 1] %*% network.weights)
+            changes[, step] <- changes[, step] + change
+        }
+
+        if (from == 0) {
+            changes <- changes[, 1:nSteps]
+            factors <- matrixStats::rowCumsums(changes)
+        } else {
+            changes <- changes[, 2:nSteps + 1]
+            from.factors <- paths.factors[[from]][, ncol(paths.factors[[from]])]
+            factors <- matrixStats::rowCumsums(changes) + from.factors
+        }
+        paths.changes[[path]] <- changes
+        paths.factors[[path]] <- factors
+    }
+    means.values <- getParam(params, "mean.values")
+    paths.means <- lapply(paths.factors, function(x) {
+        2 ^ x * means.values
+    })
+    names(paths.means) <- paste0("Path", paths.design$Path)
+    params <- setParam(params, "paths.means", paths.means)
 
     # Simulate base gene means
 

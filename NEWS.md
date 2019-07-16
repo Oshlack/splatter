@@ -1,3 +1,7 @@
+### Version 1.9.2.9002 (2019-07-16)
+
+* Add paths parameters
+
 ### Version 1.9.2.9001 (2019-07-16)
 
 * Add mean parameters

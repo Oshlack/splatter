@@ -283,6 +283,13 @@ setClass("SplatParams",
 #'             network.}
 #'         }
 #'     }
+#'     \item{\emph{Paths parameters}}{
+#'         \describe{
+#'             \item{\code{[paths.programs]}}{Number of expression programs.}
+#'             \item{\code{[paths.design]}}{data.frame describing path
+#'             structure.}
+#'         }
+#'     }
 #' }
 #'
 #' The parameters not shown in brackets can be estimated from real data using
@@ -300,13 +307,23 @@ setClass("SplotchParams",
                    mean.values = "numeric",
                    network.graph = "ANY",
                    network.nRegs = "numeric",
-                   network.regsSet = "logical"),
+                   network.regsSet = "logical",
+                   paths.nPrograms = "numeric",
+                   paths.design = "data.frame",
+                   paths.means = "list"),
          prototype = prototype(mean.rate = 0.3,
                                mean.shape = 0.6,
                                mean.values = numeric(),
                                network.graph = NULL,
                                network.nRegs = 100,
-                               network.regsSet = FALSE))
+                               network.regsSet = FALSE,
+                               paths.nPrograms = 10,
+                               paths.design = data.frame(
+                                   Path = 1,
+                                   From = 0,
+                                   Steps = 100
+                               ),
+                               paths.means = list()))
 
 #' The LunParams class
 #'

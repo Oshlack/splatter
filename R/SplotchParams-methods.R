@@ -26,17 +26,51 @@ setValidity("SplotchParams", function(object) {
                                                       null.ok = TRUE),
                 network.nRegs = checkmate::checkInt(v$network.nRegs,
                                                     lower = 0),
-                network.regsSet = checkmate::checkFlag(v$network.regsSet))
+                network.regsSet = checkmate::checkFlag(v$network.regsSet),
+                paths.nPrograms = checkmate::checkInt(v$paths.nPrograms,
+                                                      lower = 1),
+                paths.design = checkmate::checkDataFrame(v$paths.design,
+                                                         types = "numeric",
+                                                         any.missing = FALSE,
+                                                         min.rows = 1,
+                                                         ncols = 3))
 
-    if (checkmate::testNumeric(v$mean.values, len = 0)) {
-        checks <- c(checks, mean.values = TRUE)
-    } else {
+    if (!checkmate::testNumeric(v$mean.values, len = 0)) {
         checks <- c(checks,
                     mean.values = checkmate::checkNumeric(v$mean.values,
                                                           lower = 0,
                                                           finite = TRUE,
                                                           any.missing = FALSE,
                                                           len = v$nGenes))
+    }
+
+    if (!all(colnames(v$paths.design) == c("Path", "From", "Steps"))) {
+        checks <- c(checks, paths.design = "Incorrect column names")
+    } else {
+        if (!(0 %in% v$paths.design$From)) {
+            checks <- c(checks, paths.design = paste("origin must be specified",
+                      "in paths.design"))
+        }
+
+        paths.graph <- igraph::graph_from_data_frame(v$paths.design)
+        if (!igraph::is_simple(paths.graph)) {
+            checks <- c(checks, paths.design = "graph is not simple")
+        }
+        if (!igraph::is_connected(paths.graph)) {
+            checks <- c(checks, paths.design = "graph is not connected")
+        }
+        if (!igraph::is_dag(paths.graph)) {
+            checks <- c(checks, paths.design = "graph is not a DAG")
+        }
+    }
+
+    if (!checkmate::testList(v$paths.means, len = 0)) {
+        checks <- c(checks,
+                    paths.means = checkmate::checkList(v$paths.means,
+                                                       types = "matrix",
+                                                       any.missing = FALSE,
+                                                       len = nrow(v$paths.design),
+                                                       names = "unique"))
     }
 
     if (all(checks == TRUE)) {
@@ -52,13 +86,21 @@ setValidity("SplotchParams", function(object) {
 #' @importFrom methods show
 setMethod("show", "SplotchParams", function(object) {
 
-    pp.top <- list("Mean:" = c("(Rate)"   = "mean.rate",
-                               "(Shape)"  = "mean.shape",
-                               "[Values]" = "mean.values"))
+    pp.top <- list("Mean:" = c("(Rate)"    = "mean.rate",
+                               "(Shape)"   = "mean.shape",
+                               "[Values]*" = "mean.values"))
 
     pp.network <- list("Network:" = c("[Graph]"   = "network.graph",
                                       "[nRegs]"   = "network.nRegs",
                                       "[regsSet]" = "network.regsSet"))
+
+    pp.paths <- list("Paths:" = c("[nPrograms]" = "paths.nPrograms",
+                                  "[Design]"  = "paths.design"))
+
+    paths.means <- getParam(object, "paths.means")
+    if (length(paths.means) == 0) {
+        pp.paths[[1]] <- c(pp.paths[[1]], "[Means]*" = "paths.means")
+    }
 
     callNextMethod()
 
@@ -81,6 +123,15 @@ setMethod("show", "SplotchParams", function(object) {
         network.default <- c(network.values$`[nRegs]` != 100,
                              network.values$`[regsSet]` != FALSE)
         showValues(network.values, network.default)
+    }
+
+    showPP(object, pp.paths)
+
+    if (length(paths.means) != 0) {
+        cat(crayon::bgYellow(crayon::bold(crayon::blue("[MEANS]\n"))))
+        cat(crayon::bold(crayon::green(paste(
+            "List of", length(paths.means), "matrices"
+        ))))
     }
 })
 
