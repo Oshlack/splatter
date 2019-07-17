@@ -16,6 +16,7 @@
 #'
 #' @export
 #' @importFrom SingleCellExperiment SingleCellExperiment
+#' @importFrom stats dbeta
 splotchSimulate <- function(params = newSplotchParams(), verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "SplotchParams")
@@ -57,6 +58,7 @@ splotchSimulate <- function(params = newSplotchParams(), verbose = TRUE, ...) {
     }
 
     # Generate paths
+    if (verbose) {message("Simulating paths...")}
     paths.design <- getParam(params, "paths.design")
     network.graph <- getParam(params, "network.graph")
     network.weights <- igraph::as_adjacency_matrix(network.graph,
@@ -68,7 +70,15 @@ splotchSimulate <- function(params = newSplotchParams(), verbose = TRUE, ...) {
                                nrow = network.nRegs, ncol = paths.nPrograms)
     paths.changes <- vector("list", nrow(paths.design))
     paths.factors <- vector("list", nrow(paths.design))
-    for (path in seq_len(nrow(paths.design))) {
+
+    paths.graph <- igraph::graph_from_data_frame(paths.design)
+    paths.order <- names(igraph::topo_sort(paths.graph, mode = "in"))
+    paths.order <- as.numeric(paths.order)
+    # The origin is not a path
+    paths.order <- paths.order[paths.order != 0]
+
+    for (path in paths.order) {
+        if (verbose) {message("Simulating path ", path, "...")}
         nSteps <- paths.design$Steps[path]
         from <- paths.design$From[path]
         changes <- matrix(0, nrow = nGenes, ncol = nSteps + 1)
@@ -104,7 +114,54 @@ splotchSimulate <- function(params = newSplotchParams(), verbose = TRUE, ...) {
     names(paths.means) <- paste0("Path", paths.design$Path)
     params <- setParam(params, "paths.means", paths.means)
 
-    # Simulate base gene means
+    if (verbose) {message("Simulating library sizes...")}
+    nCells <- getParam(params, "nCells")
+    lib.loc <- getParam(params, "lib.loc")
+    lib.scale <- getParam(params, "lib.scale")
+    lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
+
+    if (verbose) {message("Simulating cell means...")}
+    nCells <- getParam(params, "nCells")
+    cells.design <- getParam(params, "cells.design")
+    cells.paths <- sample(cells.design$Path, nCells, replace = TRUE,
+                          prob = cells.design$Probability)
+    paths.design <- getParam(params, "paths.design")
+    paths.cells.design <- merge(paths.design, cells.design)
+    steps.probs <- apply(paths.cells.design, 1, function(path) {
+        steps <- path["Steps"]
+        dens <- dbeta(seq(0, 1, length.out = steps),
+                      path["Alpha"], path["Beta"])
+        # Adjust for infinite values at edge of distribution
+        dens.inf <- !is.finite(dens)
+        if (any(dens.inf) && all(dens[!dens.inf] == 0)) {
+            dens[dens.inf] <- 1
+        }
+        if (!is.finite(dens[1])) {
+            dens[1] <- 1.1 * dens[2]
+        }
+        if (!is.finite(dens[steps])) {
+            dens[steps] <- 1.1 * dens[steps - 1]
+        }
+
+        probs <- dens / sum(dens)
+
+        # Return a list to avoid getting a matrix if all path lengths are equal
+        return(list(probs))
+    })
+    # Remove unnecessary list level
+    steps.probs <- lapply(steps.probs, "[[", 1)
+    names(steps.probs) <- paths.cells.design$Path
+    cells.steps <- sapply(cells.paths, function(path) {
+        probs <- steps.probs[[path]]
+        step <- sample(1:length(probs), 1, prob = probs)
+        return(step)
+    })
+    cells.means <- sapply(seq_len(nCells), function(cell) {
+        path <- cells.paths[cell]
+        step <- cells.steps[cell]
+        means <- paths.means[[path]][, step]
+        return(means)
+    })
 
     # sim <- SingleCellExperiment(assays = list(counts = counts),
     #                             rowData = features,

@@ -40,6 +40,22 @@ The Splotch simulation uses the following parameters:
             structure.}
         }
     }
+    \item{\emph{Library size parameters}}{
+        \describe{
+            \item{\code{lib.loc}}{Location (meanlog) parameter for the
+            library size log-normal distribution, or mean parameter if a
+            normal distribution is used.}
+            \item{\code{lib.scale}}{Scale (sdlog) parameter for the library
+            size log-normal distribution, or sd parameter if a normal
+            distribution is used.}
+        }
+    }
+    \item{\emph{Paths parameters}}{
+        \describe{
+            \item{\code{[cells.design]}}{data.frame describing cell
+            structure.}
+        }
+    }
 }
 
 The parameters not shown in brackets can be estimated from real data using

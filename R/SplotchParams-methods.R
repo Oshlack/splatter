@@ -33,7 +33,15 @@ setValidity("SplotchParams", function(object) {
                                                          types = "numeric",
                                                          any.missing = FALSE,
                                                          min.rows = 1,
-                                                         ncols = 3))
+                                                         ncols = 3),
+                lib.loc = checkNumber(v$lib.loc),
+                lib.scale = checkNumber(v$lib.scale, lower = 0),
+                cells.design = checkmate::checkDataFrame(v$cells.design,
+                                                         types = "numeric",
+                                                         any.missing = FALSE,
+                                                         nrows = nrow(
+                                                             v$paths.design),
+                                                         ncols = 4))
 
     if (!checkmate::testNumeric(v$mean.values, len = 0)) {
         checks <- c(checks,
@@ -73,6 +81,27 @@ setValidity("SplotchParams", function(object) {
                                                        names = "unique"))
     }
 
+    if (!all(colnames(v$cells.design) == c("Path", "Probability", "Alpha",
+                                           "Beta"))) {
+        checks <- c(checks, cells.design = "Incorrect column names")
+    } else {
+        if (!all(sort(v$cells.design$Path) == sort(v$paths.design$Path))) {
+            checks <- c(checks,
+                        cells.design = "Path names don't match paths.design")
+        }
+        if (sum(v$cells.design$Probability) != 1) {
+            checks <- c(checks, cells.design = "Probability must sum to 1")
+        }
+        checks <- c(checks,
+                    "cells.design$Alpha" = checkmate::checkNumeric(
+                        v$cells.design$Alpha,
+                        lower = 0, any.missing = FALSE))
+        checks <- c(checks,
+                    "cells.design$Beta" = checkmate::checkNumeric(
+                        v$cells.design$Beta,
+                        lower = 0, any.missing = FALSE))
+    }
+
     if (all(checks == TRUE)) {
         valid <- TRUE
     } else {
@@ -96,6 +125,10 @@ setMethod("show", "SplotchParams", function(object) {
 
     pp.paths <- list("Paths:" = c("[nPrograms]" = "paths.nPrograms",
                                   "[Design]"  = "paths.design"))
+
+    pp.bot <- list("Library size:" = c("(Location)" = "lib.loc",
+                                       "(Scale)"  = "lib.scale"),
+                   "Cells:"        = c("[Design]" = "cells.design"))
 
     paths.means <- getParam(object, "paths.means")
     if (length(paths.means) == 0) {
@@ -130,9 +163,11 @@ setMethod("show", "SplotchParams", function(object) {
     if (length(paths.means) != 0) {
         cat(crayon::bgYellow(crayon::bold(crayon::blue("[MEANS]\n"))))
         cat(crayon::bold(crayon::green(paste(
-            "List of", length(paths.means), "matrices"
+            "List of", length(paths.means), "matrices\n\n"
         ))))
     }
+
+    showPP(object, pp.bot)
 })
 
 #' @rdname setParam
@@ -185,6 +220,15 @@ setMethod("setParam", "SplotchParams", function(object, name, value) {
         stop("network.regsSet can not be set manually")
     }
 
+    if (name == "paths.design" &&
+        (nrow(value) != nrow(getParam(object, "paths.design")))) {
+        warning("cells.design reset to match paths.design")
+        cells.design <- data.frame(Path = value$Path,
+                                   Probability = 1 / nrow(value),
+                                   Alpha = 0, Beta = 1)
+        object <- setParamUnchecked(object, "cells.design", cells.design)
+    }
+
     object <- callNextMethod()
 
     return(object)
@@ -197,7 +241,7 @@ setMethod("setParams", "SplotchParams", function(object, update = NULL, ...) {
 
     update <- c(update, list(...))
 
-    update <- bringItemsForward(update, c("network.graph"))
+    update <- bringItemsForward(update, c("network.graph", "paths.design"))
 
     object <- callNextMethod(object, update)
 

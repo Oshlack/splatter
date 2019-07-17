@@ -290,6 +290,22 @@ setClass("SplatParams",
 #'             structure.}
 #'         }
 #'     }
+#'     \item{\emph{Library size parameters}}{
+#'         \describe{
+#'             \item{\code{lib.loc}}{Location (meanlog) parameter for the
+#'             library size log-normal distribution, or mean parameter if a
+#'             normal distribution is used.}
+#'             \item{\code{lib.scale}}{Scale (sdlog) parameter for the library
+#'             size log-normal distribution, or sd parameter if a normal
+#'             distribution is used.}
+#'         }
+#'     }
+#'     \item{\emph{Paths parameters}}{
+#'         \describe{
+#'             \item{\code{[cells.design]}}{data.frame describing cell
+#'             structure.}
+#'         }
+#'     }
 #' }
 #'
 #' The parameters not shown in brackets can be estimated from real data using
@@ -310,7 +326,10 @@ setClass("SplotchParams",
                    network.regsSet = "logical",
                    paths.nPrograms = "numeric",
                    paths.design = "data.frame",
-                   paths.means = "list"),
+                   paths.means = "list",
+                   lib.loc = "numeric",
+                   lib.scale = "numeric",
+                   cells.design = "data.frame"),
          prototype = prototype(mean.rate = 0.3,
                                mean.shape = 0.6,
                                mean.values = numeric(),
@@ -323,7 +342,15 @@ setClass("SplotchParams",
                                    From = 0,
                                    Steps = 100
                                ),
-                               paths.means = list()))
+                               paths.means = list(),
+                               lib.loc = 11,
+                               lib.scale = 0.2,
+                               cells.design = data.frame(
+                                   Path = 1,
+                                   Probability = 1,
+                                   Alpha = 0,
+                                   Beta = 1
+                               )))
 
 #' The LunParams class
 #'
