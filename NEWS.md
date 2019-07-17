@@ -1,3 +1,9 @@
+### Version 1.9.2.9003 (2019-07-17)
+
+* Topologically sort paths
+* Add library size parameters
+* Simulate cell means
+
 ### Version 1.9.2.9002 (2019-07-16)
 
 * Add paths parameters
