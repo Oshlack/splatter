@@ -1,3 +1,11 @@
+### Version 1.9.3.9004 (2019-08-08)
+
+* Merge master into splotch branch
+
+## Version 1.9.3 (2019-08-08)
+
+* Remove deprecated scater functions
+
 ### Version 1.9.2.9003 (2019-07-17)
 
 * Topologically sort paths
