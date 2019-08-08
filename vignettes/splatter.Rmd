@@ -433,8 +433,7 @@ number of expressed genes against the library size:
 
 ```{r comparison-libsize-features}
 library("ggplot2")
-ggplot(comparison$ColData,
-       aes(x = total_counts, y = total_features_by_counts, colour = Dataset)) +
+ggplot(comparison$ColData, aes(x = sum, y = detected, colour = Dataset)) +
     geom_point()
 ```
 

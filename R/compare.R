@@ -79,13 +79,15 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         sce <- sces[[name]]
         rowData(sce)$Dataset <- name
         colData(sce)$Dataset <- name
-        sce <- scater::calculateQCMetrics(sce)
-        cpm(sce) <- scater::calculateCPM(sce, use_size_factors = FALSE)
+        sce <- scater::addQCPerCell(sce)
+        sce <- scater::addQCPerFeature(sce)
+        cpm(sce) <- scater::calculateCPM(sce)
         sce <- addFeatureStats(sce, "counts")
         sce <- addFeatureStats(sce, "cpm")
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
-        n.features <- colData(sce)$total_features_by_counts
+        n.features <- colData(sce)$detected
         colData(sce)$PctZero <- 100 * (1 - n.features / nrow(sce))
+        rowData(sce)$PctZero <- 100 - rowData(sce)$detected
 
         var.genes <- rev(order(rowData(sce)$VarLogCPM))[1:100]
         var.cpm <- log2(cpm(sce)[var.genes, ] + 1)
@@ -150,7 +152,7 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         theme_minimal()
 
     libs <- ggplot(cells,
-                   aes_string(x = "Dataset", y = "total_counts",
+                   aes_string(x = "Dataset", y = "sum",
                               colour = "Dataset")) +
         geom_boxplot() +
         scale_y_continuous(labels = scales::comma) +
@@ -160,7 +162,7 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         theme_minimal()
 
     z.gene <- ggplot(features,
-                     aes_string(x = "Dataset", y = "pct_dropout_by_counts",
+                     aes_string(x = "Dataset", y = "PctZero",
                                 colour = "Dataset")) +
         geom_boxplot() +
         scale_y_continuous(limits = c(0, 100)) +
@@ -180,8 +182,8 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         theme_minimal()
 
     mean.zeros <- ggplot(features,
-                         aes_string(x = "MeanCounts",
-                                    y = "pct_dropout_by_counts",
+                         aes_string(x = "mean",
+                                    y = "PctZero",
                                     colour = "Dataset", fill = "Dataset")) +
         geom_point(size = point.size, alpha = point.alpha) +
         scale_x_log10(labels = scales::comma) +
@@ -336,13 +338,15 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         }
         rowData(sce)$Dataset <- name
         colData(sce)$Dataset <- name
-        sce <- scater::calculateQCMetrics(sce)
-        cpm(sce) <- scater::calculateCPM(sce, use_size_factors = FALSE)
+        sce <- scater::addQCPerCell(sce)
+        sce <- scater::addQCPerFeature(sce)
+        cpm(sce) <- scater::calculateCPM(sce)
         sce <- addFeatureStats(sce, "counts")
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
-        n.features <- colData(sce)$total_features_by_counts
+        n.features <- colData(sce)$detected
         colData(sce)$PctZero <- 100 * (1 - n.features / nrow(sce))
-        rowData(sce)$RankCounts <- rank(rowData(sce)$mean_counts)
+        rowData(sce)$RankCounts <- rank(rowData(sce)$mean)
+        rowData(sce)$PctZero <- 100 - rowData(sce)$detected
         sces[[name]] <- sce
     }
 
@@ -350,13 +354,13 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     ref.means <- sort(rowData(ref.sce)$MeanLogCPM)
     ref.vars <- sort(rowData(ref.sce)$VarLogCPM)
-    ref.libs <- sort(colData(ref.sce)$total_counts)
-    ref.z.gene <- sort(rowData(ref.sce)$pct_dropout_by_counts)
+    ref.libs <- sort(colData(ref.sce)$sum)
+    ref.z.gene <- sort(rowData(ref.sce)$PctZero)
     ref.z.cell <- sort(colData(ref.sce)$PctZero)
 
     ref.rank.ord <- order(rowData(ref.sce)$RankCounts)
     ref.vars.rank <- rowData(ref.sce)$VarLogCPM[ref.rank.ord]
-    ref.z.gene.rank <- rowData(ref.sce)$pct_dropout_by_counts[ref.rank.ord]
+    ref.z.gene.rank <- rowData(ref.sce)$PctZero[ref.rank.ord]
 
     for (name in names(sces)) {
         sce <- sces[[name]]
@@ -367,12 +371,11 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         rowData(sce)$RefRankVarLogCPM <- ref.vars[rank(rowData(sce)$VarLogCPM)]
         rowData(sce)$RankDiffVarLogCPM <- rowData(sce)$VarLogCPM -
             rowData(sce)$RefRankVarLogCPM
-        colData(sce)$RefRankLibSize <- ref.libs[rank(colData(sce)$total_counts)]
-        colData(sce)$RankDiffLibSize <- colData(sce)$total_counts -
+        colData(sce)$RefRankLibSize <- ref.libs[rank(colData(sce)$sum)]
+        colData(sce)$RankDiffLibSize <- colData(sce)$sum -
             colData(sce)$RefRankLibSize
-        rowData(sce)$RefRankZeros <- ref.z.gene[rank(
-                                               rowData(sce)$pct_dropout_by_counts)]
-        rowData(sce)$RankDiffZeros <- rowData(sce)$pct_dropout_by_counts -
+        rowData(sce)$RefRankZeros <- ref.z.gene[rank(rowData(sce)$PctZero)]
+        rowData(sce)$RankDiffZeros <- rowData(sce)$PctZero -
             rowData(sce)$RefRankZeros
         colData(sce)$RefRankZeros <- ref.z.cell[rank(
                                                colData(sce)$PctZero)]
@@ -381,7 +384,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
         rowData(sce)$MeanRankVarDiff <- rowData(sce)$VarLogCPM -
             ref.vars.rank[rowData(sce)$RankCounts]
-        rowData(sce)$MeanRankZerosDiff <- rowData(sce)$pct_dropout_by_counts -
+        rowData(sce)$MeanRankZerosDiff <- rowData(sce)$PctZero -
             ref.z.gene.rank[rowData(sce)$RankCounts]
 
         sces[[name]] <- sce
@@ -517,7 +520,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     z.gene.qq <- ggplot(features,
                         aes_string(x = "RefRankZeros",
-                                   y = "pct_dropout_by_counts",
+                                   y = "PctZero",
                                    colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
         geom_point(size = point.size, alpha = point.alpha) +
@@ -871,7 +874,7 @@ summariseDiff <- function(diff) {
 
     row.ks.stats <- c(Mean = "MeanLogCPM",
                       Variance = "VarLogCPM",
-                      ZerosGene = "pct_dropout_by_counts",
+                      ZerosGene = "PctZero",
                       MeanVar = NA,
                       MeanZeros = NA)
 
@@ -892,7 +895,7 @@ summariseDiff <- function(diff) {
     col.stats <- c(LibSize = "RankDiffLibSize",
                    ZerosCell = "RankDiffZeros")
 
-    col.ks.stats <- c(LibSize = "total_counts",
+    col.ks.stats <- c(LibSize = "sum",
                       ZerosCell = "PctZero")
 
     col.mad <- summariseStats(diff$ColData, "Dataset", col.stats, "MAD")
