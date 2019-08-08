@@ -1,3 +1,8 @@
+### Version 1.9.3.9005(2019-08-08)
+
+* Simulate counts
+* Split into separate functions for each stage
+
 ### Version 1.9.3.9004 (2019-08-08)
 
 * Merge master into splotch branch

@@ -17,7 +17,7 @@ setValidity("SplotchParams", function(object) {
 
     v <- getParams(object, slotNames(object))
 
-    checks <- c(#nGenes = checkmate::checkInt(v$nGenes, lower = 1),
+    checks <- c(nGenes = checkmate::checkInt(v$nGenes, lower = 1),
                 nCells = checkmate::checkInt(v$nCells, lower = 1),
                 seed = checkmate::checkInt(v$seed, lower = 0),
                 mean.rate = checkmate::checkNumber(v$mean.rate, lower = 0),
@@ -163,7 +163,8 @@ setMethod("show", "SplotchParams", function(object) {
     if (length(paths.means) != 0) {
         cat(crayon::bgYellow(crayon::bold(crayon::blue("[MEANS]\n"))))
         cat(crayon::bold(crayon::green(paste(
-            "List of", length(paths.means), "matrices\n\n"
+            "List of", length(paths.means), "matrices with names:",
+            paste(names(paths.means), collapse = ", "), "\n\n"
         ))))
     }
 
