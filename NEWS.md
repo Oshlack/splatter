@@ -1,3 +1,7 @@
+## Version 1.9.3 (2019-08-08)
+
+* Remove deprecated scater functions
+
 ## Version 1.9.2 (2019-06-13)
 
 * Add variable gene correlation plot to compareSCEs
