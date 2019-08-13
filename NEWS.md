@@ -1,4 +1,8 @@
-### Version 1.9.3.9005(2019-08-08)
+### Version 1.9.3.9006 (2019-08-13)
+
+* Add splotchEstimate function
+
+### Version 1.9.3.9005 (2019-08-08)
 
 * Simulate counts
 * Split into separate functions for each stage
