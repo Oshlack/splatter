@@ -1,3 +1,7 @@
+### Version 1.9.3.9007 (2019-08-14)
+
+* Fix bug in selectFit
+
 ### Version 1.9.3.9006 (2019-08-13)
 
 * Add splotchEstimate function

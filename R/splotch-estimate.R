@@ -164,10 +164,14 @@ selectFit <- function(data, distr, weights = NULL, verbose = TRUE) {
     }
 
     aics <- fitdistrplus::gofstat(fits)$aic
-    selected <- which(aics == min(aics, na.rm = TRUE))
+    # Flatten in case aics is a list
+    aics.flat <- unlist(aics)
+    selected <- which(aics.flat == min(aics.flat, na.rm = TRUE))
 
     if (verbose) {
-        message("Selected ", names(fits)[selected], " fit using AIC")
+        # Work around to get name in case aics is a list
+        name <- names(fits)[names(aics) == names(aics.flat)[selected]]
+        message("Selected ", name, " fit using AIC")
     }
 
     return(fits[[selected]])
