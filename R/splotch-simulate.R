@@ -148,8 +148,19 @@ splotchSimGeneMeans <- function(params, verbose) {
     nGenes <- getParam(params, "nGenes")
     mean.shape <- getParam(params, "mean.shape")
     mean.rate <- getParam(params, "mean.rate")
+    mean.outProb <- getParam(params, "mean.outProb")
+    mean.outLoc <- getParam(params, "mean.outLoc")
+    mean.outScale <- getParam(params, "mean.outScale")
 
     mean.values <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
+
+    outlier.facs <- getLNormFactors(nGenes, mean.outProb, 0, mean.outLoc,
+                                    mean.outScale)
+    median.means.gene <- median(mean.values)
+    outlier.means <- median.means.gene * outlier.facs
+    is.outlier <- outlier.facs != 1
+    mean.values[is.outlier] <- outlier.means[is.outlier]
+
     params <- setParam(params, "mean.values", mean.values)
 
     return(params)

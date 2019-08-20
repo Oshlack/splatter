@@ -1,3 +1,7 @@
+### Version 1.9.3.9008 (2019-08-20)
+
+* Add expression outliers to Splotch
+
 ### Version 1.9.3.9007 (2019-08-14)
 
 * Fix bug in selectFit
@@ -8,8 +12,8 @@
 
 ### Version 1.9.3.9005 (2019-08-08)
 
-* Simulate counts
-* Split into separate functions for each stage
+* Simulate counts in splotchSimulate
+* Split splotchSimulate into separate functions for each stage
 
 ### Version 1.9.3.9004 (2019-08-08)
 
@@ -21,17 +25,17 @@
 
 ### Version 1.9.2.9003 (2019-07-17)
 
-* Topologically sort paths
-* Add library size parameters
-* Simulate cell means
+* Topologically sort Splotch paths
+* Add library size parameters to SplotchParams
+* Simulate cell means in splotchSimulate
 
 ### Version 1.9.2.9002 (2019-07-16)
 
-* Add paths parameters
+* Add paths parameters to SplotchParams
 
 ### Version 1.9.2.9001 (2019-07-16)
 
-* Add mean parameters
+* Add mean parameters to SplotchParams
 
 ### Version 1.9.2.9000 (2019-07-11)
 

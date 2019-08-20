@@ -72,6 +72,28 @@ splotchEstMean <- function(norm.counts, params, verbose) {
     params <- setParams(params, mean.shape = unname(fit$estimate["shape"]),
                         mean.rate = unname(fit$estimate["rate"]))
 
+    if (verbose) {message("Estimating expression outlier parameters...")}
+    lmeans <- log(means)
+    med <- median(lmeans)
+    mad <- mad(lmeans)
+
+    bound <- med + 1 * mad
+
+    outs <- which(lmeans > bound)
+
+    prob <- length(outs) / nrow(norm.counts)
+
+    params <- setParam(params, "mean.outProb", prob)
+
+    if (length(outs) > 1) {
+        facs <- means[outs] / median(means)
+        fit <- selectFit(facs, "lnorm", verbose = verbose)
+
+        params <- setParams(params,
+                            mean.outLoc = unname(fit$estimate["meanlog"]),
+                            mean.outScale = unname(fit$estimate["sdlog"]))
+    }
+
     return(params)
 }
 
@@ -163,15 +185,15 @@ selectFit <- function(data, distr, weights = NULL, verbose = TRUE) {
         )
     }
 
-    aics <- fitdistrplus::gofstat(fits)$aic
-    # Flatten in case aics is a list
-    aics.flat <- unlist(aics)
-    selected <- which(aics.flat == min(aics.flat, na.rm = TRUE))
+    scores <- fitdistrplus::gofstat(fits)$cvm
+    # Flatten in case scores is a list
+    scores.flat <- unlist(scores)
+    selected <- which(scores.flat == min(scores.flat, na.rm = TRUE))
 
     if (verbose) {
-        # Work around to get name in case aics is a list
-        name <- names(fits)[names(aics) == names(aics.flat)[selected]]
-        message("Selected ", name, " fit using AIC")
+        # Work around to get name in case scores is a list
+        name <- names(fits)[names(scores) == names(scores.flat)[selected]]
+        message("Selected ", name, " fit")
     }
 
     return(fits[[selected]])
