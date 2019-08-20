@@ -22,6 +22,9 @@ setValidity("SplotchParams", function(object) {
                 seed = checkmate::checkInt(v$seed, lower = 0),
                 mean.rate = checkmate::checkNumber(v$mean.rate, lower = 0),
                 mean.shape = checkmate::checkNumber(v$mean.shape, lower = 0),
+                mean.outProb = checkNumber(v$mean.outProb, lower = 0, upper = 1),
+                mean.outLoc = checkNumber(v$mean.outLoc),
+                mean.outScale = checkNumber(v$mean.outScale, lower = 0),
                 network.graph = checkmate::checkClass(v$network, "igraph",
                                                       null.ok = TRUE),
                 network.nRegs = checkmate::checkInt(v$network.nRegs,
@@ -115,9 +118,12 @@ setValidity("SplotchParams", function(object) {
 #' @importFrom methods show
 setMethod("show", "SplotchParams", function(object) {
 
-    pp.top <- list("Mean:" = c("(Rate)"    = "mean.rate",
-                               "(Shape)"   = "mean.shape",
-                               "[Values]*" = "mean.values"))
+    pp.top <- list("Mean:" = c("(Rate)"         = "mean.rate",
+                               "(Shape)"        = "mean.shape",
+                               "(Out Prob)"     = "mean.outProb",
+                               "(Out Location)" = "mean.outLoc",
+                               "(Out Scale)"    = "mean.outScale",
+                               "[Values]*"      = "mean.values"))
 
     pp.network <- list("Network:" = c("[Graph]"   = "network.graph",
                                       "[nRegs]"   = "network.nRegs",

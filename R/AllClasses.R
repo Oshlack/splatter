@@ -273,6 +273,12 @@ setClass("SplatParams",
 #'             distribution.}
 #'             \item{\code{mean.rate}}{Rate parameter for the mean gamma
 #'             distribution.}
+#'             \item{\code{mean.outProb}}{Probability that a gene is an
+#'             expression outlier.}
+#'             \item{\code{mean.outFacLoc}}{Location (meanlog) parameter for
+#'             the expression outlier factor log-normal distribution.}
+#'             \item{\code{mean.outFacScale}}{Scale (sdlog) parameter for the
+#'             expression outlier factor log-normal distribution.}
 #'             \item{\code{mean.values}}{Vector of means for each gene.}
 #'         }
 #'     }
@@ -320,6 +326,9 @@ setClass("SplotchParams",
          contains = "Params",
          slots = c(mean.shape = "numeric",
                    mean.rate = "numeric",
+                   mean.outProb = "numeric",
+                   mean.outLoc = "numeric",
+                   mean.outScale = "numeric",
                    mean.values = "numeric",
                    network.graph = "ANY",
                    network.nRegs = "numeric",
@@ -332,6 +341,9 @@ setClass("SplotchParams",
                    cells.design = "data.frame"),
          prototype = prototype(mean.rate = 0.3,
                                mean.shape = 0.6,
+                               mean.outProb = 0.05,
+                               mean.outLoc = 4,
+                               mean.outScale = 0.5,
                                mean.values = numeric(),
                                network.graph = NULL,
                                network.nRegs = 100,

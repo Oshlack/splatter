@@ -23,6 +23,12 @@ The Splotch simulation uses the following parameters:
             distribution.}
             \item{\code{mean.rate}}{Rate parameter for the mean gamma
             distribution.}
+            \item{\code{mean.outProb}}{Probability that a gene is an
+            expression outlier.}
+            \item{\code{mean.outFacLoc}}{Location (meanlog) parameter for
+            the expression outlier factor log-normal distribution.}
+            \item{\code{mean.outFacScale}}{Scale (sdlog) parameter for the
+            expression outlier factor log-normal distribution.}
             \item{\code{mean.values}}{Vector of means for each gene.}
         }
     }
