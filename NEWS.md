@@ -1,3 +1,11 @@
+## Version 1.9.4 (2019-08-20)
+
+* Fix deprecated column name in diffSCEs QQ plots
+* Fix bugs where parameters were not being passed correctly in BASiCSEstimate
+  and sparseDCEstimate
+* Replace the sc_example_counts dataset from scater with the mockSCE function
+* Tidy and improve estimation function examples
+
 ## Version 1.9.3 (2019-08-08)
 
 * Remove deprecated scater functions

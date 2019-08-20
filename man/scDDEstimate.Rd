@@ -53,13 +53,14 @@ simulate. The output is then converted to a SCDDParams object. See
 \code{\link[scDD]{preprocess}} and \code{\link[scDD]{scDD}} for details.
 }
 \examples{
-\dontrun{
-# Load example data
-library(scater)
-data("sc_example_counts")
+if (requireNamespace("scDD", quietly = TRUE)) {
+    library(scater)
+    set.seed(1)
+    sce <- mockSCE(ncells = 20, ngenes = 100)
 
-conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
-params <- scDDEstimate(sc_example_counts, conditions = conditions)
-params
+    colData(sce)$condition <- sample(1:2, ncol(sce), replace = TRUE)
+    params <- scDDEstimate(sce, condition = "condition")
+    params
 }
+
 }

@@ -45,17 +45,19 @@ BiocManager::install("Oshlack/splatter", dependencies = TRUE,
 
 Assuming you already have a matrix of count data similar to that you wish to
 simulate there are two simple steps to creating a simulated data set with
-Splatter. Here is an example using the example dataset in the `scater` package:
+Splatter. Here is an example a mock dataset generted with the `scater` package:
 
 ```{r quickstart}
 # Load package
 library(splatter)
 
-# Load example data
+# Create mock data
 library(scater)
-data("sc_example_counts")
-# Estimate parameters from example data
-params <- splatEstimate(sc_example_counts)
+set.seed(1)
+sce <- mockSCE()
+
+# Estimate parameters from mock data
+params <- splatEstimate(sce)
 # Simulate data using estimated parameters
 sim <- splatSimulate(params)
 ```
@@ -148,15 +150,20 @@ Splat allows you to estimate many of it's parameters from a data set containing
 counts using the `splatEstimate` function.
 
 ```{r splatEstimate}
-# Check that sc_example counts is an integer matrix
-class(sc_example_counts)
-typeof(sc_example_counts)
-# Check the dimensions, each row is a gene, each column is a cell
-dim(sc_example_counts)
-# Show the first few entries
-sc_example_counts[1:5, 1:5]
+# Get the mock counts matrix
+counts <- counts(sce)
 
-params <- splatEstimate(sc_example_counts)
+# Check that counts is an integer matrix
+class(counts)
+typeof(counts)
+
+# Check the dimensions, each row is a gene, each column is a cell
+dim(counts)
+
+# Show the first few entries
+counts[1:5, 1:5]
+
+params <- splatEstimate(counts)
 ```
 
 Here we estimated parameters from a counts matrix but `splatEstimate` can also

@@ -33,8 +33,9 @@ for more details on the parameters.
 \examples{
 # Load example data
 library(scater)
-data("sc_example_counts")
+set.seed(1)
+sce <- mockSCE()
 
-params <- lunEstimate(sc_example_counts)
+params <- lunEstimate(sce)
 params
 }

@@ -1,9 +1,10 @@
 context("simpleEstimate")
 
 library(scater)
-data("sc_example_counts")
+set.seed(1)
+counts <- counts(mockSCE())
 
 test_that("simpleEstimate works", {
-    params <- simpleEstimate(sc_example_counts)
+    params <- simpleEstimate(counts)
     expect_true(validObject(params))
 })
