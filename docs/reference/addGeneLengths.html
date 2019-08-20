@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.4</span>
       </span>
     </div>
 
@@ -189,14 +189,14 @@ vector.</p>
     <pre class="examples"><div class='input'><span class='co'># Default generate method</span>
 <span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>()</div><div class='output co'>#&gt; <span class='message'>Simulating means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div><div class='input'><span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'>addGeneLengths</span>(<span class='no'>sce</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'>rowData</span>(<span class='no'>sce</span>))</div><div class='output co'>#&gt; DataFrame with 6 rows and 3 columns
-#&gt;           Gene            GeneMean    Length
-#&gt;       &lt;factor&gt;           &lt;numeric&gt; &lt;numeric&gt;
-#&gt; Gene1    Gene1   0.221285968743642      2049
-#&gt; Gene2    Gene2   0.161431648598517      5937
-#&gt; Gene3    Gene3 0.00582629684879718      2659
-#&gt; Gene4    Gene4   0.129723232841076      2545
-#&gt; Gene5    Gene5   0.669900182050992      3400
-#&gt; Gene6    Gene6   0.109974157615514       883</div><div class='input'># Sample method (human coding genes)
+#&gt;           Gene           GeneMean    Length
+#&gt;       &lt;factor&gt;          &lt;numeric&gt; &lt;numeric&gt;
+#&gt; Gene1    Gene1 0.0138665247174492      6630
+#&gt; Gene2    Gene2   1.25529432999633      4894
+#&gt; Gene3    Gene3 0.0375780248572044      1723
+#&gt; Gene4    Gene4   1.69560565875577      1886
+#&gt; Gene5    Gene5   1.12938171645951       438
+#&gt; Gene6    Gene6   0.14592367445476      1508</div><div class='input'># Sample method (human coding genes)
 </div><span class='co'># NOT RUN {</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>TxDb.Hsapiens.UCSC.hg19.knownGene</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>GenomicFeatures</span>)
