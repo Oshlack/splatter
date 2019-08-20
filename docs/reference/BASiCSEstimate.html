@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.4</span>
       </span>
     </div>
 
@@ -230,13 +230,13 @@ information is provided there must be at least two batches. See
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='co'># Load example data</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>scater</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"sc_example_counts"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/mockSCE'>mockSCE</a></span>()
 
-<span class='no'>spike.info</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>Name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames</a></span>(<span class='no'>sc_example_counts</span>)[<span class='fl'>1</span>:<span class='fl'>10</span>],
+<span class='no'>spike.info</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>Name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames</a></span>(<span class='no'>sce</span>)[<span class='fl'>1</span>:<span class='fl'>10</span>],
                          <span class='kw'>Input</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='fl'>10</span>, <span class='fl'>500</span>, <span class='fl'>200</span>),
                          <span class='kw'>stringsAsFactors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>BASiCSEstimate</span>(<span class='no'>sc_example_counts</span>[<span class='fl'>1</span>:<span class='fl'>100</span>, <span class='fl'>1</span>:<span class='fl'>30</span>],
-                         <span class='no'>spike.info</span>)
+<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>BASiCSEstimate</span>(<span class='no'>sce</span>[<span class='fl'>1</span>:<span class='fl'>100</span>, <span class='fl'>1</span>:<span class='fl'>30</span>], <span class='no'>spike.info</span>)
 <span class='no'>params</span>
 <span class='co'># }</span></pre>
   </div>
