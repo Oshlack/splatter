@@ -46,11 +46,11 @@ See \code{\link{Lun2Params}} for more details on the parameters.
 \dontrun{
 # Load example data
 library(scater)
-data("sc_example_counts")
-data("sc_example_cell_info")
+set.seed(1)
+sce <- mockSCE()
 
-plates <- factor(sc_example_cell_info$Mutation_Status)
-params <- lun2Estimate(sc_example_counts, plates, min.size = 20)
+plates <- as.numeric(factor(colData(sce)$Mutation_Status))
+params <- lun2Estimate(sce, plates, min.size = 20)
 params
 }
 }

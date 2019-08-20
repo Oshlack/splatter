@@ -35,9 +35,10 @@ See \code{\link{PhenoParams}} for more details on the parameters.
 if (requireNamespace("phenopath", quietly = TRUE)) {
     # Load example data
     library(scater)
-    data("sc_example_counts")
+    set.seed(1)
+    sce <- mockSCE()
 
-    params <- phenoEstimate(sc_example_counts)
+    params <- phenoEstimate(sce)
     params
 }
 }
