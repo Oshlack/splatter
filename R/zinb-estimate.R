@@ -28,14 +28,15 @@
 #' @return ZINBParams object containing the estimated parameters.
 #'
 #' @examples
-#' \dontrun{
-#' # Load example data
-#' library(scater)
-#' data("sc_example_counts")
+#' if (requireNamespace("zinbwave", quietly = TRUE)) {
+#'     library(scater)
+#'     set.seed(1)
+#'     sce <- mockSCE(ncells = 20, ngenes = 100)
 #'
-#' params <- zinbEstimate(sc_example_counts)
-#' params
+#'     params <- zinbEstimate(sce)
+#'     params
 #' }
+#'
 #' @importFrom BiocParallel SerialParam
 #' @export
 zinbEstimate <- function(counts, design.samples = NULL, design.genes = NULL,

@@ -508,7 +508,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         theme_minimal()
 
     libs.qq <- ggplot(cells,
-                      aes_string(x = "RefRankLibSize", y = "total_counts",
+                      aes_string(x = "RefRankLibSize", y = "sum",
                                  colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
         geom_point(size = point.size, alpha = point.alpha) +
