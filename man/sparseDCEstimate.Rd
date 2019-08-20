@@ -49,13 +49,12 @@ See \code{\link{SparseDCParams}} for more details on the parameters.
 if (requireNamespace("SparseDC", quietly = TRUE)) {
     # Load example data
     library(scater)
-    data("sc_example_counts")
-
     set.seed(1)
-    conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
+    sce <- mockSCE(ncells = 20, ngenes = 100)
 
-    params <- sparseDCEstimate(sc_example_counts[1:500, ], conditions,
-                               nclusters = 3)
+    conditions <- sample(1:2, ncol(sce), replace = TRUE)
+
+    params <- sparseDCEstimate(sce, conditions, nclusters = 3)
     params
 }
 }

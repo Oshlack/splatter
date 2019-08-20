@@ -1,9 +1,10 @@
 context("lunEstimate")
 
 library(scater)
-data("sc_example_counts")
+set.seed(1)
+counts <- counts(mockSCE())
 
 test_that("lunEstimate works", {
-    params <- lunEstimate(sc_example_counts)
+    params <- lunEstimate(counts)
     expect_true(validObject(params))
 })

@@ -17,10 +17,11 @@
 #' @examples
 #' # Load example data
 #' if (requireNamespace("mfa", quietly = TRUE)) {
-#'     library(scater)
-#'     data("sc_example_counts")
+#'     library(mfa)
+#'     synth <- create_synthetic(C = 20, G = 5, zero_negative = TRUE,
+#'                               model_dropout = TRUE)
 #'
-#'     params <- mfaEstimate(sc_example_counts)
+#'     params <- mfaEstimate(synth$X)
 #'     params
 #' }
 #' @export

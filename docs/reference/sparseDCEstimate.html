@@ -76,7 +76,7 @@ dataset." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.4</span>
       </span>
     </div>
 
@@ -199,20 +199,19 @@ input data. The counts are preprocessed using
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace</a></span>(<span class='st'>"SparseDC"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
     <span class='co'># Load example data</span>
     <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>scater</span>)
-    <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"sc_example_counts"</span>)
-
     <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
-    <span class='no'>conditions</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>2</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>ncol</a></span>(<span class='no'>sc_example_counts</span>), <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/mockSCE'>mockSCE</a></span>(<span class='kw'>ncells</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>ngenes</span> <span class='kw'>=</span> <span class='fl'>100</span>)
 
-    <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>sparseDCEstimate</span>(<span class='no'>sc_example_counts</span>[<span class='fl'>1</span>:<span class='fl'>500</span>, ], <span class='no'>conditions</span>,
-                               <span class='kw'>nclusters</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+    <span class='no'>conditions</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>2</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>ncol</a></span>(<span class='no'>sce</span>), <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+    <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>sparseDCEstimate</span>(<span class='no'>sce</span>, <span class='no'>conditions</span>, <span class='kw'>nclusters</span> <span class='kw'>=</span> <span class='fl'>3</span>)
     <span class='no'>params</span>
 }</div><div class='output co'>#&gt; A <span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>SparseDCParams</span><span> 
 #&gt; Parameters can be (estimable) or </span><span style='color: #0000BB;'>[not estimable],</span><span> 'Default' or  </span><span style='color: #00BB00;font-weight: bold;'>'NOT DEFAULT'</span><span> 
 #&gt; 
 #&gt; </span><span style='font-weight: bold;'>Global:</span><span> 
 #&gt; </span><span style='font-weight: bold;'>(GENES)</span><span>  </span><span style='font-weight: bold;'>(CELLS)</span><span>  </span><span style='color: #0000BB;'> [Seed]</span><span> 
-#&gt; </span><span style='color: #00BB00;font-weight: bold;'>    500</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>     20</span><span>    33352 
+#&gt; </span><span style='color: #00BB00;font-weight: bold;'>    100</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>     10</span><span>   848036 
 #&gt; 
 #&gt; 7 additional parameters 
 #&gt; 
@@ -222,7 +221,7 @@ input data. The counts are preprocessed using
 #&gt; 
 #&gt; </span><span style='font-weight: bold;'>Clusters:</span><span> 
 #&gt; </span><span style='font-weight: bold;'>(CONDITION 1)</span><span>  </span><span style='font-weight: bold;'>(CONDITION 2)</span><span> 
-#&gt; </span><span style='color: #00BB00;font-weight: bold;'>      1, 2, 3</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>      1, 2, 3</span><span> 
+#&gt; </span><span style='color: #00BB00;font-weight: bold;'>         2, 3</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>      1, 2, 3</span><span> 
 #&gt; 
 #&gt; </span><span style='font-weight: bold;'>Means:</span><span> 
 #&gt; </span><span style='color: #0000BB;'>[Lower]</span><span>  </span><span style='color: #0000BB;'>[Upper]</span><span> 
