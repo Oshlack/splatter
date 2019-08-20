@@ -1,6 +1,7 @@
 ### Version 1.9.4.9008 (2019-08-20)
 
 * Merge master into splotch branch
+* Fix dataset in splotchEstimate example
 
 ## Version 1.9.4 (2019-08-20)
 

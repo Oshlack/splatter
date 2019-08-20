@@ -17,9 +17,10 @@
 #' @examples
 #' # Load example data
 #' library(scater)
-#' data("sc_example_counts")
+#' set.seed(1)
+#' sce <- mockSCE()
 #'
-#' params <- splotchEstimate(sc_example_counts)
+#' params <- splotchEstimate(sce)
 #' params
 #' @export
 splotchEstimate <- function(counts, params = newSplotchParams(),
