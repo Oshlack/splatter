@@ -37,8 +37,9 @@ setValidity("SplotchParams", function(object) {
                                                          any.missing = FALSE,
                                                          min.rows = 1,
                                                          ncols = 3),
-                lib.loc = checkNumber(v$lib.loc),
-                lib.scale = checkNumber(v$lib.scale, lower = 0),
+                lib.loc = checkmate::checkNumber(v$lib.loc),
+                lib.scale = checkmate::checkNumber(v$lib.scale, lower = 0),
+                lib.dens = checkmate::checkClass(v$lib.dens, "density"),
                 cells.design = checkmate::checkDataFrame(v$cells.design,
                                                          types = "numeric",
                                                          any.missing = FALSE,
@@ -133,8 +134,9 @@ setMethod("show", "SplotchParams", function(object) {
                                   "[Design]"  = "paths.design"))
 
     pp.bot <- list("Library size:" = c("(Location)" = "lib.loc",
-                                       "(Scale)"  = "lib.scale"),
-                   "Cells:"        = c("[Design]" = "cells.design"))
+                                       "(Scale)"    = "lib.scale",
+                                       "(Density)"  = "lib.dens"),
+                   "Cells:"        = c("[Design]"   = "cells.design"))
 
     paths.means <- getParam(object, "paths.means")
     if (length(paths.means) == 0) {
