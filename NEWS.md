@@ -1,6 +1,7 @@
 ### Version 1.9.4.9009 (2019-08-21)
 
 * Replace library size log-normal with density and rejection sampling
+* Add violins to comparison plots
 
 ### Version 1.9.4.9008 (2019-08-20)
 
