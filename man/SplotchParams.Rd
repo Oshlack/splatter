@@ -54,6 +54,8 @@ The Splotch simulation uses the following parameters:
             \item{\code{lib.scale}}{Scale (sdlog) parameter for the library
             size log-normal distribution, or sd parameter if a normal
             distribution is used.}
+            \item{\code{lib.dens}}{\code{\link{density}} object describing
+            the library size density.}
         }
     }
     \item{\emph{Paths parameters}}{

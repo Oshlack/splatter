@@ -304,6 +304,8 @@ setClass("SplatParams",
 #'             \item{\code{lib.scale}}{Scale (sdlog) parameter for the library
 #'             size log-normal distribution, or sd parameter if a normal
 #'             distribution is used.}
+#'             \item{\code{lib.dens}}{\code{\link{density}} object describing
+#'             the library size density.}
 #'         }
 #'     }
 #'     \item{\emph{Paths parameters}}{
@@ -338,6 +340,7 @@ setClass("SplotchParams",
                    paths.means = "list",
                    lib.loc = "numeric",
                    lib.scale = "numeric",
+                   lib.dens = "density",
                    cells.design = "data.frame"),
          prototype = prototype(mean.rate = 0.3,
                                mean.shape = 0.6,
@@ -357,6 +360,7 @@ setClass("SplotchParams",
                                paths.means = list(),
                                lib.loc = 11,
                                lib.scale = 0.2,
+                               lib.dens = density(rlnorm(10000, 11, 0.2)),
                                cells.design = data.frame(
                                    Path = 1,
                                    Probability = 1,

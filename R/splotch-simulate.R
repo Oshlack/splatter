@@ -242,10 +242,13 @@ splotchSimLibSizes <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating library sizes...")}
     nCells <- getParam(params, "nCells")
-    lib.loc <- getParam(params, "lib.loc")
-    lib.scale <- getParam(params, "lib.scale")
+    # lib.loc <- getParam(params, "lib.loc")
+    # lib.scale <- getParam(params, "lib.scale")
+    lib.dens <- getParam(params, "lib.dens")
 
-    exp.lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
+    # exp.lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
+    exp.lib.sizes <- rejectionSample(nCells, lib.dens)
+
     colData(sim)$ExpLibSize <- exp.lib.sizes
 
     return(sim)
@@ -346,4 +349,31 @@ getBetaStepProbs <- function(steps, alpha, beta) {
     probs <- dens / sum(dens)
 
     return(probs)
+}
+
+#' @importFrom stats approxfun
+rejectionSample <- function(n, dens, lower = 0) {
+
+    xmin <- min(dens$x)
+    xmax <- max(dens$x)
+    ymin <- min(dens$y)
+    ymax <- max(dens$y)
+
+    boundary <- approxfun(dens$x, dens$y)
+
+    values <- c()
+    nsel <- 0
+
+    while(nsel < n) {
+        x <- runif(1e4, xmin, xmax)
+        y <- runif(1e4, ymin, ymax)
+        sel <- y < boundary(x) & x > lower
+
+        nsel <- nsel + sum(sel)
+        values <- c(values, x[sel])
+    }
+
+    values <- values[1:n]
+
+    return(values)
 }

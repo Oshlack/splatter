@@ -98,6 +98,7 @@ splotchEstMean <- function(norm.counts, params, verbose) {
     return(params)
 }
 
+#' @importFrom stats density
 splotchEstLib <- function(counts, params, verbose) {
 
     if (verbose) {message("Estimating library size parameters...")}
@@ -109,7 +110,10 @@ splotchEstLib <- function(counts, params, verbose) {
     lib.loc <- unname(fit$estimate["meanlog"])
     lib.scale <- unname(fit$estimate["sdlog"])
 
-    params <- setParams(params, lib.loc = lib.loc, lib.scale = lib.scale)
+    dens <- density(lib.sizes)
+
+    params <- setParams(params, lib.loc = lib.loc, lib.scale = lib.scale,
+                        lib.dens = dens)
 
     return(params)
 }

@@ -107,10 +107,19 @@ showValues <- function(values, not.default) {
                              len = length(values))
 
     short.values <- sapply(values, function(x) {
-        if (length(x) > 4) {
-            paste0(paste(head(x, n = 4), collapse = ", "), ",...")
+        if (is.list(x)) {
+            classes <- class(x)
+            if (length(classes) == 1 && classes == "list") {
+                paste("List with", length(x), "items")
+            } else {
+                paste("Object of class", paste(classes, collapse = ", "))
+            }
         } else {
-            paste(x, collapse = ", ")
+            if (length(x) > 4) {
+                paste0(paste(head(x, n = 4), collapse = ", "), ",...")
+            } else {
+                paste(x, collapse = ", ")
+            }
         }
     })
 
