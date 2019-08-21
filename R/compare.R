@@ -52,9 +52,9 @@
 #' names(comparison)
 #' names(comparison$Plots)
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_smooth geom_boxplot
-#' geom_tile scale_y_continuous scale_y_log10 scale_x_log10 scale_colour_manual
-#' scale_fill_manual scale_fill_distiller coord_fixed facet_wrap xlab ylab
-#' ggtitle theme_minimal
+#' geom_violin geom_tile scale_y_continuous scale_y_log10 scale_x_log10
+#' scale_colour_manual scale_fill_manual scale_fill_distiller coord_fixed
+#' facet_wrap xlab ylab ggtitle theme_minimal
 #' @importFrom S4Vectors metadata<- metadata
 #' @importFrom SingleCellExperiment cpm<- cpm
 #' @importFrom stats cor
@@ -125,8 +125,12 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
     means <- ggplot(features,
                     aes_string(x = "Dataset", y = "MeanLogCPM",
                                colour = "Dataset")) +
-        geom_boxplot() +
+        geom_violin(aes_string(fill = "Dataset"),
+                    draw_quantiles = c(0.25, 0.5, 0.75),
+                    colour = "white", alpha = 0.3, size = 0.8) +
+        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         scale_colour_manual(values = colours) +
+        scale_fill_manual(values = colours) +
         ylab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
         ggtitle("Distribution of mean expression") +
         theme_minimal()
@@ -134,8 +138,12 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
     vars <- ggplot(features,
                    aes_string(x = "Dataset", y = "VarLogCPM",
                               colour = "Dataset")) +
-        geom_boxplot() +
+        geom_violin(aes_string(fill = "Dataset"),
+                    draw_quantiles = c(0.25, 0.5, 0.75),
+                    colour = "white", alpha = 0.3, size = 0.8) +
+        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         scale_colour_manual(values = colours) +
+        scale_fill_manual(values = colours) +
         ylab(expression(paste("Variance ", log[2], "(CPM + 1)"))) +
         ggtitle("Distribution of variance") +
         theme_minimal()
@@ -154,9 +162,13 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
     libs <- ggplot(cells,
                    aes_string(x = "Dataset", y = "sum",
                               colour = "Dataset")) +
-        geom_boxplot() +
+        geom_violin(aes_string(fill = "Dataset"),
+                    draw_quantiles = c(0.25, 0.5, 0.75),
+                    colour = "white", alpha = 0.3, size = 0.8) +
+        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         scale_y_continuous(labels = scales::comma) +
         scale_colour_manual(values = colours) +
+        scale_fill_manual(values = colours) +
         ylab("Total counts per cell") +
         ggtitle("Distribution of library sizes") +
         theme_minimal()
@@ -164,9 +176,13 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
     z.gene <- ggplot(features,
                      aes_string(x = "Dataset", y = "PctZero",
                                 colour = "Dataset")) +
-        geom_boxplot() +
+        geom_violin(aes_string(fill = "Dataset"),
+                    draw_quantiles = c(0.25, 0.5, 0.75),
+                    colour = "white", alpha = 0.3, size = 0.8) +
+        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         scale_y_continuous(limits = c(0, 100)) +
         scale_colour_manual(values = colours) +
+        scale_fill_manual(values = colours) +
         ylab("Percentage zeros per gene") +
         ggtitle("Distribution of zeros per gene") +
         theme_minimal()
@@ -174,9 +190,13 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
     z.cell <- ggplot(cells,
                      aes_string(x = "Dataset", y = "PctZero",
                                 colour = "Dataset")) +
-        geom_boxplot() +
+        geom_violin(aes_string(fill = "Dataset"),
+                    draw_quantiles = c(0.25, 0.5, 0.75),
+                    colour = "white", alpha = 0.3, size = 0.8) +
+        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         scale_y_continuous(limits = c(0, 100)) +
         scale_colour_manual(values = colours) +
+        scale_fill_manual(values = colours) +
         ylab("Percentage zeros per cell") +
         ggtitle("Distribution of zeros per cell") +
         theme_minimal()
@@ -413,7 +433,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                     aes_string(x = "Dataset", y = "RankDiffMeanLogCPM",
                                colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
-        geom_boxplot() +
+        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         scale_colour_manual(values = colours) +
         ylab(expression(paste("Rank difference mean ", log[2], "(CPM + 1)"))) +
         ggtitle("Difference in mean expression") +
@@ -423,7 +443,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                     aes_string(x = "Dataset", y = "RankDiffVarLogCPM",
                                colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
-        geom_boxplot() +
+        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         scale_colour_manual(values = colours) +
         ylab(expression(paste("Rank difference variance ", log[2],
                               "(CPM + 1)"))) +
@@ -447,7 +467,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                    aes_string(x = "Dataset", y = "RankDiffLibSize",
                               colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
-        geom_boxplot() +
+        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         scale_colour_manual(values = colours) +
         ylab(paste("Rank difference library size")) +
         ggtitle("Difference in library sizes") +
@@ -457,7 +477,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                      aes_string(x = "Dataset", y = "RankDiffZeros",
                                 colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
-        geom_boxplot() +
+        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         scale_colour_manual(values = colours) +
         ylab(paste("Rank difference percentage zeros")) +
         ggtitle("Difference in zeros per gene") +
@@ -467,7 +487,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                      aes_string(x = "Dataset", y = "RankDiffZeros",
                                 colour = "Dataset")) +
         geom_hline(yintercept = 0, colour = "red") +
-        geom_boxplot() +
+        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         scale_colour_manual(values = colours) +
         ylab(paste("Rank difference percentage zeros")) +
         ggtitle("Difference in zeros per cell") +
@@ -489,7 +509,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                        aes_string(x = "RefRankMeanLogCPM", y = "MeanLogCPM",
                                   colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point(size = point.size, alpha = point.alpha) +
+        geom_point(size = point.size) +
         scale_colour_manual(values = colours) +
         xlab(expression(paste("Reference mean ", log[2], "(CPM + 1)"))) +
         ylab(expression(paste("Alternative mean ", log[2], "(CPM + 1)"))) +
@@ -500,7 +520,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                       aes_string(x = "RefRankVarLogCPM", y = "VarLogCPM",
                                  colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point(size = point.size, alpha = point.alpha) +
+        geom_point(size = point.size) +
         scale_colour_manual(values = colours) +
         xlab(expression(paste("Reference variance ", log[2], "(CPM + 1)"))) +
         ylab(expression(paste("Alternative variance ", log[2], "(CPM + 1)"))) +
@@ -511,7 +531,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                       aes_string(x = "RefRankLibSize", y = "sum",
                                  colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point(size = point.size, alpha = point.alpha) +
+        geom_point(size = point.size) +
         scale_colour_manual(values = colours) +
         xlab("Reference library size") +
         ylab("Alternative library size") +
@@ -523,7 +543,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                                    y = "PctZero",
                                    colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point(size = point.size, alpha = point.alpha) +
+        geom_point(size = point.size) +
         scale_colour_manual(values = colours) +
         xlab("Reference percentage zeros") +
         ylab("Alternative percentage zeros") +
@@ -534,7 +554,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                         aes_string(x = "RefRankZeros", y = "PctZero",
                                    colour = "Dataset")) +
         geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point(size = point.size, alpha = point.alpha) +
+        geom_point(size = point.size) +
         scale_colour_manual(values = colours) +
         xlab("Reference percentage zeros") +
         ylab("Alternative percentage zeros") +
