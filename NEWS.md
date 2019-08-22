@@ -1,3 +1,7 @@
+### Version 1.9.4.9010 (2019-08-22)
+
+* Add density sampling options for means and library sizes
+
 ### Version 1.9.4.9009 (2019-08-21)
 
 * Replace library size log-normal with density and rejection sampling

@@ -78,7 +78,7 @@ splotchEstMean <- function(norm.counts, params, verbose) {
     med <- median(lmeans)
     mad <- mad(lmeans)
 
-    bound <- med + 1 * mad
+    bound <- med + 2 * mad
 
     outs <- which(lmeans > bound)
 
@@ -88,12 +88,15 @@ splotchEstMean <- function(norm.counts, params, verbose) {
 
     if (length(outs) > 1) {
         facs <- means[outs] / median(means)
-        fit <- selectFit(facs, "lnorm", verbose = verbose)
+        #fit <- selectFit(facs, "lnorm", verbose = verbose)
+        fit <- fitdistrplus::fitdist(facs, "lnorm")
 
         params <- setParams(params,
                             mean.outLoc = unname(fit$estimate["meanlog"]),
                             mean.outScale = unname(fit$estimate["sdlog"]))
     }
+
+    params <- setParams(params, mean.dens = density(lmeans))
 
     return(params)
 }
@@ -191,6 +194,7 @@ selectFit <- function(data, distr, weights = NULL, verbose = TRUE) {
     }
 
     scores <- fitdistrplus::gofstat(fits)$cvm
+
     # Flatten in case scores is a list
     scores.flat <- unlist(scores)
     selected <- which(scores.flat == min(scores.flat, na.rm = TRUE))

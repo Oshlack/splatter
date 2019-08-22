@@ -279,7 +279,13 @@ setClass("SplatParams",
 #'             the expression outlier factor log-normal distribution.}
 #'             \item{\code{mean.outFacScale}}{Scale (sdlog) parameter for the
 #'             expression outlier factor log-normal distribution.}
-#'             \item{\code{mean.values}}{Vector of means for each gene.}
+#'             \item{\code{mean.dens}}{\code{\link{density}} object describing
+#'             the log gene mean density.}
+#'             \item{\code{[mean.method]}}{Method to use for simulating gene
+#'             means. Either "fit" to sample from a gamma distribution (with
+#'             expression outliers) or "density" to sample from the provided
+#'             density object.}
+#'             \item{\code{[mean.values]}}{Vector of means for each gene.}
 #'         }
 #'     }
 #'     \item{\emph{Network parameters}}{
@@ -306,6 +312,9 @@ setClass("SplatParams",
 #'             distribution is used.}
 #'             \item{\code{lib.dens}}{\code{\link{density}} object describing
 #'             the library size density.}
+#'             \item{\code{[lib.method]}}{Method to use for simulating library
+#'             sizes. Either "fit" to sample from a log-normal distribution or
+#'             "density" to sample from the provided density object.}
 #'         }
 #'     }
 #'     \item{\emph{Paths parameters}}{
@@ -331,6 +340,8 @@ setClass("SplotchParams",
                    mean.outProb = "numeric",
                    mean.outLoc = "numeric",
                    mean.outScale = "numeric",
+                   mean.dens = "density",
+                   mean.method = "character",
                    mean.values = "numeric",
                    network.graph = "ANY",
                    network.nRegs = "numeric",
@@ -341,12 +352,16 @@ setClass("SplotchParams",
                    lib.loc = "numeric",
                    lib.scale = "numeric",
                    lib.dens = "density",
+                   lib.method = "character",
                    cells.design = "data.frame"),
          prototype = prototype(mean.rate = 0.3,
                                mean.shape = 0.6,
                                mean.outProb = 0.05,
                                mean.outLoc = 4,
                                mean.outScale = 0.5,
+                               mean.dens = density(rgamma(10000, rate = 0.3,
+                                                          shape = 0.6)),
+                               mean.method = "fit",
                                mean.values = numeric(),
                                network.graph = NULL,
                                network.nRegs = 100,
@@ -361,6 +376,7 @@ setClass("SplotchParams",
                                lib.loc = 11,
                                lib.scale = 0.2,
                                lib.dens = density(rlnorm(10000, 11, 0.2)),
+                               lib.method = "fit",
                                cells.design = data.frame(
                                    Path = 1,
                                    Probability = 1,

@@ -25,6 +25,9 @@ setValidity("SplotchParams", function(object) {
                 mean.outProb = checkNumber(v$mean.outProb, lower = 0, upper = 1),
                 mean.outLoc = checkNumber(v$mean.outLoc),
                 mean.outScale = checkNumber(v$mean.outScale, lower = 0),
+                mean.dens = checkmate::checkClass(v$mean.dens, "density"),
+                mean.method = checkmate::checkChoice(v$mean.method,
+                                                     c("fit", "density")),
                 network.graph = checkmate::checkClass(v$network, "igraph",
                                                       null.ok = TRUE),
                 network.nRegs = checkmate::checkInt(v$network.nRegs,
@@ -40,6 +43,8 @@ setValidity("SplotchParams", function(object) {
                 lib.loc = checkmate::checkNumber(v$lib.loc),
                 lib.scale = checkmate::checkNumber(v$lib.scale, lower = 0),
                 lib.dens = checkmate::checkClass(v$lib.dens, "density"),
+                lib.method = checkmate::checkChoice(v$lib.method,
+                                                    c("fit", "density")),
                 cells.design = checkmate::checkDataFrame(v$cells.design,
                                                          types = "numeric",
                                                          any.missing = FALSE,
@@ -124,6 +129,8 @@ setMethod("show", "SplotchParams", function(object) {
                                "(Out Prob)"     = "mean.outProb",
                                "(Out Location)" = "mean.outLoc",
                                "(Out Scale)"    = "mean.outScale",
+                               "(Density)"      = "mean.density",
+                               "[Method]"       = "mean.method",
                                "[Values]*"      = "mean.values"))
 
     pp.network <- list("Network:" = c("[Graph]"   = "network.graph",
@@ -135,7 +142,8 @@ setMethod("show", "SplotchParams", function(object) {
 
     pp.bot <- list("Library size:" = c("(Location)" = "lib.loc",
                                        "(Scale)"    = "lib.scale",
-                                       "(Density)"  = "lib.dens"),
+                                       "(Density)"  = "lib.dens",
+                                       "[Method]"   = "lib.method"),
                    "Cells:"        = c("[Design]"   = "cells.design"))
 
     paths.means <- getParam(object, "paths.means")
@@ -205,10 +213,12 @@ setMethod("setParam", "SplotchParams", function(object, name, value) {
 
     if (name == "network.graph") {
         checkmate::assertClass(value, "igraph")
-        object <- setParamUnchecked(object, "nGenes", igraph::gorder(value))
-        if (!(length(getParam(object, "mean.values")) == 0)) {
-            warning("changing network.graph resets mean.values")
-            object <- setParam(object, "mean.values", numeric())
+        if (getParam(object, "nGenes") != igraph::gorder(value)) {
+            if (!(length(getParam(object, "mean.values")) == 0)) {
+                warning("changing network.graph resets mean.values")
+                object <- setParam(object, "mean.values", numeric())
+            }
+            object <- setParamUnchecked(object, "nGenes", igraph::gorder(value))
         }
 
         if ("IsReg" %in% igraph::vertex_attr_names(value)) {

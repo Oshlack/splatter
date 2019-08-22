@@ -29,7 +29,13 @@ The Splotch simulation uses the following parameters:
             the expression outlier factor log-normal distribution.}
             \item{\code{mean.outFacScale}}{Scale (sdlog) parameter for the
             expression outlier factor log-normal distribution.}
-            \item{\code{mean.values}}{Vector of means for each gene.}
+            \item{\code{mean.dens}}{\code{\link{density}} object describing
+            the log gene mean density.}
+            \item{\code{[mean.method]}}{Method to use for simulating gene
+            means. Either "fit" to sample from a gamma distribution (with
+            expression outliers) or "density" to sample from the provided
+            density object.}
+            \item{\code{[mean.values]}}{Vector of means for each gene.}
         }
     }
     \item{\emph{Network parameters}}{
@@ -56,6 +62,9 @@ The Splotch simulation uses the following parameters:
             distribution is used.}
             \item{\code{lib.dens}}{\code{\link{density}} object describing
             the library size density.}
+            \item{\code{[lib.method]}}{Method to use for simulating library
+            sizes. Either "fit" to sample from a log-normal distribution or
+            "density" to sample from the provided density object.}
         }
     }
     \item{\emph{Paths parameters}}{
