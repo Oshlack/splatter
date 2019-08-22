@@ -146,20 +146,30 @@ splotchSimGeneMeans <- function(params, verbose) {
 
     if (verbose) {message("Simulating means...")}
     nGenes <- getParam(params, "nGenes")
-    mean.shape <- getParam(params, "mean.shape")
-    mean.rate <- getParam(params, "mean.rate")
-    mean.outProb <- getParam(params, "mean.outProb")
-    mean.outLoc <- getParam(params, "mean.outLoc")
-    mean.outScale <- getParam(params, "mean.outScale")
+    mean.method <- getParam(params, "mean.method")
 
-    mean.values <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
+    if (mean.method == "fit") {
+        if (verbose) {message("Sampling from gamma distribution...")}
+        mean.shape <- getParam(params, "mean.shape")
+        mean.rate <- getParam(params, "mean.rate")
+        mean.outProb <- getParam(params, "mean.outProb")
+        mean.outLoc <- getParam(params, "mean.outLoc")
+        mean.outScale <- getParam(params, "mean.outScale")
 
-    outlier.facs <- getLNormFactors(nGenes, mean.outProb, 0, mean.outLoc,
-                                    mean.outScale)
-    median.means.gene <- median(mean.values)
-    outlier.means <- median.means.gene * outlier.facs
-    is.outlier <- outlier.facs != 1
-    mean.values[is.outlier] <- outlier.means[is.outlier]
+        mean.values <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
+
+        outlier.facs <- getLNormFactors(nGenes, mean.outProb, 0, mean.outLoc,
+                                        mean.outScale)
+        median.means.gene <- median(mean.values)
+        outlier.means <- median.means.gene * outlier.facs
+        is.outlier <- outlier.facs != 1
+        mean.values[is.outlier] <- outlier.means[is.outlier]
+    } else if (mean.method == "density") {
+        if (verbose) {message("Sampling from density object...")}
+        mean.dens <- getParam(params, "mean.dens")
+
+        mean.values <- exp(sampleDensity(nGenes, mean.dens, lower = -Inf))
+    }
 
     params <- setParam(params, "mean.values", mean.values)
 
@@ -242,12 +252,20 @@ splotchSimLibSizes <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating library sizes...")}
     nCells <- getParam(params, "nCells")
-    # lib.loc <- getParam(params, "lib.loc")
-    # lib.scale <- getParam(params, "lib.scale")
-    lib.dens <- getParam(params, "lib.dens")
+    lib.method <- getParam(params, "lib.method")
 
-    # exp.lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
-    exp.lib.sizes <- rejectionSample(nCells, lib.dens)
+    if (lib.method == "fit") {
+        if (verbose) {message("Sampling from log-normal distribution...")}
+        lib.loc <- getParam(params, "lib.loc")
+        lib.scale <- getParam(params, "lib.scale")
+
+        exp.lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
+    } else if (lib.method == "density") {
+        if (verbose) {message("Sampling from density object...")}
+        lib.dens <- getParam(params, "lib.dens")
+
+        exp.lib.sizes <- sampleDensity(nCells, lib.dens)
+    }
 
     colData(sim)$ExpLibSize <- exp.lib.sizes
 
@@ -352,7 +370,7 @@ getBetaStepProbs <- function(steps, alpha, beta) {
 }
 
 #' @importFrom stats approxfun
-rejectionSample <- function(n, dens, lower = 0) {
+sampleDensity <- function(n, dens, lower = 0) {
 
     xmin <- min(dens$x)
     xmax <- max(dens$x)
