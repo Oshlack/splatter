@@ -38,6 +38,14 @@ The Splotch simulation uses the following parameters:
             \item{\code{[mean.values]}}{Vector of means for each gene.}
         }
     }
+    \item{\emph{Biological Coefficient of Variation parameters}}{
+        \describe{
+            \item{\code{bcv.common}}{Underlying common dispersion across all
+            genes.}
+            \item{\code{[bcv.df]}}{Degrees of Freedom for the BCV inverse
+            chi-squared distribution.}
+        }
+    }
     \item{\emph{Network parameters}}{
         \describe{
             \item{\code{[network.graph]}}{Graph containing the gene network.}

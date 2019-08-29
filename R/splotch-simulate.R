@@ -321,6 +321,23 @@ splotchSimCellMeans <- function(sim, params, verbose) {
     colnames(cells.means) <- cell.names
     rownames(cells.means) <- gene.names
 
+    nGenes <- getParam(params, "nGenes")
+    bcv.common <- getParam(params, "bcv.common")
+    bcv.df <- getParam(params, "bcv.df")
+
+    if (is.finite(bcv.df)) {
+        bcv <- (bcv.common + (1 / sqrt(cells.means))) *
+            sqrt(bcv.df / rchisq(nGenes, df = bcv.df))
+    } else {
+        warning("'bcv.df' is infinite. This parameter will be ignored.")
+        bcv <- (bcv.common + (1 / sqrt(cells.means)))
+    }
+
+    cells.means <- matrix(rgamma(
+        as.numeric(nGenes) * as.numeric(nCells),
+        shape = 1 / (bcv ^ 2), scale = cells.means * (bcv ^ 2)),
+        nrow = nGenes, ncol = nCells)
+
     colData(sim)$Path <- cells.paths
     colData(sim)$Step <- cells.steps
     assays(sim)$CellMeans <- cells.means

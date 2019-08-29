@@ -53,6 +53,7 @@ splotchEstimate.matrix <- function(counts, params = newSplotchParams(),
     norm.counts <- norm.counts[rowSums(norm.counts > 0) > 1, ]
 
     params <- splotchEstMean(norm.counts, params, verbose)
+    params <- splotchEstBCV(counts, params, verbose)
     params <- splotchEstLib(counts, params, verbose)
 
     params <- setParams(params, nGenes = nrow(counts), nCells = ncol(counts))
@@ -97,6 +98,66 @@ splotchEstMean <- function(norm.counts, params, verbose) {
     }
 
     params <- setParams(params, mean.dens = density(lmeans))
+
+    return(params)
+}
+
+splotchEstBCV <- function(counts, params, verbose) {
+
+    if (verbose) {message("Estimating BCV parameters...")}
+
+    # Add dummy design matrix to avoid print statement
+    design <- matrix(1, ncol(counts), 1)
+    disps <- edgeR::estimateDisp(counts, design = design)
+    raw <- disps$common.dispersion
+
+    mean.rate <- getParam(params, "mean.rate")
+    mean.shape <- getParam(params, "mean.shape")
+
+    # Caculate factors for correction based on mean parameters
+    # Coefficents come from fitting
+    #   RawEst ~
+    #       (A1 * mean.rate + A2 * mean.shape + A3 * mean.rate *
+    #           E_mean.shape + A4) *
+    #       ((B1 * mean.rate + B2 * mean.shape + B3 * mean.rate *
+    #           mean.shape + B4) ^ SimBCVCommon) +
+    #       (C1 * mean.rate + C2 * mean.shape + C3 * mean.rate *
+    #           mean.shape + C4)
+    # Using minpack.lm::nlsLM
+    A <- -0.6 * mean.rate - 2.9 * mean.shape +
+        0.4 * mean.rate * mean.shape + 9.5
+    B <- 0.15 * mean.rate + 0.25 * mean.shape -
+        0.1 * mean.rate * mean.shape + 1.2
+    C <- 0.9 * mean.rate + 4.5 * mean.shape -
+        0.6 * mean.rate * mean.shape - 10.6
+    Y <- (raw - C) / A
+
+    message("Raw: ", raw, " A: ", A, " B: ", B, " C: ", C, " Y: ", Y)
+
+    # Check if Y <= 0 to avoid problems when taking log
+    if (Y <= 0) {
+        Y <- 0.0001
+    }
+
+    corrected <- log(Y, base = B)
+
+    # Dispersion cannot be negative so apply a simpler correction to those.
+    # Coefficients come from fitting
+    #   SimBCVCommon ~ EstRaw
+    # Using lm (negative values only)
+    if (corrected < 0) {
+        warning("Exponential corrected BCV is negative.",
+                "Using linear correction.")
+        corrected <- -0.1 + 0.1 * raw
+    }
+
+    if (corrected < 0) {
+        warning("Linear corrected BCV is negative.",
+                "Using existing bcv.common.")
+        corrected <- getParam(params, "bcv.common")
+    }
+
+    params <- setParams(params, bcv.common = corrected)
 
     return(params)
 }

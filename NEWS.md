@@ -1,3 +1,8 @@
+### Version 1.9.4.9011 (2019-08-29)
+
+* Add BCV adjustment to Splotch simualation
+* Use new exponential correction for bcv.common
+
 ### Version 1.9.4.9010 (2019-08-22)
 
 * Add density sampling options for means and library sizes
