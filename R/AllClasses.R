@@ -288,6 +288,14 @@ setClass("SplatParams",
 #'             \item{\code{[mean.values]}}{Vector of means for each gene.}
 #'         }
 #'     }
+#'     \item{\emph{Biological Coefficient of Variation parameters}}{
+#'         \describe{
+#'             \item{\code{bcv.common}}{Underlying common dispersion across all
+#'             genes.}
+#'             \item{\code{[bcv.df]}}{Degrees of Freedom for the BCV inverse
+#'             chi-squared distribution.}
+#'         }
+#'     }
 #'     \item{\emph{Network parameters}}{
 #'         \describe{
 #'             \item{\code{[network.graph]}}{Graph containing the gene network.}
@@ -343,6 +351,8 @@ setClass("SplotchParams",
                    mean.dens = "density",
                    mean.method = "character",
                    mean.values = "numeric",
+                   bcv.common = "numeric",
+                   bcv.df = "numeric",
                    network.graph = "ANY",
                    network.nRegs = "numeric",
                    network.regsSet = "logical",
@@ -363,6 +373,8 @@ setClass("SplotchParams",
                                                           shape = 0.6)),
                                mean.method = "fit",
                                mean.values = numeric(),
+                               bcv.common = 0.1,
+                               bcv.df = 60,
                                network.graph = NULL,
                                network.nRegs = 100,
                                network.regsSet = FALSE,

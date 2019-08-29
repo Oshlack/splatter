@@ -28,6 +28,8 @@ setValidity("SplotchParams", function(object) {
                 mean.dens = checkmate::checkClass(v$mean.dens, "density"),
                 mean.method = checkmate::checkChoice(v$mean.method,
                                                      c("fit", "density")),
+                bcv.common = checkNumber(v$bcv.common, lower = 0),
+                bcv.df = checkNumber(v$bcv.df, lower = 0),
                 network.graph = checkmate::checkClass(v$network, "igraph",
                                                       null.ok = TRUE),
                 network.nRegs = checkmate::checkInt(v$network.nRegs,
@@ -129,13 +131,15 @@ setMethod("show", "SplotchParams", function(object) {
                                "(Out Prob)"     = "mean.outProb",
                                "(Out Location)" = "mean.outLoc",
                                "(Out Scale)"    = "mean.outScale",
-                               "(Density)"      = "mean.density",
+                               "(Density)"      = "mean.dens",
                                "[Method]"       = "mean.method",
-                               "[Values]*"      = "mean.values"))
+                               "[Values]*"      = "mean.values"),
+                   "BCV:"  = c("(Common Disp)"  = "bcv.common",
+                               "[DoF]"          = "bcv.df"))
 
-    pp.network <- list("Network:" = c("[Graph]"   = "network.graph",
-                                      "[nRegs]"   = "network.nRegs",
-                                      "[regsSet]" = "network.regsSet"))
+    pp.network <- list("Network:" = c("[Graph]*"   = "network.graph",
+                                      "[nRegs]"    = "network.nRegs",
+                                      "[regsSet]*" = "network.regsSet"))
 
     pp.paths <- list("Paths:" = c("[nPrograms]" = "paths.nPrograms",
                                   "[Design]"  = "paths.design"))
@@ -160,15 +164,15 @@ setMethod("show", "SplotchParams", function(object) {
         showPP(object, pp.network)
     } else {
         cat(crayon::bold("Network:"), "\n")
-        cat(crayon::bold(crayon::blue("[GRAPH]\n")))
+        cat(crayon::bold(crayon::bgYellow(crayon::blue("[GRAPH]\n"))))
         cat(crayon::bold(crayon::green(paste(
             "Graph with", igraph::gorder(network.graph), "nodes and",
             igraph::gsize(network.graph), "edges\n"
         ))))
         show(network.graph)
         network.values <- list("[nRegs]" = getParam(object, "network.nRegs"),
-                               "[regsSet]" = getParam(object,
-                                                      "network.regsSet"))
+                               "[regsSet]*" = getParam(object,
+                                                       "network.regsSet"))
         network.default <- c(network.values$`[nRegs]` != 100,
                              network.values$`[regsSet]` != FALSE)
         showValues(network.values, network.default)
