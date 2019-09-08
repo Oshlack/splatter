@@ -1,3 +1,7 @@
+## Version 1.9.5 (2019-09-09)
+
+* Fix bug in NAMESPACE
+
 ## Version 1.9.4 (2019-08-20)
 
 * Fix deprecated column name in diffSCEs QQ plots
