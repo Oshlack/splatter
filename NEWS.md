@@ -1,3 +1,11 @@
+### Version 1.9.5.9012 (2019-09-09)
+
+* Merge master into splotch branch
+
+## Version 1.9.5 (2019-09-09)
+
+* Fix bug in NAMESPACE
+
 ### Version 1.9.4.9011 (2019-08-29)
 
 * Add BCV adjustment to Splotch simualation
