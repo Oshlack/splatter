@@ -1,3 +1,7 @@
+## Version 1.9.6 (2019-09-17)
+
+* Adjust BASiCSSimulate to match development version of BASiCS
+
 ## Version 1.9.5 (2019-09-09)
 
 * Fix bug in NAMESPACE

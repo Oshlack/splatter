@@ -48,6 +48,10 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
     batch.cells <- getParam(params, "batchCells")
     gene.params <- getParam(params, "gene.params")
 
+    if (nSpikes == 0 && nBatches == 1) {
+        stop("If there are no spikes there must be multiple batches")
+    }
+
     # Sample gene.params if necessary
     if (nrow(gene.params) != nGenes) {
         warning("Number of gene.params not equal to nGenes, ",
@@ -59,7 +63,9 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
     mu <- gene.params$Mean
     delta <- gene.params$Delta
 
-    if (nSpikes > 0) {
+    has.spikes <- nSpikes > 0
+    spike.mu <- NULL
+    if (has.spikes) {
         spike.mu <- getParam(params, "spike.means")
         if (length(spike.mu) != nSpikes) {
             warning("Number of spike-in means not equal to nSpikes, ",
@@ -67,9 +73,6 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
             selected <- sample(length(spike.mu), nSpikes, replace = TRUE)
             spike.mu <- spike.mu[selected]
         }
-    } else {
-        # Create dummy spike-ins to get around BASiCS_Sim...
-        spike.mu <- c(10, 10)
     }
 
     cell.params <- getParam(params, "cell.params")
@@ -87,31 +90,32 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
     batches <- unlist(batches)
 
     if (verbose) {message("Simulating counts with BASiCS...")}
-    counts.list <- list()
-    for (batch in seq_len(nBatches)) {
-        batch.cells <- batches == batch
-        phi <- cell.params[batch.cells, "Phi"]
-        phi <- (phi / sum(phi)) * sum(batch.cells)
-        s <- cell.params[batch.cells, "S"]
-        theta <- thetas[batch]
+    if (has.spikes) {
         BASiCS.sim <- suppressMessages(
-                          BASiCS::BASiCS_Sim(mu, spike.mu, delta, phi, s, theta)
-                      )
-        batch.counts <- SummarizedExperiment::assay(BASiCS.sim)
-        counts.list[[batch]] <- batch.counts
+            BASiCS::BASiCS_Sim(Mu = mu, Mu_spikes = spike.mu, Delta = delta,
+                               Phi = cell.params$Phi, S = cell.params$S,
+                               Theta = thetas, BatchInfo = batches)
+        )
+        counts <- SingleCellExperiment::counts(BASiCS.sim)
+        spike.counts <- SummarizedExperiment::assay(
+            SingleCellExperiment::altExp(BASiCS.sim)
+        )
+        counts <- rbind(counts, spike.counts)
+    } else {
+        if (verbose) {message("Simulating without spikes")}
+        BASiCS.sim <- suppressMessages(
+            BASiCS::BASiCS_Sim(Mu = mu, Mu_spikes = NULL, Delta = delta,
+                               Phi = NULL, S = cell.params$S,
+                               Theta = thetas, BatchInfo = batches)
+        )
+        counts <- SingleCellExperiment::counts(BASiCS.sim)
     }
-
-    counts <- do.call(cbind, counts.list)
 
     if (verbose) {message("Creating final dataset...")}
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
-    if (nSpikes > 0) {
+    if (has.spikes) {
         gene.names <- c(gene.names, paste0("Spike", seq_len(nSpikes)))
-    } else {
-        # Remove dummy spikes
-        counts <- counts[1:(nrow(counts) - 2), ]
-        spike.mu <- numeric()
     }
 
     rownames(counts) <- gene.names
