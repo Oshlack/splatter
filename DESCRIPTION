@@ -1,8 +1,8 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 1.9.5.9012
-Date: 2019-09-09
+Version: 1.9.7.9012
+Date: 2019-09-19
 Author: Luke Zappia
 Authors@R:
     c(person("Luke", "Zappia", role = c("aut", "cre"),
@@ -58,7 +58,7 @@ Suggests:
     scran,
     mfa,
     phenopath,
-    BASiCS,
+    BASiCS (>= 1.7.10),
     zinbwave,
     SparseDC,
     BiocManager,
