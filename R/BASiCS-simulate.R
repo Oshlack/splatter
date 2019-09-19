@@ -72,6 +72,8 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
                     "spike.means will be sampled.")
             selected <- sample(length(spike.mu), nSpikes, replace = TRUE)
             spike.mu <- spike.mu[selected]
+
+            params <- setParam(params, "spike.mu", spike.mu)
         }
     }
 
@@ -81,6 +83,10 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
                 "cell.params will be sampled.")
         selected <- sample(nrow(cell.params), nCells, replace = TRUE)
         cell.params <- cell.params[selected, ]
+
+        cell.params$Phi <- (cell.params$Phi / sum(cell.params$Phi)) * nCells
+
+        params <- setParam(params, "cell.params", cell.params)
     }
 
     thetas <- getParam(params, "theta")
