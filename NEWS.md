@@ -1,3 +1,7 @@
+## Version 1.9.7 (2019-09-19)
+
+* Rescale when sampling Phi in BASiCSSimulate
+
 ## Version 1.9.6 (2019-09-17)
 
 * Adjust BASiCSSimulate to match development version of BASiCS
