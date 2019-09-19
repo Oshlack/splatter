@@ -1,3 +1,15 @@
+### Version 1.9.7.9013 (2019-09-19)
+
+* Merge master into splotch branch
+
+## Version 1.9.7 (2019-09-19)
+
+* Rescale when sampling Phi in BASiCSSimulate
+
+## Version 1.9.6 (2019-09-17)
+
+* Adjust BASiCSSimulate to match development version of BASiCS
+
 ### Version 1.9.5.9012 (2019-09-09)
 
 * Merge master into splotch branch
