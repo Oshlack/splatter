@@ -66,11 +66,8 @@ export(splatSimulate)
 export(splatSimulateGroups)
 export(splatSimulatePaths)
 export(splatSimulateSingle)
-<<<<<<< HEAD
 export(splotchEstimate)
 export(splotchSimulate)
-=======
->>>>>>> master
 export(summariseDiff)
 export(zinbEstimate)
 export(zinbSimulate)
@@ -142,11 +139,8 @@ importFrom(methods,validObject)
 importFrom(stats,aggregate)
 importFrom(stats,approxfun)
 importFrom(stats,cor)
-<<<<<<< HEAD
 importFrom(stats,dbeta)
 importFrom(stats,density)
-=======
->>>>>>> master
 importFrom(stats,dnbinom)
 importFrom(stats,ks.test)
 importFrom(stats,median)

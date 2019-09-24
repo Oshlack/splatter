@@ -69,13 +69,25 @@ splotchSample <- function(params, verbose = TRUE) {
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
 
-    cells <-  data.frame(Cell = cell.names, row.names = cell.names)
-    features <- data.frame(Gene = gene.names, row.names = gene.names)
+    nEmpty <- getParam(params, "ambient.nEmpty")
+    if (nEmpty > 0) {
+        empty.names <- paste0("Empty", seq_len(nEmpty))
+        cell.names <- c(cell.names, empty.names)
+    }
+
+    cells <-  data.frame(Cell = cell.names,
+                         Type = rep(c("Cell", "Empty"), c(nCells, nEmpty)),
+                         row.names = cell.names)
+    features <- data.frame(Gene = gene.names,
+                           BaseMean = getParam(params, "mean.values"),
+                           row.names = gene.names)
     sim <- SingleCellExperiment(rowData = features, colData = cells,
                                 metadata = list(Params = params))
 
     sim <- splotchSimLibSizes(sim, params, verbose)
     sim <- splotchSimCellMeans(sim, params, verbose)
+    sim <- splotchSimCellCounts(sim, params, verbose)
+    sim <- splotchSimAmbientCounts(sim, params, verbose)
     sim <- splotchSimCounts(sim, params, verbose)
 
     return(sim)
@@ -252,6 +264,7 @@ splotchSimLibSizes <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating library sizes...")}
     nCells <- getParam(params, "nCells")
+    nEmpty <- getParam(params, "ambient.nEmpty")
     lib.method <- getParam(params, "lib.method")
 
     if (lib.method == "fit") {
@@ -259,15 +272,24 @@ splotchSimLibSizes <- function(sim, params, verbose) {
         lib.loc <- getParam(params, "lib.loc")
         lib.scale <- getParam(params, "lib.scale")
 
-        exp.lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
+        cell.lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
     } else if (lib.method == "density") {
         if (verbose) {message("Sampling from density object...")}
         lib.dens <- getParam(params, "lib.dens")
 
-        exp.lib.sizes <- sampleDensity(nCells, lib.dens)
+        cell.lib.sizes <- sampleDensity(nCells, lib.dens)
     }
 
-    colData(sim)$ExpLibSize <- exp.lib.sizes
+    cell.lib.sizes <- c(cell.lib.sizes, rep(0, nEmpty))
+    colData(sim)$CellLibSize <- cell.lib.sizes
+
+    ambient.scale <- getParam(params, "ambient.scale")
+    if (ambient.scale > 0) {
+        ambient.loc <- log(exp(lib.loc) * ambient.scale)
+
+        ambient.lib.sizes <- rlnorm(nCells + nEmpty, ambient.loc, 0.3)
+        colData(sim)$AmbientLibSize <- ambient.lib.sizes
+    }
 
     return(sim)
 }
@@ -281,7 +303,9 @@ splotchSimCellMeans <- function(sim, params, verbose) {
     cells.design <- getParam(params, "cells.design")
     paths.design <- getParam(params, "paths.design")
     paths.means <- getParam(params, "paths.means")
-    exp.lib.sizes <- colData(sim)$ExpLibSize
+    cell.lib.sizes <- colData(sim)$CellLibSize
+    nEmpty <- getParam(params, "ambient.nEmpty")
+    not.empty <- colData(sim)$Type != "Empty"
 
     if (verbose) {message("Assigning cells to paths...")}
     cells.paths <- sample(cells.design$Path, nCells, replace = TRUE,
@@ -316,10 +340,7 @@ splotchSimCellMeans <- function(sim, params, verbose) {
 
     # Adjust mean based on library size
     cells.props <- t(t(cells.means) / colSums(cells.means))
-    cells.means <- t(t(cells.props) * exp.lib.sizes)
-
-    colnames(cells.means) <- cell.names
-    rownames(cells.means) <- gene.names
+    cells.means <- t(t(cells.props) * cell.lib.sizes[not.empty])
 
     nGenes <- getParam(params, "nGenes")
     bcv.common <- getParam(params, "bcv.common")
@@ -338,30 +359,92 @@ splotchSimCellMeans <- function(sim, params, verbose) {
         shape = 1 / (bcv ^ 2), scale = cells.means * (bcv ^ 2)),
         nrow = nGenes, ncol = nCells)
 
-    colData(sim)$Path <- cells.paths
-    colData(sim)$Step <- cells.steps
+    empty.means <- matrix(0, nrow = nGenes, ncol = nEmpty)
+    cells.means <- cbind(cells.means, empty.means)
+
+    colnames(cells.means) <- cell.names
+    rownames(cells.means) <- gene.names
+
+    colData(sim)$Path <- c(cells.paths, rep(NA, nEmpty))
+    colData(sim)$Step <- c(cells.steps, rep(NA, nEmpty))
     assays(sim)$CellMeans <- cells.means
+
+    return(sim)
+}
+
+splotchSimCellCounts <- function(sim, params, verbose) {
+
+    if (verbose) {message("Simulating cell counts...")}
+    cell.names <- colData(sim)$Cell
+    gene.names <- rowData(sim)$Gene
+    nGenes <- getParam(params, "nGenes")
+    nCells <- getParam(params, "nCells")
+    nEmpty <- getParam(params, "ambient.nEmpty")
+    cells.means <- assays(sim)$CellMeans
+
+    cell.counts <- matrix(rpois(
+        as.numeric(nGenes) * as.numeric(nCells + nEmpty),
+        lambda = cells.means),
+        nrow = nGenes, ncol = nCells + nEmpty)
+
+    colnames(cell.counts) <- cell.names
+    rownames(cell.counts) <- gene.names
+    assays(sim)$CellCounts <- cell.counts
+
+    return(sim)
+}
+
+splotchSimAmbientCounts <- function(sim, params, verbose) {
+
+    if (verbose) {message("Simulating ambient counts...")}
+    cell.names <- colData(sim)$Cell
+    gene.names <- rowData(sim)$Gene
+    nGenes <- getParam(params, "nGenes")
+    nCells <- getParam(params, "nCells")
+    nEmpty <- getParam(params, "ambient.nEmpty")
+    cell.counts <- assays(sim)$CellCounts
+    not.empty <- colData(sim)$Type != "Empty"
+    ambient.lib.sizes <- colData(sim)$AmbientLibSize
+
+    not.empty.means <- rowMeans(cell.counts[, not.empty])
+    ambient.props <- not.empty.means / sum(not.empty.means)
+
+    ambient.means <- ambient.props %*% t(ambient.lib.sizes)
+
+    ambient.counts <- matrix(rpois(
+        as.numeric(nGenes) * as.numeric(nCells + nEmpty),
+        lambda = ambient.means),
+        nrow = nGenes, ncol = nCells + nEmpty)
+
+    colnames(ambient.counts) <- cell.names
+    rownames(ambient.counts) <- gene.names
+    assays(sim)$AmbientCounts <- ambient.counts
+    rowData(sim)$AmbientMean <- not.empty.means
 
     return(sim)
 }
 
 splotchSimCounts <- function(sim, params, verbose) {
 
-    if (verbose) {message("Simulating counts...")}
-    cell.names <- colData(sim)$Cell
-    gene.names <- rowData(sim)$Gene
-    nGenes <- getParam(params, "nGenes")
-    nCells <- getParam(params, "nCells")
-    cells.means <- assays(sim)$CellMeans
+    if (verbose) {message("Simulating final counts...")}
+    cell.lib.sizes <- colData(sim)$CellLibSize
+    ambient.lib.sizes <- colData(sim)$AmbientLibSize
+    empty <- colData(sim)$Type == "Empty"
+    cell.counts <- assays(sim)$CellCounts
+    ambient.counts <- assays(sim)$AmbientCounts
 
-    true.counts <- matrix(rpois(
-        as.numeric(nGenes) * as.numeric(nCells),
-        lambda = cells.means),
-        nrow = nGenes, ncol = nCells)
+    lib.sizes <- cell.lib.sizes
+    lib.sizes[empty] <- ambient.lib.sizes[empty]
 
-    colnames(true.counts) <- cell.names
-    rownames(true.counts) <- gene.names
-    assays(sim)$counts <- true.counts
+    counts <- cell.counts + ambient.counts
+
+    down.prop <- lib.sizes / colSums(counts)
+    # Avoid proportion creeping over 1 for empty cells
+    down.prop <- min(down.prop, 1)
+
+    counts <- DropletUtils::downsampleMatrix(counts, down.prop)
+
+    assays(sim)$counts <- counts
 
     return(sim)
 }

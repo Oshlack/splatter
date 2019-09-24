@@ -325,10 +325,19 @@ setClass("SplatParams",
 #'             "density" to sample from the provided density object.}
 #'         }
 #'     }
-#'     \item{\emph{Paths parameters}}{
+#'     \item{\emph{Design parameters}}{
 #'         \describe{
 #'             \item{\code{[cells.design]}}{data.frame describing cell
 #'             structure.}
+#'         }
+#'     }
+#'     \item{\emph{Ambient parameters}}{
+#'         \describe{
+#'             \item{\code{[ambient.scale]}}{Scaling factor for the library
+#'             size log-normal distribution when generating ambient library
+#'             sizes.}
+#'             \item{\code{[ambient.nEmpty]}}{Number of empty cells to
+#'             simulate.}
 #'         }
 #'     }
 #' }
@@ -363,7 +372,9 @@ setClass("SplotchParams",
                    lib.scale = "numeric",
                    lib.dens = "density",
                    lib.method = "character",
-                   cells.design = "data.frame"),
+                   cells.design = "data.frame",
+                   ambient.scale = "numeric",
+                   ambient.nEmpty = "numeric"),
          prototype = prototype(mean.rate = 0.3,
                                mean.shape = 0.6,
                                mean.outProb = 0.05,
@@ -394,7 +405,9 @@ setClass("SplotchParams",
                                    Probability = 1,
                                    Alpha = 0,
                                    Beta = 1
-                               )))
+                               ),
+                               ambient.scale = 0.05,
+                               ambient.nEmpty = 0))
 
 #' The LunParams class
 #'
