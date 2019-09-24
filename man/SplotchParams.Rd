@@ -75,10 +75,19 @@ The Splotch simulation uses the following parameters:
             "density" to sample from the provided density object.}
         }
     }
-    \item{\emph{Paths parameters}}{
+    \item{\emph{Design parameters}}{
         \describe{
             \item{\code{[cells.design]}}{data.frame describing cell
             structure.}
+        }
+    }
+    \item{\emph{Ambient parameters}}{
+        \describe{
+            \item{\code{[ambient.scale]}}{Scaling factor for the library
+            size log-normal distribution when generating ambient library
+            sizes.}
+            \item{\code{[ambient.nEmpty]}}{Number of empty cells to
+            simulate.}
         }
     }
 }

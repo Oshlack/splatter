@@ -7,6 +7,10 @@ newSplotchParams <- function(...) {
         stop("The Splotch simulation requires the 'igraph' package.")
     }
 
+    if (!requireNamespace("DropletUtils", quietly = TRUE)) {
+        stop("The Splotch simulation requires the 'DropletUtils' package.")
+    }
+
     params <- new("SplotchParams")
     params <- setParams(params, ...)
 
@@ -52,7 +56,13 @@ setValidity("SplotchParams", function(object) {
                                                          any.missing = FALSE,
                                                          nrows = nrow(
                                                              v$paths.design),
-                                                         ncols = 4))
+                                                         ncols = 4),
+                ambient.scale = checkmate::check_number(v$ambient.scale,
+                                                        lower = 0,
+                                                        upper = 1),
+                ambient.nEmpty = checkmate::check_number(v$ambient.nEmpty,
+                                                         lower = 0,
+                                                         finite = TRUE))
 
     if (!checkmate::testNumeric(v$mean.values, len = 0)) {
         checks <- c(checks,
@@ -148,7 +158,9 @@ setMethod("show", "SplotchParams", function(object) {
                                        "(Scale)"    = "lib.scale",
                                        "(Density)"  = "lib.dens",
                                        "[Method]"   = "lib.method"),
-                   "Cells:"        = c("[Design]"   = "cells.design"))
+                   "Cells:"        = c("[Design]"   = "cells.design"),
+                   "Ambient:"      = c("[Scale]"    = "ambient.scale",
+                                       "[Empty]"    = "ambient.nEmpty"))
 
     paths.means <- getParam(object, "paths.means")
     if (length(paths.means) == 0) {
