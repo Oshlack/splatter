@@ -65,9 +65,18 @@ splotchSample <- function(params, verbose = TRUE) {
 
     if (verbose) {message("Creating simulation object...")}
     nGenes <- getParam(params, "nGenes")
-    nCells <- getParam(params, "nCells")
-    cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
+
+    nCells <- getParam(params, "nCells")
+    doublet.prop <- getParam(params, "doublet.prop")
+    nDoublets <- floor(nCells * doublet.prop)
+    if (doublet.prop > 0) {
+        nCells <- nCells - nDoublets
+        cell.names <- c(paste0("Cell", seq_len(nCells)),
+                        paste0("Doublet", seq_len(nDoublets)))
+    } else {
+        cell.names <- paste0("Cell", seq_len(nCells))
+    }
 
     nEmpty <- getParam(params, "ambient.nEmpty")
     if (nEmpty > 0) {
@@ -76,7 +85,8 @@ splotchSample <- function(params, verbose = TRUE) {
     }
 
     cells <-  data.frame(Cell = cell.names,
-                         Type = rep(c("Cell", "Empty"), c(nCells, nEmpty)),
+                         Type = rep(c("Cell", "Doublet", "Empty"),
+                                    c(nCells, nDoublets, nEmpty)),
                          row.names = cell.names)
     features <- data.frame(Gene = gene.names,
                            BaseMean = getParam(params, "mean.values"),
@@ -265,6 +275,7 @@ splotchSimLibSizes <- function(sim, params, verbose) {
     if (verbose) {message("Simulating library sizes...")}
     nCells <- getParam(params, "nCells")
     nEmpty <- getParam(params, "ambient.nEmpty")
+    is.doublet <- colData(sim)$Type == "Doublet"
     lib.method <- getParam(params, "lib.method")
 
     if (lib.method == "fit") {
@@ -281,6 +292,7 @@ splotchSimLibSizes <- function(sim, params, verbose) {
     }
 
     cell.lib.sizes <- c(cell.lib.sizes, rep(0, nEmpty))
+    cell.lib.sizes[is.doublet] <- 1.5 * cell.lib.sizes[is.doublet]
     colData(sim)$CellLibSize <- cell.lib.sizes
 
     ambient.scale <- getParam(params, "ambient.scale")
@@ -299,7 +311,8 @@ splotchSimCellMeans <- function(sim, params, verbose) {
 
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
-    nCells <- getParam(params, "nCells")
+    nDoublets <- sum(colData(sim)$Type == "Doublet")
+    nCells <- getParam(params, "nCells") - nDoublets
     cells.design <- getParam(params, "cells.design")
     paths.design <- getParam(params, "paths.design")
     paths.means <- getParam(params, "paths.means")
@@ -338,10 +351,47 @@ splotchSimCellMeans <- function(sim, params, verbose) {
         return(means)
     })
 
+    if (nDoublets > 0) {
+        if (verbose) {message("Assigning doublets...")}
+        doublet.paths1 <- sample(cells.design$Path, nDoublets, replace = TRUE,
+                                 prob = cells.design$Probability)
+        doublet.paths2 <- sample(cells.design$Path, nDoublets, replace = TRUE,
+                                 prob = cells.design$Probability)
+
+        doublet.steps1 <- sapply(doublet.paths1, function(path) {
+            probs <- steps.probs[[path]]
+            step <- sample(1:length(probs), 1, prob = probs)
+            return(step)
+        })
+        doublet.steps2 <- sapply(doublet.paths2, function(path) {
+            probs <- steps.probs[[path]]
+            step <- sample(1:length(probs), 1, prob = probs)
+            return(step)
+        })
+
+        if (verbose) {message("Simulating doublet means...")}
+        doublet.means1 <- sapply(seq_len(nDoublets), function(doublet) {
+            path <- doublet.paths1[doublet]
+            step <- doublet.steps1[doublet]
+            means <- paths.means[[path]][, step]
+            return(means)
+        })
+        doublet.means2 <- sapply(seq_len(nDoublets), function(doublet) {
+            path <- doublet.paths2[doublet]
+            step <- doublet.steps2[doublet]
+            means <- paths.means[[path]][, step]
+            return(means)
+        })
+        doublet.means <- (doublet.means1 + doublet.means2) * 0.5
+
+        cells.means <- cbind(cells.means, doublet.means)
+    }
+
     # Adjust mean based on library size
     cells.props <- t(t(cells.means) / colSums(cells.means))
     cells.means <- t(t(cells.props) * cell.lib.sizes[not.empty])
 
+    if (verbose) {message("Applying BCV adjustment...")}
     nGenes <- getParam(params, "nGenes")
     bcv.common <- getParam(params, "bcv.common")
     bcv.df <- getParam(params, "bcv.df")
@@ -355,9 +405,9 @@ splotchSimCellMeans <- function(sim, params, verbose) {
     }
 
     cells.means <- matrix(rgamma(
-        as.numeric(nGenes) * as.numeric(nCells),
+        as.numeric(nGenes) * as.numeric(nCells + nDoublets),
         shape = 1 / (bcv ^ 2), scale = cells.means * (bcv ^ 2)),
-        nrow = nGenes, ncol = nCells)
+        nrow = nGenes, ncol = nCells + nDoublets)
 
     empty.means <- matrix(0, nrow = nGenes, ncol = nEmpty)
     cells.means <- cbind(cells.means, empty.means)
@@ -365,8 +415,21 @@ splotchSimCellMeans <- function(sim, params, verbose) {
     colnames(cells.means) <- cell.names
     rownames(cells.means) <- gene.names
 
-    colData(sim)$Path <- c(cells.paths, rep(NA, nEmpty))
-    colData(sim)$Step <- c(cells.steps, rep(NA, nEmpty))
+    colData(sim)$Path <- factor(c(cells.paths, rep(NA, nDoublets),
+                                  rep(NA, nEmpty)))
+    colData(sim)$Step <- c(cells.steps, rep(NA, nDoublets), rep(NA, nEmpty))
+
+    if (nDoublets > 0) {
+        colData(sim)$Path1 <- factor(c(rep(NA, nCells), doublet.paths1,
+                                       rep(NA, nEmpty)))
+        colData(sim)$Step1 <- c(rep(NA, nCells), doublet.steps1,
+                                rep(NA, nEmpty))
+        colData(sim)$Path2 <- factor(c(rep(NA, nCells), doublet.paths2,
+                                       rep(NA, nEmpty)))
+        colData(sim)$Step2 <- c(rep(NA, nCells), doublet.steps2,
+                                rep(NA, nEmpty))
+    }
+
     assays(sim)$CellMeans <- cells.means
 
     return(sim)

@@ -1,3 +1,7 @@
+### Version 1.9.7.9015 (2019-09-26)
+
+* Add doublets to SplotchSimulate
+
 ### Version 1.9.7.9014 (2019-09-24)
 
 * Add ambient expression and empty cells to SplotchSimulate

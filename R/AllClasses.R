@@ -331,6 +331,12 @@ setClass("SplatParams",
 #'             structure.}
 #'         }
 #'     }
+#'     \item{\emph{Doublet parameters}}{
+#'         \describe{
+#'             \item{\code{[doublet.prop]}}{Proportion of cells that are
+#'             doublets.}
+#'         }
+#'     }
 #'     \item{\emph{Ambient parameters}}{
 #'         \describe{
 #'             \item{\code{[ambient.scale]}}{Scaling factor for the library
@@ -373,6 +379,7 @@ setClass("SplotchParams",
                    lib.dens = "density",
                    lib.method = "character",
                    cells.design = "data.frame",
+                   doublet.prop = "numeric",
                    ambient.scale = "numeric",
                    ambient.nEmpty = "numeric"),
          prototype = prototype(mean.rate = 0.3,
@@ -406,6 +413,7 @@ setClass("SplotchParams",
                                    Alpha = 0,
                                    Beta = 1
                                ),
+                               doublet.prop = 0,
                                ambient.scale = 0.05,
                                ambient.nEmpty = 0))
 

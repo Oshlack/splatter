@@ -81,6 +81,12 @@ The Splotch simulation uses the following parameters:
             structure.}
         }
     }
+    \item{\emph{Doublet parameters}}{
+        \describe{
+            \item{\code{[doublet.prop]}}{Proportion of cells that are
+            doublets.}
+        }
+    }
     \item{\emph{Ambient parameters}}{
         \describe{
             \item{\code{[ambient.scale]}}{Scaling factor for the library
