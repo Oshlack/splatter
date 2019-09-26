@@ -57,6 +57,9 @@ setValidity("SplotchParams", function(object) {
                                                          nrows = nrow(
                                                              v$paths.design),
                                                          ncols = 4),
+                doublet.prop = checkmate::check_number(v$doublet.prop,
+                                                       lower = 0,
+                                                       upper = 1),
                 ambient.scale = checkmate::check_number(v$ambient.scale,
                                                         lower = 0,
                                                         upper = 1),
@@ -159,6 +162,7 @@ setMethod("show", "SplotchParams", function(object) {
                                        "(Density)"  = "lib.dens",
                                        "[Method]"   = "lib.method"),
                    "Cells:"        = c("[Design]"   = "cells.design"),
+                   "Doublets:"     = c("[Prop]"     = "doublet.prop"),
                    "Ambient:"      = c("[Scale]"    = "ambient.scale",
                                        "[Empty]"    = "ambient.nEmpty"))
 
