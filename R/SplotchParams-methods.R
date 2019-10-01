@@ -11,6 +11,11 @@ newSplotchParams <- function(...) {
         stop("The Splotch simulation requires the 'DropletUtils' package.")
     }
 
+    msg <- paste("The Splotch simulation is still experimental and may produce",
+                 "unreliable results. Please try it and report any issues to",
+                 "https://github.com/Oshlack/splatter/issues.")
+    rlang:::warn_deprecated(msg, id = "warn.splotch")
+
     params <- new("SplotchParams")
     params <- setParams(params, ...)
 
@@ -260,11 +265,11 @@ setMethod("setParam", "SplotchParams", function(object, name, value) {
     }
 
     if (name == "paths.design" &&
-        (nrow(value) != nrow(getParam(object, "paths.design")))) {
+        (nrow(value) != nrow(getParam(object, "cells.design")))) {
         warning("cells.design reset to match paths.design")
         cells.design <- data.frame(Path = value$Path,
                                    Probability = 1 / nrow(value),
-                                   Alpha = 0, Beta = 1)
+                                   Alpha = 1, Beta = 0)
         object <- setParamUnchecked(object, "cells.design", cells.design)
     }
 
@@ -279,6 +284,15 @@ setMethod("setParams", "SplotchParams", function(object, update = NULL, ...) {
     checkmate::assertList(update, null.ok = TRUE)
 
     update <- c(update, list(...))
+
+    # If both cells.design and paths.design are given set cells.design first
+    # to avoid reset warning
+    if ("cells.design" %in% names(update) &&
+        "paths.design" %in% names(update)) {
+        object <- setParamUnchecked(object, "cells.design",
+                                    update$cells.design)
+        update$cells.design <- NULL
+    }
 
     update <- bringItemsForward(update, c("network.graph", "paths.design"))
 

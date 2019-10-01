@@ -1,3 +1,9 @@
+### Version 1.9.7.9016 (2019-10-01)
+
+* Change the default SplotchParams cell design to place cells at end of path
+* Add one time warning for Splotch simulation
+* Avoid unnecessarily resetting cells.design in SplotchParams
+
 ### Version 1.9.7.9015 (2019-09-26)
 
 * Add doublets to SplotchSimulate

@@ -410,8 +410,8 @@ setClass("SplotchParams",
                                cells.design = data.frame(
                                    Path = 1,
                                    Probability = 1,
-                                   Alpha = 0,
-                                   Beta = 1
+                                   Alpha = 1,
+                                   Beta = 0
                                ),
                                doublet.prop = 0,
                                ambient.scale = 0.05,
