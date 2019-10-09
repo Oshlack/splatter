@@ -15,15 +15,22 @@ splotchSimulate(params = newSplotchParams(), verbose = TRUE, ...)
 \code{params}.}
 }
 \value{
-SingleCellExperiment containing simulated counts
+SingleCellExperiment containing simulated counts and intermediate
+values
 }
 \description{
-Simulate counts from...
+Simulate scRNA-seq count data using the Splotch model
 }
 \details{
-Details...
+This functions is for simulating data in a single step. It consists of a
+call to \code{\link{splotchSetup}} followed by a call to
+\code{\link{splotchSample}}. Please see the documentation for those functions
+for more details of the individual steps.
 }
 \examples{
 sim <- splotchSimulate()
 
+}
+\seealso{
+\code{\link{splotchSetup}}, \code{\link{splotchSample}}
 }

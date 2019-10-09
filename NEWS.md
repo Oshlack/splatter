@@ -1,3 +1,7 @@
+### Version 1.9.7.9017 (2019-10-09)
+
+* Document Splotch simulation functions
+
 ### Version 1.9.7.9016 (2019-10-01)
 
 * Change the default SplotchParams cell design to place cells at end of path

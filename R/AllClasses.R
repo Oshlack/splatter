@@ -307,7 +307,7 @@ setClass("SplatParams",
 #'         \describe{
 #'             \item{\code{[paths.programs]}}{Number of expression programs.}
 #'             \item{\code{[paths.design]}}{data.frame describing path
-#'             structure.}
+#'             structure. See \code{\link{splotchSimPaths}} for details.}
 #'         }
 #'     }
 #'     \item{\emph{Library size parameters}}{
@@ -328,7 +328,7 @@ setClass("SplatParams",
 #'     \item{\emph{Design parameters}}{
 #'         \describe{
 #'             \item{\code{[cells.design]}}{data.frame describing cell
-#'             structure.}
+#'             structure. See \code{\link{splotchSimCellMeans}} for details.}
 #'         }
 #'     }
 #'     \item{\emph{Doublet parameters}}{

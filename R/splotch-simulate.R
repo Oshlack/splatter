@@ -1,6 +1,6 @@
 #' Splotch simulation
 #'
-#' Simulate counts from...
+#' Simulate scRNA-seq count data using the Splotch model
 #'
 #' @param params SplotchParams object containing simulation parameters.
 #' @param verbose logical. Whether to print progress messages
@@ -8,14 +8,22 @@
 #'        \code{params}.
 #'
 #' @details
-#' Details...
 #'
-#' @return SingleCellExperiment containing simulated counts
+#' This functions is for simulating data in a single step. It consists of a
+#' call to \code{\link{splotchSetup}} followed by a call to
+#' \code{\link{splotchSample}}. Please see the documentation for those functions
+#' for more details of the individual steps.
+#'
+#' @seealso
+#' \code{\link{splotchSetup}}, \code{\link{splotchSample}}
+#'
+#' @return SingleCellExperiment containing simulated counts and intermediate
+#' values
+#'
 #' @examples
 #' sim <- splotchSimulate()
 #'
 #' @export
-#' @importFrom SingleCellExperiment SingleCellExperiment
 splotchSimulate <- function(params = newSplotchParams(), verbose = TRUE, ...) {
 
     params <- splotchSetup(params, verbose, ...)
@@ -24,6 +32,53 @@ splotchSimulate <- function(params = newSplotchParams(), verbose = TRUE, ...) {
     return(sim)
 }
 
+#' Splotch setup
+#'
+#' Setup the parameters required for the Splotch simulation
+#'
+#' @param params SplotchParams object containing simulation parameters.
+#' @param verbose logical. Whether to print progress messages
+#' @param ... any additional parameter settings to override what is provided in
+#'        \code{params}.
+#'
+#' @details
+#' The first stage is a two-step Splotch simulation is to generate some of the
+#' intermediate parameters. The resulting parameters allow multiple simulated
+#' datasets to be generated from the same biological structure (using
+#' \code{\link{splotchSample}}). As with all the other parameters these values
+#' can be manually overwritten if desired.
+#'
+#' The setup involves the following steps:
+#' \enumerate{
+#'     \item Generate a gene network (if not already present)
+#'     \item Select regulator genes (if not already present)
+#'     \item Simulate gene means (if not already present)
+#'     \item Simulate cell paths
+#' }
+#'
+#' The resulting \code{\link{SplotchParams}} object will have the following
+#' parameters set (if they weren't already).
+#'
+#' \itemize{
+#'     \item \code{mean.values}
+#'     \item \code{network.graph}
+#'     \item \code{network.regsSet}
+#'     \item \code{paths.means}
+#' }
+#'
+#' See \code{\link{SplotchParams}} for more details about these parameters and
+#' the functions for the individual steps for more details about the process.
+#'
+#' @seealso
+#' \code{\link{splotchGenNetwork}}, \code{\link{splotchSelectRegs}},
+#' \code{\link{splotchSimGeneMeans}}, \code{\link{splotchSimPaths}},
+#' \code{\link{SplotchParams}}
+#'
+#' @return A complete SplotchParams object
+#' @export
+#'
+#' @examples
+#' params <- splotchSetup()
 splotchSetup <- function(params = newSplotchParams(), verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "SplotchParams")
@@ -42,6 +97,90 @@ splotchSetup <- function(params = newSplotchParams(), verbose = TRUE, ...) {
     return(params)
 }
 
+#' Splotch sample
+#'
+#' Sample cells for the Splotch simulation
+#'
+#' @param params SplotchParams object containing simulation parameters.
+#' @param verbose logical. Whether to print progress messages
+#'
+#' @details
+#' The second stage is a two-step Splotch simulation is to generate cells based
+#' on a complete \code{\link{SplotchParams}} object.
+#' intermediate parameters.
+#'
+#' The sampling process involves the following steps:
+#' \enumerate{
+#'     \item Simulate library sizes for each cell
+#'     \item Simulate means for each cell
+#'     \item Simulate endogenous counts for each cell
+#'     \item Simulate ambient counts for each cell
+#'     \item Simulate final counts for each cell
+#' }
+#'
+#' The final output is a
+#' \code{\link[SingleCellExperiment]{SingleCellExperiment}} object that
+#' contains the simulated counts but also the values for various intermediate
+#' steps. These are stored in the \code{\link{colData}} (for cell specific
+#' information), \code{\link{rowData}} (for gene specific information) or
+#' \code{\link{assays}} (for gene by cell matrices) slots. This additional
+#' information includes:
+#' \describe{
+#'     \item{\code{colData}}{
+#'         \describe{
+#'             \item{Cell}{Unique cell identifier.}
+#'             \item{Type}{Whether the cell is a Cell, Doublet or Empty.}
+#'             \item{CellLibSize}{The expected number of endogenous counts for
+#'             that cell.}
+#'             \item{AmbientLibSize}{The expected number of ambient counts for
+#'             that cell.}
+#'             \item{Path}{The path the cell belongs to.}
+#'             \item{Step}{How far along the path each cell is.}
+#'             \item{Path1}{For doublets the path of the first partner in the
+#'             doublet (otherwise \code{NA}).}
+#'             \item{Step1}{For doublets the step of the first partner in the
+#'             doublet (otherwise \code{NA}).}
+#'             \item{Path2}{For doublets the path of the second partner in the
+#'             doublet (otherwise \code{NA}).}
+#'             \item{Step2}{For doublets the step of the second partner in the
+#'             doublet (otherwise \code{NA}).}
+#'         }
+#'     }
+#'     \item{\code{rowData}}{
+#'         \describe{
+#'             \item{Gene}{Unique gene identifier.}
+#'             \item{BaseMean}{The base expression level for that gene.}
+#'             \item{AmbientMean}{The ambient expression level for that gene.}
+#'         }
+#'     }
+#'     \item{\code{assays}}{
+#'         \describe{
+#'             \item{CellMeans}{The mean expression of genes in each cell
+#'             after any differential expression and adjusted for expected
+#'             library size.}
+#'             \item{CellCounts}{Endogenous count matrix.}
+#'             \item{AmbientCounts}{Ambient count matrix.}
+#'             \item{counts}{Final count matrix.}
+#'         }
+#'     }
+#' }
+#'
+#' Values that have been added by Splatter are named using \code{UpperCamelCase}
+#' in order to differentiate them from the values added by analysis packages
+#' which typically use \code{underscore_naming}.
+#'
+#' @seealso
+#' \code{\link{splotchSimLibSizes}}, \code{\link{splotchSimCellMeans}},
+#' \code{\link{splotchSimCellCounts}}, \code{\link{splotchSimAmbientCounts}},
+#' \code{\link{splotchSimCounts}}
+#'
+#' @return SingleCellExperiment object containing the simulated counts and
+#' intermediate values.
+#' @export
+#'
+#' @examples
+#' params <- splotchSetup()
+#' sim <- splotchSample(params)
 splotchSample <- function(params, verbose = TRUE) {
 
     # Check that parameters are set up
@@ -104,6 +243,20 @@ splotchSample <- function(params, verbose = TRUE) {
 
 }
 
+#' Generate Splotch gene network
+#'
+#' Generate a gene network for the Splotch simulation
+#'
+#' @param params SplotchParams object containing simulation parameters.
+#' @param verbose logical. Whether to print progress messages
+#'
+#' @details
+#' Currently a very simple approach is used which needs to be improved. A
+#' network is generated using the \code{\link[igraph]{sample_forestfire}}
+#' function and edge weights are sampled from a standard normal distribution.
+#'
+#' @return SplotchParams object with gene network
+#' @export
 splotchGenNetwork <- function(params, verbose) {
 
     nGenes <- getParam(params, "nGenes")
@@ -127,6 +280,20 @@ splotchGenNetwork <- function(params, verbose) {
     return(params)
 }
 
+#' Select Splotch regulators
+#'
+#' Select regulator genes in the gene network for a Splotch simulation
+#'
+#' @param params SplotchParams object containing simulation parameters.
+#' @param verbose logical. Whether to print progress messages
+#'
+#' @details
+#' Regulators are randomly selected, weighted according to the difference
+#' between their out degree and in degree. This is an arbitary weighting and
+#' may be improved or replace in the future.
+#'
+#' @return SplotchParams object with gene regulators
+#' @export
 splotchSelectRegs <- function(params, verbose) {
 
     network.regsSet <- getParam(params, "network.regsSet")
@@ -156,6 +323,28 @@ splotchSelectRegs <- function(params, verbose) {
     return(params)
 }
 
+#' Simulate Splotch gene means
+#'
+#' @param params SplotchParams object containing simulation parameters.
+#' @param verbose logical. Whether to print progress messages
+#'
+#' @details
+#' Gene means are simulated in one of two ways depending on the value of the
+#' \code{mean.method} parameter.
+#'
+#' If \code{mean.method} is "fit" (default) then means are sampled from a Gamma
+#' distribution with shape equals \code{mean.shape} and rate equals
+#' \code{mean.rate}. Expression outliers are then added by replacing some
+#' values with the median multiplied by a factor from a log-normal distribution.
+#' This is the same process used for the Splat simulation.
+#'
+#' If \code{mean.method} is "density" then means are sampled from the
+#' density object in the \code{mean.density} parameter using a rejection
+#' sampling method. This approach is more flexible but may violate some
+#' statistical assumptions.
+#'
+#' @return SplotchParams object with gene means
+#' @export
 splotchSimGeneMeans <- function(params, verbose) {
 
     mean.values <- getParam(params, "mean.values")
@@ -198,6 +387,43 @@ splotchSimGeneMeans <- function(params, verbose) {
     return(params)
 }
 
+#' Simulate Splotch paths
+#'
+#' Simulate gene means for each step along each path of a Splotch simulation
+#'
+#' @param params SplotchParams object containing simulation parameters.
+#' @param verbose logical. Whether to print progress messages
+#'
+#' @details
+#' The method of simulating paths is inspired by the method used in the PROSSTT
+#' simulation. Changes in expression are controlled by \code{paths.nPrograms}
+#' regulatory programs. Each of the regulatory genes in the gene network has
+#' some association with each program. This is analogous to there being changes
+#' in the environment (the programs) which are sensed by receptors (regulatory
+#' genes) and cause changes in expression downstream. For each path a random
+#' walk is generated for each program and the changes passed on to the
+#' regulatory genes. At each step the changes progagate through the network
+#' according to the weights on edges between genes. This algorithm is fairly
+#' simple but should result in correlation relationships between genes. However
+#' it is likely to be improved and adjusted in the future.
+#'
+#' The path structure itself is specified by the \code{paths.design} parameter.
+#' This is a \code{data.frame} with three columns: "Path", "From", and "Steps".
+#' The Path field is an ID for each path while the Steps field controls the
+#' length of each path. Increasing the number of steps will increase the
+#' difference in expression between the ends of the paths. The From field sets
+#' the originating point of each path. For example a From of \code{0, 0, 0}
+#' would indicate three paths from the origin while a From of \code{0, 1, 1}
+#' would give a branching structure with Path 1 beginning at the origin and
+#' Path 2 and Path 3 beginning at the end of Path 1.
+#'
+#' @references
+#'
+#' Papadopoulos N, Parra RG, Söding J. PROSSTT: probabilistic simulation of
+#' single-cell RNA-seq data for complex differentiation processes.
+#' Bioinformatics (2019). \url{https://doi.org/10.1093/bioinformatics/btz078}.
+#'
+#' @return SplotchParams object with path means
 splotchSimPaths <- function(params, verbose) {
 
     paths.means <- getParam(params, "paths.means")
@@ -270,6 +496,33 @@ splotchSimPaths <- function(params, verbose) {
     return(params)
 }
 
+#' Simulate Splotch library sizes
+#'
+#' Generate library sizes for cells in the Splotch simulatilon
+#'
+#' @param sim SingleCellExperiment containing simulation.
+#' @param params SplotParams object with simulation parameters.
+#' @param verbose logical. Whether to print progress messages
+#'
+#' @details
+#' Library sizes are simulated in one of two ways depending on the value of the
+#' \code{lib.method} parameter.
+#'
+#' If \code{lib.method} is "fit" (default) then means are sampled from a
+#' log-normal distribution with meanlog equals \code{lib.loc} and sdlog equals
+#' \code{lib.scale}.
+#'
+#' If \code{mean.method} is "density" then library sizes are sampled from the
+#' density object in the \code{lib.density} parameter using a rejection
+#' sampling method. This approach is more flexible but may violate some
+#' statistical assumptions.
+#'
+#' Ambient library sizes are also generated from a log-normal distribution based
+#' on the parameters for the cell library size and adjusted using the
+#' \code{ambient.scale} parameter.
+#'
+#' @return SingleCellExperiment with library sizes
+#' @export
 splotchSimLibSizes <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating library sizes...")}
@@ -306,7 +559,58 @@ splotchSimLibSizes <- function(sim, params, verbose) {
     return(sim)
 }
 
-#' @importFrom stats dbeta
+#' Simulate Splotch cell means
+#'
+#' Simulate endogenous counts for each cell in a Splotch simulation
+#'
+#' @param sim SingleCellExperiment containing simulation.
+#' @param params SplotParams object with simulation parameters.
+#' @param verbose logical. Whether to print progress messages
+#'
+#' @details
+#' Cells are first assigned to a path and a step along that path. This is
+#' controlled by the \code{cells.design} parameter which is a \code{data.frame}
+#' with the columns "Path", "Probability", "Alpha" and "Beta". The Path field
+#' is an ID for each path and the Probabilty field is the probability that a
+#' cell will come from that path (must sum to 1). The Alpha and Beta parameters
+#' control the density of cells along the path. After they are assigned to paths
+#' the step for each cell is sampled from a Beta distribution with paramaters
+#' shape1 equals Alpha and shape2 equals beta. This approach is very flexible
+#' and allows almost any distribution of cells along a path. The distribution
+#' can be viewed using \code{hist(rbeta(10000, Alpha, Beta), breaks = 100)}.
+#' Some useful combinations of parameters are:
+#'
+#' \describe{
+#'     \item{\code{Alpha = 1}, \code{Beta = 1}}{Uniform distribution along the
+#'     path}
+#'     \item{\code{Alpha = 0}, \code{Beta = 1}}{All cells at the start of the
+#'     path.}
+#'     \item{\code{Alpha = 1}, \code{Beta = 0}}{All cells at the end of the
+#'     path.}
+#'     \item{\code{Alpha = 0}, \code{Beta = 0}}{Cells only at each end of the
+#'     path.}
+#'     \item{\code{Alpha = 1}, \code{Beta = 2}}{Linear skew towards the start
+#'     of the path}
+#'     \item{\code{Alpha = 0.5}, \code{Beta = 1}}{Curved skew towards the start
+#'     of the path}
+#'     \item{\code{Alpha = 2}, \code{Beta = 1}}{Linear skew towards the end
+#'     of the path}
+#'     \item{\code{Alpha = 1}, \code{Beta = 0.5}}{Curved skew towards the end
+#'     of the path}
+#'     \item{\code{Alpha = 0.5}, \code{Beta = 0.5}}{Curved skew towards both
+#'     ends of the path}
+#'     \item{\code{Alpha = 0.5}, \code{Beta = 0.5}}{Curved skew away from both
+#'     ends of the path}
+#' }
+#'
+#' Once cells are assigned to paths and steps the correct means are extracted
+#' from the \code{paths.means} parameter and adjusted based on each cell's
+#' library size. An adjustment for BCV is then applied. Doublets are also
+#' simulated at this stage by selecting two path/step combinations and averaging
+#' the means.
+#'
+#' @return SingleCellExperiment with cell means
+#' @export
 splotchSimCellMeans <- function(sim, params, verbose) {
 
     cell.names <- colData(sim)$Cell
@@ -435,6 +739,20 @@ splotchSimCellMeans <- function(sim, params, verbose) {
     return(sim)
 }
 
+#' Simulate Splotch cell counts
+#'
+#' Simulate cell counts for the Splotch simulation
+#'
+#' @param sim SingleCellExperiment containing simulation.
+#' @param params SplotParams object with simulation parameters.
+#' @param verbose logical. Whether to print progress messages
+#'
+#' @details
+#' Counts are sampled from a Poisson distribution with lambda equal to the
+#' cell means matrix.
+#'
+#' @return SingleCellExperiment with cell counts
+#' @export
 splotchSimCellCounts <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating cell counts...")}
@@ -457,6 +775,20 @@ splotchSimCellCounts <- function(sim, params, verbose) {
     return(sim)
 }
 
+#' Simulate Splotch ambient counts
+#'
+#' @param sim SingleCellExperiment containing simulation.
+#' @param params SplotParams object with simulation parameters.
+#' @param verbose logical. Whether to print progress messages
+#'
+#' @details
+#' The overall expression profile to calculated by averaging the cell counts
+#' of the (non-empty) cells. This is then multiplied by the ambient library
+#' sizes to get a mean for each cell. Counts are then sampled from a Poisson
+#' distribution using these means.
+#'
+#' @return SingleCellExperiment with ambient counts
+#' @export
 splotchSimAmbientCounts <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating ambient counts...")}
@@ -487,6 +819,24 @@ splotchSimAmbientCounts <- function(sim, params, verbose) {
     return(sim)
 }
 
+#' Simulate Splotch final counts
+#'
+#' Simulate the final counts matrix for a Splotch simulation
+#'
+#' @param sim SingleCellExperiment containing simulation.
+#' @param params SplotParams object with simulation parameters.
+#' @param verbose logical. Whether to print progress messages
+#'
+#' @details
+#' The cell counts matrix and ambient counts matrix are added together. The
+#' result is then downsampled to the cell library size (for cells and doublets)
+#' or the ambient library size (for empty cells) using the
+#' \code{\link[DropletUtils]{downsampleMatrix}} function.
+#'
+#' @seealso \code{\link[DropletUtils]{downsampleMatrix}}
+#'
+#' @return SingleCellExperiment with counts matrix
+#' @export
 splotchSimCounts <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating final counts...")}
@@ -512,6 +862,20 @@ splotchSimCounts <- function(sim, params, verbose) {
     return(sim)
 }
 
+#' Get Beta step probabilities
+#'
+#' Use a Beta distribution for set probabilities along a path
+#'
+#' @param steps Number of steps
+#' @param alpha Alpha parameter
+#' @param beta Beta parameter
+#'
+#' @details
+#' The density is sampled from a Beta distribution between 0 and 1. Infinite
+#' densities at edges are adjusted and then the values are scaled to give
+#' probabilities.
+#'
+#' @importFrom stats dbeta
 getBetaStepProbs <- function(steps, alpha, beta) {
     dens <- dbeta(seq(0, 1, length.out = steps), alpha, beta)
 
@@ -532,6 +896,20 @@ getBetaStepProbs <- function(steps, alpha, beta) {
     return(probs)
 }
 
+#' Sample density
+#'
+#' Sample from a density objet using rejection sampling
+#'
+#' @param n Number of values to sample
+#' @param dens Density object to sample from
+#' @param lower Lower x-axis bound on sampled values
+#'
+#' @details
+#' Random points (x and y) are generated inside the range of the density object.
+#' If they value is less than the density for that x value (and x is greater
+#' than \code{lower}) then that x value is retained. Ten thousand points are
+#' generated at a time until enough valid values have been sampled.
+#'
 #' @importFrom stats approxfun
 sampleDensity <- function(n, dens, lower = 0) {
 

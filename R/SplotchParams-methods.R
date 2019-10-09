@@ -13,7 +13,8 @@ newSplotchParams <- function(...) {
 
     msg <- paste("The Splotch simulation is still experimental and may produce",
                  "unreliable results. Please try it and report any issues to",
-                 "https://github.com/Oshlack/splatter/issues.")
+                 "https://github.com/Oshlack/splatter/issues. The development
+                 version may have improved features.")
     rlang:::warn_deprecated(msg, id = "warn.splotch")
 
     params <- new("SplotchParams")
