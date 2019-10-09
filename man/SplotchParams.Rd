@@ -57,7 +57,7 @@ The Splotch simulation uses the following parameters:
         \describe{
             \item{\code{[paths.programs]}}{Number of expression programs.}
             \item{\code{[paths.design]}}{data.frame describing path
-            structure.}
+            structure. See \code{\link{splotchSimPaths}} for details.}
         }
     }
     \item{\emph{Library size parameters}}{
@@ -78,7 +78,7 @@ The Splotch simulation uses the following parameters:
     \item{\emph{Design parameters}}{
         \describe{
             \item{\code{[cells.design]}}{data.frame describing cell
-            structure.}
+            structure. See \code{\link{splotchSimCellMeans}} for details.}
         }
     }
     \item{\emph{Doublet parameters}}{
