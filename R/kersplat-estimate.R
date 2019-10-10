@@ -1,19 +1,19 @@
-#' Estimate Splotch simulation parameters
+#' Estimate Kersplat simulation parameters
 #'
-#' Estimate simulation parameters for the Splotch simulation from a real
+#' Estimate simulation parameters for the Kersplat simulation from a real
 #' dataset. See the individual estimation functions for more details on how this
 #' is done.
 #'
 #' @param counts either a counts matrix or a SingleCellExperiment object
 #'        containing count data to estimate parameters from.
-#' @param params SplotchParams object to store estimated values in.
+#' @param params KersplatParams object to store estimated values in.
 #' @param verbose logical. Whether to print progress messages.
 #'
 #' @seealso
-#' \code{\link{splotchEstMean}},  \code{\link{splotchEstBCV}},
-#' \code{\link{splotchEstLib}}
+#' \code{\link{kersplatEstMean}},  \code{\link{kersplatEstBCV}},
+#' \code{\link{kersplatEstLib}}
 #'
-#' @return SplotchParams object containing the estimated parameters.
+#' @return KersplatParams object containing the estimated parameters.
 #'
 #' @examples
 #' # Load example data
@@ -21,30 +21,30 @@
 #' set.seed(1)
 #' sce <- mockSCE()
 #'
-#' params <- splotchEstimate(sce)
+#' params <- kersplatEstimate(sce)
 #' params
 #' @export
-splotchEstimate <- function(counts, params = newSplotchParams(),
+kersplatEstimate <- function(counts, params = newKersplatParams(),
                             verbose = TRUE) {
-    UseMethod("splotchEstimate")
+    UseMethod("kersplatEstimate")
 }
 
-#' @rdname splotchEstimate
+#' @rdname kersplatEstimate
 #' @export
-splotchEstimate.SingleCellExperiment <- function(counts,
-                                                 params = newSplotchParams(),
+kersplatEstimate.SingleCellExperiment <- function(counts,
+                                                 params = newKersplatParams(),
                                                  verbose = TRUE) {
     counts <- BiocGenerics::counts(counts)
-    splotchEstimate(counts, params, verbose)
+    kersplatEstimate(counts, params, verbose)
 }
 
-#' @rdname splotchEstimate
+#' @rdname kersplatEstimate
 #' @importFrom stats median
 #' @export
-splotchEstimate.matrix <- function(counts, params = newSplotchParams(),
+kersplatEstimate.matrix <- function(counts, params = newKersplatParams(),
                                    verbose = TRUE) {
 
-    checkmate::assertClass(params, "SplotchParams")
+    checkmate::assertClass(params, "KersplatParams")
     checkmate::assertFlag(verbose)
 
     # Normalise for library size and remove all zero genes
@@ -53,21 +53,21 @@ splotchEstimate.matrix <- function(counts, params = newSplotchParams(),
     norm.counts <- t(t(counts) / lib.sizes * lib.med)
     norm.counts <- norm.counts[rowSums(norm.counts > 0) > 1, ]
 
-    params <- splotchEstMean(norm.counts, params, verbose)
-    params <- splotchEstBCV(counts, params, verbose)
-    params <- splotchEstLib(counts, params, verbose)
+    params <- kersplatEstMean(norm.counts, params, verbose)
+    params <- kersplatEstBCV(counts, params, verbose)
+    params <- kersplatEstLib(counts, params, verbose)
 
     params <- setParams(params, nGenes = nrow(counts), nCells = ncol(counts))
 
     return(params)
 }
 
-#' Estimate Splotch means
+#' Estimate Kersplat means
 #'
-#' Estimate mean parameters for the Splotch simulation
+#' Estimate mean parameters for the Kersplat simulation
 #'
 #' @param norm.counts library size normalised counts matrix.
-#' @param params SplotchParams object to store estimated values in.
+#' @param params KersplatParams object to store estimated values in.
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details
@@ -86,10 +86,10 @@ splotchEstimate.matrix <- function(counts, params = newSplotchParams(),
 #' fitted to these factors in order to estimate the outlier factor location and
 #' scale parameters using the \code{\link[fitdistrplus]{fitdist}} MLE method.
 #'
-#' @return SplotchParams object with estimated means
+#' @return KersplatParams object with estimated means
 #'
 #' @importFrom stats density
-splotchEstMean <- function(norm.counts, params, verbose) {
+kersplatEstMean <- function(norm.counts, params, verbose) {
 
     if (verbose) {message("Estimating mean parameters...")}
 
@@ -130,13 +130,13 @@ splotchEstMean <- function(norm.counts, params, verbose) {
     return(params)
 }
 
-#' Estimate Splotch BCV parameters
+#' Estimate Kersplat BCV parameters
 #'
-#' Estimate Biological Coefficient of Variation (BCV) parameters for the Splotch
+#' Estimate Biological Coefficient of Variation (BCV) parameters for the Kersplat
 #' simulation
 #'
 #' @param counts counts matrix.
-#' @param params SplotchParams object to store estimated values in.
+#' @param params KersplatParams object to store estimated values in.
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details
@@ -146,8 +146,8 @@ splotchEstMean <- function(norm.counts, params, verbose) {
 #' If this results in a negative dispersion a simpler linear correction is
 #' applied instead.
 #'
-#' @return SplotchParams object with estimated BCV parameters
-splotchEstBCV <- function(counts, params, verbose) {
+#' @return KersplatParams object with estimated BCV parameters
+kersplatEstBCV <- function(counts, params, verbose) {
 
     if (verbose) {message("Estimating BCV parameters...")}
 
@@ -207,12 +207,12 @@ splotchEstBCV <- function(counts, params, verbose) {
     return(params)
 }
 
-#' Estimate Splotch library size parameters
+#' Estimate Kersplat library size parameters
 #'
-#' Estimate the library size parameters for the Splotch simulation
+#' Estimate the library size parameters for the Kersplat simulation
 #'
 #' @param counts counts matrix.
-#' @param params SplotchParams object to store estimated values in.
+#' @param params KersplatParams object to store estimated values in.
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details
@@ -222,10 +222,10 @@ splotchEstBCV <- function(counts, params, verbose) {
 #' selected. The density of the library sizes is also estimated using
 #' \code{\link[stats]{density}}.
 #'
-#' @return SplotchParams object with library size parameters
+#' @return KersplatParams object with library size parameters
 #'
 #' @importFrom stats density
-splotchEstLib <- function(counts, params, verbose) {
+kersplatEstLib <- function(counts, params, verbose) {
 
     if (verbose) {message("Estimating library size parameters...")}
 

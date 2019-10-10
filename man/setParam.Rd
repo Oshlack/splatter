@@ -13,7 +13,7 @@
 \alias{setParam,PhenoParams-method}
 \alias{setParam,SCDDParams-method}
 \alias{setParam,SplatParams-method}
-\alias{setParam,SplotchParams-method}
+\alias{setParam,KersplatParams-method}
 \alias{setParam,ZINBParams-method}
 \title{Set a parameter}
 \usage{
@@ -33,7 +33,7 @@ setParam(object, name, value)
 
 \S4method{setParam}{SplatParams}(object, name, value)
 
-\S4method{setParam}{SplotchParams}(object, name, value)
+\S4method{setParam}{KersplatParams}(object, name, value)
 
 \S4method{setParam}{ZINBParams}(object, name, value)
 }

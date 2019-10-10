@@ -1,8 +1,8 @@
-#' Splotch simulation
+#' Kersplat simulation
 #'
-#' Simulate scRNA-seq count data using the Splotch model
+#' Simulate scRNA-seq count data using the Kersplat model
 #'
-#' @param params SplotchParams object containing simulation parameters.
+#' @param params KersplatParams object containing simulation parameters.
 #' @param verbose logical. Whether to print progress messages
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -10,42 +10,42 @@
 #' @details
 #'
 #' This functions is for simulating data in a single step. It consists of a
-#' call to \code{\link{splotchSetup}} followed by a call to
-#' \code{\link{splotchSample}}. Please see the documentation for those functions
+#' call to \code{\link{kersplatSetup}} followed by a call to
+#' \code{\link{kersplatSample}}. Please see the documentation for those functions
 #' for more details of the individual steps.
 #'
 #' @seealso
-#' \code{\link{splotchSetup}}, \code{\link{splotchSample}}
+#' \code{\link{kersplatSetup}}, \code{\link{kersplatSample}}
 #'
 #' @return SingleCellExperiment containing simulated counts and intermediate
 #' values
 #'
 #' @examples
-#' sim <- splotchSimulate()
+#' sim <- kersplatSimulate()
 #'
 #' @export
-splotchSimulate <- function(params = newSplotchParams(), verbose = TRUE, ...) {
+kersplatSimulate <- function(params = newKersplatParams(), verbose = TRUE, ...) {
 
-    params <- splotchSetup(params, verbose, ...)
-    sim <- splotchSample(params, verbose)
+    params <- kersplatSetup(params, verbose, ...)
+    sim <- kersplatSample(params, verbose)
 
     return(sim)
 }
 
-#' Splotch setup
+#' Kersplat setup
 #'
-#' Setup the parameters required for the Splotch simulation
+#' Setup the parameters required for the Kersplat simulation
 #'
-#' @param params SplotchParams object containing simulation parameters.
+#' @param params KersplatParams object containing simulation parameters.
 #' @param verbose logical. Whether to print progress messages
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
 #'
 #' @details
-#' The first stage is a two-step Splotch simulation is to generate some of the
+#' The first stage is a two-step Kersplat simulation is to generate some of the
 #' intermediate parameters. The resulting parameters allow multiple simulated
 #' datasets to be generated from the same biological structure (using
-#' \code{\link{splotchSample}}). As with all the other parameters these values
+#' \code{\link{kersplatSample}}). As with all the other parameters these values
 #' can be manually overwritten if desired.
 #'
 #' The setup involves the following steps:
@@ -56,7 +56,7 @@ splotchSimulate <- function(params = newSplotchParams(), verbose = TRUE, ...) {
 #'     \item Simulate cell paths
 #' }
 #'
-#' The resulting \code{\link{SplotchParams}} object will have the following
+#' The resulting \code{\link{KersplatParams}} object will have the following
 #' parameters set (if they weren't already).
 #'
 #' \itemize{
@@ -66,22 +66,22 @@ splotchSimulate <- function(params = newSplotchParams(), verbose = TRUE, ...) {
 #'     \item \code{paths.means}
 #' }
 #'
-#' See \code{\link{SplotchParams}} for more details about these parameters and
+#' See \code{\link{KersplatParams}} for more details about these parameters and
 #' the functions for the individual steps for more details about the process.
 #'
 #' @seealso
-#' \code{\link{splotchGenNetwork}}, \code{\link{splotchSelectRegs}},
-#' \code{\link{splotchSimGeneMeans}}, \code{\link{splotchSimPaths}},
-#' \code{\link{SplotchParams}}
+#' \code{\link{kersplatGenNetwork}}, \code{\link{kersplatSelectRegs}},
+#' \code{\link{kersplatSimGeneMeans}}, \code{\link{kersplatSimPaths}},
+#' \code{\link{KersplatParams}}
 #'
-#' @return A complete SplotchParams object
+#' @return A complete KersplatParams object
 #' @export
 #'
 #' @examples
-#' params <- splotchSetup()
-splotchSetup <- function(params = newSplotchParams(), verbose = TRUE, ...) {
+#' params <- kersplatSetup()
+kersplatSetup <- function(params = newKersplatParams(), verbose = TRUE, ...) {
 
-    checkmate::assertClass(params, "SplotchParams")
+    checkmate::assertClass(params, "KersplatParams")
     params <- setParams(params, ...)
 
     # Set random seed
@@ -89,24 +89,24 @@ splotchSetup <- function(params = newSplotchParams(), verbose = TRUE, ...) {
     set.seed(seed)
 
     if (verbose) {message("Setting up parameters...")}
-    params <- splotchGenNetwork(params, verbose)
-    params <- splotchSelectRegs(params, verbose)
-    params <- splotchSimGeneMeans(params, verbose)
-    params <- splotchSimPaths(params, verbose)
+    params <- kersplatGenNetwork(params, verbose)
+    params <- kersplatSelectRegs(params, verbose)
+    params <- kersplatSimGeneMeans(params, verbose)
+    params <- kersplatSimPaths(params, verbose)
 
     return(params)
 }
 
-#' Splotch sample
+#' Kersplat sample
 #'
-#' Sample cells for the Splotch simulation
+#' Sample cells for the Kersplat simulation
 #'
-#' @param params SplotchParams object containing simulation parameters.
+#' @param params KersplatParams object containing simulation parameters.
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details
-#' The second stage is a two-step Splotch simulation is to generate cells based
-#' on a complete \code{\link{SplotchParams}} object.
+#' The second stage is a two-step Kersplat simulation is to generate cells based
+#' on a complete \code{\link{KersplatParams}} object.
 #' intermediate parameters.
 #'
 #' The sampling process involves the following steps:
@@ -170,36 +170,36 @@ splotchSetup <- function(params = newSplotchParams(), verbose = TRUE, ...) {
 #' which typically use \code{underscore_naming}.
 #'
 #' @seealso
-#' \code{\link{splotchSimLibSizes}}, \code{\link{splotchSimCellMeans}},
-#' \code{\link{splotchSimCellCounts}}, \code{\link{splotchSimAmbientCounts}},
-#' \code{\link{splotchSimCounts}}
+#' \code{\link{kersplatSimLibSizes}}, \code{\link{kersplatSimCellMeans}},
+#' \code{\link{kersplatSimCellCounts}}, \code{\link{kersplatSimAmbientCounts}},
+#' \code{\link{kersplatSimCounts}}
 #'
 #' @return SingleCellExperiment object containing the simulated counts and
 #' intermediate values.
 #' @export
 #'
 #' @examples
-#' params <- splotchSetup()
-#' sim <- splotchSample(params)
-splotchSample <- function(params, verbose = TRUE) {
+#' params <- kersplatSetup()
+#' sim <- kersplatSample(params)
+kersplatSample <- function(params, verbose = TRUE) {
 
     # Check that parameters are set up
-    checkmate::assertClass(params, "SplotchParams")
+    checkmate::assertClass(params, "KersplatParams")
     network.graph <- getParam(params, "network.graph")
     if (is.null(network.graph)) {
-        stop("'network.graph' not set, run splotchSetup first")
+        stop("'network.graph' not set, run kersplatSetup first")
     }
     network.regsSet <- getParam(params, "network.regsSet")
     if (!network.regsSet) {
-        stop("network regulators not set, run splotchSetup first")
+        stop("network regulators not set, run kersplatSetup first")
     }
     mean.values <- getParam(params, "mean.values")
     if (length(mean.values) == 0) {
-        stop("'mean.values' not set, run splotchSetup first")
+        stop("'mean.values' not set, run kersplatSetup first")
     }
     paths.means <- getParam(params, "paths.means")
     if (length(mean.values) == 0) {
-        stop("'paths.means' not set, run splotchSetup first")
+        stop("'paths.means' not set, run kersplatSetup first")
     }
 
     if (verbose) {message("Creating simulation object...")}
@@ -233,21 +233,21 @@ splotchSample <- function(params, verbose = TRUE) {
     sim <- SingleCellExperiment(rowData = features, colData = cells,
                                 metadata = list(Params = params))
 
-    sim <- splotchSimLibSizes(sim, params, verbose)
-    sim <- splotchSimCellMeans(sim, params, verbose)
-    sim <- splotchSimCellCounts(sim, params, verbose)
-    sim <- splotchSimAmbientCounts(sim, params, verbose)
-    sim <- splotchSimCounts(sim, params, verbose)
+    sim <- kersplatSimLibSizes(sim, params, verbose)
+    sim <- kersplatSimCellMeans(sim, params, verbose)
+    sim <- kersplatSimCellCounts(sim, params, verbose)
+    sim <- kersplatSimAmbientCounts(sim, params, verbose)
+    sim <- kersplatSimCounts(sim, params, verbose)
 
     return(sim)
 
 }
 
-#' Generate Splotch gene network
+#' Generate Kersplat gene network
 #'
-#' Generate a gene network for the Splotch simulation
+#' Generate a gene network for the Kersplat simulation
 #'
-#' @param params SplotchParams object containing simulation parameters.
+#' @param params KersplatParams object containing simulation parameters.
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details
@@ -255,8 +255,8 @@ splotchSample <- function(params, verbose = TRUE) {
 #' network is generated using the \code{\link[igraph]{sample_forestfire}}
 #' function and edge weights are sampled from a standard normal distribution.
 #'
-#' @return SplotchParams object with gene network
-splotchGenNetwork <- function(params, verbose) {
+#' @return KersplatParams object with gene network
+kersplatGenNetwork <- function(params, verbose) {
 
     nGenes <- getParam(params, "nGenes")
     network.graph <- getParam(params, "network.graph")
@@ -279,11 +279,11 @@ splotchGenNetwork <- function(params, verbose) {
     return(params)
 }
 
-#' Select Splotch regulators
+#' Select Kersplat regulators
 #'
-#' Select regulator genes in the gene network for a Splotch simulation
+#' Select regulator genes in the gene network for a Kersplat simulation
 #'
-#' @param params SplotchParams object containing simulation parameters.
+#' @param params KersplatParams object containing simulation parameters.
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details
@@ -291,8 +291,8 @@ splotchGenNetwork <- function(params, verbose) {
 #' between their out degree and in degree. This is an arbitary weighting and
 #' may be improved or replace in the future.
 #'
-#' @return SplotchParams object with gene regulators
-splotchSelectRegs <- function(params, verbose) {
+#' @return KersplatParams object with gene regulators
+kersplatSelectRegs <- function(params, verbose) {
 
     network.regsSet <- getParam(params, "network.regsSet")
 
@@ -321,9 +321,9 @@ splotchSelectRegs <- function(params, verbose) {
     return(params)
 }
 
-#' Simulate Splotch gene means
+#' Simulate Kersplat gene means
 #'
-#' @param params SplotchParams object containing simulation parameters.
+#' @param params KersplatParams object containing simulation parameters.
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details
@@ -341,8 +341,8 @@ splotchSelectRegs <- function(params, verbose) {
 #' sampling method. This approach is more flexible but may violate some
 #' statistical assumptions.
 #'
-#' @return SplotchParams object with gene means
-splotchSimGeneMeans <- function(params, verbose) {
+#' @return KersplatParams object with gene means
+kersplatSimGeneMeans <- function(params, verbose) {
 
     mean.values <- getParam(params, "mean.values")
 
@@ -384,11 +384,11 @@ splotchSimGeneMeans <- function(params, verbose) {
     return(params)
 }
 
-#' Simulate Splotch paths
+#' Simulate Kersplat paths
 #'
-#' Simulate gene means for each step along each path of a Splotch simulation
+#' Simulate gene means for each step along each path of a Kersplat simulation
 #'
-#' @param params SplotchParams object containing simulation parameters.
+#' @param params KersplatParams object containing simulation parameters.
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details
@@ -420,8 +420,8 @@ splotchSimGeneMeans <- function(params, verbose) {
 #' single-cell RNA-seq data for complex differentiation processes.
 #' Bioinformatics (2019). \url{https://doi.org/10.1093/bioinformatics/btz078}.
 #'
-#' @return SplotchParams object with path means
-splotchSimPaths <- function(params, verbose) {
+#' @return KersplatParams object with path means
+kersplatSimPaths <- function(params, verbose) {
 
     paths.means <- getParam(params, "paths.means")
 
@@ -493,9 +493,9 @@ splotchSimPaths <- function(params, verbose) {
     return(params)
 }
 
-#' Simulate Splotch library sizes
+#' Simulate Kersplat library sizes
 #'
-#' Generate library sizes for cells in the Splotch simulatilon
+#' Generate library sizes for cells in the Kersplat simulatilon
 #'
 #' @param sim SingleCellExperiment containing simulation.
 #' @param params SplotParams object with simulation parameters.
@@ -519,7 +519,7 @@ splotchSimPaths <- function(params, verbose) {
 #' \code{ambient.scale} parameter.
 #'
 #' @return SingleCellExperiment with library sizes
-splotchSimLibSizes <- function(sim, params, verbose) {
+kersplatSimLibSizes <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating library sizes...")}
     nCells <- getParam(params, "nCells")
@@ -555,9 +555,9 @@ splotchSimLibSizes <- function(sim, params, verbose) {
     return(sim)
 }
 
-#' Simulate Splotch cell means
+#' Simulate Kersplat cell means
 #'
-#' Simulate endogenous counts for each cell in a Splotch simulation
+#' Simulate endogenous counts for each cell in a Kersplat simulation
 #'
 #' @param sim SingleCellExperiment containing simulation.
 #' @param params SplotParams object with simulation parameters.
@@ -606,7 +606,7 @@ splotchSimLibSizes <- function(sim, params, verbose) {
 #' the means.
 #'
 #' @return SingleCellExperiment with cell means
-splotchSimCellMeans <- function(sim, params, verbose) {
+kersplatSimCellMeans <- function(sim, params, verbose) {
 
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
@@ -734,9 +734,9 @@ splotchSimCellMeans <- function(sim, params, verbose) {
     return(sim)
 }
 
-#' Simulate Splotch cell counts
+#' Simulate Kersplat cell counts
 #'
-#' Simulate cell counts for the Splotch simulation
+#' Simulate cell counts for the Kersplat simulation
 #'
 #' @param sim SingleCellExperiment containing simulation.
 #' @param params SplotParams object with simulation parameters.
@@ -747,7 +747,7 @@ splotchSimCellMeans <- function(sim, params, verbose) {
 #' cell means matrix.
 #'
 #' @return SingleCellExperiment with cell counts
-splotchSimCellCounts <- function(sim, params, verbose) {
+kersplatSimCellCounts <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating cell counts...")}
     cell.names <- colData(sim)$Cell
@@ -769,7 +769,7 @@ splotchSimCellCounts <- function(sim, params, verbose) {
     return(sim)
 }
 
-#' Simulate Splotch ambient counts
+#' Simulate Kersplat ambient counts
 #'
 #' @param sim SingleCellExperiment containing simulation.
 #' @param params SplotParams object with simulation parameters.
@@ -782,7 +782,7 @@ splotchSimCellCounts <- function(sim, params, verbose) {
 #' distribution using these means.
 #'
 #' @return SingleCellExperiment with ambient counts
-splotchSimAmbientCounts <- function(sim, params, verbose) {
+kersplatSimAmbientCounts <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating ambient counts...")}
     cell.names <- colData(sim)$Cell
@@ -812,9 +812,9 @@ splotchSimAmbientCounts <- function(sim, params, verbose) {
     return(sim)
 }
 
-#' Simulate Splotch final counts
+#' Simulate Kersplat final counts
 #'
-#' Simulate the final counts matrix for a Splotch simulation
+#' Simulate the final counts matrix for a Kersplat simulation
 #'
 #' @param sim SingleCellExperiment containing simulation.
 #' @param params SplotParams object with simulation parameters.
@@ -829,7 +829,7 @@ splotchSimAmbientCounts <- function(sim, params, verbose) {
 #' @seealso \code{\link[DropletUtils]{downsampleMatrix}}
 #'
 #' @return SingleCellExperiment with counts matrix
-splotchSimCounts <- function(sim, params, verbose) {
+kersplatSimCounts <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating final counts...")}
     cell.lib.sizes <- colData(sim)$CellLibSize

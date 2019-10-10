@@ -255,13 +255,13 @@ setClass("SplatParams",
                                path.nonlinearProb = 0.1,
                                path.sigmaFac = 0.8))
 
-#' The SplotchParams class
+#' The KersplatParams class
 #'
-#' S4 class that holds parameters for the Splotch simulation.
+#' S4 class that holds parameters for the Kersplat simulation.
 #'
 #' @section Parameters:
 #'
-#' The Splotch simulation uses the following parameters:
+#' The Kersplat simulation uses the following parameters:
 #'
 #' \describe{
 #'     \item{\code{nGenes}}{The number of genes to simulate.}
@@ -307,7 +307,7 @@ setClass("SplatParams",
 #'         \describe{
 #'             \item{\code{[paths.programs]}}{Number of expression programs.}
 #'             \item{\code{[paths.design]}}{data.frame describing path
-#'             structure. See \code{\link{splotchSimPaths}} for details.}
+#'             structure. See \code{\link{kersplatSimPaths}} for details.}
 #'         }
 #'     }
 #'     \item{\emph{Library size parameters}}{
@@ -328,7 +328,7 @@ setClass("SplatParams",
 #'     \item{\emph{Design parameters}}{
 #'         \describe{
 #'             \item{\code{[cells.design]}}{data.frame describing cell
-#'             structure. See \code{\link{splotchSimCellMeans}} for details.}
+#'             structure. See \code{\link{kersplatSimCellMeans}} for details.}
 #'         }
 #'     }
 #'     \item{\emph{Doublet parameters}}{
@@ -349,14 +349,14 @@ setClass("SplatParams",
 #' }
 #'
 #' The parameters not shown in brackets can be estimated from real data using
-#' \code{\link{splotchEstimate}}. For details of the Splotch simulation
-#' see \code{\link{splotchSimulate}}.
+#' \code{\link{kersplatEstimate}}. For details of the Kersplat simulation
+#' see \code{\link{kersplatSimulate}}.
 #'
-#' @name SplotchParams
-#' @rdname SplotchParams
-#' @aliases SplotchParams-class
-#' @exportClass SplotchParams
-setClass("SplotchParams",
+#' @name KersplatParams
+#' @rdname KersplatParams
+#' @aliases KersplatParams-class
+#' @exportClass KersplatParams
+setClass("KersplatParams",
          contains = "Params",
          slots = c(mean.shape = "numeric",
                    mean.rate = "numeric",
