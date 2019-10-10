@@ -1,6 +1,7 @@
 ### Version 1.9.7.9018 (2019-10-10)
 
 * Document Splotch estimation functions
+* Add Splotch to listSims
 
 ### Version 1.9.7.9017 (2019-10-09)
 
