@@ -1,29 +1,29 @@
 #' @rdname newParams
 #' @importFrom methods new
 #' @export
-newSplotchParams <- function(...) {
+newKersplatParams <- function(...) {
 
     if (!requireNamespace("igraph", quietly = TRUE)) {
-        stop("The Splotch simulation requires the 'igraph' package.")
+        stop("The Kersplat simulation requires the 'igraph' package.")
     }
 
     if (!requireNamespace("DropletUtils", quietly = TRUE)) {
-        stop("The Splotch simulation requires the 'DropletUtils' package.")
+        stop("The Kersplat simulation requires the 'DropletUtils' package.")
     }
 
-    msg <- paste("The Splotch simulation is still experimental and may produce",
+    msg <- paste("The Kersplat simulation is still experimental and may produce",
                  "unreliable results. Please try it and report any issues to",
                  "https://github.com/Oshlack/splatter/issues. The development",
                  "version may have improved features.")
-    rlang:::warn_deprecated(msg, id = "warn.splotch")
+    rlang:::warn_deprecated(msg, id = "warn.kersplat")
 
-    params <- new("SplotchParams")
+    params <- new("KersplatParams")
     params <- setParams(params, ...)
 
     return(params)
 }
 
-setValidity("SplotchParams", function(object) {
+setValidity("KersplatParams", function(object) {
 
     v <- getParams(object, slotNames(object))
 
@@ -143,7 +143,7 @@ setValidity("SplotchParams", function(object) {
 })
 
 #' @importFrom methods show
-setMethod("show", "SplotchParams", function(object) {
+setMethod("show", "KersplatParams", function(object) {
 
     pp.top <- list("Mean:" = c("(Rate)"         = "mean.rate",
                                "(Shape)"        = "mean.shape",
@@ -214,7 +214,7 @@ setMethod("show", "SplotchParams", function(object) {
 })
 
 #' @rdname setParam
-setMethod("setParam", "SplotchParams", function(object, name, value) {
+setMethod("setParam", "KersplatParams", function(object, name, value) {
     checkmate::assertString(name)
 
     if (name == "nGenes") {
@@ -280,7 +280,7 @@ setMethod("setParam", "SplotchParams", function(object, name, value) {
 })
 
 #' @rdname setParams
-setMethod("setParams", "SplotchParams", function(object, update = NULL, ...) {
+setMethod("setParams", "KersplatParams", function(object, update = NULL, ...) {
 
     checkmate::assertList(update, null.ok = TRUE)
 

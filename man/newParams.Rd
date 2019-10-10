@@ -15,7 +15,7 @@
 \alias{newSimpleParams}
 \alias{newSparseDCParams}
 \alias{newSplatParams}
-\alias{newSplotchParams}
+\alias{newKersplatParams}
 \alias{newZINBParams}
 \title{New Params}
 \usage{
@@ -37,7 +37,7 @@ newSparseDCParams(...)
 
 newSplatParams(...)
 
-newSplotchParams(...)
+newKersplatParams(...)
 
 newZINBParams(...)
 }

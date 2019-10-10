@@ -6,7 +6,7 @@
 \alias{setParams}
 \alias{setParams,Params-method}
 \alias{setParams,SplatParams-method}
-\alias{setParams,SplotchParams-method}
+\alias{setParams,KersplatParams-method}
 \title{Set parameters}
 \usage{
 setParams(object, update = NULL, ...)
@@ -15,7 +15,7 @@ setParams(object, update = NULL, ...)
 
 \S4method{setParams}{SplatParams}(object, update = NULL, ...)
 
-\S4method{setParams}{SplotchParams}(object, update = NULL, ...)
+\S4method{setParams}{KersplatParams}(object, update = NULL, ...)
 }
 \arguments{
 \item{object}{Params object to set parameters in.}
