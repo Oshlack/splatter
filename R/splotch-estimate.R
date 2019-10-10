@@ -10,7 +10,8 @@
 #' @param verbose logical. Whether to print progress messages.
 #'
 #' @seealso
-#' \code{\link{splotchEstMean}}, \code{\link{splotchEstLib}}
+#' \code{\link{splotchEstMean}},  \code{\link{splotchEstBCV}},
+#' \code{\link{splotchEstLib}}
 #'
 #' @return SplotchParams object containing the estimated parameters.
 #'
@@ -61,6 +62,33 @@ splotchEstimate.matrix <- function(counts, params = newSplotchParams(),
     return(params)
 }
 
+#' Estimate Splotch means
+#'
+#' Estimate mean parameters for the Splotch simulation
+#'
+#' @param norm.counts library size normalised counts matrix.
+#' @param params SplotchParams object to store estimated values in.
+#' @param verbose logical. Whether to print progress messages
+#'
+#' @details
+#' Parameters for the gamma distribution are estimated by fitting the mean
+#' normalised counts using \code{\link[fitdistrplus]{fitdist}}. All the fitting
+#' methods are tried and the fit with the best Cramer-von Mises statistic is
+#' selected. The density of the means is also estimated using
+#' \code{\link[stats]{density}}.
+#'
+#' Expression outlier genes are detected using the Median Absolute Deviation
+#' (MAD) from median method. If the log2 mean expression of a gene is greater
+#' than two MADs above the median log2 mean expression it is designated as an
+#' outlier. The proportion of outlier genes is used to estimate the outlier
+#' probability. Factors for each outlier gene are calculated by dividing mean
+#' expression by the median mean expression. A log-normal distribution is then
+#' fitted to these factors in order to estimate the outlier factor location and
+#' scale parameters using the \code{\link[fitdistrplus]{fitdist}} MLE method.
+#'
+#' @return SplotchParams object with estimated means
+#'
+#' @importFrom stats density
 splotchEstMean <- function(norm.counts, params, verbose) {
 
     if (verbose) {message("Estimating mean parameters...")}
@@ -102,6 +130,23 @@ splotchEstMean <- function(norm.counts, params, verbose) {
     return(params)
 }
 
+#' Estimate Splotch BCV parameters
+#'
+#' Estimate Biological Coefficient of Variation (BCV) parameters for the Splotch
+#' simulation
+#'
+#' @param counts counts matrix.
+#' @param params SplotchParams object to store estimated values in.
+#' @param verbose logical. Whether to print progress messages
+#'
+#' @details
+#' The \code{\link[edgeR]{estimateDisp}} function is used to estimate the common
+#' dispersion across the dataset. An exponential correction is applied based on
+#' fitting an exponential relationship between simulated and estimated values.
+#' If this results in a negative dispersion a simpler linear correction is
+#' applied instead.
+#'
+#' @return SplotchParams object with estimated BCV parameters
 splotchEstBCV <- function(counts, params, verbose) {
 
     if (verbose) {message("Estimating BCV parameters...")}
@@ -162,6 +207,23 @@ splotchEstBCV <- function(counts, params, verbose) {
     return(params)
 }
 
+#' Estimate Splotch library size parameters
+#'
+#' Estimate the library size parameters for the Splotch simulation
+#'
+#' @param counts counts matrix.
+#' @param params SplotchParams object to store estimated values in.
+#' @param verbose logical. Whether to print progress messages
+#'
+#' @details
+#' Parameters for the log-normal distribution are estimated by fitting the
+#' library sizes using \code{\link[fitdistrplus]{fitdist}}. All the fitting
+#' methods are tried and the fit with the best Cramer-von Mises statistic is
+#' selected. The density of the library sizes is also estimated using
+#' \code{\link[stats]{density}}.
+#'
+#' @return SplotchParams object with library size parameters
+#'
 #' @importFrom stats density
 splotchEstLib <- function(counts, params, verbose) {
 
@@ -182,6 +244,21 @@ splotchEstLib <- function(counts, params, verbose) {
     return(params)
 }
 
+#' Select fit
+#'
+#' Try a variety of fitting methods and select the best one
+#'
+#' @param data The data to fit
+#' @param distr Name of the distribution to fit
+#' @param weights Optional vector of weigths
+#' @param verbose logical. Whether to print progress messages
+#'
+#' @details
+#' The distribution is fitted to the data using each of the
+#' \code{\link[fitdistrplus]{fitdist}} fitting methods. The fit with the
+#' smallest Cramer-von Mises statistic is selected.
+#'
+#' @return The selected fit object
 selectFit <- function(data, distr, weights = NULL, verbose = TRUE) {
 
     checkmate::assertNumeric(data, finite = TRUE, any.missing = FALSE)

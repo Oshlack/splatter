@@ -256,7 +256,6 @@ splotchSample <- function(params, verbose = TRUE) {
 #' function and edge weights are sampled from a standard normal distribution.
 #'
 #' @return SplotchParams object with gene network
-#' @export
 splotchGenNetwork <- function(params, verbose) {
 
     nGenes <- getParam(params, "nGenes")
@@ -293,7 +292,6 @@ splotchGenNetwork <- function(params, verbose) {
 #' may be improved or replace in the future.
 #'
 #' @return SplotchParams object with gene regulators
-#' @export
 splotchSelectRegs <- function(params, verbose) {
 
     network.regsSet <- getParam(params, "network.regsSet")
@@ -344,7 +342,6 @@ splotchSelectRegs <- function(params, verbose) {
 #' statistical assumptions.
 #'
 #' @return SplotchParams object with gene means
-#' @export
 splotchSimGeneMeans <- function(params, verbose) {
 
     mean.values <- getParam(params, "mean.values")
@@ -522,7 +519,6 @@ splotchSimPaths <- function(params, verbose) {
 #' \code{ambient.scale} parameter.
 #'
 #' @return SingleCellExperiment with library sizes
-#' @export
 splotchSimLibSizes <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating library sizes...")}
@@ -610,7 +606,6 @@ splotchSimLibSizes <- function(sim, params, verbose) {
 #' the means.
 #'
 #' @return SingleCellExperiment with cell means
-#' @export
 splotchSimCellMeans <- function(sim, params, verbose) {
 
     cell.names <- colData(sim)$Cell
@@ -752,7 +747,6 @@ splotchSimCellMeans <- function(sim, params, verbose) {
 #' cell means matrix.
 #'
 #' @return SingleCellExperiment with cell counts
-#' @export
 splotchSimCellCounts <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating cell counts...")}
@@ -788,7 +782,6 @@ splotchSimCellCounts <- function(sim, params, verbose) {
 #' distribution using these means.
 #'
 #' @return SingleCellExperiment with ambient counts
-#' @export
 splotchSimAmbientCounts <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating ambient counts...")}
@@ -836,7 +829,6 @@ splotchSimAmbientCounts <- function(sim, params, verbose) {
 #' @seealso \code{\link[DropletUtils]{downsampleMatrix}}
 #'
 #' @return SingleCellExperiment with counts matrix
-#' @export
 splotchSimCounts <- function(sim, params, verbose) {
 
     if (verbose) {message("Simulating final counts...")}

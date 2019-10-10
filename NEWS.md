@@ -1,3 +1,7 @@
+### Version 1.9.7.9018 (2019-10-10)
+
+* Document Splotch estimation functions
+
 ### Version 1.9.7.9017 (2019-10-09)
 
 * Document Splotch simulation functions
