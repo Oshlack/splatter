@@ -40,5 +40,6 @@ params <- splotchEstimate(sce)
 params
 }
 \seealso{
-\code{\link{splotchEstMean}}, \code{\link{splotchEstLib}}
+\code{\link{splotchEstMean}},  \code{\link{splotchEstBCV}},
+\code{\link{splotchEstLib}}
 }
