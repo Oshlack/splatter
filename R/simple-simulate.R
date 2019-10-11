@@ -62,7 +62,7 @@ simpleSimulate <- function(params = newSimpleParams(), verbose = TRUE, ...) {
     sim <- SingleCellExperiment(assays = list(counts = counts),
                                 rowData = features,
                                 colData = cells,
-                                metadata = list(params = params))
+                                metadata = list(Params = params))
 
     return(sim)
 }
