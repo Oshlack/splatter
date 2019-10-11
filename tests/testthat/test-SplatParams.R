@@ -44,3 +44,11 @@ test_that("dropout.type checks work", {
     expect_error(setParam(params, "dropout.type", "a"),
                  "dropout.type must be one of: ")
 })
+
+
+test_that("setParams order doesn't matter", {
+    expect_silent(setParams(params, group.prob = c(0.5, 0.5),
+                            de.facLoc = c(0.1, 5)))
+    expect_silent(setParams(params, de.facLoc = c(0.1, 5),
+                            group.prob = c(0.5, 0.5)))
+})

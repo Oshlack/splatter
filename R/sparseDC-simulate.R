@@ -31,8 +31,9 @@
 #' Paper: \url{10.1093/nar/gkx1113}
 #'
 #' @examples
-#' sim <- sparseDCSimulate()
-#'
+#' if (requireNamespace("SparseDC", quietly = TRUE)) {
+#'     sim <- sparseDCSimulate()
+#' }
 #' @export
 #' @importFrom SingleCellExperiment SingleCellExperiment
 sparseDCSimulate <- function(params = newSparseDCParams(),
@@ -80,7 +81,8 @@ sparseDCSimulate <- function(params = newSparseDCParams(),
 
     cells <- data.frame(Cell = cell.names,
                         Condition = factor(paste0("Condition",
-                                                  rep(1:2, each = nCells))),
+                                                  rep(seq_len(2),
+                                                      each = nCells))),
                         Cluster = factor(paste0("Cluster",
                                                 c(sparsedc.sim$clusters1,
                                                   sparsedc.sim$clusters2))),

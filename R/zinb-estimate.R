@@ -9,7 +9,7 @@
 #' @param design.genes design matrix of gene-level covariates.
 #' @param common.disp logical. Whether or not a single dispersion for all
 #'        features is estimated.
-#' @param iter.init number of iterations to use for initalization.
+#' @param iter.init number of iterations to use for initialization.
 #' @param iter.opt number of iterations to use for optimization.
 #' @param stop.opt stopping criterion for optimization.
 #' @param params ZINBParams object to store estimated values in.
@@ -28,14 +28,15 @@
 #' @return ZINBParams object containing the estimated parameters.
 #'
 #' @examples
-#' \dontrun{
-#' # Load example data
-#' library(scater)
-#' data("sc_example_counts")
+#' if (requireNamespace("zinbwave", quietly = TRUE)) {
+#'     library(scater)
+#'     set.seed(1)
+#'     sce <- mockSCE(ncells = 20, ngenes = 100)
 #'
-#' params <- zinbEstimate(sc_example_counts)
-#' params
+#'     params <- zinbEstimate(sce)
+#'     params
 #' }
+#'
 #' @importFrom BiocParallel SerialParam
 #' @export
 zinbEstimate <- function(counts, design.samples = NULL, design.genes = NULL,
@@ -55,7 +56,7 @@ zinbEstimate.SingleCellExperiment <- function(counts, design.samples = NULL,
                                               params = newZINBParams(),
                                               verbose = TRUE,
                                               BPPARAM = SerialParam(), ...) {
-    counts <- BiocGenerics::counts(counts)
+    counts <- getCounts(counts)
     zinbEstimate(counts, design.samples, design.genes, common.disp,
                  iter.init, iter.opt, stop.opt, params, verbose, BPPARAM, ...)
 }

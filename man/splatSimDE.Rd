@@ -21,6 +21,6 @@ SingleCellExperiment with simulated differential expression.
 \description{
 Simulate differential expression. Differential expression factors for each
 group are produced using \code{\link{getLNormFactors}} and these are added
-along with updated means for each group. For paths care is taked to make sure
+along with updated means for each group. For paths care is taken to make sure
 they are simulated in the correct order.
 }

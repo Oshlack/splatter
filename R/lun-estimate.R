@@ -16,9 +16,10 @@
 #' @examples
 #' # Load example data
 #' library(scater)
-#' data("sc_example_counts")
+#' set.seed(1)
+#' sce <- mockSCE()
 #'
-#' params <- lunEstimate(sc_example_counts)
+#' params <- lunEstimate(sce)
 #' params
 #' @export
 lunEstimate <- function(counts, params = newLunParams()) {
@@ -28,7 +29,7 @@ lunEstimate <- function(counts, params = newLunParams()) {
 #' @rdname lunEstimate
 #' @export
 lunEstimate.SingleCellExperiment <- function(counts, params = newLunParams()) {
-    counts <- BiocGenerics::counts(counts)
+    counts <- getCounts(counts)
     lunEstimate(counts, params)
 }
 

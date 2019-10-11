@@ -28,7 +28,9 @@ See \code{\link[zinbwave]{zinbSim}} and the ZINB-WaVE paper for
 more details about how the simulation works.
 }
 \examples{
-sim <- zinbSimulate()
+if (requireNamespace("zinbwave", quietly = TRUE)) {
+    sim <- zinbSimulate()
+}
 
 }
 \references{

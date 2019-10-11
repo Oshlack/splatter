@@ -15,52 +15,10 @@ getParams <- function(params, names) {
     checkmate::assertClass(params, classes = "Params")
     checkmate::assertCharacter(names, min.len = 1, any.missing = FALSE)
 
-    sapply(names, getParam, object = params, simplify = FALSE)
-}
+    params.list <- lapply(names, getParam, object = params)
+    names(params.list) <- names
 
-#' Set parameters
-#'
-#' Set multiple parameters in a Params object.
-#'
-#' @param params Params object to set parameters in.
-#' @param update list of parameters to set where \code{names(update)} are the
-#'        names of the parameters to set and the items in the list are values.
-#' @param ... additional parameters to set. These are combined with any
-#'        parameters specified in \code{update}.
-#'
-#' @details
-#' Each parameter is set by a call to \code{\link{setParam}}. If the same
-#' parameter is specified multiple times it will be set multiple times.
-#' Parameters can be specified using a list via \code{update} (useful when
-#' collecting parameter values in some way) or individually (useful when setting
-#' them manually), see examples.
-#'
-#' @return Params object with updated values.
-#' @examples
-#' params <- newSimpleParams()
-#' params
-#' # Set individually
-#' params <- setParams(params, nGenes = 1000, nCells = 50)
-#' params
-#' # Set via update list
-#' params <- setParams(params, list(mean.rate = 0.2, mean.shape = 0.8))
-#' params
-#' @export
-setParams <- function(params, update = NULL, ...) {
-
-    checkmate::assertClass(params, classes = "Params")
-    checkmate::assertList(update, null.ok = TRUE)
-
-    update <- c(update, list(...))
-
-    if (length(update) > 0) {
-        for (name in names(update)) {
-            value <- update[[name]]
-            params <- setParam(params, name, value)
-        }
-    }
-
-    return(params)
+    return(params.list)
 }
 
 #' Set parameters UNCHECKED
@@ -115,13 +73,18 @@ showPP <- function(params, pp) {
     for (category in names(pp)) {
         parameters <- pp[[category]]
         values <- getParams(params, parameters)
-        is.df <- sapply(values, is.data.frame)
+        is.df <- vapply(values, is.data.frame, FALSE)
 
         default.values <- getParams(default, parameters)
-        not.default <- sapply(seq_along(values), function(i) {
+        not.default <- vapply(seq_along(values), function(i) {
             !identical(values[i], default.values[i])
-        })
+        }, FALSE)
+        empty.values <- vapply(values, function(x) {
+            is.null(x) || length(x) == 0
+        }, FALSE)
+        values[empty.values] <- "Not set"
 
+        names(values) <- names(parameters)
         cat(crayon::bold(category), "\n")
         if (sum(!is.df) > 0) {
             showValues(values[!is.df], not.default[!is.df])
@@ -133,12 +96,14 @@ showPP <- function(params, pp) {
     }
 }
 
-#' Show vales
+#' Show values
 #'
-#' Function used for pretty printing scale or vector parameters.
+#' Function used for pretty printing scalar or vector parameters.
 #'
 #' @param values list of values to show.
 #' @param not.default logical vector giving which have changed from the default.
+#'
+#' @return Print values
 #'
 #' @importFrom utils head
 showValues <- function(values, not.default) {
@@ -147,13 +112,22 @@ showValues <- function(values, not.default) {
     checkmate::check_logical(not.default, any.missing = FALSE,
                              len = length(values))
 
-    short.values <- sapply(values, function(x) {
-        if (length(x) > 4) {
-            paste0(paste(head(x, n = 4), collapse = ", "), ",...")
+    short.values <- vapply(values, function(x) {
+        if (is.list(x)) {
+            classes <- class(x)
+            if (length(classes) == 1 && classes == "list") {
+                paste("List with", length(x), "items")
+            } else {
+                paste("Object of class", paste(classes, collapse = ", "))
+            }
         } else {
-            paste(x, collapse = ", ")
+            if (length(x) > 4) {
+                paste0(paste(head(x, n = 4), collapse = ", "), ",...")
+            } else {
+                paste(x, collapse = ", ")
+            }
         }
-    })
+    }, c(Value = "None"))
 
     names(short.values)[not.default] <- toupper(names(values[not.default]))
 
@@ -163,14 +137,18 @@ showValues <- function(values, not.default) {
     items.per.line <- floor(screen.width / (max.len + 2))
 
     short.names <- names(short.values)
-    short.values <- crayon::col_align(short.values, max.len, "right")
-    short.names <- crayon::col_align(short.names, max.len, "right")
-
     not.est <- !grepl("\\(", short.names)
+    secondary <- grepl("\\*", short.names)
+    short.names <- gsub("\\*", "", short.names)
+
     short.names[not.est] <- crayon::blue(short.names[not.est])
+    short.names[secondary] <- crayon::bgYellow(short.names[secondary])
     short.names[not.default] <- crayon::bold(short.names[not.default])
     short.values[not.default] <- crayon::green(short.values[not.default])
     short.values[not.default] <- crayon::bold(short.values[not.default])
+
+    short.values <- crayon::col_align(short.values, max.len, "right")
+    short.names <- crayon::col_align(short.names, max.len, "right")
 
     names(short.values) <- short.names
 
@@ -189,6 +167,8 @@ showValues <- function(values, not.default) {
 #'
 #' @param dfs list of data.frames to show.
 #' @param not.default logical vector giving which have changed from the default.
+#'
+#' @return Print data.frame parameters
 #'
 #' @importFrom utils head
 showDFs <- function(dfs, not.default) {
@@ -218,6 +198,8 @@ showDFs <- function(dfs, not.default) {
         cat(paste0("\n", name, "\n"))
         cat(msg, "\n")
         print(head(df, n = 4))
-        cat("# ... with", nrow(df) - 4, "more rows\n")
+        if (nrow(df) > 4) {
+            cat("# ... with", nrow(df) - 4, "more rows\n")
+        }
     }
 }

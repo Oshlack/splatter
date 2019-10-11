@@ -31,6 +31,11 @@ listSims <- function(print = TRUE) {
                    "The Splat simulation with differentiation paths. Each
                    path can have it's own length, skew and probability. Genes
                    can change in non-linear ways."),
+                 c("Kersplat", "kersplat", "",
+                   "Oshlack/splatter",
+                   "The Kersplat simulation extends the Splat model by adding a
+                   gene network, more complex cell structure, doublets and
+                   empty cells (Experimental)."),
                  c("Simple", "simple", "10.1186/s13059-017-1305-0",
                    "Oshlack/splatter",
                    "A simple simulation with gamma means and negative binomial

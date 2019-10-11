@@ -29,8 +29,9 @@
 #' Code: \url{https://github.com/kieranrcampbell/phenopath}
 #'
 #' @examples
-#' sim <- phenoSimulate()
-#'
+#' if (requireNamespace("phenopath", quietly = TRUE)) {
+#'     sim <- phenoSimulate()
+#' }
 #' @export
 #' @importFrom SingleCellExperiment SingleCellExperiment
 phenoSimulate <- function(params = newPhenoParams(), verbose = TRUE, ...) {

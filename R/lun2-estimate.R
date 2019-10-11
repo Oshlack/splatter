@@ -22,11 +22,11 @@
 #' \dontrun{
 #' # Load example data
 #' library(scater)
-#' data("sc_example_counts")
-#' data("sc_example_cell_info")
+#' set.seed(1)
+#' sce <- mockSCE()
 #'
-#' plates <- factor(sc_example_cell_info$Mutation_Status)
-#' params <- lun2Estimate(sc_example_counts, plates, min.size = 20)
+#' plates <- as.numeric(factor(colData(sce)$Mutation_Status))
+#' params <- lun2Estimate(sce, plates, min.size = 20)
 #' params
 #' }
 #' @importFrom BiocParallel bplapply SerialParam
@@ -43,8 +43,9 @@ lun2Estimate.SingleCellExperiment <- function(counts, plates,
                                               params = newLun2Params(),
                                               min.size = 200, verbose = TRUE,
                                               BPPARAM = SerialParam()) {
-    counts <- BiocGenerics::counts(counts)
-    lun2Estimate(counts, plates, params, min.size = min.size, verbose = verbose)
+    counts <- getCounts(counts)
+    lun2Estimate(counts, plates, params, min.size = min.size, verbose = verbose,
+                 BPPARAM = BPPARAM)
 }
 
 #' @rdname lun2Estimate

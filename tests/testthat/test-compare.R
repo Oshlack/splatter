@@ -8,13 +8,13 @@ difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
 
 test_that("compareSCEs works", {
     expect_length(comparison, 3)
-    expect_true(all(c("FeatureData", "PhenoData", "Plots") %in%
+    expect_true(all(c("RowData", "ColData", "Plots") %in%
                         names(comparison)))
-    checkmate::expect_class(comparison$PhenoData, "data.frame")
-    checkmate::expect_class(comparison$FeatureData, "data.frame")
-    expect_length(comparison$Plots, 7)
+    checkmate::expect_class(comparison$ColData, "data.frame")
+    checkmate::expect_class(comparison$RowData, "data.frame")
+    expect_length(comparison$Plots, 8)
     expect_true(all(c("Means", "Variances", "MeanVar", "LibrarySizes",
-                      "ZerosGene", "ZerosCell", "MeanZeros") %in%
+                      "ZerosGene", "ZerosCell", "MeanZeros", "VarGeneCor") %in%
                         names(comparison$Plots)))
     for (plot in names(comparison$Plots)) {
         checkmate::expect_class(comparison$Plots[[plot]], "ggplot")
@@ -23,11 +23,11 @@ test_that("compareSCEs works", {
 
 test_that("diffSCEs works", {
     expect_length(difference, 5)
-    expect_true(all(c("Reference", "FeatureData", "PhenoData", "Plots",
+    expect_true(all(c("Reference", "RowData", "ColData", "Plots",
                       "QQPlots") %in% names(difference)))
     checkmate::expect_class(difference$Reference, "SingleCellExperiment")
-    checkmate::expect_class(difference$PhenoData, "data.frame")
-    checkmate::expect_class(difference$FeatureData, "data.frame")
+    checkmate::expect_class(difference$ColData, "data.frame")
+    checkmate::expect_class(difference$RowData, "data.frame")
     expect_length(difference$Plots, 7)
     expect_true(all(c("Means", "Variances", "MeanVar", "LibrarySizes",
                       "ZerosGene", "ZerosCell", "MeanZeros") %in%

@@ -20,10 +20,10 @@ The Lun2 simulation uses the following parameters:
     \item{\emph{Gene parameters}}{
         \describe{
             \item{\code{gene.params}}{A \code{data.frame} containing gene
-            parameters with two coloumns: \code{Mean} (mean expression for
+            parameters with two columns: \code{Mean} (mean expression for
             each gene) and \code{Disp} (dispersion for each gene).}
             \item{\code{zi.params}}{A \code{data.frame} containing
-            zero-inflated gene parameters with three coloumns: \code{Mean}
+            zero-inflated gene parameters with three columns: \code{Mean}
             (mean expression for each gene), \code{Disp} (dispersion for
             each, gene), and \code{Prop} (zero proportion for each gene).}
         }
@@ -31,7 +31,7 @@ The Lun2 simulation uses the following parameters:
     \item{\code{[nPlates]}}{The number of plates to simulate.}
     \item{\emph{Plate parameters}}{
         \describe{
-            \item{\code{plate.ingroup}}{Character vecotor giving the plates
+            \item{\code{plate.ingroup}}{Character vector giving the plates
             considered to be part of the "ingroup".}
             \item{\code{plate.mod}}{Plate effect modifier factor. The plate
             effect variance is divided by this value.}

@@ -46,7 +46,7 @@ aren't required for core functionality).
 ## Getting started
 
 Once installed the best place to get started is the vignette. For most users
-the most convient way to access this is online [here][vignette].
+the most convenient way to access this is online [here][vignette].
 
 Alternatively, if you chose to build the vignette, you can load Splatter, then
 browse the vignettes:

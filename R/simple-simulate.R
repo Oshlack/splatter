@@ -43,9 +43,10 @@ simpleSimulate <- function(params = newSimpleParams(), verbose = TRUE, ...) {
     means <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
 
     if (verbose) {message("Simulating counts...")}
-    counts <- matrix(rnbinom(nGenes * nCells, mu = means,
-                             size = 1 / count.disp),
-                     nrow = nGenes, ncol = nCells)
+    counts <- matrix(rnbinom(
+            as.numeric(nGenes) * as.numeric(nCells),
+            mu = means, size = 1 / count.disp),
+    nrow = nGenes, ncol = nCells)
 
     if (verbose) {message("Creating final dataset...")}
     cell.names <- paste0("Cell", seq_len(nCells))
@@ -61,7 +62,7 @@ simpleSimulate <- function(params = newSimpleParams(), verbose = TRUE, ...) {
     sim <- SingleCellExperiment(assays = list(counts = counts),
                                 rowData = features,
                                 colData = cells,
-                                metadata = list(params = params))
+                                metadata = list(Params = params))
 
     return(sim)
 }

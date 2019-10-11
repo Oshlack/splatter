@@ -1,3 +1,164 @@
+# DEVELOPMENT VERSION
+
+## Version 1.9.8 (2019-10-11)
+
+* Add Kersplat simulation! Still experimental but is useable.
+* Check for counts assay when estimating from SingleCellExperiment objects
+  (Fixes #82)
+* Fix where simpleSimulate stores parameters (Fixes #72)
+
+### Version 1.9.7.9019 (2019-10-11)
+
+* Run checks
+
+### Version 1.9.7.9018 (2019-10-10)
+
+* Document Splotch estimation functions
+* Add Splotch to listSims
+* Rename Splotch to Kersplat
+
+### Version 1.9.7.9017 (2019-10-09)
+
+* Document Splotch simulation functions
+
+### Version 1.9.7.9016 (2019-10-01)
+
+* Change the default SplotchParams cell design to place cells at end of path
+* Add one time warning for Splotch simulation
+* Avoid unnecessarily resetting cells.design in SplotchParams
+
+### Version 1.9.7.9015 (2019-09-26)
+
+* Add doublets to splotchSimulate
+
+### Version 1.9.7.9014 (2019-09-24)
+
+* Add ambient expression and empty cells to splotchSimulate
+
+### Version 1.9.7.9013 (2019-09-19)
+
+* Merge master into splotch branch
+
+## Version 1.9.7 (2019-09-19)
+
+* Rescale when sampling Phi in BASiCSSimulate
+
+## Version 1.9.6 (2019-09-17)
+
+* Adjust BASiCSSimulate to match development version of BASiCS
+
+### Version 1.9.5.9012 (2019-09-09)
+
+* Merge master into splotch branch
+
+## Version 1.9.5 (2019-09-09)
+
+* Fix bug in NAMESPACE
+
+### Version 1.9.4.9011 (2019-08-29)
+
+* Add BCV adjustment to Splotch simulation
+* Use new exponential correction for bcv.common
+
+### Version 1.9.4.9010 (2019-08-22)
+
+* Add density sampling options for means and library sizes
+
+### Version 1.9.4.9009 (2019-08-21)
+
+* Replace library size log-normal with density and rejection sampling
+* Add violins to comparison plots
+
+### Version 1.9.4.9008 (2019-08-20)
+
+* Merge master into splotch branch
+* Fix dataset in splotchEstimate example
+
+## Version 1.9.4 (2019-08-20)
+
+* Fix deprecated column name in diffSCEs QQ plots
+* Fix bugs where parameters were not being passed correctly in BASiCSEstimate
+  and sparseDCEstimate
+* Replace the sc_example_counts dataset from scater with the mockSCE function
+* Tidy and improve estimation function examples
+
+### Version 1.9.3.9008 (2019-08-20)
+
+* Add expression outliers to Splotch
+
+### Version 1.9.3.9007 (2019-08-14)
+
+* Fix bug in selectFit
+
+### Version 1.9.3.9006 (2019-08-13)
+
+* Add splotchEstimate function
+
+### Version 1.9.3.9005 (2019-08-08)
+
+* Simulate counts in splotchSimulate
+* Split splotchSimulate into separate functions for each stage
+
+### Version 1.9.3.9004 (2019-08-08)
+
+* Merge master into splotch branch
+
+## Version 1.9.3 (2019-08-08)
+
+* Remove deprecated scater functions
+
+### Version 1.9.2.9003 (2019-07-17)
+
+* Topologically sort Splotch paths
+* Add library size parameters to SplotchParams
+* Simulate cell means in splotchSimulate
+
+### Version 1.9.2.9002 (2019-07-16)
+
+* Add paths parameters to SplotchParams
+
+### Version 1.9.2.9001 (2019-07-16)
+
+* Add mean parameters to SplotchParams
+
+### Version 1.9.2.9000 (2019-07-11)
+
+* Add SplotchParams object
+
+## Version 1.9.2 (2019-06-13)
+
+* Add variable gene correlation plot to compareSCEs
+
+## Version 1.9.1 (2019-06-05)
+
+* Refactor the summariseDiff function
+* Add the KS statistic to summariseDiff
+* Set gam method for fitted lines in comparison plots
+* Add checks for suggested packages in examples
+
+## Version 1.9.0 (2019-05-03)
+
+* Bioconductor 3.10 devel
+
+# Version 1.8.0 (2019-05-03)
+
+* Bioconductor 3.9 release
+
+## Version 1.7.5 (2018-04-18)
+
+* Add Splat parameters vignette
+* Fix spelling
+
+## Version 1.7.4 (2018-04-17)
+
+* Allow SplatParams parameters to be set in any order
+
+## Version 1.7.3 (2018-04-15)
+
+* Minor changes to documentation
+* Protect against integer overflow in simulation functions
+* Fix order of groups in splatSimulate
+
 ## Version 1.7.2 (2018-12-06)
 
 * Add ImmunoOncology biocViews tag at request of Bioconductor team
@@ -8,7 +169,7 @@
 
 ## Version 1.7.0 (2018-11-01)
 
- * Bioconductor 3.9 devel
+* Bioconductor 3.9 devel
 
 ## Version 1.6.1 (2018-12-06)
 
@@ -43,7 +204,7 @@
 
 * Fix bug in getLNormFactors when reversing factors less than one
 * Update documentation to new Roxygen version (6.1.0)
-* Change varible name in vignette for compatibility with scater
+* Change variable name in vignette for compatibility with scater
 * Add suggested package checks to tests
 
 ## Version 1.5.1 (2018-06-12)
@@ -216,7 +377,7 @@
 
 ## Version 0.99.13 (2017-03-25)
 
-* Modify how Lun2Params stores gene paramters to use data.frame
+* Modify how Lun2Params stores gene parameters to use data.frame
 * Move sampling of genes/cells to lun2Simulate
 * Return to old Lun2 nGenes estimate
 
@@ -226,7 +387,7 @@
 * Update compareSCESets plots
 * Modify Lun2 nGenes estimate
 * Modify how addFeatureStats names columns
-* Add infinte bcv.df warning to splatSimulate
+* Add infinite bcv.df warning to splatSimulate
 
 ## Version 0.99.11 (2017-03-20)
 
@@ -328,7 +489,7 @@
 
 * Redesign how parameters are stored
 * Each simulation now has it's own S4 Params class
-* Modify exisiting simulations to use new parameter objects
+* Modify existing simulations to use new parameter objects
 
 ## Version 0.6.0 (2016-10-12)
 

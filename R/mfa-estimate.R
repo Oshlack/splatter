@@ -16,11 +16,14 @@
 #'
 #' @examples
 #' # Load example data
-#' library(scater)
-#' data("sc_example_counts")
+#' if (requireNamespace("mfa", quietly = TRUE)) {
+#'     library(mfa)
+#'     synth <- create_synthetic(C = 20, G = 5, zero_negative = TRUE,
+#'                               model_dropout = TRUE)
 #'
-#' params <- mfaEstimate(sc_example_counts)
-#' params
+#'     params <- mfaEstimate(synth$X)
+#'     params
+#' }
 #' @export
 mfaEstimate <- function(counts, params = newMFAParams()) {
     UseMethod("mfaEstimate")
@@ -30,7 +33,7 @@ mfaEstimate <- function(counts, params = newMFAParams()) {
 #' @export
 mfaEstimate.SingleCellExperiment <- function(counts,
                                              params = newMFAParams()) {
-    counts <- BiocGenerics::counts(counts)
+    counts <- getCounts(counts)
     mfaEstimate(counts, params)
 }
 

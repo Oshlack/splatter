@@ -41,9 +41,9 @@ The returned list has five items:
 
 \describe{
     \item{\code{Reference}}{The SingleCellExperiment used as the reference.}
-    \item{\code{FeatureData}}{Combined feature data from the provided
+    \item{\code{RowData}}{Combined feature data from the provided
     SingleCellExperiments.}
-    \item{\code{PhenoData}}{Combined pheno data from the provided
+    \item{\code{ColData}}{Combined column data from the provided
     SingleCellExperiments.}
     \item{\code{Plots}}{Difference plots
         \describe{
@@ -51,7 +51,7 @@ The returned list has five items:
             \item{\code{Variances}}{Boxplot of variance differences.}
             \item{\code{MeanVar}}{Scatter plot showing the difference from
             the reference variance across expression ranks.}
-            \item{\code{LibraySizes}}{Boxplot of the library size
+            \item{\code{LibraeySizes}}{Boxplot of the library size
             differences.}
             \item{\code{ZerosGene}}{Boxplot of the differences in the
             percentage of each gene that is zero.}

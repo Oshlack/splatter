@@ -33,7 +33,7 @@ containing count data to estimate parameters from.}
 \item{common.disp}{logical. Whether or not a single dispersion for all
 features is estimated.}
 
-\item{iter.init}{number of iterations to use for initalization.}
+\item{iter.init}{number of iterations to use for initialization.}
 
 \item{iter.opt}{number of iterations to use for optimization.}
 
@@ -63,12 +63,13 @@ the fitted model and inserts it into a \code{\link{ZINBParams}} object. See
 \code{\link[zinbwave]{zinbFit}} for details of the estimation procedure.
 }
 \examples{
-\dontrun{
-# Load example data
-library(scater)
-data("sc_example_counts")
+if (requireNamespace("zinbwave", quietly = TRUE)) {
+    library(scater)
+    set.seed(1)
+    sce <- mockSCE(ncells = 20, ngenes = 100)
 
-params <- zinbEstimate(sc_example_counts)
-params
+    params <- zinbEstimate(sce)
+    params
 }
+
 }

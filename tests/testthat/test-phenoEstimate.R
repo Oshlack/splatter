@@ -1,10 +1,11 @@
 context("phenoEstimate")
 
 library(scater)
-data("sc_example_counts")
+set.seed(1)
+counts <- counts(mockSCE())
 
 test_that("phenoEstimate works", {
     skip_if_not_installed("phenopath")
-    params <- phenoEstimate(sc_example_counts)
+    params <- phenoEstimate(counts)
     expect_true(validObject(params))
 })

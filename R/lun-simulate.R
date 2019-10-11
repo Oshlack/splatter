@@ -105,9 +105,11 @@ lunSimulate <- function(params = newLunParams(), verbose = TRUE, ...) {
     rownames(cell.means) <- gene.names
 
     if (verbose) {message("Simulating counts...")}
-    counts <- matrix(rnbinom(nGenes * nCells, mu = cell.means,
-                             size = 1 / count.disp),
-                     nrow = nGenes, ncol = nCells)
+    counts <- matrix(rnbinom(
+            as.numeric(nGenes) * as.numeric(nCells),
+            mu = cell.means, size = 1 / count.disp
+        ),
+    nrow = nGenes, ncol = nCells)
 
     if (verbose) {message("Creating final dataset...")}
     rownames(counts) <- gene.names

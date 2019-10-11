@@ -42,7 +42,7 @@
 #' \code{\link{assays}} (for gene by cell matrices) slots. This additional
 #' information includes:
 #' \describe{
-#'     \item{\code{phenoData}}{
+#'     \item{\code{colData}}{
 #'         \describe{
 #'             \item{Cell}{Unique cell identifier.}
 #'             \item{Group}{The group or path the cell belongs to.}
@@ -50,7 +50,7 @@
 #'             \item{Step (paths only)}{how far along the path each cell is.}
 #'         }
 #'     }
-#'     \item{\code{featureData}}{
+#'     \item{\code{rowData}}{
 #'         \describe{
 #'             \item{Gene}{Unique gene identifier.}
 #'             \item{BaseGeneMean}{The base expression level for that gene.}
@@ -66,7 +66,7 @@
 #'             non-linear changes in expression along a path.}
 #'         }
 #'     }
-#'     \item{\code{assayData}}{
+#'     \item{\code{assays}}{
 #'         \describe{
 #'             \item{BatchCellMeans}{The mean expression of genes in each cell
 #'             after adding batch effects.}
@@ -185,7 +185,7 @@ splatSimulate <- function(params = newSplatParams(),
     if (method != "single") {
         groups <- sample(seq_len(nGroups), nCells, prob = group.prob,
                          replace = TRUE)
-        colData(sim)$Group <- group.names[groups]
+        colData(sim)$Group <- factor(group.names[groups], levels = group.names)
     }
 
     if (verbose) {message("Simulating library sizes...")}
@@ -396,7 +396,7 @@ splatSimBatchCellMeans <- function(sim, params) {
 #'
 #' Simulate differential expression. Differential expression factors for each
 #' group are produced using \code{\link{getLNormFactors}} and these are added
-#' along with updated means for each group. For paths care is taked to make sure
+#' along with updated means for each group. For paths care is taken to make sure
 #' they are simulated in the correct order.
 #'
 #' @param sim SingleCellExperiment to add differential expression to.
@@ -502,7 +502,7 @@ splatSimGroupCellMeans <- function(sim, params) {
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
     groups <- colData(sim)$Group
-    group.names <- sort(unique(groups))
+    group.names <- levels(groups)
     exp.lib.sizes <- colData(sim)$ExpLibSize
     batch.means.cell <- assays(sim)$BatchCellMeans
 
@@ -530,7 +530,7 @@ splatSimPathCellMeans <- function(sim, params) {
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
     path.from <- getParam(params, "path.from")
-    path.length <- getParam(params, "path.length")
+    path.nSteps <- getParam(params, "path.nSteps")
     path.skew <- getParam(params, "path.skew")
     path.nonlinearProb <- getParam(params, "path.nonlinearProb")
     path.sigmaFac <- getParam(params, "path.sigmaFac")
@@ -558,7 +558,7 @@ splatSimPathCellMeans <- function(sim, params) {
         rowData(sim)[[paste0("SigmaFacPath", idx)]] <- sigma.facs
     }
 
-    # Generate paths. Each path is a matrix with path.length columns and
+    # Generate paths. Each path is a matrix with path.nSteps columns and
     # nGenes rows where the expression from each genes changes along the path.
     path.steps <- lapply(seq_along(path.from), function(idx) {
         from <- path.from[idx]
@@ -575,7 +575,7 @@ splatSimPathCellMeans <- function(sim, params) {
         sigma.facs <- rowData(sim)[[paste0("SigmaFacPath", idx)]]
 
         # Build Brownian bridges from start to end
-        steps <- buildBridges(facs.start, facs.end, n = path.length[idx],
+        steps <- buildBridges(facs.start, facs.end, n = path.nSteps[idx],
                               sigma.fac = sigma.facs)
 
         return(t(steps))
@@ -584,14 +584,14 @@ splatSimPathCellMeans <- function(sim, params) {
     # Randomly assign a position in the appropriate path to each cell
     path.probs <- lapply(seq_len(nGroups), function(idx) {
         probs <- seq(path.skew[idx], 1 - path.skew[idx],
-                          length = path.length[idx])
+                          length = path.nSteps[idx])
         probs <- probs / sum(probs)
         return(probs)
     })
 
-    steps <- sapply(factor(groups), function(path) {
-        step <- sample(seq_len(path.length[path]), 1, prob = path.probs[[path]])
-    })
+    steps <- vapply(factor(groups), function(path) {
+        step <- sample(seq_len(path.nSteps[path]), 1, prob = path.probs[[path]])
+    }, c(Step = 0))
 
     # Collect the underlying expression levels for each cell
     cell.facs.gene <- lapply(seq_len(nCells), function(idx) {
@@ -646,9 +646,10 @@ splatSimBCVMeans <- function(sim, params) {
         bcv <- (bcv.common + (1 / sqrt(base.means.cell)))
     }
 
-    means.cell <- matrix(rgamma(nGenes * nCells, shape = 1 / (bcv ^ 2),
-                                scale = base.means.cell * (bcv ^ 2)),
-                         nrow = nGenes, ncol = nCells)
+    means.cell <- matrix(rgamma(
+        as.numeric(nGenes) * as.numeric(nCells),
+        shape = 1 / (bcv ^ 2), scale = base.means.cell * (bcv ^ 2)),
+    nrow = nGenes, ncol = nCells)
 
     colnames(means.cell) <- cell.names
     rownames(means.cell) <- gene.names
@@ -680,8 +681,10 @@ splatSimTrueCounts <- function(sim, params) {
     nCells <- getParam(params, "nCells")
     cell.means <- assays(sim)$CellMeans
 
-    true.counts <- matrix(rpois(nGenes * nCells, lambda = cell.means),
-                          nrow = nGenes, ncol = nCells)
+    true.counts <- matrix(rpois(
+        as.numeric(nGenes) * as.numeric(nCells),
+        lambda = cell.means),
+    nrow = nGenes, ncol = nCells)
 
     colnames(true.counts) <- cell.names
     rownames(true.counts) <- gene.names
@@ -693,7 +696,7 @@ splatSimTrueCounts <- function(sim, params) {
 
 #' Simulate dropout
 #'
-#' A logistic function is used to form a relationshop between the expression
+#' A logistic function is used to form a relationship between the expression
 #' level of a gene and the probability of dropout, giving a probability for each
 #' gene in each cell. These probabilities are used in a Bernoulli distribution
 #' to decide which counts should be dropped.
@@ -750,7 +753,7 @@ splatSimDropout <- function(sim, params) {
                }
 
                if ("Group" %in% colnames(colData(sim))) {
-                   groups <- as.numeric(factor(colData(sim)$Group))
+                   groups <- as.numeric(colData(sim)$Group)
                } else {
                    stop("dropout.type is set to 'group' but groups have not ",
                         "been simulated")
@@ -770,11 +773,11 @@ splatSimDropout <- function(sim, params) {
 
     if (dropout.type != "none") {
 
-        # Generate probabilites based on expression
-        drop.prob <- sapply(seq_len(nCells), function(idx) {
+        # Generate probabilities based on expression
+        drop.prob <- vapply(seq_len(nCells), function(idx) {
             eta <- log(cell.means[, idx])
             return(logistic(eta, x0 = dropout.mid[idx], k = dropout.shape[idx]))
-        })
+        }, as.numeric(seq_len(nGenes)))
 
         # Decide which counts to keep
         keep <- matrix(rbinom(nCells * nGenes, 1, 1 - drop.prob),
@@ -831,7 +834,7 @@ getLNormFactors <- function(n.facs, sel.prob, neg.prob, fac.loc, fac.scale) {
 #' Identify the correct order to process paths so that preceding paths have
 #' already been simulated.
 #'
-#' @param path.from vector giving the path endpoints that each path orginates
+#' @param path.from vector giving the path endpoints that each path originates
 #'        from.
 #'
 #' @return Vector giving the order to process paths in.
