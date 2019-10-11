@@ -5,6 +5,7 @@
 * Add Kersplat simulation! Still experimental but is useable.
 * Check for counts assay when estimating from SingleCellExperiment objects
   (Fixes #82)
+* Fix where simpleSimulate stores parameters (Fixes #72)
 
 ### Version 1.9.7.9019 (2019-10-11)
 
