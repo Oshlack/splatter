@@ -2,7 +2,7 @@
 % Please edit documentation in R/compare.R
 \name{summariseDiff}
 \alias{summariseDiff}
-\title{Summarise diffSCESs}
+\title{Summarise diffSCEs}
 \usage{
 summariseDiff(diff)
 }

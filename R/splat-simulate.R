@@ -589,9 +589,9 @@ splatSimPathCellMeans <- function(sim, params) {
         return(probs)
     })
 
-    steps <- sapply(factor(groups), function(path) {
+    steps <- vapply(factor(groups), function(path) {
         step <- sample(seq_len(path.nSteps[path]), 1, prob = path.probs[[path]])
-    })
+    }, c(Step = 0))
 
     # Collect the underlying expression levels for each cell
     cell.facs.gene <- lapply(seq_len(nCells), function(idx) {
@@ -774,10 +774,10 @@ splatSimDropout <- function(sim, params) {
     if (dropout.type != "none") {
 
         # Generate probabilities based on expression
-        drop.prob <- sapply(seq_len(nCells), function(idx) {
+        drop.prob <- vapply(seq_len(nCells), function(idx) {
             eta <- log(cell.means[, idx])
             return(logistic(eta, x0 = dropout.mid[idx], k = dropout.shape[idx]))
-        })
+        }, as.numeric(seq_len(nGenes)))
 
         # Decide which counts to keep
         keep <- matrix(rbinom(nCells * nGenes, 1, 1 - drop.prob),

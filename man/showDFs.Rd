@@ -11,6 +11,9 @@ showDFs(dfs, not.default)
 
 \item{not.default}{logical vector giving which have changed from the default.}
 }
+\value{
+Print data.frame parameters
+}
 \description{
 Function used for pretty printing data.frame parameters.
 }

@@ -1,3 +1,39 @@
+# DEVELOPMENT VERSION
+
+## Version 1.9.8
+
+### Version 1.9.7.9019 (2019-10-11)
+
+* Run checks
+
+### Version 1.9.7.9018 (2019-10-10)
+
+* Document Splotch estimation functions
+* Add Splotch to listSims
+* Rename Splotch to Kersplat
+
+### Version 1.9.7.9017 (2019-10-09)
+
+* Document Splotch simulation functions
+
+### Version 1.9.7.9016 (2019-10-01)
+
+* Change the default SplotchParams cell design to place cells at end of path
+* Add one time warning for Splotch simulation
+* Avoid unnecessarily resetting cells.design in SplotchParams
+
+### Version 1.9.7.9015 (2019-09-26)
+
+* Add doublets to splotchSimulate
+
+### Version 1.9.7.9014 (2019-09-24)
+
+* Add ambient expression and empty cells to splotchSimulate
+
+### Version 1.9.7.9013 (2019-09-19)
+
+* Merge master into splotch branch
+
 ## Version 1.9.7 (2019-09-19)
 
 * Rescale when sampling Phi in BASiCSSimulate
@@ -6,9 +42,32 @@
 
 * Adjust BASiCSSimulate to match development version of BASiCS
 
+### Version 1.9.5.9012 (2019-09-09)
+
+* Merge master into splotch branch
+
 ## Version 1.9.5 (2019-09-09)
 
 * Fix bug in NAMESPACE
+
+### Version 1.9.4.9011 (2019-08-29)
+
+* Add BCV adjustment to Splotch simulation
+* Use new exponential correction for bcv.common
+
+### Version 1.9.4.9010 (2019-08-22)
+
+* Add density sampling options for means and library sizes
+
+### Version 1.9.4.9009 (2019-08-21)
+
+* Replace library size log-normal with density and rejection sampling
+* Add violins to comparison plots
+
+### Version 1.9.4.9008 (2019-08-20)
+
+* Merge master into splotch branch
+* Fix dataset in splotchEstimate example
 
 ## Version 1.9.4 (2019-08-20)
 
@@ -18,9 +77,48 @@
 * Replace the sc_example_counts dataset from scater with the mockSCE function
 * Tidy and improve estimation function examples
 
+### Version 1.9.3.9008 (2019-08-20)
+
+* Add expression outliers to Splotch
+
+### Version 1.9.3.9007 (2019-08-14)
+
+* Fix bug in selectFit
+
+### Version 1.9.3.9006 (2019-08-13)
+
+* Add splotchEstimate function
+
+### Version 1.9.3.9005 (2019-08-08)
+
+* Simulate counts in splotchSimulate
+* Split splotchSimulate into separate functions for each stage
+
+### Version 1.9.3.9004 (2019-08-08)
+
+* Merge master into splotch branch
+
 ## Version 1.9.3 (2019-08-08)
 
 * Remove deprecated scater functions
+
+### Version 1.9.2.9003 (2019-07-17)
+
+* Topologically sort Splotch paths
+* Add library size parameters to SplotchParams
+* Simulate cell means in splotchSimulate
+
+### Version 1.9.2.9002 (2019-07-16)
+
+* Add paths parameters to SplotchParams
+
+### Version 1.9.2.9001 (2019-07-16)
+
+* Add mean parameters to SplotchParams
+
+### Version 1.9.2.9000 (2019-07-11)
+
+* Add SplotchParams object
 
 ## Version 1.9.2 (2019-06-13)
 

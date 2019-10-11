@@ -380,7 +380,8 @@ plotPCA(sim2, colour_by = "Group") +
                          "Group 2 has small location and greater scale.\n",
                          "Groups 3 and 4 have greater location with small,",
                          "and large scales",
-                         "Group 5 has bigger factors with moderate variability"))
+                         "Group 5 has bigger factors with moderate",
+                         "variability"))
 
 # Combination of everything
 sim3 <- splatSimulateGroups(params.groups,

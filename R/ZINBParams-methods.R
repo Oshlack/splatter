@@ -47,9 +47,9 @@ setMethod("setParam", "ZINBParams", function(object, name, value) {
     if (name == "model") {
         checkmate::assertClass(value, "ZinbModel")
         object <- setParamUnchecked(object, "nGenes",
-                                    zinbwave::nFeatures(value))
+                                    as.numeric(zinbwave::nFeatures(value)))
         object <- setParamUnchecked(object, "nCells",
-                                    zinbwave::nSamples(value))
+                                    as.numeric(zinbwave::nSamples(value)))
     }
 
     object <- callNextMethod()
@@ -107,7 +107,7 @@ setMethod("show", "ZINBParams", function(object) {
     for (category in names(pp)) {
         parameters <- pp[[category]]
         values <- lapply(parameters, function(x) {slot(model, x)})
-        short.values <- sapply(values, function(x) {
+        short.values <- vapply(values, function(x) {
             if ("matrix" %in% class(x)) {
                 if (nrow(x) == 1) {
                     paste0(paste(head(x[1, ], n = 4), collapse = ", "), ",...")
@@ -121,10 +121,11 @@ setMethod("show", "ZINBParams", function(object) {
             } else {
                 paste(x, collapse = ", ")
             }
-        })
-        values <- sapply(values, paste, collapse = ", ")
+        }, c(Value = "None"))
+        values <- vapply(values, paste, c(Value = "None"), collapse = ", ")
         default.values <- lapply(parameters, function(x) {slot(default, x)})
-        default.values <- sapply(default.values, paste, collapse = ", ")
+        default.values <- vapply(default.values, paste, c(Value = "None"),
+                                 collapse = ", ")
         not.default <- values != default.values
         cat(crayon::bold(c("Model", category)), "\n")
         showValues(short.values, not.default)
