@@ -7,7 +7,7 @@
 getCounts(sce)
 }
 \arguments{
-\item{sce}{}
+\item{sce}{SingleCellExperiment object}
 }
 \value{
 Counts matrix
