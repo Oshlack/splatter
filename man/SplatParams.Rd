@@ -6,12 +6,12 @@
 \alias{SplatParams-class}
 \title{The SplatParams class}
 \description{
-S4 class that holds parameters for the Splatter simulation.
+S4 class that holds parameters for the Splat simulation.
 }
 \section{Parameters}{
 
 
-The Splatter simulation requires the following parameters:
+The Splat simulation requires the following parameters:
 
 \describe{
     \item{\code{nGenes}}{The number of genes to simulate.}
@@ -70,7 +70,7 @@ The Splatter simulation requires the following parameters:
         \describe{
             \item{\code{[de.prob]}}{Probability that a gene is differentially
             expressed in a group. Can be a vector.}
-            \item{\code{[de.loProb]}}{Probability that a differentially
+            \item{\code{[de.downProb]}}{Probability that a differentially
             expressed gene is down-regulated. Can be a vector.}
             \item{\code{[de.facLoc]}}{Location (meanlog) parameter for the
             differential expression factor log-normal distribution. Can be a
@@ -111,9 +111,10 @@ The Splatter simulation requires the following parameters:
             this form would have a "from" parameter of c(0, 1, 1) (where 0 is
             the origin). If no vector is given all paths will start at the
             origin.}
-            \item{\code{[path.length]}}{Vector giving the number of steps to
+            \item{\code{[path.nSteps]}}{Vector giving the number of steps to
             simulate along each path. If a single value is given it will be
-            applied to all paths.}
+            applied to all paths. This parameter was previously called
+            \code{path.length}.}
             \item{\code{[path.skew]}}{Vector giving the skew of each path.
             Values closer to 1 will give more cells towards the starting
             population, values closer to 0 will give more cells towards the
@@ -132,7 +133,7 @@ The Splatter simulation requires the following parameters:
 }
 
 The parameters not shown in brackets can be estimated from real data using
-\code{\link{splatEstimate}}. For details of the Splatter simulation
+\code{\link{splatEstimate}}. For details of the Splat simulation
 see \code{\link{splatSimulate}}.
 }
 

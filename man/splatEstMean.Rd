@@ -19,7 +19,7 @@ Estimate rate and shape parameters for the gamma distribution used to
 simulate gene expression means.
 }
 \details{
-Parameter for the gamma distribution are estimated by fitting the mean
+Parameters for the gamma distribution are estimated by fitting the mean
 normalised counts using \code{\link[fitdistrplus]{fitdist}}. The 'maximum
 goodness-of-fit estimation' method is used to minimise the Cramer-von Mises
 distance. This can fail in some situations, in which case the 'method of

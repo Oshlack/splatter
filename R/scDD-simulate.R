@@ -103,7 +103,7 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
     colnames(counts) <- cell.names
 
     cells <- data.frame(Cell = cell.names,
-                        Condition = rep(1:2, each = nCells))
+                        Condition = rep(seq_len(2), each = nCells))
     rownames(cells) <- cell.names
 
     features <- data.frame(Gene = gene.names, DEStatus = de.status,

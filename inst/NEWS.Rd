@@ -1,6 +1,17 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
+\section{Version 1.8.0, Bioconductor 3.9 Release (2018-04-18)}{
+  \itemize{
+    \item{Add a Splat parameters vignette}
+    \item{Rename the Splat path.length parameter to path.nSteps}
+    \item{Fix a bug with parameter order in setParams}
+    \item{Fix a bug where Splat groups were being simulated in alphanumeric
+          order}
+    \item{Protect against integer overflow in simulation functions}
+  }
+}
+
 \section{Version 1.6.0, Bioconductor 3.8 Release (2018-10-29)}{
   \itemize{
     \item{Fix bug and improve normality testing in splatEstLib}

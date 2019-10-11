@@ -23,7 +23,7 @@ setClass("Params",
                    nCells = "numeric",
                    seed = "numeric"),
          prototype = prototype(nGenes = 10000, nCells = 100,
-                               seed = sample(1:1e6, 1)))
+                               seed = sample(seq_len(1e6), 1)))
 
 #' The SimpleParams class
 #'
@@ -63,11 +63,11 @@ setClass("SimpleParams",
 
 #' The SplatParams class
 #'
-#' S4 class that holds parameters for the Splatter simulation.
+#' S4 class that holds parameters for the Splat simulation.
 #'
 #' @section Parameters:
 #'
-#' The Splatter simulation requires the following parameters:
+#' The Splat simulation requires the following parameters:
 #'
 #' \describe{
 #'     \item{\code{nGenes}}{The number of genes to simulate.}
@@ -126,7 +126,7 @@ setClass("SimpleParams",
 #'         \describe{
 #'             \item{\code{[de.prob]}}{Probability that a gene is differentially
 #'             expressed in a group. Can be a vector.}
-#'             \item{\code{[de.loProb]}}{Probability that a differentially
+#'             \item{\code{[de.downProb]}}{Probability that a differentially
 #'             expressed gene is down-regulated. Can be a vector.}
 #'             \item{\code{[de.facLoc]}}{Location (meanlog) parameter for the
 #'             differential expression factor log-normal distribution. Can be a
@@ -167,9 +167,10 @@ setClass("SimpleParams",
 #'             this form would have a "from" parameter of c(0, 1, 1) (where 0 is
 #'             the origin). If no vector is given all paths will start at the
 #'             origin.}
-#'             \item{\code{[path.length]}}{Vector giving the number of steps to
+#'             \item{\code{[path.nSteps]}}{Vector giving the number of steps to
 #'             simulate along each path. If a single value is given it will be
-#'             applied to all paths.}
+#'             applied to all paths. This parameter was previously called
+#'             \code{path.length}.}
 #'             \item{\code{[path.skew]}}{Vector giving the skew of each path.
 #'             Values closer to 1 will give more cells towards the starting
 #'             population, values closer to 0 will give more cells towards the
@@ -188,7 +189,7 @@ setClass("SimpleParams",
 #' }
 #'
 #' The parameters not shown in brackets can be estimated from real data using
-#' \code{\link{splatEstimate}}. For details of the Splatter simulation
+#' \code{\link{splatEstimate}}. For details of the Splat simulation
 #' see \code{\link{splatSimulate}}.
 #'
 #' @name SplatParams
@@ -221,7 +222,7 @@ setClass("SplatParams",
                    dropout.mid = "numeric",
                    dropout.shape = "numeric",
                    path.from = "numeric",
-                   path.length = "numeric",
+                   path.nSteps = "numeric",
                    path.skew = "numeric",
                    path.nonlinearProb = "numeric",
                    path.sigmaFac = "numeric"),
@@ -249,10 +250,172 @@ setClass("SplatParams",
                                dropout.mid = 0,
                                dropout.shape = -1,
                                path.from = 0,
-                               path.length = 100,
+                               path.nSteps = 100,
                                path.skew = 0.5,
                                path.nonlinearProb = 0.1,
                                path.sigmaFac = 0.8))
+
+#' The KersplatParams class
+#'
+#' S4 class that holds parameters for the Kersplat simulation.
+#'
+#' @section Parameters:
+#'
+#' The Kersplat simulation uses the following parameters:
+#'
+#' \describe{
+#'     \item{\code{nGenes}}{The number of genes to simulate.}
+#'     \item{\code{nCells}}{The number of cells to simulate.}
+#'     \item{\code{[seed]}}{Seed to use for generating random numbers.}
+#'     \item{\emph{Mean parameters}}{
+#'         \describe{
+#'             \item{\code{mean.shape}}{Shape parameter for the mean gamma
+#'             distribution.}
+#'             \item{\code{mean.rate}}{Rate parameter for the mean gamma
+#'             distribution.}
+#'             \item{\code{mean.outProb}}{Probability that a gene is an
+#'             expression outlier.}
+#'             \item{\code{mean.outFacLoc}}{Location (meanlog) parameter for
+#'             the expression outlier factor log-normal distribution.}
+#'             \item{\code{mean.outFacScale}}{Scale (sdlog) parameter for the
+#'             expression outlier factor log-normal distribution.}
+#'             \item{\code{mean.dens}}{\code{\link{density}} object describing
+#'             the log gene mean density.}
+#'             \item{\code{[mean.method]}}{Method to use for simulating gene
+#'             means. Either "fit" to sample from a gamma distribution (with
+#'             expression outliers) or "density" to sample from the provided
+#'             density object.}
+#'             \item{\code{[mean.values]}}{Vector of means for each gene.}
+#'         }
+#'     }
+#'     \item{\emph{Biological Coefficient of Variation parameters}}{
+#'         \describe{
+#'             \item{\code{bcv.common}}{Underlying common dispersion across all
+#'             genes.}
+#'             \item{\code{[bcv.df]}}{Degrees of Freedom for the BCV inverse
+#'             chi-squared distribution.}
+#'         }
+#'     }
+#'     \item{\emph{Network parameters}}{
+#'         \describe{
+#'             \item{\code{[network.graph]}}{Graph containing the gene network.}
+#'             \item{\code{[network.nRegs]}}{Number of regulators in the
+#'             network.}
+#'         }
+#'     }
+#'     \item{\emph{Paths parameters}}{
+#'         \describe{
+#'             \item{\code{[paths.programs]}}{Number of expression programs.}
+#'             \item{\code{[paths.design]}}{data.frame describing path
+#'             structure. See \code{\link{kersplatSimPaths}} for details.}
+#'         }
+#'     }
+#'     \item{\emph{Library size parameters}}{
+#'         \describe{
+#'             \item{\code{lib.loc}}{Location (meanlog) parameter for the
+#'             library size log-normal distribution, or mean parameter if a
+#'             normal distribution is used.}
+#'             \item{\code{lib.scale}}{Scale (sdlog) parameter for the library
+#'             size log-normal distribution, or sd parameter if a normal
+#'             distribution is used.}
+#'             \item{\code{lib.dens}}{\code{\link{density}} object describing
+#'             the library size density.}
+#'             \item{\code{[lib.method]}}{Method to use for simulating library
+#'             sizes. Either "fit" to sample from a log-normal distribution or
+#'             "density" to sample from the provided density object.}
+#'         }
+#'     }
+#'     \item{\emph{Design parameters}}{
+#'         \describe{
+#'             \item{\code{[cells.design]}}{data.frame describing cell
+#'             structure. See \code{\link{kersplatSimCellMeans}} for details.}
+#'         }
+#'     }
+#'     \item{\emph{Doublet parameters}}{
+#'         \describe{
+#'             \item{\code{[doublet.prop]}}{Proportion of cells that are
+#'             doublets.}
+#'         }
+#'     }
+#'     \item{\emph{Ambient parameters}}{
+#'         \describe{
+#'             \item{\code{[ambient.scale]}}{Scaling factor for the library
+#'             size log-normal distribution when generating ambient library
+#'             sizes.}
+#'             \item{\code{[ambient.nEmpty]}}{Number of empty cells to
+#'             simulate.}
+#'         }
+#'     }
+#' }
+#'
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{kersplatEstimate}}. For details of the Kersplat simulation
+#' see \code{\link{kersplatSimulate}}.
+#'
+#' @name KersplatParams
+#' @rdname KersplatParams
+#' @aliases KersplatParams-class
+#' @exportClass KersplatParams
+setClass("KersplatParams",
+         contains = "Params",
+         slots = c(mean.shape = "numeric",
+                   mean.rate = "numeric",
+                   mean.outProb = "numeric",
+                   mean.outLoc = "numeric",
+                   mean.outScale = "numeric",
+                   mean.dens = "density",
+                   mean.method = "character",
+                   mean.values = "numeric",
+                   bcv.common = "numeric",
+                   bcv.df = "numeric",
+                   network.graph = "ANY",
+                   network.nRegs = "numeric",
+                   network.regsSet = "logical",
+                   paths.nPrograms = "numeric",
+                   paths.design = "data.frame",
+                   paths.means = "list",
+                   lib.loc = "numeric",
+                   lib.scale = "numeric",
+                   lib.dens = "density",
+                   lib.method = "character",
+                   cells.design = "data.frame",
+                   doublet.prop = "numeric",
+                   ambient.scale = "numeric",
+                   ambient.nEmpty = "numeric"),
+         prototype = prototype(mean.rate = 0.3,
+                               mean.shape = 0.6,
+                               mean.outProb = 0.05,
+                               mean.outLoc = 4,
+                               mean.outScale = 0.5,
+                               mean.dens = density(rgamma(10000, rate = 0.3,
+                                                          shape = 0.6)),
+                               mean.method = "fit",
+                               mean.values = numeric(),
+                               bcv.common = 0.1,
+                               bcv.df = 60,
+                               network.graph = NULL,
+                               network.nRegs = 100,
+                               network.regsSet = FALSE,
+                               paths.nPrograms = 10,
+                               paths.design = data.frame(
+                                   Path = 1,
+                                   From = 0,
+                                   Steps = 100
+                               ),
+                               paths.means = list(),
+                               lib.loc = 11,
+                               lib.scale = 0.2,
+                               lib.dens = density(rlnorm(10000, 11, 0.2)),
+                               lib.method = "fit",
+                               cells.design = data.frame(
+                                   Path = 1,
+                                   Probability = 1,
+                                   Alpha = 1,
+                                   Beta = 0
+                               ),
+                               doublet.prop = 0,
+                               ambient.scale = 0.05,
+                               ambient.nEmpty = 0))
 
 #' The LunParams class
 #'
@@ -331,10 +494,10 @@ setClass("LunParams",
 #'     \item{\emph{Gene parameters}}{
 #'         \describe{
 #'             \item{\code{gene.params}}{A \code{data.frame} containing gene
-#'             parameters with two coloumns: \code{Mean} (mean expression for
+#'             parameters with two columns: \code{Mean} (mean expression for
 #'             each gene) and \code{Disp} (dispersion for each gene).}
 #'             \item{\code{zi.params}}{A \code{data.frame} containing
-#'             zero-inflated gene parameters with three coloumns: \code{Mean}
+#'             zero-inflated gene parameters with three columns: \code{Mean}
 #'             (mean expression for each gene), \code{Disp} (dispersion for
 #'             each, gene), and \code{Prop} (zero proportion for each gene).}
 #'         }
@@ -342,7 +505,7 @@ setClass("LunParams",
 #'     \item{\code{[nPlates]}}{The number of plates to simulate.}
 #'     \item{\emph{Plate parameters}}{
 #'         \describe{
-#'             \item{\code{plate.ingroup}}{Character vecotor giving the plates
+#'             \item{\code{plate.ingroup}}{Character vector giving the plates
 #'             considered to be part of the "ingroup".}
 #'             \item{\code{plate.mod}}{Plate effect modifier factor. The plate
 #'             effect variance is divided by this value.}
@@ -491,7 +654,7 @@ setClass("SCDDParams",
 #'     \item{\emph{Gene parameters}}{
 #'         \describe{
 #'             \item{\code{gene.params}}{A \code{data.frame} containing gene
-#'             parameters with two coloumns: \code{Mean} (mean expression for
+#'             parameters with two columns: \code{Mean} (mean expression for
 #'             each biological gene) and \code{Delta} (cell-to-cell
 #'             heterogeneity for each biological gene).}
 #'         }
@@ -505,7 +668,7 @@ setClass("SCDDParams",
 #'     \item{\emph{Cell parameters}}{
 #'         \describe{
 #'             \item{\code{cell.params}}{A \code{data.frame} containing gene
-#'             parameters with two coloumns: \code{Phi} (mRNA content factor for
+#'             parameters with two columns: \code{Phi} (mRNA content factor for
 #'             each cell, scaled to sum to the number of cells in each batch)
 #'             and \code{S} (capture efficient for each cell).}
 #'         }

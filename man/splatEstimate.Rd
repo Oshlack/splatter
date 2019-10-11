@@ -30,9 +30,10 @@ is done.
 \examples{
 # Load example data
 library(scater)
-data("sc_example_counts")
+set.seed(1)
+sce <- mockSCE()
 
-params <- splatEstimate(sc_example_counts)
+params <- splatEstimate(sce)
 params
 }
 \seealso{

@@ -18,9 +18,10 @@
 #' @examples
 #' # Load example data
 #' library(scater)
-#' data("sc_example_counts")
+#' set.seed(1)
+#' sce <- mockSCE()
 #'
-#' params <- splatEstimate(sc_example_counts)
+#' params <- splatEstimate(sce)
 #' params
 #' @export
 splatEstimate <- function(counts, params = newSplatParams()) {
@@ -31,7 +32,7 @@ splatEstimate <- function(counts, params = newSplatParams()) {
 #' @export
 splatEstimate.SingleCellExperiment <- function(counts,
                                                params = newSplatParams()) {
-    counts <- BiocGenerics::counts(counts)
+    counts <- getCounts(counts)
     splatEstimate(counts, params)
 }
 
@@ -69,7 +70,7 @@ splatEstimate.matrix <- function(counts, params = newSplatParams()) {
 #' @param params SplatParams object to store estimated values in.
 #'
 #' @details
-#' Parameter for the gamma distribution are estimated by fitting the mean
+#' Parameters for the gamma distribution are estimated by fitting the mean
 #' normalised counts using \code{\link[fitdistrplus]{fitdist}}. The 'maximum
 #' goodness-of-fit estimation' method is used to minimise the Cramer-von Mises
 #' distance. This can fail in some situations, in which case the 'method of
@@ -110,7 +111,7 @@ splatEstMean <- function(norm.counts, params) {
 #' @param counts counts matrix to estimate parameters from.
 #' @param params splatParams object to store estimated values in.
 #'
-#' @return splatParams object with estimated values.
+#' @return SplatParams object with estimated values.
 #'
 #' @importFrom stats shapiro.test
 splatEstLib <- function(counts, params) {

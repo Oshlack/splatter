@@ -27,7 +27,9 @@
 #' Code: \url{https://github.com/kieranrcampbell/mfa}
 #'
 #' @examples
-#' sim <- mfaSimulate()
+#' if (requireNamespace("mfa", quietly = TRUE)) {
+#'     sim <- mfaSimulate()
+#' }
 #' @export
 mfaSimulate <- function(params = newMFAParams(), verbose = TRUE, ...) {
 

@@ -15,12 +15,15 @@
 #' @return PhenoParams object containing the estimated parameters.
 #'
 #' @examples
-#' # Load example data
-#' library(scater)
-#' data("sc_example_counts")
+#' if (requireNamespace("phenopath", quietly = TRUE)) {
+#'     # Load example data
+#'     library(scater)
+#'     set.seed(1)
+#'     sce <- mockSCE()
 #'
-#' params <- phenoEstimate(sc_example_counts)
-#' params
+#'     params <- phenoEstimate(sce)
+#'     params
+#' }
 #' @export
 phenoEstimate <- function(counts, params = newPhenoParams()) {
     UseMethod("phenoEstimate")
@@ -30,7 +33,7 @@ phenoEstimate <- function(counts, params = newPhenoParams()) {
 #' @export
 phenoEstimate.SingleCellExperiment <- function(counts,
                                                params = newPhenoParams()) {
-    counts <- BiocGenerics::counts(counts)
+    counts <- getCounts(counts)
     phenoEstimate(counts, params)
 }
 

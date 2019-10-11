@@ -30,7 +30,9 @@
 #' Code: \url{https://github.com/drisso/zinbwave}
 #'
 #' @examples
-#' sim <- zinbSimulate()
+#' if (requireNamespace("zinbwave", quietly = TRUE)) {
+#'     sim <- zinbSimulate()
+#' }
 #'
 #' @export
 #' @importFrom SingleCellExperiment SingleCellExperiment

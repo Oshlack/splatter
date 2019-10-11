@@ -24,15 +24,16 @@
 #' @return SCDDParams object containing the estimated parameters.
 #'
 #' @examples
-#' \dontrun{
-#' # Load example data
-#' library(scater)
-#' data("sc_example_counts")
+#' if (requireNamespace("scDD", quietly = TRUE)) {
+#'     library(scater)
+#'     set.seed(1)
+#'     sce <- mockSCE(ncells = 20, ngenes = 100)
 #'
-#' conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
-#' params <- scDDEstimate(sc_example_counts, conditions = conditions)
-#' params
+#'     colData(sce)$condition <- sample(1:2, ncol(sce), replace = TRUE)
+#'     params <- scDDEstimate(sce, condition = "condition")
+#'     params
 #' }
+#'
 #' @importFrom BiocParallel SerialParam
 #' @export
 scDDEstimate <- function(counts, #conditions, condition,
@@ -72,6 +73,7 @@ scDDEstimate.SingleCellExperiment <- function(counts,
                                               verbose = TRUE,
                                               BPPARAM = SerialParam(),
                                               condition = "condition", ...) {
+
     scDDEstimate.default(counts, params, verbose, BPPARAM,
                          condition = condition)
 }

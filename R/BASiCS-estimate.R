@@ -35,13 +35,13 @@
 #' \dontrun{
 #' # Load example data
 #' library(scater)
-#' data("sc_example_counts")
+#' set.seed(1)
+#' sce <- mockSCE()
 #'
-#' spike.info <- data.frame(Name = rownames(sc_example_counts)[1:10],
+#' spike.info <- data.frame(Name = rownames(sce)[1:10],
 #'                          Input = rnorm(10, 500, 200),
 #'                          stringsAsFactors = FALSE)
-#' params <- BASiCSEstimate(sc_example_counts[1:100, 1:30],
-#'                          spike.info)
+#' params <- BASiCSEstimate(sce[1:100, 1:30], spike.info)
 #' params
 #' }
 #' @export
@@ -62,8 +62,9 @@ BASiCSEstimate.SingleCellExperiment <- function(counts, spike.info = NULL,
                                                 params = newBASiCSParams(),
                                                 verbose = TRUE, progress = TRUE,
                                                 ...) {
-    counts <- BiocGenerics::counts(counts)
-    BASiCSEstimate(counts, params)
+    counts <- getCounts(counts)
+    BASiCSEstimate(counts, spike.info, batch, n, thin, burn, regression,
+                   params, verbose, progress, ...)
 }
 
 #' @rdname BASiCSEstimate

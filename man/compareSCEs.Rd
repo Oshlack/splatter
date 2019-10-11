@@ -30,9 +30,9 @@ basic plots comparing them.
 The returned list has three items:
 
 \describe{
-    \item{\code{FeatureData}}{Combined feature data from the provided
+    \item{\code{RowData}}{Combined row data from the provided
     SingleCellExperiments.}
-    \item{\code{PhenoData}}{Combined pheno data from the provided
+    \item{\code{ColData}}{Combined column data from the provided
     SingleCellExperiments.}
     \item{\code{Plots}}{Comparison plots
         \describe{
@@ -40,7 +40,7 @@ The returned list has three items:
             \item{\code{Variances}}{Boxplot of variance distribution.}
             \item{\code{MeanVar}}{Scatter plot with fitted lines showing the
             mean-variance relationship.}
-            \item{\code{LibraySizes}}{Boxplot of the library size
+            \item{\code{LibrarySizes}}{Boxplot of the library size
             distribution.}
             \item{\code{ZerosGene}}{Boxplot of the percentage of each gene
             that is zero.}
@@ -48,6 +48,8 @@ The returned list has three items:
             that is zero.}
             \item{\code{MeanZeros}}{Scatter plot with fitted lines showing
             the mean-zeros relationship.}
+            \item{\code{VarGeneCor}}{Heatmap of correlation of the 100 most
+            variable genes.}
     }
   }
 }

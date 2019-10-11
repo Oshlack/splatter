@@ -31,8 +31,9 @@ See \code{\link[phenopath]{simulate_phenopath}} and the PhenoPath paper for
 more details about how the simulation works.
 }
 \examples{
-sim <- phenoSimulate()
-
+if (requireNamespace("phenopath", quietly = TRUE)) {
+    sim <- phenoSimulate()
+}
 }
 \references{
 Campbell K, Yau C. Uncovering genomic trajectories with heterogeneous genetic

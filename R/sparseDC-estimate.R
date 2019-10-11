@@ -7,7 +7,7 @@
 #'        containing count data to estimate parameters from.
 #' @param conditions numeric vector giving the condition each cell belongs to.
 #' @param nclusters number of cluster present in the dataset.
-#' @param norm logical, whether to libray size normalise counts before
+#' @param norm logical, whether to library size normalise counts before
 #'        estimation. Set this to FALSE if counts is already normalised.
 #' @param params PhenoParams object to store estimated values in.
 #'
@@ -24,16 +24,17 @@
 #' @return SparseParams object containing the estimated parameters.
 #'
 #' @examples
-#' # Load example data
-#' library(scater)
-#' data("sc_example_counts")
+#' if (requireNamespace("SparseDC", quietly = TRUE)) {
+#'     # Load example data
+#'     library(scater)
+#'     set.seed(1)
+#'     sce <- mockSCE(ncells = 20, ngenes = 100)
 #'
-#' set.seed(1)
-#' conditions <- sample(1:2, ncol(sc_example_counts), replace = TRUE)
+#'     conditions <- sample(1:2, ncol(sce), replace = TRUE)
 #'
-#' params <- sparseDCEstimate(sc_example_counts[1:500, ], conditions,
-#'                            nclusters = 3)
-#' params
+#'     params <- sparseDCEstimate(sce, conditions, nclusters = 3)
+#'     params
+#' }
 #' @export
 sparseDCEstimate <- function(counts, conditions, nclusters, norm = TRUE,
                              params = newSparseDCParams()) {
@@ -45,8 +46,8 @@ sparseDCEstimate <- function(counts, conditions, nclusters, norm = TRUE,
 sparseDCEstimate.SingleCellExperiment <- function(counts, conditions, nclusters,
                                                   norm = TRUE,
                                                   params = newSparseDCParams()) {
-    counts <- BiocGenerics::counts(counts)
-    sparseDCEstimate(counts, params)
+    counts <- getCounts(counts)
+    sparseDCEstimate(counts, conditions, nclusters, norm, params)
 }
 
 #' @rdname sparseDCEstimate

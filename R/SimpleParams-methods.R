@@ -30,6 +30,7 @@ setValidity("SimpleParams", function(object) {
     return(valid)
 })
 
+#' @importFrom methods is
 setMethod("show", "SimpleParams", function(object) {
 
     pp <- list("Mean:"   = c("(Rate)"       = "mean.rate",
@@ -38,7 +39,7 @@ setMethod("show", "SimpleParams", function(object) {
 
     # Mean parameters aren't estimated for the LunParams object which
     # inherits from SimpleParams
-    if (class(object) == "LunParams") {
+    if (is(object, "LunParams")) {
         pp[["Mean:"]] <- c("[Rate]" = "mean.rate", "[Shape]" = "mean.shape")
     }
 
