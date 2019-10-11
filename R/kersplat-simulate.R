@@ -11,8 +11,8 @@
 #'
 #' This functions is for simulating data in a single step. It consists of a
 #' call to \code{\link{kersplatSetup}} followed by a call to
-#' \code{\link{kersplatSample}}. Please see the documentation for those functions
-#' for more details of the individual steps.
+#' \code{\link{kersplatSample}}. Please see the documentation for those
+#' functions for more details of the individual steps.
 #'
 #' @seealso
 #' \code{\link{kersplatSetup}}, \code{\link{kersplatSample}}
@@ -24,7 +24,8 @@
 #' sim <- kersplatSimulate()
 #'
 #' @export
-kersplatSimulate <- function(params = newKersplatParams(), verbose = TRUE, ...) {
+kersplatSimulate <- function(params = newKersplatParams(), verbose = TRUE,
+                             ...) {
 
     params <- kersplatSetup(params, verbose, ...)
     sim <- kersplatSample(params, verbose)
@@ -311,7 +312,7 @@ kersplatSelectRegs <- function(params, verbose) {
     reg.prob <- reg.prob + rnorm(length(reg.prob))
     reg.prob[reg.prob <= 0] <- 1e-10
     reg.prob <- reg.prob / sum(reg.prob)
-    reg.nodes <- names(rev(sort(reg.prob))[1:network.nRegs])
+    reg.nodes <- names(rev(sort(reg.prob))[seq_len(network.nRegs)])
     is.reg <- igraph::V(network.graph)$name %in% reg.nodes
     network.graph <- igraph::set_vertex_attr(network.graph, "IsReg",
                                              value = is.reg)
@@ -471,10 +472,10 @@ kersplatSimPaths <- function(params, verbose) {
         }
 
         if (from == 0) {
-            changes <- changes[, 1:nSteps]
+            changes <- changes[, seq_len(nSteps)]
             factors <- matrixStats::rowCumsums(changes)
         } else {
-            changes <- changes[, 2:(nSteps + 1)]
+            changes <- changes[, seq_len(nSteps) + 1]
             from.factors <- paths.factors[[from]][, ncol(paths.factors[[from]])]
             factors <- matrixStats::rowCumsums(changes) + from.factors
         }
@@ -610,6 +611,7 @@ kersplatSimCellMeans <- function(sim, params, verbose) {
 
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
+    nGenes <- getParam(params, "nGenes")
     nDoublets <- sum(colData(sim)$Type == "Doublet")
     nCells <- getParam(params, "nCells") - nDoublets
     cells.design <- getParam(params, "cells.design")
@@ -636,19 +638,19 @@ kersplatSimCellMeans <- function(sim, params, verbose) {
     steps.probs <- lapply(steps.probs, "[[", 1)
     names(steps.probs) <- paths.cells.design$Path
 
-    cells.steps <- sapply(cells.paths, function(path) {
+    cells.steps <- vapply(cells.paths, function(path) {
         probs <- steps.probs[[path]]
-        step <- sample(1:length(probs), 1, prob = probs)
+        step <- sample(seq_len(length(probs)), 1, prob = probs)
         return(step)
-    })
+    }, c(Step = 0))
 
     if (verbose) {message("Simulating cell means...")}
-    cells.means <- sapply(seq_len(nCells), function(cell) {
+    cells.means <- vapply(seq_len(nCells), function(cell) {
         path <- cells.paths[cell]
         step <- cells.steps[cell]
         means <- paths.means[[path]][, step]
         return(means)
-    })
+    }, as.numeric(seq_len(nGenes)))
 
     if (nDoublets > 0) {
         if (verbose) {message("Assigning doublets...")}
@@ -657,30 +659,30 @@ kersplatSimCellMeans <- function(sim, params, verbose) {
         doublet.paths2 <- sample(cells.design$Path, nDoublets, replace = TRUE,
                                  prob = cells.design$Probability)
 
-        doublet.steps1 <- sapply(doublet.paths1, function(path) {
+        doublet.steps1 <- vapply(doublet.paths1, function(path) {
             probs <- steps.probs[[path]]
-            step <- sample(1:length(probs), 1, prob = probs)
+            step <- sample(seq_len(length(probs)), 1, prob = probs)
             return(step)
-        })
-        doublet.steps2 <- sapply(doublet.paths2, function(path) {
+        }, c(Step1 = 0))
+        doublet.steps2 <- vapply(doublet.paths2, function(path) {
             probs <- steps.probs[[path]]
-            step <- sample(1:length(probs), 1, prob = probs)
+            step <- sample(seq_len(length(probs)), 1, prob = probs)
             return(step)
-        })
+        }, c(Step2 = 0))
 
         if (verbose) {message("Simulating doublet means...")}
-        doublet.means1 <- sapply(seq_len(nDoublets), function(doublet) {
+        doublet.means1 <- vapply(seq_len(nDoublets), function(doublet) {
             path <- doublet.paths1[doublet]
             step <- doublet.steps1[doublet]
             means <- paths.means[[path]][, step]
             return(means)
-        })
-        doublet.means2 <- sapply(seq_len(nDoublets), function(doublet) {
+        }, as.numeric(seq_len(nGenes)))
+        doublet.means2 <- vapply(seq_len(nDoublets), function(doublet) {
             path <- doublet.paths2[doublet]
             step <- doublet.steps2[doublet]
             means <- paths.means[[path]][, step]
             return(means)
-        })
+        }, as.numeric(seq_len(nGenes)))
         doublet.means <- (doublet.means1 + doublet.means2) * 0.5
 
         cells.means <- cbind(cells.means, doublet.means)
@@ -867,6 +869,8 @@ kersplatSimCounts <- function(sim, params, verbose) {
 #' densities at edges are adjusted and then the values are scaled to give
 #' probabilities.
 #'
+#' @return Vector of probabilities
+#'
 #' @importFrom stats dbeta
 getBetaStepProbs <- function(steps, alpha, beta) {
     dens <- dbeta(seq(0, 1, length.out = steps), alpha, beta)
@@ -902,6 +906,8 @@ getBetaStepProbs <- function(steps, alpha, beta) {
 #' than \code{lower}) then that x value is retained. Ten thousand points are
 #' generated at a time until enough valid values have been sampled.
 #'
+#' @return Vector of sampled values
+#'
 #' @importFrom stats approxfun
 sampleDensity <- function(n, dens, lower = 0) {
 
@@ -924,7 +930,7 @@ sampleDensity <- function(n, dens, lower = 0) {
         values <- c(values, x[sel])
     }
 
-    values <- values[1:n]
+    values <- values[seq_len(n)]
 
     return(values)
 }

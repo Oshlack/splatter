@@ -11,6 +11,9 @@ showValues(values, not.default)
 
 \item{not.default}{logical vector giving which have changed from the default.}
 }
+\value{
+Print values
+}
 \description{
 Function used for pretty printing scalar or vector parameters.
 }

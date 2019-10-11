@@ -132,8 +132,8 @@ kersplatEstMean <- function(norm.counts, params, verbose) {
 
 #' Estimate Kersplat BCV parameters
 #'
-#' Estimate Biological Coefficient of Variation (BCV) parameters for the Kersplat
-#' simulation
+#' Estimate Biological Coefficient of Variation (BCV) parameters for the
+#' Kersplat simulation
 #'
 #' @param counts counts matrix.
 #' @param params KersplatParams object to store estimated values in.

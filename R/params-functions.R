@@ -15,7 +15,10 @@ getParams <- function(params, names) {
     checkmate::assertClass(params, classes = "Params")
     checkmate::assertCharacter(names, min.len = 1, any.missing = FALSE)
 
-    sapply(names, getParam, object = params, simplify = FALSE)
+    params.list <- lapply(names, getParam, object = params)
+    names(params.list) <- names
+
+    return(params.list)
 }
 
 #' Set parameters UNCHECKED
@@ -70,17 +73,18 @@ showPP <- function(params, pp) {
     for (category in names(pp)) {
         parameters <- pp[[category]]
         values <- getParams(params, parameters)
-        is.df <- sapply(values, is.data.frame)
+        is.df <- vapply(values, is.data.frame, FALSE)
 
         default.values <- getParams(default, parameters)
-        not.default <- sapply(seq_along(values), function(i) {
+        not.default <- vapply(seq_along(values), function(i) {
             !identical(values[i], default.values[i])
-        })
-        empty.values <- sapply(values, function(x) {
+        }, FALSE)
+        empty.values <- vapply(values, function(x) {
             is.null(x) || length(x) == 0
-        })
+        }, FALSE)
         values[empty.values] <- "Not set"
 
+        names(values) <- names(parameters)
         cat(crayon::bold(category), "\n")
         if (sum(!is.df) > 0) {
             showValues(values[!is.df], not.default[!is.df])
@@ -99,6 +103,8 @@ showPP <- function(params, pp) {
 #' @param values list of values to show.
 #' @param not.default logical vector giving which have changed from the default.
 #'
+#' @return Print values
+#'
 #' @importFrom utils head
 showValues <- function(values, not.default) {
 
@@ -106,7 +112,7 @@ showValues <- function(values, not.default) {
     checkmate::check_logical(not.default, any.missing = FALSE,
                              len = length(values))
 
-    short.values <- sapply(values, function(x) {
+    short.values <- vapply(values, function(x) {
         if (is.list(x)) {
             classes <- class(x)
             if (length(classes) == 1 && classes == "list") {
@@ -121,7 +127,7 @@ showValues <- function(values, not.default) {
                 paste(x, collapse = ", ")
             }
         }
-    })
+    }, c(Value = "None"))
 
     names(short.values)[not.default] <- toupper(names(values[not.default]))
 
@@ -161,6 +167,8 @@ showValues <- function(values, not.default) {
 #'
 #' @param dfs list of data.frames to show.
 #' @param not.default logical vector giving which have changed from the default.
+#'
+#' @return Print data.frame parameters
 #'
 #' @importFrom utils head
 showDFs <- function(dfs, not.default) {
