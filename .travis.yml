@@ -1,13 +1,15 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-r:
-  - bioc-devel
+r: bioc-devel
 
 cache: packages
 
+r_packages:
+    - devtools
+
 install:
-- R -e 'devtools::install_deps(dep = c("Depends", "Imports"))'
+    - R -e 'devtools::install_deps(dep = c("Depends", "Imports"))'
 
 after_success:
   - Rscript -e 'covr::codecov()'
