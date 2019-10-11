@@ -10,17 +10,22 @@ init:
 install:
   ps: Bootstrap
 
-# Adapt as necessary starting from here
+cache:
+  - C:\RLibrary
 
 environment:
-    matrix:
-    - R_VERSION: devel
-#    - R_VERSION: release
-    USE_RTOOLS: true
+  NOT_CRAN: true
+  # env vars that may need to be set, at least temporarily, from time to time
+  # see https://github.com/krlmlr/r-appveyor#readme for details
+  USE_RTOOLS: true
+  # R_REMOTES_STANDALONE: true
+
+# Adapt as necessary starting from here
 
 build_script:
+  - travis-tool.sh install_r devtools
+  - travis-tool.sh install_github Bioconductor/GenomeInfoDbData
   - travis-tool.sh install_bioc_deps
-  - travis-tool.sh install_bioc GenomeInfoDb DelayedArray BASiCS
 
 test_script:
   - travis-tool.sh run_tests
