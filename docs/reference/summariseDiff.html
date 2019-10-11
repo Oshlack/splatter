@@ -6,23 +6,27 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarise diffSCESs — summariseDiff • Splatter</title>
+<title>Summarise diffSCEs — summariseDiff • Splatter</title>
+
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,13 +36,14 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Summarise diffSCESs — summariseDiff" />
 
+<meta property="og:title" content="Summarise diffSCEs — summariseDiff" />
 <meta property="og:description" content="Summarise the results of diffSCEs. Calculates the Median
 Absolute Deviation (MAD), Mean Absolute Error (MAE), Root Mean Squared
 Error (RMSE) and Kolmogorov-Smirnov (KS) statistics for the various
 properties and ranks them." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -62,6 +67,7 @@ properties and ranks them." />
   gtag('config', 'UA-52309538-4');
 </script>
 
+
   </head>
 
   <body>
@@ -78,7 +84,7 @@ properties and ranks them." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
       </span>
     </div>
 
@@ -86,7 +92,7 @@ properties and ranks them." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -112,11 +118,10 @@ properties and ranks them." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/Oshlack/splatter">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -127,27 +132,26 @@ properties and ranks them." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Summarise diffSCESs</h1>
+    <h1>Summarise diffSCEs</h1>
     <small class="dont-index">Source: <a href='https://github.com/Oshlack/splatter/blob/master/R/compare.R'><code>R/compare.R</code></a></small>
     <div class="hidden name"><code>summariseDiff.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Summarise the results of <code><a href='diffSCEs.html'>diffSCEs</a></code>. Calculates the Median
 Absolute Deviation (MAD), Mean Absolute Error (MAE), Root Mean Squared
 Error (RMSE) and Kolmogorov-Smirnov (KS) statistics for the various
 properties and ranks them.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>summariseDiff</span>(<span class='no'>diff</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -156,42 +160,40 @@ properties and ranks them.</p>
       <td><p>Output from <code><a href='diffSCEs.html'>diffSCEs</a></code></p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>data.frame with MADs, MAEs, RMSEs, scaled statistics and ranks</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>sim1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='splatSimulate.html'>splatSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>batchCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='message'>Getting parameters...</span></div><div class='output co'>#&gt; <span class='message'>Creating simulation object...</span></div><div class='output co'>#&gt; <span class='message'>Simulating library sizes...</span></div><div class='output co'>#&gt; <span class='message'>Simulating gene means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating BCV...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Simulating dropout (if needed)...</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div><div class='input'><span class='no'>sim2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='message'>Simulating means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div><div class='input'><span class='no'>difference</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='diffSCEs.html'>diffSCEs</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>Splat</span> <span class='kw'>=</span> <span class='no'>sim1</span>, <span class='kw'>Simple</span> <span class='kw'>=</span> <span class='no'>sim2</span>), <span class='kw'>ref</span> <span class='kw'>=</span> <span class='st'>"Simple"</span>)
+    <pre class="examples"><div class='input'><span class='no'>sim1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='splatSimulate.html'>splatSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>batchCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='message'>Getting parameters...</span></div><div class='output co'>#&gt; <span class='message'>Creating simulation object...</span></div><div class='output co'>#&gt; <span class='message'>Simulating library sizes...</span></div><div class='output co'>#&gt; <span class='message'>Simulating gene means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating BCV...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Simulating dropout (if needed)...</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div><div class='input'><span class='no'>sim2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='message'>Simulating means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div><div class='input'><span class='no'>difference</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='diffSCEs.html'>diffSCEs</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>Splat</span> <span class='kw'>=</span> <span class='no'>sim1</span>, <span class='kw'>Simple</span> <span class='kw'>=</span> <span class='no'>sim2</span>), <span class='kw'>ref</span> <span class='kw'>=</span> <span class='st'>"Simple"</span>)
 <span class='no'>summary</span> <span class='kw'>&lt;-</span> <span class='fu'>summariseDiff</span>(<span class='no'>difference</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>summary</span>)</div><div class='output co'>#&gt;   Dataset Statistic          MAD MADScaled MADRank          MAE MAEScaled
-#&gt; 1   Splat      Mean     2.288933       NaN       1     2.375445       NaN
-#&gt; 2   Splat  Variance    11.025042       NaN       1     9.969259       NaN
-#&gt; 3   Splat ZerosGene    30.000000       NaN       1    40.500000       NaN
-#&gt; 4   Splat   MeanVar     9.509015       NaN       1    11.819818       NaN
-#&gt; 5   Splat MeanZeros    45.000000       NaN       1    42.780000       NaN
-#&gt; 6   Splat   LibSize 59367.000000       NaN       1 59618.300000       NaN
-#&gt;   MAERank        RMSE RMSEScaled RMSERank    KS       KSPVal KSRank
-#&gt; 1       1     2.85907        NaN        1 0.334 0.000000e+00      1
-#&gt; 2       1    12.57383        NaN        1 0.573 0.000000e+00      1
-#&gt; 3       1    45.84158        NaN        1 0.542 0.000000e+00      1
-#&gt; 4       1    14.92356        NaN        1    NA           NA     NA
-#&gt; 5       1    51.94324        NaN        1    NA           NA     NA
-#&gt; 6       1 61010.54295        NaN        1 1.000 1.450928e-11      1</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>summary</span>)</div><div class='output co'>#&gt;   Dataset Statistic          MAD MADScaled MADRank          MAE MAEScaled
+#&gt; 1   Splat      Mean     2.599964       NaN       1     2.584928       NaN
+#&gt; 2   Splat  Variance    11.322961       NaN       1    10.470554       NaN
+#&gt; 3   Splat ZerosGene    40.000000       NaN       1    44.310000       NaN
+#&gt; 4   Splat   MeanVar    11.115835       NaN       1    12.455595       NaN
+#&gt; 5   Splat MeanZeros    45.000000       NaN       1    43.525000       NaN
+#&gt; 6   Splat   LibSize 57856.500000       NaN       1 59396.950000       NaN
+#&gt;   MAERank         RMSE RMSEScaled RMSERank    KS       KSPVal KSRank
+#&gt; 1       1     3.128422        NaN        1 0.361 0.000000e+00      1
+#&gt; 2       1    13.481762        NaN        1 0.557 0.000000e+00      1
+#&gt; 3       1    48.107692        NaN        1 0.574 0.000000e+00      1
+#&gt; 4       1    15.692918        NaN        1    NA           NA     NA
+#&gt; 5       1    53.139674        NaN        1    NA           NA     NA
+#&gt; 6       1 60130.247902        NaN        1 1.000 1.450928e-11      1</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -199,13 +201,16 @@ properties and ranks them.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

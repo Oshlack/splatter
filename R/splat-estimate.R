@@ -70,7 +70,7 @@ splatEstimate.matrix <- function(counts, params = newSplatParams()) {
 #' @param params SplatParams object to store estimated values in.
 #'
 #' @details
-#' Parameter for the gamma distribution are estimated by fitting the mean
+#' Parameters for the gamma distribution are estimated by fitting the mean
 #' normalised counts using \code{\link[fitdistrplus]{fitdist}}. The 'maximum
 #' goodness-of-fit estimation' method is used to minimise the Cramer-von Mises
 #' distance. This can fail in some situations, in which case the 'method of
@@ -111,7 +111,7 @@ splatEstMean <- function(norm.counts, params) {
 #' @param counts counts matrix to estimate parameters from.
 #' @param params splatParams object to store estimated values in.
 #'
-#' @return splatParams object with estimated values.
+#' @return SplatParams object with estimated values.
 #'
 #' @importFrom stats shapiro.test
 splatEstLib <- function(counts, params) {

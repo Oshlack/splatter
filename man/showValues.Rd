@@ -2,7 +2,7 @@
 % Please edit documentation in R/params-functions.R
 \name{showValues}
 \alias{showValues}
-\title{Show vales}
+\title{Show values}
 \usage{
 showValues(values, not.default)
 }
@@ -11,6 +11,9 @@ showValues(values, not.default)
 
 \item{not.default}{logical vector giving which have changed from the default.}
 }
+\value{
+Print values
+}
 \description{
-Function used for pretty printing scale or vector parameters.
+Function used for pretty printing scalar or vector parameters.
 }

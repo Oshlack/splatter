@@ -48,8 +48,11 @@ setMethod("show", "Params", function(object) {
 
     cat("A", crayon::bold("Params"), "object of class",
         crayon::bold(class(object)), "\n")
-    cat("Parameters can be (estimable) or", crayon::blue("[not estimable],"),
-        "'Default' or ", crayon::bold(crayon::green("'NOT DEFAULT'")), "\n\n")
+    cat("Parameters can be (estimable) or",
+        paste0(crayon::blue("[not estimable]"), ","),
+        "'Default' or ", crayon::bold(crayon::green("'NOT DEFAULT'")), "\n")
+    cat(crayon::bgYellow(crayon::black("Secondary")), "parameters are usually",
+        "set during simulation\n\n")
     showPP(object, pp)
     cat(length(slotNames(object)) - 3, "additional parameters", "\n\n")
 })

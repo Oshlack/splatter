@@ -8,21 +8,25 @@
 
 <title>The SplatParams class — SplatParams • Splatter</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,10 +36,11 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="The SplatParams class — SplatParams" />
 
-<meta property="og:description" content="S4 class that holds parameters for the Splatter simulation." />
+<meta property="og:title" content="The SplatParams class — SplatParams" />
+<meta property="og:description" content="S4 class that holds parameters for the Splat simulation." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -59,6 +64,7 @@
   gtag('config', 'UA-52309538-4');
 </script>
 
+
   </head>
 
   <body>
@@ -75,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
       </span>
     </div>
 
@@ -83,7 +89,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -109,11 +115,10 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/Oshlack/splatter">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -124,6 +129,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -135,16 +141,17 @@
     </div>
 
     <div class="ref-description">
-    
-    <p>S4 class that holds parameters for the Splatter simulation.</p>
-    
+    <p>S4 class that holds parameters for the Splat simulation.</p>
     </div>
 
-        
+
+
     <h2 class="hasAnchor" id="parameters"><a class="anchor" href="#parameters"></a>Parameters</h2>
 
     
-    <p>The Splatter simulation requires the following parameters:</p>
+
+
+<p>The Splat simulation requires the following parameters:</p>
 <dl class='dl-horizontal'>
     <dt><code>nGenes</code></dt><dd><p>The number of genes to simulate.</p></dd>
     <dt><code>nCells</code></dt><dd><p>The number of cells to simulate.</p></dd>
@@ -156,14 +163,12 @@
             <dt><code>[batch.facLoc]</code></dt><dd><p>Location (meanlog) parameter for the
             batch effect factor log-normal distribution. Can be a vector.</p></dd>
             <dt><code>[batch.facScale]</code></dt><dd><p>Scale (sdlog) parameter for the
-            batch effect factor log-normal distribution. Can be a vector.</p></dd>
-        </dl></p></dd>
+            batch effect factor log-normal distribution. Can be a vector.</p></dd></dl></p></dd>
     <dt><em>Mean parameters</em></dt><dd><p><dl class='dl-horizontal'>
             <dt><code>mean.shape</code></dt><dd><p>Shape parameter for the mean gamma
             distribution.</p></dd>
             <dt><code>mean.rate</code></dt><dd><p>Rate parameter for the mean gamma
-            distribution.</p></dd>
-        </dl></p></dd>
+            distribution.</p></dd></dl></p></dd>
     <dt><em>Library size parameters</em></dt><dd><p><dl class='dl-horizontal'>
             <dt><code>lib.loc</code></dt><dd><p>Location (meanlog) parameter for the
             library size log-normal distribution, or mean parameter if a
@@ -172,22 +177,19 @@
             size log-normal distribution, or sd parameter if a normal
             distribution is used.</p></dd>
             <dt><code>lib.norm</code></dt><dd><p>Logical. Whether to use a normal
-            distribution for library sizes instead of a log-normal.</p></dd>
-        </dl></p></dd>
+            distribution for library sizes instead of a log-normal.</p></dd></dl></p></dd>
     <dt><em>Expression outlier parameters</em></dt><dd><p><dl class='dl-horizontal'>
             <dt><code>out.prob</code></dt><dd><p>Probability that a gene is an expression
             outlier.</p></dd>
             <dt><code>out.facLoc</code></dt><dd><p>Location (meanlog) parameter for the
             expression outlier factor log-normal distribution.</p></dd>
             <dt><code>out.facScale</code></dt><dd><p>Scale (sdlog) parameter for the
-            expression outlier factor log-normal distribution.</p></dd>
-        </dl></p></dd>
+            expression outlier factor log-normal distribution.</p></dd></dl></p></dd>
     <dt><em>Group parameters</em></dt><dd><p><dl class='dl-horizontal'>
             <dt><code>[nGroups]</code></dt><dd><p>The number of groups or paths to
             simulate.</p></dd>
             <dt><code>[group.prob]</code></dt><dd><p>Probability that a cell comes from a
-            group.</p></dd>
-        </dl></p></dd>
+            group.</p></dd></dl></p></dd>
     <dt><em>Differential expression parameters</em></dt><dd><p><dl class='dl-horizontal'>
             <dt><code>[de.prob]</code></dt><dd><p>Probability that a gene is differentially
             expressed in a group. Can be a vector.</p></dd>
@@ -198,14 +200,12 @@
             vector.</p></dd>
             <dt><code>[de.facScale]</code></dt><dd><p>Scale (sdlog) parameter for the
             differential expression factor log-normal distribution. Can be a
-            vector.</p></dd>
-        </dl></p></dd>
+            vector.</p></dd></dl></p></dd>
     <dt><em>Biological Coefficient of Variation parameters</em></dt><dd><p><dl class='dl-horizontal'>
             <dt><code>bcv.common</code></dt><dd><p>Underlying common dispersion across all
             genes.</p></dd>
             <dt><code>bcv.df</code></dt><dd><p>Degrees of Freedom for the BCV inverse
-            chi-squared distribution.</p></dd>
-        </dl></p></dd>
+            chi-squared distribution.</p></dd></dl></p></dd>
     <dt><em>Dropout parameters</em></dt><dd><p><dl class='dl-horizontal'>
             <dt><code>dropout.type</code></dt><dd><p>The type of dropout to simulate.
             "none" indicates no dropout, "experiment" is global dropout using
@@ -216,8 +216,7 @@
             <dt><code>dropout.mid</code></dt><dd><p>Midpoint parameter for the dropout
             logistic function.</p></dd>
             <dt><code>dropout.shape</code></dt><dd><p>Shape parameter for the dropout
-            logistic function.</p></dd>
-        </dl></p></dd>
+            logistic function.</p></dd></dl></p></dd>
     <dt><em>Differentiation path parameters</em></dt><dd><p><dl class='dl-horizontal'>
             <dt><code>[path.from]</code></dt><dd><p>Vector giving the originating point of
             each path. This allows path structure such as a cell type which
@@ -242,24 +241,24 @@
             in the middle.</p></dd>
             <dt><code>[path.sigmaFac]</code></dt><dd><p>Sigma factor for non-linear gene
             paths. A higher value will result in more extreme non-linear
-            variations along a path.</p></dd>
-    </dl></p></dd>
+            variations along a path.</p></dd></dl></p></dd>
+
 </dl>
-    <p>The parameters not shown in brackets can be estimated from real data using
-<code><a href='splatEstimate.html'>splatEstimate</a></code>. For details of the Splatter simulation
+
+<p>The parameters not shown in brackets can be estimated from real data using
+<code><a href='splatEstimate.html'>splatEstimate</a></code>. For details of the Splat simulation
 see <code><a href='splatSimulate.html'>splatSimulate</a></code>.</p>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
       <li><a href="#parameters">Parameters</a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -267,13 +266,16 @@ see <code><a href='splatSimulate.html'>splatSimulate</a></code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
