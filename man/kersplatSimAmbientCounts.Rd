@@ -9,7 +9,7 @@ kersplatSimAmbientCounts(sim, params, verbose)
 \arguments{
 \item{sim}{SingleCellExperiment containing simulation.}
 
-\item{params}{SplotParams object with simulation parameters.}
+\item{params}{KersplatParams object with simulation parameters.}
 
 \item{verbose}{logical. Whether to print progress messages}
 }

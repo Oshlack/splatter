@@ -20,5 +20,5 @@ those names will be used in the output.}
 data.frame with the summarised measure, scaled and ranked
 }
 \description{
-Summarise columns of a data.frame compared to a referenc using the KS test.
+Summarise columns of a data.frame compared to a reference using the KS test.
 }

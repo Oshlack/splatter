@@ -250,7 +250,7 @@ kersplatEstLib <- function(counts, params, verbose) {
 #'
 #' @param data The data to fit
 #' @param distr Name of the distribution to fit
-#' @param weights Optional vector of weigths
+#' @param weights Optional vector of weights
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details

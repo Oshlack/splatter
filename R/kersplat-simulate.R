@@ -289,7 +289,7 @@ kersplatGenNetwork <- function(params, verbose) {
 #'
 #' @details
 #' Regulators are randomly selected, weighted according to the difference
-#' between their out degree and in degree. This is an arbitary weighting and
+#' between their out degree and in degree. This is an arbitrary weighting and
 #' may be improved or replace in the future.
 #'
 #' @return KersplatParams object with gene regulators
@@ -400,7 +400,7 @@ kersplatSimGeneMeans <- function(params, verbose) {
 #' in the environment (the programs) which are sensed by receptors (regulatory
 #' genes) and cause changes in expression downstream. For each path a random
 #' walk is generated for each program and the changes passed on to the
-#' regulatory genes. At each step the changes progagate through the network
+#' regulatory genes. At each step the changes propagate through the network
 #' according to the weights on edges between genes. This algorithm is fairly
 #' simple but should result in correlation relationships between genes. However
 #' it is likely to be improved and adjusted in the future.
@@ -496,10 +496,10 @@ kersplatSimPaths <- function(params, verbose) {
 
 #' Simulate Kersplat library sizes
 #'
-#' Generate library sizes for cells in the Kersplat simulatilon
+#' Generate library sizes for cells in the Kersplat simulation
 #'
 #' @param sim SingleCellExperiment containing simulation.
-#' @param params SplotParams object with simulation parameters.
+#' @param params KersplatParams object with simulation parameters.
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details
@@ -561,17 +561,17 @@ kersplatSimLibSizes <- function(sim, params, verbose) {
 #' Simulate endogenous counts for each cell in a Kersplat simulation
 #'
 #' @param sim SingleCellExperiment containing simulation.
-#' @param params SplotParams object with simulation parameters.
+#' @param params KersplatParams object with simulation parameters.
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details
 #' Cells are first assigned to a path and a step along that path. This is
 #' controlled by the \code{cells.design} parameter which is a \code{data.frame}
 #' with the columns "Path", "Probability", "Alpha" and "Beta". The Path field
-#' is an ID for each path and the Probabilty field is the probability that a
+#' is an ID for each path and the Probability field is the probability that a
 #' cell will come from that path (must sum to 1). The Alpha and Beta parameters
 #' control the density of cells along the path. After they are assigned to paths
-#' the step for each cell is sampled from a Beta distribution with paramaters
+#' the step for each cell is sampled from a Beta distribution with parameters
 #' shape1 equals Alpha and shape2 equals beta. This approach is very flexible
 #' and allows almost any distribution of cells along a path. The distribution
 #' can be viewed using \code{hist(rbeta(10000, Alpha, Beta), breaks = 100)}.
@@ -741,7 +741,7 @@ kersplatSimCellMeans <- function(sim, params, verbose) {
 #' Simulate cell counts for the Kersplat simulation
 #'
 #' @param sim SingleCellExperiment containing simulation.
-#' @param params SplotParams object with simulation parameters.
+#' @param params KersplatParams object with simulation parameters.
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details
@@ -774,7 +774,7 @@ kersplatSimCellCounts <- function(sim, params, verbose) {
 #' Simulate Kersplat ambient counts
 #'
 #' @param sim SingleCellExperiment containing simulation.
-#' @param params SplotParams object with simulation parameters.
+#' @param params KersplatParams object with simulation parameters.
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details
@@ -819,7 +819,7 @@ kersplatSimAmbientCounts <- function(sim, params, verbose) {
 #' Simulate the final counts matrix for a Kersplat simulation
 #'
 #' @param sim SingleCellExperiment containing simulation.
-#' @param params SplotParams object with simulation parameters.
+#' @param params KersplatParams object with simulation parameters.
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details
@@ -894,7 +894,7 @@ getBetaStepProbs <- function(steps, alpha, beta) {
 
 #' Sample density
 #'
-#' Sample from a density objet using rejection sampling
+#' Sample from a density object using rejection sampling
 #'
 #' @param n Number of values to sample
 #' @param dens Density object to sample from

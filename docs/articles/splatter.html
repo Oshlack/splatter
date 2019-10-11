@@ -122,7 +122,7 @@
 <div id="quickstart" class="section level1">
 <h1 class="hasAnchor">
 <a href="#quickstart" class="anchor"></a>Quickstart</h1>
-<p>Assuming you already have a matrix of count data similar to that you wish to simulate there are two simple steps to creating a simulated data set with Splatter. Here is an example a mock dataset generted with the <code>scater</code> package:</p>
+<p>Assuming you already have a matrix of count data similar to that you wish to simulate there are two simple steps to creating a simulated data set with Splatter. Here is an example a mock dataset generated with the <code>scater</code> package:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Load package</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(splatter)</a></code></pre></div>
 <pre><code>## Loading required package: SingleCellExperiment</code></pre>
@@ -230,7 +230,7 @@
 ## 
 ## Global: 
 ## (Genes)  (Cells)   [Seed] 
-##   10000      100   518072 
+##   10000      100   955861 
 ## 
 ## 28 additional parameters 
 ## 
@@ -304,7 +304,7 @@
 ## 
 ## Global: 
 ## (GENES)  (Cells)   [Seed] 
-##    8000      100   518072 
+##    8000      100   955861 
 ## 
 ## 28 additional parameters 
 ## 
@@ -420,45 +420,45 @@
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="co"># Access the counts</span></a>
 <a class="sourceLine" id="cb86-2" data-line-number="2"><span class="kw">counts</span>(sim)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
 <pre><code>##       Cell1 Cell2 Cell3 Cell4 Cell5
-## Gene1   102    12    57    33   102
-## Gene2    33   109    43     5    23
-## Gene3     6    44    15     4     2
-## Gene4    19    16    62     3    29
-## Gene5     3    10    14    19     4</code></pre>
+## Gene1   388   184   496    70   977
+## Gene2   115    24    30    62    30
+## Gene3   353   311   356   172   265
+## Gene4     0     0     0     0     0
+## Gene5    66    88   687   488    91</code></pre>
 <div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1"><span class="co"># Information about genes</span></a>
 <a class="sourceLine" id="cb88-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">rowData</span>(sim))</a></code></pre></div>
 <pre><code>## DataFrame with 6 rows and 4 columns
-##           Gene     BaseGeneMean OutlierFactor         GeneMean
-##       &lt;factor&gt;        &lt;numeric&gt;     &lt;numeric&gt;        &lt;numeric&gt;
-## Gene1    Gene1 41.0999330107563             1 41.0999330107563
-## Gene2    Gene2 37.2361029998153             1 37.2361029998153
-## Gene3    Gene3  13.600109627926             1  13.600109627926
-## Gene4    Gene4 22.8815122546737             1 22.8815122546737
-## Gene5    Gene5 12.5123576361284             1 12.5123576361284
-## Gene6    Gene6 111.796211912861             1 111.796211912861</code></pre>
+##           Gene      BaseGeneMean OutlierFactor          GeneMean
+##       &lt;factor&gt;         &lt;numeric&gt;     &lt;numeric&gt;         &lt;numeric&gt;
+## Gene1    Gene1  182.541749248015             1  182.541749248015
+## Gene2    Gene2  45.4848226172007             1  45.4848226172007
+## Gene3    Gene3  247.661694059157             1  247.661694059157
+## Gene4    Gene4 0.133237587005808             1 0.133237587005808
+## Gene5    Gene5  170.361660833028             1  170.361660833028
+## Gene6    Gene6  281.100703006627             1  281.100703006627</code></pre>
 <div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1"><span class="co"># Information about cells</span></a>
 <a class="sourceLine" id="cb90-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">colData</span>(sim))</a></code></pre></div>
 <pre><code>## DataFrame with 6 rows and 3 columns
 ##           Cell       Batch       ExpLibSize
 ##       &lt;factor&gt; &lt;character&gt;        &lt;numeric&gt;
-## Cell1    Cell1      Batch1 350286.032618518
-## Cell2    Cell2      Batch1 350094.837656396
-## Cell3    Cell3      Batch1 355358.860771151
-## Cell4    Cell4      Batch1 342892.196946322
-## Cell5    Cell5      Batch1 338225.807388697
-## Cell6    Cell6      Batch1  358642.15934235</code></pre>
+## Cell1    Cell1      Batch1 347367.472875596
+## Cell2    Cell2      Batch1 357315.685032967
+## Cell3    Cell3      Batch1 344451.277578974
+## Cell4    Cell4      Batch1 348810.103710477
+## Cell5    Cell5      Batch1 356933.764212043
+## Cell6    Cell6      Batch1 343192.242624294</code></pre>
 <div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="co"># Gene by cell matrices</span></a>
 <a class="sourceLine" id="cb92-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">assays</span>(sim))</a></code></pre></div>
 <pre><code>## [1] "BatchCellMeans" "BaseCellMeans"  "BCV"            "CellMeans"     
 ## [5] "TrueCounts"     "counts"</code></pre>
 <div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1"><span class="co"># Example of cell means matrix</span></a>
 <a class="sourceLine" id="cb94-2" data-line-number="2"><span class="kw">assays</span>(sim)<span class="op">$</span>CellMeans[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
-<pre><code>##           Cell1     Cell2     Cell3     Cell4      Cell5
-## Gene1 96.494571  17.36514 55.647502 48.239029 114.144534
-## Gene2 25.088964 112.59364 32.337553  9.860382  28.532718
-## Gene3 10.550270  35.47949  9.248158  4.909377   3.134644
-## Gene4 17.900482  16.36628 62.567243  5.674419  30.102917
-## Gene5  7.072495  11.58369 11.899143 16.200757   5.585551</code></pre>
+<pre><code>##              Cell1       Cell2        Cell3        Cell4        Cell5
+## Gene1 390.52352662 198.5368335 530.58433564 8.478547e+01 1006.4132206
+## Gene2 123.88369156  18.7047056  33.40839148 5.484398e+01   28.5096579
+## Gene3 347.21277069 341.6968857 364.20100579 1.501884e+02  254.1098498
+## Gene4   0.02443122   0.0208686   0.01504628 7.542940e-04    0.5873028
+## Gene5  69.56325232  85.8830537 670.02282798 5.116404e+02   89.9774291</code></pre>
 <p>An additional (big) advantage of outputting a <code>SingleCellExperiment</code> is that we get immediate access to other analysis packages, such as the plotting functions in <code>scater</code>. For example we can make a PCA plot:</p>
 <div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="co"># Use scater to calculate logcounts</span></a>
 <a class="sourceLine" id="cb96-2" data-line-number="2">sim &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/normalize.html">normalize</a></span>(sim)</a></code></pre></div>
@@ -652,23 +652,23 @@
 <a class="sourceLine" id="cb123-2" data-line-number="2">sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/addGeneLengths.html">addGeneLengths</a></span>(sim)</a>
 <a class="sourceLine" id="cb123-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">rowData</span>(sim))</a></code></pre></div>
 <pre><code>## DataFrame with 6 rows and 3 columns
-##           Gene            GeneMean    Length
-##       &lt;factor&gt;           &lt;numeric&gt; &lt;numeric&gt;
-## Gene1    Gene1   0.181175692302563      2332
-## Gene2    Gene2   0.172252884378792      2855
-## Gene3    Gene3   0.578071696079763      2934
-## Gene4    Gene4  0.0174946993560655      2627
-## Gene5    Gene5 0.00261097707580166      7475
-## Gene6    Gene6  0.0816858565262837      5117</code></pre>
+##           Gene             GeneMean    Length
+##       &lt;factor&gt;            &lt;numeric&gt; &lt;numeric&gt;
+## Gene1    Gene1   0.0792265397126071      1105
+## Gene2    Gene2   0.0306368911550198      2027
+## Gene3    Gene3     1.75797983978846      5541
+## Gene4    Gene4 0.000969198708564301      2476
+## Gene5    Gene5   0.0554598556966454      2845
+## Gene6    Gene6     2.21278105339233      3607</code></pre>
 <p>We can then use <code>scater</code> to calculate TPM:</p>
 <div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="kw">tpm</span>(sim) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/calculateTPM.html">calculateTPM</a></span>(sim, <span class="kw">rowData</span>(sim)<span class="op">$</span>Length)</a>
 <a class="sourceLine" id="cb125-2" data-line-number="2"><span class="kw">tpm</span>(sim)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
-<pre><code>##       Cell1   Cell2    Cell3    Cell4 Cell5
-## Gene1     0  0.0000  0.00000  0.00000     0
-## Gene2     0  0.0000  0.00000  0.00000     0
-## Gene3     0 53.3583 51.94609 53.28085     0
-## Gene4     0  0.0000  0.00000  0.00000     0
-## Gene5     0  0.0000  0.00000  0.00000     0</code></pre>
+<pre><code>##          Cell1    Cell2    Cell3    Cell4    Cell5
+## Gene1  0.00000  0.00000  0.00000  0.00000   0.0000
+## Gene2  0.00000  0.00000  0.00000  0.00000   0.0000
+## Gene3 28.33389 58.08241 28.72608 57.73984 112.7174
+## Gene4  0.00000  0.00000  0.00000  0.00000   0.0000
+## Gene5  0.00000  0.00000  0.00000  0.00000   0.0000</code></pre>
 <p>The default method used by <code>addGeneLengths</code> to simulate lengths is to generate values from a log-normal distribution which are then rounded to give an integer length. The parameters for this distribution are based on human protein coding genes but can be adjusted if needed (for example for other species). Alternatively lengths can be sampled from a provided vector (see <code><a href="../reference/addGeneLengths.html">?addGeneLengths</a></code> for details and an example).</p>
 </div>
 <div id="comparing-simulations-and-real-data" class="section level1">

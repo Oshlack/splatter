@@ -24,11 +24,11 @@
 
 ### Version 1.9.7.9015 (2019-09-26)
 
-* Add doublets to SplotchSimulate
+* Add doublets to splotchSimulate
 
 ### Version 1.9.7.9014 (2019-09-24)
 
-* Add ambient expression and empty cells to SplotchSimulate
+* Add ambient expression and empty cells to splotchSimulate
 
 ### Version 1.9.7.9013 (2019-09-19)
 
@@ -52,7 +52,7 @@
 
 ### Version 1.9.4.9011 (2019-08-29)
 
-* Add BCV adjustment to Splotch simualation
+* Add BCV adjustment to Splotch simulation
 * Use new exponential correction for bcv.common
 
 ### Version 1.9.4.9010 (2019-08-22)

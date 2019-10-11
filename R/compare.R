@@ -866,7 +866,7 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
     return(panel)
 }
 
-#' Summarise diffSCESs
+#' Summarise diffSCEs
 #'
 #' Summarise the results of \code{\link{diffSCEs}}. Calculates the Median
 #' Absolute Deviation (MAD), Mean Absolute Error (MAE), Root Mean Squared
@@ -982,7 +982,7 @@ summariseStats <- function(data, split.col, stat.cols,
 
 #' Summarise KS
 #'
-#' Summarise columns of a data.frame compared to a referenc using the KS test.
+#' Summarise columns of a data.frame compared to a reference using the KS test.
 #'
 #' @param data The data.frame to summarise
 #' @param ref The reference data.frame

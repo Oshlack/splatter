@@ -11,7 +11,7 @@ selectFit(data, distr, weights = NULL, verbose = TRUE)
 
 \item{distr}{Name of the distribution to fit}
 
-\item{weights}{Optional vector of weigths}
+\item{weights}{Optional vector of weights}
 
 \item{verbose}{logical. Whether to print progress messages}
 }
