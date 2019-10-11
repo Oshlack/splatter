@@ -5,10 +5,8 @@ r: bioc-devel
 
 cache: packages
 
-r_packages:
-    - devtools
-
 install:
+    - R -e 'install.packages("devtools")'
     - R -e 'devtools::install_deps(dep = c("Depends", "Imports"))'
 
 after_success:
