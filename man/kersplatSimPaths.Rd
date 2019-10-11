@@ -25,7 +25,7 @@ some association with each program. This is analogous to there being changes
 in the environment (the programs) which are sensed by receptors (regulatory
 genes) and cause changes in expression downstream. For each path a random
 walk is generated for each program and the changes passed on to the
-regulatory genes. At each step the changes progagate through the network
+regulatory genes. At each step the changes propagate through the network
 according to the weights on edges between genes. This algorithm is fairly
 simple but should result in correlation relationships between genes. However
 it is likely to be improved and adjusted in the future.

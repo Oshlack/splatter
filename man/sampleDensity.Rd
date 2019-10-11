@@ -17,7 +17,7 @@ sampleDensity(n, dens, lower = 0)
 Vector of sampled values
 }
 \description{
-Sample from a density objet using rejection sampling
+Sample from a density object using rejection sampling
 }
 \details{
 Random points (x and y) are generated inside the range of the density object.

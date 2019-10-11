@@ -19,6 +19,6 @@ Select regulator genes in the gene network for a Kersplat simulation
 }
 \details{
 Regulators are randomly selected, weighted according to the difference
-between their out degree and in degree. This is an arbitary weighting and
+between their out degree and in degree. This is an arbitrary weighting and
 may be improved or replace in the future.
 }

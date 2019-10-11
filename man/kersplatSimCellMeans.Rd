@@ -9,7 +9,7 @@ kersplatSimCellMeans(sim, params, verbose)
 \arguments{
 \item{sim}{SingleCellExperiment containing simulation.}
 
-\item{params}{SplotParams object with simulation parameters.}
+\item{params}{KersplatParams object with simulation parameters.}
 
 \item{verbose}{logical. Whether to print progress messages}
 }
@@ -23,10 +23,10 @@ Simulate endogenous counts for each cell in a Kersplat simulation
 Cells are first assigned to a path and a step along that path. This is
 controlled by the \code{cells.design} parameter which is a \code{data.frame}
 with the columns "Path", "Probability", "Alpha" and "Beta". The Path field
-is an ID for each path and the Probabilty field is the probability that a
+is an ID for each path and the Probability field is the probability that a
 cell will come from that path (must sum to 1). The Alpha and Beta parameters
 control the density of cells along the path. After they are assigned to paths
-the step for each cell is sampled from a Beta distribution with paramaters
+the step for each cell is sampled from a Beta distribution with parameters
 shape1 equals Alpha and shape2 equals beta. This approach is very flexible
 and allows almost any distribution of cells along a path. The distribution
 can be viewed using \code{hist(rbeta(10000, Alpha, Beta), breaks = 100)}.

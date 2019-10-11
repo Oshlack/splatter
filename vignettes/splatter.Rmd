@@ -45,7 +45,7 @@ BiocManager::install("Oshlack/splatter", dependencies = TRUE,
 
 Assuming you already have a matrix of count data similar to that you wish to
 simulate there are two simple steps to creating a simulated data set with
-Splatter. Here is an example a mock dataset generted with the `scater` package:
+Splatter. Here is an example a mock dataset generated with the `scater` package:
 
 ```{r quickstart}
 # Load package

@@ -9,7 +9,7 @@ kersplatSimLibSizes(sim, params, verbose)
 \arguments{
 \item{sim}{SingleCellExperiment containing simulation.}
 
-\item{params}{SplotParams object with simulation parameters.}
+\item{params}{KersplatParams object with simulation parameters.}
 
 \item{verbose}{logical. Whether to print progress messages}
 }
@@ -17,7 +17,7 @@ kersplatSimLibSizes(sim, params, verbose)
 SingleCellExperiment with library sizes
 }
 \description{
-Generate library sizes for cells in the Kersplat simulatilon
+Generate library sizes for cells in the Kersplat simulation
 }
 \details{
 Library sizes are simulated in one of two ways depending on the value of the
