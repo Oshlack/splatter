@@ -8,21 +8,25 @@
 
 <title>Estimate Splat simulation parameters — splatEstimate • Splatter</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,12 +36,13 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Estimate Splat simulation parameters — splatEstimate" />
 
+<meta property="og:title" content="Estimate Splat simulation parameters — splatEstimate" />
 <meta property="og:description" content="Estimate simulation parameters for the Splat simulation from a real
 dataset. See the individual estimation functions for more details on how this
 is done." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -61,6 +66,7 @@ is done." />
   gtag('config', 'UA-52309538-4');
 </script>
 
+
   </head>
 
   <body>
@@ -77,7 +83,7 @@ is done." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
       </span>
     </div>
 
@@ -85,7 +91,7 @@ is done." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -111,11 +117,10 @@ is done." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/Oshlack/splatter">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -126,6 +131,7 @@ is done." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -137,11 +143,9 @@ is done." />
     </div>
 
     <div class="ref-description">
-    
     <p>Estimate simulation parameters for the Splat simulation from a real
 dataset. See the individual estimation functions for more details on how this
 is done.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>splatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSplatParams</a></span>())
@@ -152,7 +156,7 @@ is done.</p>
 
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>splatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSplatParams</a></span>())</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -166,84 +170,81 @@ containing count data to estimate parameters from.</p></td>
       <td><p>SplatParams object to store estimated values in.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>SplatParams object containing the estimated parameters.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='splatEstMean.html'>splatEstMean</a></code>,  <code><a href='splatEstLib.html'>splatEstLib</a></code>,
 <code><a href='splatEstOutlier.html'>splatEstOutlier</a></code>, <code><a href='splatEstBCV.html'>splatEstBCV</a></code>,
 <code><a href='splatEstDropout.html'>splatEstDropout</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>scater</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/scater/topics/mockSCE'>mockSCE</a></span>()
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>scater</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/scater/man/mockSCE.html'>mockSCE</a></span>()
 
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>splatEstimate</span>(<span class='no'>sce</span>)</div><div class='output co'>#&gt; <span class='message'>NOTE: Library sizes have been found to be normally distributed instead of log-normal. You may want to check this is correct.</span></div><div class='input'><span class='no'>params</span></div><div class='output co'>#&gt; A <span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>SplatParams</span><span> 
-#&gt; Parameters can be (estimable) or </span><span style='color: #0000BB;'>[not estimable],</span><span> 'Default' or  </span><span style='color: #00BB00;font-weight: bold;'>'NOT DEFAULT'</span><span> 
+<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>splatEstimate</span>(<span class='no'>sce</span>)</div><div class='output co'>#&gt; <span class='message'>NOTE: Library sizes have been found to be normally distributed instead of log-normal. You may want to check this is correct.</span></div><div class='input'><span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class SplatParams 
+#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
+#&gt; Secondary parameters are usually set during simulation
 #&gt; 
-#&gt; </span><span style='font-weight: bold;'>Global:</span><span> 
-#&gt; </span><span style='font-weight: bold;'>(GENES)</span><span>  </span><span style='font-weight: bold;'>(CELLS)</span><span>  </span><span style='color: #0000BB;'> [Seed]</span><span> 
-#&gt; </span><span style='color: #00BB00;font-weight: bold;'>   2000</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>    200</span><span>   848036 
+#&gt; Global: 
+#&gt; (GENES)  (CELLS)   [Seed] 
+#&gt;    2000      200   518072 
 #&gt; 
 #&gt; 28 additional parameters 
 #&gt; 
-#&gt; </span><span style='font-weight: bold;'>Batches:</span><span> 
-#&gt; </span><span style='color: #0000BB;font-weight: bold;'>    [BATCHES]</span><span>  </span><span style='color: #0000BB;font-weight: bold;'>[BATCH CELLS]</span><span>  </span><span style='color: #0000BB;'>   [Location]</span><span>  </span><span style='color: #0000BB;'>      [Scale]</span><span> 
-#&gt; </span><span style='color: #00BB00;font-weight: bold;'>            1</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>          200</span><span>            0.1            0.1 
+#&gt; Batches: 
+#&gt;     [BATCHES]  [BATCH CELLS]     [Location]        [Scale] 
+#&gt;             1            200            0.1            0.1 
 #&gt; 
-#&gt; </span><span style='font-weight: bold;'>Mean:</span><span> 
-#&gt; </span><span style='font-weight: bold;'>           (RATE)</span><span>  </span><span style='font-weight: bold;'>          (SHAPE)</span><span> 
-#&gt; </span><span style='color: #00BB00;font-weight: bold;'>0.002962686167343</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>0.496997730070513</span><span> 
+#&gt; Mean: 
+#&gt;            (RATE)            (SHAPE) 
+#&gt; 0.002962686167343  0.496997730070513 
 #&gt; 
-#&gt; </span><span style='font-weight: bold;'>Library size:</span><span> 
-#&gt; </span><span style='font-weight: bold;'>      (LOCATION)</span><span>  </span><span style='font-weight: bold;'>         (SCALE)</span><span>  </span><span style='font-weight: bold;'>          (NORM)</span><span> 
-#&gt; </span><span style='color: #00BB00;font-weight: bold;'>      357331.235</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>11607.2332293176</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>            TRUE</span><span> 
+#&gt; Library size: 
+#&gt;       (LOCATION)           (SCALE)            (NORM) 
+#&gt;       357331.235  11607.2332293176              TRUE 
 #&gt; 
-#&gt; </span><span style='font-weight: bold;'>Exprs outliers:</span><span> 
-#&gt; </span><span style='font-weight: bold;'>(PROBABILITY)</span><span>     (Location)        (Scale) 
-#&gt; </span><span style='color: #00BB00;font-weight: bold;'>            0</span><span>              4            0.5 
+#&gt; Exprs outliers: 
+#&gt; (PROBABILITY)     (Location)        (Scale) 
+#&gt;             0              4            0.5 
 #&gt; 
-#&gt; </span><span style='font-weight: bold;'>Groups:</span><span> 
-#&gt; </span><span style='color: #0000BB;'>     [Groups]</span><span>  </span><span style='color: #0000BB;'>[Group Probs]</span><span> 
+#&gt; Groups: 
+#&gt;      [Groups]  [Group Probs] 
 #&gt;             1              1 
 #&gt; 
-#&gt; </span><span style='font-weight: bold;'>Diff expr:</span><span> 
-#&gt; </span><span style='color: #0000BB;'>[Probability]</span><span>  </span><span style='color: #0000BB;'>  [Down Prob]</span><span>  </span><span style='color: #0000BB;'>   [Location]</span><span>  </span><span style='color: #0000BB;'>      [Scale]</span><span> 
+#&gt; Diff expr: 
+#&gt; [Probability]    [Down Prob]     [Location]        [Scale] 
 #&gt;           0.1            0.5            0.1            0.4 
 #&gt; 
-#&gt; </span><span style='font-weight: bold;'>BCV:</span><span> 
-#&gt; </span><span style='font-weight: bold;'>    (COMMON DISP)</span><span>  </span><span style='font-weight: bold;'>            (DOF)</span><span> 
-#&gt; </span><span style='color: #00BB00;font-weight: bold;'>0.752043426792845</span><span>  </span><span style='color: #00BB00;font-weight: bold;'> 11211.8933424157</span><span> 
+#&gt; BCV: 
+#&gt;     (COMMON DISP)              (DOF) 
+#&gt; 0.752043426792845   11211.8933424157 
 #&gt; 
-#&gt; </span><span style='font-weight: bold;'>Dropout:</span><span> 
-#&gt; </span><span style='color: #0000BB;'>           [Type]</span><span>  </span><span style='font-weight: bold;'>       (MIDPOINT)</span><span>  </span><span style='font-weight: bold;'>          (SHAPE)</span><span> 
-#&gt;              none  </span><span style='color: #00BB00;font-weight: bold;'> 2.71153535179343</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>-1.37209356733765</span><span> 
+#&gt; Dropout: 
+#&gt;            [Type]         (MIDPOINT)            (SHAPE) 
+#&gt;              none   2.71153535179343  -1.37209356733765 
 #&gt; 
-#&gt; </span><span style='font-weight: bold;'>Paths:</span><span> 
-#&gt; </span><span style='color: #0000BB;'>        [From]</span><span>  </span><span style='color: #0000BB;'>       [Steps]</span><span>  </span><span style='color: #0000BB;'>        [Skew]</span><span>  </span><span style='color: #0000BB;'>  [Non-linear]</span><span>  </span><span style='color: #0000BB;'>[Sigma Factor]</span><span> 
+#&gt; Paths: 
+#&gt;         [From]         [Steps]          [Skew]    [Non-linear]  [Sigma Factor] 
 #&gt;              0             100             0.5             0.1             0.8 
-#&gt; </div></span></pre>
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -251,13 +252,16 @@ containing count data to estimate parameters from.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

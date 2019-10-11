@@ -14,6 +14,7 @@ reference:
       - '`setParam`'
       - '`setParams`'
       - '`BASiCSParams`'
+      - '`KersplatParams`'
       - '`Lun2Params`'
       - '`LunParams`'
       - '`MFAParams`'
@@ -28,6 +29,7 @@ reference:
     desc: Functions for estimating parameters
     contents:
       - '`BASiCSEstimate`'
+      - '`kersplatEstimate`'
       - '`lun2Estimate`'
       - '`lunEstimate`'
       - '`mfaEstimate`'
@@ -46,6 +48,7 @@ reference:
     desc: Functions for simulating datasets
     contents:
       - '`BASiCSSimulate`'
+      - '`kersplatSimulate`'
       - '`lun2Simulate`'
       - '`lunSimulate`'
       - '`mfaSimulate`'
