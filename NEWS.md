@@ -1,5 +1,7 @@
 # DEVELOPMENT VERSION
 
+* Add missing documentation for sce argument in getCounts
+
 ## Version 1.9.8 (2019-10-11)
 
 * Add Kersplat simulation! Still experimental but is useable.
