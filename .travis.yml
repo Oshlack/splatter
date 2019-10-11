@@ -7,7 +7,7 @@ r:
 cache: packages
 
 install:
-- R -e 'devtools::install_deps(dep = c("Depends", "Imports")'
+- R -e 'devtools::install_deps(dep = c("Depends", "Imports"))'
 
 after_success:
   - Rscript -e 'covr::codecov()'
