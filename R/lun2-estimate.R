@@ -43,7 +43,7 @@ lun2Estimate.SingleCellExperiment <- function(counts, plates,
                                               params = newLun2Params(),
                                               min.size = 200, verbose = TRUE,
                                               BPPARAM = SerialParam()) {
-    counts <- BiocGenerics::counts(counts)
+    counts <- getCounts(counts)
     lun2Estimate(counts, plates, params, min.size = min.size, verbose = verbose,
                  BPPARAM = BPPARAM)
 }

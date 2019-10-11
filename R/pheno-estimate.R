@@ -33,7 +33,7 @@ phenoEstimate <- function(counts, params = newPhenoParams()) {
 #' @export
 phenoEstimate.SingleCellExperiment <- function(counts,
                                                params = newPhenoParams()) {
-    counts <- BiocGenerics::counts(counts)
+    counts <- getCounts(counts)
     phenoEstimate(counts, params)
 }
 

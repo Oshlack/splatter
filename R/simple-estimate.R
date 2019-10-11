@@ -32,7 +32,7 @@ simpleEstimate <- function(counts, params = newSimpleParams()) {
 #' @export
 simpleEstimate.SingleCellExperiment <- function(counts,
                                                 params = newSimpleParams()) {
-    counts <- BiocGenerics::counts(counts)
+    counts <- getCounts(counts)
     simpleEstimate(counts, params)
 }
 

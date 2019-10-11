@@ -46,7 +46,7 @@ sparseDCEstimate <- function(counts, conditions, nclusters, norm = TRUE,
 sparseDCEstimate.SingleCellExperiment <- function(counts, conditions, nclusters,
                                                   norm = TRUE,
                                                   params = newSparseDCParams()) {
-    counts <- BiocGenerics::counts(counts)
+    counts <- getCounts(counts)
     sparseDCEstimate(counts, conditions, nclusters, norm, params)
 }
 

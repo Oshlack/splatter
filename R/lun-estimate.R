@@ -29,7 +29,7 @@ lunEstimate <- function(counts, params = newLunParams()) {
 #' @rdname lunEstimate
 #' @export
 lunEstimate.SingleCellExperiment <- function(counts, params = newLunParams()) {
-    counts <- BiocGenerics::counts(counts)
+    counts <- getCounts(counts)
     lunEstimate(counts, params)
 }
 

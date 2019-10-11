@@ -33,7 +33,7 @@ mfaEstimate <- function(counts, params = newMFAParams()) {
 #' @export
 mfaEstimate.SingleCellExperiment <- function(counts,
                                              params = newMFAParams()) {
-    counts <- BiocGenerics::counts(counts)
+    counts <- getCounts(counts)
     mfaEstimate(counts, params)
 }
 

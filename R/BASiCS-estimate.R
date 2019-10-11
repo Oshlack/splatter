@@ -62,7 +62,7 @@ BASiCSEstimate.SingleCellExperiment <- function(counts, spike.info = NULL,
                                                 params = newBASiCSParams(),
                                                 verbose = TRUE, progress = TRUE,
                                                 ...) {
-    counts <- BiocGenerics::counts(counts)
+    counts <- getCounts(counts)
     BASiCSEstimate(counts, spike.info, batch, n, thin, burn, regression,
                    params, verbose, progress, ...)
 }
