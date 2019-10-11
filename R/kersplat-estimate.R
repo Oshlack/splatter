@@ -34,7 +34,7 @@ kersplatEstimate <- function(counts, params = newKersplatParams(),
 kersplatEstimate.SingleCellExperiment <- function(counts,
                                                  params = newKersplatParams(),
                                                  verbose = TRUE) {
-    counts <- BiocGenerics::counts(counts)
+    counts <- getCounts(counts)
     kersplatEstimate(counts, params, verbose)
 }
 

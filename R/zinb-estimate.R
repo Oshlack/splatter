@@ -56,7 +56,7 @@ zinbEstimate.SingleCellExperiment <- function(counts, design.samples = NULL,
                                               params = newZINBParams(),
                                               verbose = TRUE,
                                               BPPARAM = SerialParam(), ...) {
-    counts <- BiocGenerics::counts(counts)
+    counts <- getCounts(counts)
     zinbEstimate(counts, design.samples, design.genes, common.disp,
                  iter.init, iter.opt, stop.opt, params, verbose, BPPARAM, ...)
 }

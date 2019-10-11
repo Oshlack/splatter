@@ -1,6 +1,10 @@
 # DEVELOPMENT VERSION
 
-## Version 1.9.8
+## Version 1.9.8 (2019-10-11)
+
+* Add Kersplat simulation! Still experimental but is useable.
+* Check for counts assay when estimating from SingleCellExperiment objects
+  (Fixes #82)
 
 ### Version 1.9.7.9019 (2019-10-11)
 

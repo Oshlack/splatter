@@ -142,3 +142,25 @@ addGeneLengths <- function(sce, method = c("generate", "sample"), loc = 7.9,
 
     return(sce)
 }
+
+#' Get counts
+#'
+#' Get counts matrix from a SingleCellExperiment object. If counts is missing
+#' a warning is issued and the first assay is returned.
+#'
+#' @param sce
+#'
+#' @return Counts matrix
+getCounts <- function(sce) {
+
+    checkmate::assertClass(sce, "SingleCellExperiment")
+
+    if ("counts" %in% SummarizedExperiment::assayNames(sce)) {
+        counts <- SingleCellExperiment::counts(sce)
+    } else {
+        warning("counts assay is missing, using the first assay instead")
+        counts <- SummarizedExperiment::assay(sce)
+    }
+
+    return(counts)
+}
