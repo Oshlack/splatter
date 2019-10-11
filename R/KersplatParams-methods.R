@@ -11,8 +11,9 @@ newKersplatParams <- function(...) {
         stop("The Kersplat simulation requires the 'DropletUtils' package.")
     }
 
-    msg <- paste("The Kersplat simulation is still experimental and may produce",
-                 "unreliable results. Please try it and report any issues to",
+    msg <- paste("The Kersplat simulation is still experimental and may",
+                 "produce unreliable results. Please try it and report any",
+                 "issues to",
                  "https://github.com/Oshlack/splatter/issues. The development",
                  "version may have improved features.")
     rlang:::warn_deprecated(msg, id = "warn.kersplat")
@@ -32,7 +33,8 @@ setValidity("KersplatParams", function(object) {
                 seed = checkmate::checkInt(v$seed, lower = 0),
                 mean.rate = checkmate::checkNumber(v$mean.rate, lower = 0),
                 mean.shape = checkmate::checkNumber(v$mean.shape, lower = 0),
-                mean.outProb = checkNumber(v$mean.outProb, lower = 0, upper = 1),
+                mean.outProb = checkNumber(v$mean.outProb, lower = 0,
+                                           upper = 1),
                 mean.outLoc = checkNumber(v$mean.outLoc),
                 mean.outScale = checkNumber(v$mean.outScale, lower = 0),
                 mean.dens = checkmate::checkClass(v$mean.dens, "density"),

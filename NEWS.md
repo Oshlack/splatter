@@ -1,7 +1,16 @@
+# DEVELOPMENT VERSION
+
+## Version 1.9.8
+
+### Version 1.9.7.9019 (2019-10-11)
+
+* Run checks
+
 ### Version 1.9.7.9018 (2019-10-10)
 
 * Document Splotch estimation functions
 * Add Splotch to listSims
+* Rename Splotch to Kersplat
 
 ### Version 1.9.7.9017 (2019-10-09)
 

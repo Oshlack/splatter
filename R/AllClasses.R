@@ -23,7 +23,7 @@ setClass("Params",
                    nCells = "numeric",
                    seed = "numeric"),
          prototype = prototype(nGenes = 10000, nCells = 100,
-                               seed = sample(1:1e6, 1)))
+                               seed = sample(seq_len(1e6), 1)))
 
 #' The SimpleParams class
 #'

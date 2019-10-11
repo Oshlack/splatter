@@ -89,12 +89,12 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         colData(sce)$PctZero <- 100 * (1 - n.features / nrow(sce))
         rowData(sce)$PctZero <- 100 - rowData(sce)$detected
 
-        var.genes <- rev(order(rowData(sce)$VarLogCPM))[1:100]
+        var.genes <- rev(order(rowData(sce)$VarLogCPM))[seq_len(100)]
         var.cpm <- log2(cpm(sce)[var.genes, ] + 1)
         var.cors <- as.data.frame.table(cor(t(var.cpm), method = "spearman"))
         colnames(var.cors) <- c("GeneA", "GeneB", "Correlation")
-        var.cors$VarGeneA <- rep(paste0("VarGene", 1:100), 100)
-        var.cors$VarGeneB <- rep(paste0("VarGene", 1:100), each = 100)
+        var.cors$VarGeneA <- rep(paste0("VarGene", seq_len(100)), 100)
+        var.cors$VarGeneB <- rep(paste0("VarGene", seq_len(100)), each = 100)
         var.cors$Dataset <- name
         var.cors <- var.cors[, c("Dataset", "GeneA", "GeneB", "VarGeneA",
                                  "VarGeneB", "Correlation")]
