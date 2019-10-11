@@ -13,6 +13,9 @@
     <loc>http://oshlack.github.io/splatter/reference/BASiCSSimulate.html</loc>
   </url>
   <url>
+    <loc>http://oshlack.github.io/splatter/reference/KersplatParams.html</loc>
+  </url>
+  <url>
     <loc>http://oshlack.github.io/splatter/reference/Lun2Params.html</loc>
   </url>
   <url>
@@ -64,6 +67,9 @@
     <loc>http://oshlack.github.io/splatter/reference/expandParams.html</loc>
   </url>
   <url>
+    <loc>http://oshlack.github.io/splatter/reference/getBetaStepProbs.html</loc>
+  </url>
+  <url>
     <loc>http://oshlack.github.io/splatter/reference/getLNormFactors.html</loc>
   </url>
   <url>
@@ -74,6 +80,54 @@
   </url>
   <url>
     <loc>http://oshlack.github.io/splatter/reference/getPathOrder.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatEstBCV.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatEstLib.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatEstMean.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatEstimate.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatGenNetwork.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatSample.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatSelectRegs.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatSetup.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatSimAmbientCounts.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatSimCellCounts.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatSimCellMeans.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatSimCounts.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatSimGeneMeans.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatSimLibSizes.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatSimPaths.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/kersplatSimulate.html</loc>
   </url>
   <url>
     <loc>http://oshlack.github.io/splatter/reference/listSims.html</loc>
@@ -121,10 +175,16 @@
     <loc>http://oshlack.github.io/splatter/reference/rbindMatched.html</loc>
   </url>
   <url>
+    <loc>http://oshlack.github.io/splatter/reference/sampleDensity.html</loc>
+  </url>
+  <url>
     <loc>http://oshlack.github.io/splatter/reference/scDDEstimate.html</loc>
   </url>
   <url>
     <loc>http://oshlack.github.io/splatter/reference/scDDSimulate.html</loc>
+  </url>
+  <url>
+    <loc>http://oshlack.github.io/splatter/reference/selectFit.html</loc>
   </url>
   <url>
     <loc>http://oshlack.github.io/splatter/reference/setParam.html</loc>
