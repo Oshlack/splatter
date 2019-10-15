@@ -1,6 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.9.8 (2019-10-16)
+
 * Add missing documentation for sce argument in getCounts
+* Update maintainer email address
 
 ## Version 1.9.8 (2019-10-11)
 
