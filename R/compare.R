@@ -79,8 +79,8 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         sce <- sces[[name]]
         rowData(sce)$Dataset <- name
         colData(sce)$Dataset <- name
-        sce <- scater::addQCPerCell(sce)
-        sce <- scater::addQCPerFeature(sce)
+        sce <- scater::addPerCellQC(sce)
+        sce <- scater::addPerFeatureQC(sce)
         cpm(sce) <- scater::calculateCPM(sce)
         sce <- addFeatureStats(sce, "counts")
         sce <- addFeatureStats(sce, "cpm")
@@ -358,8 +358,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         }
         rowData(sce)$Dataset <- name
         colData(sce)$Dataset <- name
-        sce <- scater::addQCPerCell(sce)
-        sce <- scater::addQCPerFeature(sce)
+        sce <- scater::addPerCellQC(sce)
+        sce <- scater::addPerFeatureQC(sce)
         cpm(sce) <- scater::calculateCPM(sce)
         sce <- addFeatureStats(sce, "counts")
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
