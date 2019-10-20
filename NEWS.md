@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.9.10 (2019-10-20)
+
+* Update scater QC function names
+
 ## Version 1.9.9 (2019-10-16)
 
 * Add missing documentation for sce argument in getCounts
@@ -8,8 +12,8 @@
 ## Version 1.9.8 (2019-10-11)
 
 * Add Kersplat simulation! Still experimental but is useable.
-* Check for counts assay when estimating from SingleCellExperiment objects
-  (Fixes #82)
+`* Check for counts assay when estimating from SingleCellExperiment objects
+`  (Fixes #82)
 * Fix where simpleSimulate stores parameters (Fixes #72)
 
 ### Version 1.9.7.9019 (2019-10-11)
