@@ -17,7 +17,9 @@
     function.}
     \item{Tidy and improve estimation function examples and add checks for
     suggested packages.}
-    \item{Various fixes for compatibility with updates to other packages.}
+    \item{Various fixes for compatibility with updates to other
+      packages.}
+    }
 }
 
 \section{Version 1.8.0, Bioconductor 3.9 Release (2019-04-18)}{
