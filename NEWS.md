@@ -1,4 +1,6 @@
-# DEVELOPMENT VERSION
+# Version 1.10.0 (2019-10-30)
+
+* Bioconductor 3.10 release
 
 ## Version 1.9.11 (2019-10-20)
 
