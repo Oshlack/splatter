@@ -10,8 +10,12 @@ sudo: false
 dist: xenial
 addons:
   apt:
+    update: true
+    sources:
+      - sourceline: 'ppa:opencpu/imagemagick'
     packages:
       - libgsl-dev # dependency for gsl>copula>zinbwave
+      - libmagick++-dev # dependency for magick
 
 #install: skip
 
