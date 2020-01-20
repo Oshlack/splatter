@@ -2,6 +2,7 @@
 
 language: R
 r:
+  - release
   - bioc-devel
 #  - bioc-release
 sudo: false
