@@ -14,7 +14,7 @@ addons:
     packages:
       - libgsl-dev # dependency for gsl>copula>zinbwave
 
-install: skip
+#install: skip
 #before_install:
 #  r_packages:
 #    - knitr
