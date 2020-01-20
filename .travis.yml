@@ -16,7 +16,7 @@ addons:
 
 install: skip
 before_install:
-  r_binary_packages:
+  r_packages:
     - knitr
 #install:
 #  - R -e 'install.packages("devtools")'
@@ -30,4 +30,4 @@ notifications:
     recipients:
       - cazodi@svi.edu.au
     on_success: never
-    on_failure: always
+    on_failure: never
