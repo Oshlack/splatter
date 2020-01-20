@@ -15,7 +15,9 @@ addons:
       - libgsl-dev # dependency for gsl>copula>zinbwave
 
 install: skip
-
+before_install:
+  r_binary_packages:
+    - knitr
 #install:
 #  - R -e 'install.packages("devtools")'
 #  - R -e 'devtools::install(dependencies = TRUE, upgrade_dependencies = TRUE)'
