@@ -18,7 +18,8 @@ addons:
 #before_install:
 #  r_packages:
 #    - knitr
-#install:
+install:
+   - R -e 'install.packages("knitr")'
 #  - R -e 'install.packages("devtools")'
 #  - R -e 'devtools::install(dependencies = TRUE, upgrade_dependencies = TRUE)'
 
