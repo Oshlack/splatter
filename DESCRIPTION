@@ -32,6 +32,7 @@ Imports:
     fitdistrplus,
     ggplot2,
     locfit,
+    data.table,
     matrixStats,
     methods,
     scales,
