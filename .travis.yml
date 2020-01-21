@@ -5,7 +5,7 @@ r:
   - bioc-devel
 #  - bioc-release
 sudo: false
-#cache: packages
+cache: packages
 
 dist: xenial
 addons:

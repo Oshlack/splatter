@@ -28,3 +28,5 @@ vignettes/*.pdf
 inst/doc
 doc
 Meta
+# Testing datasets
+test_data/*
