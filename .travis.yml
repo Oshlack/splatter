@@ -17,7 +17,7 @@ addons:
       - libgsl-dev # dependency for gsl>copula>zinbwave
       - libmagick++-dev # dependency for magick
 
-#install: skip
+install: skip
 
 install:
   - R -e 'install.packages("knitr")'
