@@ -3,6 +3,7 @@
 language: R
 r:
   - bioc-devel
+  - release
 #  - bioc-release
 sudo: false
 cache: packages
@@ -18,7 +19,7 @@ addons:
       - libmagick++-dev # dependency for magick
 
 install: skip
-
+Remotes: cran/dplyr@0.7.8
 #install:
 #  - R -e 'install.packages("knitr")'
 #  - R -e 'install.packages("devtools")'
