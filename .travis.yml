@@ -3,12 +3,13 @@
 language: R
 r:
   - bioc-devel
-  - release
+#  - release
 #  - bioc-release
 sudo: false
 cache: packages
 
 dist: xenial
+
 addons:
   apt:
     update: true
@@ -26,7 +27,7 @@ install: skip
 
 after_success:
   - Rscript -e 'covr::codecov()'
-
+r_check_args: "--no-vignettes"
 notifications:
   email:
     recipients:
