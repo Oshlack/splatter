@@ -18,8 +18,11 @@ addons:
       - libgsl-dev # dependency for gsl>copula>zinbwave
       - libmagick++-dev # dependency for magick
 
+before_install: 
+  r_binary_packages:
+    - knitr
+
 install: skip
-Remotes: cran/dplyr@0.7.8
 #install:
 #  - R -e 'install.packages("knitr")'
 #  - R -e 'install.packages("devtools")'
