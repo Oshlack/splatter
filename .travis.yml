@@ -19,10 +19,10 @@ addons:
 
 install: skip
 
-install:
-  - R -e 'install.packages("knitr")'
-  - R -e 'install.packages("devtools")'
-  - R -e 'devtools::install(dependencies = TRUE, upgrade_dependencies = TRUE)'
+#install:
+#  - R -e 'install.packages("knitr")'
+#  - R -e 'install.packages("devtools")'
+#  - R -e 'devtools::install(dependencies = TRUE, upgrade_dependencies = TRUE)'
 
 after_success:
   - Rscript -e 'covr::codecov()'
