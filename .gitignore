@@ -30,3 +30,5 @@ doc
 Meta
 # Testing datasets
 test_data/*
+# Output from eQTL 
+eqtl_out/*
