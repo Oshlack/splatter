@@ -13,12 +13,12 @@ dist: xenial
 addons:
   apt:
 #    update: true
-#    sources:
-#      - sourceline: 'ppa:opencpu/imagemagick'
+    sources:
+      - sourceline: 'ppa:opencpu/imagemagick'
     packages:
       - libgsl-dev # dependency for gsl>copula>zinbwave
-#      - libmagick++-dev # dependency for magick
-
+      - libmagick++-dev # dependency for magick
+r_check_args: "--no-vignettes"
 #install: skip
 #install:
 #  - R -e 'install.packages("knitr")'
@@ -27,7 +27,7 @@ addons:
 
 after_success:
   - Rscript -e 'covr::codecov()'
-#r_check_args: "--no-vignettes"
+
 notifications:
   email:
     recipients:
