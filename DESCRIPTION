@@ -49,7 +49,6 @@ Suggests:
     cowplot,
     magick,
     dplyr,
-    knitr,
     limSolve,
     lme4,
     progress,
