@@ -6,15 +6,32 @@
 \alias{lun2Estimate.matrix}
 \title{Estimate Lun2 simulation parameters}
 \usage{
-lun2Estimate(counts, plates, params = newLun2Params(), min.size = 200,
-  verbose = TRUE, BPPARAM = SerialParam())
+lun2Estimate(
+  counts,
+  plates,
+  params = newLun2Params(),
+  min.size = 200,
+  verbose = TRUE,
+  BPPARAM = SerialParam()
+)
 
-\method{lun2Estimate}{SingleCellExperiment}(counts, plates,
-  params = newLun2Params(), min.size = 200, verbose = TRUE,
-  BPPARAM = SerialParam())
+\method{lun2Estimate}{SingleCellExperiment}(
+  counts,
+  plates,
+  params = newLun2Params(),
+  min.size = 200,
+  verbose = TRUE,
+  BPPARAM = SerialParam()
+)
 
-\method{lun2Estimate}{matrix}(counts, plates, params = newLun2Params(),
-  min.size = 200, verbose = TRUE, BPPARAM = SerialParam())
+\method{lun2Estimate}{matrix}(
+  counts,
+  plates,
+  params = newLun2Params(),
+  min.size = 200,
+  verbose = TRUE,
+  BPPARAM = SerialParam()
+)
 }
 \arguments{
 \item{counts}{either a counts matrix or a SingleCellExperiment object

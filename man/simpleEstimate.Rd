@@ -8,8 +8,7 @@
 \usage{
 simpleEstimate(counts, params = newSimpleParams())
 
-\method{simpleEstimate}{SingleCellExperiment}(counts,
-  params = newSimpleParams())
+\method{simpleEstimate}{SingleCellExperiment}(counts, params = newSimpleParams())
 
 \method{simpleEstimate}{matrix}(counts, params = newSimpleParams())
 }

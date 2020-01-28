@@ -8,8 +8,7 @@
 \usage{
 phenoEstimate(counts, params = newPhenoParams())
 
-\method{phenoEstimate}{SingleCellExperiment}(counts,
-  params = newPhenoParams())
+\method{phenoEstimate}{SingleCellExperiment}(counts, params = newPhenoParams())
 
 \method{phenoEstimate}{matrix}(counts, params = newPhenoParams())
 }
