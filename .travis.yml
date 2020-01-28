@@ -6,7 +6,7 @@ r:
 #  - release
 #  - bioc-release
 sudo: false
-cache: packages
+#cache: packages
 
 dist: xenial
 
