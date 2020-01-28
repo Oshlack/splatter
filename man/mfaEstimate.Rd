@@ -8,8 +8,7 @@
 \usage{
 mfaEstimate(counts, params = newMFAParams())
 
-\method{mfaEstimate}{SingleCellExperiment}(counts,
-  params = newMFAParams())
+\method{mfaEstimate}{SingleCellExperiment}(counts, params = newMFAParams())
 
 \method{mfaEstimate}{matrix}(counts, params = newMFAParams())
 }

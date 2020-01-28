@@ -3,7 +3,6 @@
 \docType{package}
 \name{splatter}
 \alias{splatter}
-\alias{splatter-package}
 \title{splatter.}
 \description{
 \pkg{splatter} is a package for the well-documented and reproducible

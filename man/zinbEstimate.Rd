@@ -6,21 +6,47 @@
 \alias{zinbEstimate.matrix}
 \title{Estimate ZINB-WaVE simulation parameters}
 \usage{
-zinbEstimate(counts, design.samples = NULL, design.genes = NULL,
-  common.disp = TRUE, iter.init = 2, iter.opt = 25,
-  stop.opt = 1e-04, params = newZINBParams(), verbose = TRUE,
-  BPPARAM = SerialParam(), ...)
+zinbEstimate(
+  counts,
+  design.samples = NULL,
+  design.genes = NULL,
+  common.disp = TRUE,
+  iter.init = 2,
+  iter.opt = 25,
+  stop.opt = 1e-04,
+  params = newZINBParams(),
+  verbose = TRUE,
+  BPPARAM = SerialParam(),
+  ...
+)
 
-\method{zinbEstimate}{SingleCellExperiment}(counts,
-  design.samples = NULL, design.genes = NULL, common.disp = TRUE,
-  iter.init = 2, iter.opt = 25, stop.opt = 1e-04,
-  params = newZINBParams(), verbose = TRUE, BPPARAM = SerialParam(),
-  ...)
+\method{zinbEstimate}{SingleCellExperiment}(
+  counts,
+  design.samples = NULL,
+  design.genes = NULL,
+  common.disp = TRUE,
+  iter.init = 2,
+  iter.opt = 25,
+  stop.opt = 1e-04,
+  params = newZINBParams(),
+  verbose = TRUE,
+  BPPARAM = SerialParam(),
+  ...
+)
 
-\method{zinbEstimate}{matrix}(counts, design.samples = NULL,
-  design.genes = NULL, common.disp = TRUE, iter.init = 2,
-  iter.opt = 25, stop.opt = 1e-04, params = newZINBParams(),
-  verbose = TRUE, BPPARAM = SerialParam(), ...)
+\method{zinbEstimate}{matrix}(
+  counts,
+  design.samples = NULL,
+  design.genes = NULL,
+  common.disp = TRUE,
+  iter.init = 2,
+  iter.opt = 25,
+  stop.opt = 1e-04,
+  params = newZINBParams(),
+  verbose = TRUE,
+  BPPARAM = SerialParam(),
+  ...
+)
 }
 \arguments{
 \item{counts}{either a counts matrix or a SingleCellExperiment object
