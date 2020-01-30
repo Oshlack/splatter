@@ -8,8 +8,7 @@
 \usage{
 splatEstimate(counts, params = newSplatParams())
 
-\method{splatEstimate}{SingleCellExperiment}(counts,
-  params = newSplatParams())
+\method{splatEstimate}{SingleCellExperiment}(counts, params = newSplatParams())
 
 \method{splatEstimate}{matrix}(counts, params = newSplatParams())
 }

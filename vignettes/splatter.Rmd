@@ -226,8 +226,9 @@ in `scater`. For example we can make a PCA plot:
 
 ```{r pca}
 # Use scater to calculate logcounts
-sim <- normalize(sim)
+sim <- logNormCounts(sim)
 # Plot PCA
+sim <- runPCA(sim)
 plotPCA(sim)
 ```
 
@@ -286,7 +287,8 @@ printing progress messages.)
 ```{r groups}
 sim.groups <- splatSimulate(group.prob = c(0.5, 0.5), method = "groups",
                             verbose = FALSE)
-sim.groups <- normalize(sim.groups)
+sim.groups <- logNormCounts(sim.groups)
+sim.groups <- runPCA(sim.groups)
 plotPCA(sim.groups, colour_by = "Group")
 ```
 
@@ -305,7 +307,8 @@ method.
 
 ```{r paths}
 sim.paths <- splatSimulate(method = "paths", verbose = FALSE)
-sim.paths <- normalize(sim.paths)
+sim.paths <- logNormCounts(sim.paths)
+sim.paths <- runPCA(sim.paths)
 plotPCA(sim.paths, colour_by = "Step")
 ```
 
@@ -325,7 +328,8 @@ cells are in each batch:
 
 ```{r batches}
 sim.batches <- splatSimulate(batchCells = c(50, 50), verbose = FALSE)
-sim.batches <- normalize(sim.batches)
+sim.batches <- logNormCounts(sim.batches)
+sim.batches <- runPCA(sim.batches)
 plotPCA(sim.batches, colour_by = "Batch")
 ```
 
@@ -339,7 +343,8 @@ that we aren't interested in (batch) and the wanted variation we are looking for
 ```{r batch-groups}
 sim.groups <- splatSimulate(batchCells = c(50, 50), group.prob = c(0.5, 0.5),
                             method = "groups", verbose = FALSE)
-sim.groups <- normalize(sim.groups)
+sim.groups <- logNormCounts(sim.groups)
+sim.groups <- runPCA(sim.groups)
 plotPCA(sim.groups, shape_by = "Batch", colour_by = "Group")
 ```
 

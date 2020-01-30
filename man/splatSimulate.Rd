@@ -7,8 +7,12 @@
 \alias{splatSimulatePaths}
 \title{Splat simulation}
 \usage{
-splatSimulate(params = newSplatParams(), method = c("single", "groups",
-  "paths"), verbose = TRUE, ...)
+splatSimulate(
+  params = newSplatParams(),
+  method = c("single", "groups", "paths"),
+  verbose = TRUE,
+  ...
+)
 
 splatSimulateSingle(params = newSplatParams(), verbose = TRUE, ...)
 

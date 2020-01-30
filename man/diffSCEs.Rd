@@ -4,8 +4,14 @@
 \alias{diffSCEs}
 \title{Diff SingleCellExperiment objects}
 \usage{
-diffSCEs(sces, ref, point.size = 0.1, point.alpha = 0.1, fits = TRUE,
-  colours = NULL)
+diffSCEs(
+  sces,
+  ref,
+  point.size = 0.1,
+  point.alpha = 0.1,
+  fits = TRUE,
+  colours = NULL
+)
 }
 \arguments{
 \item{sces}{named list of SingleCellExperiment objects to combine and
