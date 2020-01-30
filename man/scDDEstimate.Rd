@@ -7,18 +7,40 @@
 \alias{scDDEstimate.default}
 \title{Estimate scDD simulation parameters}
 \usage{
-scDDEstimate(counts, params = newSCDDParams(), verbose = TRUE,
-  BPPARAM = SerialParam(), ...)
+scDDEstimate(
+  counts,
+  params = newSCDDParams(),
+  verbose = TRUE,
+  BPPARAM = SerialParam(),
+  ...
+)
 
-\method{scDDEstimate}{matrix}(counts, params = newSCDDParams(),
-  verbose = TRUE, BPPARAM = SerialParam(), conditions, ...)
+\method{scDDEstimate}{matrix}(
+  counts,
+  params = newSCDDParams(),
+  verbose = TRUE,
+  BPPARAM = SerialParam(),
+  conditions,
+  ...
+)
 
-\method{scDDEstimate}{SingleCellExperiment}(counts,
-  params = newSCDDParams(), verbose = TRUE, BPPARAM = SerialParam(),
-  condition = "condition", ...)
+\method{scDDEstimate}{SingleCellExperiment}(
+  counts,
+  params = newSCDDParams(),
+  verbose = TRUE,
+  BPPARAM = SerialParam(),
+  condition = "condition",
+  ...
+)
 
-\method{scDDEstimate}{default}(counts, params = newSCDDParams(),
-  verbose = TRUE, BPPARAM = SerialParam(), condition, ...)
+\method{scDDEstimate}{default}(
+  counts,
+  params = newSCDDParams(),
+  verbose = TRUE,
+  BPPARAM = SerialParam(),
+  condition,
+  ...
+)
 }
 \arguments{
 \item{counts}{either a counts matrix or a SingleCellExperiment object
