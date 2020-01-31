@@ -5,6 +5,8 @@ name: R-CMD-check
 jobs:
   R-CMD-check:
     runs-on: macOS-latest
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
     steps:
       - uses: actions/checkout@v1
       - uses: r-lib/actions/setup-r@master
