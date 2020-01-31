@@ -3,6 +3,10 @@
 language: R
 r: bioc-devel
 
+env:
+ global:
+   - _R_CHECK_FORCE_SUGGESTS_: false
+
 addons:
   apt:
     update: true
