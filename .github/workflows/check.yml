@@ -11,10 +11,10 @@ jobs:
       - uses: actions/checkout@v1
       - uses: r-lib/actions/setup-r@master
         with:
-            r-version: devel
+          r-version: devel
       - uses: r-lib/actions/setup-pandoc@master
       - name: Install additional system dependencies
-        run: brew install gsl
+        run: brew install gsl magick
       - name: Install dependencies
         run: Rscript -e "install.packages(c('remotes', 'rcmdcheck'))" -e "remotes::install_deps(dependencies = TRUE)"
       - name: Check
