@@ -3,6 +3,14 @@
 language: R
 r: bioc-devel
 
+addons:
+  apt:
+    update: true
+    sources:
+      - sourceline: 'ppa:opencpu/imagemagick'
+    packages:
+      - libmagick++-dev
+
 cache: packages
 
 install:
