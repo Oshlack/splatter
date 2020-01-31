@@ -148,7 +148,7 @@ addGeneLengths <- function(sce, method = c("generate", "sample"), loc = 7.9,
 #' Get counts matrix from a SingleCellExperiment object. If counts is missing
 #' a warning is issued and the first assay is returned.
 #'
-#' @param sce
+#' @param sce SingleCellExperiment object
 #'
 #' @return Counts matrix
 getCounts <- function(sce) {

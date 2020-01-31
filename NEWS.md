@@ -1,5 +1,31 @@
 # DEVELOPMENT VERSION
 
+## Version 1.11.1 (2010-01-30)
+
+* Replace defunct scater function in vignettes
+* Update Roxygen version
+
+## Version 1.11.0 (2019-10-30)
+
+* Bioconductor 3.11 devel
+
+# Version 1.10.0 (2019-10-30)
+
+* Bioconductor 3.10 release
+
+## Version 1.9.11 (2019-10-20)
+
+* Update NEWS.Rd
+
+## Version 1.9.10 (2019-10-20)
+
+* Update scater QC function names
+
+## Version 1.9.9 (2019-10-16)
+
+* Add missing documentation for sce argument in getCounts
+* Update maintainer email address
+
 ## Version 1.9.8 (2019-10-11)
 
 * Add Kersplat simulation! Still experimental but is useable.

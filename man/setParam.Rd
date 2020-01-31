@@ -3,7 +3,6 @@
 %   R/KersplatParams-methods.R, R/Lun2Params-methods.R, R/LunParams-methods.R,
 %   R/Params-methods.R, R/PhenoParams-methods.R, R/SCDDParams-methods.R,
 %   R/SplatParams-methods.R, R/ZINBParams-methods.R
-\docType{methods}
 \name{setParam}
 \alias{setParam}
 \alias{setParam,BASiCSParams-method}

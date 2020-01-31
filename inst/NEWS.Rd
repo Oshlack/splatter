@@ -1,7 +1,28 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
-\section{Version 1.8.0, Bioconductor 3.9 Release (2018-04-18)}{
+\section{Version 1.10.0, Bioconductor 3.10 Release (2019-10-20)}{
+  \itemize{
+    \item{Add the (experimental) Kersplat simulation model. This model
+    incorporates a gene network and other useful features.}
+    \item{Refactor the summariseDiff function and add the KS statistic.}
+    \item{Add variable gene correlation plot to compareSCEs and violins to
+    other comparison plots.}
+    \item{Check for counts assay when estimating from SingleCellExperiment
+    objects.}
+    \item{Fix where simpleSimulate stores parameters.}
+    \item{Fix bugs where parameters were not being passed correctly in
+    BASiCSEstimate and sparseDCEstimate.}
+    \item{Replace the sc_example_counts dataset from scater with the mockSCE
+    function.}
+    \item{Tidy and improve estimation function examples and add checks for
+    suggested packages.}
+    \item{Various fixes for compatibility with updates to other
+      packages.}
+    }
+}
+
+\section{Version 1.8.0, Bioconductor 3.9 Release (2019-04-18)}{
   \itemize{
     \item{Add a Splat parameters vignette}
     \item{Rename the Splat path.length parameter to path.nSteps}

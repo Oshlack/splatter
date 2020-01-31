@@ -4,10 +4,12 @@
 \alias{makeDiffPanel}
 \title{Make difference panel}
 \usage{
-makeDiffPanel(diff, title = "Difference comparison",
-  labels = c("Means", "Variance", "Library size", "Zeros per cell",
-  "Zeros per gene", "Mean-variance relationship",
-  "Mean-zeros relationship"))
+makeDiffPanel(
+  diff,
+  title = "Difference comparison",
+  labels = c("Means", "Variance", "Library size", "Zeros per cell", "Zeros per gene",
+    "Mean-variance relationship", "Mean-zeros relationship")
+)
 }
 \arguments{
 \item{diff}{list returned by \code{\link{diffSCEs}}.}
