@@ -14,7 +14,7 @@ addons:
 cache: packages
 
 install:
-    - R -e 'install.packages("devtools")'
+    - R -e 'install.packages(c("devtools", "knitr"))'
     - R -e 'devtools::install_deps(dep = c("Depends", "Imports"))'
 
 after_success:
