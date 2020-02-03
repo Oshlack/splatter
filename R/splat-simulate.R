@@ -150,16 +150,6 @@ splatSimulate <- function(params = newSplatParams(),
     # Set random seed
     seed <- getParam(params, "seed")
     set.seed(seed)
-
-    # Run sanity checks
-    if (is.null(eqtl) && method == "eqtl" ){
-        warning("No eQTL parameter provided, switching to single mode")
-        method <- "single"
-    }
-    if (nGroups == 1 && method == "groups") {
-        warning("nGroups is 1, switching to single mode")
-        method <- "single"
-    }
     
     # Get the parameters we are going to use
     nCells <- getParam(params, "nCells")
@@ -171,6 +161,16 @@ splatSimulate <- function(params = newSplatParams(),
     batch.cells <- getParam(params, "batchCells")
     nGroups <- getParam(params, "nGroups")
     group.prob <- getParam(params, "group.prob")
+    
+    # Run sanity checks
+    if (is.null(eqtl) && method == "eqtl" ){
+        warning("No eQTL parameter provided, switching to single mode")
+        method <- "single"
+    }
+    if (nGroups == 1 && method == "groups") {
+        warning("nGroups is 1, switching to single mode")
+        method <- "single"
+    }
     
     # Set up name vectors
     if (verbose) {message("Creating simulation object...")}
