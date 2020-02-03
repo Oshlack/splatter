@@ -143,6 +143,10 @@ sim <- splatSimulate(params, batchCells = c(100, 100), verbose = FALSE)
 
 # PCA plot using scater
 sim <- logNormCounts(sim)
+<<<<<<< HEAD
+=======
+sim <- runPCA(sim)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim, colour_by = "Batch")
 ```
 
@@ -160,6 +164,10 @@ sim1 <- splatSimulate(params, batchCells = c(100, 100),
                       batch.facLoc = 0.001, batch.facScale = 0.001,
                       verbose = FALSE)
 sim1 <- logNormCounts(sim1)
+<<<<<<< HEAD
+=======
+sim1 <- runPCA(sim1)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim1, colour_by = "Batch") + ggtitle("Small batch effects")
 
 # Simulation with big batch effects
@@ -167,6 +175,10 @@ sim2 <- splatSimulate(params, batchCells = c(100, 100),
                       batch.facLoc = 0.5, batch.facScale = 0.5,
                       verbose = FALSE)
 sim2 <- logNormCounts(sim2)
+<<<<<<< HEAD
+=======
+sim2 <- runPCA(sim2)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim2, colour_by = "Batch") + ggtitle("Big batch effects")
 ```
 
@@ -272,6 +284,10 @@ params.groups <- newSplatParams(batchCells = 500, nGenes = 1000)
 sim1 <- splatSimulateGroups(params.groups, group.prob = c(0.9, 0.1),
                             verbose = FALSE)
 sim1 <- logNormCounts(sim1)
+<<<<<<< HEAD
+=======
+sim1 <- runPCA(sim1)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim1, colour_by = "Group") + ggtitle("One small group, one big group")
 
 # Five groups
@@ -279,6 +295,10 @@ sim2 <- splatSimulateGroups(params.groups,
                             group.prob = c(0.2, 0.2, 0.2, 0.2, 0.2),
                             verbose = FALSE)
 sim2 <- logNormCounts(sim2)
+<<<<<<< HEAD
+=======
+sim2 <- runPCA(sim2)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim2, colour_by = "Group") + ggtitle("Five groups")
 ```
 
@@ -304,12 +324,20 @@ differentially expressed.
 sim1 <- splatSimulateGroups(params.groups, group.prob = c(0.5, 0.5),
                             de.prob = 0.01, verbose = FALSE)
 sim1 <- logNormCounts(sim1)
+<<<<<<< HEAD
+=======
+sim1 <- runPCA(sim1)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim1, colour_by = "Group") + ggtitle("Few DE genes")
 
 # Lots of DE genes
 sim2 <- splatSimulateGroups(params.groups, group.prob = c(0.5, 0.5),
                             de.prob = 0.3, verbose = FALSE)
 sim2 <- logNormCounts(sim2)
+<<<<<<< HEAD
+=======
+sim2 <- runPCA(sim2)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim2, colour_by = "Group") + ggtitle("Lots of DE genes")
 ```
 
@@ -330,12 +358,20 @@ these parameters can result in more or less extreme differences between groups.
 sim1 <- splatSimulateGroups(params.groups, group.prob = c(0.5, 0.5),
                             de.facLoc = 0.01, verbose = FALSE)
 sim1 <- logNormCounts(sim1)
+<<<<<<< HEAD
+=======
+sim1 <- runPCA(sim1)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim1, colour_by = "Group") + ggtitle("Small DE factors")
 
 # Big DE factors
 sim2 <- splatSimulateGroups(params.groups, group.prob = c(0.5, 0.5),
                             de.facLoc = 0.3, verbose = FALSE)
 sim2 <- logNormCounts(sim2)
+<<<<<<< HEAD
+=======
+sim2 <- runPCA(sim2)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim2, colour_by = "Group") + ggtitle("Big DE factors")
 ```
 
@@ -359,6 +395,10 @@ sim1 <- splatSimulateGroups(params.groups,
                             de.prob = c(0.01, 0.01, 0.1, 0.1, 0.3),
                             verbose = FALSE)
 sim1 <- logNormCounts(sim1)
+<<<<<<< HEAD
+=======
+sim1 <- runPCA(sim1)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim1, colour_by = "Group") +
     labs(title = "Different DE probabilities",
          caption = paste("Groups 1 and 2 have very few DE genes,",
@@ -373,6 +413,10 @@ sim2 <- splatSimulateGroups(params.groups,
                             de.facScale = c(0.2, 0.5, 0.2, 0.5, 0.4),
                             verbose = FALSE)
 sim2 <- logNormCounts(sim2)
+<<<<<<< HEAD
+=======
+sim2 <- runPCA(sim2)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim2, colour_by = "Group") +
     labs(title = "Different DE factors",
          caption = paste("Group 1 has factors with small location (value),",
@@ -392,6 +436,10 @@ sim3 <- splatSimulateGroups(params.groups,
                             de.facScale = c(0.1, 0.4, 0.2, 0.5, 0.4),
                             verbose = FALSE)
 sim3 <- logNormCounts(sim3)
+<<<<<<< HEAD
+=======
+sim3 <- runPCA(sim3)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim3, colour_by = "Group") +
     labs(title = "Different DE factors",
          caption = paste(
@@ -467,6 +515,10 @@ sim1 <- splatSimulatePaths(params.groups,
                            path.from = c(0, 1, 2, 3),
                            verbose = FALSE)
 sim1 <- logNormCounts(sim1)
+<<<<<<< HEAD
+=======
+sim1 <- runPCA(sim1)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim1, colour_by = "Group") + ggtitle("Linear paths")
 
 # Branching path
@@ -476,6 +528,10 @@ sim2 <- splatSimulatePaths(params.groups,
                            path.from = c(0, 1, 1, 3),
                            verbose = FALSE)
 sim2 <- logNormCounts(sim2)
+<<<<<<< HEAD
+=======
+sim2 <- runPCA(sim2)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim2, colour_by = "Group") + ggtitle("Branching path")
 ```
 
@@ -491,12 +547,20 @@ number of steps along a path and therefore how discrete or smooth it is.
 sim1 <- splatSimulatePaths(params.groups, path.nSteps = 3,
                            de.prob = 0.5, de.facLoc = 0.2, verbose = FALSE)
 sim1 <- logNormCounts(sim1)
+<<<<<<< HEAD
+=======
+sim1 <- runPCA(sim1)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim1, colour_by = "Step") + ggtitle("Few steps")
 
 # Lots of steps
 sim2 <- splatSimulatePaths(params.groups, path.nSteps = 1000,
                            de.prob = 0.5, de.facLoc = 0.2, verbose = FALSE)
 sim2 <- logNormCounts(sim2)
+<<<<<<< HEAD
+=======
+sim2 <- runPCA(sim2)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim2, colour_by = "Step") + ggtitle("Lots of steps")
 ```
 
@@ -513,6 +577,10 @@ higher values up to 1 will skew them towards the start point.
 sim1 <- splatSimulatePaths(params.groups, path.skew = 0.1,
                            de.prob = 0.5, de.facLoc = 0.2, verbose = FALSE)
 sim1 <- logNormCounts(sim1)
+<<<<<<< HEAD
+=======
+sim1 <- runPCA(sim1)
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim1, colour_by = "Step") + ggtitle("Skewed towards the end")
 ```
 
