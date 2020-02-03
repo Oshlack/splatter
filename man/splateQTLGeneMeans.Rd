@@ -4,10 +4,11 @@
 \alias{splateQTLGeneMeans}
 \title{Set a gene mean expression value (not normalized) for each gene.}
 \usage{
-splateQTLGeneMeans(params, pairs, eqtl.bcv)
+splateQTLGeneMeans(params, pairs)
 }
 \arguments{
-\item{params}{Output from splateQTL_DefineAssociations}
+\item{params}{SplatParams object containing parameters for the simulation.
+See \code{\link{SplatParams}} for details.}
 
 \item{pairs}{A dataframe eSNPs-eGenes pair assignments and their effect sizes}
 }

@@ -13,7 +13,7 @@ splateQTLgenes(gff_file)
 A dataframe containing gene IDs and locations.
 }
 \description{
-Read in GFF/GTF file (ignorning header) and select only sequences where the 
+Read in GFF/GTF file (ignoring header) and select only sequences where the 
 feature is listed as a gene. Then get the Transcriptional Start Site for 
 each gene (depending on strand direction).
 }

@@ -27,6 +27,6 @@ A dataframe eSNPs-eGenes pair assignments and their effect sizes
 \description{
 Randomly pairs N eSNPs with an eGene within the designated window size 
 (eqtl.dist) and assigns each pair an effect size sampled from a gamma 
-distribution parameterized using the effect sizes from a builk eQTL study 
+distribution parameterized using the effect sizes from a bulk eQTL study 
 using the GTEx data from the thyroid tissue.
 }
