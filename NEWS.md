@@ -1,5 +1,10 @@
 # DEVELOPMENT VERSION
 
+## Version 1.11.1 (2010-01-30)
+
+* Replace defunct scater function in vignettes
+* Update Roxygen version
+
 ## Version 1.11.0 (2019-10-30)
 
 * Bioconductor 3.11 devel
