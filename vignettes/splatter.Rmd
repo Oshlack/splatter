@@ -288,10 +288,7 @@ printing progress messages.)
 sim.groups <- splatSimulate(group.prob = c(0.5, 0.5), method = "groups",
                             verbose = FALSE)
 sim.groups <- logNormCounts(sim.groups)
-<<<<<<< HEAD
-=======
 sim.groups <- runPCA(sim.groups)
->>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim.groups, colour_by = "Group")
 ```
 
@@ -311,10 +308,7 @@ method.
 ```{r paths}
 sim.paths <- splatSimulate(method = "paths", verbose = FALSE)
 sim.paths <- logNormCounts(sim.paths)
-<<<<<<< HEAD
-=======
 sim.paths <- runPCA(sim.paths)
->>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim.paths, colour_by = "Step")
 ```
 
@@ -335,10 +329,7 @@ cells are in each batch:
 ```{r batches}
 sim.batches <- splatSimulate(batchCells = c(50, 50), verbose = FALSE)
 sim.batches <- logNormCounts(sim.batches)
-<<<<<<< HEAD
-=======
 sim.batches <- runPCA(sim.batches)
->>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim.batches, colour_by = "Batch")
 ```
 
@@ -353,10 +344,7 @@ that we aren't interested in (batch) and the wanted variation we are looking for
 sim.groups <- splatSimulate(batchCells = c(50, 50), group.prob = c(0.5, 0.5),
                             method = "groups", verbose = FALSE)
 sim.groups <- logNormCounts(sim.groups)
-<<<<<<< HEAD
-=======
 sim.groups <- runPCA(sim.groups)
->>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
 plotPCA(sim.groups, shape_by = "Batch", colour_by = "Group")
 ```
 
