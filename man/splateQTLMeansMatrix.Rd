@@ -2,24 +2,27 @@
 % Please edit documentation in R/splat-eqtl.R
 \name{splateQTLMeansMatrix}
 \alias{splateQTLMeansMatrix}
-\title{Un-normalize the mean gene expression matrix}
+\title{Project normalized gene expression matrix into mean gene expression matrix}
 \usage{
-splateQTLMeansMatrix(pairs, nMeans)
+splateQTLMeansMatrix(params, pairs, nMeans)
 }
 \arguments{
-\item{nMeans}{The normalized gene expression means for the population}
+\item{params}{SplatParams object containing parameters for the simulation.
+See \code{\link{SplatParams}} for details.}
 
-\item{params}{A dataframe eSNPs-eGenes pair assignments and their effect sizes}
+\item{pairs}{A dataframe eSNPs-eGenes pair assignments and their effect sizes}
+
+\item{nMeans}{The normalized gene expression means for the population}
 }
 \value{
 MeansMatrix: Matrix of simulated gene means for eQTL population.
 }
 \description{
-Un-normalize the mean gene expression matrix
+Project normalized gene expression matrix into mean gene expression matrix
 }
 \details{
 For each gene/sample, the normalized expression value (from rnorm) is 
 transformed to the cumulative density function (pnorm) between 0 and 1, this
-value is then inversed (qnorm) to map the probability to a value defined by
-the gene mean assigned in splateQTLGeneMeans.
+value is then quantile normalized (qgamma) using the gamma distribution 
+parameterized from splatEstimate().
 }

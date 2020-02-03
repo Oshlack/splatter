@@ -7,7 +7,7 @@
 splateQTLsnps(snp_file, eqtl.maf, eqtl.mafd)
 }
 \arguments{
-\item{snp_file}{Path to real/simulated genotype data in .ped.gen format}
+\item{snp_file}{Path to real/simulated genotype data (.vcf)}
 
 \item{eqtl.maf}{Desired Minor Allele Frequency (MAF) of eSNPs to include}
 

@@ -14,7 +14,6 @@ splateQTL(
   eqtl.dist = 1e+06,
   eqtl.maf = 0.1,
   eqtl.mafd = 0.01,
-  eqtl.bcv = 0.4,
   eqtl.save = TRUE,
   ...
 )
@@ -23,7 +22,7 @@ splateQTL(
 \item{params}{SplatParams object containing parameters for the simulation.
 See \code{\link{SplatParams}} for details.}
 
-\item{gff_file}{Path to a GFF/GFT file containing genes to include.}
+\item{gff_file}{Path to a GFF/GTF file containing genes to include.}
 
 \item{snp_file}{Path to real/simulated genotype data in .vcf format. 
 Where each column is a sample and each row is a SNP.}
@@ -42,8 +41,6 @@ GTEx thyroid cis-eQTL data)}
 
 \item{eqtl.mafd}{Maximum variation from eqtl.maf to include as eSNP}
 
-\item{eqtl.bcv}{Biological Coefficient of Variation (default = 0.4)}
-
 \item{eqtl.save}{logical. Whether to save eQTL key and mean matrix.}
 
 \item{...}{any additional parameter settings to override what is provided in
@@ -56,8 +53,8 @@ intermediate values.
 }
 \description{
 Simulate mean gene counts for a population of samples, such that a defined 
-number of associations (i.e. cis-eQTL) between markers (i.e. eSNPs) and genes 
-(i.e. eGenes) exist.
+number of associations (cis-eQTL) between markers (eSNPs) and genes 
+(eGenes) exist.
 }
 \details{
 Parameters can be set in a variety of ways. If no parameters are provided
@@ -75,7 +72,7 @@ The eQTL Gene Mean simulation involves the following steps:
     \item Generate normalized gene mean expression matrix for the population. 
     \item Set a gene mean expression value (not normalized) for each gene. 
     \item Generate a gene mean expression matrix for the population.
-    \item (optional) Save eQTL key (i.e. pairs)
+    \item (optional) Save eQTL key (pairs)
 }
 }
 \examples{
