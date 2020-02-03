@@ -32,11 +32,10 @@ Imports:
     fitdistrplus,
     ggplot2,
     locfit,
-    data.table,
     matrixStats,
     methods,
     scales,
-    scater (>= 1.15.16),
+    scater, 
     stats,
     SummarizedExperiment,
     utils,
@@ -47,6 +46,7 @@ Suggests:
     BiocStyle,
     covr,
     cowplot,
+    knitr,
     magick,
     dplyr,
     limSolve,
@@ -71,5 +71,6 @@ biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
 URL: https://github.com/Oshlack/splatter
 BugReports: https://github.com/Oshlack/splatter/issues
 RoxygenNote: 7.0.2
+VignetteBuilder: knitr
 Encoding: UTF-8
 Language: en-GB
