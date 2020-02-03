@@ -6,7 +6,7 @@ r:
 #  - release
 #  - bioc-release
 sudo: false
-#cache: packages
+cache: packages
 
 dist: xenial
 
@@ -18,7 +18,7 @@ addons:
     packages:
       - libgsl-dev # dependency for gsl>copula>zinbwave
       - libmagick++-dev # dependency for magick
-r_check_args: "--no-vignettes"
+#r_check_args: "--no-vignettes"
 
 install: skip
 #install:
