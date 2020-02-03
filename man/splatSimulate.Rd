@@ -9,8 +9,12 @@
 \usage{
 splatSimulate(
   params = newSplatParams(),
+<<<<<<< HEAD
   method = c("single", "groups", "paths", "eqtl"),
   eqtl = NaN,
+=======
+  method = c("single", "groups", "paths"),
+>>>>>>> 083be7cc6b2b1aad391ab836b57bd0e565a022c3
   verbose = TRUE,
   ...
 )
