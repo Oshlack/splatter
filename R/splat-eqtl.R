@@ -1,12 +1,12 @@
 #' Splat-eQTL
 #'
 #' Simulate mean gene counts for a population of samples, such that a defined 
-#' number of associations (i.e. cis-eQTL) between markers (i.e. eSNPs) and genes 
-#' (i.e. eGenes) exist.
+#' number of associations (cis-eQTL) between markers (eSNPs) and genes 
+#' (eGenes) exist.
 #' 
 #' @param params SplatParams object containing parameters for the simulation.
 #'        See \code{\link{SplatParams}} for details.
-#' @param gff_file Path to a GFF/GFT file containing genes to include.
+#' @param gff_file Path to a GFF/GTF file containing genes to include.
 #' @param snp_file Path to real/simulated genotype data in .vcf format. 
 #'         Where each column is a sample and each row is a SNP.
 #' @param eqtlES_shape Effect Size shape parameter (default estimated from 
@@ -17,7 +17,6 @@
 #' @param eqtl.dist Distance between eSNP and eGene (TSS). 
 #' @param eqtl.maf Desired Minor Allele Frequency (MAF) of eSNPs to include
 #' @param eqtl.mafd Maximum variation from eqtl.maf to include as eSNP
-#' @param eqtl.bcv Biological Coefficient of Variation (default = 0.4)
 #' @param eqtl.save logical. Whether to save eQTL key and mean matrix.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -38,7 +37,7 @@
 #'     \item Generate normalized gene mean expression matrix for the population. 
 #'     \item Set a gene mean expression value (not normalized) for each gene. 
 #'     \item Generate a gene mean expression matrix for the population.
-#'     \item (optional) Save eQTL key (i.e. pairs)
+#'     \item (optional) Save eQTL key (pairs)
 #' }
 #'
 #' @return GeneMeansPop Matrix containing the simulated mean gene expression
@@ -69,7 +68,6 @@ splateQTL <- function(params = newSplatParams(),
                       eqtl.dist = 1000000, 
                       eqtl.maf = 0.1, 
                       eqtl.mafd = 0.01,
-                      eqtl.bcv = 0.4, # Estimated from GTEx thyroid gene count data
                       eqtl.save = TRUE, ...) {
     
     # Load and format gene (GFF/GTF) and SNP (genotype) data.
@@ -83,12 +81,12 @@ splateQTL <- function(params = newSplatParams(),
     nGeneMeansPop <- splateQTLnormMeansMatrix(snps, pairs)
     
     # Set a gene mean expression value (not normalized) for each gene. 
-    pairs <- splateQTLGeneMeans(params, pairs, eqtl.bcv)
+    pairs <- splateQTLGeneMeans(params, pairs)
     
     # Generate a gene mean expression matrix for the population.
-    GeneMeansPop <- splateQTLMeansMatrix(pairs, nGeneMeansPop)
+    GeneMeansPop <- splateQTLMeansMatrix(params, pairs, nGeneMeansPop)
     
-    # (optional) Save eQTL key (i.e. pairs)
+    # (optional) Save eQTL key (pairs)
     if (eqtl.save) {
         dir.create('eqtl_out', showWarnings = FALSE)
         now <- Sys.time()
@@ -102,7 +100,7 @@ splateQTL <- function(params = newSplatParams(),
 
 #' Process gene data
 #' 
-#' Read in GFF/GTF file (ignorning header) and select only sequences where the 
+#' Read in GFF/GTF file (ignoring header) and select only sequences where the 
 #' feature is listed as a gene. Then get the Transcriptional Start Site for 
 #' each gene (depending on strand direction).
 #'
@@ -128,7 +126,7 @@ splateQTLgenes <- function(gff_file){
 #' Read in SNP (genotype matrix) file and remove extra columns. Then calculate
 #' the Minor Allele Frequency and filter SNPs outside of the MAF range defined.
 #'
-#' @param snp_file Path to real/simulated genotype data in .ped.gen format
+#' @param snp_file Path to real/simulated genotype data (.vcf)
 #' @param eqtl.maf Desired Minor Allele Frequency (MAF) of eSNPs to include
 #' @param eqtl.mafd Maximum variation from eqtl.maf to include as eSNP
 #'
@@ -136,7 +134,9 @@ splateQTLgenes <- function(gff_file){
 #' @importFrom utils read.delim
 splateQTLsnps <- function(snp_file, eqtl.maf, eqtl.mafd){
     
-    # Read in genotype matrix from HAPGEN2 and reformat 
+    MAF <- NULL  # locally binding variables
+    
+    # Read in genotype matrix in .vcf format
     snps <- read.delim(snp_file, header=F, comment.char='#')
     snps[, c('V1', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9')] <- NULL
     names(snps) <- c('loc', paste0('Sample', 1:(dim(snps)[2]-1)))
@@ -159,7 +159,7 @@ splateQTLsnps <- function(snp_file, eqtl.maf, eqtl.mafd){
 #' 
 #' Randomly pairs N eSNPs with an eGene within the designated window size 
 #' (eqtl.dist) and assigns each pair an effect size sampled from a gamma 
-#' distribution parameterized using the effect sizes from a builk eQTL study 
+#' distribution parameterized using the effect sizes from a bulk eQTL study 
 #' using the GTEx data from the thyroid tissue.
 #'
 #' @param genes Dataframe with gene ID and location
@@ -175,6 +175,8 @@ splateQTLsnps <- function(snp_file, eqtl.maf, eqtl.mafd){
 #'
 splateQTLpairs <- function(genes, snps, esnp.n, eqtl.dist, eqtlES_shape, 
                            eqtlES_rate){
+    
+    TSS <- NULL  # locally binding variables
     
     # Set up dataframe to save info about selected eSNP-eGENE pairs 
     snps_list <- snps$eSNP
@@ -204,7 +206,7 @@ splateQTLpairs <- function(genes, snps, esnp.n, eqtl.dist, eqtlES_shape,
         
         if(length(snps_list) == 0) {
             warning("Could not find n eSNPs within eqtl.dist of genes provided
-                    in the gff file. Either increase the eqtl.dist window or 
+                    in the GFF file. Either increase the eqtl.dist window or 
                     include more SNPs.")
         }
     }
@@ -219,9 +221,9 @@ splateQTLpairs <- function(genes, snps, esnp.n, eqtl.dist, eqtlES_shape,
 #' mean expression levels for each gene for each sample. Where:
 #' y = Effect Size * genotype + error, where error ~ Norm(0,1)
 #'
-#' @param pairs A dataframe eSNPs-eGenes pair assignments and their effect sizes
 #' @param snps The dataframe with the genetic marker info
-#'
+#' @param pairs A dataframe eSNPs-eGenes pair assignments and their effect sizes
+#' 
 #' @return normGeneMeansPop: matrix of normalized mean gene exp. levels.
 #'
 #' @importFrom stats rnorm
@@ -257,13 +259,14 @@ splateQTLnormMeansMatrix <- function(snps, pairs) {
 #' distribution parameterized by splatEstimate, then calculate the BCV and
 #' the standard deviation
 #'
-#' @param params Output from splateQTL_DefineAssociations
+#' @param params SplatParams object containing parameters for the simulation.
+#'        See \code{\link{SplatParams}} for details.
 #' @param pairs A dataframe eSNPs-eGenes pair assignments and their effect sizes
 #' 
 #' @return the eSNP-eGene pairs dataframe updated to include the mean gene 
 #' expression level, BCV, and standard deviation.
 #'
-splateQTLGeneMeans <- function(params, pairs, eqtl.bcv){
+splateQTLGeneMeans <- function(params, pairs){
     
     # Load parameters generated from real data using splatEstimate()
     nGenes <- dim(pairs)[1]
@@ -272,8 +275,6 @@ splateQTLGeneMeans <- function(params, pairs, eqtl.bcv){
     out.prob <- getParam(params, "out.prob")
     out.facLoc <- getParam(params, "out.facLoc")
     out.facScale <- getParam(params, "out.facScale")
-    #bcv.common <- getParam(params, "bcv.common")
-    #bcv.df <- getParam(params, "bcv.df")
 
     # Simulate base gene means then add outliers
     base.means.gene <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
@@ -285,39 +286,33 @@ splateQTLGeneMeans <- function(params, pairs, eqtl.bcv){
     means.gene <- base.means.gene
     means.gene[is.outlier] <- outlier.means[is.outlier]
     
-    # Calculate BCV and thus standard deviation
     pairs$expMean <- means.gene
-    #if (is.finite(bcv.df)) {
-   #     pairs$BCV <- sqrt((bcv.common + (1 / sqrt(pairs$expMean))) *
-     #       (bcv.df / rchisq(1, df = bcv.df)))
-    #} else {
-   #     warning("'bcv.df' is infinite. This parameter will be ignored.")
-    #    pairs$BCV <- (bcv.common + (1 / sqrt(pairs$expMean)))
-   # }
-    #pairs$Std <- pairs$expMean * pairs$BCV
-    pairs$expStd <- pairs$expMean * eqtl.bcv
-    
+
     return(pairs)
 }
 
 
-#' Un-normalize the mean gene expression matrix 
+#' Project normalized gene expression matrix into mean gene expression matrix 
 #'
-#' @param params A dataframe eSNPs-eGenes pair assignments and their effect sizes
+#' @param params SplatParams object containing parameters for the simulation.
+#'        See \code{\link{SplatParams}} for details.
+#' @param pairs A dataframe eSNPs-eGenes pair assignments and their effect sizes
 #' @param nMeans The normalized gene expression means for the population
 #' 
 #' @details
 #' For each gene/sample, the normalized expression value (from rnorm) is 
 #' transformed to the cumulative density function (pnorm) between 0 and 1, this
-#' value is then inversed (qnorm) to map the probability to a value defined by
-#' the gene mean assigned in splateQTLGeneMeans.
+#' value is then quantile normalized (qgamma) using the gamma distribution 
+#' parameterized from splatEstimate(). 
 #'
 #' @return MeansMatrix: Matrix of simulated gene means for eQTL population.
 #' 
-#' @importFrom stats pnorm qnorm
+#' @importFrom stats pnorm qgamma
 #' 
-splateQTLMeansMatrix <- function(pairs, nMeans){
+splateQTLMeansMatrix <- function(params, pairs, nMeans){
     
+    mean.shape <- getParam(params, "mean.shape")
+    mean.rate <- getParam(params, "mean.rate")
     MeansMatrix <- data.frame(nMeans)
     
     for(g in row.names(MeansMatrix)){
@@ -326,11 +321,10 @@ splateQTLMeansMatrix <- function(pairs, nMeans){
         for(s in names(MeansMatrix)){
             rnorm.tmp <- MeansMatrix[g, s]
             pnorm.tmp <- pnorm(rnorm.tmp, 0, 1)
-            MeansMatrix[g, s] <- qnorm(pnorm.tmp, mean.qn, std.qn)
+            MeansMatrix[g, s] <- qgamma(pnorm.tmp, shape=mean.shape,
+                                        rate=mean.rate)
         }
     }
-    
-    MeansMatrix[MeansMatrix < 0] <- 1e-08
     
     return(MeansMatrix)
 }
