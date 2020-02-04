@@ -6,8 +6,8 @@
 \usage{
 splateQTL(
   params = newSplatParams(),
-  gff_file = "test_data/test.gff3",
-  snp_file = "test_data/test.vcf",
+  gff = ex_gff,
+  snps = ex_snps,
   eqtlES_shape = 2.740558,
   eqtlES_rate = 6.441281,
   esnp.n = 100,
@@ -22,9 +22,9 @@ splateQTL(
 \item{params}{SplatParams object containing parameters for the simulation.
 See \code{\link{SplatParams}} for details.}
 
-\item{gff_file}{Path to a GFF/GTF file containing genes to include.}
+\item{gff}{Dataframe containing the genes to include in GFF/GTF format.}
 
-\item{snp_file}{Path to real/simulated genotype data in .vcf format. 
+\item{snps}{Dataframe containing real/simulated genotype data in .vcf format. 
 Where each column is a sample and each row is a SNP.}
 
 \item{eqtlES_shape}{Effect Size shape parameter (default estimated from 
@@ -81,6 +81,8 @@ library(scater)
 set.seed(1)
 sce <- mockSCE()
 params <- splatEstimate(sce)
+data(ex_gff)
+data(ex_snps)
 pop.gMeans <- splateQTL(params)
 
 }
