@@ -24,7 +24,7 @@ SplatParams object containing the estimated parameters.
 \description{
 Estimate simulation parameters for the Splat simulation from a real
 dataset. See the individual estimation functions for more details on how this
-is done. I'm testing stuff now.
+is done.
 }
 \examples{
 # Load example data

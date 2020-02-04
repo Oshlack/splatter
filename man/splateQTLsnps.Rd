@@ -4,10 +4,11 @@
 \alias{splateQTLsnps}
 \title{Process genotype data}
 \usage{
-splateQTLsnps(snp_file, eqtl.maf, eqtl.mafd)
+splateQTLsnps(snps, eqtl.maf, eqtl.mafd)
 }
 \arguments{
-\item{snp_file}{Path to real/simulated genotype data (.vcf)}
+\item{snps}{Dataframe containing real/simulated genotype data in .vcf format. 
+Where each column is a sample and each row is a SNP.}
 
 \item{eqtl.maf}{Desired Minor Allele Frequency (MAF) of eSNPs to include}
 
