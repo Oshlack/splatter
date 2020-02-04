@@ -4,10 +4,10 @@
 \alias{splateQTLgenes}
 \title{Process gene data}
 \usage{
-splateQTLgenes(gff_file)
+splateQTLgenes(gff)
 }
 \arguments{
-\item{gff_file}{Path to GFF/GTF file}
+\item{gff}{Dataframe containing the genes to include in GFF/GTF format.}
 }
 \value{
 A dataframe containing gene IDs and locations.

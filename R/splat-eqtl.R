@@ -6,8 +6,8 @@
 #' 
 #' @param params SplatParams object containing parameters for the simulation.
 #'        See \code{\link{SplatParams}} for details.
-#' @param gff_file Path to a GFF/GTF file containing genes to include.
-#' @param snp_file Path to real/simulated genotype data in .vcf format. 
+#' @param gff Dataframe containing the genes to include in GFF/GTF format.
+#' @param snps Dataframe containing real/simulated genotype data in .vcf format. 
 #'         Where each column is a sample and each row is a SNP.
 #' @param eqtlES_shape Effect Size shape parameter (default estimated from 
 #' GTEx thyroid cis-eQTL data)
@@ -55,13 +55,15 @@
 #' set.seed(1)
 #' sce <- mockSCE()
 #' params <- splatEstimate(sce)
+#' data(ex_gff)
+#' data(ex_snps)
 #' pop.gMeans <- splateQTL(params)
 #' 
 #' @export
 #' @importFrom utils write.table
 splateQTL <- function(params = newSplatParams(),
-                      gff_file = 'test_data/test.gff3', 
-                      snp_file = 'test_data/test.vcf', 
+                      gff = ex_gff, 
+                      snps = ex_snps, 
                       eqtlES_shape = 2.740558,  # Estimated from GTEx thyroid cis-eQTL data
                       eqtlES_rate = 6.441281,  # Estimated from GTEx thyroid cis-eQTL data 
                       esnp.n = 100, 
@@ -71,8 +73,8 @@ splateQTL <- function(params = newSplatParams(),
                       eqtl.save = TRUE, ...) {
     
     # Load and format gene (GFF/GTF) and SNP (genotype) data.
-    genes <- splateQTLgenes(gff_file)
-    snps <- splateQTLsnps(snp_file, eqtl.maf, eqtl.mafd)
+    genes <- splateQTLgenes(gff)
+    snps <- splateQTLsnps(snps, eqtl.maf, eqtl.mafd)
 
     # Select eGenes-eSNPs pairs and assign effect sizes.
     pairs <- splateQTLpairs(genes, snps, esnp.n, eqtl.dist, eqtlES_shape, eqtlES_rate)
@@ -104,13 +106,12 @@ splateQTL <- function(params = newSplatParams(),
 #' feature is listed as a gene. Then get the Transcriptional Start Site for 
 #' each gene (depending on strand direction).
 #'
-#' @param gff_file Path to GFF/GTF file
+#' @param gff Dataframe containing the genes to include in GFF/GTF format.
 #' 
 #' @return A dataframe containing gene IDs and locations.
 #' @importFrom utils read.delim
-splateQTLgenes <- function(gff_file){
-    
-    gff <- read.delim(gff_file, header=F, comment.char='#')
+splateQTLgenes <- function(gff){
+    #gff <- read.delim(gff_file, header=F, comment.char='#')
     genes <- gff[gff[,3]=="gene",]
     genes$TSS <- genes[,4]  #  + strand genes
     genes$TSS[genes[,7] == '-'] <- genes[,5][genes[,7] == '-'] #  - strand genes
@@ -126,18 +127,19 @@ splateQTLgenes <- function(gff_file){
 #' Read in SNP (genotype matrix) file and remove extra columns. Then calculate
 #' the Minor Allele Frequency and filter SNPs outside of the MAF range defined.
 #'
-#' @param snp_file Path to real/simulated genotype data (.vcf)
+#' @param snps Dataframe containing real/simulated genotype data in .vcf format. 
+#'         Where each column is a sample and each row is a SNP.
 #' @param eqtl.maf Desired Minor Allele Frequency (MAF) of eSNPs to include
 #' @param eqtl.mafd Maximum variation from eqtl.maf to include as eSNP
 #'
 #' @return A dataframe containing SNP names, locations, and sample genotypes.
 #' @importFrom utils read.delim
-splateQTLsnps <- function(snp_file, eqtl.maf, eqtl.mafd){
+splateQTLsnps <- function(snps, eqtl.maf, eqtl.mafd){
     
     MAF <- NULL  # locally binding variables
     
     # Read in genotype matrix in .vcf format
-    snps <- read.delim(snp_file, header=F, comment.char='#')
+    #snps <- read.delim(snp_file, header=F, comment.char='#')
     snps[, c('V1', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9')] <- NULL
     names(snps) <- c('loc', paste0('Sample', 1:(dim(snps)[2]-1)))
     snps[] <- lapply(snps, function(x) gsub("0/0", 0.0, x))
@@ -328,3 +330,6 @@ splateQTLMeansMatrix <- function(params, pairs, nMeans){
     
     return(MeansMatrix)
 }
+
+
+utils::globalVariables(c("ex_gff", "ex_snps"))
