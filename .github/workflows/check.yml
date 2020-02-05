@@ -16,6 +16,8 @@ jobs:
       - name: Install additional system dependencies
         run: brew install gsl imagemagick
       - name: Install dependencies
-        run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'magick))" -e "remotes::install_deps(dependencies = TRUE)"
+        run: Rscript -e "install.packages(c('remotes', 'rcmdcheck'))" -e "remotes::install_deps(dependencies = TRUE)"
+      - name: Install additional dependencies
+        run: Rscript -e "install.packages(c('magick'))"
       - name: Check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'error')"
