@@ -14,7 +14,7 @@ jobs:
           r-version: devel
       - uses: r-lib/actions/setup-pandoc@master
       - name: Install additional system dependencies
-        run: brew install gsl imagemagick
+        run: brew install gsl imagemagick@6
       - name: Install dependencies
         run: Rscript -e "install.packages(c('remotes', 'rcmdcheck'))" -e "remotes::install_deps(dependencies = TRUE)"
       - name: Install additional dependencies
