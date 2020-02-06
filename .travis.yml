@@ -1,21 +1,25 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
-r:
-  - bioc-devel
-#  - bioc-release
-sudo: false
-cache: packages
+r: bioc-devel
 
-dist: xenial
+env:
+ global:
+   - _R_CHECK_FORCE_SUGGESTS_: false
+
 addons:
   apt:
+    update: true
+    sources:
+      - sourceline: 'ppa:opencpu/imagemagick'
     packages:
-      - libgsl-dev # dependency for gsl>copula>zinbwave
+      - libmagick++-dev
 
-#install:
-#  - R -e 'install.packages("devtools")'
-#  - R -e 'devtools::install(dependencies = TRUE, upgrade_dependencies = TRUE)'
+cache: packages
+
+install:
+    - R -e 'install.packages(c("devtools", "knitr"))'
+    - R -e 'devtools::install_deps(dep = c("Depends", "Imports"))'
 
 after_success:
   - Rscript -e 'covr::codecov()'
