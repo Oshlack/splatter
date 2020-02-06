@@ -82,7 +82,7 @@ single panel." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
       </span>
     </div>
 
@@ -146,10 +146,13 @@ single panel." />
 single panel.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>makeOverallPanel</span>(<span class='no'>comp</span>, <span class='no'>diff</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Overall comparison"</span>,
-  <span class='kw'>row.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Means"</span>, <span class='st'>"Variance"</span>, <span class='st'>"Mean-variance relationship"</span>,
-  <span class='st'>"Library size"</span>, <span class='st'>"Zeros per cell"</span>, <span class='st'>"Zeros per gene"</span>,
-  <span class='st'>"Mean-zeros relationship"</span>))</pre>
+    <pre class="usage"><span class='fu'>makeOverallPanel</span>(
+  <span class='no'>comp</span>,
+  <span class='no'>diff</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Overall comparison"</span>,
+  <span class='kw'>row.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Means"</span>, <span class='st'>"Variance"</span>, <span class='st'>"Mean-variance relationship"</span>, <span class='st'>"Library size"</span>,
+    <span class='st'>"Zeros per cell"</span>, <span class='st'>"Zeros per gene"</span>, <span class='st'>"Mean-zeros relationship"</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

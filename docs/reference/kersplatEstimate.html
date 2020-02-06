@@ -83,7 +83,7 @@ is done." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
       </span>
     </div>
 
@@ -151,12 +151,10 @@ is done.</p>
     <pre class="usage"><span class='fu'>kersplatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newKersplatParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>kersplatEstimate</span>(<span class='no'>counts</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newKersplatParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>kersplatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newKersplatParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>kersplatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newKersplatParams</a></span>(),
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>kersplatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newKersplatParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,69 +183,16 @@ containing count data to estimate parameters from.</p></td>
 <code><a href='kersplatEstLib.html'>kersplatEstLib</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>scater</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: package ‘scater’ was built under R version 3.6.1</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/scater/man/mockSCE.html'>mockSCE</a></span>()
+    <pre class="examples"><div class='input'>
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"igraph"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+    <span class='co'># Load example data</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>scater</span>)
+    <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+    <span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/scater/man/mockSCE.html'>mockSCE</a></span>()
 
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>kersplatEstimate</span>(<span class='no'>sce</span>)</div><div class='output co'>#&gt; <span class='message'>Registered S3 method overwritten by 'R.oo':</span>
-#&gt; <span class='message'>  method        from       </span>
-#&gt; <span class='message'>  throw.default R.methodsS3</span></div><div class='output co'>#&gt; <span class='warning'>Warning: The Kersplat simulation is still experimental and may produce unreliable results. Please try it and report any issues to https://github.com/Oshlack/splatter/issues. The development version may have improved features.</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span></div><div class='output co'>#&gt; <span class='message'>Estimating mean parameters...</span></div><div class='output co'>#&gt; <span class='message'>Selected MGE (CvM) fit</span></div><div class='output co'>#&gt; <span class='message'>Estimating expression outlier parameters...</span></div><div class='output co'>#&gt; <span class='message'>Estimating BCV parameters...</span></div><div class='output co'>#&gt; <span class='message'>Raw: 2.60817370717138 A: 8.12109336156054 B: 1.31905414419672 C: -8.4603750374735 Y: 1.36293824634938</span></div><div class='output co'>#&gt; <span class='message'>Estimating library size parameters...</span></div><div class='output co'>#&gt; <span class='message'>Selected MGE (CvM) fit</span></div><div class='input'><span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class KersplatParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
-#&gt; Secondary parameters are usually set during simulation
-#&gt; 
-#&gt; Global: 
-#&gt; (GENES)  (CELLS)   [Seed] 
-#&gt;    2000      200   955861 
-#&gt; 
-#&gt; 24 additional parameters 
-#&gt; 
-#&gt; Mean: 
-#&gt;                  (RATE)                  (SHAPE)               (OUT PROB) 
-#&gt;     0.00272354467142995        0.475100032448728                        0 
-#&gt;          (Out Location)              (Out Scale)                (DENSITY) 
-#&gt;                       4                      0.5  Object of class density 
-#&gt;                [Method]                 [Values] 
-#&gt;                     fit                  Not set 
-#&gt; 
-#&gt; BCV: 
-#&gt;    (COMMON DISP)             [DoF] 
-#&gt; 1.11818764383748                60 
-#&gt; 
-#&gt; Network: 
-#&gt;    [Graph]     [nRegs]   [regsSet] 
-#&gt;    Not set         100       FALSE 
-#&gt; 
-#&gt; Paths: 
-#&gt; [nPrograms]      [Means] 
-#&gt;          10      Not set 
-#&gt; 
-#&gt; [Design]
-#&gt; data.frame (1 x 3) with columns: Path, From, Steps 
-#&gt;   Path From Steps
-#&gt; 1    1    0   100
-#&gt; 
-#&gt; Library size: 
-#&gt;              (LOCATION)                  (SCALE)                (DENSITY) 
-#&gt;        12.7854772402738       0.0327578186101294  Object of class density 
-#&gt;                [Method] 
-#&gt;                     fit 
-#&gt; 
-#&gt; Cells: 
-#&gt; 
-#&gt; [Design]
-#&gt; data.frame (1 x 4) with columns: Path, Probability, Alpha, Beta 
-#&gt;   Path Probability Alpha Beta
-#&gt; 1    1           1     1    0
-#&gt; 
-#&gt; Doublets: 
-#&gt; [Prop] 
-#&gt;      0 
-#&gt; 
-#&gt; Ambient: 
-#&gt; [Scale]  [Empty] 
-#&gt;    0.05        0 
-#&gt; </div></pre>
+    <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>kersplatEstimate</span>(<span class='no'>sce</span>)
+    <span class='no'>params</span>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

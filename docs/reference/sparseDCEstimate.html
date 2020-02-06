@@ -82,7 +82,7 @@ dataset." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
       </span>
     </div>
 
@@ -146,16 +146,31 @@ dataset." />
 dataset.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sparseDCEstimate</span>(<span class='no'>counts</span>, <span class='no'>conditions</span>, <span class='no'>nclusters</span>, <span class='kw'>norm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSparseDCParams</a></span>())
+    <pre class="usage"><span class='fu'>sparseDCEstimate</span>(
+  <span class='no'>counts</span>,
+  <span class='no'>conditions</span>,
+  <span class='no'>nclusters</span>,
+  <span class='kw'>norm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSparseDCParams</a></span>()
+)
 
 <span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>sparseDCEstimate</span>(<span class='no'>counts</span>, <span class='no'>conditions</span>,
-  <span class='no'>nclusters</span>, <span class='kw'>norm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSparseDCParams</a></span>())
+<span class='fu'>sparseDCEstimate</span>(
+  <span class='no'>counts</span>,
+  <span class='no'>conditions</span>,
+  <span class='no'>nclusters</span>,
+  <span class='kw'>norm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSparseDCParams</a></span>()
+)
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>sparseDCEstimate</span>(<span class='no'>counts</span>, <span class='no'>conditions</span>, <span class='no'>nclusters</span>,
-  <span class='kw'>norm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSparseDCParams</a></span>())</pre>
+<span class='fu'>sparseDCEstimate</span>(
+  <span class='no'>counts</span>,
+  <span class='no'>conditions</span>,
+  <span class='no'>nclusters</span>,
+  <span class='kw'>norm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSparseDCParams</a></span>()
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -191,10 +206,10 @@ estimation. Set this to FALSE if counts is already normalised.</p></td>
 
     <p>The <code>nGenes</code> and <code>nCells</code> parameters are taken from the size of the
 input data. The counts are preprocessed using
-<code><a href='https://rdrr.io/pkg/SparseDC/man/pre_proc_data.html'>pre_proc_data</a></code> and then parameters are estimated using
-<code><a href='https://rdrr.io/pkg/SparseDC/man/sparsedc_cluster.html'>sparsedc_cluster</a></code> using lambda values calculated using
-<code><a href='https://rdrr.io/pkg/SparseDC/man/lambda1_calculator.html'>lambda1_calculator</a></code> and
-<code><a href='https://rdrr.io/pkg/SparseDC/man/lambda2_calculator.html'>lambda2_calculator</a></code>.</p>
+<code>pre_proc_data</code> and then parameters are estimated using
+<code>sparsedc_cluster</code> using lambda values calculated using
+<code>lambda1_calculator</code> and
+<code>lambda2_calculator</code>.</p>
 <p>See <code><a href='SparseDCParams.html'>SparseDCParams</a></code> for more details on the parameters.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -208,28 +223,7 @@ input data. The counts are preprocessed using
 
     <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>sparseDCEstimate</span>(<span class='no'>sce</span>, <span class='no'>conditions</span>, <span class='kw'>nclusters</span> <span class='kw'>=</span> <span class='fl'>3</span>)
     <span class='no'>params</span>
-}</div><div class='output co'>#&gt; A Params object of class SparseDCParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
-#&gt; Secondary parameters are usually set during simulation
-#&gt; 
-#&gt; Global: 
-#&gt; (GENES)  (CELLS)   [Seed] 
-#&gt;     100       10   955861 
-#&gt; 
-#&gt; 7 additional parameters 
-#&gt; 
-#&gt; Markers: 
-#&gt; (NUMBER)  (SHARED)    [Same] 
-#&gt;        1         1     FALSE 
-#&gt; 
-#&gt; Clusters: 
-#&gt; (CONDITION 1)  (CONDITION 2) 
-#&gt;          2, 3        1, 2, 3 
-#&gt; 
-#&gt; Means: 
-#&gt; [Lower]  [Upper] 
-#&gt;       1        2 
-#&gt; </div></pre>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

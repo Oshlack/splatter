@@ -83,7 +83,7 @@ is done." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
       </span>
     </div>
 
@@ -151,8 +151,7 @@ is done.</p>
     <pre class="usage"><span class='fu'>splatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSplatParams</a></span>())
 
 <span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>splatEstimate</span>(<span class='no'>counts</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSplatParams</a></span>())
+<span class='fu'>splatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSplatParams</a></span>())
 
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>splatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSplatParams</a></span>())</pre>
@@ -186,52 +185,52 @@ containing count data to estimate parameters from.</p></td>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/scater/man/mockSCE.html'>mockSCE</a></span>()
 
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>splatEstimate</span>(<span class='no'>sce</span>)</div><div class='output co'>#&gt; <span class='message'>NOTE: Library sizes have been found to be normally distributed instead of log-normal. You may want to check this is correct.</span></div><div class='input'><span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class SplatParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
-#&gt; Secondary parameters are usually set during simulation
+<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>splatEstimate</span>(<span class='no'>sce</span>)</div><div class='output co'>#&gt; <span class='message'>NOTE: Library sizes have been found to be normally distributed instead of log-normal. You may want to check this is correct.</span></div><div class='input'><span class='no'>params</span></div><div class='output co'>#&gt; A <span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>SplatParams</span><span> 
+#&gt; Parameters can be (estimable) or </span><span style='color: #0000BB;'>[not estimable]</span><span>, 'Default' or  </span><span style='color: #00BB00;font-weight: bold;'>'NOT DEFAULT'</span><span> 
+#&gt; </span><span style='color: #000000;background-color: #BBBB00;'>Secondary</span><span> parameters are usually set during simulation
 #&gt; 
-#&gt; Global: 
-#&gt; (GENES)  (CELLS)   [Seed] 
-#&gt;    2000      200   955861 
+#&gt; </span><span style='font-weight: bold;'>Global:</span><span> 
+#&gt; </span><span style='font-weight: bold;'>(GENES)</span><span>  </span><span style='font-weight: bold;'>(CELLS)</span><span>   </span><span style='color: #0000BB;'>[Seed]</span><span> 
+#&gt;    </span><span style='color: #00BB00;font-weight: bold;'>2000</span><span>      </span><span style='color: #00BB00;font-weight: bold;'>200</span><span>   879030 
 #&gt; 
 #&gt; 28 additional parameters 
 #&gt; 
-#&gt; Batches: 
-#&gt;     [BATCHES]  [BATCH CELLS]     [Location]        [Scale] 
-#&gt;             1            200            0.1            0.1 
+#&gt; </span><span style='font-weight: bold;'>Batches:</span><span> 
+#&gt;     </span><span style='color: #0000BB;font-weight: bold;'>[BATCHES]</span><span>  </span><span style='color: #0000BB;font-weight: bold;'>[BATCH CELLS]</span><span>     </span><span style='color: #0000BB;'>[Location]</span><span>        </span><span style='color: #0000BB;'>[Scale]</span><span> 
+#&gt;             </span><span style='color: #00BB00;font-weight: bold;'>1</span><span>            </span><span style='color: #00BB00;font-weight: bold;'>200</span><span>            0.1            0.1 
 #&gt; 
-#&gt; Mean: 
-#&gt;            (RATE)            (SHAPE) 
-#&gt; 0.002962686167343  0.496997730070513 
+#&gt; </span><span style='font-weight: bold;'>Mean:</span><span> 
+#&gt;            </span><span style='font-weight: bold;'>(RATE)</span><span>            </span><span style='font-weight: bold;'>(SHAPE)</span><span> 
+#&gt; </span><span style='color: #00BB00;font-weight: bold;'>0.002962686167343</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>0.496997730070513</span><span> 
 #&gt; 
-#&gt; Library size: 
-#&gt;       (LOCATION)           (SCALE)            (NORM) 
-#&gt;       357331.235  11607.2332293176              TRUE 
+#&gt; </span><span style='font-weight: bold;'>Library size:</span><span> 
+#&gt;       </span><span style='font-weight: bold;'>(LOCATION)</span><span>           </span><span style='font-weight: bold;'>(SCALE)</span><span>            </span><span style='font-weight: bold;'>(NORM)</span><span> 
+#&gt;       </span><span style='color: #00BB00;font-weight: bold;'>357331.235</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>11607.2332293176</span><span>              </span><span style='color: #00BB00;font-weight: bold;'>TRUE</span><span> 
 #&gt; 
-#&gt; Exprs outliers: 
-#&gt; (PROBABILITY)     (Location)        (Scale) 
-#&gt;             0              4            0.5 
+#&gt; </span><span style='font-weight: bold;'>Exprs outliers:</span><span> 
+#&gt; </span><span style='font-weight: bold;'>(PROBABILITY)</span><span>     (Location)        (Scale) 
+#&gt;             </span><span style='color: #00BB00;font-weight: bold;'>0</span><span>              4            0.5 
 #&gt; 
-#&gt; Groups: 
-#&gt;      [Groups]  [Group Probs] 
+#&gt; </span><span style='font-weight: bold;'>Groups:</span><span> 
+#&gt;      </span><span style='color: #0000BB;'>[Groups]</span><span>  </span><span style='color: #0000BB;'>[Group Probs]</span><span> 
 #&gt;             1              1 
 #&gt; 
-#&gt; Diff expr: 
-#&gt; [Probability]    [Down Prob]     [Location]        [Scale] 
+#&gt; </span><span style='font-weight: bold;'>Diff expr:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[Probability]</span><span>    </span><span style='color: #0000BB;'>[Down Prob]</span><span>     </span><span style='color: #0000BB;'>[Location]</span><span>        </span><span style='color: #0000BB;'>[Scale]</span><span> 
 #&gt;           0.1            0.5            0.1            0.4 
 #&gt; 
-#&gt; BCV: 
-#&gt;     (COMMON DISP)              (DOF) 
-#&gt; 0.752043426792845   11211.8933424157 
+#&gt; </span><span style='font-weight: bold;'>BCV:</span><span> 
+#&gt;     </span><span style='font-weight: bold;'>(COMMON DISP)</span><span>              </span><span style='font-weight: bold;'>(DOF)</span><span> 
+#&gt; </span><span style='color: #00BB00;font-weight: bold;'>0.752043426792845</span><span>   </span><span style='color: #00BB00;font-weight: bold;'>11211.8933424157</span><span> 
 #&gt; 
-#&gt; Dropout: 
-#&gt;            [Type]         (MIDPOINT)            (SHAPE) 
-#&gt;              none   2.71153535179343  -1.37209356733765 
+#&gt; </span><span style='font-weight: bold;'>Dropout:</span><span> 
+#&gt;            </span><span style='color: #0000BB;'>[Type]</span><span>         </span><span style='font-weight: bold;'>(MIDPOINT)</span><span>            </span><span style='font-weight: bold;'>(SHAPE)</span><span> 
+#&gt;              none   </span><span style='color: #00BB00;font-weight: bold;'>2.71153535179343</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>-1.37209356733765</span><span> 
 #&gt; 
-#&gt; Paths: 
-#&gt;         [From]         [Steps]          [Skew]    [Non-linear]  [Sigma Factor] 
+#&gt; </span><span style='font-weight: bold;'>Paths:</span><span> 
+#&gt;         </span><span style='color: #0000BB;'>[From]</span><span>         </span><span style='color: #0000BB;'>[Steps]</span><span>          </span><span style='color: #0000BB;'>[Skew]</span><span>    </span><span style='color: #0000BB;'>[Non-linear]</span><span>  </span><span style='color: #0000BB;'>[Sigma Factor]</span><span> 
 #&gt;              0             100             0.5             0.1             0.8 
-#&gt; </div></pre>
+#&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

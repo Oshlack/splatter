@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
       </span>
     </div>
 
@@ -147,8 +147,7 @@
     <pre class="usage"><span class='fu'>mfaEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newMFAParams</a></span>())
 
 <span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>mfaEstimate</span>(<span class='no'>counts</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newMFAParams</a></span>())
+<span class='fu'>mfaEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newMFAParams</a></span>())
 
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>mfaEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newMFAParams</a></span>())</pre>
@@ -174,40 +173,19 @@ containing count data to estimate parameters from.</p></td>
 
     <p>The <code>nGenes</code> and <code>nCells</code> parameters are taken from the size of the
 input data. The dropout lambda parameter is estimate using
-<code><a href='https://rdrr.io/pkg/mfa/man/empirical_lambda.html'>empirical_lambda</a></code>. See <code><a href='MFAParams.html'>MFAParams</a></code> for more
+<code>empirical_lambda</code>. See <code><a href='MFAParams.html'>MFAParams</a></code> for more
 details on the parameters.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"mfa"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
     <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>mfa</span>)
-    <span class='no'>synth</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/mfa/man/create_synthetic.html'>create_synthetic</a></span>(<span class='kw'>C</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>G</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>zero_negative</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <span class='no'>synth</span> <span class='kw'>&lt;-</span> <span class='fu'>create_synthetic</span>(<span class='kw'>C</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>G</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>zero_negative</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
                               <span class='kw'>model_dropout</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
     <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>mfaEstimate</span>(<span class='no'>synth</span>$<span class='no'>X</span>)
     <span class='no'>params</span>
-}</div><div class='output co'>#&gt; A Params object of class MFAParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
-#&gt; Secondary parameters are usually set during simulation
-#&gt; 
-#&gt; Global: 
-#&gt; (GENES)  (CELLS)   [Seed] 
-#&gt;      20        5   955861 
-#&gt; 
-#&gt; 4 additional parameters 
-#&gt; 
-#&gt; Transient: 
-#&gt; [Proportion] 
-#&gt;            0 
-#&gt; 
-#&gt; Negative: 
-#&gt; [Zero] 
-#&gt;   TRUE 
-#&gt; 
-#&gt; Dropout: 
-#&gt;         [Present]           (LAMBDA) 
-#&gt;             FALSE  0.264691247771788 
-#&gt; </div></pre>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

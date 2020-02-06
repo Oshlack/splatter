@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
       </span>
     </div>
 
@@ -95,7 +95,7 @@
       <h1>Introduction to Splatter</h1>
                         <h4 class="author">Luke Zappia</h4>
             
-            <h4 class="date">2019-10-11</h4>
+            <h4 class="date">2020-02-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Oshlack/splatter/blob/master/vignettes/splatter.Rmd"><code>vignettes/splatter.Rmd</code></a></small>
       <div class="hidden name"><code>splatter.Rmd</code></div>
@@ -126,14 +126,10 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Load package</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(splatter)</a></code></pre></div>
 <pre><code>## Loading required package: SingleCellExperiment</code></pre>
-<pre><code>## Warning: package 'SingleCellExperiment' was built under R version 3.6.1</code></pre>
 <pre><code>## Loading required package: SummarizedExperiment</code></pre>
-<pre><code>## Warning: package 'SummarizedExperiment' was built under R version 3.6.1</code></pre>
 <pre><code>## Loading required package: GenomicRanges</code></pre>
-<pre><code>## Warning: package 'GenomicRanges' was built under R version 3.6.1</code></pre>
 <pre><code>## Loading required package: stats4</code></pre>
 <pre><code>## Loading required package: BiocGenerics</code></pre>
-<pre><code>## Warning: package 'BiocGenerics' was built under R version 3.6.1</code></pre>
 <pre><code>## Loading required package: parallel</code></pre>
 <pre><code>## 
 ## Attaching package: 'BiocGenerics'</code></pre>
@@ -147,33 +143,27 @@
 ##     IQR, mad, sd, var, xtabs</code></pre>
 <pre><code>## The following objects are masked from 'package:base':
 ## 
-##     anyDuplicated, append, as.data.frame, basename, cbind,
-##     colnames, dirname, do.call, duplicated, eval, evalq, Filter,
-##     Find, get, grep, grepl, intersect, is.unsorted, lapply, Map,
-##     mapply, match, mget, order, paste, pmax, pmax.int, pmin,
-##     pmin.int, Position, rank, rbind, Reduce, rownames, sapply,
-##     setdiff, sort, table, tapply, union, unique, unsplit, which,
-##     which.max, which.min</code></pre>
+##     anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+##     dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+##     grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+##     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+##     rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+##     union, unique, unsplit, which, which.max, which.min</code></pre>
 <pre><code>## Loading required package: S4Vectors</code></pre>
-<pre><code>## Warning: package 'S4Vectors' was built under R version 3.6.1</code></pre>
 <pre><code>## 
 ## Attaching package: 'S4Vectors'</code></pre>
 <pre><code>## The following object is masked from 'package:base':
 ## 
 ##     expand.grid</code></pre>
 <pre><code>## Loading required package: IRanges</code></pre>
-<pre><code>## Warning: package 'IRanges' was built under R version 3.6.1</code></pre>
 <pre><code>## Loading required package: GenomeInfoDb</code></pre>
-<pre><code>## Warning: package 'GenomeInfoDb' was built under R version 3.6.1</code></pre>
 <pre><code>## Loading required package: Biobase</code></pre>
-<pre><code>## Warning: package 'Biobase' was built under R version 3.6.1</code></pre>
 <pre><code>## Welcome to Bioconductor
 ## 
 ##     Vignettes contain introductory material; view with
 ##     'browseVignettes()'. To cite Bioconductor, see
 ##     'citation("Biobase")', and for packages 'citation("pkgname")'.</code></pre>
 <pre><code>## Loading required package: DelayedArray</code></pre>
-<pre><code>## Warning: package 'DelayedArray' was built under R version 3.6.1</code></pre>
 <pre><code>## Loading required package: matrixStats</code></pre>
 <pre><code>## 
 ## Attaching package: 'matrixStats'</code></pre>
@@ -181,7 +171,6 @@
 ## 
 ##     anyMissing, rowMedians</code></pre>
 <pre><code>## Loading required package: BiocParallel</code></pre>
-<pre><code>## Warning: package 'BiocParallel' was built under R version 3.6.1</code></pre>
 <pre><code>## 
 ## Attaching package: 'DelayedArray'</code></pre>
 <pre><code>## The following objects are masked from 'package:matrixStats':
@@ -190,18 +179,17 @@
 <pre><code>## The following objects are masked from 'package:base':
 ## 
 ##     aperm, apply, rowsum</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="co"># Create mock data</span></a>
-<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(scater)</a></code></pre></div>
-<pre><code>## Warning: package 'scater' was built under R version 3.6.1</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="co"># Create mock data</span></a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(scater)</a></code></pre></div>
 <pre><code>## Loading required package: ggplot2</code></pre>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb42-2" data-line-number="2">sce &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/mockSCE.html">mockSCE</a></span>()</a>
-<a class="sourceLine" id="cb42-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="co"># Estimate parameters from mock data</span></a>
-<a class="sourceLine" id="cb42-5" data-line-number="5">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatEstimate.html">splatEstimate</a></span>(sce)</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">sce &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/mockSCE.html">mockSCE</a></span>()</a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="co"># Estimate parameters from mock data</span></a>
+<a class="sourceLine" id="cb31-5" data-line-number="5">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatEstimate.html">splatEstimate</a></span>(sce)</a></code></pre></div>
 <pre><code>## NOTE: Library sizes have been found to be normally distributed instead of log-normal. You may want to check this is correct.</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="co"># Simulate data using estimated parameters</span></a>
-<a class="sourceLine" id="cb44-2" data-line-number="2">sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(params)</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co"># Simulate data using estimated parameters</span></a>
+<a class="sourceLine" id="cb33-2" data-line-number="2">sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(params)</a></code></pre></div>
 <pre><code>## Getting parameters...</code></pre>
 <pre><code>## Creating simulation object...</code></pre>
 <pre><code>## Simulating library sizes...</code></pre>
@@ -222,15 +210,15 @@
 <h1 class="hasAnchor">
 <a href="#the-splatparams-object" class="anchor"></a>The <code>SplatParams</code> object</h1>
 <p>All the parameters for the Splat simulation are stored in a <code>SplatParams</code> object. Let’s create a new one and see what it looks like.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/newParams.html">newSplatParams</a></span>()</a>
-<a class="sourceLine" id="cb53-2" data-line-number="2">params</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/newParams.html">newSplatParams</a></span>()</a>
+<a class="sourceLine" id="cb42-2" data-line-number="2">params</a></code></pre></div>
 <pre><code>## A Params object of class SplatParams 
 ## Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
 ## Secondary parameters are usually set during simulation
 ## 
 ## Global: 
 ## (Genes)  (Cells)   [Seed] 
-##   10000      100   955861 
+##   10000      100   879030 
 ## 
 ## 28 additional parameters 
 ## 
@@ -267,26 +255,24 @@
 ##       none           0          -1 
 ## 
 ## Paths: 
-##         [From]         [Steps]          [Skew]    [Non-linear] 
-##              0             100             0.5             0.1 
-## [Sigma Factor] 
-##            0.8</code></pre>
+##         [From]         [Steps]          [Skew]    [Non-linear]  [Sigma Factor] 
+##              0             100             0.5             0.1             0.8</code></pre>
 <p>As well as telling us what type of object we have (“A <code>Params</code> object of class <code>SplatParams</code>”) and showing us the values of the parameter this output gives us some extra information. We can see which parameters can be estimated by the <code>splatEstimate</code> function (those in parentheses), which can’t be estimated (those in brackets) and which have been changed from their default values (those in ALL CAPS). For more details about the parameters of the Splat simulation refer to the <a href="splat_params.html">Splat parameters vignette</a>.</p>
 <div id="getting-and-setting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-and-setting" class="anchor"></a>Getting and setting</h2>
 <p>If we want to look at a particular parameter, for example the number of genes to simulate, we can extract it using the <code>getParam</code> function:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw"><a href="../reference/getParam.html">getParam</a></span>(params, <span class="st">"nGenes"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw"><a href="../reference/getParam.html">getParam</a></span>(params, <span class="st">"nGenes"</span>)</a></code></pre></div>
 <pre><code>## [1] 10000</code></pre>
 <p>Alternatively, to give a parameter a new value we can use the <code>setParam</code> function:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/setParam.html">setParam</a></span>(params, <span class="st">"nGenes"</span>, <span class="dv">5000</span>)</a>
-<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="kw"><a href="../reference/getParam.html">getParam</a></span>(params, <span class="st">"nGenes"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/setParam.html">setParam</a></span>(params, <span class="st">"nGenes"</span>, <span class="dv">5000</span>)</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="kw"><a href="../reference/getParam.html">getParam</a></span>(params, <span class="st">"nGenes"</span>)</a></code></pre></div>
 <pre><code>## [1] 5000</code></pre>
 <p>If we want to extract multiple parameters (as a list) or set multiple parameters we can use the <code>getParams</code> or <code>setParams</code> functions:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="co"># Set multiple parameters at once (using a list)</span></a>
-<a class="sourceLine" id="cb59-2" data-line-number="2">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/setParams.html">setParams</a></span>(params, <span class="dt">update =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">nGenes =</span> <span class="dv">8000</span>, <span class="dt">mean.rate =</span> <span class="fl">0.5</span>))</a>
-<a class="sourceLine" id="cb59-3" data-line-number="3"><span class="co"># Extract multiple parameters as a list</span></a>
-<a class="sourceLine" id="cb59-4" data-line-number="4"><span class="kw"><a href="../reference/getParams.html">getParams</a></span>(params, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"nGenes"</span>, <span class="st">"mean.rate"</span>, <span class="st">"mean.shape"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="co"># Set multiple parameters at once (using a list)</span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/setParams.html">setParams</a></span>(params, <span class="dt">update =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">nGenes =</span> <span class="dv">8000</span>, <span class="dt">mean.rate =</span> <span class="fl">0.5</span>))</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3"><span class="co"># Extract multiple parameters as a list</span></a>
+<a class="sourceLine" id="cb48-4" data-line-number="4"><span class="kw"><a href="../reference/getParams.html">getParams</a></span>(params, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"nGenes"</span>, <span class="st">"mean.rate"</span>, <span class="st">"mean.shape"</span>))</a></code></pre></div>
 <pre><code>## $nGenes
 ## [1] 8000
 ## 
@@ -295,16 +281,16 @@
 ## 
 ## $mean.shape
 ## [1] 0.6</code></pre>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="co"># Set multiple parameters at once (using additional arguments)</span></a>
-<a class="sourceLine" id="cb61-2" data-line-number="2">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/setParams.html">setParams</a></span>(params, <span class="dt">mean.shape =</span> <span class="fl">0.5</span>, <span class="dt">de.prob =</span> <span class="fl">0.2</span>)</a>
-<a class="sourceLine" id="cb61-3" data-line-number="3">params</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="co"># Set multiple parameters at once (using additional arguments)</span></a>
+<a class="sourceLine" id="cb50-2" data-line-number="2">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/setParams.html">setParams</a></span>(params, <span class="dt">mean.shape =</span> <span class="fl">0.5</span>, <span class="dt">de.prob =</span> <span class="fl">0.2</span>)</a>
+<a class="sourceLine" id="cb50-3" data-line-number="3">params</a></code></pre></div>
 <pre><code>## A Params object of class SplatParams 
 ## Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
 ## Secondary parameters are usually set during simulation
 ## 
 ## Global: 
 ## (GENES)  (Cells)   [Seed] 
-##    8000      100   955861 
+##    8000      100   879030 
 ## 
 ## 28 additional parameters 
 ## 
@@ -341,14 +327,12 @@
 ##       none           0          -1 
 ## 
 ## Paths: 
-##         [From]         [Steps]          [Skew]    [Non-linear] 
-##              0             100             0.5             0.1 
-## [Sigma Factor] 
-##            0.8</code></pre>
+##         [From]         [Steps]          [Skew]    [Non-linear]  [Sigma Factor] 
+##              0             100             0.5             0.1             0.8</code></pre>
 <p>The parameters with have changed are now shown in ALL CAPS to indicate that they been changed form the default.</p>
 <p>We can also set parameters directly when we call <code>newSplatParams</code>:</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/newParams.html">newSplatParams</a></span>(<span class="dt">lib.loc =</span> <span class="dv">12</span>, <span class="dt">lib.scale =</span> <span class="fl">0.6</span>)</a>
-<a class="sourceLine" id="cb63-2" data-line-number="2"><span class="kw"><a href="../reference/getParams.html">getParams</a></span>(params, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lib.loc"</span>, <span class="st">"lib.scale"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/newParams.html">newSplatParams</a></span>(<span class="dt">lib.loc =</span> <span class="dv">12</span>, <span class="dt">lib.scale =</span> <span class="fl">0.6</span>)</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="kw"><a href="../reference/getParams.html">getParams</a></span>(params, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lib.loc"</span>, <span class="st">"lib.scale"</span>))</a></code></pre></div>
 <pre><code>## $lib.loc
 ## [1] 12
 ## 
@@ -360,26 +344,26 @@
 <h1 class="hasAnchor">
 <a href="#estimating-parameters" class="anchor"></a>Estimating parameters</h1>
 <p>Splat allows you to estimate many of it’s parameters from a data set containing counts using the <code>splatEstimate</code> function.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="co"># Get the mock counts matrix</span></a>
-<a class="sourceLine" id="cb65-2" data-line-number="2">counts &lt;-<span class="st"> </span><span class="kw">counts</span>(sce)</a>
-<a class="sourceLine" id="cb65-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb65-4" data-line-number="4"><span class="co"># Check that counts is an integer matrix</span></a>
-<a class="sourceLine" id="cb65-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(counts)</a></code></pre></div>
-<pre><code>## [1] "matrix"</code></pre>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span>(counts)</a></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="co"># Get the mock counts matrix</span></a>
+<a class="sourceLine" id="cb54-2" data-line-number="2">counts &lt;-<span class="st"> </span><span class="kw">counts</span>(sce)</a>
+<a class="sourceLine" id="cb54-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb54-4" data-line-number="4"><span class="co"># Check that counts is an integer matrix</span></a>
+<a class="sourceLine" id="cb54-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(counts)</a></code></pre></div>
+<pre><code>## [1] "matrix" "array"</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span>(counts)</a></code></pre></div>
 <pre><code>## [1] "double"</code></pre>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="co"># Check the dimensions, each row is a gene, each column is a cell</span></a>
-<a class="sourceLine" id="cb69-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(counts)</a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="co"># Check the dimensions, each row is a gene, each column is a cell</span></a>
+<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(counts)</a></code></pre></div>
 <pre><code>## [1] 2000  200</code></pre>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1"><span class="co"># Show the first few entries</span></a>
-<a class="sourceLine" id="cb71-2" data-line-number="2">counts[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="co"># Show the first few entries</span></a>
+<a class="sourceLine" id="cb60-2" data-line-number="2">counts[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
 <pre><code>##           Cell_001 Cell_002 Cell_003 Cell_004 Cell_005
 ## Gene_0001        0        5        7      276       50
 ## Gene_0002       12        0        0        0        0
 ## Gene_0003       97      292       58       64      541
 ## Gene_0004        0        0        0      170       19
 ## Gene_0005      105      123      174      565     1061</code></pre>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatEstimate.html">splatEstimate</a></span>(counts)</a></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatEstimate.html">splatEstimate</a></span>(counts)</a></code></pre></div>
 <pre><code>## NOTE: Library sizes have been found to be normally distributed instead of log-normal. You may want to check this is correct.</code></pre>
 <p>Here we estimated parameters from a counts matrix but <code>splatEstimate</code> can also take a <code>SingleCellExperiment</code> object. The estimation process has the following steps:</p>
 <ol style="list-style-type: decimal">
@@ -395,7 +379,7 @@
 <h1 class="hasAnchor">
 <a href="#simulating-counts" class="anchor"></a>Simulating counts</h1>
 <p>Once we have a set of parameters we are happy with we can use <code>splatSimulate</code> to simulate counts. If we want to make small adjustments to the parameters we can provide them as additional arguments, alternatively if we don’t supply any parameters the defaults will be used:</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1">sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(params, <span class="dt">nGenes =</span> <span class="dv">1000</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(params, <span class="dt">nGenes =</span> <span class="dv">1000</span>)</a></code></pre></div>
 <pre><code>## Getting parameters...</code></pre>
 <pre><code>## Creating simulation object...</code></pre>
 <pre><code>## Simulating library sizes...</code></pre>
@@ -404,7 +388,7 @@
 <pre><code>## Simulating counts...</code></pre>
 <pre><code>## Simulating dropout (if needed)...</code></pre>
 <pre><code>## Done!</code></pre>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" data-line-number="1">sim</a></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1">sim</a></code></pre></div>
 <pre><code>## class: SingleCellExperiment 
 ## dim: 1000 200 
 ## metadata(1): Params
@@ -417,57 +401,54 @@
 ## spikeNames(0):
 ## altExpNames(0):</code></pre>
 <p>Looking at the output of <code>splatSimulate</code> we can see that <code>sim</code> is <code>SingleCellExperiment</code> object with 1000 features (genes) and 200 samples (cells). The main part of this object is a features by samples matrix containing the simulated counts (accessed using <code>counts</code>), although it can also hold other expression measures such as FPKM or TPM. Additionally a <code>SingleCellExperiment</code> contains phenotype information about each cell (accessed using <code>colData</code>) and feature information about each gene (accessed using <code>rowData</code>). Splatter uses these slots, as well as <code>assays</code>, to store information about the intermediate values of the simulation.</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="co"># Access the counts</span></a>
-<a class="sourceLine" id="cb86-2" data-line-number="2"><span class="kw">counts</span>(sim)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="co"># Access the counts</span></a>
+<a class="sourceLine" id="cb75-2" data-line-number="2"><span class="kw">counts</span>(sim)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
 <pre><code>##       Cell1 Cell2 Cell3 Cell4 Cell5
-## Gene1   388   184   496    70   977
-## Gene2   115    24    30    62    30
-## Gene3   353   311   356   172   265
-## Gene4     0     0     0     0     0
-## Gene5    66    88   687   488    91</code></pre>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1"><span class="co"># Information about genes</span></a>
-<a class="sourceLine" id="cb88-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">rowData</span>(sim))</a></code></pre></div>
+## Gene1  4888  9138  4191  5241  6358
+## Gene2    94    20   206   114    17
+## Gene3   694   329   158   223   453
+## Gene4    18     0     3    10     2
+## Gene5  1752  1190   555  1337   285</code></pre>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1"><span class="co"># Information about genes</span></a>
+<a class="sourceLine" id="cb77-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">rowData</span>(sim))</a></code></pre></div>
 <pre><code>## DataFrame with 6 rows and 4 columns
-##           Gene      BaseGeneMean OutlierFactor          GeneMean
-##       &lt;factor&gt;         &lt;numeric&gt;     &lt;numeric&gt;         &lt;numeric&gt;
-## Gene1    Gene1  182.541749248015             1  182.541749248015
-## Gene2    Gene2  45.4848226172007             1  45.4848226172007
-## Gene3    Gene3  247.661694059157             1  247.661694059157
-## Gene4    Gene4 0.133237587005808             1 0.133237587005808
-## Gene5    Gene5  170.361660833028             1  170.361660833028
-## Gene6    Gene6  281.100703006627             1  281.100703006627</code></pre>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1"><span class="co"># Information about cells</span></a>
-<a class="sourceLine" id="cb90-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">colData</span>(sim))</a></code></pre></div>
+##           Gene BaseGeneMean OutlierFactor   GeneMean
+##       &lt;factor&gt;    &lt;numeric&gt;     &lt;numeric&gt;  &lt;numeric&gt;
+## Gene1    Gene1   2068.48712             1 2068.48712
+## Gene2    Gene2     86.67483             1   86.67483
+## Gene3    Gene3    137.64633             1  137.64633
+## Gene4    Gene4      4.77498             1    4.77498
+## Gene5    Gene5    631.60538             1  631.60538
+## Gene6    Gene6    309.66212             1  309.66212</code></pre>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="co"># Information about cells</span></a>
+<a class="sourceLine" id="cb79-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">colData</span>(sim))</a></code></pre></div>
 <pre><code>## DataFrame with 6 rows and 3 columns
-##           Cell       Batch       ExpLibSize
-##       &lt;factor&gt; &lt;character&gt;        &lt;numeric&gt;
-## Cell1    Cell1      Batch1 347367.472875596
-## Cell2    Cell2      Batch1 357315.685032967
-## Cell3    Cell3      Batch1 344451.277578974
-## Cell4    Cell4      Batch1 348810.103710477
-## Cell5    Cell5      Batch1 356933.764212043
-## Cell6    Cell6      Batch1 343192.242624294</code></pre>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="co"># Gene by cell matrices</span></a>
-<a class="sourceLine" id="cb92-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">assays</span>(sim))</a></code></pre></div>
+##           Cell       Batch ExpLibSize
+##       &lt;factor&gt; &lt;character&gt;  &lt;numeric&gt;
+## Cell1    Cell1      Batch1     344916
+## Cell2    Cell2      Batch1     373049
+## Cell3    Cell3      Batch1     370647
+## Cell4    Cell4      Batch1     360176
+## Cell5    Cell5      Batch1     354372
+## Cell6    Cell6      Batch1     363728</code></pre>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="co"># Gene by cell matrices</span></a>
+<a class="sourceLine" id="cb81-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">assays</span>(sim))</a></code></pre></div>
 <pre><code>## [1] "BatchCellMeans" "BaseCellMeans"  "BCV"            "CellMeans"     
 ## [5] "TrueCounts"     "counts"</code></pre>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1"><span class="co"># Example of cell means matrix</span></a>
-<a class="sourceLine" id="cb94-2" data-line-number="2"><span class="kw">assays</span>(sim)<span class="op">$</span>CellMeans[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
-<pre><code>##              Cell1       Cell2        Cell3        Cell4        Cell5
-## Gene1 390.52352662 198.5368335 530.58433564 8.478547e+01 1006.4132206
-## Gene2 123.88369156  18.7047056  33.40839148 5.484398e+01   28.5096579
-## Gene3 347.21277069 341.6968857 364.20100579 1.501884e+02  254.1098498
-## Gene4   0.02443122   0.0208686   0.01504628 7.542940e-04    0.5873028
-## Gene5  69.56325232  85.8830537 670.02282798 5.116404e+02   89.9774291</code></pre>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1"><span class="co"># Example of cell means matrix</span></a>
+<a class="sourceLine" id="cb83-2" data-line-number="2"><span class="kw">assays</span>(sim)<span class="op">$</span>CellMeans[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
+<pre><code>##           Cell1       Cell2       Cell3       Cell4       Cell5
+## Gene1 4947.3432 9017.406511 4135.408921 5260.504788 6305.531311
+## Gene2   94.6408   22.876520  215.505010  106.658722   18.193245
+## Gene3  691.8477  337.043242  149.782904  237.079025  467.171966
+## Gene4   13.8126    1.384254    4.375509    7.929901    4.105496
+## Gene5 1769.8429 1231.552327  552.586240 1258.826145  298.366976</code></pre>
 <p>An additional (big) advantage of outputting a <code>SingleCellExperiment</code> is that we get immediate access to other analysis packages, such as the plotting functions in <code>scater</code>. For example we can make a PCA plot:</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="co"># Use scater to calculate logcounts</span></a>
-<a class="sourceLine" id="cb96-2" data-line-number="2">sim &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/normalize.html">normalize</a></span>(sim)</a></code></pre></div>
-<pre><code>## Warning in .local(object, ...): using library sizes as size factors</code></pre>
-<pre><code>## Warning: 'centreSizeFactors' is deprecated.
-## See help("Deprecated")</code></pre>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="co"># Plot PCA</span></a>
-<a class="sourceLine" id="cb99-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim)</a></code></pre></div>
-<pre><code>## Warning: call 'runPCA' explicitly to compute results</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="co"># Use scater to calculate logcounts</span></a>
+<a class="sourceLine" id="cb85-2" data-line-number="2">sim &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim)</a>
+<a class="sourceLine" id="cb85-3" data-line-number="3"><span class="co"># Plot PCA</span></a>
+<a class="sourceLine" id="cb85-4" data-line-number="4">sim &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim)</a>
+<a class="sourceLine" id="cb85-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim)</a></code></pre></div>
 <p><img src="splatter_files/figure-html/pca-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>(<strong>NOTE:</strong> Your values and plots may look different as the simulation is random and produces different results each time it is run.)</p>
 <p>For more details about the <code>SingleCellExperiment</code> object refer to the [vignette] <a href="https://bioconductor.org/packages/devel/bioc/vignettes/SingleCellExperiment/inst/doc/intro.html">SCE-vignette</a>. For information about what you can do with <code>scater</code> refer to the <code>scater</code> documentation and <a href="https://bioconductor.org/packages/release/bioc/vignettes/scater/inst/doc/vignette.html">vignette</a>.</p>
@@ -525,14 +506,14 @@
 <a href="#simulating-groups" class="anchor"></a>Simulating groups</h2>
 <p>So far we have only simulated a single population of cells but often we are interested in investigating a mixed population of cells and looking to see what cell types are present or what differences there are between them. Splatter is able to simulate these situations by changing the <code>method</code> argument Here we are going to simulate two groups, by specifying the <code>group.prob</code> parameter and setting the <code>method</code> parameter to <code>"groups"</code>:</p>
 <p>(<strong>NOTE:</strong> We have also set the <code>verbose</code> argument to <code>FALSE</code> to stop Splatter printing progress messages.)</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1">sim.groups &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="dt">method =</span> <span class="st">"groups"</span>,</a>
-<a class="sourceLine" id="cb101-2" data-line-number="2">                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb101-3" data-line-number="3">sim.groups &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/normalize.html">normalize</a></span>(sim.groups)</a></code></pre></div>
-<pre><code>## Warning in .local(object, ...): using library sizes as size factors</code></pre>
-<pre><code>## Warning: 'centreSizeFactors' is deprecated.
-## See help("Deprecated")</code></pre>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim.groups, <span class="dt">colour_by =</span> <span class="st">"Group"</span>)</a></code></pre></div>
-<pre><code>## Warning: call 'runPCA' explicitly to compute results</code></pre>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1">sim.groups &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="dt">method =</span> <span class="st">"groups"</span>,</a>
+<a class="sourceLine" id="cb86-2" data-line-number="2">                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb86-3" data-line-number="3">sim.groups &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim.groups)</a>
+<a class="sourceLine" id="cb86-4" data-line-number="4">sim.groups &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim.groups)</a></code></pre></div>
+<pre><code>## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =
+## TRUE, : You're computing too large a percentage of total singular values, use a
+## standard svd instead.</code></pre>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim.groups, <span class="dt">colour_by =</span> <span class="st">"Group"</span>)</a></code></pre></div>
 <p><img src="splatter_files/figure-html/groups-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>As we have set both the group probabilities to 0.5 we should get approximately equal numbers of cells in each group (around 50 in this case). If we wanted uneven groups we could set <code>group.prob</code> to any set of probabilities that sum to 1.</p>
 </div>
@@ -540,13 +521,13 @@
 <h2 class="hasAnchor">
 <a href="#simulating-paths" class="anchor"></a>Simulating paths</h2>
 <p>The other situation that is often of interest is a differentiation process where one cell type is changing into another. Splatter approximates this process by simulating a series of steps between two groups and randomly assigning each cell to a step. We can create this kind of simulation using the <code>"paths"</code> method.</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1">sim.paths &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">method =</span> <span class="st">"paths"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb106-2" data-line-number="2">sim.paths &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/normalize.html">normalize</a></span>(sim.paths)</a></code></pre></div>
-<pre><code>## Warning in .local(object, ...): using library sizes as size factors</code></pre>
-<pre><code>## Warning: 'centreSizeFactors' is deprecated.
-## See help("Deprecated")</code></pre>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim.paths, <span class="dt">colour_by =</span> <span class="st">"Step"</span>)</a></code></pre></div>
-<pre><code>## Warning: call 'runPCA' explicitly to compute results</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1">sim.paths &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">method =</span> <span class="st">"paths"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb89-2" data-line-number="2">sim.paths &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim.paths)</a>
+<a class="sourceLine" id="cb89-3" data-line-number="3">sim.paths &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim.paths)</a></code></pre></div>
+<pre><code>## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =
+## TRUE, : You're computing too large a percentage of total singular values, use a
+## standard svd instead.</code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim.paths, <span class="dt">colour_by =</span> <span class="st">"Step"</span>)</a></code></pre></div>
 <p><img src="splatter_files/figure-html/paths-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>Here the colours represent the “step” of each cell or how far along the differentiation path it is. We can see that the cells with dark colours are more similar to the originating cell type and the light coloured cells are closer to the final, differentiated, cell type. By setting additional parameters it is possible to simulate more complex process (for example multiple mature cell types from a single progenitor).</p>
 </div>
@@ -554,23 +535,23 @@
 <h2 class="hasAnchor">
 <a href="#batch-effects" class="anchor"></a>Batch effects</h2>
 <p>Another factor that is important in the analysis of any sequencing experiment are batch effects, technical variation that is common to a set of samples processed at the same time. We apply batch effects by telling Splatter how many cells are in each batch:</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1">sim.batches &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">batchCells =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">50</span>, <span class="dv">50</span>), <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb111-2" data-line-number="2">sim.batches &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/normalize.html">normalize</a></span>(sim.batches)</a></code></pre></div>
-<pre><code>## Warning in .local(object, ...): using library sizes as size factors</code></pre>
-<pre><code>## Warning: 'centreSizeFactors' is deprecated.
-## See help("Deprecated")</code></pre>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim.batches, <span class="dt">colour_by =</span> <span class="st">"Batch"</span>)</a></code></pre></div>
-<pre><code>## Warning: call 'runPCA' explicitly to compute results</code></pre>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1">sim.batches &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">batchCells =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">50</span>, <span class="dv">50</span>), <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb92-2" data-line-number="2">sim.batches &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim.batches)</a>
+<a class="sourceLine" id="cb92-3" data-line-number="3">sim.batches &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim.batches)</a></code></pre></div>
+<pre><code>## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =
+## TRUE, : You're computing too large a percentage of total singular values, use a
+## standard svd instead.</code></pre>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim.batches, <span class="dt">colour_by =</span> <span class="st">"Batch"</span>)</a></code></pre></div>
 <p><img src="splatter_files/figure-html/batches-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>This looks at lot like when we simulated groups and that is because the process is very similar. The difference is that batch effects are applied to all genes, not just those that are differentially expressed, and the effects are usually smaller. By combining groups and batches we can simulate both unwanted variation that we aren’t interested in (batch) and the wanted variation we are looking for (group):</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1">sim.groups &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">batchCells =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">50</span>, <span class="dv">50</span>), <span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>),</a>
-<a class="sourceLine" id="cb116-2" data-line-number="2">                            <span class="dt">method =</span> <span class="st">"groups"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb116-3" data-line-number="3">sim.groups &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/normalize.html">normalize</a></span>(sim.groups)</a></code></pre></div>
-<pre><code>## Warning in .local(object, ...): using library sizes as size factors</code></pre>
-<pre><code>## Warning: 'centreSizeFactors' is deprecated.
-## See help("Deprecated")</code></pre>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim.groups, <span class="dt">shape_by =</span> <span class="st">"Batch"</span>, <span class="dt">colour_by =</span> <span class="st">"Group"</span>)</a></code></pre></div>
-<pre><code>## Warning: call 'runPCA' explicitly to compute results</code></pre>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1">sim.groups &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">batchCells =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">50</span>, <span class="dv">50</span>), <span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>),</a>
+<a class="sourceLine" id="cb95-2" data-line-number="2">                            <span class="dt">method =</span> <span class="st">"groups"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb95-3" data-line-number="3">sim.groups &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim.groups)</a>
+<a class="sourceLine" id="cb95-4" data-line-number="4">sim.groups &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim.groups)</a></code></pre></div>
+<pre><code>## Warning in (function (A, nv = 5, nu = nv, maxit = 1000, work = nv + 7, reorth =
+## TRUE, : You're computing too large a percentage of total singular values, use a
+## standard svd instead.</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim.groups, <span class="dt">shape_by =</span> <span class="st">"Batch"</span>, <span class="dt">colour_by =</span> <span class="st">"Group"</span>)</a></code></pre></div>
 <p><img src="splatter_files/figure-html/batch-groups-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>Here we see that the effects of the group (first component) are stronger than the batch effects (second component) but by adjusting the parameters we could made the batch effects dominate.</p>
 </div>
@@ -584,7 +565,7 @@
 <h1 class="hasAnchor">
 <a href="#other-simulations" class="anchor"></a>Other simulations</h1>
 <p>As well as it’s own Splat simulation method the Splatter package contains implementations of other single-cell RNA-seq simulations that have been published or wrappers around simulations included in other packages. To see all the available simulations run the <code><a href="../reference/listSims.html">listSims()</a></code> function:</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="kw"><a href="../reference/listSims.html">listSims</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="kw"><a href="../reference/listSims.html">listSims</a></span>()</a></code></pre></div>
 <pre><code>## Splatter currently contains 14 simulations 
 ## 
 ## Splat (splat) 
@@ -648,59 +629,59 @@
 <h1 class="hasAnchor">
 <a href="#other-expression-values" class="anchor"></a>Other expression values</h1>
 <p>Splatter is designed to simulate count data but some analysis methods expect other expression values, particularly length-normalised values such as TPM or FPKM. The <code>scater</code> package has functions for adding these values to a <code>SingleCellExperiment</code> object but they require a length for each gene. The <code>addGeneLengths</code> function can be used to simulate these lengths:</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1">sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/simpleSimulate.html">simpleSimulate</a></span>(<span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb123-2" data-line-number="2">sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/addGeneLengths.html">addGeneLengths</a></span>(sim)</a>
-<a class="sourceLine" id="cb123-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">rowData</span>(sim))</a></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1">sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/simpleSimulate.html">simpleSimulate</a></span>(<span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb100-2" data-line-number="2">sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/addGeneLengths.html">addGeneLengths</a></span>(sim)</a>
+<a class="sourceLine" id="cb100-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">rowData</span>(sim))</a></code></pre></div>
 <pre><code>## DataFrame with 6 rows and 3 columns
-##           Gene             GeneMean    Length
-##       &lt;factor&gt;            &lt;numeric&gt; &lt;numeric&gt;
-## Gene1    Gene1   0.0792265397126071      1105
-## Gene2    Gene2   0.0306368911550198      2027
-## Gene3    Gene3     1.75797983978846      5541
-## Gene4    Gene4 0.000969198708564301      2476
-## Gene5    Gene5   0.0554598556966454      2845
-## Gene6    Gene6     2.21278105339233      3607</code></pre>
+##           Gene  GeneMean    Length
+##       &lt;factor&gt; &lt;numeric&gt; &lt;numeric&gt;
+## Gene1    Gene1 0.0359472      9908
+## Gene2    Gene2 3.7505838      2558
+## Gene3    Gene3 0.7894190      1785
+## Gene4    Gene4 1.6433575      2694
+## Gene5    Gene5 7.3400094      1895
+## Gene6    Gene6 0.0179548       610</code></pre>
 <p>We can then use <code>scater</code> to calculate TPM:</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="kw">tpm</span>(sim) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/calculateTPM.html">calculateTPM</a></span>(sim, <span class="kw">rowData</span>(sim)<span class="op">$</span>Length)</a>
-<a class="sourceLine" id="cb125-2" data-line-number="2"><span class="kw">tpm</span>(sim)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" data-line-number="1"><span class="kw">tpm</span>(sim) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/calculateTPM.html">calculateTPM</a></span>(sim, <span class="kw">rowData</span>(sim)<span class="op">$</span>Length)</a>
+<a class="sourceLine" id="cb102-2" data-line-number="2"><span class="kw">tpm</span>(sim)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
 <pre><code>##          Cell1    Cell2    Cell3    Cell4    Cell5
-## Gene1  0.00000  0.00000  0.00000  0.00000   0.0000
-## Gene2  0.00000  0.00000  0.00000  0.00000   0.0000
-## Gene3 28.33389 58.08241 28.72608 57.73984 112.7174
-## Gene4  0.00000  0.00000  0.00000  0.00000   0.0000
-## Gene5  0.00000  0.00000  0.00000  0.00000   0.0000</code></pre>
+## Gene1   0.0000   0.0000   0.0000   0.0000   0.0000
+## Gene2 480.1498 361.9255 357.7692 418.4995 239.3730
+## Gene3   0.0000   0.0000 170.9008   0.0000   0.0000
+## Gene4   0.0000 171.8273   0.0000 170.3025 113.6444
+## Gene5 486.1041 651.4022 402.4510 645.6218 484.6830</code></pre>
 <p>The default method used by <code>addGeneLengths</code> to simulate lengths is to generate values from a log-normal distribution which are then rounded to give an integer length. The parameters for this distribution are based on human protein coding genes but can be adjusted if needed (for example for other species). Alternatively lengths can be sampled from a provided vector (see <code><a href="../reference/addGeneLengths.html">?addGeneLengths</a></code> for details and an example).</p>
 </div>
 <div id="comparing-simulations-and-real-data" class="section level1">
 <h1 class="hasAnchor">
 <a href="#comparing-simulations-and-real-data" class="anchor"></a>Comparing simulations and real data</h1>
 <p>One thing you might like to do after simulating data is to compare it to a real dataset, or compare simulations with different parameters or models. Splatter provides a function <code>compareSCEs</code> that aims to make these comparisons easier. As the name suggests this function takes a list of <code>SingleCellExperiment</code> objects, combines the datasets and produces some plots comparing them. Let’s make two small simulations and see how they compare.</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">nGenes =</span> <span class="dv">1000</span>, <span class="dt">batchCells =</span> <span class="dv">20</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb127-2" data-line-number="2">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/simpleSimulate.html">simpleSimulate</a></span>(<span class="dt">nGenes =</span> <span class="dv">1000</span>, <span class="dt">nCells =</span> <span class="dv">20</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb127-3" data-line-number="3">comparison &lt;-<span class="st"> </span><span class="kw"><a href="../reference/compareSCEs.html">compareSCEs</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">Splat =</span> sim1, <span class="dt">Simple =</span> sim2))</a>
-<a class="sourceLine" id="cb127-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb127-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(comparison)</a></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">nGenes =</span> <span class="dv">1000</span>, <span class="dt">batchCells =</span> <span class="dv">20</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb104-2" data-line-number="2">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/simpleSimulate.html">simpleSimulate</a></span>(<span class="dt">nGenes =</span> <span class="dv">1000</span>, <span class="dt">nCells =</span> <span class="dv">20</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb104-3" data-line-number="3">comparison &lt;-<span class="st"> </span><span class="kw"><a href="../reference/compareSCEs.html">compareSCEs</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">Splat =</span> sim1, <span class="dt">Simple =</span> sim2))</a>
+<a class="sourceLine" id="cb104-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb104-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(comparison)</a></code></pre></div>
 <pre><code>## [1] "RowData" "ColData" "Plots"</code></pre>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(comparison<span class="op">$</span>Plots)</a></code></pre></div>
-<pre><code>## [1] "Means"        "Variances"    "MeanVar"      "LibrarySizes"
-## [5] "ZerosGene"    "ZerosCell"    "MeanZeros"    "VarGeneCor"</code></pre>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(comparison<span class="op">$</span>Plots)</a></code></pre></div>
+<pre><code>## [1] "Means"        "Variances"    "MeanVar"      "LibrarySizes" "ZerosGene"   
+## [6] "ZerosCell"    "MeanZeros"    "VarGeneCor"</code></pre>
 <p>The returned list has three items. The first two are the combined datasets by gene (<code>RowData</code>) and by cell (<code>ColData</code>) and the third contains some comparison plots (produced using <code>ggplot2</code>), for example a plot of the distribution of means:</p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" data-line-number="1">comparison<span class="op">$</span>Plots<span class="op">$</span>Means</a></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1">comparison<span class="op">$</span>Plots<span class="op">$</span>Means</a></code></pre></div>
 <p><img src="splatter_files/figure-html/comparison-means-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>These are only a few of the plots you might want to consider but it should be easy to make more using the returned data. For example, we could plot the number of expressed genes against the library size:</p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"ggplot2"</span>)</a>
-<a class="sourceLine" id="cb132-2" data-line-number="2"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(comparison<span class="op">$</span>ColData, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> sum, <span class="dt">y =</span> detected, <span class="dt">colour =</span> Dataset)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb132-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"ggplot2"</span>)</a>
+<a class="sourceLine" id="cb109-2" data-line-number="2"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(comparison<span class="op">$</span>ColData, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> sum, <span class="dt">y =</span> detected, <span class="dt">colour =</span> Dataset)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb109-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>()</a></code></pre></div>
 <p><img src="splatter_files/figure-html/comparison-libsize-features-1.png" width="576" style="display: block; margin: auto;"></p>
 <div id="comparing-differences" class="section level2">
 <h2 class="hasAnchor">
 <a href="#comparing-differences" class="anchor"></a>Comparing differences</h2>
 <p>Sometimes instead of visually comparing datasets it may be more interesting to look at the differences between them. We can do this using the <code>diffSCEs</code> function. Similar to <code>compareSCEs</code> this function takes a list of <code>SingleCellExperiment</code> objects but now we also specify one to be a reference. A series of similar plots are returned but instead of showing the overall distributions they demonstrate differences from the reference.</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" data-line-number="1">difference &lt;-<span class="st"> </span><span class="kw"><a href="../reference/diffSCEs.html">diffSCEs</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">Splat =</span> sim1, <span class="dt">Simple =</span> sim2), <span class="dt">ref =</span> <span class="st">"Simple"</span>)</a>
-<a class="sourceLine" id="cb133-2" data-line-number="2">difference<span class="op">$</span>Plots<span class="op">$</span>Means</a></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" data-line-number="1">difference &lt;-<span class="st"> </span><span class="kw"><a href="../reference/diffSCEs.html">diffSCEs</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">Splat =</span> sim1, <span class="dt">Simple =</span> sim2), <span class="dt">ref =</span> <span class="st">"Simple"</span>)</a>
+<a class="sourceLine" id="cb110-2" data-line-number="2">difference<span class="op">$</span>Plots<span class="op">$</span>Means</a></code></pre></div>
 <p><img src="splatter_files/figure-html/difference-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>We also get a series of Quantile-Quantile plot that can be used to compare distributions.</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" data-line-number="1">difference<span class="op">$</span>QQPlots<span class="op">$</span>Means</a></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1">difference<span class="op">$</span>QQPlots<span class="op">$</span>Means</a></code></pre></div>
 <p><img src="splatter_files/figure-html/difference-qq-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div id="making-panels" class="section level2">
@@ -708,25 +689,25 @@
 <a href="#making-panels" class="anchor"></a>Making panels</h2>
 <p>Each of these comparisons makes several plots which can be a lot to look at. To make this easier, or to produce figures for publications, you can make use of the functions <code>makeCompPanel</code>, <code>makeDiffPanel</code> and <code>makeOverallPanel</code>.</p>
 <p>These functions combine the plots into a single panel using the <code>cowplot</code> package. The panels can be quite large and hard to view (for example in RStudio’s plot viewer) so it can be better to output the panels and view them separately. Luckily <code>cowplot</code> provides a convenient function for saving the images. Here are some suggested parameters for outputting each of the panels:</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1"><span class="co"># This code is just an example and is not run</span></a>
-<a class="sourceLine" id="cb135-2" data-line-number="2">panel &lt;-<span class="st"> </span><span class="kw"><a href="../reference/makeCompPanel.html">makeCompPanel</a></span>(comparison)</a>
-<a class="sourceLine" id="cb135-3" data-line-number="3">cowplot<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/cowplot/man/save_plot.html">save_plot</a></span>(<span class="st">"comp_panel.png"</span>, panel, <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">ncol =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb135-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb135-5" data-line-number="5">panel &lt;-<span class="st"> </span><span class="kw"><a href="../reference/makeDiffPanel.html">makeDiffPanel</a></span>(difference)</a>
-<a class="sourceLine" id="cb135-6" data-line-number="6">cowplot<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/cowplot/man/save_plot.html">save_plot</a></span>(<span class="st">"diff_panel.png"</span>, panel, <span class="dt">nrow =</span> <span class="dv">3</span>, <span class="dt">ncol =</span> <span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb135-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb135-8" data-line-number="8">panel &lt;-<span class="st"> </span><span class="kw"><a href="../reference/makeOverallPanel.html">makeOverallPanel</a></span>(comparison, difference)</a>
-<a class="sourceLine" id="cb135-9" data-line-number="9">cowplot<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/cowplot/man/save_plot.html">save_plot</a></span>(<span class="st">"overall_panel.png"</span>, panel, <span class="dt">ncol =</span> <span class="dv">4</span>, <span class="dt">nrow =</span> <span class="dv">7</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" data-line-number="1"><span class="co"># This code is just an example and is not run</span></a>
+<a class="sourceLine" id="cb112-2" data-line-number="2">panel &lt;-<span class="st"> </span><span class="kw"><a href="../reference/makeCompPanel.html">makeCompPanel</a></span>(comparison)</a>
+<a class="sourceLine" id="cb112-3" data-line-number="3">cowplot<span class="op">::</span><span class="kw">save_plot</span>(<span class="st">"comp_panel.png"</span>, panel, <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">ncol =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb112-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb112-5" data-line-number="5">panel &lt;-<span class="st"> </span><span class="kw"><a href="../reference/makeDiffPanel.html">makeDiffPanel</a></span>(difference)</a>
+<a class="sourceLine" id="cb112-6" data-line-number="6">cowplot<span class="op">::</span><span class="kw">save_plot</span>(<span class="st">"diff_panel.png"</span>, panel, <span class="dt">nrow =</span> <span class="dv">3</span>, <span class="dt">ncol =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb112-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb112-8" data-line-number="8">panel &lt;-<span class="st"> </span><span class="kw"><a href="../reference/makeOverallPanel.html">makeOverallPanel</a></span>(comparison, difference)</a>
+<a class="sourceLine" id="cb112-9" data-line-number="9">cowplot<span class="op">::</span><span class="kw">save_plot</span>(<span class="st">"overall_panel.png"</span>, panel, <span class="dt">ncol =</span> <span class="dv">4</span>, <span class="dt">nrow =</span> <span class="dv">7</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="citing-splatter" class="section level1">
 <h1 class="hasAnchor">
 <a href="#citing-splatter" class="anchor"></a>Citing Splatter</h1>
 <p>If you use Splatter in your work please cite our paper:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="st">"splatter"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="st">"splatter"</span>)</a></code></pre></div>
 <pre><code>## 
-##   Zappia L, Phipson B, Oshlack A. Splatter: Simulation of
-##   single-cell RNA sequencing data. Genome Biology. 2017;
+##   Zappia L, Phipson B, Oshlack A. Splatter: Simulation of single-cell
+##   RNA sequencing data. Genome Biology. 2017;
 ##   doi:10.1186/s13059-017-1305-0
 ## 
 ## A BibTeX entry for LaTeX users is
@@ -743,70 +724,58 @@
 <div id="session-information" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a></code></pre></div>
-<pre><code>## R version 3.6.0 (2019-04-26)
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</a></code></pre></div>
+<pre><code>## R Under development (unstable) (2020-01-25 r77715)
 ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
-## Running under: macOS Sierra 10.12.6
+## Running under: macOS Mojave 10.14
 ## 
 ## Matrix products: default
-## BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
-## LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
 ## 
 ## locale:
-## [1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 ## 
 ## attached base packages:
 ## [1] parallel  stats4    stats     graphics  grDevices utils     datasets 
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] scater_1.13.24              ggplot2_3.2.1              
-##  [3] splatter_1.9.7.9019         SingleCellExperiment_1.7.11
-##  [5] SummarizedExperiment_1.15.9 DelayedArray_0.11.8        
-##  [7] BiocParallel_1.19.3         matrixStats_0.55.0         
-##  [9] Biobase_2.45.1              GenomicRanges_1.37.16      
-## [11] GenomeInfoDb_1.21.2         IRanges_2.19.16            
-## [13] S4Vectors_0.23.25           BiocGenerics_0.31.6        
-## [15] BiocStyle_2.13.2           
+##  [1] scater_1.15.16              ggplot2_3.2.1              
+##  [3] splatter_1.11.1             SingleCellExperiment_1.9.1 
+##  [5] SummarizedExperiment_1.17.1 DelayedArray_0.13.3        
+##  [7] BiocParallel_1.21.2         matrixStats_0.55.0         
+##  [9] Biobase_2.47.2              GenomicRanges_1.39.1       
+## [11] GenomeInfoDb_1.23.9         IRanges_2.21.3             
+## [13] S4Vectors_0.25.11           BiocGenerics_0.33.0        
+## [15] BiocStyle_2.15.5           
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] viridis_0.5.1            edgeR_3.27.13           
-##  [3] BiocSingular_1.1.7       viridisLite_0.3.0       
-##  [5] splines_3.6.0            lsei_1.2-0              
-##  [7] DelayedMatrixStats_1.7.2 assertthat_0.2.1        
-##  [9] sp_1.3-1                 BiocManager_1.30.7      
-## [11] GenomeInfoDbData_1.2.1   vipor_0.4.5             
-## [13] yaml_2.2.0               pillar_1.4.2            
-## [15] backports_1.1.5          lattice_0.20-38         
-## [17] limma_3.41.17            glue_1.3.1              
-## [19] digest_0.6.21            RColorBrewer_1.1-2      
-## [21] XVector_0.25.0           checkmate_1.9.4         
-## [23] colorspace_1.4-1         cowplot_1.0.0           
-## [25] htmltools_0.4.0          Matrix_1.2-17           
-## [27] pkgconfig_2.0.3          bookdown_0.14           
-## [29] zlibbioc_1.31.0          purrr_0.3.2             
-## [31] scales_1.0.0             tibble_2.1.3            
-## [33] withr_2.1.2              lazyeval_0.2.2          
-## [35] survival_2.44-1.1        magrittr_1.5            
-## [37] crayon_1.3.4             memoise_1.1.0           
-## [39] evaluate_0.14            fs_1.3.1                
-## [41] MASS_7.3-51.4            beeswarm_0.2.3          
-## [43] tools_3.6.0              fitdistrplus_1.0-14     
-## [45] stringr_1.4.0            munsell_0.5.0           
-## [47] locfit_1.5-9.1           irlba_2.3.3             
-## [49] akima_0.6-2              compiler_3.6.0          
-## [51] pkgdown_1.4.1            rsvd_1.0.2              
-## [53] rlang_0.4.0.9000         grid_3.6.0              
-## [55] RCurl_1.95-4.12          BiocNeighbors_1.3.5     
-## [57] rstudioapi_0.10          labeling_0.3            
-## [59] bitops_1.0-6             rmarkdown_1.16          
-## [61] npsurv_0.4-0             gtable_0.3.0            
-## [63] R6_2.4.0                 gridExtra_2.3           
-## [65] knitr_1.25               dplyr_0.8.3             
-## [67] rprojroot_1.3-2          desc_1.2.0              
-## [69] stringi_1.4.3            ggbeeswarm_0.6.0        
-## [71] Rcpp_1.0.2               tidyselect_0.2.5        
-## [73] xfun_0.10</code></pre>
+##  [1] viridis_0.5.1            edgeR_3.29.0             BiocSingular_1.3.1      
+##  [4] splines_4.0.0            viridisLite_0.3.0        lsei_1.2-0              
+##  [7] DelayedMatrixStats_1.9.0 assertthat_0.2.1         sp_1.3-2                
+## [10] BiocManager_1.30.10      GenomeInfoDbData_1.2.2   vipor_0.4.5             
+## [13] yaml_2.2.0               pillar_1.4.3             backports_1.1.5         
+## [16] lattice_0.20-38          limma_3.43.0             glue_1.3.1              
+## [19] digest_0.6.23            RColorBrewer_1.1-2       XVector_0.27.0          
+## [22] checkmate_1.9.4          colorspace_1.4-1         htmltools_0.4.0         
+## [25] Matrix_1.2-18            pkgconfig_2.0.3          bookdown_0.17           
+## [28] zlibbioc_1.33.1          purrr_0.3.3              scales_1.1.0            
+## [31] tibble_2.1.3             farver_2.0.3             withr_2.1.2             
+## [34] lazyeval_0.2.2           survival_3.1-8           magrittr_1.5            
+## [37] crayon_1.3.4             memoise_1.1.0            evaluate_0.14           
+## [40] fs_1.3.1                 MASS_7.3-51.5            beeswarm_0.2.3          
+## [43] tools_4.0.0              fitdistrplus_1.0-14      lifecycle_0.1.0         
+## [46] stringr_1.4.0            munsell_0.5.0            locfit_1.5-9.1          
+## [49] irlba_2.3.3              akima_0.6-2              compiler_4.0.0          
+## [52] pkgdown_1.4.1            rsvd_1.0.2               rlang_0.4.4             
+## [55] grid_4.0.0               RCurl_1.98-1.1           BiocNeighbors_1.5.1     
+## [58] rstudioapi_0.10          labeling_0.3             bitops_1.0-6            
+## [61] rmarkdown_2.1            npsurv_0.4-0             gtable_0.3.0            
+## [64] R6_2.4.1                 gridExtra_2.3            knitr_1.27              
+## [67] dplyr_0.8.3              rprojroot_1.3-2          desc_1.2.0              
+## [70] stringi_1.4.5            ggbeeswarm_0.6.0         Rcpp_1.0.3              
+## [73] tidyselect_1.0.0         xfun_0.12</code></pre>
 </div>
   </div>
 

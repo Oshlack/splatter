@@ -84,7 +84,7 @@ properties and ranks them." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
       </span>
     </div>
 
@@ -169,19 +169,19 @@ properties and ranks them.</p>
     <pre class="examples"><div class='input'><span class='no'>sim1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='splatSimulate.html'>splatSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>batchCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='message'>Getting parameters...</span></div><div class='output co'>#&gt; <span class='message'>Creating simulation object...</span></div><div class='output co'>#&gt; <span class='message'>Simulating library sizes...</span></div><div class='output co'>#&gt; <span class='message'>Simulating gene means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating BCV...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Simulating dropout (if needed)...</span></div><div class='output co'>#&gt; <span class='message'>Done!</span></div><div class='input'><span class='no'>sim2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simpleSimulate.html'>simpleSimulate</a></span>(<span class='kw'>nGenes</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>nCells</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='message'>Simulating means...</span></div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div><div class='input'><span class='no'>difference</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='diffSCEs.html'>diffSCEs</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>Splat</span> <span class='kw'>=</span> <span class='no'>sim1</span>, <span class='kw'>Simple</span> <span class='kw'>=</span> <span class='no'>sim2</span>), <span class='kw'>ref</span> <span class='kw'>=</span> <span class='st'>"Simple"</span>)
 <span class='no'>summary</span> <span class='kw'>&lt;-</span> <span class='fu'>summariseDiff</span>(<span class='no'>difference</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>summary</span>)</div><div class='output co'>#&gt;   Dataset Statistic          MAD MADScaled MADRank          MAE MAEScaled
-#&gt; 1   Splat      Mean     2.599964       NaN       1     2.584928       NaN
-#&gt; 2   Splat  Variance    11.322961       NaN       1    10.470554       NaN
-#&gt; 3   Splat ZerosGene    40.000000       NaN       1    44.310000       NaN
-#&gt; 4   Splat   MeanVar    11.115835       NaN       1    12.455595       NaN
-#&gt; 5   Splat MeanZeros    45.000000       NaN       1    43.525000       NaN
-#&gt; 6   Splat   LibSize 57856.500000       NaN       1 59396.950000       NaN
+#&gt; 1   Splat      Mean     2.059755       NaN       1     2.226528       NaN
+#&gt; 2   Splat  Variance    11.478618       NaN       1    10.181151       NaN
+#&gt; 3   Splat ZerosGene    30.000000       NaN       1    39.470000       NaN
+#&gt; 4   Splat   MeanVar    10.113432       NaN       1    11.832473       NaN
+#&gt; 5   Splat MeanZeros    40.000000       NaN       1    40.895000       NaN
+#&gt; 6   Splat   LibSize 64063.000000       NaN       1 66634.900000       NaN
 #&gt;   MAERank         RMSE RMSEScaled RMSERank    KS       KSPVal KSRank
-#&gt; 1       1     3.128422        NaN        1 0.361 0.000000e+00      1
-#&gt; 2       1    13.481762        NaN        1 0.557 0.000000e+00      1
-#&gt; 3       1    48.107692        NaN        1 0.574 0.000000e+00      1
-#&gt; 4       1    15.692918        NaN        1    NA           NA     NA
-#&gt; 5       1    53.139674        NaN        1    NA           NA     NA
-#&gt; 6       1 60130.247902        NaN        1 1.000 1.450928e-11      1</div></pre>
+#&gt; 1       1     2.694045        NaN        1 0.308 0.000000e+00      1
+#&gt; 2       1    12.840937        NaN        1 0.586 0.000000e+00      1
+#&gt; 3       1    44.570730        NaN        1 0.544 0.000000e+00      1
+#&gt; 4       1    14.918816        NaN        1    NA           NA     NA
+#&gt; 5       1    50.081184        NaN        1    NA           NA     NA
+#&gt; 6       1 68770.406500        NaN        1 1.000 1.450928e-11      1</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

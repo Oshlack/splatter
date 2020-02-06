@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
       </span>
     </div>
 
@@ -147,8 +147,7 @@
     <pre class="usage"><span class='fu'>simpleEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSimpleParams</a></span>())
 
 <span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>simpleEstimate</span>(<span class='no'>counts</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSimpleParams</a></span>())
+<span class='fu'>simpleEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSimpleParams</a></span>())
 
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>simpleEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSimpleParams</a></span>())</pre>
@@ -185,24 +184,24 @@ details on the parameters.</p>
 <span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/scater/man/mockSCE.html'>mockSCE</a></span>()
 
 <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>simpleEstimate</span>(<span class='no'>sce</span>)
-<span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class SimpleParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
-#&gt; Secondary parameters are usually set during simulation
+<span class='no'>params</span></div><div class='output co'>#&gt; A <span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>SimpleParams</span><span> 
+#&gt; Parameters can be (estimable) or </span><span style='color: #0000BB;'>[not estimable]</span><span>, 'Default' or  </span><span style='color: #00BB00;font-weight: bold;'>'NOT DEFAULT'</span><span> 
+#&gt; </span><span style='color: #000000;background-color: #BBBB00;'>Secondary</span><span> parameters are usually set during simulation
 #&gt; 
-#&gt; Global: 
-#&gt; (GENES)  (CELLS)   [Seed] 
-#&gt;    2000      200   955861 
+#&gt; </span><span style='font-weight: bold;'>Global:</span><span> 
+#&gt; </span><span style='font-weight: bold;'>(GENES)</span><span>  </span><span style='font-weight: bold;'>(CELLS)</span><span>   </span><span style='color: #0000BB;'>[Seed]</span><span> 
+#&gt;    </span><span style='color: #00BB00;font-weight: bold;'>2000</span><span>      </span><span style='color: #00BB00;font-weight: bold;'>200</span><span>   879030 
 #&gt; 
 #&gt; 3 additional parameters 
 #&gt; 
-#&gt; Mean: 
-#&gt;              (RATE)              (SHAPE) 
-#&gt; 0.00315146081285586    0.562634238245172 
+#&gt; </span><span style='font-weight: bold;'>Mean:</span><span> 
+#&gt;              </span><span style='font-weight: bold;'>(RATE)</span><span>              </span><span style='font-weight: bold;'>(SHAPE)</span><span> 
+#&gt; </span><span style='color: #00BB00;font-weight: bold;'>0.00315146081285586</span><span>    </span><span style='color: #00BB00;font-weight: bold;'>0.562634238245172</span><span> 
 #&gt; 
-#&gt; Counts: 
-#&gt; [Dispersion] 
+#&gt; </span><span style='font-weight: bold;'>Counts:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[Dispersion]</span><span> 
 #&gt;          0.1 
-#&gt; </div></pre>
+#&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

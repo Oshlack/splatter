@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
       </span>
     </div>
 
@@ -144,8 +144,13 @@
     <p>Add additional feature statistics to a SingleCellExperiment object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>addFeatureStats</span>(<span class='no'>sce</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"counts"</span>, <span class='st'>"cpm"</span>, <span class='st'>"tpm"</span>, <span class='st'>"fpkm"</span>),
-  <span class='kw'>log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>no.zeros</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>addFeatureStats</span>(
+  <span class='no'>sce</span>,
+  <span class='kw'>value</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"counts"</span>, <span class='st'>"cpm"</span>, <span class='st'>"tpm"</span>, <span class='st'>"fpkm"</span>),
+  <span class='kw'>log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>no.zeros</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

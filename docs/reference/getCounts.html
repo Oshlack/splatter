@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set a parameter UNCHECKED — setParamUnchecked • Splatter</title>
+<title>Get counts — getCounts • Splatter</title>
 
 
 <!-- jquery -->
@@ -37,9 +37,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Set a parameter UNCHECKED — setParamUnchecked" />
-<meta property="og:description" content="Function for setting parameter values. THE OUTPUT IS NOT CHECKED FOR
-VALIDITY!" />
+<meta property="og:title" content="Get counts — getCounts" />
+<meta property="og:description" content="Get counts matrix from a SingleCellExperiment object. If counts is missing
+a warning is issued and the first assay is returned." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -136,41 +136,30 @@ VALIDITY!" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set a parameter UNCHECKED</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Oshlack/splatter/blob/master/R/AllGenerics.R'><code>R/AllGenerics.R</code></a>, <a href='https://github.com/Oshlack/splatter/blob/master/R/Params-methods.R'><code>R/Params-methods.R</code></a></small>
-    <div class="hidden name"><code>setParamUnchecked.Rd</code></div>
+    <h1>Get counts</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Oshlack/splatter/blob/master/R/SCE-functions.R'><code>R/SCE-functions.R</code></a></small>
+    <div class="hidden name"><code>getCounts.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Function for setting parameter values. THE OUTPUT IS NOT CHECKED FOR
-VALIDITY!</p>
+    <p>Get counts matrix from a SingleCellExperiment object. If counts is missing
+a warning is issued and the first assay is returned.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>setParamUnchecked</span>(<span class='no'>object</span>, <span class='no'>name</span>, <span class='no'>value</span>)
-
-<span class='co'># S4 method for Params</span>
-<span class='fu'>setParamUnchecked</span>(<span class='no'>object</span>, <span class='no'>name</span>, <span class='no'>value</span>)</pre>
+    <pre class="usage"><span class='fu'>getCounts</span>(<span class='no'>sce</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>object to set parameter in.</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>name of the parameter to set.</p></td>
-    </tr>
-    <tr>
-      <th>value</th>
-      <td><p>value to set the parameter to.</p></td>
+      <th>sce</th>
+      <td><p>SingleCellExperiment object</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Object with new parameter value.</p>
+    <p>Counts matrix</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

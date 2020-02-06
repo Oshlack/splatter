@@ -82,7 +82,7 @@ dataset." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
       </span>
     </div>
 
@@ -146,23 +146,49 @@ dataset." />
 dataset.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>zinbEstimate</span>(<span class='no'>counts</span>, <span class='kw'>design.samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>design.genes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>common.disp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>iter.init</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>iter.opt</span> <span class='kw'>=</span> <span class='fl'>25</span>,
-  <span class='kw'>stop.opt</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newZINBParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>zinbEstimate</span>(
+  <span class='no'>counts</span>,
+  <span class='kw'>design.samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>design.genes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>common.disp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>iter.init</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>iter.opt</span> <span class='kw'>=</span> <span class='fl'>25</span>,
+  <span class='kw'>stop.opt</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newZINBParams</a></span>(),
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
+  <span class='no'>...</span>
+)
 
 <span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>zinbEstimate</span>(<span class='no'>counts</span>,
-  <span class='kw'>design.samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>design.genes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>common.disp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>iter.init</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>iter.opt</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>stop.opt</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newZINBParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
-  <span class='no'>...</span>)
+<span class='fu'>zinbEstimate</span>(
+  <span class='no'>counts</span>,
+  <span class='kw'>design.samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>design.genes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>common.disp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>iter.init</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>iter.opt</span> <span class='kw'>=</span> <span class='fl'>25</span>,
+  <span class='kw'>stop.opt</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newZINBParams</a></span>(),
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
+  <span class='no'>...</span>
+)
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>zinbEstimate</span>(<span class='no'>counts</span>, <span class='kw'>design.samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>design.genes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>common.disp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>iter.init</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>iter.opt</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>stop.opt</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newZINBParams</a></span>(),
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(), <span class='no'>...</span>)</pre>
+<span class='fu'>zinbEstimate</span>(
+  <span class='no'>counts</span>,
+  <span class='kw'>design.samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>design.genes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>common.disp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>iter.init</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>iter.opt</span> <span class='kw'>=</span> <span class='fl'>25</span>,
+  <span class='kw'>stop.opt</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newZINBParams</a></span>(),
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -213,7 +239,7 @@ single core.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>additional arguments passes to <code><a href='https://rdrr.io/pkg/zinbwave/man/zinbFit.html'>zinbFit</a></code>.</p></td>
+      <td><p>additional arguments passes to <code>zinbFit</code>.</p></td>
     </tr>
     </table>
 
@@ -222,10 +248,10 @@ single core.</p></td>
     <p>ZINBParams object containing the estimated parameters.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function is a wrapper around <code><a href='https://rdrr.io/pkg/zinbwave/man/zinbFit.html'>zinbFit</a></code> that takes
+    <p>The function is a wrapper around <code>zinbFit</code> that takes
 the fitted model and inserts it into a <code><a href='ZINBParams.html'>ZINBParams</a></code> object. See
 <code><a href='ZINBParams.html'>ZINBParams</a></code> for more details on the parameters and
-<code><a href='https://rdrr.io/pkg/zinbwave/man/zinbFit.html'>zinbFit</a></code> for details of the estimation procedure.</p>
+<code>zinbFit</code> for details of the estimation procedure.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"zinbwave"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
@@ -235,58 +261,7 @@ the fitted model and inserts it into a <code><a href='ZINBParams.html'>ZINBParam
 
     <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>zinbEstimate</span>(<span class='no'>sce</span>)
     <span class='no'>params</span>
-}</div><div class='output co'>#&gt; <span class='message'>Removing all zero genes...</span></div><div class='output co'>#&gt; <span class='message'>Fitting model...</span></div><div class='output co'>#&gt; <span class='message'>Create model:</span></div><div class='output co'>#&gt; <span class='message'>ok</span></div><div class='output co'>#&gt; <span class='message'>Initialize parameters:</span></div><div class='output co'>#&gt; <span class='message'>ok</span></div><div class='output co'>#&gt; <span class='message'>Optimize parameters:</span></div><div class='output co'>#&gt; <span class='message'>Iteration 1</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9797.17396398215</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -9593.51924068794</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.279   0.008   0.292 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9289.80824341391</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9289.80824341391</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.045   0.003   0.048 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>Iteration 2</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -9235.11865883047</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.206   0.005   0.216 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9229.79015780275</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9229.79015780275</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.068   0.006   0.075 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>Iteration 3</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -9228.6543711739</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.192   0.005   0.203 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9228.44378457059</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9228.44378457059</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.041   0.002   0.043 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>Iteration 4</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>ok</span></div><div class='output co'>#&gt; A Params object of class ZINBParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
-#&gt; Secondary parameters are usually set during simulation
-#&gt; 
-#&gt; Global: 
-#&gt; (Genes)  (CELLS)   [Seed] 
-#&gt;     100       20   955861 
-#&gt; 
-#&gt; 1 additional parameters 
-#&gt; 
-#&gt; Model: 
-#&gt; ZinbModel with 100 features, 20 samples, 0 latent factors and 241 parameters 
-#&gt; 
-#&gt; Parameters of the ZinbModel 
-#&gt; 
-#&gt; Model Design: 
-#&gt;      (SAMPLES)         (Genes) 
-#&gt; 1, 1, 1, 1,...  1, 1, 1, 1,... 
-#&gt; 
-#&gt; Model Offsets: 
-#&gt;            (MU)             (PI) 
-#&gt; 20 x 100 matrix  20 x 100 matrix 
-#&gt; 
-#&gt; Model Indices: 
-#&gt; (Sample Mu)    (Gene Mu)  (Sample Pi)    (Gene Pi) 
-#&gt;           1            1            1            1 
-#&gt; 
-#&gt; Model Intercepts: 
-#&gt; (Sample Mu)    (Gene Mu)  (Sample Pi)    (Gene Pi) 
-#&gt;        TRUE         TRUE         TRUE         TRUE 
-#&gt; 
-#&gt; Model Latent factors: 
-#&gt;           (W) 
-#&gt; 20 x 0 matrix 
-#&gt; 
-#&gt; Model Coefficients: 
-#&gt;                                                                      (SAMPLE MU)                                                                         (GENE MU)                                                                       (Latent Mu)                                                                       (SAMPLE PI)                                                                         (GENE PI)                                                                       (Latent Pi) 
-#&gt; -0.459768269108686, 1.62119422809804, -0.223102757788152, 0.0429479357333727,...        4.26299872242102, 4.29178871361806, 4.44953744138558, 3.86260697728158,...                                                                    0 x 100 matrix    1.90228646100659, -6.94249109253294, -1.07943871883735, -0.430729773518204,...   -0.983749678057473, -1.35076635474983, -1.23286376482938, -1.26061065393089,...                                                                    0 x 100 matrix 
-#&gt; 
-#&gt; Model Regularisation: 
-#&gt;     (Sample Mu)        (GENE MU)      (Sample Pi)        (GENE PI) 
-#&gt;               1                5                1                5 
-#&gt;        (LATENT)  (Latent coeffs)           (Zeta)          (Logit) 
-#&gt;               5                1              100            0.001 
-#&gt; </div><div class='input'>
-</div></pre>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

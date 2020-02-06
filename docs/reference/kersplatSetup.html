@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
       </span>
     </div>
 
@@ -199,7 +199,10 @@ the functions for the individual steps for more details about the process.</p>
 <code><a href='KersplatParams.html'>KersplatParams</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>kersplatSetup</span>()</div><div class='output co'>#&gt; <span class='message'>Setting up parameters...</span></div><div class='output co'>#&gt; <span class='message'>Generating gene network...</span></div><div class='output co'>#&gt; <span class='message'>Selecting regulators...</span></div><div class='output co'>#&gt; <span class='message'>Simulating means...</span></div><div class='output co'>#&gt; <span class='message'>Sampling from gamma distribution...</span></div><div class='output co'>#&gt; <span class='message'>Simulating paths...</span></div><div class='output co'>#&gt; <span class='message'>Simulating path 1...</span></div></pre>
+    <pre class="examples"><div class='input'>
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"igraph"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+    <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>kersplatSetup</span>()
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

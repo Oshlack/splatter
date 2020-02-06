@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
       </span>
     </div>
 
@@ -147,8 +147,7 @@
     <pre class="usage"><span class='fu'>lunEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newLunParams</a></span>())
 
 <span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>lunEstimate</span>(<span class='no'>counts</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newLunParams</a></span>())
+<span class='fu'>lunEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newLunParams</a></span>())
 
 <span class='co'># S3 method for matrix</span>
 <span class='fu'>lunEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newLunParams</a></span>())</pre>
@@ -178,37 +177,36 @@ for more details on the parameters.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>scater</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>scater</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/scater/man/mockSCE.html'>mockSCE</a></span>()
 
 <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>lunEstimate</span>(<span class='no'>sce</span>)
-<span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class LunParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
-#&gt; Secondary parameters are usually set during simulation
+<span class='no'>params</span></div><div class='output co'>#&gt; A <span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>LunParams</span><span> 
+#&gt; Parameters can be (estimable) or </span><span style='color: #0000BB;'>[not estimable]</span><span>, 'Default' or  </span><span style='color: #00BB00;font-weight: bold;'>'NOT DEFAULT'</span><span> 
+#&gt; </span><span style='color: #000000;background-color: #BBBB00;'>Secondary</span><span> parameters are usually set during simulation
 #&gt; 
-#&gt; Global: 
-#&gt; (GENES)  (CELLS)   [Seed] 
-#&gt;    2000      200   955861 
+#&gt; </span><span style='font-weight: bold;'>Global:</span><span> 
+#&gt; </span><span style='font-weight: bold;'>(GENES)</span><span>  </span><span style='font-weight: bold;'>(CELLS)</span><span>   </span><span style='color: #0000BB;'>[Seed]</span><span> 
+#&gt;    </span><span style='color: #00BB00;font-weight: bold;'>2000</span><span>      </span><span style='color: #00BB00;font-weight: bold;'>200</span><span>   879030 
 #&gt; 
 #&gt; 9 additional parameters 
 #&gt; 
-#&gt; Mean: 
-#&gt;  [Rate]  [Shape] 
+#&gt; </span><span style='font-weight: bold;'>Mean:</span><span> 
+#&gt;  </span><span style='color: #0000BB;'>[Rate]</span><span>  </span><span style='color: #0000BB;'>[Shape]</span><span> 
 #&gt;       2        2 
 #&gt; 
-#&gt; Counts: 
-#&gt; [Dispersion] 
+#&gt; </span><span style='font-weight: bold;'>Counts:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[Dispersion]</span><span> 
 #&gt;          0.1 
 #&gt; 
-#&gt; Groups: 
-#&gt;      [GROUPS]  [GROUP CELLS] 
-#&gt;             1            200 
+#&gt; </span><span style='font-weight: bold;'>Groups:</span><span> 
+#&gt;      </span><span style='color: #0000BB;font-weight: bold;'>[GROUPS]</span><span>  </span><span style='color: #0000BB;font-weight: bold;'>[GROUP CELLS]</span><span> 
+#&gt;             </span><span style='color: #00BB00;font-weight: bold;'>1</span><span>            </span><span style='color: #00BB00;font-weight: bold;'>200</span><span> 
 #&gt; 
-#&gt; Diff expr: 
-#&gt;   [Genes]  [Up Prop]    [Up FC]  [Down FC] 
+#&gt; </span><span style='font-weight: bold;'>Diff expr:</span><span> 
+#&gt;   </span><span style='color: #0000BB;'>[Genes]</span><span>  </span><span style='color: #0000BB;'>[Up Prop]</span><span>    </span><span style='color: #0000BB;'>[Up FC]</span><span>  </span><span style='color: #0000BB;'>[Down FC]</span><span> 
 #&gt;      1000        0.5          5          0 
-#&gt; </div></pre>
+#&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

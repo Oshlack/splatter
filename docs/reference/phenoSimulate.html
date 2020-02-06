@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
       </span>
     </div>
 
@@ -170,12 +170,12 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function is just a wrapper around
-<code><a href='https://rdrr.io/pkg/phenopath/man/simulate_phenopath.html'>simulate_phenopath</a></code> that takes a
+<code>simulate_phenopath</code> that takes a
 <code><a href='PhenoParams.html'>PhenoParams</a></code>, runs the simulation then converts the
 output from log-expression to counts and returns a
 <code><a href='https://rdrr.io/pkg/SingleCellExperiment/man/SingleCellExperiment.html'>SingleCellExperiment</a></code> object. The original
 simulated log-expression values are returned in the <code>LogExprs</code> assay.
-See <code><a href='https://rdrr.io/pkg/phenopath/man/simulate_phenopath.html'>simulate_phenopath</a></code> and the PhenoPath paper for
+See <code>simulate_phenopath</code> and the PhenoPath paper for
 more details about how the simulation works.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -188,7 +188,7 @@ and environmental backgrounds across single-cells and populations. bioRxiv
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"phenopath"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
     <span class='no'>sim</span> <span class='kw'>&lt;-</span> <span class='fu'>phenoSimulate</span>()
-}</div><div class='output co'>#&gt; <span class='message'>Simulating counts...</span></div><div class='output co'>#&gt; <span class='message'>Creating final dataset...</span></div></pre>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
