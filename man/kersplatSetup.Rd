@@ -49,7 +49,10 @@ See \code{\link{KersplatParams}} for more details about these parameters and
 the functions for the individual steps for more details about the process.
 }
 \examples{
-params <- kersplatSetup()
+
+if (requireNamespace("igraph", quietly = TRUE)) {
+    params <- kersplatSetup()
+}
 }
 \seealso{
 \code{\link{kersplatGenNetwork}}, \code{\link{kersplatSelectRegs}},

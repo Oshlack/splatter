@@ -16,13 +16,16 @@
 #' @return KersplatParams object containing the estimated parameters.
 #'
 #' @examples
-#' # Load example data
-#' library(scater)
-#' set.seed(1)
-#' sce <- mockSCE()
 #'
-#' params <- kersplatEstimate(sce)
-#' params
+#' if (requireNamespace("igraph", quietly = TRUE)) {
+#'     # Load example data
+#'     library(scater)
+#'     set.seed(1)
+#'     sce <- mockSCE()
+#'
+#'     params <- kersplatEstimate(sce)
+#'     params
+#' }
 #' @export
 kersplatEstimate <- function(counts, params = newKersplatParams(),
                             verbose = TRUE) {

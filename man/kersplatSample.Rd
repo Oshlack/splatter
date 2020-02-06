@@ -84,8 +84,11 @@ in order to differentiate them from the values added by analysis packages
 which typically use \code{underscore_naming}.
 }
 \examples{
-params <- kersplatSetup()
-sim <- kersplatSample(params)
+
+if (requireNamespace("igraph", quietly = TRUE)) {
+    params <- kersplatSetup()
+    sim <- kersplatSample(params)
+}
 }
 \seealso{
 \code{\link{kersplatSimLibSizes}}, \code{\link{kersplatSimCellMeans}},

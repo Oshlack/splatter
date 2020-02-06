@@ -1,5 +1,7 @@
 # DEVELOPMENT VERSION
 
+* Add suggested checks to Kersplat tests and examples
+
 ## Version 1.11.1 (2010-01-30)
 
 * Replace defunct scater function in vignettes

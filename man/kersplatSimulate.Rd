@@ -28,7 +28,10 @@ call to \code{\link{kersplatSetup}} followed by a call to
 functions for more details of the individual steps.
 }
 \examples{
-sim <- kersplatSimulate()
+
+if (requireNamespace("igraph", quietly = TRUE)) {
+    sim <- kersplatSimulate
+}
 
 }
 \seealso{
