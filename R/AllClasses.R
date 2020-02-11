@@ -25,6 +25,7 @@ setClass("Params",
          prototype = prototype(nGenes = 10000, nCells = 100,
                                seed = sample(seq_len(1e6), 1)))
 
+
 #' The SimpleParams class
 #'
 #' S4 class that holds parameters for the simple simulation.
@@ -416,6 +417,86 @@ setClass("KersplatParams",
                                doublet.prop = 0,
                                ambient.scale = 0.05,
                                ambient.nEmpty = 0))
+
+#' The SplateQTLParams class
+#'
+#' S4 class that holds parameters for the Splat-eQTL simulation.
+#'
+#' @section Parameters:
+#'
+#' The Splat-eQTL simulation requires the following parameters:
+#'
+#' \describe{
+#'     \item{\code{[esnp.n]}}{The number eSNPs to include.}
+#'     \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
+#'     \item{\code{[eqtl.maf]}}{Minor Allele Frequency of chosen eSNPs.}
+#'     \item{\code{[eqtl.mafd]}}{Deviation allowed in MAF of chosen eSNPs.}
+#'     \item{\emph{eQTL Effect size distribution parameters}}{
+#'         \describe{
+#'             \item{\code{eqtlES.shape}}{Shape parameter for the effect size 
+#'             gamma distribution.}
+#'             \item{\code{eqtlES.rate}}{Rate parameter for the effect size 
+#'             gamma distribution.}
+#'         }
+#'     }
+#'     \item{\emph{Bulk Mean Expression distribution parameters}}{
+#'         \describe{
+#'             \item{\code{bulkmean.shape}}{Shape parameter for the mean (i.e. 
+#'             bulk) expression gamma distribution}
+#'             \item{\code{bulkmean.rate}}{Rate parameter for the mean (i.e. 
+#'             bulk) expression gamma distribution}
+#'         }
+#'     }
+#'     \item{\emph{Bulk Expression Coefficient of Variation distribution
+#'     parameters binned}}{
+#'         \describe{
+#'             \item{\code{bulk_cv.param}}{Dataframe containing gene
+#'             mean bin range, and the CV shape, and CV rate parameters for
+#'             each of those bins.}
+#'         }
+#'     }
+#'}
+#' The parameters not shown in brackets can be estimated from real data using
+#' \code{\link{splateQTLEstimate}}. For details of the Splat simulation
+#' see \code{\link{splatSimulate}}.
+#'
+#' @name SplateQTLParams
+#' @rdname SplateQTLParams
+#' @aliases SplateQTLParams-class
+#' @exportClass SplateQTLParams
+setClass("eQTLParams",
+         contains = "Params",
+         slots = c(esnps.n = "numeric",
+                   eqtl.dist = "numeric",
+                   eqtl.maf = "numeric",
+                   eqtl.mafd = "numeric",
+                   eqtlES.shape = "numeric",
+                   eqtlES.rate = "numeric",
+                   bulkmean.shape = "numeric",
+                   bulkmean.rate = "numeric",
+                   bulkcv.param = "data.frame"),
+         prototype = prototype(esnp.n = 100,
+                               eqtl.dist = 1000000, 
+                               eqtl.maf = 0.1, 
+                               eqtl.mafd = 0.01,
+                               eqtlES.shape = 2.740558, 
+                               eqtlES.rate = 6.441281,
+                               bulkmean.shape = 0.3395709, 
+                               bulkmean.rate = 0.008309486, 
+                               bulkcv.param =
+                                   data.frame(
+                                       start = c(0, 0.476, 0.955, 1.86, 3.49, 
+                                                 6.33, 10.4, 16.3, 26.5,49.9),
+                                       end = c(0.476 ,0.955, 1.86, 3.49, 6.33, 
+                                               10.4, 16.3, 26.5, 49.9, 1e+10),
+                                       shape = c(10.292887, 5.430483, 3.809073,
+                                                 3.053875, 2.697310, 2.863795,
+                                                 3.445139, 3.797391, 3.623769,
+                                                 2.630798),
+                                       rate = c(7.191267, 3.426294, 2.316489, 
+                                                1.915820, 1.865218, 2.443333,
+                                                3.535612, 4.286780, 4.247780,
+                                                2.689131))))
 
 #' The LunParams class
 #'
