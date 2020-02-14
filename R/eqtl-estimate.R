@@ -110,6 +110,7 @@ eQTLEstES <- function(all.pairs, eQTLparams) {
 #' distribution.
 #' 
 #' @return eQTLParams object with estimated values.
+#' @importFrom stats quantile
 eQTLEstMeanCV <- function(gene.means, eQTLparams) {
     
     # Remove genes with low variance/low means
