@@ -4,10 +4,13 @@
 \alias{makeOverallPanel}
 \title{Make overall panel}
 \usage{
-makeOverallPanel(comp, diff, title = "Overall comparison",
-  row.labels = c("Means", "Variance", "Mean-variance relationship",
-  "Library size", "Zeros per cell", "Zeros per gene",
-  "Mean-zeros relationship"))
+makeOverallPanel(
+  comp,
+  diff,
+  title = "Overall comparison",
+  row.labels = c("Means", "Variance", "Mean-variance relationship", "Library size",
+    "Zeros per cell", "Zeros per gene", "Mean-zeros relationship")
+)
 }
 \arguments{
 \item{comp}{list returned by \code{\link{compareSCEs}}.}
