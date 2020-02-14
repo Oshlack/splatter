@@ -1,6 +1,13 @@
 # DEVELOPMENT VERSION
 
+## Version 1.11.2 (2020-02-14)
+
+* Update tests to work with checkmate 2.0.0
 * Add suggested checks to Kersplat tests and examples
+
+## Version 1.10.1 (2020-02-14)
+
+* Update tests to work with checkmate 2.0.0
 
 ## Version 1.11.1 (2010-01-30)
 
