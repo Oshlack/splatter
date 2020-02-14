@@ -1,8 +1,8 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 1.10.0
-Date: 2019-10-20
+Version: 1.10.1
+Date: 2020-02-14
 Authors@R:
     c(person("Luke", "Zappia", role = c("aut", "cre"),
       email = "luke@lazappi.id.au",
@@ -27,7 +27,7 @@ Imports:
     akima,
     BiocGenerics,
     BiocParallel,
-    checkmate,
+    checkmate (>= 2.0.0),
     edgeR,
     fitdistrplus,
     ggplot2,

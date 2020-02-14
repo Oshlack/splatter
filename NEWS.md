@@ -1,5 +1,13 @@
 # DEVELOPMENT VERSION
 
+## Version 1.10.1 (2020-02-14)
+
+* Update tests to work with checkmate 2.0.0
+
+# Version 1.10.0 (2019-10-30)
+
+* Bioconductor 3.10 release
+
 ## Version 1.9.11 (2019-10-20)
 
 * Update NEWS.Rd
