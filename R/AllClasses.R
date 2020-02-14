@@ -418,16 +418,16 @@ setClass("KersplatParams",
                                ambient.scale = 0.05,
                                ambient.nEmpty = 0))
 
-#' The SplateQTLParams class
+#' The eQTLParams class
 #'
-#' S4 class that holds parameters for the Splat-eQTL simulation.
+#' S4 class that holds parameters for the eQTL simulation.
 #'
 #' @section Parameters:
 #'
-#' The Splat-eQTL simulation requires the following parameters:
+#' The eQTL simulation requires the following parameters:
 #'
 #' \describe{
-#'     \item{\code{[esnp.n]}}{The number eSNPs to include.}
+#'     \item{\code{[eqtl.n]}}{The number eSNPs to include.}
 #'     \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
 #'     \item{\code{[eqtl.maf]}}{Minor Allele Frequency of chosen eSNPs.}
 #'     \item{\code{[eqtl.mafd]}}{Deviation allowed in MAF of chosen eSNPs.}
@@ -457,16 +457,16 @@ setClass("KersplatParams",
 #'     }
 #'}
 #' The parameters not shown in brackets can be estimated from real data using
-#' \code{\link{splateQTLEstimate}}. For details of the Splat simulation
-#' see \code{\link{splatSimulate}}.
+#' \code{\link{eQTLEstimate}}. For details of the eQTL simulation
+#' see \code{\link{eQTLSimulate}}.
 #'
-#' @name SplateQTLParams
-#' @rdname SplateQTLParams
-#' @aliases SplateQTLParams-class
-#' @exportClass SplateQTLParams
+#' @name eQTLParams
+#' @rdname eQTLParams
+#' @aliases eQTLParams-class
+#' @exportClass eQTLParams
 setClass("eQTLParams",
          contains = "Params",
-         slots = c(esnps.n = "numeric",
+         slots = c(eqtl.n = "numeric",
                    eqtl.dist = "numeric",
                    eqtl.maf = "numeric",
                    eqtl.mafd = "numeric",
@@ -474,15 +474,17 @@ setClass("eQTLParams",
                    eqtlES.rate = "numeric",
                    bulkmean.shape = "numeric",
                    bulkmean.rate = "numeric",
+                   bulkcv.bins = "numeric",
                    bulkcv.param = "data.frame"),
-         prototype = prototype(esnp.n = 100,
+         prototype = prototype(eqtl.n = 100,
                                eqtl.dist = 1000000, 
                                eqtl.maf = 0.1, 
                                eqtl.mafd = 0.01,
-                               eqtlES.shape = 2.740558, 
-                               eqtlES.rate = 6.441281,
+                               eqtlES.shape = 2.538049, 
+                               eqtlES.rate = 5.962323,
                                bulkmean.shape = 0.3395709, 
                                bulkmean.rate = 0.008309486, 
+                               bulkcv.bins = 10,
                                bulkcv.param =
                                    data.frame(
                                        start = c(0, 0.476, 0.955, 1.86, 3.49, 

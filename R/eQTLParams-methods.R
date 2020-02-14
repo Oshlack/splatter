@@ -1,4 +1,4 @@
-#' @rdname neweQTLParams
+#' @rdname newParams
 #' @importFrom methods new
 #' @export
 neweQTLParams <- function(...) {
@@ -14,10 +14,9 @@ neweQTLParams <- function(...) {
 #' checkFlag
 setValidity("eQTLParams", function(object) {
     
-    object <- expandParams(object)
     v <- getParams(object, c(slotNames(object)))
     
-    checks <- c(esnp.n = checkInt(v$esnp.n, lower = 1),
+    checks <- c(eqtl.n = checkInt(v$eqtl.n, lower = 1),
                 eqtl.dist = checkInt(v$eqtl.dist, lower = 1),
                 eqtl.maf = checkNumber(v$eqtl.maf, lower = 0, upper = 1),
                 eqtl.mafd = checkNumber(v$eqtl.mafd, lower = 0, upper = 1),
@@ -25,6 +24,7 @@ setValidity("eQTLParams", function(object) {
                 eqtlES.rate = checkNumber(v$eqtlES.rate, lower = 0),
                 bulkmean.shape = checkNumber(v$bulkmean.shape, lower = 0),
                 bulkmean.rate = checkNumber(v$bulkmean.rate, lower = 0),
+                bulkcv.bins = checkInt(v$bulkcv.bins, lower=1),
                 bulkcv.param = checkDataFrame(v$bulkcv.param))
     
     if (all(checks == TRUE)) {
@@ -41,14 +41,15 @@ setValidity("eQTLParams", function(object) {
 #' @importFrom methods callNextMethod
 setMethod("show", "eQTLParams", function(object) {
     
-    pp <- list("eQTL.Params:"      = c("[pair Number]"= "esnp.n",
-                                       "[pair Distance]"= "eqtl.dist",
-                                       "[eSNP MAF]"= "eqtl.maf",
-                                       "[eSNP MAF dev]"= "eqtl.mafd"),
+    pp <- list("eQTL.General:"      = c("[eQTL.N]"    = "eqtl.n",
+                                       "[Distance]"   = "eqtl.dist",
+                                       "[MAF]"        = "eqtl.maf",
+                                       "[MAF dev]"    = "eqtl.mafd"),
                "eQTL.Effect Size:"= c("(Rate)"        = "eqtlES.rate",
-                                      "(Shape)"        = "eqtlES.shape"),
+                                      "(Shape)"       = "eqtlES.shape"),
                "eQTL.Mean:"      = c("(Rate)"         = "bulkmean.rate",
                                      "(Shape)"        = "bulkmean.shape",
+                                     "[CV bins]"      = "bulkcv.bins",
                                      "(CV params)"    = "bulkcv.param"))
     
     callNextMethod()
@@ -57,25 +58,14 @@ setMethod("show", "eQTLParams", function(object) {
 
 
 #' @rdname setParam
+#' @importFrom methods slotNames
 setMethod("setParam", "eQTLParams", function(object, name, value) {
     checkmate::assertString(name)
     
-    # Function to check that user defined changes to eQTLParams don't break rules
-    
-    # For example:
-    if (name == "mean.values") {
-        if (!is.null(getParam(object, "network.graph"))) {
-            if (length(value) != getParam(object, "nGenes")) {
-                stop("new mean.values does not match the number of genes in ",
-                     "the network")
-            }
-        } else {
-            object <- setParam(object, "nGenes", length(value))
-        }
+    if (name %in% c("nGenes", "nCells")) {
+        stop(name, " should not be set in this function, use splat-estimate()")
     }
     
-    
-
     object <- callNextMethod()
     
     return(object)
