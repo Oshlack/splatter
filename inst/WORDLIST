@@ -19,6 +19,7 @@ compareSCEs
 compareSCESets
 cpm
 cutoff
+cv
 df
 diffSCEs
 diffSCESets
@@ -28,6 +29,14 @@ DP
 Dudoit
 EE
 eg
+eGene
+eGenes
+eqtl
+eQTL
+eQTLparams
+eQTLParams
+eSNP
+eSNPs
 etc
 fpkm
 FPKM
@@ -55,6 +64,10 @@ LunParams
 lunSimulate
 MADs
 MAEs
+<<<<<<< HEAD
+=======
+MAF
+>>>>>>> d8f09d0... added eQTLEstimate function and eqtl params as an S4 parameters object
 Marioni
 meanlog
 MeanZeros
@@ -64,6 +77,11 @@ MFAParams
 mfaSimulate
 mockSCE
 modeling
+<<<<<<< HEAD
+=======
+NAR
+Nelder
+>>>>>>> d8f09d0... added eQTLEstimate function and eqtl params as an S4 parameters object
 nGenes
 nGroups
 NOTEs
@@ -78,6 +96,11 @@ poisson
 Poisson
 PROSSTT
 pseudotime
+<<<<<<< HEAD
+=======
+pval
+qgamma
+>>>>>>> d8f09d0... added eQTLEstimate function and eqtl params as an S4 parameters object
 Quickstart
 RG
 Risso
