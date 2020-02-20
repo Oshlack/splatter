@@ -29,6 +29,10 @@ inst/doc
 doc
 Meta
 # Testing datasets
+<<<<<<< HEAD
 data/*
+=======
+test_data/*
+>>>>>>> b3c4d4a06a7a29688fa73c41e620c53a55f2284b
 # Output from eQTL 
 eqtl_out/*

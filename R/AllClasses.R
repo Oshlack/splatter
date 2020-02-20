@@ -25,7 +25,6 @@ setClass("Params",
          prototype = prototype(nGenes = 10000, nCells = 100,
                                seed = sample(seq_len(1e6), 1)))
 
-
 #' The SimpleParams class
 #'
 #' S4 class that holds parameters for the simple simulation.
