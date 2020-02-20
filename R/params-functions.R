@@ -12,7 +12,7 @@
 #' @export
 getParams <- function(params, names) {
 
-    checkmate::assertClass(params, classes = "Params")
+    #checkmate::assertClass(params, classes = "Params")
     checkmate::assertCharacter(names, min.len = 1, any.missing = FALSE)
 
     params.list <- lapply(names, getParam, object = params)
@@ -41,7 +41,7 @@ getParams <- function(params, names) {
 #' @return Params object with updated values.
 setParamsUnchecked <- function(params, update = NULL, ...) {
 
-    checkmate::assertClass(params, classes = "Params")
+    #checkmate::assertClass(params, classes = "Params")
     checkmate::assertList(update, null.ok = TRUE)
 
     update <- c(update, list(...))
@@ -66,7 +66,7 @@ setParamsUnchecked <- function(params, update = NULL, ...) {
 #' @return Print params object to console
 showPP <- function(params, pp) {
 
-    checkmate::assertClass(params, classes = "Params")
+    #checkmate::assertClass(params, classes = "Params")
     checkmate::assertList(pp, types = "character", min.len = 1)
 
     default <- new(class(params))
