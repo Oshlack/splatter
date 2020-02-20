@@ -29,6 +29,6 @@ inst/doc
 doc
 Meta
 # Testing datasets
-test_data/*
+data/*
 # Output from eQTL 
 eqtl_out/*
