@@ -59,14 +59,14 @@ eQTLEstimate <- function(eQTLparams = neweQTLParams(),
 #' the 'method of moments estimation' method is used instead. 
 #'
 #' @return eQTLparams object with estimated values.
-#' @import dplyr
+#' @importFrom data.table data.table .I
 eQTLEstES <- function(all.pairs, eQTLparams) {
 
     # Select top eSNP for each gene (i.e. lowest p.value)
-    pairs_top <- all.pairs %>% 
-        group_by(gene_id) %>% 
-        slice(which.min(pval_nominal))
-    
+    all.pairs <- data.table::data.table(all.pairs)
+    pairs_top <- all.pairs[all.pairs[, .I[which.min(pval_nominal)], 
+                                     by='gene_id']$V1]
+
     # Fit absolute value of effect sizes to gamma distribution
     e.sizes <- abs(pairs_top$slope)
     fit <- fitdistrplus::fitdist(e.sizes, "gamma", method = "mge", gof = "CvM")
@@ -123,6 +123,7 @@ eQTLEstMeanCV <- function(gene.means, eQTLparams) {
     mfit <- fitdistrplus::fitdist(means, "gamma", optim.method="Nelder-Mead")
     
     # Calculate CV parameters for genes based on 10 expresion mean bins
+    print(eQTLparams)
     nbins <- getParam(eQTLparams, "bulkcv.bins")
     bins <- split(means, cut(means, quantile(means,(0:nbins)/nbins), include.lowest=T))
     cvparams <- data.frame(start = character(), end = character(),

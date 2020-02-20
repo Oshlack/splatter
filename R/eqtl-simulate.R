@@ -46,14 +46,9 @@
 
 #' @examples
 #' # Load example data
-#' library(scater)
-#' set.seed(1)
-#' sce <- mockSCE()
-#' params <- splatEstimate(sce)
-#' eqtlparams <- eQTLEstimate()
 #' data(ex_gff)
 #' data(ex_snps)
-#' pop.gMeans <- eQTLSimulate(params=params, eQTLparams=eqtlparams)
+#' pop.gMeans <- eQTLSimulate()
 #' 
 #' @export
 #' @importFrom utils write.table
@@ -320,8 +315,8 @@ eQTLGeneMeans <- function(params, pairs, eQTLparams){
 #'
 #' @return MeansMatrix: Matrix of simulated gene means for eQTL population.
 #' 
-#' @importFrom stats pnorm qnorm qgamma
-#' 
+#' @importFrom stats pnorm qnorm qgamma sd quantile
+#' @importFrom stats sd
 eQTLMeansMatrix <- function(pairs, nGeneMeansPop, params){
     
     # For each gene, simulate normal dist. of mean expression across population.

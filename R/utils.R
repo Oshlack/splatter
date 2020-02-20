@@ -93,5 +93,4 @@ co.var <- function(x) {
     sd(x)/mean(x) 
 } 
 
-utils::globalVariables(c("ex_gff", "ex_means", "ex_pairs", "ex_snps", "gene_id",
-                         "perc", "pval_nominal",))
+

@@ -62,14 +62,9 @@ The eQTL Gene Mean simulation involves the following steps:
 }
 \examples{
 # Load example data
-library(scater)
-set.seed(1)
-sce <- mockSCE()
-params <- splatEstimate(sce)
-eqtlparams <- eQTLEstimate()
 data(ex_gff)
 data(ex_snps)
-pop.gMeans <- eQTLSimulate(params=params, eQTLparams=eqtlparams)
+pop.gMeans <- eQTLSimulate()
 
 }
 \seealso{

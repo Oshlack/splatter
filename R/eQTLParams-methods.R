@@ -3,10 +3,10 @@
 #' @export
 neweQTLParams <- function(...) {
     
-    eQTLparams <- new("eQTLParams")
-    eQTLparams <- setParams(eQTLparams, ...)
+    params <- new("eQTLParams")
+    params <- setParams(params, ...)
 
-    return(eQTLparams)
+    return(params)
 }
 
 
@@ -57,16 +57,11 @@ setMethod("show", "eQTLParams", function(object) {
 })
 
 
-#' @rdname setParam
+#' @rdname setParams
 #' @importFrom methods slotNames
-setMethod("setParam", "eQTLParams", function(object, name, value) {
-    checkmate::assertString(name)
-    
-    if (name %in% c("nGenes", "nCells")) {
-        stop(name, " should not be set in this function, use splat-estimate()")
-    }
-    
-    object <- callNextMethod()
+setMethod("setParams", "eQTLParams", function(object, update = NULL, ...) {
+    checkmate::assertClass(object, classes = "eQTLParams")
+    checkmate::assertList(update, null.ok = TRUE)
     
     return(object)
 })
