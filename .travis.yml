@@ -10,15 +10,13 @@ cache: packages
 
 dist: xenial
 
-addons:
-  apt:
-#    update: true
-    sources:
-      - sourceline: 'ppa:opencpu/imagemagick'
-    packages:
-      - libgsl-dev # dependency for gsl>copula>zinbwave
-      - libmagick++-dev # dependency for magick
-#r_check_args: "--no-vignettes"
+ addons:
+   apt:
+     update: true
+     sources:
+       - sourceline: 'ppa:opencpu/imagemagick'
+     packages:
+       - libmagick++-dev
 
 install: skip
 #install:
