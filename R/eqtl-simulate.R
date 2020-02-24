@@ -328,14 +328,14 @@ eQTLMeansMatrix <- function(pairs, nGeneMeansPop, params){
         norm.mean <- mean(unlist(MeansMatrix[g, ]))
         norm.sd <- sd(unlist(MeansMatrix[g, ]))
         for(s in names(MeansMatrix)){
-            rnorm.tmp <- MeansMatrix[g, s]
-            pnorm.tmp <- pnorm(rnorm.tmp, norm.mean, norm.sd)
+            n_val <- MeansMatrix[g, s]
+            pnorm.tmp <- pnorm(n_val, norm.mean, norm.sd)
             MeansMatrix[g, s] <- qnorm(pnorm.tmp, mean.gene, sd.gene)
         }
     }
     MeansMatrix[MeansMatrix < 0] <- 0
-   
-     # For each sample, quantile gamma normalize expression across genes.
+
+    # For each sample, quantile gamma normalize expression across genes.
     mean.shape <- getParam(params, "mean.shape")
     mean.rate <- getParam(params, "mean.rate")
     for(s in names(MeansMatrix)){
@@ -346,7 +346,7 @@ eQTLMeansMatrix <- function(pairs, nGeneMeansPop, params){
         MeansMatrix[, s] <- qgamma(pnorm.tmp, shape=mean.shape,
                                   rate=mean.rate)
     }
-    
+
     return(MeansMatrix)
 }
 
