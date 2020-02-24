@@ -1,3 +1,6 @@
+#' @importFrom utils globalVariables
+utils::globalVariables(c("pval_nominal", 'perc', 'ex_pairs', 'ex_means'))
+
 #' Logistic function
 #'
 #' Implementation of the logistic function

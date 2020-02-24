@@ -342,6 +342,7 @@ eQTLMeansMatrix <- function(pairs, nGeneMeansPop, params){
         sample_mean <- mean(MeansMatrix[, s])
         sample_sd <- sd(MeansMatrix[, s])
         pnorm.tmp <- pnorm(MeansMatrix[, s], sample_mean, sample_sd)
+        pnorm.tmp[pnorm.tmp == 1] <- 0.9999
         MeansMatrix[, s] <- qgamma(pnorm.tmp, shape=mean.shape,
                                   rate=mean.rate)
     }

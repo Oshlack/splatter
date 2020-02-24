@@ -50,7 +50,6 @@ Suggests:
     cowplot,
     knitr,
     magick,
-    dplyr,
     limSolve,
     lme4,
     progress,
