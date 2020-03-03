@@ -98,6 +98,12 @@ eQTLSimulate <- function(params = newSplatParams(),
 #' @importFrom utils read.delim
 eQTLgenes <- function(gff){
 
+    # Test input gff file
+    if ((length(names(gff)) < 8 | nrow(gff[gff[,3]=="gene",]) < 1)) {
+        stop("GFF file did not contain gene features or other issue with
+            file format. See example data.")
+    }
+
     genes <- gff[gff[,3]=="gene",]
     genes$TSS <- genes[,4]  #  + strand genes
     genes$TSS[genes[,7] == '-'] <- genes[,5][genes[,7] == '-'] #  - strand genes
@@ -127,8 +133,12 @@ eQTLsnps <- function(vcf, eQTLparams){
     eqtl.mafd <- getParam(eQTLparams, "eqtl.mafd")
     MAF <- NULL  # locally binding variables
 
+    # Test input VCF file
+    if (!('V1' %in% names(vcf))) {
+        stop("snps not in the expected VCF format. See example data.")
+    }
+
     # Read in genotype matrix in .vcf format
-    #snps <- read.delim(snp_file, header=F, comment.char='#')
     vcf[, c('V1', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9')] <- NULL
     names(vcf) <- c('loc', paste0('Sample', 1:(dim(vcf)[2]-1)))
     vcf[] <- lapply(vcf, function(x) gsub("0/0", 0.0, x))

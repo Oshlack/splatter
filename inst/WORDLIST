@@ -35,6 +35,7 @@ eqtl
 eQTL
 eQTLparams
 eQTLParams
+eQTLSimulate
 eSNP
 eSNPs
 etc
@@ -46,6 +47,11 @@ getLNormFactors
 Github
 GRCh
 Gribkova
+<<<<<<< HEAD
+=======
+GTEx
+GTF
+>>>>>>> 7378a1a... added testthat tests for eQTL functions
 ImmunoOncology
 ingroup
 JC
@@ -65,7 +71,11 @@ lunSimulate
 MADs
 MAEs
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+maf
+>>>>>>> 7378a1a... added testthat tests for eQTL functions
 MAF
 >>>>>>> d8f09d0... added eQTLEstimate function and eqtl params as an S4 parameters object
 Marioni
@@ -78,10 +88,15 @@ mfaSimulate
 mockSCE
 modeling
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 NAR
 Nelder
 >>>>>>> d8f09d0... added eQTLEstimate function and eqtl params as an S4 parameters object
+=======
+NAR
+Nelder
+>>>>>>> 7378a1a... added testthat tests for eQTL functions
 nGenes
 nGroups
 NOTEs
@@ -97,7 +112,10 @@ Poisson
 PROSSTT
 pseudotime
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 7378a1a... added testthat tests for eQTL functions
 pval
 qgamma
 >>>>>>> d8f09d0... added eQTLEstimate function and eqtl params as an S4 parameters object
@@ -138,6 +156,7 @@ splatEstLib
 splatParams
 SplatParams
 splatSimulate
+splatSimulateeQTL
 splatSimulatePaths
 Splatter's
 splotchEstimate
@@ -149,6 +168,10 @@ th
 thining
 tpm
 TPM
+<<<<<<< HEAD
+=======
+TSS
+>>>>>>> 7378a1a... added testthat tests for eQTL functions
 UMAP
 UpperCamelCase
 Vallejos

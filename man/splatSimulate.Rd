@@ -10,6 +10,7 @@
 splatSimulate(
   params = newSplatParams(),
   method = c("single", "groups", "paths"),
+  eqtl_means = NULL,
   verbose = TRUE,
   ...
 )
@@ -26,8 +27,10 @@ See \code{\link{SplatParams}} for details.}
 
 \item{method}{which simulation method to use. Options are "single" which
 produces a single population, "groups" which produces distinct groups
-(eg. cell types) or "paths" which selects cells from continuous
+(eg. cell types), "paths" which selects cells from continuous
 trajectories (eg. differentiation processes).}
+
+\item{eqtl_means}{Gene means to use if running splatSimulateeQTL().}
 
 \item{verbose}{logical. Whether to print progress messages.}
 
@@ -132,6 +135,9 @@ sim <- splatSimulate(params, mean.rate = 0.6, out.prob = 0.2)
 sim <- splatSimulate(method = "groups")
 # Simulate paths
 sim <- splatSimulate(method = "paths")
+# Simulate eQTL data
+eqtl <- eQLTSimulate(params=params)
+sim <- splatSimulateeQTL(params=params, eqtl = eqtl)
 }
 }
 \references{

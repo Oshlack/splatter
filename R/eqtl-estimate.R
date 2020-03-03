@@ -62,6 +62,12 @@ eQTLEstimate <- function(eQTLparams = neweQTLParams(),
 #' @importFrom data.table data.table .I
 eQTLEstES <- function(all.pairs, eQTLparams) {
 
+    # Test input eSNP-eGene pairs
+    if (!('gene_id' %in% names(all.pairs) &
+          'pval_nominal' %in% names(all.pairs))) {
+        stop("Incorrect format for all.pairs. See example data.")
+    }
+    
     # Select top eSNP for each gene (i.e. lowest p.value)
     all.pairs <- data.table::data.table(all.pairs)
     pairs_top <- all.pairs[all.pairs[, .I[which.min(pval_nominal)], 
@@ -112,6 +118,11 @@ eQTLEstES <- function(all.pairs, eQTLparams) {
 #' @return eQTLParams object with estimated values.
 #' @importFrom stats quantile
 eQTLEstMeanCV <- function(gene.means, eQTLparams) {
+    
+    # Test input gene means
+    if ((anyNA(gene.means) | !(validObject(rowSums(gene.means))))) {
+        stop("Incorrect format or NAs present in gene.means. See example data.")
+    }
     
     # Remove genes with low variance/low means
     abv_thr <- data.frame(perc = (rowSums(gene.means >= 0.1)/ncol(gene.means)))
