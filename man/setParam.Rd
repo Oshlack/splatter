@@ -2,7 +2,7 @@
 % Please edit documentation in R/AllGenerics.R, R/BASiCSParams-methods.R,
 %   R/KersplatParams-methods.R, R/Lun2Params-methods.R, R/LunParams-methods.R,
 %   R/Params-methods.R, R/PhenoParams-methods.R, R/SCDDParams-methods.R,
-%   R/SplatParams-methods.R, R/ZINBParams-methods.R
+%   R/SplatParams-methods.R, R/ZINBParams-methods.R, R/eQTLParams-methods.R
 \name{setParam}
 \alias{setParam}
 \alias{setParam,BASiCSParams-method}
@@ -14,6 +14,7 @@
 \alias{setParam,SCDDParams-method}
 \alias{setParam,SplatParams-method}
 \alias{setParam,ZINBParams-method}
+\alias{setParam,eQTLParams-method}
 \title{Set a parameter}
 \usage{
 setParam(object, name, value)
@@ -35,6 +36,8 @@ setParam(object, name, value)
 \S4method{setParam}{SplatParams}(object, name, value)
 
 \S4method{setParam}{ZINBParams}(object, name, value)
+
+\S4method{setParam}{eQTLParams}(object, name, value)
 }
 \arguments{
 \item{object}{object to set parameter in.}

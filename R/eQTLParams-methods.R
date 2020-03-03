@@ -57,12 +57,35 @@ setMethod("show", "eQTLParams", function(object) {
 })
 
 
-#' @rdname setParams
-#' @importFrom methods slotNames
-setMethod("setParams", "eQTLParams", function(object, update = NULL, ...) {
-    checkmate::assertClass(object, classes = "eQTLParams")
-    checkmate::assertList(update, null.ok = TRUE)
+#' @rdname setParam
+setMethod("setParam", "eQTLParams", function(object, name, value) {
+    checkmate::assertString(name)
+    
+    if (name == "nCells") {
+        warning(name, " parameter does not impact eQTL simulation, set nCells
+             in the sc simulation Params object instead.")
+    }
+    
+    if (name == "bulkcv.param") {
+        if (getParam(object, "bulkcv.bins") != nrow(value)) {
+            stop("Need to set bulkcv.bins to length of bulkcv.param")
+        }
+    }
+    
+    object <- callNextMethod()
     
     return(object)
 })
 
+#' @rdname setParams
+setMethod("setParams", "eQTLParams", function(object, update = NULL, ...) {
+    
+    checkmate::assertClass(object, classes = "eQTLParams")
+    checkmate::assertList(update, null.ok = TRUE)
+    
+    update <- c(update, list(...))
+    
+    object <- callNextMethod(object, update)
+    
+    return(object)
+})

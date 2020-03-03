@@ -8,11 +8,8 @@
 #' @param method which simulation method to use. Options are "single" which
 #'        produces a single population, "groups" which produces distinct groups
 #'        (eg. cell types), "paths" which selects cells from continuous
-#'        trajectories (eg. differentiation processes), or "eqtl" which produces
-#'        a single population for every sample (ie column) in the dataframe 
-#'        output by splateQTL().
-#' @param eqtl matrix of mean gene counts across the eQTL population, output 
-#'        from splateQTL().
+#'        trajectories (eg. differentiation processes).
+#' @param eqtl_means Gene means to use if running splatSimulateeQTL().
 #' @param verbose logical. Whether to print progress messages.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -126,16 +123,16 @@
 #' # Simulate paths
 #' sim <- splatSimulate(method = "paths")
 #' # Simulate eQTL data
-#' eqtl <- splateQTL(params=params)
-#' sim <- splatSimulate(params=params, method = 'eqtl', eqtl = eqtl)
+#' eqtl <- eQLTSimulate(params=params)
+#' sim <- splatSimulateeQTL(params=params, eqtl = eqtl)
 #' }
 #' @importFrom SummarizedExperiment rowData colData colData<- assays
 #' @importFrom SingleCellExperiment SingleCellExperiment
 #' @importFrom methods validObject
 #' @export
 splatSimulate <- function(params = newSplatParams(),
-                          method = c("single", "groups", "paths", "eqtl"),
-                          eqtl = NULL,
+                          method = c("single", "groups", "paths"),
+                          eqtl_means = NULL,
                           verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "SplatParams")
@@ -153,8 +150,8 @@ splatSimulate <- function(params = newSplatParams(),
     
     # Get the parameters we are going to use
     nCells <- getParam(params, "nCells")
-    if (method == "eqtl") {
-        params <- setParams(params, nGenes = nrow(eqtl))
+    if (!is.null(eqtl_means)) {
+        params <- setParams(params, nGenes = length(eqtl_means))
     }
     nGenes <- getParam(params, "nGenes")
     nBatches <- getParam(params, "nBatches")
@@ -163,10 +160,6 @@ splatSimulate <- function(params = newSplatParams(),
     group.prob <- getParam(params, "group.prob")
     
     # Run sanity checks
-    if (is.null(eqtl) && method == "eqtl" ){
-        warning("No eQTL parameter provided, switching to single mode")
-        method <- "single"
-    }
     if (nGroups == 1 && method == "groups") {
         warning("nGroups is 1, switching to single mode")
         method <- "single"
@@ -198,78 +191,50 @@ splatSimulate <- function(params = newSplatParams(),
     batches <- unlist(batches)
     colData(sim)$Batch <- batch.names[batches]
 
-    if (method != "single" & method != "eqtl") {
+    if (method != "single") {
         groups <- sample(seq_len(nGroups), nCells, prob = group.prob,
                          replace = TRUE)
         colData(sim)$Group <- factor(group.names[groups], levels = group.names)
     }
-
-    if (method == "eqtl") {
-        if (verbose) {message("Simulating sc data for eQTL population...")}
-        xtime <- format(Sys.time(), "%Y%m%d_%H%M_")
-        sim.all <- sim
-        count <- 0
-        for (s in names(eqtl)){
-            if (verbose) {message(s)}
-            count <- count + 1
-            sim.eqtl <- sim
-            sim.eqtl <- splatSimLibSizes(sim.eqtl, params)
-            rowData(sim.eqtl)$GeneMean <- eqtl[[s]]
-            if (nBatches > 1) {
-                sim.eqtl <- splatSimBatchEffects(sim.eqtl, params)
-            }
-            sim.eqtl <- splatSimBatchCellMeans(sim.eqtl, params)
-            sim.eqtl <- splatSimSingleCellMeans(sim.eqtl, params)
-            sim.eqtl <- splatSimBCVMeans(sim.eqtl, params)
-            sim.eqtl <- splatSimTrueCounts(sim.eqtl, params)
-            sim.eqtl <- splatSimDropout(sim.eqtl, params)
-            #write.table(assays(sim.eqtl)$counts, 
-            #            paste0("eqtl_out/", xtime, s, '.txt'), quote = FALSE)
-            names(rowData(sim.eqtl)) <- paste (s, names(rowData(sim.eqtl)), sep='_')
-            colnames(sim.eqtl) <- paste(s, colnames(sim.eqtl), sep ='_')
-            if (count == 1){
-                sim.all <- sim.eqtl
-            } else{
-                sim.all <- cbind(sim.all, sim.eqtl)
-            }
-            
-        }
-        if (verbose) {message("Done!")}
-        return (sim.all)
-    } else {
-        if (verbose) {message("Simulating library sizes...")}
-        sim <- splatSimLibSizes(sim, params)
+    
+    if (verbose) {message("Simulating library sizes...")}
+    sim <- splatSimLibSizes(sim, params)
+    
+    if (!is.null(eqtl_means)){
+        if (verbose) {message("Using gene means from eQTLSimulate()...")}
+        rowData(sim)$GeneMean <- eqtl_means
+    } else{
         if (verbose) {message("Simulating gene means...")}
         sim <- splatSimGeneMeans(sim, params)
-        if (nBatches > 1) {
-            if (verbose) {message("Simulating batch effects...")}
-            sim <- splatSimBatchEffects(sim, params)
-        }
-        sim <- splatSimBatchCellMeans(sim, params)
-        if (method == "single") {
-            sim <- splatSimSingleCellMeans(sim, params)
-        } else if (method == "groups") {
-            if (verbose) {message("Simulating group DE...")}
-            sim <- splatSimGroupDE(sim, params)
-            if (verbose) {message("Simulating cell means...")}
-            sim <- splatSimGroupCellMeans(sim, params)
-        } else {
-            if (verbose) {message("Simulating path endpoints...")}
-            sim <- splatSimPathDE(sim, params)
-            if (verbose) {message("Simulating path steps...")}
-            sim <- splatSimPathCellMeans(sim, params)
-        }
-        if (verbose) {message("Simulating BCV...")}
-        sim <- splatSimBCVMeans(sim, params)
-        if (verbose) {message("Simulating counts...")}
-        sim <- splatSimTrueCounts(sim, params)
-        if (verbose) {message("Simulating dropout (if needed)...")}
-        sim <- splatSimDropout(sim, params)
-        
-        if (verbose) {message("Done!")}
-        return(sim)
     }
     
+    if (nBatches > 1) {
+        if (verbose) {message("Simulating batch effects...")}
+        sim <- splatSimBatchEffects(sim, params)
+    }
+    sim <- splatSimBatchCellMeans(sim, params)
+    if (method == "single") {
+        sim <- splatSimSingleCellMeans(sim, params)
+    } else if (method == "groups") {
+        if (verbose) {message("Simulating group DE...")}
+        sim <- splatSimGroupDE(sim, params)
+        if (verbose) {message("Simulating cell means...")}
+        sim <- splatSimGroupCellMeans(sim, params)
+    } else {
+        if (verbose) {message("Simulating path endpoints...")}
+        sim <- splatSimPathDE(sim, params)
+        if (verbose) {message("Simulating path steps...")}
+        sim <- splatSimPathCellMeans(sim, params)
+    }
+    if (verbose) {message("Simulating BCV...")}
+    sim <- splatSimBCVMeans(sim, params)
+    if (verbose) {message("Simulating counts...")}
+    sim <- splatSimTrueCounts(sim, params)
+    if (verbose) {message("Simulating dropout (if needed)...")}
+    sim <- splatSimDropout(sim, params)
+    
+    if (verbose) {message("Done!")}
+    return(sim)
     
 }
 
@@ -293,10 +258,55 @@ splatSimulateGroups <- function(params = newSplatParams(),
 
 #' @rdname splatSimulate
 #' @export
-splatSimulatePaths <- function(params = newSplatParams(), verbose = TRUE, ...) {
+splatSimulatePaths <- function(params = newSplatParams(), 
+                               verbose = TRUE, ...) {
     sim <- splatSimulate(params = params, method = "paths",
                          verbose = verbose, ...)
     return(sim)
+}
+
+
+#' Simulate single cell data for eQTL population
+#'
+#' Simulate count data for an eQTL population from a fictional single-cell 
+#' RNA-seq experiment using the Splat method.
+#' 
+#' @param params SplatParams object with simulation parameters.
+#' @param method which simulation method to use. Options are "single" which
+#'        produces a single population, "groups" which produces distinct groups
+#'        (eg. cell types), "paths" which selects cells from continuous
+#'        trajectories (eg. differentiation processes).
+#' @param eqtl Matrix of gene means for eQTL population. Output from 
+#'        eQTLSimulate(). 
+#' @param verbose logical. Whether to print progress messages.
+#' @param ... any additional parameter settings to override what is provided in
+#'        \code{params}.
+#'
+#' @return SingleCellExperiment with simulated data for whole eQTL population.
+#'
+#' @importFrom SingleCellExperiment SingleCellExperiment cbind
+#' @importFrom SummarizedExperiment rowData rowData<-
+#' @export
+splatSimulateeQTL <- function(params = newSplatParams(), 
+                              method = "single",
+                              eqtl = NULL,
+                              verbose = FALSE, ...){
+    count <- 0
+    for (s in names(eqtl)){
+        count <- count + 1
+        sim_tmp <- splatSimulate(params = params, 
+                                 method = method,
+                                 eqtl_means = eqtl[[s]],
+                                 verbose = verbose, ...)
+        names(rowData(sim_tmp)) <- paste (s, names(rowData(sim_tmp)), sep='_')
+        colnames(sim_tmp) <- paste(s, colnames(sim_tmp), sep ='_')
+        if (count == 1){
+            sim.all <- sim_tmp
+        } else{
+            sim.all <- SingleCellExperiment::cbind(sim.all, sim_tmp)
+        }
+    }
+    return (sim.all)
 }
 
 #' Simulate library sizes

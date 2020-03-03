@@ -18,10 +18,7 @@ compareSCEs
 compareSCESets
 cpm
 cutoff
-<<<<<<< HEAD
 cv
-=======
->>>>>>> b3c4d4a06a7a29688fa73c41e620c53a55f2284b
 df
 diffSCEs
 diffSCESets
@@ -36,11 +33,9 @@ eGene
 eGenes
 eqtl
 eQTL
-<<<<<<< HEAD
 eQTLparams
 eQTLParams
-=======
->>>>>>> b3c4d4a06a7a29688fa73c41e620c53a55f2284b
+eQTLSimulate
 eSNP
 eSNPs
 etc
@@ -56,7 +51,6 @@ GRCh
 Gribkova
 GTEx
 GTF
-ie
 ImmunoOncology
 ingroup
 JC
@@ -75,10 +69,7 @@ LunParams
 lunSimulate
 MADs
 MAEs
-<<<<<<< HEAD
-=======
 maf
->>>>>>> b3c4d4a06a7a29688fa73c41e620c53a55f2284b
 MAF
 Marioni
 meanlog
@@ -91,10 +82,7 @@ mfaSimulate
 mockSCE
 modeling
 NAR
-<<<<<<< HEAD
 Nelder
-=======
->>>>>>> b3c4d4a06a7a29688fa73c41e620c53a55f2284b
 nGenes
 nGroups
 normGeneMeansPop
@@ -111,10 +99,7 @@ poisson
 Poisson
 PROSSTT
 pseudotime
-<<<<<<< HEAD
 pval
-=======
->>>>>>> b3c4d4a06a7a29688fa73c41e620c53a55f2284b
 qgamma
 Quickstart
 RG
@@ -149,12 +134,12 @@ SparseDC
 sparseDCEstimate
 SparseDCParams
 SparseParams
-splateQTL
 splatEstimate
 splatEstLib
 splatParams
 SplatParams
 splatSimulate
+splatSimulateeQTL
 splatSimulatePaths
 Splatter's
 splotchEstimate
@@ -166,10 +151,7 @@ th
 thining
 tpm
 TPM
-<<<<<<< HEAD
-=======
 TSS
->>>>>>> b3c4d4a06a7a29688fa73c41e620c53a55f2284b
 UMAP
 UpperCamelCase
 Vallejos
