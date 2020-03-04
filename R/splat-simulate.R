@@ -485,6 +485,7 @@ splatSimGroupDE <- function(sim, params) {
     for (idx in seq_len(nGroups)) {
         de.facs <- getLNormFactors(nGenes, de.prob[idx], de.downProb[idx],
                                    de.facLoc[idx], de.facScale[idx])
+        print(de.facs)
         group.means.gene <- means.gene * de.facs
         rowData(sim)[[paste0("DEFacGroup", idx)]] <- de.facs
     }
