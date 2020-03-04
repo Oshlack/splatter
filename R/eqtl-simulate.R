@@ -58,6 +58,10 @@ eQTLSimulate <- function(params = newSplatParams(),
                       vcf = ex_snps,
                       eqtl.save = TRUE, ...) {
 
+    # Set random seed
+    seed <- getParam(params, "seed")
+    set.seed(seed)
+
     # Load and format gene (GFF/GTF) and SNP (genotype) data.
     genes <- eQTLgenes(gff)
     snps <- eQTLsnps(vcf, eQTLparams)
@@ -152,7 +156,7 @@ eQTLsnps <- function(vcf, eQTLparams){
     snps <- subset(vcf, MAF > eqtl.maf-eqtl.mafd &
                              MAF < eqtl.maf+eqtl.mafd)
     if(dim(snps)[1] < getParam(eQTLparams, "eqtl.n")){
-        warning("Not enough SNPs within desired MAF range. Either increase the
+        stop("Not enough SNPs within desired MAF range. Increase the
                     eqtl.mafd allowed, include more SNPs, or reduce eqtl.n.")
     }
 
@@ -192,8 +196,13 @@ eQTLpairs <- function(genes, snps, eQTLparams){
     for(i in 1:eqtl.n){
         again <- TRUE
         while (again == TRUE){
+            if(length(snps_list) == 0) {
+                stop("Not enough SNPs within desired MAF range. Increase the
+                    eqtl.mafd allowed, include more SNPs, or reduce eqtl.n.")
+            }
             s <- sample(snps_list, 1)
             snps_list <- snps_list[!snps_list==s]
+
             l <- snps[snps$eSNP == s, ]$loc
             matches <- subset(genes2, TSS > l - eqtl.dist & TSS < l + eqtl.dist)
             if(dim(matches)[1] > 0){
@@ -208,11 +217,7 @@ eQTLpairs <- function(genes, snps, eQTLparams){
         pairs[pairs$geneID == match, ]$eSNP <- s
         pairs[pairs$geneID == match, ]$EffectSize <- ES
 
-        if(length(snps_list) == 0) {
-            warning("Could not find n eSNPs within eqtl.dist of genes provided
-                    in the GFF file. Either increase the eqtl.dist window or
-                    include more SNPs.")
-        }
+
     }
 
     return(pairs)
