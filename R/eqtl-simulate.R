@@ -59,7 +59,7 @@ eQTLSimulate <- function(params = newSplatParams(),
                       eqtl.save = TRUE, ...) {
 
     # Set random seed
-    seed <- getParam(params, "seed")
+    seed <- getParam(eQTLparams, "seed")
     set.seed(seed)
 
     # Load and format gene (GFF/GTF) and SNP (genotype) data.
@@ -155,11 +155,6 @@ eQTLsnps <- function(vcf, eQTLparams){
     vcf$MAF <- rowSums(vcf[,3:dim(vcf)[2]]) / ((dim(vcf)[2]-2) * 2)
     snps <- subset(vcf, MAF > eqtl.maf-eqtl.mafd &
                              MAF < eqtl.maf+eqtl.mafd)
-    if(dim(snps)[1] < getParam(eQTLparams, "eqtl.n")){
-        stop("Not enough SNPs within desired MAF range. Increase the
-                    eqtl.mafd allowed, include more SNPs, or reduce eqtl.n.")
-    }
-
     return(snps)
 }
 
@@ -181,6 +176,9 @@ eQTLsnps <- function(vcf, eQTLparams){
 #'
 eQTLpairs <- function(genes, snps, eQTLparams){
     eqtl.n <- getParam(eQTLparams, "eqtl.n")
+    if (eqtl.n > length(genes)){
+        eqtl.n <- length(genes)
+    }
     eqtl.dist <- getParam(eQTLparams, "eqtl.dist")
     eqtlES_shape <- getParam(eQTLparams, "eqtlES.shape")
     eqtlES_rate <- getParam(eQTLparams, "eqtlES.rate")

@@ -2,13 +2,17 @@ context("eQTLSimulate")
 
 data(ex_gff)
 data(ex_snps)
-eQTLparams <- neweQTLParams()
+vcf <- ex_snps[1:5000,]
+eparams <- setParams(neweQTLParams(), list(eqtl.n = 10, seed = 42))
 
-test_that("eQTLSimulate output is valid", {
-    eqtl <- eQTLSimulate()
+test_that("eQTLSimulate output is valid and works", {
+    eqtl <- eQTLSimulate(eQTLparams = eparams, 
+                         vcf = vcf, eqtl.save = FALSE)
     expect_true(validObject(eqtl))
     expect_false(any(is.na(eqtl)))
     expect_false(any(sapply(eqtl, is.infinite)))
+    expect_length(eqtl, 100)
+    expect_true(round(eqtl[1,1], 5) == 0.57866)
 })
 
 test_that("input data checks", {
@@ -20,8 +24,11 @@ test_that("input data checks", {
     
     vcf_bad <- ex_snps
     vcf_bad$V1 <- NULL
-    expect_error(eQTLsnps(vcf_bad, eQTLparams),
+    expect_error(eQTLsnps(vcf_bad, eparams),
                  "snps not in the expected VCF format. See example data.")
+    
+    vcf_bad2 <- ex_snps[1:5,]
+    expect_error(eQTLSimulate(vcf = vcf_bad2), 
+    "Not enough SNPs within desired MAF range. Increase the
+                    eqtl.mafd allowed, include more SNPs, or reduce eqtl.n.")
 })
-
-

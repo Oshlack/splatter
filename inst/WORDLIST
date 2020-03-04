@@ -13,10 +13,12 @@ Biocondutor
 biocViews
 bioRxiv
 BPPARAM
+CellX
 Chu
 CMD
 compareSCEs
 compareSCESets
+continaing
 cpm
 cutoff
 cv
@@ -33,6 +35,7 @@ eGene
 eGenes
 eqtl
 eQTL
+eQTLEstimate
 eQTLparams
 eQTLParams
 eQTLSimulate
@@ -44,14 +47,13 @@ FPKM
 gam
 getCounts
 getLNormFactors
+gff
+GFF
 Github
 GRCh
 Gribkova
-<<<<<<< HEAD
-=======
 GTEx
 GTF
->>>>>>> 7378a1a... added testthat tests for eQTL functions
 ImmunoOncology
 ingroup
 JC
@@ -60,6 +62,7 @@ Kersplat
 KersplatParams
 Korthauer
 KR
+labeled
 len
 Lifecycle
 listSims
@@ -70,14 +73,8 @@ LunParams
 lunSimulate
 MADs
 MAEs
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
 maf
->>>>>>> 7378a1a... added testthat tests for eQTL functions
 MAF
->>>>>>> d8f09d0... added eQTLEstimate function and eqtl params as an S4 parameters object
 Marioni
 meanlog
 MeanZeros
@@ -87,16 +84,11 @@ MFAParams
 mfaSimulate
 mockSCE
 modeling
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 NAR
 Nelder
->>>>>>> d8f09d0... added eQTLEstimate function and eqtl params as an S4 parameters object
-=======
 NAR
 Nelder
->>>>>>> 7378a1a... added testthat tests for eQTL functions
+neweQTLParams
 nGenes
 nGroups
 NOTEs
@@ -111,14 +103,8 @@ poisson
 Poisson
 PROSSTT
 pseudotime
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 7378a1a... added testthat tests for eQTL functions
 pval
 qgamma
->>>>>>> d8f09d0... added eQTLEstimate function and eqtl params as an S4 parameters object
 Quickstart
 RG
 Risso
@@ -126,6 +112,7 @@ RMSEs
 Roxygen
 RStudio
 RStudio's
+SampleX
 sc
 scater
 scDD
@@ -141,6 +128,7 @@ sd
 sdlog
 selectFit
 seq
+setParams
 SimpleParams
 simpleSimulate
 SingleCellExperiment
@@ -168,13 +156,12 @@ th
 thining
 tpm
 TPM
-<<<<<<< HEAD
-=======
 TSS
->>>>>>> 7378a1a... added testthat tests for eQTL functions
 UMAP
 UpperCamelCase
 Vallejos
+vcf
+VCF
 WaVE
 Wellcome
 Wilks
