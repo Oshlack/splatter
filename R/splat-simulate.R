@@ -203,7 +203,7 @@ splatSimulate <- function(params = newSplatParams(),
     if (!is.null(eqtl_means)){
         if (verbose) {message("Using gene means from eQTLSimulate()...")}
         rowData(sim)$GeneMean <- eqtl_means
-    } else{
+        } else{
         if (verbose) {message("Simulating gene means...")}
         sim <- splatSimGeneMeans(sim, params)
     }
@@ -300,6 +300,7 @@ splatSimulateeQTL <- function(params = newSplatParams(),
                                  verbose = verbose, ...)
         names(rowData(sim_tmp)) <- paste (s, names(rowData(sim_tmp)), sep='_')
         colnames(sim_tmp) <- paste(s, colnames(sim_tmp), sep ='_')
+        colData(sim_tmp)$Sample <- s
         if (count == 1){
             sim.all <- sim_tmp
         } else{

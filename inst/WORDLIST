@@ -13,9 +13,11 @@ Biocondutor
 biocViews
 bioRxiv
 BPPARAM
+CellX
 Chu
 compareSCEs
 compareSCESets
+continaing
 cpm
 cutoff
 cv
@@ -33,6 +35,7 @@ eGene
 eGenes
 eqtl
 eQTL
+eQTLEstimate
 eQTLparams
 eQTLParams
 eQTLSimulate
@@ -45,6 +48,7 @@ gam
 GeneMeansPop
 getCounts
 getLNormFactors
+gff
 GFF
 Github
 GRCh
@@ -59,6 +63,7 @@ Kersplat
 KersplatParams
 Korthauer
 KR
+labeled
 len
 Lifecycle
 listSims
@@ -83,6 +88,7 @@ mockSCE
 modeling
 NAR
 Nelder
+neweQTLParams
 nGenes
 nGroups
 normGeneMeansPop
@@ -109,6 +115,7 @@ rnorm
 Roxygen
 RStudio
 RStudio's
+SampleX
 sc
 scater
 scDD
@@ -124,6 +131,7 @@ sd
 sdlog
 selectFit
 seq
+setParams
 SimpleParams
 simpleSimulate
 SingleCellExperiment
@@ -156,6 +164,7 @@ UMAP
 UpperCamelCase
 Vallejos
 vcf
+VCF
 WaVE
 Wellcome
 Wilks
