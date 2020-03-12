@@ -123,7 +123,7 @@
 #' # Simulate paths
 #' sim <- splatSimulate(method = "paths")
 #' # Simulate eQTL data
-#' eqtl <- eQLTSimulate(params=params)
+#' eqtl <- eQTLSimulate(params=params)
 #' sim <- splatSimulateeQTL(params=params, eqtl = eqtl)
 #' }
 #' @importFrom SummarizedExperiment rowData colData colData<- assays
@@ -199,14 +199,9 @@ splatSimulate <- function(params = newSplatParams(),
     
     if (verbose) {message("Simulating library sizes...")}
     sim <- splatSimLibSizes(sim, params)
-    
-    if (!is.null(eqtl_means)){
-        if (verbose) {message("Using gene means from eQTLSimulate()...")}
-        rowData(sim)$GeneMean <- eqtl_means
-        } else{
-        if (verbose) {message("Simulating gene means...")}
-        sim <- splatSimGeneMeans(sim, params)
-    }
+
+    if (verbose) {message("Simulating gene means...")}
+    sim <- splatSimGeneMeans(sim, params, eqtl_means)
     
     if (nBatches > 1) {
         if (verbose) {message("Simulating batch effects...")}
@@ -294,6 +289,9 @@ splatSimulateeQTL <- function(params = newSplatParams(),
     count <- 0
     for (s in names(eqtl)){
         count <- count + 1
+        if(count %% 25 == 0){
+            print(paste0('finished ', count, ' sims'))
+        }
         sim_tmp <- splatSimulate(params = params, 
                                  method = method,
                                  eqtl_means = eqtl[[s]],
@@ -337,7 +335,7 @@ splatSimLibSizes <- function(sim, params) {
     } else {
         exp.lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
     }
-
+    
     colData(sim)$ExpLibSize <- exp.lib.sizes
 
     return(sim)
@@ -356,7 +354,7 @@ splatSimLibSizes <- function(sim, params) {
 #'
 #' @importFrom SummarizedExperiment rowData rowData<-
 #' @importFrom stats rgamma median
-splatSimGeneMeans <- function(sim, params) {
+splatSimGeneMeans <- function(sim, params, eqtl_means) {
 
     nGenes <- getParam(params, "nGenes")
     mean.shape <- getParam(params, "mean.shape")
@@ -364,10 +362,14 @@ splatSimGeneMeans <- function(sim, params) {
     out.prob <- getParam(params, "out.prob")
     out.facLoc <- getParam(params, "out.facLoc")
     out.facScale <- getParam(params, "out.facScale")
-
+    
     # Simulate base gene means
-    base.means.gene <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
-
+    if (!is.null(eqtl_means)){
+        base.means.gene <- eqtl_means
+    } else{
+        base.means.gene <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
+    }
+    
     # Add expression outliers
     outlier.facs <- getLNormFactors(nGenes, out.prob, 0, out.facLoc,
                                     out.facScale)
@@ -376,7 +378,7 @@ splatSimGeneMeans <- function(sim, params) {
     is.outlier <- outlier.facs != 1
     means.gene <- base.means.gene
     means.gene[is.outlier] <- outlier.means[is.outlier]
-
+    
     rowData(sim)$BaseGeneMean <- base.means.gene
     rowData(sim)$OutlierFactor <- outlier.facs
     rowData(sim)$GeneMean <- means.gene
@@ -485,7 +487,6 @@ splatSimGroupDE <- function(sim, params) {
     for (idx in seq_len(nGroups)) {
         de.facs <- getLNormFactors(nGenes, de.prob[idx], de.downProb[idx],
                                    de.facLoc[idx], de.facScale[idx])
-        print(de.facs)
         group.means.gene <- means.gene * de.facs
         rowData(sim)[[paste0("DEFacGroup", idx)]] <- de.facs
     }

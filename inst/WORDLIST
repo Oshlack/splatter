@@ -33,9 +33,9 @@ EE
 eg
 eGene
 eGenes
+eqt
 eqtl
 eQTL
-eQTLEstimate
 eQTLparams
 eQTLParams
 eQTLSimulate
@@ -47,7 +47,6 @@ FPKM
 gam
 getCounts
 getLNormFactors
-gff
 GFF
 Github
 GRCh
@@ -63,6 +62,7 @@ KersplatParams
 Korthauer
 KR
 labeled
+LD
 len
 Lifecycle
 listSims
@@ -73,7 +73,6 @@ LunParams
 lunSimulate
 MADs
 MAEs
-maf
 MAF
 Marioni
 meanlog
@@ -86,9 +85,6 @@ mockSCE
 modeling
 NAR
 Nelder
-NAR
-Nelder
-neweQTLParams
 nGenes
 nGroups
 NOTEs
@@ -128,7 +124,6 @@ sd
 sdlog
 selectFit
 seq
-setParams
 SimpleParams
 simpleSimulate
 SingleCellExperiment
@@ -156,7 +151,6 @@ th
 thining
 tpm
 TPM
-TSS
 UMAP
 UpperCamelCase
 Vallejos

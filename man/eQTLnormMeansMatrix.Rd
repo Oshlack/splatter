@@ -4,7 +4,7 @@
 \alias{eQTLnormMeansMatrix}
 \title{Generate normalized mean gene expression matrix for whole eQTL population}
 \usage{
-eQTLnormMeansMatrix(snps, pairs)
+eQTLnormMeansMatrix(id, snps, pairs)
 }
 \arguments{
 \item{snps}{The dataframe with the genetic marker info}

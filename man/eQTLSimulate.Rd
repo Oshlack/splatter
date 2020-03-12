@@ -9,6 +9,7 @@ eQTLSimulate(
   eQTLparams = neweQTLParams(),
   gff = ex_gff,
   vcf = ex_snps,
+  groups = 1,
   eqtl.save = TRUE,
   ...
 )

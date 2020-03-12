@@ -136,7 +136,7 @@ sim <- splatSimulate(method = "groups")
 # Simulate paths
 sim <- splatSimulate(method = "paths")
 # Simulate eQTL data
-eqtl <- eQLTSimulate(params=params)
+eqtl <- eQTLSimulate(params=params)
 sim <- splatSimulateeQTL(params=params, eqtl = eqtl)
 }
 }
