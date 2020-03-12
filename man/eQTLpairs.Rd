@@ -4,7 +4,7 @@
 \alias{eQTLpairs}
 \title{Select eGenes-eSNPs pairs and assign effect sizes.}
 \usage{
-eQTLpairs(genes, snps, eQTLparams)
+eQTLpairs(id, genes, snps, eQTLparams)
 }
 \arguments{
 \item{genes}{Dataframe with gene ID and location}

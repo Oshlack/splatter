@@ -4,24 +4,25 @@
 \alias{eQTLGeneMeans}
 \title{Set a gene mean expression value (not normalized) for each gene.}
 \usage{
-eQTLGeneMeans(params, pairs, eQTLparams)
+eQTLGeneMeans(params, genes, eQTLparams)
 }
 \arguments{
 \item{params}{SplatParams object containing parameters for the simulation.
 See \code{\link{SplatParams}} for details.}
 
-\item{pairs}{A dataframe eSNPs-eGenes pair assignments and their effect sizes}
+\item{genes}{A dataframe of genes included in the sim}
 
 \item{eQTLparams}{eQTLParams object containing parameters for the 
  simulation of the mean expression levels for the population.
 See \code{\link{eQTLParams}} for details.}
 }
 \value{
-the eSNP-eGene pairs dataframe updated to include the mean gene 
-expression level, BCV, and standard deviation.
+the gene dataframe updated to include the mean gene expression 
+level and coefficient of variation.
 }
 \description{
 Assign a mean expression value to each gene, sampled from a gamma 
-distribution parameterized by splatEstimate, then calculate the BCV and
-the standard deviation
+distribution parameterized by splatEstimate, then sample a coefficient of 
+variation for each gene from a gamma distribution parameterized by 
+splatEstimate for genes in 10 mean exptression bins.
 }
