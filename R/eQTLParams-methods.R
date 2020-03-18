@@ -22,6 +22,9 @@ setValidity("eQTLParams", function(object) {
                 eqtl.mafd = checkNumber(v$eqtl.mafd, lower = 0, upper = 1),
                 eqtlES.shape = checkNumber(v$eqtlES.shape, lower = 0),
                 eqtlES.rate = checkNumber(v$eqtlES.rate, lower = 0),
+                eqtl.groups = checkNumber(v$eqtl.groups, lower = 1),
+                eqtl.group.specific =checkNumber(v$eqtl.group.specific, 
+                                                 lower = 0, upper = 1),
                 bulkmean.shape = checkNumber(v$bulkmean.shape, lower = 0),
                 bulkmean.rate = checkNumber(v$bulkmean.rate, lower = 0),
                 bulkcv.bins = checkInt(v$bulkcv.bins, lower=1),
@@ -44,7 +47,9 @@ setMethod("show", "eQTLParams", function(object) {
     pp <- list("eQTL.General:"      = c("[eQTL.N]"    = "eqtl.n",
                                        "[Distance]"   = "eqtl.dist",
                                        "[MAF]"        = "eqtl.maf",
-                                       "[MAF dev]"    = "eqtl.mafd"),
+                                       "[MAF dev]"    = "eqtl.mafd",
+                                       "[Group N]"    = "eqtl.groups",
+                                       "[% G.spec]"   = "eqtl.group.specific"),
                "eQTL.Effect Size:"= c("(Rate)"        = "eqtlES.rate",
                                       "(Shape)"       = "eqtlES.shape"),
                "eQTL.Mean:"      = c("(Rate)"         = "bulkmean.rate",
@@ -69,6 +74,15 @@ setMethod("setParam", "eQTLParams", function(object, name, value) {
     if (name == "bulkcv.param") {
         if (getParam(object, "bulkcv.bins") != nrow(value)) {
             stop("Need to set bulkcv.bins to length of bulkcv.param")
+        }
+    }
+    
+    if (name == "eqtl.groups") {
+        if (getParam(object, "eqtl.groups") > 1 & 
+            getParam(object, "eqtl.group.specific") == 0) {
+            stop("Simulating multiple groups with 0% group-specific eQTL
+                 will result in identical groups... Change eqtl.groups to 1
+                 or specify a eqtl.group.specific => 0.01")
         }
     }
     

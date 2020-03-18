@@ -186,6 +186,13 @@ setClass("SimpleParams",
 #'             paths. A higher value will result in more extreme non-linear
 #'             variations along a path.}
 #'     }
+#'     \item{\emph{eQTL parameters}}{
+#'         \describe{
+#'             \item{\code{[eqtl.group.prop]}}{Proportion of cells from nCells 
+#'             to assign to each eQTL group as a list of length equal to
+#'             groups from `eqtlSimulate()`.}
+#'         }
+#'     }
 #'   }
 #' }
 #'
@@ -226,7 +233,8 @@ setClass("SplatParams",
                    path.nSteps = "numeric",
                    path.skew = "numeric",
                    path.nonlinearProb = "numeric",
-                   path.sigmaFac = "numeric"),
+                   path.sigmaFac = "numeric",
+                   eqtl.group.prop = "numeric"),
          prototype = prototype(nBatches = 1,
                                batchCells = 100,
                                batch.facLoc = 0.1,
@@ -254,7 +262,8 @@ setClass("SplatParams",
                                path.nSteps = 100,
                                path.skew = 0.5,
                                path.nonlinearProb = 0.1,
-                               path.sigmaFac = 0.8))
+                               path.sigmaFac = 0.8,
+                               eqtl.group.prop = c(0.5, 0.5)))
 
 #' The KersplatParams class
 #'
@@ -431,6 +440,9 @@ setClass("KersplatParams",
 #'     \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
 #'     \item{\code{[eqtl.maf]}}{Minor Allele Frequency of chosen eSNPs.}
 #'     \item{\code{[eqtl.mafd]}}{Deviation allowed in MAF of chosen eSNPs.}
+#'     \item{\code{[eqtl.groups]}}{Number of groups to simulate.}
+#'     \item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate 
+#'     as group specific.}
 #'     \item{\emph{eQTL Effect size distribution parameters}}{
 #'         \describe{
 #'             \item{\code{eqtlES.shape}}{Shape parameter for the effect size 
@@ -472,6 +484,8 @@ setClass("eQTLParams",
                    eqtl.mafd = "numeric",
                    eqtlES.shape = "numeric",
                    eqtlES.rate = "numeric",
+                   eqtl.groups = "numeric",
+                   eqtl.group.specific = "numeric",
                    bulkmean.shape = "numeric",
                    bulkmean.rate = "numeric",
                    bulkcv.bins = "numeric",
@@ -482,6 +496,8 @@ setClass("eQTLParams",
                                eqtl.mafd = 0.05,
                                eqtlES.shape = 2.538049, 
                                eqtlES.rate = 5.962323,
+                               eqtl.groups = 1,
+                               eqtl.group.specific = 0.25,
                                bulkmean.shape = 0.3395709, 
                                bulkmean.rate = 0.008309486, 
                                bulkcv.bins = 10,
