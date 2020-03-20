@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.3</span>
       </span>
     </div>
 
@@ -224,7 +224,7 @@ a multiple of <code>thin</code>.</p></td>
     <tr>
       <th>regression</th>
       <td><p>logical. Whether to use regression to identify
-over-dispersion. See <code>BASiCS_MCMC</code> for details.</p></td>
+over-dispersion. See <code><a href='https://rdrr.io/pkg/BASiCS/man/BASiCS_MCMC.html'>BASiCS_MCMC</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>params</th>
@@ -241,7 +241,7 @@ messages.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Optional parameters passed to <code>BASiCS_MCMC</code>.</p></td>
+      <td><p>Optional parameters passed to <code><a href='https://rdrr.io/pkg/BASiCS/man/BASiCS_MCMC.html'>BASiCS_MCMC</a></code>.</p></td>
     </tr>
     </table>
 
@@ -250,11 +250,11 @@ messages.</p></td>
     <p>BASiCSParams object containing the estimated parameters.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is just a wrapper around <code>BASiCS_MCMC</code> that
+    <p>This function is just a wrapper around <code><a href='https://rdrr.io/pkg/BASiCS/man/BASiCS_MCMC.html'>BASiCS_MCMC</a></code> that
 takes the output and converts it to a BASiCSParams object. Either a set of
 spike-ins or batch information (or both) must be supplied. If only batch
 information is provided there must be at least two batches. See
-<code>BASiCS_MCMC</code> for details.</p>
+<code><a href='https://rdrr.io/pkg/BASiCS/man/BASiCS_MCMC.html'>BASiCS_MCMC</a></code> for details.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {

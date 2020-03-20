@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.11.3 (2020-02-20)
+
+* Check for cycles in path.from (Fixes #91)
+
 ## Version 1.11.2 (2020-02-14)
 
 * Update tests to work with checkmate 2.0.0

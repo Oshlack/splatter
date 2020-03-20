@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.3</span>
       </span>
     </div>
 
@@ -173,19 +173,40 @@ containing count data to estimate parameters from.</p></td>
 
     <p>The <code>nGenes</code> and <code>nCells</code> parameters are taken from the size of the
 input data. The dropout lambda parameter is estimate using
-<code>empirical_lambda</code>. See <code><a href='MFAParams.html'>MFAParams</a></code> for more
+<code><a href='https://rdrr.io/pkg/mfa/man/empirical_lambda.html'>empirical_lambda</a></code>. See <code><a href='MFAParams.html'>MFAParams</a></code> for more
 details on the parameters.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load example data</span>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"mfa"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
     <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>mfa</span>)
-    <span class='no'>synth</span> <span class='kw'>&lt;-</span> <span class='fu'>create_synthetic</span>(<span class='kw'>C</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>G</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>zero_negative</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <span class='no'>synth</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/mfa/man/create_synthetic.html'>create_synthetic</a></span>(<span class='kw'>C</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>G</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>zero_negative</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
                               <span class='kw'>model_dropout</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
     <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>mfaEstimate</span>(<span class='no'>synth</span>$<span class='no'>X</span>)
     <span class='no'>params</span>
-}</div></pre>
+}</div><div class='output co'>#&gt; A <span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>MFAParams</span><span> 
+#&gt; Parameters can be (estimable) or </span><span style='color: #0000BB;'>[not estimable]</span><span>, 'Default' or  </span><span style='color: #00BB00;font-weight: bold;'>'NOT DEFAULT'</span><span> 
+#&gt; </span><span style='color: #000000;background-color: #BBBB00;'>Secondary</span><span> parameters are usually set during simulation
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Global:</span><span> 
+#&gt; </span><span style='font-weight: bold;'>(GENES)</span><span>  </span><span style='font-weight: bold;'>(CELLS)</span><span>   </span><span style='color: #0000BB;'>[Seed]</span><span> 
+#&gt;      </span><span style='color: #00BB00;font-weight: bold;'>20</span><span>        </span><span style='color: #00BB00;font-weight: bold;'>5</span><span>   969409 
+#&gt; 
+#&gt; 4 additional parameters 
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Transient:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[Proportion]</span><span> 
+#&gt;            0 
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Negative:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[Zero]</span><span> 
+#&gt;   TRUE 
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Dropout:</span><span> 
+#&gt;         </span><span style='color: #0000BB;'>[Present]</span><span>           </span><span style='font-weight: bold;'>(LAMBDA)</span><span> 
+#&gt;             FALSE  </span><span style='color: #00BB00;font-weight: bold;'>0.218497077062723</span><span> 
+#&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -83,7 +83,7 @@ is done." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.3</span>
       </span>
     </div>
 
@@ -192,7 +192,63 @@ containing count data to estimate parameters from.</p></td>
 
     <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>kersplatEstimate</span>(<span class='no'>sce</span>)
     <span class='no'>params</span>
-}</div></pre>
+}</div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='output co'>#&gt; <span class='warning'>Warning: The Kersplat simulation is still experimental and may produce unreliable results. Please try it and report any issues to https://github.com/Oshlack/splatter/issues. The development version may have improved features.</span>
+#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once per session.</span><span></span></div><div class='output co'>#&gt; <span class='message'>Estimating mean parameters...</span></div><div class='output co'>#&gt; <span class='message'>Selected MGE (CvM) fit</span></div><div class='output co'>#&gt; <span class='message'>Estimating expression outlier parameters...</span></div><div class='output co'>#&gt; <span class='message'>Estimating BCV parameters...</span></div><div class='output co'>#&gt; <span class='message'>Raw: 2.60817370717138 A: 8.12109336156054 B: 1.31905414419672 C: -8.4603750374735 Y: 1.36293824634938</span></div><div class='output co'>#&gt; <span class='message'>Estimating library size parameters...</span></div><div class='output co'>#&gt; <span class='message'>Selected MGE (CvM) fit</span></div><div class='output co'>#&gt; A </span><span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>KersplatParams</span><span> 
+#&gt; Parameters can be (estimable) or </span><span style='color: #0000BB;'>[not estimable]</span><span>, 'Default' or  </span><span style='color: #00BB00;font-weight: bold;'>'NOT DEFAULT'</span><span> 
+#&gt; </span><span style='color: #000000;background-color: #BBBB00;'>Secondary</span><span> parameters are usually set during simulation
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Global:</span><span> 
+#&gt; </span><span style='font-weight: bold;'>(GENES)</span><span>  </span><span style='font-weight: bold;'>(CELLS)</span><span>   </span><span style='color: #0000BB;'>[Seed]</span><span> 
+#&gt;    </span><span style='color: #00BB00;font-weight: bold;'>2000</span><span>      </span><span style='color: #00BB00;font-weight: bold;'>200</span><span>   969409 
+#&gt; 
+#&gt; 24 additional parameters 
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Mean:</span><span> 
+#&gt;                  </span><span style='font-weight: bold;'>(RATE)</span><span>                  </span><span style='font-weight: bold;'>(SHAPE)</span><span>               </span><span style='font-weight: bold;'>(OUT PROB)</span><span> 
+#&gt;     </span><span style='color: #00BB00;font-weight: bold;'>0.00272354467142995</span><span>        </span><span style='color: #00BB00;font-weight: bold;'>0.475100032448728</span><span>                        </span><span style='color: #00BB00;font-weight: bold;'>0</span><span> 
+#&gt;          (Out Location)              (Out Scale)                </span><span style='font-weight: bold;'>(DENSITY)</span><span> 
+#&gt;                       4                      0.5  </span><span style='color: #00BB00;font-weight: bold;'>Object of class density</span><span> 
+#&gt;                </span><span style='color: #0000BB;'>[Method]</span><span>                 </span><span style='color: #0000BB;background-color: #BBBB00;'>[Values]</span><span> 
+#&gt;                     fit                  Not set 
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>BCV:</span><span> 
+#&gt;    </span><span style='font-weight: bold;'>(COMMON DISP)</span><span>             </span><span style='color: #0000BB;'>[DoF]</span><span> 
+#&gt; </span><span style='color: #00BB00;font-weight: bold;'>1.11818764383748</span><span>                60 
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Network:</span><span> 
+#&gt;    </span><span style='color: #0000BB;background-color: #BBBB00;'>[Graph]</span><span>     </span><span style='color: #0000BB;'>[nRegs]</span><span>   </span><span style='color: #0000BB;background-color: #BBBB00;'>[regsSet]</span><span> 
+#&gt;    Not set         100       FALSE 
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Paths:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[nPrograms]</span><span>      </span><span style='color: #0000BB;background-color: #BBBB00;'>[Means]</span><span> 
+#&gt;          10      Not set 
+#&gt; 
+#&gt; </span><span style='color: #0000BB;'>[Design]</span><span>
+#&gt; data.frame (1 x 3) with columns: Path, From, Steps 
+#&gt;   Path From Steps
+#&gt; 1    1    0   100
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Library size:</span><span> 
+#&gt;              </span><span style='font-weight: bold;'>(LOCATION)</span><span>                  </span><span style='font-weight: bold;'>(SCALE)</span><span>                </span><span style='font-weight: bold;'>(DENSITY)</span><span> 
+#&gt;        </span><span style='color: #00BB00;font-weight: bold;'>12.7854772402738</span><span>       </span><span style='color: #00BB00;font-weight: bold;'>0.0327578186101294</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>Object of class density</span><span> 
+#&gt;                </span><span style='color: #0000BB;'>[Method]</span><span> 
+#&gt;                     fit 
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Cells:</span><span> 
+#&gt; 
+#&gt; </span><span style='color: #0000BB;'>[Design]</span><span>
+#&gt; data.frame (1 x 4) with columns: Path, Probability, Alpha, Beta 
+#&gt;   Path Probability Alpha Beta
+#&gt; 1    1           1     1    0
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Doublets:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[Prop]</span><span> 
+#&gt;      0 
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Ambient:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[Scale]</span><span>  </span><span style='color: #0000BB;'>[Empty]</span><span> 
+#&gt;    0.05        0 
+#&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

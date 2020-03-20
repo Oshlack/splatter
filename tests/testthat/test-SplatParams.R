@@ -33,6 +33,10 @@ test_that("path.from checks work", {
     pp <- setParams(params, group.prob = c(0.5, 0.5), path.from = c(0, 1))
     expect_warning(setParam(pp, "group.prob", 1),
                    "nGroups has changed, resetting path.from")
+    pp <- newSplatParams()
+    pp <- setParams(pp, group.prob = c(0.25, 0.25, 0.25, 0.25))
+    pp <- setParamUnchecked(pp, "path.from", c(0, 4, 2, 3))
+    expect_error(validObject(pp), "path.from cannot contain cycles")
 })
 
 test_that("dropout.type checks work", {

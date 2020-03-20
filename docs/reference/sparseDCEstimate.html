@@ -82,7 +82,7 @@ dataset." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.3</span>
       </span>
     </div>
 
@@ -206,10 +206,10 @@ estimation. Set this to FALSE if counts is already normalised.</p></td>
 
     <p>The <code>nGenes</code> and <code>nCells</code> parameters are taken from the size of the
 input data. The counts are preprocessed using
-<code>pre_proc_data</code> and then parameters are estimated using
-<code>sparsedc_cluster</code> using lambda values calculated using
-<code>lambda1_calculator</code> and
-<code>lambda2_calculator</code>.</p>
+<code><a href='https://rdrr.io/pkg/SparseDC/man/pre_proc_data.html'>pre_proc_data</a></code> and then parameters are estimated using
+<code><a href='https://rdrr.io/pkg/SparseDC/man/sparsedc_cluster.html'>sparsedc_cluster</a></code> using lambda values calculated using
+<code><a href='https://rdrr.io/pkg/SparseDC/man/lambda1_calculator.html'>lambda1_calculator</a></code> and
+<code><a href='https://rdrr.io/pkg/SparseDC/man/lambda2_calculator.html'>lambda2_calculator</a></code>.</p>
 <p>See <code><a href='SparseDCParams.html'>SparseDCParams</a></code> for more details on the parameters.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -223,7 +223,28 @@ input data. The counts are preprocessed using
 
     <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>sparseDCEstimate</span>(<span class='no'>sce</span>, <span class='no'>conditions</span>, <span class='kw'>nclusters</span> <span class='kw'>=</span> <span class='fl'>3</span>)
     <span class='no'>params</span>
-}</div></pre>
+}</div><div class='output co'>#&gt; A <span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>SparseDCParams</span><span> 
+#&gt; Parameters can be (estimable) or </span><span style='color: #0000BB;'>[not estimable]</span><span>, 'Default' or  </span><span style='color: #00BB00;font-weight: bold;'>'NOT DEFAULT'</span><span> 
+#&gt; </span><span style='color: #000000;background-color: #BBBB00;'>Secondary</span><span> parameters are usually set during simulation
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Global:</span><span> 
+#&gt; </span><span style='font-weight: bold;'>(GENES)</span><span>  </span><span style='font-weight: bold;'>(CELLS)</span><span>   </span><span style='color: #0000BB;'>[Seed]</span><span> 
+#&gt;     </span><span style='color: #00BB00;font-weight: bold;'>100</span><span>       </span><span style='color: #00BB00;font-weight: bold;'>10</span><span>   969409 
+#&gt; 
+#&gt; 7 additional parameters 
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Markers:</span><span> 
+#&gt; </span><span style='font-weight: bold;'>(NUMBER)</span><span>  </span><span style='font-weight: bold;'>(SHARED)</span><span>    </span><span style='color: #0000BB;'>[Same]</span><span> 
+#&gt;        </span><span style='color: #00BB00;font-weight: bold;'>1</span><span>         </span><span style='color: #00BB00;font-weight: bold;'>1</span><span>     FALSE 
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Clusters:</span><span> 
+#&gt; </span><span style='font-weight: bold;'>(CONDITION 1)</span><span>  </span><span style='font-weight: bold;'>(CONDITION 2)</span><span> 
+#&gt;          </span><span style='color: #00BB00;font-weight: bold;'>2, 3</span><span>        </span><span style='color: #00BB00;font-weight: bold;'>1, 2, 3</span><span> 
+#&gt; 
+#&gt; </span><span style='font-weight: bold;'>Means:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[Lower]</span><span>  </span><span style='color: #0000BB;'>[Upper]</span><span> 
+#&gt;       1        2 
+#&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
