@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.11.4 (2020-04-01)
+
+* Adjust paths example in vignette (Fixes #90)
+
 ## Version 1.11.3 (2020-02-20)
 
 * Check for cycles in path.from (Fixes #91)
