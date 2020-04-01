@@ -11,12 +11,14 @@ newKersplatParams <- function(...) {
         stop("The Kersplat simulation requires the 'DropletUtils' package.")
     }
 
-    msg <- paste("The Kersplat simulation is still experimental and may",
-                 "produce unreliable results. Please try it and report any",
-                 "issues to",
-                 "https://github.com/Oshlack/splatter/issues. The development",
-                 "version may have improved features.")
-    rlang:::warn_deprecated(msg, id = "warn.kersplat")
+    if (getOption("splatter.warn.kersplat", TRUE)) {
+        warning("The Kersplat simulation is still experimental and may ",
+                "produce unreliable results. Please try it and report any ",
+                "issues to ",
+                "https://github.com/Oshlack/splatter/issues. The development ",
+                "version may have improved features.")
+        options(splatter.warn.kersplat = FALSE)
+    }
 
     params <- new("KersplatParams")
     params <- setParams(params, ...)

@@ -40,8 +40,7 @@ Imports:
     SummarizedExperiment,
     utils,
     crayon,
-    S4Vectors,
-    rlang
+    S4Vectors
 Suggests:
     BiocStyle,
     covr,
