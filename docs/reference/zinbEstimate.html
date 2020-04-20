@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -40,7 +44,6 @@
 <meta property="og:title" content="Estimate ZINB-WaVE simulation parameters — zinbEstimate" />
 <meta property="og:description" content="Estimate simulation parameters for the ZINB-WaVE simulation from a real
 dataset." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -68,7 +71,7 @@ dataset." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -82,7 +85,7 @@ dataset." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.5</span>
       </span>
     </div>
 
@@ -118,7 +121,7 @@ dataset." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/Oshlack/splatter">
+  <a href="https://github.com/Oshlack/splatter/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -262,18 +265,18 @@ the fitted model and inserts it into a <code><a href='ZINBParams.html'>ZINBParam
     <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>zinbEstimate</span>(<span class='no'>sce</span>)
     <span class='no'>params</span>
 }</div><div class='output co'>#&gt; <span class='message'>Removing all zero genes...</span></div><div class='output co'>#&gt; <span class='message'>Fitting model...</span></div><div class='output co'>#&gt; <span class='message'>Create model:</span></div><div class='output co'>#&gt; <span class='message'>ok</span></div><div class='output co'>#&gt; <span class='message'>Initialize parameters:</span></div><div class='output co'>#&gt; <span class='message'>ok</span></div><div class='output co'>#&gt; <span class='message'>Optimize parameters:</span></div><div class='output co'>#&gt; <span class='message'>Iteration 1</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9797.17396398215</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -9593.51924068794</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.190   0.003   0.194 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9289.80824341391</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9289.80824341391</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.062   0.007   0.069 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>Iteration 2</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -9235.11865883047</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.147   0.001   0.148 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9229.79015780275</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9229.79015780275</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.036   0.001   0.038 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>Iteration 3</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -9228.6543711739</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.153   0.004   0.157 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9228.44378457059</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9228.44378457059</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.039   0.000   0.039 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>Iteration 4</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>ok</span></div><div class='output co'>#&gt; A <span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>ZINBParams</span><span> 
+#&gt;   0.207   0.005   0.212 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9289.80824341391</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9289.80824341391</span></div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.036   0.001   0.037 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>Iteration 2</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -9235.11865883047</span></div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.153   0.005   0.158 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9229.79015780275</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9229.79015780275</span></div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;    0.04    0.00    0.04 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>Iteration 3</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -9228.6543711739</span></div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.118   0.001   0.120 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9228.44378457059</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9228.44378457059</span></div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.031   0.002   0.033 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>Iteration 4</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>ok</span></div><div class='output co'>#&gt; A <span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>ZINBParams</span><span> 
 #&gt; Parameters can be (estimable) or </span><span style='color: #0000BB;'>[not estimable]</span><span>, 'Default' or  </span><span style='color: #00BB00;font-weight: bold;'>'NOT DEFAULT'</span><span> 
 #&gt; </span><span style='color: #000000;background-color: #BBBB00;'>Secondary</span><span> parameters are usually set during simulation
 #&gt; 
 #&gt; </span><span style='font-weight: bold;'>Global:</span><span> 
 #&gt; (Genes)  </span><span style='font-weight: bold;'>(CELLS)</span><span>   </span><span style='color: #0000BB;'>[Seed]</span><span> 
-#&gt;     100       </span><span style='color: #00BB00;font-weight: bold;'>20</span><span>   969409 
+#&gt;     100       </span><span style='color: #00BB00;font-weight: bold;'>20</span><span>   678932 
 #&gt; 
 #&gt; 1 additional parameters 
 #&gt; 
@@ -314,15 +317,10 @@ the fitted model and inserts it into a <code><a href='ZINBParams.html'>ZINBParam
 #&gt; </div><div class='input'>
 </div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -333,7 +331,7 @@ the fitted model and inserts it into a <code><a href='ZINBParams.html'>ZINBParam
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

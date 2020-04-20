@@ -6,14 +6,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Splat simulation parameters • Splatter</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Splat simulation parameters">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="splatter">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -25,7 +25,7 @@
   gtag('config', 'UA-52309538-4');
 </script>
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.5</span>
       </span>
     </div>
 
@@ -74,7 +74,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/Oshlack/splatter">
+  <a href="https://github.com/Oshlack/splatter/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -89,10 +89,10 @@
 
       
 
-      </header><div class="row">
+      </header><script src="splat_params_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Splat simulation parameters</h1>
+      <h1 data-toc-skip>Splat simulation parameters</h1>
             
             <h4 class="date">Last updated: 18 April 2019</h4>
       
@@ -104,70 +104,69 @@
     
     
 <p>This vignette describes the Splat simulation model and the parameters it uses in more detail.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"splatter"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; Loading required package: SingleCellExperiment</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; Loading required package: SummarizedExperiment</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Loading required package: GenomicRanges</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; Loading required package: stats4</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; Loading required package: BiocGenerics</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; Loading required package: parallel</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; Attaching package: 'BiocGenerics'</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; The following objects are masked from 'package:parallel':</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt;     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt;     clusterExport, clusterMap, parApply, parCapply, parLapply,</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt;     parLapplyLB, parRapply, parSapply, parSapplyLB</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; The following objects are masked from 'package:stats':</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt;     IQR, mad, sd, var, xtabs</span></a>
-<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt; The following objects are masked from 'package:base':</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt;     anyDuplicated, append, as.data.frame, basename, cbind, colnames,</span></a>
-<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co">#&gt;     dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,</span></a>
-<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="co">#&gt;     grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,</span></a>
-<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="co">#&gt;     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,</span></a>
-<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="co">#&gt;     rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,</span></a>
-<a class="sourceLine" id="cb1-25" data-line-number="25"><span class="co">#&gt;     union, unique, unsplit, which, which.max, which.min</span></a>
-<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="co">#&gt; Loading required package: S4Vectors</span></a>
-<a class="sourceLine" id="cb1-27" data-line-number="27"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-28" data-line-number="28"><span class="co">#&gt; Attaching package: 'S4Vectors'</span></a>
-<a class="sourceLine" id="cb1-29" data-line-number="29"><span class="co">#&gt; The following object is masked from 'package:base':</span></a>
-<a class="sourceLine" id="cb1-30" data-line-number="30"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-31" data-line-number="31"><span class="co">#&gt;     expand.grid</span></a>
-<a class="sourceLine" id="cb1-32" data-line-number="32"><span class="co">#&gt; Loading required package: IRanges</span></a>
-<a class="sourceLine" id="cb1-33" data-line-number="33"><span class="co">#&gt; Loading required package: GenomeInfoDb</span></a>
-<a class="sourceLine" id="cb1-34" data-line-number="34"><span class="co">#&gt; Loading required package: Biobase</span></a>
-<a class="sourceLine" id="cb1-35" data-line-number="35"><span class="co">#&gt; Welcome to Bioconductor</span></a>
-<a class="sourceLine" id="cb1-36" data-line-number="36"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-37" data-line-number="37"><span class="co">#&gt;     Vignettes contain introductory material; view with</span></a>
-<a class="sourceLine" id="cb1-38" data-line-number="38"><span class="co">#&gt;     'browseVignettes()'. To cite Bioconductor, see</span></a>
-<a class="sourceLine" id="cb1-39" data-line-number="39"><span class="co">#&gt;     'citation("Biobase")', and for packages 'citation("pkgname")'.</span></a>
-<a class="sourceLine" id="cb1-40" data-line-number="40"><span class="co">#&gt; Loading required package: DelayedArray</span></a>
-<a class="sourceLine" id="cb1-41" data-line-number="41"><span class="co">#&gt; Loading required package: matrixStats</span></a>
-<a class="sourceLine" id="cb1-42" data-line-number="42"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-43" data-line-number="43"><span class="co">#&gt; Attaching package: 'matrixStats'</span></a>
-<a class="sourceLine" id="cb1-44" data-line-number="44"><span class="co">#&gt; The following objects are masked from 'package:Biobase':</span></a>
-<a class="sourceLine" id="cb1-45" data-line-number="45"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-46" data-line-number="46"><span class="co">#&gt;     anyMissing, rowMedians</span></a>
-<a class="sourceLine" id="cb1-47" data-line-number="47"><span class="co">#&gt; Loading required package: BiocParallel</span></a>
-<a class="sourceLine" id="cb1-48" data-line-number="48"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-49" data-line-number="49"><span class="co">#&gt; Attaching package: 'DelayedArray'</span></a>
-<a class="sourceLine" id="cb1-50" data-line-number="50"><span class="co">#&gt; The following objects are masked from 'package:matrixStats':</span></a>
-<a class="sourceLine" id="cb1-51" data-line-number="51"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-52" data-line-number="52"><span class="co">#&gt;     colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges</span></a>
-<a class="sourceLine" id="cb1-53" data-line-number="53"><span class="co">#&gt; The following objects are masked from 'package:base':</span></a>
-<a class="sourceLine" id="cb1-54" data-line-number="54"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-55" data-line-number="55"><span class="co">#&gt;     aperm, apply, rowsum</span></a>
-<a class="sourceLine" id="cb1-56" data-line-number="56"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"scater"</span>)</a>
-<a class="sourceLine" id="cb1-57" data-line-number="57"><span class="co">#&gt; Loading required package: ggplot2</span></a>
-<a class="sourceLine" id="cb1-58" data-line-number="58"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"ggplot2"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"splatter"</span>)
+<span class="co">#&gt; Loading required package: SingleCellExperiment</span>
+<span class="co">#&gt; Loading required package: SummarizedExperiment</span>
+<span class="co">#&gt; Loading required package: GenomicRanges</span>
+<span class="co">#&gt; Loading required package: stats4</span>
+<span class="co">#&gt; Loading required package: BiocGenerics</span>
+<span class="co">#&gt; Loading required package: parallel</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'BiocGenerics'</span>
+<span class="co">#&gt; The following objects are masked from 'package:parallel':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,</span>
+<span class="co">#&gt;     clusterExport, clusterMap, parApply, parCapply, parLapply,</span>
+<span class="co">#&gt;     parLapplyLB, parRapply, parSapply, parSapplyLB</span>
+<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     IQR, mad, sd, var, xtabs</span>
+<span class="co">#&gt; The following objects are masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     anyDuplicated, append, as.data.frame, basename, cbind, colnames,</span>
+<span class="co">#&gt;     dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,</span>
+<span class="co">#&gt;     grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,</span>
+<span class="co">#&gt;     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,</span>
+<span class="co">#&gt;     rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,</span>
+<span class="co">#&gt;     union, unique, unsplit, which, which.max, which.min</span>
+<span class="co">#&gt; Loading required package: S4Vectors</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'S4Vectors'</span>
+<span class="co">#&gt; The following object is masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     expand.grid</span>
+<span class="co">#&gt; Loading required package: IRanges</span>
+<span class="co">#&gt; Loading required package: GenomeInfoDb</span>
+<span class="co">#&gt; Loading required package: Biobase</span>
+<span class="co">#&gt; Welcome to Bioconductor</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     Vignettes contain introductory material; view with</span>
+<span class="co">#&gt;     'browseVignettes()'. To cite Bioconductor, see</span>
+<span class="co">#&gt;     'citation("Biobase")', and for packages 'citation("pkgname")'.</span>
+<span class="co">#&gt; Loading required package: DelayedArray</span>
+<span class="co">#&gt; Loading required package: matrixStats</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'matrixStats'</span>
+<span class="co">#&gt; The following objects are masked from 'package:Biobase':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     anyMissing, rowMedians</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'DelayedArray'</span>
+<span class="co">#&gt; The following objects are masked from 'package:matrixStats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges</span>
+<span class="co">#&gt; The following objects are masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     aperm, apply, rowsum</span>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"scater"</span>)
+<span class="co">#&gt; Loading required package: ggplot2</span>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"ggplot2"</span>)</pre></body></html></div>
 <div id="the-base-splat-model" class="section level1">
 <h1 class="hasAnchor">
 <a href="#the-base-splat-model" class="anchor"></a>The base Splat model</h1>
 <p>This figure, taken from the Splatter publication, describes the core of the Splat simulation model.</p>
 <div class="figure">
-<img src="splat-model.png" alt="Splat simulation model"><p class="caption">Splat simulation model</p>
+<img src="splat-model.png" alt=""><p class="caption">Splat simulation model</p>
 </div>
 <p>The Splat simulation uses a hierarchical probabilistic where different aspects of a dataset are generated from appropriate statistical distributions. The first stage generates a mean expression level for each gene. These are originally chosen from a Gamma distribution. For some genes that are selected to be outliers with high expression a factor is generated from a log-normal distribution. These factors are then multiplied by the median gene mean to create new means for those genes.</p>
 <p>The next stage incorporates variation in the counts per cell. An expected library size (total counts) is chosen for each cell from a log-normal distribution. The library sizes are then used to scale the gene means for each cell, resulting in a range a counts per cell in the simulated dataset. The gene means are then further adjusted to enforce a relationship between the mean expression level and the variability.</p>
@@ -178,53 +177,53 @@
 <h1 class="hasAnchor">
 <a href="#splat-simulation-parameters" class="anchor"></a>Splat simulation parameters</h1>
 <p>Within Splatter the parameters for the Splat simulation model are held in the <code>SplatParams</code> object. Let’s create one of these objects and see what it looks like.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/newParams.html">newSplatParams</a></span>()</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">params</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; A Params object of class SplatParams </span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' </span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Secondary parameters are usually set during simulation</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; Global: </span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; (Genes)  (Cells)   [Seed] </span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;   10000      100   969409 </span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 28 additional parameters </span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; Batches: </span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt;     [Batches]  [Batch Cells]     [Location]        [Scale] </span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt;             1            100            0.1            0.1 </span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; Mean: </span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt;  (Rate)  (Shape) </span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt;     0.3      0.6 </span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; Library size: </span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; (Location)     (Scale)      (Norm) </span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt;         11         0.2       FALSE </span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; Exprs outliers: </span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; (Probability)     (Location)        (Scale) </span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt;          0.05              4            0.5 </span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt; Groups: </span></a>
-<a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt;      [Groups]  [Group Probs] </span></a>
-<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="co">#&gt;             1              1 </span></a>
-<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co">#&gt; Diff expr: </span></a>
-<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">#&gt; [Probability]    [Down Prob]     [Location]        [Scale] </span></a>
-<a class="sourceLine" id="cb2-35" data-line-number="35"><span class="co">#&gt;           0.1            0.5            0.1            0.4 </span></a>
-<a class="sourceLine" id="cb2-36" data-line-number="36"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-37" data-line-number="37"><span class="co">#&gt; BCV: </span></a>
-<a class="sourceLine" id="cb2-38" data-line-number="38"><span class="co">#&gt; (Common Disp)          (DoF) </span></a>
-<a class="sourceLine" id="cb2-39" data-line-number="39"><span class="co">#&gt;           0.1             60 </span></a>
-<a class="sourceLine" id="cb2-40" data-line-number="40"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-41" data-line-number="41"><span class="co">#&gt; Dropout: </span></a>
-<a class="sourceLine" id="cb2-42" data-line-number="42"><span class="co">#&gt;     [Type]  (Midpoint)     (Shape) </span></a>
-<a class="sourceLine" id="cb2-43" data-line-number="43"><span class="co">#&gt;       none           0          -1 </span></a>
-<a class="sourceLine" id="cb2-44" data-line-number="44"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-45" data-line-number="45"><span class="co">#&gt; Paths: </span></a>
-<a class="sourceLine" id="cb2-46" data-line-number="46"><span class="co">#&gt;         [From]         [Steps]          [Skew]    [Non-linear]  [Sigma Factor] </span></a>
-<a class="sourceLine" id="cb2-47" data-line-number="47"><span class="co">#&gt;              0             100             0.5             0.1             0.8</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">params</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/newParams.html">newSplatParams</a></span>()
+<span class="no">params</span>
+<span class="co">#&gt; A Params object of class SplatParams </span>
+<span class="co">#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' </span>
+<span class="co">#&gt; Secondary parameters are usually set during simulation</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Global: </span>
+<span class="co">#&gt; (Genes)  (Cells)   [Seed] </span>
+<span class="co">#&gt;   10000      100   678932 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; 28 additional parameters </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Batches: </span>
+<span class="co">#&gt;     [Batches]  [Batch Cells]     [Location]        [Scale] </span>
+<span class="co">#&gt;             1            100            0.1            0.1 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Mean: </span>
+<span class="co">#&gt;  (Rate)  (Shape) </span>
+<span class="co">#&gt;     0.3      0.6 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Library size: </span>
+<span class="co">#&gt; (Location)     (Scale)      (Norm) </span>
+<span class="co">#&gt;         11         0.2       FALSE </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Exprs outliers: </span>
+<span class="co">#&gt; (Probability)     (Location)        (Scale) </span>
+<span class="co">#&gt;          0.05              4            0.5 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Groups: </span>
+<span class="co">#&gt;      [Groups]  [Group Probs] </span>
+<span class="co">#&gt;             1              1 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Diff expr: </span>
+<span class="co">#&gt; [Probability]    [Down Prob]     [Location]        [Scale] </span>
+<span class="co">#&gt;           0.1            0.5            0.1            0.4 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; BCV: </span>
+<span class="co">#&gt; (Common Disp)          (DoF) </span>
+<span class="co">#&gt;           0.1             60 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Dropout: </span>
+<span class="co">#&gt;     [Type]  (Midpoint)     (Shape) </span>
+<span class="co">#&gt;       none           0          -1 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Paths: </span>
+<span class="co">#&gt;         [From]         [Steps]          [Skew]    [Non-linear]  [Sigma Factor] </span>
+<span class="co">#&gt;              0             100             0.5             0.1             0.8</span></pre></body></html></div>
 <p>Like all the parameter objects in Splatter printing this object displays all the parameters required for this simulation. As we haven’t set any of the parameters the default values are shown but if we were to change any of them they would be highlighted. We can also see which parameters can be estimated by the Splat estimation procedure and which can’t. The default values have been chosen to be fairly realistic but it is recommended that estimation is used to get a simulation that is more like the data you are interested in. Parameters can be modified by setting them in the <code>SplatParams</code> object or by providing them directly to the simulation function.</p>
 <p>The rest of this section provides details of all this parameters and explains how they can be used with examples.</p>
 <div id="global-parameters" class="section level2">
@@ -235,12 +234,12 @@
 <h3 class="hasAnchor">
 <a href="#ngenes---number-of-genes" class="anchor"></a><code>nGenes</code> - Number of genes</h3>
 <p>The number of genes to simulate.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Set the number of genes to 1000</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">params &lt;-<span class="st"> </span><span class="kw"><a href="../reference/setParam.html">setParam</a></span>(params, <span class="st">"nGenes"</span>, <span class="dv">1000</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(params, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(sim)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; [1] 1000  100</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># Set the number of genes to 1000</span>
+<span class="no">params</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/setParam.html">setParam</a></span>(<span class="no">params</span>, <span class="st">"nGenes"</span>, <span class="fl">1000</span>)
+
+<span class="no">sim</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="no">params</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(<span class="no">sim</span>)
+<span class="co">#&gt; [1] 1000  100</span></pre></body></html></div>
 </div>
 <div id="ncells---number-of-cells" class="section level3">
 <h3 class="hasAnchor">
@@ -266,35 +265,35 @@
 <h3 class="hasAnchor">
 <a href="#batchcells---cells-per-batch" class="anchor"></a><code>batchCells</code> - Cells per batch</h3>
 <p>A vector specifying the number of cells in each batch. The number of batches (<code>nBatches</code>) is equal to the length of the vector and the number of cells (<code>nCells</code>) is equal to the sum.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Simulation with two batches of 100 cells</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">sim &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(params, <span class="dt">batchCells =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">100</span>, <span class="dv">100</span>), <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co"># PCA plot using scater</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">sim &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim)</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">sim &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim)</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim, <span class="dt">colour_by =</span> <span class="st">"Batch"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co"># Simulation with two batches of 100 cells</span>
+<span class="no">sim</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="no">params</span>, <span class="kw">batchCells</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">100</span>, <span class="fl">100</span>), <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+
+<span class="co"># PCA plot using scater</span>
+<span class="no">sim</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim</span>)
+<span class="no">sim</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Batch"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/batches-1.png" width="700"></p>
 </div>
 <div id="batch-facloc---batch-factor-location-and-batch-facscale---batch-factor-scale" class="section level3">
 <h3 class="hasAnchor">
 <a href="#batch-facloc---batch-factor-location-and-batch-facscale---batch-factor-scale" class="anchor"></a><code>batch.facLoc</code> - Batch factor location and <code>batch.facScale</code> - Batch factor scale</h3>
 <p>Batches are specified by generating a small scaling factor for each gene in each batch from a log-normal distribution. These factors are then applied to the underlying gene means in each batch. Modifying these parameters affects how different the batches are from each other by generating bigger or smaller factors.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Simulation with small batch effects</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(params, <span class="dt">batchCells =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">100</span>, <span class="dv">100</span>),</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">                      <span class="dt">batch.facLoc =</span> <span class="fl">0.001</span>, <span class="dt">batch.facScale =</span> <span class="fl">0.001</span>,</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">                      <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim1)</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim1)</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim1, <span class="dt">colour_by =</span> <span class="st">"Batch"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Small batch effects"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># Simulation with small batch effects</span>
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="no">params</span>, <span class="kw">batchCells</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">100</span>, <span class="fl">100</span>),
+                      <span class="kw">batch.facLoc</span> <span class="kw">=</span> <span class="fl">0.001</span>, <span class="kw">batch.facScale</span> <span class="kw">=</span> <span class="fl">0.001</span>,
+                      <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim1</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim1</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim1</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Batch"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Small batch effects"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/batch-factors-1.png" width="700"></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co"># Simulation with big batch effects</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(params, <span class="dt">batchCells =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">100</span>, <span class="dv">100</span>),</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">                      <span class="dt">batch.facLoc =</span> <span class="fl">0.5</span>, <span class="dt">batch.facScale =</span> <span class="fl">0.5</span>,</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">                      <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim2)</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim2)</a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim2, <span class="dt">colour_by =</span> <span class="st">"Batch"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Big batch effects"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r">
+<span class="co"># Simulation with big batch effects</span>
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="no">params</span>, <span class="kw">batchCells</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">100</span>, <span class="fl">100</span>),
+                      <span class="kw">batch.facLoc</span> <span class="kw">=</span> <span class="fl">0.5</span>, <span class="kw">batch.facScale</span> <span class="kw">=</span> <span class="fl">0.5</span>,
+                      <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim2</span>)
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim2</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim2</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Batch"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Big batch effects"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/batch-factors-2.png" width="700"></p>
 </div>
 </div>
@@ -331,20 +330,20 @@
 <h3 class="hasAnchor">
 <a href="#out-prob---expression-outlier-probability" class="anchor"></a><code>out.prob</code> - Expression outlier probability</h3>
 <p>This parameter controls the probability that genes will be selected to be expression outliers. Higher values will results in more outlier genes.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Few outliers</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">out.prob =</span> <span class="fl">0.001</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="kw">rowData</span>(sim1)),</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">       <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/Log.html">log10</a></span>(GeneMean), <span class="dt">fill =</span> OutlierFactor <span class="op">!=</span><span class="st"> </span><span class="dv">1</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span>(<span class="dt">bins =</span> <span class="dv">100</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Few outliers"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="co"># Few outliers</span>
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="kw">out.prob</span> <span class="kw">=</span> <span class="fl">0.001</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="fu">rowData</span>(<span class="no">sim1</span>)),
+       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span>(<span class="no">GeneMean</span>), <span class="kw">fill</span> <span class="kw">=</span> <span class="no">OutlierFactor</span> <span class="kw">!=</span> <span class="fl">1</span>)) +
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span>(<span class="kw">bins</span> <span class="kw">=</span> <span class="fl">100</span>) +
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Few outliers"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/outlier-prob-1.png" width="700"></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co"># Lots of outliers</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="dt">out.prob =</span> <span class="fl">0.2</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="kw">rowData</span>(sim2)),</a>
-<a class="sourceLine" id="cb8-5" data-line-number="5">       <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/Log.html">log10</a></span>(GeneMean), <span class="dt">fill =</span> OutlierFactor <span class="op">!=</span><span class="st"> </span><span class="dv">1</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span>(<span class="dt">bins =</span> <span class="dv">100</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Lots of outliers"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r">
+<span class="co"># Lots of outliers</span>
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulate</a></span>(<span class="kw">out.prob</span> <span class="kw">=</span> <span class="fl">0.2</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="fu">rowData</span>(<span class="no">sim2</span>)),
+       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span>(<span class="no">GeneMean</span>), <span class="kw">fill</span> <span class="kw">=</span> <span class="no">OutlierFactor</span> <span class="kw">!=</span> <span class="fl">1</span>)) +
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span>(<span class="kw">bins</span> <span class="kw">=</span> <span class="fl">100</span>) +
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Lots of outliers"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/outlier-prob-2.png" width="700"></p>
 </div>
 <div id="out-facloc---expression-outlier-factor-location-and-out-facscale---expression-outlier-factor-scale" class="section level3">
@@ -366,23 +365,23 @@
 <h3 class="hasAnchor">
 <a href="#group-prob---group-probabilities" class="anchor"></a><code>group.prob</code> - Group probabilities</h3>
 <p>A vector giving the probability that cells will be assigned to groups. The length of the vector gives the number of groups (<code>nGroups</code>) and the probabilities must sum to 1. Adjusting the number and relative values of the probabilities changes the number and relative sizes of the groups. To simulate groups we also need to use the <code>splatSimulateGroups</code> function or set <code>method = "groups"</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">params.groups &lt;-<span class="st"> </span><span class="kw"><a href="../reference/newParams.html">newSplatParams</a></span>(<span class="dt">batchCells =</span> <span class="dv">500</span>, <span class="dt">nGenes =</span> <span class="dv">1000</span>)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co"># One small group, one big group</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(params.groups, <span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.9</span>, <span class="fl">0.1</span>),</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim1)</a>
-<a class="sourceLine" id="cb9-7" data-line-number="7">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim1)</a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim1, <span class="dt">colour_by =</span> <span class="st">"Group"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"One small group, one big group"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">params.groups</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/newParams.html">newSplatParams</a></span>(<span class="kw">batchCells</span> <span class="kw">=</span> <span class="fl">500</span>, <span class="kw">nGenes</span> <span class="kw">=</span> <span class="fl">1000</span>)
+
+<span class="co"># One small group, one big group</span>
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(<span class="no">params.groups</span>, <span class="kw">group.prob</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.9</span>, <span class="fl">0.1</span>),
+                            <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim1</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim1</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim1</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Group"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"One small group, one big group"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/groups-1.png" width="700"></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co"># Five groups</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(params.groups,</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">                            <span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>),</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim2)</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim2)</a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim2, <span class="dt">colour_by =</span> <span class="st">"Group"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Five groups"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r">
+<span class="co"># Five groups</span>
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(<span class="no">params.groups</span>,
+                            <span class="kw">group.prob</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>),
+                            <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim2</span>)
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim2</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim2</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Group"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Five groups"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/groups-2.png" width="700"></p>
 <p><strong>Note:</strong> Once there are more than three or four groups it becomes difficult to properly view them in PCA space. We use PCA here for simplicity but generally a non-linear dimensionality reduction such as t-SNE or UMAP is a more useful way to visualise the groups.</p>
 </div>
@@ -395,20 +394,20 @@
 <h3 class="hasAnchor">
 <a href="#de-prob---de-probability" class="anchor"></a><code>de.prob</code> - DE probability</h3>
 <p>This parameter controls the probability that a gene will be selected to be differentially expressed.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># Few DE genes</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(params.groups, <span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>),</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">                            <span class="dt">de.prob =</span> <span class="fl">0.01</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim1)</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim1)</a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim1, <span class="dt">colour_by =</span> <span class="st">"Group"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Few DE genes"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="co"># Few DE genes</span>
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(<span class="no">params.groups</span>, <span class="kw">group.prob</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>),
+                            <span class="kw">de.prob</span> <span class="kw">=</span> <span class="fl">0.01</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim1</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim1</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim1</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Group"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Few DE genes"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/de-prob-1.png" width="700"></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co"># Lots of DE genes</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(params.groups, <span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>),</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">                            <span class="dt">de.prob =</span> <span class="fl">0.3</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim2)</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim2)</a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim2, <span class="dt">colour_by =</span> <span class="st">"Group"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Lots of DE genes"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r">
+<span class="co"># Lots of DE genes</span>
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(<span class="no">params.groups</span>, <span class="kw">group.prob</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>),
+                            <span class="kw">de.prob</span> <span class="kw">=</span> <span class="fl">0.3</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim2</span>)
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim2</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim2</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Group"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Lots of DE genes"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/de-prob-2.png" width="700"></p>
 </div>
 <div id="de-downprob---down-regulation-probability" class="section level3">
@@ -420,20 +419,20 @@
 <h3 class="hasAnchor">
 <a href="#de-facloc---de-factor-location-and-de-facscale---de-factor-scale" class="anchor"></a><code>de.facLoc</code> - DE factor location and <code>de.facScale</code> - DE factor scale</h3>
 <p>Differential expression factors are produced from a log-normal distribution in a similar way to batch effect factors and expression outlier factors. Changing these parameters can result in more or less extreme differences between groups.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Small DE factors</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(params.groups, <span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>),</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">                            <span class="dt">de.facLoc =</span> <span class="fl">0.01</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim1)</a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim1)</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim1, <span class="dt">colour_by =</span> <span class="st">"Group"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Small DE factors"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="co"># Small DE factors</span>
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(<span class="no">params.groups</span>, <span class="kw">group.prob</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>),
+                            <span class="kw">de.facLoc</span> <span class="kw">=</span> <span class="fl">0.01</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim1</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim1</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim1</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Group"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Small DE factors"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/de-factors-1.png" width="700"></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co"># Big DE factors</span></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(params.groups, <span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>),</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">                            <span class="dt">de.facLoc =</span> <span class="fl">0.3</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim2)</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim2)</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim2, <span class="dt">colour_by =</span> <span class="st">"Group"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Big DE factors"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r">
+<span class="co"># Big DE factors</span>
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(<span class="no">params.groups</span>, <span class="kw">group.prob</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>),
+                            <span class="kw">de.facLoc</span> <span class="kw">=</span> <span class="fl">0.3</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim2</span>)
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim2</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim2</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Group"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Big DE factors"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/de-factors-2.png" width="700"></p>
 <p>Just looking at the PCA plots this effect seems similar to adjusting <code>de.prob</code> but the effect is achieved in a different way. A higher <code>de.prob</code> means that more genes are differentially expressed but changing the DE factors changes the level of DE for the same number of genes.</p>
 </div>
@@ -441,59 +440,59 @@
 <h3 class="hasAnchor">
 <a href="#complex-differential-expression" class="anchor"></a>Complex differential expression</h3>
 <p>Each of the differential expression parameters can be specified for each group by providing a vector of values. These vectors must be the same length as <code>group.prob</code>. Specifying parameters as vectors allows more complex simulations where groups are more or less different to each other rather than being equally distinct. Here are some examples of different DE scenarios.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># Different DE probs</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(params.groups,</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">                            <span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>),</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">                            <span class="dt">de.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.01</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.3</span>),</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim1)</a>
-<a class="sourceLine" id="cb15-7" data-line-number="7">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim1)</a>
-<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim1, <span class="dt">colour_by =</span> <span class="st">"Group"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">title =</span> <span class="st">"Different DE probabilities"</span>,</a>
-<a class="sourceLine" id="cb15-10" data-line-number="10">         <span class="dt">caption =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"Groups 1 and 2 have very few DE genes,"</span>,</a>
-<a class="sourceLine" id="cb15-11" data-line-number="11">                         <span class="st">"Groups 3 and 4 have the default number,"</span>,</a>
-<a class="sourceLine" id="cb15-12" data-line-number="12">                         <span class="st">"Group 5 has many DE genes"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="co"># Different DE probs</span>
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(<span class="no">params.groups</span>,
+                            <span class="kw">group.prob</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>),
+                            <span class="kw">de.prob</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.01</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.3</span>),
+                            <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim1</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim1</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim1</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Group"</span>) +
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Different DE probabilities"</span>,
+         <span class="kw">caption</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"Groups 1 and 2 have very few DE genes,"</span>,
+                         <span class="st">"Groups 3 and 4 have the default number,"</span>,
+                         <span class="st">"Group 5 has many DE genes"</span>))</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/complex-de-1.png" width="700"></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">    </a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co"># Different DE factors</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(params.groups,</a>
-<a class="sourceLine" id="cb16-5" data-line-number="5">                            <span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>),</a>
-<a class="sourceLine" id="cb16-6" data-line-number="6">                            <span class="dt">de.facLoc =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.01</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>),</a>
-<a class="sourceLine" id="cb16-7" data-line-number="7">                            <span class="dt">de.facScale =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.4</span>),</a>
-<a class="sourceLine" id="cb16-8" data-line-number="8">                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb16-9" data-line-number="9">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim2)</a>
-<a class="sourceLine" id="cb16-10" data-line-number="10">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim2)</a>
-<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim2, <span class="dt">colour_by =</span> <span class="st">"Group"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">title =</span> <span class="st">"Different DE factors"</span>,</a>
-<a class="sourceLine" id="cb16-13" data-line-number="13">         <span class="dt">caption =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"Group 1 has factors with small location (value),"</span>,</a>
-<a class="sourceLine" id="cb16-14" data-line-number="14">                         <span class="st">"and scale (variability),"</span>,</a>
-<a class="sourceLine" id="cb16-15" data-line-number="15">                         <span class="st">"Group 2 has small location and greater scale.</span><span class="ch">\n</span><span class="st">"</span>,</a>
-<a class="sourceLine" id="cb16-16" data-line-number="16">                         <span class="st">"Groups 3 and 4 have greater location with small,"</span>,</a>
-<a class="sourceLine" id="cb16-17" data-line-number="17">                         <span class="st">"and large scales"</span>,</a>
-<a class="sourceLine" id="cb16-18" data-line-number="18">                         <span class="st">"Group 5 has bigger factors with moderate"</span>,</a>
-<a class="sourceLine" id="cb16-19" data-line-number="19">                         <span class="st">"variability"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb16"><html><body><pre class="r">
+
+<span class="co"># Different DE factors</span>
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(<span class="no">params.groups</span>,
+                            <span class="kw">group.prob</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>),
+                            <span class="kw">de.facLoc</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.01</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>),
+                            <span class="kw">de.facScale</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.4</span>),
+                            <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim2</span>)
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim2</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim2</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Group"</span>) +
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Different DE factors"</span>,
+         <span class="kw">caption</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"Group 1 has factors with small location (value),"</span>,
+                         <span class="st">"and scale (variability),"</span>,
+                         <span class="st">"Group 2 has small location and greater scale.\n"</span>,
+                         <span class="st">"Groups 3 and 4 have greater location with small,"</span>,
+                         <span class="st">"and large scales"</span>,
+                         <span class="st">"Group 5 has bigger factors with moderate"</span>,
+                         <span class="st">"variability"</span>))</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/complex-de-2.png" width="700"></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="co"># Combination of everything</span></a>
-<a class="sourceLine" id="cb17-3" data-line-number="3">sim3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(params.groups,</a>
-<a class="sourceLine" id="cb17-4" data-line-number="4">                            <span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.05</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.35</span>),</a>
-<a class="sourceLine" id="cb17-5" data-line-number="5">                            <span class="dt">de.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.3</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>),</a>
-<a class="sourceLine" id="cb17-6" data-line-number="6">                            <span class="dt">de.downProb =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.1</span>, <span class="fl">0.4</span>, <span class="fl">0.9</span>, <span class="fl">0.6</span>, <span class="fl">0.5</span>),</a>
-<a class="sourceLine" id="cb17-7" data-line-number="7">                            <span class="dt">de.facLoc =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.6</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.01</span>, <span class="fl">0.2</span>),</a>
-<a class="sourceLine" id="cb17-8" data-line-number="8">                            <span class="dt">de.facScale =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.1</span>, <span class="fl">0.4</span>, <span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.4</span>),</a>
-<a class="sourceLine" id="cb17-9" data-line-number="9">                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb17-10" data-line-number="10">sim3 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim3)</a>
-<a class="sourceLine" id="cb17-11" data-line-number="11">sim3 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim3)</a>
-<a class="sourceLine" id="cb17-12" data-line-number="12"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim3, <span class="dt">colour_by =</span> <span class="st">"Group"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-13" data-line-number="13"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">title =</span> <span class="st">"Different DE factors"</span>,</a>
-<a class="sourceLine" id="cb17-14" data-line-number="14">         <span class="dt">caption =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(</a>
-<a class="sourceLine" id="cb17-15" data-line-number="15">             <span class="st">"Group 1 is small with many very up-regulated DE genes,"</span>,</a>
-<a class="sourceLine" id="cb17-16" data-line-number="16">             <span class="st">"Group 2 has the default DE parameters,</span><span class="ch">\n</span><span class="st">"</span>,</a>
-<a class="sourceLine" id="cb17-17" data-line-number="17">             <span class="st">"Group 3 has many down-regulated DE genes,"</span>,</a>
-<a class="sourceLine" id="cb17-18" data-line-number="18">             <span class="st">"Group 4 has very few DE genes,"</span>,</a>
-<a class="sourceLine" id="cb17-19" data-line-number="19">             <span class="st">"Group 5 is large with moderate DE factors"</span>)</a>
-<a class="sourceLine" id="cb17-20" data-line-number="20">         )</a></code></pre></div>
+<div class="sourceCode" id="cb17"><html><body><pre class="r">
+<span class="co"># Combination of everything</span>
+<span class="no">sim3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulateGroups</a></span>(<span class="no">params.groups</span>,
+                            <span class="kw">group.prob</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.05</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.35</span>),
+                            <span class="kw">de.prob</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.3</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>),
+                            <span class="kw">de.downProb</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.1</span>, <span class="fl">0.4</span>, <span class="fl">0.9</span>, <span class="fl">0.6</span>, <span class="fl">0.5</span>),
+                            <span class="kw">de.facLoc</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.6</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.01</span>, <span class="fl">0.2</span>),
+                            <span class="kw">de.facScale</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.1</span>, <span class="fl">0.4</span>, <span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.4</span>),
+                            <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim3</span>)
+<span class="no">sim3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim3</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim3</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Group"</span>) +
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Different DE factors"</span>,
+         <span class="kw">caption</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(
+             <span class="st">"Group 1 is small with many very up-regulated DE genes,"</span>,
+             <span class="st">"Group 2 has the default DE parameters,\n"</span>,
+             <span class="st">"Group 3 has many down-regulated DE genes,"</span>,
+             <span class="st">"Group 4 has very few DE genes,"</span>,
+             <span class="st">"Group 5 is large with moderate DE factors"</span>)
+         )</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/complex-de-3.png" width="700"></p>
 </div>
 </div>
@@ -535,58 +534,58 @@
 <h3 class="hasAnchor">
 <a href="#path-from---path-origin" class="anchor"></a><code>path.from</code> - Path origin</h3>
 <p>This parameter controls the order of differentiation paths. It is a vector the same length as <code>group.prob</code> giving the starting position of each path. For example a <code>path.from</code> of <code><a href="https://rdrr.io/r/base/c.html">c(0, 1, 1, 3)</a></code> would indicate the Path 1 starts at the origin (0), Path 2 starts at the end of Path 1, Path 3 also starts at the end of Path 1 (a branch point) and Path 4 starts at the end of Path 3.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co"># Linear paths</span></a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulatePaths</a></span>(params.groups,</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">                           <span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.25</span>),</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">                           <span class="dt">de.prob =</span> <span class="fl">0.5</span>, <span class="dt">de.facLoc =</span> <span class="fl">0.2</span>,</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5">                           <span class="dt">path.from =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb18-6" data-line-number="6">                           <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb18-7" data-line-number="7">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim1)</a>
-<a class="sourceLine" id="cb18-8" data-line-number="8">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim1)</a>
-<a class="sourceLine" id="cb18-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim1, <span class="dt">colour_by =</span> <span class="st">"Group"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Linear paths"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="co"># Linear paths</span>
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulatePaths</a></span>(<span class="no">params.groups</span>,
+                           <span class="kw">group.prob</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.25</span>),
+                           <span class="kw">de.prob</span> <span class="kw">=</span> <span class="fl">0.5</span>, <span class="kw">de.facLoc</span> <span class="kw">=</span> <span class="fl">0.2</span>,
+                           <span class="kw">path.from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>),
+                           <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim1</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim1</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim1</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Group"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Linear paths"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/paths-1.png" width="700"></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co"># Branching path</span></a>
-<a class="sourceLine" id="cb19-3" data-line-number="3">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulatePaths</a></span>(params.groups,</a>
-<a class="sourceLine" id="cb19-4" data-line-number="4">                           <span class="dt">group.prob =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.25</span>),</a>
-<a class="sourceLine" id="cb19-5" data-line-number="5">                           <span class="dt">de.prob =</span> <span class="fl">0.5</span>, <span class="dt">de.facLoc =</span> <span class="fl">0.2</span>,</a>
-<a class="sourceLine" id="cb19-6" data-line-number="6">                           <span class="dt">path.from =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb19-7" data-line-number="7">                           <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb19-8" data-line-number="8">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim2)</a>
-<a class="sourceLine" id="cb19-9" data-line-number="9">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim2)</a>
-<a class="sourceLine" id="cb19-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim2, <span class="dt">colour_by =</span> <span class="st">"Group"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Branching path"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><html><body><pre class="r">
+<span class="co"># Branching path</span>
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulatePaths</a></span>(<span class="no">params.groups</span>,
+                           <span class="kw">group.prob</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="fl">0.25</span>),
+                           <span class="kw">de.prob</span> <span class="kw">=</span> <span class="fl">0.5</span>, <span class="kw">de.facLoc</span> <span class="kw">=</span> <span class="fl">0.2</span>,
+                           <span class="kw">path.from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">3</span>),
+                           <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim2</span>)
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim2</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim2</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Group"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Branching path"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/paths-2.png" width="700"></p>
 </div>
 <div id="path-nsteps---number-of-steps" class="section level3">
 <h3 class="hasAnchor">
 <a href="#path-nsteps---number-of-steps" class="anchor"></a><code>path.nSteps</code> - Number of steps</h3>
 <p>A path is created by using the same differential expression procedure as used for groups to generate an end point. Interpolation is then used to create a series of steps between the start and end points. This parameter controls the number of steps along a path and therefore how discrete or smooth it is.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># Few steps</span></a>
-<a class="sourceLine" id="cb20-2" data-line-number="2">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulatePaths</a></span>(params.groups, <span class="dt">path.nSteps =</span> <span class="dv">3</span>,</a>
-<a class="sourceLine" id="cb20-3" data-line-number="3">                           <span class="dt">de.prob =</span> <span class="fl">0.5</span>, <span class="dt">de.facLoc =</span> <span class="fl">0.2</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb20-4" data-line-number="4">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim1)</a>
-<a class="sourceLine" id="cb20-5" data-line-number="5">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim1)</a>
-<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim1, <span class="dt">colour_by =</span> <span class="st">"Step"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Few steps"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="co"># Few steps</span>
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulatePaths</a></span>(<span class="no">params.groups</span>, <span class="kw">path.nSteps</span> <span class="kw">=</span> <span class="fl">3</span>,
+                           <span class="kw">de.prob</span> <span class="kw">=</span> <span class="fl">0.5</span>, <span class="kw">de.facLoc</span> <span class="kw">=</span> <span class="fl">0.2</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim1</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim1</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim1</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Step"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Few steps"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/paths-steps-1.png" width="700"></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="co"># Lots of steps</span></a>
-<a class="sourceLine" id="cb21-3" data-line-number="3">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulatePaths</a></span>(params.groups, <span class="dt">path.nSteps =</span> <span class="dv">1000</span>,</a>
-<a class="sourceLine" id="cb21-4" data-line-number="4">                           <span class="dt">de.prob =</span> <span class="fl">0.5</span>, <span class="dt">de.facLoc =</span> <span class="fl">0.2</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb21-5" data-line-number="5">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim2)</a>
-<a class="sourceLine" id="cb21-6" data-line-number="6">sim2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim2)</a>
-<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim2, <span class="dt">colour_by =</span> <span class="st">"Step"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Lots of steps"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><html><body><pre class="r">
+<span class="co"># Lots of steps</span>
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulatePaths</a></span>(<span class="no">params.groups</span>, <span class="kw">path.nSteps</span> <span class="kw">=</span> <span class="fl">1000</span>,
+                           <span class="kw">de.prob</span> <span class="kw">=</span> <span class="fl">0.5</span>, <span class="kw">de.facLoc</span> <span class="kw">=</span> <span class="fl">0.2</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim2</span>)
+<span class="no">sim2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim2</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim2</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Step"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Lots of steps"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/paths-steps-2.png" width="700"></p>
 </div>
 <div id="path-skew---path-skew" class="section level3">
 <h3 class="hasAnchor">
 <a href="#path-skew---path-skew" class="anchor"></a><code>path.skew</code> - Path skew</h3>
 <p>By default cells are evenly distributed along a path but it sometimes be useful to introduce a skew in the distribution, For example you may want to simulate a scenario with few stem-like cells and many differentiated cells. Setting <code>path.skew</code> to 0 will mean that all cells come from the end point while higher values up to 1 will skew them towards the start point.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># Skew towards the end</span></a>
-<a class="sourceLine" id="cb22-2" data-line-number="2">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/splatSimulate.html">splatSimulatePaths</a></span>(params.groups, <span class="dt">path.skew =</span> <span class="fl">0.1</span>,</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3">                           <span class="dt">de.prob =</span> <span class="fl">0.5</span>, <span class="dt">de.facLoc =</span> <span class="fl">0.2</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb22-4" data-line-number="4">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(sim1)</a>
-<a class="sourceLine" id="cb22-5" data-line-number="5">sim1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(sim1)</a>
-<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(sim1, <span class="dt">colour_by =</span> <span class="st">"Step"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Skewed towards the end"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="co"># Skew towards the end</span>
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulatePaths</a></span>(<span class="no">params.groups</span>, <span class="kw">path.skew</span> <span class="kw">=</span> <span class="fl">0.1</span>,
+                           <span class="kw">de.prob</span> <span class="kw">=</span> <span class="fl">0.5</span>, <span class="kw">de.facLoc</span> <span class="kw">=</span> <span class="fl">0.2</span>, <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sim1</span>)
+<span class="no">sim1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runPCA.html">runPCA</a></span>(<span class="no">sim1</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sim1</span>, <span class="kw">colour_by</span> <span class="kw">=</span> <span class="st">"Step"</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Skewed towards the end"</span>)</pre></body></html></div>
 <p><img src="splat_params_files/figure-html/paths-skew-1.png" width="700"></p>
 </div>
 <div id="path-nonlinearprob---non-linear-probability" class="section level3">
@@ -603,28 +602,11 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#the-base-splat-model">The base Splat model</a></li>
-      <li>
-<a href="#splat-simulation-parameters">Splat simulation parameters</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#global-parameters">Global parameters</a></li>
-      <li><a href="#batch-parameters">Batch parameters</a></li>
-      <li><a href="#mean-parameters">Mean parameters</a></li>
-      <li><a href="#library-size-parameters">Library size parameters</a></li>
-      <li><a href="#expression-outlier-parameters">Expression outlier parameters</a></li>
-      <li><a href="#biological-coefficient-of-variation-bcv-parameters">Biological Coefficient of Variation (BCV) parameters</a></li>
-      <li><a href="#dropout-parameters">Dropout parameters</a></li>
-      <li><a href="#path-parameters">Path parameters</a></li>
-      </ul>
-</li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
@@ -635,7 +617,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
