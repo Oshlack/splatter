@@ -14,6 +14,7 @@ biocViews
 bioRxiv
 BPPARAM
 Chu
+CMD
 compareSCEs
 compareSCESets
 cpm
@@ -31,6 +32,7 @@ etc
 fpkm
 FPKM
 gam
+getCounts
 getLNormFactors
 Github
 Gribkova
@@ -89,6 +91,7 @@ SCDD
 scDDEstimate
 SCDDParams
 scDDSimulate
+sce
 SCE
 SCESets
 scRNA
@@ -97,6 +100,7 @@ sdlog
 selectFit
 seq
 SimpleParams
+simpleSimulate
 SingleCellExperiment
 SingleCellExperiments
 SNE

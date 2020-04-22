@@ -1,5 +1,10 @@
 # DEVELOPMENT VERSION
 
+## Version 1.11.6 (2020-04-22)
+
+* Fix warning about typo in NEWS.Rd
+* Fix note about partial argument matching
+
 ## Version 1.11.5 (2020-04-20)
 
 * Use alternative algorithm if splatEstimate dropout fitting fails (Fixes #96

@@ -278,7 +278,7 @@ splatEstDropout <- function(norm.counts, params) {
         warning("Fitting dropout using the Gauss-Newton method failed, ",
                 "using the Golub-Pereyra algorithm instead")
         nls(y ~ logistic(x, x0 = x0, k = k), data = df,
-            start = list(x0 = 0, k = -1), alg = "plinear")
+            start = list(x0 = 0, k = -1), algorithm = "plinear")
     })
 
     #exp.zeros <- dnbinom(0, mu = means, size = 1 / 0.1) * ncol(norm.counts)
