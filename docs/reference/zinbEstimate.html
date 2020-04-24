@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -40,7 +44,6 @@
 <meta property="og:title" content="Estimate ZINB-WaVE simulation parameters — zinbEstimate" />
 <meta property="og:description" content="Estimate simulation parameters for the ZINB-WaVE simulation from a real
 dataset." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -68,7 +71,7 @@ dataset." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -82,7 +85,7 @@ dataset." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.5</span>
       </span>
     </div>
 
@@ -118,7 +121,7 @@ dataset." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/Oshlack/splatter">
+  <a href="https://github.com/Oshlack/splatter/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -146,23 +149,49 @@ dataset." />
 dataset.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>zinbEstimate</span>(<span class='no'>counts</span>, <span class='kw'>design.samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>design.genes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>common.disp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>iter.init</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>iter.opt</span> <span class='kw'>=</span> <span class='fl'>25</span>,
-  <span class='kw'>stop.opt</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newZINBParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>zinbEstimate</span>(
+  <span class='no'>counts</span>,
+  <span class='kw'>design.samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>design.genes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>common.disp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>iter.init</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>iter.opt</span> <span class='kw'>=</span> <span class='fl'>25</span>,
+  <span class='kw'>stop.opt</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newZINBParams</a></span>(),
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
+  <span class='no'>...</span>
+)
 
 <span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>zinbEstimate</span>(<span class='no'>counts</span>,
-  <span class='kw'>design.samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>design.genes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>common.disp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>iter.init</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>iter.opt</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>stop.opt</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newZINBParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
-  <span class='no'>...</span>)
+<span class='fu'>zinbEstimate</span>(
+  <span class='no'>counts</span>,
+  <span class='kw'>design.samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>design.genes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>common.disp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>iter.init</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>iter.opt</span> <span class='kw'>=</span> <span class='fl'>25</span>,
+  <span class='kw'>stop.opt</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newZINBParams</a></span>(),
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
+  <span class='no'>...</span>
+)
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>zinbEstimate</span>(<span class='no'>counts</span>, <span class='kw'>design.samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>design.genes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>common.disp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>iter.init</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>iter.opt</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>stop.opt</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newZINBParams</a></span>(),
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(), <span class='no'>...</span>)</pre>
+<span class='fu'>zinbEstimate</span>(
+  <span class='no'>counts</span>,
+  <span class='kw'>design.samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>design.genes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>common.disp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>iter.init</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>iter.opt</span> <span class='kw'>=</span> <span class='fl'>25</span>,
+  <span class='kw'>stop.opt</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newZINBParams</a></span>(),
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -236,67 +265,62 @@ the fitted model and inserts it into a <code><a href='ZINBParams.html'>ZINBParam
     <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>zinbEstimate</span>(<span class='no'>sce</span>)
     <span class='no'>params</span>
 }</div><div class='output co'>#&gt; <span class='message'>Removing all zero genes...</span></div><div class='output co'>#&gt; <span class='message'>Fitting model...</span></div><div class='output co'>#&gt; <span class='message'>Create model:</span></div><div class='output co'>#&gt; <span class='message'>ok</span></div><div class='output co'>#&gt; <span class='message'>Initialize parameters:</span></div><div class='output co'>#&gt; <span class='message'>ok</span></div><div class='output co'>#&gt; <span class='message'>Optimize parameters:</span></div><div class='output co'>#&gt; <span class='message'>Iteration 1</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9797.17396398215</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -9593.51924068794</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.279   0.008   0.292 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9289.80824341391</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9289.80824341391</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.045   0.003   0.048 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>Iteration 2</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -9235.11865883047</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.206   0.005   0.216 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9229.79015780275</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9229.79015780275</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.068   0.006   0.075 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>Iteration 3</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -9228.6543711739</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.192   0.005   0.203 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9228.44378457059</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9228.44378457059</span></div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.041   0.002   0.043 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>Iteration 4</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>ok</span></div><div class='output co'>#&gt; A Params object of class ZINBParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
-#&gt; Secondary parameters are usually set during simulation
+#&gt;   0.207   0.005   0.212 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9289.80824341391</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9289.80824341391</span></div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.036   0.001   0.037 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>Iteration 2</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9285.37100307917</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -9235.11865883047</span></div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.153   0.005   0.158 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9229.79015780275</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9229.79015780275</span></div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;    0.04    0.00    0.04 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>Iteration 3</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9229.25013725032</span></div><div class='output co'>#&gt; <span class='message'>After dispersion optimization = -9228.6543711739</span></div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.118   0.001   0.120 </div><div class='output co'>#&gt; <span class='message'>After right optimization = -9228.44378457059</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9228.44378457059</span></div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.031   0.002   0.033 </div><div class='output co'>#&gt; <span class='message'>After left optimization = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>After orthogonalization = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>Iteration 4</span></div><div class='output co'>#&gt; <span class='message'>penalized log-likelihood = -9228.40710924322</span></div><div class='output co'>#&gt; <span class='message'>ok</span></div><div class='output co'>#&gt; A <span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>ZINBParams</span><span> 
+#&gt; Parameters can be (estimable) or </span><span style='color: #0000BB;'>[not estimable]</span><span>, 'Default' or  </span><span style='color: #00BB00;font-weight: bold;'>'NOT DEFAULT'</span><span> 
+#&gt; </span><span style='color: #000000;background-color: #BBBB00;'>Secondary</span><span> parameters are usually set during simulation
 #&gt; 
-#&gt; Global: 
-#&gt; (Genes)  (CELLS)   [Seed] 
-#&gt;     100       20   955861 
+#&gt; </span><span style='font-weight: bold;'>Global:</span><span> 
+#&gt; (Genes)  </span><span style='font-weight: bold;'>(CELLS)</span><span>   </span><span style='color: #0000BB;'>[Seed]</span><span> 
+#&gt;     100       </span><span style='color: #00BB00;font-weight: bold;'>20</span><span>   678932 
 #&gt; 
 #&gt; 1 additional parameters 
 #&gt; 
-#&gt; Model: 
-#&gt; ZinbModel with 100 features, 20 samples, 0 latent factors and 241 parameters 
+#&gt; </span><span style='font-weight: bold;'>Model:</span><span> 
+#&gt; </span><span style='color: #00BB00;font-weight: bold;'>ZinbModel with 100 features, 20 samples, 0 latent factors and 241 parameters</span><span> 
 #&gt; 
-#&gt; Parameters of the ZinbModel 
+#&gt; </span><span style='font-weight: bold;'>Parameters of the ZinbModel</span><span> 
 #&gt; 
-#&gt; Model Design: 
-#&gt;      (SAMPLES)         (Genes) 
-#&gt; 1, 1, 1, 1,...  1, 1, 1, 1,... 
+#&gt; </span><span style='font-weight: bold;'>Model</span><span> </span><span style='font-weight: bold;'>Design:</span><span> 
+#&gt;      </span><span style='font-weight: bold;'>(SAMPLES)</span><span>         (Genes) 
+#&gt; </span><span style='color: #00BB00;font-weight: bold;'>1, 1, 1, 1,...</span><span>  1, 1, 1, 1,... 
 #&gt; 
-#&gt; Model Offsets: 
-#&gt;            (MU)             (PI) 
-#&gt; 20 x 100 matrix  20 x 100 matrix 
+#&gt; </span><span style='font-weight: bold;'>Model</span><span> </span><span style='font-weight: bold;'>Offsets:</span><span> 
+#&gt;            </span><span style='font-weight: bold;'>(MU)</span><span>             </span><span style='font-weight: bold;'>(PI)</span><span> 
+#&gt; </span><span style='color: #00BB00;font-weight: bold;'>20 x 100 matrix</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>20 x 100 matrix</span><span> 
 #&gt; 
-#&gt; Model Indices: 
+#&gt; </span><span style='font-weight: bold;'>Model</span><span> </span><span style='font-weight: bold;'>Indices:</span><span> 
 #&gt; (Sample Mu)    (Gene Mu)  (Sample Pi)    (Gene Pi) 
 #&gt;           1            1            1            1 
 #&gt; 
-#&gt; Model Intercepts: 
+#&gt; </span><span style='font-weight: bold;'>Model</span><span> </span><span style='font-weight: bold;'>Intercepts:</span><span> 
 #&gt; (Sample Mu)    (Gene Mu)  (Sample Pi)    (Gene Pi) 
 #&gt;        TRUE         TRUE         TRUE         TRUE 
 #&gt; 
-#&gt; Model Latent factors: 
+#&gt; </span><span style='font-weight: bold;'>Model</span><span> </span><span style='font-weight: bold;'>Latent factors:</span><span> 
 #&gt;           (W) 
 #&gt; 20 x 0 matrix 
 #&gt; 
-#&gt; Model Coefficients: 
-#&gt;                                                                      (SAMPLE MU)                                                                         (GENE MU)                                                                       (Latent Mu)                                                                       (SAMPLE PI)                                                                         (GENE PI)                                                                       (Latent Pi) 
-#&gt; -0.459768269108686, 1.62119422809804, -0.223102757788152, 0.0429479357333727,...        4.26299872242102, 4.29178871361806, 4.44953744138558, 3.86260697728158,...                                                                    0 x 100 matrix    1.90228646100659, -6.94249109253294, -1.07943871883735, -0.430729773518204,...   -0.983749678057473, -1.35076635474983, -1.23286376482938, -1.26061065393089,...                                                                    0 x 100 matrix 
+#&gt; </span><span style='font-weight: bold;'>Model</span><span> </span><span style='font-weight: bold;'>Coefficients:</span><span> 
+#&gt;                                                                      </span><span style='font-weight: bold;'>(SAMPLE MU)</span><span>                                                                         </span><span style='font-weight: bold;'>(GENE MU)</span><span>                                                                       (Latent Mu)                                                                       </span><span style='font-weight: bold;'>(SAMPLE PI)</span><span>                                                                         </span><span style='font-weight: bold;'>(GENE PI)</span><span>                                                                       (Latent Pi) 
+#&gt; </span><span style='color: #00BB00;font-weight: bold;'>-0.459768269108686, 1.62119422809804, -0.223102757788152, 0.0429479357333727,...</span><span>        </span><span style='color: #00BB00;font-weight: bold;'>4.26299872242102, 4.29178871361806, 4.44953744138558, 3.86260697728158,...</span><span>                                                                    0 x 100 matrix    </span><span style='color: #00BB00;font-weight: bold;'>1.90228646100659, -6.94249109253294, -1.07943871883735, -0.430729773518204,...</span><span>   </span><span style='color: #00BB00;font-weight: bold;'>-0.983749678057473, -1.35076635474983, -1.23286376482938, -1.26061065393089,...</span><span>                                                                    0 x 100 matrix 
 #&gt; 
-#&gt; Model Regularisation: 
-#&gt;     (Sample Mu)        (GENE MU)      (Sample Pi)        (GENE PI) 
-#&gt;               1                5                1                5 
-#&gt;        (LATENT)  (Latent coeffs)           (Zeta)          (Logit) 
-#&gt;               5                1              100            0.001 
+#&gt; </span><span style='font-weight: bold;'>Model</span><span> </span><span style='font-weight: bold;'>Regularisation:</span><span> 
+#&gt;     (Sample Mu)        </span><span style='font-weight: bold;'>(GENE MU)</span><span>      (Sample Pi)        </span><span style='font-weight: bold;'>(GENE PI)</span><span> 
+#&gt;               1                </span><span style='color: #00BB00;font-weight: bold;'>5</span><span>                1                </span><span style='color: #00BB00;font-weight: bold;'>5</span><span> 
+#&gt;        </span><span style='font-weight: bold;'>(LATENT)</span><span>  (Latent coeffs)           (Zeta)          (Logit) 
+#&gt;               </span><span style='color: #00BB00;font-weight: bold;'>5</span><span>                1              100            0.001 
 #&gt; </div><div class='input'>
-</div></pre>
+</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -307,7 +331,7 @@ the fitted model and inserts it into a <code><a href='ZINBParams.html'>ZINBParam
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

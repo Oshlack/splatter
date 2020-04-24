@@ -1,0 +1,23 @@
+on: [push, pull_request]
+
+name: R-CMD-check
+
+jobs:
+  R-CMD-check:
+    runs-on: macOS-latest
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+    steps:
+      - uses: actions/checkout@v1
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: devel
+      - uses: r-lib/actions/setup-pandoc@master
+      - name: Install additional system dependencies
+        run: brew install gsl imagemagick@6
+      - name: Install dependencies
+        run: Rscript -e "install.packages(c('remotes', 'rcmdcheck'))" -e "remotes::install_deps(dependencies = TRUE)"
+      - name: Install additional dependencies
+        run: Rscript -e "install.packages(c('magick'))"
+      - name: Check
+        run: Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'error')"

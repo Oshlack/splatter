@@ -1,17 +1,17 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 1.11.1
-Date: 2020-01-30
+Version: 1.11.5
+Date: 2020-04-20
 Authors@R:
     c(person("Luke", "Zappia", role = c("aut", "cre"),
       email = "luke@lazappi.id.au",
       comment = c(ORCID = "0000-0001-7744-8565")),
       person("Belinda", "Phipson", role = c("aut"),
-      email = "belinda.phipson@mcri.edu.au",
+      email = "belinda.phipson@petermac.org",
       comment = c(ORCID = "0000-0002-1711-7454")),
       person("Alicia", "Oshlack", role = c("aut"),
-      email = "alicia.oshlack@mcri.edu.au",
+      email = "alicia.oshlack@petermac.org",
       comment = c(ORCID = "0000-0001-9788-5690")))
 Description: Splatter is a package for the simulation of single-cell RNA
     sequencing count data. It provides a simple interface for creating complex
@@ -27,7 +27,7 @@ Imports:
     akima,
     BiocGenerics,
     BiocParallel,
-    checkmate,
+    checkmate (>= 2.0.0),
     edgeR,
     dplyr,
     data.table,
@@ -42,8 +42,7 @@ Imports:
     SummarizedExperiment,
     utils,
     crayon,
-    S4Vectors,
-    rlang
+    S4Vectors
 Suggests:
     BiocStyle,
     covr,
@@ -66,12 +65,14 @@ Suggests:
     BiocManager,
     spelling,
     igraph,
-    DropletUtils
+    DropletUtils,
+    BiocSingular
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software, ImmunoOncology
 URL: https://github.com/Oshlack/splatter
 BugReports: https://github.com/Oshlack/splatter/issues
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
+Encoding: UTF-8
 VignetteBuilder: knitr
 Encoding: UTF-8
 Language: en-GB

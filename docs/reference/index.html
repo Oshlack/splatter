@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -65,7 +69,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -79,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.5</span>
       </span>
     </div>
 
@@ -115,7 +119,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/Oshlack/splatter">
+  <a href="https://github.com/Oshlack/splatter/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -147,10 +151,34 @@
     <tbody>
       <tr>
         <th colspan="2">
+          <h2 id="section-package" class="hasAnchor"><a href="#section-package" class="anchor"></a>Package</h2>
+          <p class="section-desc"><p>Package description</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="splatter.html">splatter</a></code> </p>
+        </td>
+        <td><p>splatter.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
           <h2 id="section-parameters" class="hasAnchor"><a href="#section-parameters" class="anchor"></a>Parameters</h2>
           <p class="section-desc"><p>Parameters functions and classes</p></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -261,6 +289,11 @@
           <p class="section-desc"><p>Functions for estimating parameters</p></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -273,6 +306,24 @@
           <p><code><a href="kersplatEstimate.html">kersplatEstimate()</a></code> </p>
         </td>
         <td><p>Estimate Kersplat simulation parameters</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kersplatEstBCV.html">kersplatEstBCV()</a></code> </p>
+        </td>
+        <td><p>Estimate Kersplat BCV parameters</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kersplatEstLib.html">kersplatEstLib()</a></code> </p>
+        </td>
+        <td><p>Estimate Kersplat library size parameters</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kersplatEstMean.html">kersplatEstMean()</a></code> </p>
+        </td>
+        <td><p>Estimate Kersplat means</p></td>
       </tr><tr>
         
         <td>
@@ -365,12 +416,83 @@
           <p class="section-desc"><p>Functions for simulating datasets</p></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
           <p><code><a href="BASiCSSimulate.html">BASiCSSimulate()</a></code> </p>
         </td>
         <td><p>BASiCS simulation</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kersplatGenNetwork.html">kersplatGenNetwork()</a></code> </p>
+        </td>
+        <td><p>Generate Kersplat gene network</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kersplatSample.html">kersplatSample()</a></code> </p>
+        </td>
+        <td><p>Kersplat sample</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kersplatSelectRegs.html">kersplatSelectRegs()</a></code> </p>
+        </td>
+        <td><p>Select Kersplat regulators</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kersplatSetup.html">kersplatSetup()</a></code> </p>
+        </td>
+        <td><p>Kersplat setup</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kersplatSimAmbientCounts.html">kersplatSimAmbientCounts()</a></code> </p>
+        </td>
+        <td><p>Simulate Kersplat ambient counts</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kersplatSimCellCounts.html">kersplatSimCellCounts()</a></code> </p>
+        </td>
+        <td><p>Simulate Kersplat cell counts</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kersplatSimCounts.html">kersplatSimCounts()</a></code> </p>
+        </td>
+        <td><p>Simulate Kersplat final counts</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kersplatSimCellMeans.html">kersplatSimCellMeans()</a></code> </p>
+        </td>
+        <td><p>Simulate Kersplat cell means</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kersplatSimGeneMeans.html">kersplatSimGeneMeans()</a></code> </p>
+        </td>
+        <td><p>Simulate Kersplat gene means</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kersplatSimLibSizes.html">kersplatSimLibSizes()</a></code> </p>
+        </td>
+        <td><p>Simulate Kersplat library sizes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kersplatSimPaths.html">kersplatSimPaths()</a></code> </p>
+        </td>
+        <td><p>Simulate Kersplat paths</p></td>
       </tr><tr>
         
         <td>
@@ -493,6 +615,11 @@
           <p class="section-desc"><p>Functions for comparing datasets</p></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -526,9 +653,27 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="summariseKS.html">summariseKS()</a></code> </p>
+        </td>
+        <td><p>Summarise KS</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="summariseDiff.html">summariseDiff()</a></code> </p>
         </td>
         <td><p>Summarise diffSCEs</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="summariseStats.html">summariseStats()</a></code> </p>
+        </td>
+        <td><p>Summarise statistics</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tidyStatSumm.html">tidyStatSumm()</a></code> </p>
+        </td>
+        <td><p>Tidy summarised statistics</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -537,6 +682,11 @@
           <p class="section-desc"><p>Additional functions exported by Splatter</p></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -560,9 +710,14 @@
       <tr>
         <th colspan="2">
           <h2 id="section-internals" class="hasAnchor"><a href="#section-internals" class="anchor"></a>Internals</h2>
-          <p class="section-desc"><p>Internal functions and helpers</p></p>
+          <p class="section-desc"><p>Additional internal functions and helpers</p></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -572,9 +727,27 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="bringItemsForward.html">bringItemsForward()</a></code> </p>
+        </td>
+        <td><p>Bring items forward</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="expandParams.html">expandParams()</a></code> </p>
         </td>
         <td><p>Expand parameters</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getBetaStepProbs.html">getBetaStepProbs()</a></code> </p>
+        </td>
+        <td><p>Get Beta step probabilities</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getCounts.html">getCounts()</a></code> </p>
+        </td>
+        <td><p>Get counts</p></td>
       </tr><tr>
         
         <td>
@@ -599,6 +772,18 @@
           <p><code><a href="rbindMatched.html">rbindMatched()</a></code> </p>
         </td>
         <td><p>Bind rows (matched)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sampleDensity.html">sampleDensity()</a></code> </p>
+        </td>
+        <td><p>Sample density</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="selectFit.html">selectFit()</a></code> </p>
+        </td>
+        <td><p>Select fit</p></td>
       </tr><tr>
         
         <td>
@@ -640,16 +825,10 @@
     </table>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-parameters">Parameters</a></li>
-      <li><a href="#section-estimation">Estimation</a></li>
-      <li><a href="#section-simulation">Simulation</a></li>
-      <li><a href="#section-comparison-functions">Comparison functions</a></li>
-      <li><a href="#section-other-exported-functions">Other exported functions</a></li>
-      <li><a href="#section-internals">Internals</a></li>
-    </ul>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -660,7 +839,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

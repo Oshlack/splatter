@@ -16,6 +16,9 @@ vignette: >
 # rmarkdown::render("vignettes/splatter.Rmd", "all")
 knitr::opts_chunk$set(fig.align = 'center', fig.width = 6, fig.height = 5,
                       dev = 'png')
+
+# Use exact BSPARAM to avoid warnings
+options(BiocSingularParam.default = BiocSingular::ExactParam())
 ```
 
 ![Splatter logo](splatter-logo-small.png)
@@ -30,9 +33,22 @@ Splatter can be installed from Bioconductor:
 
 **Modified install instructions for Splatter-eQTL!**
 ```{r install, eval = FALSE}
+<<<<<<< HEAD
 install.packages("~/GitHub/splatter_1.11.1.tar.gz", repos = NULL, type = "source")
 suppressPackageStartupMessages({library(splatter, lib.loc = "/Library/Frameworks/R.framework/Resources/library/")
 '/home/AD.SVI.EDU.AU/cazodi/R/x86_64-pc-linux-gnu-library/3.6/')})
+=======
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("splatter")
+```
+
+To install the most recent development version from Github use:
+
+```{r install-github, eval = FALSE}
+BiocManager::install("Oshlack/splatter", dependencies = TRUE,
+                     build_vignettes = TRUE)
+>>>>>>> 5c0787f0d772fe237beabfa089d07e7c1ac0d0ed
 ```
 
 # Quickstart
@@ -302,7 +318,8 @@ cell to a step. We can create this kind of simulation using the `"paths"`
 method.
 
 ```{r paths}
-sim.paths <- splatSimulate(method = "paths", verbose = FALSE)
+sim.paths <- splatSimulate(de.prob = 0.2, nGenes = 1000, method = "paths",
+                           verbose = FALSE)
 sim.paths <- logNormCounts(sim.paths)
 sim.paths <- runPCA(sim.paths)
 plotPCA(sim.paths, colour_by = "Step")

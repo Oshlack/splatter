@@ -18,5 +18,5 @@ test_that("gene.params checks work", {
                  "gene.params: Incorrect column names")
     expect_error(setParam(params, "gene.params",
                           data.frame(Mean = 1, Disp = "a")),
-                 "gene.params: May only contain the following types: numeric")
+                 "gene.params: May only contain the following types: \\{numeric\\}")
 })
