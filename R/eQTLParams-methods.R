@@ -48,12 +48,12 @@ setMethod("show", "eQTLParams", function(object) {
                                        "[Distance]"   = "eqtl.dist",
                                        "[MAF]"        = "eqtl.maf",
                                        "[MAF dev]"    = "eqtl.mafd",
-                                       "[Group N]"    = "eqtl.groups",
-                                       "[% G.spec]"   = "eqtl.group.specific"),
-               "eQTL.Effect Size:"= c("(Rate)"        = "eqtlES.rate",
-                                      "(Shape)"       = "eqtlES.shape"),
-               "eQTL.Mean:"      = c("(Rate)"         = "bulkmean.rate",
-                                     "(Shape)"        = "bulkmean.shape",
+                                       "[Group.N]"    = "eqtl.groups",
+                                       "[%G.spec]"    = "eqtl.group.specific"),
+               "eQTL.Effect Size:"= c("(Shape)"       = "eqtlES.shape",
+                                      "(Rate)"        = "eqtlES.rate"),
+               "eQTL.Mean:"      = c("(Shape)"        = "bulkmean.shape",
+                                     "(Rate)"         = "bulkmean.rate",
                                      "[CV bins]"      = "bulkcv.bins",
                                      "(CV params)"    = "bulkcv.param"))
     
