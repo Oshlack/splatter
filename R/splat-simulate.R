@@ -271,8 +271,8 @@ splatSimulatePaths <- function(params = newSplatParams(),
 #'        produces a single population, "groups" which produces distinct groups
 #'        (eg. cell types), "paths" which selects cells from continuous
 #'        trajectories (eg. differentiation processes).
-#' @param eqtl Matrix of gene means for eQTL population. Output from 
-#'        eQTLSimulate(). 
+#' @param eqtl Matrix or list of matrices of gene means for eQTL population. 
+#'        Output from eQTLSimulate(). 
 #' @param verbose logical. Whether to print progress messages.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -283,26 +283,68 @@ splatSimulatePaths <- function(params = newSplatParams(),
 #' @importFrom SummarizedExperiment rowData rowData<-
 #' @export
 splatSimulateeQTL <- function(params = newSplatParams(), 
-                              method = "single",
+                              method = c("single", "groups", "paths"),
                               eqtl = NULL,
                               verbose = FALSE, ...){
+ 
+    if (verbose) {message("Getting parameters...")}
+    params <- setParams(params, ...)
+    params <- expandParams(params)
+    validObject(params)
+    
+    # Simulating sc data with group-specific eQTL
     count <- 0
-    for (s in names(eqtl)){
-        count <- count + 1
-        if(count %% 25 == 0){
-            print(paste0('finished ', count, ' sims'))
+    if (type(eqtl) == "list"){
+        for (s in names((eqtl[[1]]))){
+            
+            count <- count + 1
+            if(count %% 25 == 0){
+                print(paste0('finished ', count, ' sims'))
+            }
+            
+            eqtl.group.prop <- getParam(params, "eqtl.group.prop")
+            nCells <- getParam(params, "nCells")
+            eq.group.n <- eqtl.group.prop * nCells
+            
+            for(g in seq(1, length(eqtl))){
+                p_tmp <- params
+                batchCells <- getParam(p_tmp, "batchCells")
+                ratio <- eq.group.n[g] / sum(batchCells)
+                p_tmp <- setParams(p_tmp, batchCells = batchCells*ratio)
+                x <- splatSimulate(params = p_tmp, 
+                                   method = method,
+                                   eqtl_means = eqtl[[g]][[s]],
+                                   verbose = verbose, ...)
+                names(rowData(x)) <- paste0(s,'_g', g, '_', names(rowData(x)))
+                colnames(x) <- paste0(s, '_g', g, '_', colnames(x))
+                colData(x)$Sample <- s
+                colData(x)$eQTLGroup <- g
+                if (count == 1 & g == 1){
+                    sim.all <- x
+                } else{
+                    sim.all <- SingleCellExperiment::cbind(sim.all, x)
+                }
+            }
         }
-        sim_tmp <- splatSimulate(params = params, 
-                                 method = method,
-                                 eqtl_means = eqtl[[s]],
-                                 verbose = verbose, ...)
-        names(rowData(sim_tmp)) <- paste (s, names(rowData(sim_tmp)), sep='_')
-        colnames(sim_tmp) <- paste(s, colnames(sim_tmp), sep ='_')
-        colData(sim_tmp)$Sample <- s
-        if (count == 1){
-            sim.all <- sim_tmp
-        } else{
-            sim.all <- SingleCellExperiment::cbind(sim.all, sim_tmp)
+
+    # Simulating sc data with global eQTL effects     
+    }else{
+        for (s in names(eqtl)){
+            count <- count + 1
+            if(count %% 25 == 0){
+                print(paste0('finished ', count, ' sims'))
+            }
+            
+            tmp <- splatSimulate(params = params, method = method,
+                                eqtl_means = eqtl[[s]], verbose = verbose, ...)
+            names(rowData(tmp)) <- paste (s, names(rowData(tmp)), sep='_')
+            colnames(tmp) <- paste(s, colnames(tmp), sep ='_')
+            colData(tmp)$Sample <- s
+            if (count == 1){
+                sim.all <- tmp
+            } else{
+                sim.all <- SingleCellExperiment::cbind(sim.all, tmp)
+            }
         }
     }
     return (sim.all)

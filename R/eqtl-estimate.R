@@ -134,7 +134,6 @@ eQTLEstMeanCV <- function(gene.means, eQTLparams) {
     mfit <- fitdistrplus::fitdist(means, "gamma", optim.method="Nelder-Mead")
     
     # Calculate CV parameters for genes based on 10 expresion mean bins
-    print(eQTLparams)
     nbins <- getParam(eQTLparams, "bulkcv.bins")
     bins <- split(means, cut(means, quantile(means,(0:nbins)/nbins), include.lowest=T))
     cvparams <- data.frame(start = character(), end = character(),
