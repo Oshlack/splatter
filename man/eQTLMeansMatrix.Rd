@@ -4,14 +4,16 @@
 \alias{eQTLMeansMatrix}
 \title{Project normalized gene expression matrix into mean gene expression matrix}
 \usage{
-eQTLMeansMatrix(pairs, nGeneMeansPop, params)
+eQTLMeansMatrix(id, pairs, nGeneMeansPop, last_MeansMatrix)
 }
 \arguments{
+\item{id}{The group ID (e.g. "g1")}
+
 \item{pairs}{A dataframe eSNPs-eGenes pair assignments and their effect sizes}
 
 \item{nGeneMeansPop}{The normalized gene expression means for the population}
 
-\item{params}{SplatParams object containing parameters for the simulation.
+\item{last_MeansMatrix}{SplatParams object containing parameters for the simulation.
 See \code{\link{SplatParams}} for details.}
 }
 \value{
@@ -23,6 +25,6 @@ Project normalized gene expression matrix into mean gene expression matrix
 \details{
 For each gene/sample, the normalized expression value (from rnorm) is 
 transformed to the cumulative density function (pnorm) between 0 and 1, this
-value is then quantile normalized (qgamma) using the gamma distribution 
+value is then quantile normalized (qnorm) using the gamma distribution 
 parameterized from splatEstimate().
 }

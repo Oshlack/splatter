@@ -4,7 +4,9 @@
 \name{ex_pairs}
 \alias{ex_pairs}
 \title{Example eQTL results from GTEx Thyroid tissue}
-\format{A data frame with 25,244 rows and 9 variables:}
+\format{
+A data frame with 25,244 rows and 9 variables:
+}
 \source{
 \url{https://storage.googleapis.com/gtex_analysis_v7/single_tissue_eqtl_data/all_snp_gene_associations/Thyroid.allpairs.txt.gz
 }

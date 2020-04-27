@@ -15,10 +15,12 @@ bioRxiv
 BPPARAM
 CellX
 Chu
+CMD
 compareSCEs
 compareSCESets
 continaing
 cpm
+csv
 cutoff
 cv
 df
@@ -54,6 +56,7 @@ GRCh
 Gribkova
 GTEx
 GTF
+HHMM
 ImmunoOncology
 ingroup
 JC
@@ -105,6 +108,7 @@ PROSSTT
 pseudotime
 pval
 qgamma
+qnorm
 Quickstart
 RG
 Risso
@@ -129,6 +133,7 @@ sd
 sdlog
 selectFit
 seq
+sim
 SimpleParams
 simpleSimulate
 SingleCellExperiment
@@ -170,6 +175,7 @@ winsorized
 Winsorized
 WithSpikes
 Yau
+YYMMDD
 ZINB
 ZINBParams
 zinbwave

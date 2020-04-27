@@ -9,8 +9,9 @@ eQTLSimulate(
   eQTLparams = neweQTLParams(),
   gff = ex_gff,
   vcf = ex_snps,
-  groups = 1,
   eqtl.save = TRUE,
+  save.name = "default",
+  verbose = TRUE,
   ...
 )
 }
@@ -28,6 +29,11 @@ See \code{\link{eQTLParams}} for details.}
 Where each column is a sample and each row is a SNP.}
 
 \item{eqtl.save}{logical. Whether to save eQTL key and mean matrix.}
+
+\item{save.name}{String to save eQTL key under. Default: 
+eqtl_out/YYMMDD_HHMM_eQTL_key.csv}
+
+\item{verbose}{logical. Whether to print progress messages.}
 
 \item{...}{any additional parameter settings to override what is provided in
 \code{params}.}

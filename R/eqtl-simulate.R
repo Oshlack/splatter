@@ -13,6 +13,8 @@
 #' @param vcf Dataframe containing real/simulated genotype data in .vcf format. 
 #'         Where each column is a sample and each row is a SNP.
 #' @param eqtl.save logical. Whether to save eQTL key and mean matrix.
+#' @param save.name String to save eQTL key under. Default: 
+#'         eqtl_out/YYMMDD_HHMM_eQTL_key.csv
 #' @param verbose logical. Whether to print progress messages.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -57,14 +59,15 @@ eQTLSimulate <- function(params = newSplatParams(),
                       eQTLparams = neweQTLParams(),
                       gff = ex_gff, 
                       vcf = ex_snps, 
-                      eqtl.save = TRUE, 
+                      eqtl.save = TRUE,
+                      save.name = 'default',
                       verbose = TRUE, ...) {
     
     # Set random seed
     seed <- getParam(eQTLparams, "seed")
     set.seed(seed)
     
-    if (verbose) {message("Loading and formatting GFF and SNP data...")}
+    if (verbose) {message("Loading GFF and SNP data...")}
     genes <- eQTLgenes(gff)
     snps <- eQTLsnps(vcf, eQTLparams)
     
@@ -72,6 +75,7 @@ eQTLSimulate <- function(params = newSplatParams(),
     genes <- eQTLGeneMeans(params, genes, eQTLparams)
     groups <- paste0('g', seq(1, getParam(eQTLparams, "eqtl.groups")))
     
+    # Assign eQTL effects for each group
     for(id in groups){
         if(id == 'g1'){
             pairs <- eQTLpairs(id, genes, snps, eQTLparams)
@@ -80,51 +84,46 @@ eQTLSimulate <- function(params = newSplatParams(),
             pairs[, paste0("EffectSize_", id)] <- pairs$EffectSize_g1
         }
     }
-
+    
     if(length(groups) > 1){
         pairs <- groupSpecificEffects(eQTLparams, pairs, groups)
     }
-
-    if (verbose) {message("Simulating gene expression data...")} 
+    
+    nGeneMeansPop <- GeneMeansPop <- FALSE
+    final <- list()
+    
     for(id in groups){  
-        
         if (verbose) {message(paste0("Simulating group ", id, "..."))}
         
-        if(id == 'g1'){
-            nGeneMeansPop <- eQTLnormMeansMatrix(id, snps, pairs, FALSE)
-            GeneMeansPop <- eQTLMeansMatrix(id, pairs, nGeneMeansPop, FALSE)
-        }else{
-            nGeneMeansPop <- eQTLnormMeansMatrix(id, snps, pairs, nGeneMeansPop)
-            GeneMeansPop <- eQTLMeansMatrix(id, pairs, nGeneMeansPop, 
-                                            GeneMeansPop)
-        }
-        
-        # Quantile normalize by sample
+        nGeneMeansPop <- eQTLnormMeansMatrix(id, snps, pairs, nGeneMeansPop)
+        GeneMeansPop <- eQTLMeansMatrix(id, pairs, nGeneMeansPop, GeneMeansPop)
         GeneMeansPop <- quantileNormalizeSC(params, GeneMeansPop)
-        if(id == 'g1'){
-            final <- GeneMeansPop
-        }else{
-            final <- list(final, GeneMeansPop)
-        }
+        
+        final[[id]] <- GeneMeansPop
     }
     
     # Save eQTL key
     if (eqtl.save) {
         dir.create('eqtl_out', showWarnings = FALSE)
-        now <- Sys.time()
-        save_to <- paste0("eqtl_out/", format(now, "%Y%m%d_%H%M_"), 
-                          "eQTL_key.csv")
-        if (verbose) {message(paste0("Saving key to: ", save_to))}
-        write.table(pairs, save_to, sep=',', quote = FALSE, row.names = FALSE)
-    }
-    
-    if(length(groups) > 1){
-        names(final) <- groups
+        if(save.name == 'default'){
+            now <- Sys.time()
+            save <- paste0("eqtl_out/", format(now, "%Y%m%d_%H%M_"), "eQTL_key.csv")
+        }else(
+            save <- paste0('eqtl_out/', save.name)
+        )
+        
+        write.table(pairs, save, sep=',', quote = FALSE, row.names = FALSE)
+        if (verbose) {message(paste0("Saved key to: ", save))}
     }
     
     if (verbose) {message("Done!")} 
     
-    return(final)
+    if(length(groups) == 1){
+        return(as.data.frame(final[id]))
+    }else{
+        return(final)
+    }
+    
 }
 
 #' Process gene data
@@ -168,6 +167,8 @@ eQTLgenes <- function(gff){
 #'
 #' @return A dataframe containing SNP names, locations, and sample genotypes.
 #' @importFrom utils read.delim
+#' @importFrom dplyr mutate_all
+#' 
 eQTLsnps <- function(vcf, eQTLparams){
     
     eqtl.maf <- getParam(eQTLparams, "eqtl.maf")
@@ -182,6 +183,7 @@ eQTLsnps <- function(vcf, eQTLparams){
     # Read in genotype matrix in .vcf format
     vcf[, c('V1', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9')] <- NULL
     names(vcf) <- c('loc', paste0('Sample', 1:(dim(vcf)[2]-1)))
+
     vcf[] <- lapply(vcf, function(x) gsub("0/0", 0.0, x))
     vcf[] <- lapply(vcf, function(x) gsub("0/1", 1.0, x))
     vcf[] <- lapply(vcf, function(x) gsub("1/1", 2.0, x))
@@ -201,7 +203,7 @@ eQTLsnps <- function(vcf, eQTLparams){
 #' Assign a mean expression value to each gene, sampled from a gamma 
 #' distribution parameterized by splatEstimate, then sample a coefficient of 
 #' variation for each gene from a gamma distribution parameterized by 
-#' splatEstimate for genes in 10 mean exptression bins.
+#' splatEstimate for genes in 10 mean expression bins.
 #'
 #' @param params SplatParams object containing parameters for the simulation.
 #'        See \code{\link{SplatParams}} for details.
@@ -248,6 +250,7 @@ eQTLGeneMeans <- function(params, genes, eQTLparams){
 #' distribution parameterized using the effect sizes from a bulk eQTL study 
 #' using the GTEx data from the thyroid tissue.
 #'
+#' @param id group id name
 #' @param genes Dataframe with gene ID and location
 #' @param snps Dataframe with SNP ID, location, and sample genotypes
 #' @param eQTLparams eQTLParams object containing parameters for the 
@@ -312,11 +315,11 @@ eQTLpairs <- function(id, genes, snps, eQTLparams){
 #' pairs to be group specific. The number of group specific pairs is controlled
 #' by the eqtl.group.specific parameter. 
 #'
-#' @param genes Dataframe with gene ID and location
-#' @param snps Dataframe with SNP ID, location, and sample genotypes
 #' @param eQTLparams eQTLParams object containing parameters for the 
 #'         simulation of the mean expression levels for the population.
 #'        See \code{\link{eQTLParams}} for details.
+#' @param pairs eGene:eSNP key dataframe.
+#' @param groups array of group names
 #' 
 #' @return A dataframe eSNPs-eGenes pair assignments and their effect sizes 
 #'
@@ -334,9 +337,9 @@ groupSpecificEffects <- function(eQTLparams, pairs, groups){
     for(g in groups){
         which.genes.g <- which.genes[which.group==g]
         not.g <- groups[groups != g]
-        colNA <- names(pairs)[grepl(paste("eSNP", not.g, sep=".*"), 
+        colNA <- names(pairs)[grepl(paste(paste0("eSNP_", not.g), collapse = "|"), 
                                     names(pairs) )]
-        col0 <- names(pairs)[grepl(paste("EffectSize", not.g, sep=".*"),
+        col0 <- names(pairs)[grepl(paste(paste0("EffectSize_", not.g), collapse = "|"),
                                    names(pairs) )]
         pairs[pairs$geneID %in% which.genes.g, colNA] <- NA
         pairs[pairs$geneID %in% which.genes.g, col0] <- 0.0
@@ -424,7 +427,7 @@ eQTLMeansMatrix <- function(id, pairs, nGeneMeansPop, last_MeansMatrix){
         MeansMatrix <- data.frame(nGeneMeansPop)
     }else{
         MeansMatrix <- last_MeansMatrix
-        genes <- subset(pairs, eQTL == id)$geneID
+        genes <- subset(pairs, pairs$eQTL == id)$geneID
     }
     
     # For each gene, simulate normal dist. of mean expression across population.

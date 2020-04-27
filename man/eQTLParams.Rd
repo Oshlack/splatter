@@ -18,6 +18,9 @@ The eQTL simulation requires the following parameters:
     \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
     \item{\code{[eqtl.maf]}}{Minor Allele Frequency of chosen eSNPs.}
     \item{\code{[eqtl.mafd]}}{Deviation allowed in MAF of chosen eSNPs.}
+    \item{\code{[eqtl.groups]}}{Number of groups to simulate.}
+    \item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate 
+    as group specific.}
     \item{\emph{eQTL Effect size distribution parameters}}{
         \describe{
             \item{\code{eqtlES.shape}}{Shape parameter for the effect size 

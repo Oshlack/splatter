@@ -24,5 +24,5 @@ level and coefficient of variation.
 Assign a mean expression value to each gene, sampled from a gamma 
 distribution parameterized by splatEstimate, then sample a coefficient of 
 variation for each gene from a gamma distribution parameterized by 
-splatEstimate for genes in 10 mean exptression bins.
+splatEstimate for genes in 10 mean expression bins.
 }

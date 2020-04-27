@@ -10,6 +10,8 @@ splatSimGeneMeans(sim, params, eqtl_means)
 \item{sim}{SingleCellExperiment to add gene means to.}
 
 \item{params}{SplatParams object with simulation parameters.}
+
+\item{eqtl_means}{Object output from `eQTLSimulate()`}
 }
 \value{
 SingleCellExperiment with simulated gene means.
