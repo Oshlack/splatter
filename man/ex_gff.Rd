@@ -4,7 +4,8 @@
 \name{ex_gff}
 \alias{ex_gff}
 \title{Example GFF file}
-\format{A data frame with 504 rows and 9 variables:
+\format{
+A data frame with 504 rows and 9 variables:
 \describe{
   \item{V1}{id}
   \item{V2}{source}
@@ -16,7 +17,8 @@
   \item{V8}{frame}
   \item{V9}{attribute}
   ...
-}}
+}
+}
 \source{
 \url{ftp://ftp.ensembl.org/pub/release-98/gff3/homo_sapiens/Homo_sapiens.GRCh38.98.chromosome.22.gff3.gz
 }

@@ -186,13 +186,6 @@ setClass("SimpleParams",
 #'             paths. A higher value will result in more extreme non-linear
 #'             variations along a path.}
 #'     }
-#'     \item{\emph{eQTL parameters}}{
-#'         \describe{
-#'             \item{\code{[eqtl.group.prop]}}{Proportion of cells from nCells 
-#'             to assign to each eQTL group as a list of length equal to
-#'             groups from `eqtlSimulate()`.}
-#'         }
-#'     }
 #'   }
 #' }
 #'

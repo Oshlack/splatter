@@ -6,7 +6,7 @@
 \usage{
 splatSimulateeQTL(
   params = newSplatParams(),
-  method = "single",
+  method = c("single", "groups", "paths"),
   eqtl = NULL,
   verbose = FALSE,
   ...
@@ -20,8 +20,8 @@ produces a single population, "groups" which produces distinct groups
 (eg. cell types), "paths" which selects cells from continuous
 trajectories (eg. differentiation processes).}
 
-\item{eqtl}{Matrix of gene means for eQTL population. Output from 
-eQTLSimulate().}
+\item{eqtl}{Matrix or list of matrices of gene means for eQTL population. 
+Output from eQTLSimulate().}
 
 \item{verbose}{logical. Whether to print progress messages.}
 

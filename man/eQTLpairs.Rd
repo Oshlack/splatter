@@ -7,6 +7,8 @@
 eQTLpairs(id, genes, snps, eQTLparams)
 }
 \arguments{
+\item{id}{group id name}
+
 \item{genes}{Dataframe with gene ID and location}
 
 \item{snps}{Dataframe with SNP ID, location, and sample genotypes}

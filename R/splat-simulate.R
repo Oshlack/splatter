@@ -295,17 +295,22 @@ splatSimulateeQTL <- function(params = newSplatParams(),
     # Simulating sc data with group-specific eQTL
     count <- 0
     if (type(eqtl) == "list"){
+        
+        eqtl.group.prop <- getParam(params, "eqtl.group.prop")
+        if(length(eqtl.group.prop) != length(eqtl)){
+            eqtl.group.prop <- rep(1/length(eqtl), length(eqtl))
+        }
+        nCells <- getParam(params, "nCells")
+        eq.group.n <- eqtl.group.prop * nCells
+        if(!all(eq.group.n%%1==0)){
+            stop('batchCells must be multiple of the number of groups...')
+        }
+        
         for (s in names((eqtl[[1]]))){
             
             count <- count + 1
-            if(count %% 25 == 0){
-                print(paste0('finished ', count, ' sims'))
-            }
-            
-            eqtl.group.prop <- getParam(params, "eqtl.group.prop")
-            nCells <- getParam(params, "nCells")
-            eq.group.n <- eqtl.group.prop * nCells
-            
+            if(count %% 10 == 0){print(paste0('finished ', count, ' sims'))}
+
             for(g in seq(1, length(eqtl))){
                 p_tmp <- params
                 batchCells <- getParam(p_tmp, "batchCells")
@@ -331,7 +336,7 @@ splatSimulateeQTL <- function(params = newSplatParams(),
     }else{
         for (s in names(eqtl)){
             count <- count + 1
-            if(count %% 25 == 0){
+            if(count %% 10 == 0){
                 print(paste0('finished ', count, ' sims'))
             }
             
@@ -391,6 +396,7 @@ splatSimLibSizes <- function(sim, params) {
 #'
 #' @param sim SingleCellExperiment to add gene means to.
 #' @param params SplatParams object with simulation parameters.
+#' @param eqtl_means Object output from `eQTLSimulate()`
 #'
 #' @return SingleCellExperiment with simulated gene means.
 #'

@@ -4,7 +4,9 @@
 \name{ex_snps}
 \alias{ex_snps}
 \title{Example simulated genotype file (vcf)}
-\format{A data frame with 141882 rows and 109 variables:}
+\format{
+A data frame with 141882 rows and 109 variables:
+}
 \source{
 \url{ftp://ftp.ensembl.org/pub/release-98/gff3/homo_sapiens/Homo_sapiens.GRCh38.98.chromosome.22.gff3.gz
 }

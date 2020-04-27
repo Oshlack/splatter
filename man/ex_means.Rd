@@ -4,7 +4,9 @@
 \name{ex_means}
 \alias{ex_means}
 \title{Example gene mean data for a whole population (from GTEx)}
-\format{A data frame with 2438 rows and 850 variables:}
+\format{
+A data frame with 2438 rows and 850 variables:
+}
 \source{
 \url{https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz
 }
