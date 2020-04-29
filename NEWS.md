@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.13.0 (2020-04-29)
+
+* Bioconductor 3.12 devel
+
 # Version 1.12.0 (2020-04-29)
 
 * Bioconductor 3.11 release

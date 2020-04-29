@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   splat_params: splat_params.html
   splatter: splatter.html
-last_built: 2020-04-20T10:24Z
+last_built: 2020-04-29T08:57Z
 urls:
   reference: http://oshlack.github.io/splatter/reference
   article: http://oshlack.github.io/splatter/articles
