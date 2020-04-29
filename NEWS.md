@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+# Version 1.12.0 (2020-04-29)
+
+* Bioconductor 3.11 release
+
 ## Version 1.11.6 (2020-04-22)
 
 * Fix warning about typo in NEWS.Rd
