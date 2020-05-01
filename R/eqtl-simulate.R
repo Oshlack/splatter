@@ -63,6 +63,7 @@ eQTLSimulate <- function(params = newSplatParams(),
                       save.name = 'default',
                       verbose = TRUE, ...) {
 
+
     # Set random seed
     seed <- getParam(eQTLparams, "seed")
     set.seed(seed)
@@ -93,8 +94,8 @@ eQTLSimulate <- function(params = newSplatParams(),
     final <- list()
 
     for(id in groups){
-        if (verbose) {message(paste0("Simulating group ", id, "..."))}
 
+        if (verbose) {message(paste0("Simulating group ", id, "..."))}
         nGeneMeansPop <- eQTLnormMeansMatrix(id, snps, pairs, nGeneMeansPop)
         GeneMeansPop <- eQTLMeansMatrix(id, pairs, nGeneMeansPop, GeneMeansPop)
         GeneMeansPop <- quantileNormalizeSC(params, GeneMeansPop)
@@ -382,16 +383,17 @@ eQTLnormMeansMatrix <- function(id, snps, pairs, last_norm_matrix) {
     }
 
     for(g in genes) {
+
         ES <- pairs[pairs$geneID==g, es_id]
-        for(s in samples) {
-            error <- rnorm(1, mean = 0, sd = 1.5)
-            if(ES != 0){
-                eSNPsample <- pairs[pairs$geneID==g, esnp_id]
-                genotype <- snps[snps$eSNP==eSNPsample,][[s]]
-            } else{
-                genotype <- 0 # just assign 0... ES = 0 so it won't matter
-            }
-            norm_matrix[g,s] <- (ES * genotype) + error
+        error <-  rnorm(length(samples), mean = 0, sd = 1.5)
+
+        if(ES == 0){
+            norm_matrix[g,] <- error
+
+        }else{
+            eSNPsample <- pairs[pairs$geneID==g, esnp_id]
+            genotype <- as.numeric(snps[snps$eSNP==eSNPsample, samples])
+            norm_matrix[g,] <- (ES * genotype) + error
         }
     }
 
@@ -437,11 +439,11 @@ eQTLMeansMatrix <- function(id, pairs, nGeneMeansPop, last_MeansMatrix){
         sd.gene <- cv.gene * mean.gene
         norm.mean <- mean(unlist(MeansMatrix[g, ]))
         norm.sd <- sd(unlist(MeansMatrix[g, ]))
-        for(s in names(MeansMatrix)){
-            n_val <- MeansMatrix[g, s]
-            pnorm.tmp <- pnorm(n_val, norm.mean, norm.sd)
-            MeansMatrix[g, s] <- qnorm(pnorm.tmp, mean.gene, sd.gene)
-        }
+
+        n_val <- as.numeric(MeansMatrix[g, ])
+        pnorm.tmp <- pnorm(n_val, norm.mean, norm.sd)
+        MeansMatrix[g, ] <- qnorm(pnorm.tmp, mean.gene, sd.gene)
+
     }
     MeansMatrix[MeansMatrix < 0] <- 0
 
