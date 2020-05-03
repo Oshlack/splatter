@@ -449,8 +449,8 @@ but can be changed using `setParams`:
 ```{r eqtlSimulate}
 data(ex_gff)
 data(ex_snps)
+ex_snps <- ex_snps[, 1:29] # First 20 individuals
 
-ex_snps <- ex_snps[, 1:29]
 eqtl <- eQTLSimulate(eQTLparams = eqtl.param, eqtl.save = FALSE)
 round(eqtl[1:5, 1:5], 3)
 ```
@@ -501,14 +501,14 @@ sim.pop.paths <- splatSimulateeQTL(eqtl = eqtl,
                                     method = 'paths')
 sim.pop.paths <- logNormCounts(sim.pop.paths)
 sim.pop.paths <- runPCA(sim.pop.paths)
-plotPCA(sim.pop.paths, colour_by = "Step", ncomponents=5)
+plotPCA(sim.pop.paths, colour_by = "Step", ncomponents=18:20)
 
 # Simulate with batch effects
 sim.pop.batches <- splatSimulateeQTL(eqtl = eqtl,
                                     batchCells = c(50, 50))
 sim.pop.batches <- logNormCounts(sim.pop.batches)
 sim.pop.batches <- runPCA(sim.pop.batches)
-plotPCA(sim.pop.batches, colour_by = "Batch", ncomponents=5)
+plotPCA(sim.pop.batches, colour_by = "Batch", ncomponents=10:11)
 
 ```
 
@@ -520,10 +520,17 @@ list of gene mean matrices the length of the number of groups requested. When
 provided to `splatSimulateeQTL()`, this allows you to simulate single cell data
 where eQTL effects are specific to one group of cells or another.
 
+The degree to which single cells differ by individual vs. differ by group can be
+tuned using two parameters:
+
+- `eqtl.n`: controls the number of genes assigned as eGenes. Increasing `eqtl.n`
+increases the degree of genetic differences between individuals. Default = 100.
+- `eqtl.group.specific`: the proportion of `eqtl.n` eGenes that are cell-group
+specific. Increasing  `eqtl.group.specific` increases the degree of genetic
+differences between single cell groups. Default = 20%.
+
+
 ```{r group specific eQTL simulations}
-data(ex_gff)
-data(ex_snps)
-ex_snps <- ex_snps[, 1:29]
 params <- newSplatParams()
 eqtl.param3 <- neweQTLParams()
 eqtl.param3 <- setParam(eqtl.param3, 'eqtl.groups', 3)
@@ -531,15 +538,16 @@ eqtl.param3 <- setParam(eqtl.param3, 'eqtl.groups', 3)
 eqtl3 <- eQTLSimulate(eQTLparams = eqtl.param3, eqtl.save = TRUE,
                       save.name = 'vignette_eQTL_key.csv')
 
-sim.pop.3 <- splatSimulateeQTL(eqtl = eqtl3, params = params, batchCells= 300)
+sim.pop.3 <- splatSimulateeQTL(eqtl = eqtl3, params = params, batchCells = 180)
 sim.pop.3 <- logNormCounts(sim.pop.3)
 sim.pop.3 <- runPCA(sim.pop.3)
 plotPCA(sim.pop.3, colour_by = "Sample", shape_by = "eQTLGroup", ncomponents=2)
 ```
 
 ```{r Show group specific eQTL-effect}
-key <- read.csv('eqtl_out/vignette_eQTL_key.csv', sep=',')
 data(ex_snps)
+ex_snps <- ex_snps[, 1:29] # First 20 individuals
+key <- read.csv('eqtl_out/vignette_eQTL_key.csv', sep=',')
 ex_snps[, c('V1', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9')] <- NULL
 names(ex_snps) <- c('loc', paste0('Sample', 1:(dim(ex_snps)[2]-1)))
 ex_snps$loc <- paste0('snp', ex_snps$loc)
@@ -582,7 +590,7 @@ summary(lm(count ~ genotype * group, g1m))
 
 both <- rbind(global2, g1m)
 both$group <- as.factor(both$group)
-ggplot(both, aes(x=genotype, y=count, fill = type)) +
+ggplot(both, aes(x=genotype, y=log10(count), fill = type)) +
   geom_boxplot(outlier.shape = NA) +
   facet_grid(type ~ group, scales = 'free') + theme_bw()
 

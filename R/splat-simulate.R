@@ -286,72 +286,69 @@ splatSimulateeQTL <- function(params = newSplatParams(),
                               method = c("single", "groups", "paths"),
                               eqtl = NULL,
                               verbose = FALSE, ...){
- 
+
     if (verbose) {message("Getting parameters...")}
     params <- setParams(params, ...)
     params <- expandParams(params)
     validObject(params)
     
     # Simulating sc data with group-specific eQTL
-    count <- 0
     if (type(eqtl) == "list"){
         
         eqtl.group.prop <- getParam(params, "eqtl.group.prop")
         if(length(eqtl.group.prop) != length(eqtl)){
+            message("Setting eqtl.group.prop to equal by default.")
             eqtl.group.prop <- rep(1/length(eqtl), length(eqtl))
         }
-        nCells <- getParam(params, "nCells")
-        eq.group.n <- eqtl.group.prop * nCells
-        if(!all(eq.group.n%%1==0)){
-            stop('batchCells must be multiple of the number of groups...')
+        
+        # Calculate num cells and cells/batch for each group
+        batchCells <- getParam(params, "batchCells")
+        eq.group.n <- lapply(eqtl.group.prop, function(x) ceiling(x * batchCells))
+        
+        samples <- names((eqtl[[1]]))
+        g_sims <- list()
+        
+        for(g in seq(1, length(eqtl))){
+            
+            g_id <- paste0('g', g)
+            message(paste0('Simulating ', g_id, '...'))
+            params_g <- params
+            params_g <- setParams(params_g, batchCells = unlist(eq.group.n[g]))
+            
+            sims <- lapply(samples, 
+                           function(x) splatSimulate(params = params_g, 
+                                                     method = method,
+                                                     eqtl_means = eqtl[[g]][[x]], 
+                                                     verbose = verbose, ...))
+
+            for(i in seq(1, length(sims))){
+                s <- samples[i]
+                sims[i][[1]]$Sample <- s
+                sims[i][[1]]$eQTLGroup <- g_id
+                names(rowData(sims[i][[1]])) <- paste(s, g_id, names(rowData(sims[i][[1]])), sep='_')
+            }
+            
+            g_sims[[g_id]] <- do.call(SingleCellExperiment::cbind, sims)
         }
         
-        for (s in names((eqtl[[1]]))){
-            
-            count <- count + 1
-            if(count %% 10 == 0){print(paste0('finished ', count, ' sims'))}
-
-            for(g in seq(1, length(eqtl))){
-                p_tmp <- params
-                batchCells <- getParam(p_tmp, "batchCells")
-                ratio <- eq.group.n[g] / sum(batchCells)
-                p_tmp <- setParams(p_tmp, batchCells = batchCells*ratio)
-                x <- splatSimulate(params = p_tmp, 
-                                   method = method,
-                                   eqtl_means = eqtl[[g]][[s]],
-                                   verbose = verbose, ...)
-                names(rowData(x)) <- paste0(s,'_g', g, '_', names(rowData(x)))
-                colnames(x) <- paste0(s, '_g', g, '_', colnames(x))
-                colData(x)$Sample <- s
-                colData(x)$eQTLGroup <- g
-                if (count == 1 & g == 1){
-                    sim.all <- x
-                } else{
-                    sim.all <- SingleCellExperiment::cbind(sim.all, x)
-                }
-            }
-        }
+        sim.all <- do.call(SingleCellExperiment::cbind, g_sims)
 
     # Simulating sc data with global eQTL effects     
     }else{
-        for (s in names(eqtl)){
-            count <- count + 1
-            if(count %% 10 == 0){
-                print(paste0('finished ', count, ' sims'))
-            }
-            
-            tmp <- splatSimulate(params = params, method = method,
-                                eqtl_means = eqtl[[s]], verbose = verbose, ...)
-            names(rowData(tmp)) <- paste (s, names(rowData(tmp)), sep='_')
-            colnames(tmp) <- paste(s, colnames(tmp), sep ='_')
-            colData(tmp)$Sample <- s
-            if (count == 1){
-                sim.all <- tmp
-            } else{
-                sim.all <- SingleCellExperiment::cbind(sim.all, tmp)
-            }
+        samples <- names(eqtl)
+        sims <- lapply(samples,
+                      function(x) splatSimulate(params = params, 
+                                                method = method,
+                                                eqtl_means = eqtl[[x]], 
+                                                verbose = verbose))
+        for(i in seq(1, length(sims))){
+            s <- samples[i]
+            sims[i][[1]]$Sample <- s
+            names(rowData(sims[i][[1]])) <- paste (s, names(rowData(sims[i][[1]])), sep='_')
         }
+        sim.all <- do.call(SingleCellExperiment::cbind, sims)
     }
+    
     return (sim.all)
 }
 
