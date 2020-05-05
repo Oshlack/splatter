@@ -63,7 +63,6 @@ eQTLSimulate <- function(params = newSplatParams(),
                       save.name = 'default',
                       verbose = TRUE, ...) {
 
-
     # Set random seed
     seed <- getParam(eQTLparams, "seed")
     set.seed(seed)
@@ -76,18 +75,11 @@ eQTLSimulate <- function(params = newSplatParams(),
     genes <- eQTLGeneMeans(params, genes, eQTLparams)
     groups <- paste0('g', seq(1, getParam(eQTLparams, "eqtl.groups")))
 
-    # Assign eQTL effects for each group
-    for(id in groups){
-        if(id == 'g1'){
-            pairs <- eQTLpairs(id, genes, snps, eQTLparams)
-        }else{
-            pairs[, paste0("eSNP_", id)] <- pairs$eSNP_g1
-            pairs[, paste0("EffectSize_", id)] <- pairs$EffectSize_g1
-        }
-    }
+    pairs <- eQTLpairs(genes, snps, eQTLparams)
 
+    # Assign eQTL effects for each group
     if(length(groups) > 1){
-        pairs <- groupSpecificEffects(eQTLparams, pairs, groups)
+        pairs <- groupSpecificEffects(pairs, groups, eQTLparams)
     }
 
     nGeneMeansPop <- GeneMeansPop <- FALSE
@@ -105,12 +97,12 @@ eQTLSimulate <- function(params = newSplatParams(),
 
     # Save eQTL key
     if (eqtl.save) {
-        dir.create('eqtl_out', showWarnings = FALSE)
+
         if(save.name == 'default'){
             now <- Sys.time()
-            save <- paste0("eqtl_out/", format(now, "%Y%m%d_%H%M_"), "eQTL_key.csv")
+            save <- paste0(format(now, "%Y%m%d_%H%M_"), "eQTL_key.csv")
         }else(
-            save <- paste0('eqtl_out/', save.name)
+            save <- save.name
         )
 
         write.table(pairs, save, sep=',', quote = FALSE, row.names = FALSE)
@@ -251,7 +243,6 @@ eQTLGeneMeans <- function(params, genes, eQTLparams){
 #' distribution parameterized using the effect sizes from a bulk eQTL study
 #' using the GTEx data from the thyroid tissue.
 #'
-#' @param id group id name
 #' @param genes Dataframe with gene ID and location
 #' @param snps Dataframe with SNP ID, location, and sample genotypes
 #' @param eQTLparams eQTLParams object containing parameters for the
@@ -259,8 +250,9 @@ eQTLGeneMeans <- function(params, genes, eQTLparams){
 #'        See \code{\link{eQTLParams}} for details.
 #'
 #' @return A dataframe eSNPs-eGenes pair assignments and their effect sizes
+#' @importFrom dplyr mutate "%>%"
 #'
-eQTLpairs <- function(id, genes, snps, eQTLparams){
+eQTLpairs <- function(genes, snps, eQTLparams){
     eqtl.n <- getParam(eQTLparams, "eqtl.n")
     if (eqtl.n > dim(genes)[1]){
         eqtl.n <- dim(genes)[1]
@@ -268,17 +260,10 @@ eQTLpairs <- function(id, genes, snps, eQTLparams){
     eqtl.dist <- getParam(eQTLparams, "eqtl.dist")
     eqtlES_shape <- getParam(eQTLparams, "eqtlES.shape")
     eqtlES_rate <- getParam(eQTLparams, "eqtlES.rate")
-    TSS <- NULL  # locally binding variables
 
     # Set up dataframe to save info about selected eSNP-eGENE pairs
-    esnp_id <- paste0('eSNP_', id)
-    es_id <- paste0('EffectSize_', id)
     snps_list <- snps$eSNP
-    pairs <- data.frame(genes)
-    pairs$eQTL <- NA
-    pairs[, esnp_id] <- NA
-    pairs[, es_id] <- 0
-    genes2 <- data.frame(genes)
+    pairs <- genes %>% mutate(eQTL = NA, eSNP = NA, EffectSize = 0)
 
     for(i in 1:eqtl.n){
         again <- TRUE
@@ -291,18 +276,18 @@ eQTLpairs <- function(id, genes, snps, eQTLparams){
             snps_list <- snps_list[!snps_list==s]
 
             l <- snps[snps$eSNP == s, ]$loc
-            matches <- subset(genes2, TSS > l - eqtl.dist & TSS < l + eqtl.dist)
+            matches <- subset(genes, TSS > l - eqtl.dist & TSS < l + eqtl.dist)
             if(dim(matches)[1] > 0){
                 match <- sample(matches$geneID, 1)
                 again <- FALSE
             }
         }
 
-        genes2 <- genes2[!(genes2$geneID==match),]
+        genes <- genes[!(genes$geneID==match),]
         ES <- rgamma(1, shape = eqtlES_shape, rate = eqtlES_rate)
 
-        pairs[pairs$geneID == match, ][, esnp_id] <- s
-        pairs[pairs$geneID == match, ][, es_id] <- ES
+        pairs[pairs$geneID == match, ]$eSNP <- s
+        pairs[pairs$geneID == match, ]$EffectSize <- ES
         pairs[pairs$geneID == match, ]$eQTL <- 'global'
     }
 
@@ -316,35 +301,25 @@ eQTLpairs <- function(id, genes, snps, eQTLparams){
 #' pairs to be group specific. The number of group specific pairs is controlled
 #' by the eqtl.group.specific parameter.
 #'
+#' @param pairs eGene:eSNP key dataframe.
+#' @param groups array of group names
 #' @param eQTLparams eQTLParams object containing parameters for the
 #'         simulation of the mean expression levels for the population.
 #'        See \code{\link{eQTLParams}} for details.
-#' @param pairs eGene:eSNP key dataframe.
-#' @param groups array of group names
 #'
 #' @return A dataframe eSNPs-eGenes pair assignments and their effect sizes
 #'
-groupSpecificEffects <- function(eQTLparams, pairs, groups){
+groupSpecificEffects <- function(pairs, groups, eQTLparams){
 
+    eqtl.n <- getParam(eQTLparams, "eqtl.n")
     g.specific.perc <- getParam(eQTLparams, "eqtl.group.specific")
-    esnps <- unique(pairs$eSNP_g1)
-    esnps <- esnps[!is.na(esnps)]
-    g.spec <- sample(esnps, size=(length(esnps) * g.specific.perc))
-
-    # Randomly sample the group assignment for group-specific eQTL
-    which.group <- sample(groups, length(g.spec), replace = T)
-    which.genes <- pairs$geneID[pairs$eSNP_g1 %in% g.spec]
+    n.groups <- length(groups)
+    n.specific.each <- ceiling(eqtl.n * g.specific.perc / n.groups)
 
     for(g in groups){
-        which.genes.g <- which.genes[which.group==g]
-        not.g <- groups[groups != g]
-        colNA <- names(pairs)[grepl(paste(paste0("eSNP_", not.g), collapse = "|"),
-                                    names(pairs) )]
-        col0 <- names(pairs)[grepl(paste(paste0("EffectSize_", not.g), collapse = "|"),
-                                   names(pairs) )]
-        pairs[pairs$geneID %in% which.genes.g, colNA] <- NA
-        pairs[pairs$geneID %in% which.genes.g, col0] <- 0.0
-        pairs[pairs$geneID %in% which.genes.g, 'eQTL'] <- g
+        glob_genes <- subset(pairs, eQTL == 'global')$geneID
+        g.specific <- sample(glob_genes, size = n.specific.each)
+        pairs$eQTL[pairs$geneID %in% g.specific] <- g
     }
 
     return(pairs)
@@ -367,8 +342,6 @@ groupSpecificEffects <- function(eQTLparams, pairs, groups){
 eQTLnormMeansMatrix <- function(id, snps, pairs, last_norm_matrix) {
 
     # Generate matrix of normalized mean expression values
-    esnp_id <- paste0('eSNP_', id)
-    es_id <- paste0('EffectSize_', id)
     samples <- names(snps)[grepl('Sample', names(snps))]
 
     # Make empty matrix or start from previous results
@@ -382,16 +355,20 @@ eQTLnormMeansMatrix <- function(id, snps, pairs, last_norm_matrix) {
         genes <- subset(pairs, eQTL == id)$geneID
     }
 
+    pairs.g <- pairs
+    pairs.g[!(pairs.g$eQTL %in% c('global', id)), 'eSNP'] <- NA
+    pairs.g[!(pairs.g$eQTL %in% c('global', id)), 'EffectSize'] <- 0
+
     for(g in genes) {
 
-        ES <- pairs[pairs$geneID==g, es_id]
+        ES <- pairs.g[pairs.g$geneID==g, 'EffectSize']
         error <-  rnorm(length(samples), mean = 0, sd = 1.5)
 
         if(ES == 0){
             norm_matrix[g,] <- error
 
         }else{
-            eSNPsample <- pairs[pairs$geneID==g, esnp_id]
+            eSNPsample <- pairs.g[pairs.g$geneID==g, 'eSNP']
             genotype <- as.numeric(snps[snps$eSNP==eSNPsample, samples])
             norm_matrix[g,] <- (ES * genotype) + error
         }
