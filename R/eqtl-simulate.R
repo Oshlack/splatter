@@ -35,7 +35,7 @@
 #'     \item Generate normalized gene mean expression matrix for the population.
 #'     \item Set a gene mean expression value (not normalized) for each gene.
 #'     \item Generate a gene mean expression matrix for the population.
-#'     \item (optional) Save eQTL key (pairs)
+#'     \item (optional) Save eQTL key
 #' }
 #'
 #' @return GeneMeansPop Matrix containing the simulated mean gene expression
@@ -44,7 +44,7 @@
 #'
 #' @seealso
 #' \code{\link{eQTLgenes}}, \code{\link{eQTLsnps}},
-#' \code{\link{eQTLpairs}}, \code{\link{eQTLnormMeansMatrix}},
+#' \code{\link{eQTLkey}}, \code{\link{eQTLnormMeansMatrix}},
 #' \code{\link{eQTLGeneMeans}}, \code{\link{eQTLMeansMatrix}}
 
 #' @examples
@@ -70,29 +70,32 @@ eQTLSimulate <- function(params = newSplatParams(),
     if (verbose) {message("Loading GFF and SNP data...")}
     genes <- eQTLgenes(gff)
     snps <- eQTLsnps(vcf, eQTLparams)
+    samples <- names(snps)[grepl('Sample', names(snps))]
 
     if (verbose) {message("Assigning expression, variance, & eQTL effects...")}
     genes <- eQTLGeneMeans(params, genes, eQTLparams)
     groups <- paste0('g', seq(1, getParam(eQTLparams, "eqtl.groups")))
 
-    pairs <- eQTLpairs(genes, snps, eQTLparams)
-
-    # Assign eQTL effects for each group
+    key <- eQTLkey(genes, snps, eQTLparams)
     if(length(groups) > 1){
-        pairs <- groupSpecificEffects(pairs, groups, eQTLparams)
+        key <- groupSpecificEffects(key, groups, eQTLparams)
     }
 
     nGeneMeansPop <- GeneMeansPop <- FALSE
+
+    error <- data.frame(matrix(rnorm(length(samples) * length(key$geneID),
+                                     mean = 0, sd = 1), ncol=length(samples)),
+                           row.names = key$geneID)
     final <- list()
 
     for(id in groups){
 
         if (verbose) {message(paste0("Simulating group ", id, "..."))}
-        nGeneMeansPop <- eQTLnormMeansMatrix(id, snps, pairs, nGeneMeansPop)
-        GeneMeansPop <- eQTLMeansMatrix(id, pairs, nGeneMeansPop, GeneMeansPop)
+        nGeneMeansPop <- eQTLnormMeansMatrix(id, snps, key, error, nGeneMeansPop)
+        GeneMeansPop <- eQTLMeansMatrix(id, key, nGeneMeansPop, GeneMeansPop)
         GeneMeansPop <- quantileNormalizeSC(params, GeneMeansPop)
 
-        final[[id]] <- GeneMeansPop
+        final[[id]] <- nGeneMeansPop
     }
 
     # Save eQTL key
@@ -105,7 +108,7 @@ eQTLSimulate <- function(params = newSplatParams(),
             save <- save.name
         )
 
-        write.table(pairs, save, sep=',', quote = FALSE, row.names = FALSE)
+        write.table(key, save, sep=',', quote = FALSE, row.names = FALSE)
         if (verbose) {message(paste0("Saved key to: ", save))}
     }
 
@@ -252,7 +255,7 @@ eQTLGeneMeans <- function(params, genes, eQTLparams){
 #' @return A dataframe eSNPs-eGenes pair assignments and their effect sizes
 #' @importFrom dplyr mutate "%>%"
 #'
-eQTLpairs <- function(genes, snps, eQTLparams){
+eQTLkey <- function(genes, snps, eQTLparams){
     eqtl.n <- getParam(eQTLparams, "eqtl.n")
     if (eqtl.n > dim(genes)[1]){
         eqtl.n <- dim(genes)[1]
@@ -263,7 +266,7 @@ eQTLpairs <- function(genes, snps, eQTLparams){
 
     # Set up dataframe to save info about selected eSNP-eGENE pairs
     snps_list <- snps$eSNP
-    pairs <- genes %>% mutate(eQTL = NA, eSNP = NA, EffectSize = 0)
+    key <- genes %>% mutate(eQTL = NA, eSNP = NA, EffectSize = 0)
 
     for(i in 1:eqtl.n){
         again <- TRUE
@@ -286,12 +289,12 @@ eQTLpairs <- function(genes, snps, eQTLparams){
         genes <- genes[!(genes$geneID==match),]
         ES <- rgamma(1, shape = eqtlES_shape, rate = eqtlES_rate)
 
-        pairs[pairs$geneID == match, ]$eSNP <- s
-        pairs[pairs$geneID == match, ]$EffectSize <- ES
-        pairs[pairs$geneID == match, ]$eQTL <- 'global'
+        key[key$geneID == match, ]$eSNP <- s
+        key[key$geneID == match, ]$EffectSize <- ES
+        key[key$geneID == match, ]$eQTL <- 'global'
     }
 
-    return(pairs)
+    return(key)
 }
 
 
@@ -301,7 +304,7 @@ eQTLpairs <- function(genes, snps, eQTLparams){
 #' pairs to be group specific. The number of group specific pairs is controlled
 #' by the eqtl.group.specific parameter.
 #'
-#' @param pairs eGene:eSNP key dataframe.
+#' @param key eGene:eSNP key dataframe.
 #' @param groups array of group names
 #' @param eQTLparams eQTLParams object containing parameters for the
 #'         simulation of the mean expression levels for the population.
@@ -309,7 +312,7 @@ eQTLpairs <- function(genes, snps, eQTLparams){
 #'
 #' @return A dataframe eSNPs-eGenes pair assignments and their effect sizes
 #'
-groupSpecificEffects <- function(pairs, groups, eQTLparams){
+groupSpecificEffects <- function(key, groups, eQTLparams){
 
     eqtl.n <- getParam(eQTLparams, "eqtl.n")
     g.specific.perc <- getParam(eQTLparams, "eqtl.group.specific")
@@ -317,12 +320,12 @@ groupSpecificEffects <- function(pairs, groups, eQTLparams){
     n.specific.each <- ceiling(eqtl.n * g.specific.perc / n.groups)
 
     for(g in groups){
-        glob_genes <- subset(pairs, eQTL == 'global')$geneID
+        glob_genes <- subset(key, eQTL == 'global')$geneID
         g.specific <- sample(glob_genes, size = n.specific.each)
-        pairs$eQTL[pairs$geneID %in% g.specific] <- g
+        key$eQTL[key$geneID %in% g.specific] <- g
     }
 
-    return(pairs)
+    return(key)
 }
 
 #' Generate normalized mean gene expression matrix for whole eQTL population
@@ -333,44 +336,44 @@ groupSpecificEffects <- function(pairs, groups, eQTLparams){
 #'
 #' @param id The group ID (e.g. "g1")
 #' @param snps The dataframe with the genetic marker info
-#' @param pairs A dataframe eSNPs-eGenes pair assignments and their effect sizes
+#' @param key A dataframe eSNPs-eGenes pair assignments and their effect sizes
 #' @param last_norm_matrix Dataframe of normalized means if they were already
 #' simulated for another group.
 #' @return normGeneMeansPop: matrix of normalized mean gene exp. levels.
 #'
 #' @importFrom stats rnorm
-eQTLnormMeansMatrix <- function(id, snps, pairs, last_norm_matrix) {
+eQTLnormMeansMatrix <- function(id, snps, key, error, last_norm_matrix) {
 
     # Generate matrix of normalized mean expression values
     samples <- names(snps)[grepl('Sample', names(snps))]
 
     # Make empty matrix or start from previous results
     if(id == 'g1'){
-        genes <- pairs$geneID
+        genes <- key$geneID
         norm_matrix <- data.frame(matrix(ncol=length(samples),
-                                         nrow=dim(pairs)[1],
-                                         dimnames=list(pairs$geneID, samples)))
+                                         nrow=dim(key)[1],
+                                         dimnames=list(key$geneID, samples)))
     }else{
         norm_matrix <- last_norm_matrix
-        genes <- subset(pairs, eQTL == id)$geneID
+        genes <- subset(key, eQTL != 'global')$geneID
     }
 
-    pairs.g <- pairs
-    pairs.g[!(pairs.g$eQTL %in% c('global', id)), 'eSNP'] <- NA
-    pairs.g[!(pairs.g$eQTL %in% c('global', id)), 'EffectSize'] <- 0
+    key.g <- key
+    key.g[!(key.g$eQTL %in% c('global', id)), 'eSNP'] <- NA
+    key.g[!(key.g$eQTL %in% c('global', id)), 'EffectSize'] <- 0
 
     for(g in genes) {
 
-        ES <- pairs.g[pairs.g$geneID==g, 'EffectSize']
-        error <-  rnorm(length(samples), mean = 0, sd = 1.5)
+        ES <- key.g[key.g$geneID==g, 'EffectSize']
+        error.g <-  as.numeric(error[g, ])
 
         if(ES == 0){
-            norm_matrix[g,] <- error
+            norm_matrix[g,] <- error.g
 
         }else{
-            eSNPsample <- pairs.g[pairs.g$geneID==g, 'eSNP']
+            eSNPsample <- key.g[key.g$geneID==g, 'eSNP']
             genotype <- as.numeric(snps[snps$eSNP==eSNPsample, samples])
-            norm_matrix[g,] <- (ES * genotype) + error
+            norm_matrix[g,] <- (ES * genotype) + error.g
         }
     }
 
@@ -382,7 +385,7 @@ eQTLnormMeansMatrix <- function(id, snps, pairs, last_norm_matrix) {
 #' Project normalized gene expression matrix into mean gene expression matrix
 #'
 #' @param id The group ID (e.g. "g1")
-#' @param pairs A dataframe eSNPs-eGenes pair assignments and their effect sizes
+#' @param key A dataframe eSNPs-eGenes pair assignments and their effect sizes
 #' @param nGeneMeansPop The normalized gene expression means for the population
 #' @param last_MeansMatrix SplatParams object containing parameters for the simulation.
 #'        See \code{\link{SplatParams}} for details.
@@ -398,21 +401,21 @@ eQTLnormMeansMatrix <- function(id, snps, pairs, last_norm_matrix) {
 #' @importFrom stats pnorm qnorm sd quantile
 #' @importFrom stats sd
 #'
-eQTLMeansMatrix <- function(id, pairs, nGeneMeansPop, last_MeansMatrix){
+eQTLMeansMatrix <- function(id, key, nGeneMeansPop, last_MeansMatrix){
 
     # Make empty matrix or start from previous results
     if(id == 'g1'){
-        genes <- pairs$geneID
+        genes <- key$geneID
         MeansMatrix <- data.frame(nGeneMeansPop)
     }else{
         MeansMatrix <- last_MeansMatrix
-        genes <- subset(pairs, pairs$eQTL == id)$geneID
+        genes <- subset(key, key$eQTL == id)$geneID
     }
 
     # For each gene, simulate normal dist. of mean expression across population.
     for(g in genes){
-        mean.gene <- pairs[pairs$geneID == g,]$expMean
-        cv.gene <- pairs[pairs$geneID == g,]$expCV
+        mean.gene <- key[key$geneID == g,]$expMean
+        cv.gene <- key[key$geneID == g,]$expCV
         sd.gene <- cv.gene * mean.gene
         norm.mean <- mean(unlist(MeansMatrix[g, ]))
         norm.sd <- sd(unlist(MeansMatrix[g, ]))

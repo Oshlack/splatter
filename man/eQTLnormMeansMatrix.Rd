@@ -4,14 +4,14 @@
 \alias{eQTLnormMeansMatrix}
 \title{Generate normalized mean gene expression matrix for whole eQTL population}
 \usage{
-eQTLnormMeansMatrix(id, snps, pairs, last_norm_matrix)
+eQTLnormMeansMatrix(id, snps, key, error, last_norm_matrix)
 }
 \arguments{
 \item{id}{The group ID (e.g. "g1")}
 
 \item{snps}{The dataframe with the genetic marker info}
 
-\item{pairs}{A dataframe eSNPs-eGenes pair assignments and their effect sizes}
+\item{key}{A dataframe eSNPs-eGenes pair assignments and their effect sizes}
 
 \item{last_norm_matrix}{Dataframe of normalized means if they were already
 simulated for another group.}

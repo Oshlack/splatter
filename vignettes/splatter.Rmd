@@ -531,18 +531,36 @@ differences between single cell groups. Default = 20%.
 
 
 ```{r group specific eQTL simulations}
-params <- newSplatParams()
-eqtl.param3 <- neweQTLParams()
-eqtl.param3 <- setParam(eqtl.param3, 'eqtl.groups', 3)
+eqtl.param <- setParam(eqtl.param, 'eqtl.groups', 2)
 
-eqtl3 <- eQTLSimulate(eQTLparams = eqtl.param3, eqtl.save = FALSE)
+eqtl2 <- eQTLSimulate(eQTLparams = eqtl.param, eqtl.save = FALSE)
 
-sim.pop.3 <- splatSimulateeQTL(eqtl = eqtl3, params = params, batchCells = 180)
-sim.pop.3 <- logNormCounts(sim.pop.3)
-sim.pop.3 <- runPCA(sim.pop.3)
-plotPCA(sim.pop.3, colour_by = "Sample", shape_by = "eQTLGroup", ncomponents=2)
+sim.pop.2 <- splatSimulateeQTL(eqtl = eqtl2, params = params, batchCells = 100)
+sim.pop.2 <- logNormCounts(sim.pop.2)
+sim.pop.2 <- runPCA(sim.pop.2)
+plotPCA(sim.pop.2, colour_by = "Sample", shape_by = "eQTLGroup", ncomponents=2)
 ```
-
+```{r show group specific eqtl distributions}
+# top <- key %>% group_by(eQTL) %>% top_n(n=1, wt = EffectSize)
+#
+# # 1: no eQTL, 138: global, 345: g1, 136: g2
+# genes.plot <- c('gene1', 'gene19', 'gene125', 'gene29')
+#
+# means.plot <- data.frame(t(final[['g1']][genes.plot, ]))
+# colnames(means.plot) <- c('no-eQLT', 'g1-specific', 'g2-specific', 'global')
+# means.plot$type <- 'g1-cells'
+# means.plot.m <- melt(means.plot, id='type')
+#
+# means.plot2 <- data.frame(t(final[['g2']][genes.plot, ]))
+# colnames(means.plot2) <- c('no-eQLT', 'g1-specific', 'g2-specific', 'global')
+# means.plot2$type <- 'g2-cells'
+# means.plot.m2 <- melt(means.plot2, id='type')
+#
+# d <- rbind(means.plot.m, means.plot.m2)
+#
+# ggplot(d, aes(x=value, fill = variable)) + geom_histogram() +
+#     facet_grid(variable ~ type, scales='free') + theme_bw()
+```
 ## Convenience functions
 
 Each of the Splatter simulation methods has it's own convenience function.
