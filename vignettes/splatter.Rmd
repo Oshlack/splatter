@@ -535,65 +535,12 @@ params <- newSplatParams()
 eqtl.param3 <- neweQTLParams()
 eqtl.param3 <- setParam(eqtl.param3, 'eqtl.groups', 3)
 
-eqtl3 <- eQTLSimulate(eQTLparams = eqtl.param3, eqtl.save = TRUE,
-                      save.name = 'vignette_eQTL_key.csv')
+eqtl3 <- eQTLSimulate(eQTLparams = eqtl.param3, eqtl.save = FALSE)
 
 sim.pop.3 <- splatSimulateeQTL(eqtl = eqtl3, params = params, batchCells = 180)
 sim.pop.3 <- logNormCounts(sim.pop.3)
 sim.pop.3 <- runPCA(sim.pop.3)
 plotPCA(sim.pop.3, colour_by = "Sample", shape_by = "eQTLGroup", ncomponents=2) 
-```
-
-```{r Show group specific eQTL-effect}
-data(ex_snps)
-ex_snps <- ex_snps[, 1:29] # First 20 individuals
-key <- read.csv('eqtl_out/vignette_eQTL_key.csv', sep=',')
-ex_snps[, c('V1', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9')] <- NULL
-names(ex_snps) <- c('loc', paste0('Sample', 1:(dim(ex_snps)[2]-1)))
-ex_snps$loc <- paste0('snp', ex_snps$loc)
-
-
-# Global SNP: show global eGene:eSNP pair with largest effect size with mean expression > 10
-glob_ex <- subset(key, eQTL == 'global' & expMean >= 10)
-glob_ex <- glob_ex[with(glob_ex, order(EffectSize_g1, decreasing = TRUE)), ][1, ]
-global <- data.frame(sample=colData(sim.pop.3)$Sample,
-                     group = colData(sim.pop.3)$eQTLGroup, 
-                     count = counts(sim.pop.3)[glob_ex$geneID, ])
-
-global_snp <- as.data.frame(t(subset(ex_snps, loc == glob_ex$eSNP_g1)[, 2:(dim(ex_snps)[2])]))
-global_snp$sample <- row.names(global_snp)
-global2 <- merge(global, global_snp, by = 'sample')
-names(global2) <- c('sample', 'group', 'count', 'genotype')
-global2$type <- 'global'
-glob_effsize <- glob_ex$EffectSize_g1
-glob_mean <- glob_ex$expMean
-
-# Group 1 specific: eGene:eSNP g1-specific pair with largest effect size with mean expression > 10
-g1_ex <- subset(key, eQTL == 'g1' & expMean >= 10)
-g1_ex <- g1_ex[with(g1_ex, order(EffectSize_g1, decreasing = TRUE)), ][1, ]
-
-g1 <- data.frame(sample=colData(sim.pop.3)$Sample,
-                 group = colData(sim.pop.3)$eQTLGroup, 
-                 count = counts(sim.pop.3)[g1_ex$geneID, ])
-
-g1_snp <- as.data.frame(t(subset(ex_snps, loc == g1_ex$eSNP_g1)[, 2:(dim(ex_snps)[2])]))
-g1_snp$sample <- row.names(g1_snp)
-g1m <- merge(g1, g1_snp, by = 'sample')
-names(g1m) <- c('sample', 'group', 'count', 'genotype')
-
-g1m$type <- 'gr1'
-g1_effsize <- g1_ex$EffectSize_g1
-g1_mean <- g1_ex$expMean
-
-summary(lm(count ~ genotype * group, global2))
-summary(lm(count ~ genotype * group, g1m))
-
-both <- rbind(global2, g1m)
-both$group <- as.factor(both$group)
-ggplot(both, aes(x=genotype, y=log10(count), fill = type)) + 
-  geom_boxplot(outlier.shape = NA) + 
-  facet_grid(type ~ group, scales = 'free') + theme_bw() 
-
 ```
 
 ## Convenience functions

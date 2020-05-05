@@ -4,16 +4,16 @@
 \alias{groupSpecificEffects}
 \title{Simulate group-specific eQTL associations.}
 \usage{
-groupSpecificEffects(eQTLparams, pairs, groups)
+groupSpecificEffects(pairs, groups, eQTLparams)
 }
 \arguments{
-\item{eQTLparams}{eQTLParams object containing parameters for the 
- simulation of the mean expression levels for the population.
-See \code{\link{eQTLParams}} for details.}
-
 \item{pairs}{eGene:eSNP key dataframe.}
 
 \item{groups}{array of group names}
+
+\item{eQTLparams}{eQTLParams object containing parameters for the 
+ simulation of the mean expression levels for the population.
+See \code{\link{eQTLParams}} for details.}
 }
 \value{
 A dataframe eSNPs-eGenes pair assignments and their effect sizes
