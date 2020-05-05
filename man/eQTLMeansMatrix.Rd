@@ -4,12 +4,12 @@
 \alias{eQTLMeansMatrix}
 \title{Project normalized gene expression matrix into mean gene expression matrix}
 \usage{
-eQTLMeansMatrix(id, pairs, nGeneMeansPop, last_MeansMatrix)
+eQTLMeansMatrix(id, key, nGeneMeansPop, last_MeansMatrix)
 }
 \arguments{
 \item{id}{The group ID (e.g. "g1")}
 
-\item{pairs}{A dataframe eSNPs-eGenes pair assignments and their effect sizes}
+\item{key}{A dataframe eSNPs-eGenes pair assignments and their effect sizes}
 
 \item{nGeneMeansPop}{The normalized gene expression means for the population}
 

@@ -4,10 +4,10 @@
 \alias{groupSpecificEffects}
 \title{Simulate group-specific eQTL associations.}
 \usage{
-groupSpecificEffects(pairs, groups, eQTLparams)
+groupSpecificEffects(key, groups, eQTLparams)
 }
 \arguments{
-\item{pairs}{eGene:eSNP key dataframe.}
+\item{key}{eGene:eSNP key dataframe.}
 
 \item{groups}{array of group names}
 

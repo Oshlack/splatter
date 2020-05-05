@@ -64,7 +64,7 @@ The eQTL Gene Mean simulation involves the following steps:
     \item Generate normalized gene mean expression matrix for the population. 
     \item Set a gene mean expression value (not normalized) for each gene. 
     \item Generate a gene mean expression matrix for the population.
-    \item (optional) Save eQTL key (pairs)
+    \item (optional) Save eQTL key
 }
 }
 \examples{
@@ -76,6 +76,6 @@ pop.gMeans <- eQTLSimulate()
 }
 \seealso{
 \code{\link{eQTLgenes}}, \code{\link{eQTLsnps}},
-\code{\link{eQTLpairs}}, \code{\link{eQTLnormMeansMatrix}},
+\code{\link{eQTLkey}}, \code{\link{eQTLnormMeansMatrix}},
 \code{\link{eQTLGeneMeans}}, \code{\link{eQTLMeansMatrix}}
 }
