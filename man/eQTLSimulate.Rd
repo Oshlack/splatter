@@ -9,8 +9,7 @@ eQTLSimulate(
   eQTLparams = neweQTLParams(),
   gff = ex_gff,
   vcf = ex_snps,
-  eqtl.save = TRUE,
-  save.name = "default",
+  key = FALSE,
   verbose = TRUE,
   ...
 )
@@ -28,10 +27,8 @@ See \code{\link{eQTLParams}} for details.}
 \item{vcf}{Dataframe containing real/simulated genotype data in .vcf format. 
 Where each column is a sample and each row is a SNP.}
 
-\item{eqtl.save}{logical. Whether to save eQTL key and mean matrix.}
-
-\item{save.name}{String to save eQTL key under. Default: 
-eqtl_out/YYMMDD_HHMM_eQTL_key.csv}
+\item{key}{Path to file with eQTL key information. If FALSE (default), will 
+generate new key using params in eQTLparams and genes from gff}
 
 \item{verbose}{logical. Whether to print progress messages.}
 
@@ -39,9 +36,10 @@ eqtl_out/YYMMDD_HHMM_eQTL_key.csv}
 \code{params}.}
 }
 \value{
-GeneMeansPop Matrix containing the simulated mean gene expression
-value for each gene (row) and each sample in the population (column).
-intermediate values.
+A list continaing: `means` a dataframe or list of dataframes (if 
+n.groups > 1) with the simulated mean gene expression value for each gene 
+(row) and each sample (column) and `key` a dataframe with the eSNP-eGene
+assignments.
 }
 \description{
 Simulate mean gene counts for a population of samples, such that a defined 
@@ -71,11 +69,12 @@ The eQTL Gene Mean simulation involves the following steps:
 # Load example data
 data(ex_gff)
 data(ex_snps)
-pop.gMeans <- eQTLSimulate()
+pop.sim <- eQTLSimulate()
 
 }
 \seealso{
-\code{\link{eQTLgenes}}, \code{\link{eQTLsnps}},
-\code{\link{eQTLkey}}, \code{\link{eQTLnormMeansMatrix}},
-\code{\link{eQTLGeneMeans}}, \code{\link{eQTLMeansMatrix}}
+\code{\link{eqtl.parse.vcf}}, \code{\link{eqtl.parse.snps}},
+\code{\link{eqtl.sample.means}}, \code{\link{eqtl.key}}, 
+\code{\link{eqtl.group.effects}}, \code{\link{eqtl.sim.means}}
+\code{\link{eqtl.sim.eqtl.eff}}, \code{\link{eqtl.quan.norm.sc}}
 }

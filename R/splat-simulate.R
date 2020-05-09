@@ -348,7 +348,7 @@ splatSimulateeQTL <- function(params = newSplatParams(),
         }
         sim.all <- do.call(SingleCellExperiment::cbind, sims)
     }
-    
+    message('Done!')
     return (sim.all)
 }
 

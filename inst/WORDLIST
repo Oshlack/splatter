@@ -20,7 +20,6 @@ compareSCEs
 compareSCESets
 continaing
 cpm
-csv
 cutoff
 cv
 df
@@ -48,13 +47,13 @@ FPKM
 gam
 getCounts
 getLNormFactors
+gff
 GFF
 Github
 GRCh
 Gribkova
 GTEx
 GTF
-HHMM
 ImmunoOncology
 ingroup
 JC
@@ -85,7 +84,6 @@ MFAParams
 mfaSimulate
 mockSCE
 modeling
-NAR
 Nelder
 nGenes
 nGroups
@@ -103,7 +101,6 @@ PROSSTT
 pseudotime
 pval
 qgamma
-qnorm
 Quickstart
 RG
 Risso
@@ -169,7 +166,6 @@ winsorized
 Winsorized
 WithSpikes
 Yau
-YYMMDD
 ZINB
 ZINBParams
 zinbwave
