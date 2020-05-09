@@ -440,9 +440,9 @@ but can be changed using `setParams`:
     * `eqtl.n` - Number of eSNP:eGene pairs to simulate. Default: # genes
     * `eqtl.dist` - Max distance allowed between eSNPs and eGenes. Default: 1 MB
     * `eqtl.maf` - Minor Allele Frequency of SNPs to be considered as possible 
-    eSNPs. Default: 0.2
+    eSNPs. Default: 0.25
     * `eqtl.mafd` - Allowed deviation in MAF (`eqtl.maf` +/- `eqtl.mafd`). 
-    Default: 0.05
+    Default: 0.15
     * `bulkcv.bins` - Number of gene mean bins to use for estimating variance
     parameters. Default: 10
 
@@ -451,8 +451,17 @@ data(ex_gff)
 data(ex_snps)
 ex_snps <- ex_snps[, 1:29] # First 20 individuals
 
-eqtl <- eQTLSimulate(eQTLparams = eqtl.param, eqtl.save = FALSE)
-round(eqtl[1:5, 1:5], 3)
+eqtl <- eQTLSimulate(eQTLparams = eqtl.param)
+round(eqtl$means[1:5, 1:5], 3)
+```
+```{r show eqtl distributions}
+top <- eqtl$key %>% mutate(eQTL = ifelse(is.na(eQTL), 'none', eQTL)) %>% 
+  group_by(eQTL) %>% top_n(n=1, wt = EffectSize) %>% arrange(eQTL)
+top <- top[1: length(unique(top$eQTL)), ]
+
+means.g1 <- data.frame(t(eqtl$means[top$geneID, ]))
+ggplot(melt(means.g1), aes(x=value, fill = variable)) + geom_histogram() + theme_bw() +
+  facet_grid(.~variable, scales = 'free')
 ```
 
 ### Simulate single cell data for population
@@ -461,10 +470,8 @@ Finally, single cell level data is simulated using`splatSimulateeQTL`, a wrapper
 around the `splatSimulate` function. The output is a single sce object with a 
 column for each cell for each sample, labeled as: "SampleX_CellX".
 
-**NOTE: Working on function to simulate group-specific eQTL... Not done...**
-
 ```{r eqtl splatSimulateeQTL}
-sim.pop <- splatSimulateeQTL(eqtl = eqtl, batchCells = 200)
+sim.pop <- splatSimulateeQTL(eqtl = eqtl$means, batchCells = 100)
 sim.pop <- logNormCounts(sim.pop)
 sim.pop <- runPCA(sim.pop)
 plotPCA(sim.pop, colour_by = "Sample")
@@ -486,25 +493,22 @@ associations (i.e. this does not simulate group-specific eQTL data).
 
 ```{r eqtl splatSimulate with groups paths and batches}
 # Simulate with group effects
-params <- newSplatParams()
-params <- setParams(params, update = list(de.facLoc=.9))
-sim.pop.groups <- splatSimulateeQTL(eqtl = eqtl,
-                                    params = params,
+sim.pop.groups <- splatSimulateeQTL(eqtl = eqtl$means,
                                     method = 'groups',
                                     group.prob = c(0.5, 0.5))
 sim.pop.groups <- logNormCounts(sim.pop.groups)
 sim.pop.groups <- runPCA(sim.pop.groups)
-plotPCA(sim.pop.groups, colour_by = "Sample", shape_by="Group", ncomponents=2) 
+plotPCA(sim.pop.groups, colour_by = "Group", ncomponents=4)  #shape_by="Group"
 
 # Simulate with path effects 
-sim.pop.paths <- splatSimulateeQTL(eqtl = eqtl,
+sim.pop.paths <- splatSimulateeQTL(eqtl = eqtl$means,
                                     method = 'paths')
 sim.pop.paths <- logNormCounts(sim.pop.paths)
 sim.pop.paths <- runPCA(sim.pop.paths)
 plotPCA(sim.pop.paths, colour_by = "Step", ncomponents=18:20) 
 
 # Simulate with batch effects
-sim.pop.batches <- splatSimulateeQTL(eqtl = eqtl,
+sim.pop.batches <- splatSimulateeQTL(eqtl = eqtl$means,
                                     batchCells = c(50, 50))
 sim.pop.batches <- logNormCounts(sim.pop.batches)
 sim.pop.batches <- runPCA(sim.pop.batches)
@@ -531,35 +535,30 @@ differences between single cell groups. Default = 20%.
 
 
 ```{r group specific eQTL simulations}
-eqtl.param <- setParam(eqtl.param, 'eqtl.groups', 2)
+eqtl.param<- neweQTLParams()
+eqtl.param2 <- setParam(eqtl.param, 'eqtl.groups', 2)
+eqtl2 <- eQTLSimulate(eQTLparams = eqtl.param2)
 
-eqtl2 <- eQTLSimulate(eQTLparams = eqtl.param, eqtl.save = FALSE)
-
-sim.pop.2 <- splatSimulateeQTL(eqtl = eqtl2, params = params, batchCells = 100)
+sim.pop.2 <- splatSimulateeQTL(eqtl = eqtl2$means, batchCells = 100)
 sim.pop.2 <- logNormCounts(sim.pop.2)
 sim.pop.2 <- runPCA(sim.pop.2)
 plotPCA(sim.pop.2, colour_by = "Sample", shape_by = "eQTLGroup", ncomponents=2) 
 ```
+
 ```{r show group specific eqtl distributions}
-# top <- key %>% group_by(eQTL) %>% top_n(n=1, wt = EffectSize)
-# 
-# # 1: no eQTL, 138: global, 345: g1, 136: g2 
-# genes.plot <- c('gene1', 'gene19', 'gene125', 'gene29')
-# 
-# means.plot <- data.frame(t(final[['g1']][genes.plot, ]))
-# colnames(means.plot) <- c('no-eQLT', 'g1-specific', 'g2-specific', 'global')
-# means.plot$type <- 'g1-cells'
-# means.plot.m <- melt(means.plot, id='type')
-# 
-# means.plot2 <- data.frame(t(final[['g2']][genes.plot, ]))
-# colnames(means.plot2) <- c('no-eQLT', 'g1-specific', 'g2-specific', 'global')
-# means.plot2$type <- 'g2-cells'
-# means.plot.m2 <- melt(means.plot2, id='type')
-# 
-# d <- rbind(means.plot.m, means.plot.m2)
-# 
-# ggplot(d, aes(x=value, fill = variable)) + geom_histogram() +
-#     facet_grid(variable ~ type, scales='free') + theme_bw()
+top <- eqtl2$key %>% mutate(eQTL = ifelse(is.na(eQTL), 'none', eQTL)) %>% 
+  group_by(eQTL) %>% top_n(n=1, wt = EffectSize) %>% arrange(eQTL)
+top <- top[1: length(unique(top$eQTL)), ]
+
+means.g1 <- data.frame(t(eqtl2$means[['g1']][top$geneID, ]))
+means.g1$type <- 'g1-means'
+means.g2 <- data.frame(t(eqtl2$means[['g2']][top$geneID, ]))
+means.g2$type <- 'g2-means'
+means.both <- rbind(means.g1, means.g2)
+means.both.m <- tidyr::pivot_longer(means.both, -type)
+
+ggplot(means.both.m, aes(x=value, fill = name)) + geom_histogram() +
+    facet_grid(type ~ name, scales='free') + theme_bw()
 ```
 ## Convenience functions
 
