@@ -47,23 +47,26 @@ number of associations (cis-eQTL) between markers (eSNPs) and genes
 (eGenes) exist.
 }
 \details{
-Parameters can be set in a variety of ways. If no parameters are provided
-the default parameters are used. Any parameters in \code{params} can be
-overridden by supplying additional arguments through a call to
-\code{\link{setParams}}. This design allows the user flexibility in
+Parameters can be set in a variety of ways. If no parameters are 
+provided the default parameters are used. Any parameters in \code{params} or
+\code{eQTLparams} can be overridden by supplying additional arguments through 
+a call to \code{\link{setParams}}. This design allows the user flexibility in
 how they supply parameters and allows small adjustments without creating a
 new \code{SplatParams} object. See examples for a demonstration of how this
 can be used.
 
-The eQTL Gene Mean simulation involves the following steps:
+eQTLSimulate involves the following steps:
 \enumerate{
-    \item Load and format gene (GFF/GTF) and SNP (genotype) data.
-    \item Select eGenes-eSNPs pairs and assign effect sizes.
-    \item Generate normalized gene mean expression matrix for the population. 
-    \item Set a gene mean expression value (not normalized) for each gene. 
-    \item Generate a gene mean expression matrix for the population.
-    \item (optional) Save eQTL key
-}
+    \item Read and format genotype data given a .vcf.
+    \item Read in genes from GTF/GFF or from a provided key.
+    \item If not provided in key, assign expression mean and cv to each gene.
+    \item If not provided in key, assign eQTL and effect sizes to n genes. 
+    \item Assign gene expression values for each individual for each gene 
+    by sampling randomly from a normal distribution parameterized from 
+    eqtlEstimate.
+    \item Add in eQTL effects. 
+    \item Quantile normalize expression levels by sample from a gamma 
+    distribution parameterized from splatEstimate.}
 }
 \examples{
 # Load example data
@@ -74,7 +77,7 @@ pop.sim <- eQTLSimulate()
 }
 \seealso{
 \code{\link{eqtl.parse.vcf}}, \code{\link{eqtl.parse.snps}},
-\code{\link{eqtl.sample.means}}, \code{\link{eqtl.key}}, 
-\code{\link{eqtl.group.effects}}, \code{\link{eqtl.sim.means}}
+\code{\link{eqtl.assign.means}}, \code{\link{eqtl.assign.eqtl.effects}}, 
+\code{\link{eqtl.assign.group.effects}}, \code{\link{eqtl.sim.means}}
 \code{\link{eqtl.sim.eqtl.eff}}, \code{\link{eqtl.quan.norm.sc}}
 }

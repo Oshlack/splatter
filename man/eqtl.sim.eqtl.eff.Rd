@@ -19,9 +19,7 @@ eqtl.sim.eqtl.eff(id, key, snps, MeansPop)
 Matrix of simulated gene means for eQTL population.
 }
 \description{
-Add eQTL effects to means matrix
-}
-\details{
-For eSNP-eGene pairs for id group, the eQTL effect is added to the gene mean
-y = (scaled Effect Size) \* (assigned mean for that gene) \* genotype + error
+For eSNP-eGene pairs for id group, the eQTL effect is added to the 
+gene mean y = (scaled Effect Size) \* (assigned mean for that gene) 
+\* genotype + error
 }

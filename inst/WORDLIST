@@ -14,6 +14,7 @@ biocViews
 bioRxiv
 BPPARAM
 CellX
+chr
 Chu
 CMD
 compareSCEs
@@ -37,6 +38,7 @@ eGenes
 eqt
 eqtl
 eQTL
+eQTLgroup
 eQTLparams
 eQTLParams
 eQTLSimulate
@@ -46,6 +48,7 @@ etc
 fpkm
 FPKM
 gam
+geneID
 getCounts
 getLNormFactors
 gff
@@ -68,6 +71,7 @@ LD
 len
 Lifecycle
 listSims
+loc
 loProb
 lun
 Lun
@@ -75,7 +79,9 @@ LunParams
 lunSimulate
 MADs
 MAEs
+maf
 MAF
+mafd
 Marioni
 meanlog
 MeanZeros
@@ -136,6 +142,7 @@ SparseDC
 sparseDCEstimate
 SparseDCParams
 SparseParams
+specifc
 splatEstimate
 splatEstLib
 splatParams
@@ -153,6 +160,7 @@ th
 thining
 tpm
 TPM
+TSS
 UMAP
 UpperCamelCase
 Vallejos

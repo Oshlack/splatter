@@ -47,7 +47,7 @@ setMethod("show", "eQTLParams", function(object) {
     pp <- list("eQTL.General:"      = c("[eQTL.N]"    = "eqtl.n",
                                        "[Distance]"   = "eqtl.dist",
                                        "[MAF]"        = "eqtl.maf",
-                                       "[MAF dev]"    = "eqtl.mafd",
+                                       "[MAF dev]"    = "eqtl.maf",
                                        "[Group.N]"    = "eqtl.groups",
                                        "[%G.spec]"    = "eqtl.group.specific"),
                "eQTL.Effect Size:"= c("(Shape)"       = "eqtlES.shape",
