@@ -2,7 +2,9 @@
 % Please edit documentation in R/eqtl-simulate.R
 \name{eqtl.quan.norm.sc}
 \alias{eqtl.quan.norm.sc}
-\title{Quantile normalize expression levels by sample to fit sc parameters}
+\title{Quantile normalize expression levels by sample to fit sc parameters  
+For each sample, expression value is quantile normalized (qgamma) 
+using the gamma distribution parameterized from splatEstimate().}
 \usage{
 eqtl.quan.norm.sc(params, MeansMatrix)
 }
@@ -16,9 +18,7 @@ See \code{\link{SplatParams}} for details.}
 Matrix of simulated gene means for eQTL population.
 }
 \description{
-Quantile normalize expression levels by sample to fit sc parameters
-}
-\details{
-For each sample, expression value is quantile normalized (qgamma) using the
-gamma distribution parameterized from splatEstimate().
+Quantile normalize expression levels by sample to fit sc parameters  
+For each sample, expression value is quantile normalized (qgamma) 
+using the gamma distribution parameterized from splatEstimate().
 }

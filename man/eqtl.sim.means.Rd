@@ -17,5 +17,5 @@ Mean gene expression levels for the population WITHOUT eQTL effects
 \description{
 Gene mean expression levels are assigned to each gene:sample pair randomly
 from a normal distribution parameterized using the mean and CV assigned to 
-each gene (see `eqtl.sample.means`).
+each gene (see `eqtl.assign.means`).
 }

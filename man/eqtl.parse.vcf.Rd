@@ -10,10 +10,9 @@ eqtl.parse.vcf(gff)
 \item{gff}{Dataframe containing the genes to include in GFF/GTF format.}
 }
 \value{
-A dataframe containing gene IDs and locations.
+A dataframe containing gene IDs, chr, and location.
 }
 \description{
-Read in GFF/GTF file (ignoring header) and select only sequences where the 
-feature is listed as a gene. Then get the Transcriptional Start Site for 
-each gene (depending on strand direction).
+Select features labeled "gene", pull the chromosome and transcriptional start
+site (considering strand direction) for each gene.
 }

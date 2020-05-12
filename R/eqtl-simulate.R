@@ -18,24 +18,26 @@
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
 #'
-#' @details
-#' Parameters can be set in a variety of ways. If no parameters are provided
-#' the default parameters are used. Any parameters in \code{params} can be
-#' overridden by supplying additional arguments through a call to
-#' \code{\link{setParams}}. This design allows the user flexibility in
+#' @details Parameters can be set in a variety of ways. If no parameters are
+#' provided the default parameters are used. Any parameters in \code{params} or
+#' \code{eQTLparams} can be overridden by supplying additional arguments through
+#' a call to \code{\link{setParams}}. This design allows the user flexibility in
 #' how they supply parameters and allows small adjustments without creating a
 #' new \code{SplatParams} object. See examples for a demonstration of how this
 #' can be used.
 #'
-#' The eQTL Gene Mean simulation involves the following steps:
+#' eQTLSimulate involves the following steps:
 #' \enumerate{
-#'     \item Load and format gene (GFF/GTF) and SNP (genotype) data.
-#'     \item Select eGenes-eSNPs pairs and assign effect sizes.
-#'     \item Generate normalized gene mean expression matrix for the population.
-#'     \item Set a gene mean expression value (not normalized) for each gene.
-#'     \item Generate a gene mean expression matrix for the population.
-#'     \item (optional) Save eQTL key
-#' }
+#'     \item Read and format genotype data given a .vcf.
+#'     \item Read in genes from GTF/GFF or from a provided key.
+#'     \item If not provided in key, assign expression mean and cv to each gene.
+#'     \item If not provided in key, assign eQTL and effect sizes to n genes.
+#'     \item Assign gene expression values for each individual for each gene
+#'     by sampling randomly from a normal distribution parameterized from
+#'     eqtlEstimate.
+#'     \item Add in eQTL effects.
+#'     \item Quantile normalize expression levels by sample from a gamma
+#'     distribution parameterized from splatEstimate.}
 #'
 #' @return A list continaing: `means` a dataframe or list of dataframes (if
 #' n.groups > 1) with the simulated mean gene expression value for each gene
@@ -44,8 +46,8 @@
 #'
 #' @seealso
 #' \code{\link{eqtl.parse.vcf}}, \code{\link{eqtl.parse.snps}},
-#' \code{\link{eqtl.sample.means}}, \code{\link{eqtl.key}},
-#' \code{\link{eqtl.group.effects}}, \code{\link{eqtl.sim.means}}
+#' \code{\link{eqtl.assign.means}}, \code{\link{eqtl.assign.eqtl.effects}},
+#' \code{\link{eqtl.assign.group.effects}}, \code{\link{eqtl.sim.means}}
 #' \code{\link{eqtl.sim.eqtl.eff}}, \code{\link{eqtl.quan.norm.sc}}
 
 #' @examples
@@ -55,6 +57,7 @@
 #' pop.sim <- eQTLSimulate()
 #'
 #' @export
+#' @importFrom utils read.csv
 #'
 eQTLSimulate <- function(params = newSplatParams(),
                       eQTLparams = neweQTLParams(),
@@ -67,33 +70,40 @@ eQTLSimulate <- function(params = newSplatParams(),
     seed <- getParam(eQTLparams, "seed")
     set.seed(seed)
 
-    if (verbose) {message("Loading SNP data...")}
+    if (verbose) {message("Loading VCF...")}
     snps <- eqtl.parse.snps(vcf, eQTLparams)
     samples <- names(snps)[grepl('Sample', names(snps))]
     groups <- paste0('g', seq(1, getParam(eQTLparams, "eqtl.groups")))
 
+    # Read in genes and gene locations from GFF/GTF or from the provided key
     if (key == FALSE){
-        if (verbose) {message("Generating eGene-eSNP key...")}
-        genes <- eqtl.parse.vcf(gff)
-        genes <- eqtl.sample.means(params, genes, eQTLparams)
-        key <- eqtl.key(genes, snps, eQTLparams)
-        if(length(groups) > 1){key <- eqtl.group.effects(key, groups, eQTLparams)}
-
+        key <- eqtl.parse.vcf(gff)
     }else{
         key <- read.csv(key)
     }
 
-    if (verbose) {message("Simulating gene means with global eQTL effects...")}
+    # If mean and CV not provided in key, sim using parameters from eQTLparams.
+    if (!all(c("exp_mean", "exp_cv") %in% names(key))){
+        if (verbose) {message("Assigning gene means & cv...")}
+        key <- eqtl.assign.means(params, key, eQTLparams)
+    }
+
+    # If eqtl effects are not provided, simulate them.
+    if (!all(c("eQTL", "eSNP", "EffectSize") %in% names(key))){
+        if (verbose) {message("Assigning eQTL effects...")}
+        key <- eqtl.assign.eqtl.effects(key, snps, eQTLparams)
+        if(length(groups) > 1){key <- eqtl.assign.group.effects(key, groups, eQTLparams)}
+    }
+
+    # Use info in key to generate matrix of gene expression levels
+    if (verbose) {message("Simulating gene means for population...")}
     MeansPop <- eqtl.sim.means(samples, key)
     eMeansPop <- eqtl.sim.eqtl.eff('global', key, snps, MeansPop)
 
     # Add group-specific eQTL effects if present
     if(length(groups) > 1){
-
         eMeansPopq_groups <- list()
         for(id in groups){
-
-            if (verbose) {message(paste0("Adding ", id, "-specific eQTL effects..."))}
             eMeansPop.g <- eqtl.sim.eqtl.eff(id, key, snps, eMeansPop)
             eMeansPop.g.q <- eqtl.quan.norm.sc(params, eMeansPop.g)
             eMeansPopq_groups[[id]] <- eMeansPop.g.q
@@ -115,13 +125,12 @@ eQTLSimulate <- function(params = newSplatParams(),
 
 #' Process gene data
 #'
-#' Read in GFF/GTF file (ignoring header) and select only sequences where the
-#' feature is listed as a gene. Then get the Transcriptional Start Site for
-#' each gene (depending on strand direction).
+#' Select features labeled "gene", pull the chromosome and transcriptional start
+#' site (considering strand direction) for each gene.
 #'
 #' @param gff Dataframe containing the genes to include in GFF/GTF format.
 #'
-#' @return A dataframe containing gene IDs and locations.
+#' @return A dataframe containing gene IDs, chr, and location.
 #'
 eqtl.parse.vcf <- function(gff){
 
@@ -132,12 +141,12 @@ eqtl.parse.vcf <- function(gff){
     }
 
     genes <- gff[gff[,3]=="gene",]
-    genes$TSS <- genes[,4]  #  + strand genes
-    genes$TSS[genes[,7] == '-'] <- genes[,5][genes[,7] == '-'] #  - strand genes
+    genes$loc <- ifelse(genes[, 7] == "-", genes[, 5], genes[, 4])
     genes$geneID <- c(paste0("gene", 1:dim(genes)[1]))
-    genes <- genes[,c('geneID','TSS')]
+    genes$chr <- genes[, 1]
+    key <- genes[,c('geneID', 'chr', 'loc')]
 
-    return(genes)
+    return(key)
 }
 
 
@@ -158,7 +167,6 @@ eqtl.parse.snps <- function(vcf, eQTLparams){
 
     eqtl.maf <- getParam(eQTLparams, "eqtl.maf")
     eqtl.mafd <- getParam(eQTLparams, "eqtl.mafd")
-    MAF <- NULL  # locally binding variables
 
     # Test input VCF file
     if (!('V1' %in% names(vcf))) {
@@ -166,19 +174,19 @@ eqtl.parse.snps <- function(vcf, eQTLparams){
     }
 
     # Read in genotype matrix in .vcf format
-    vcf[, c('V1', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9')] <- NULL
-    names(vcf) <- c('loc', paste0('Sample', 1:(dim(vcf)[2]-1)))
+    vcf[, c('V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9')] <- NULL
+    names(vcf) <- c('chr', 'loc', paste0('Sample', 1:(dim(vcf)[2]-2)))
 
     vcf[] <- lapply(vcf, function(x) gsub("0/0", 0.0, x))
     vcf[] <- lapply(vcf, function(x) gsub("0/1", 1.0, x))
     vcf[] <- lapply(vcf, function(x) gsub("1/1", 2.0, x))
     vcf <- as.data.frame(sapply(vcf, as.numeric))
-    vcf <- cbind(eSNP = paste0('snp', vcf$loc), vcf, stringsAsFactors=FALSE)
+    vcf <- cbind(eSNP = paste('snp', vcf$chr, vcf$loc, sep=":"), vcf, stringsAsFactors=FALSE)
 
     # Filter out SNPs not within MAF requested
-    vcf$MAF <- rowSums(vcf[,3:dim(vcf)[2]]) / ((dim(vcf)[2]-2) * 2)
-    snps <- subset(vcf, MAF > eqtl.maf-eqtl.mafd &
-                             MAF < eqtl.maf+eqtl.mafd)
+    samples <- names(vcf)[grepl('Sample', names(vcf))]
+    vcf$MAF <- rowSums(vcf[, samples] / (length(samples) * 2))
+    snps <- subset(vcf, MAF > eqtl.maf-eqtl.mafd & MAF < eqtl.maf+eqtl.mafd)
     row.names(snps) <- snps$eSNP
     snps$eSNP <- NULL
 
@@ -202,7 +210,7 @@ eqtl.parse.snps <- function(vcf, eQTLparams){
 #' @return the gene dataframe updated to include the mean gene expression
 #' level and coefficient of variation.
 #'
-eqtl.sample.means <- function(params, genes, eQTLparams){
+eqtl.assign.means <- function(params, genes, eQTLparams){
 
     # Load parameters generated from real data using splatEstimate()
     bulk_mean_shape <- getParam(eQTLparams, "bulkmean.shape")
@@ -210,15 +218,15 @@ eqtl.sample.means <- function(params, genes, eQTLparams){
     cv.param <- getParam(eQTLparams, "bulkcv.param")
 
     # Sample gene means
-    genes$expMean <- rgamma(nrow(genes), shape = bulk_mean_shape,
+    genes$exp_mean <- rgamma(nrow(genes), shape = bulk_mean_shape,
                             rate = bulk_mean_rate)
-    genes$expCV <- NULL
+    genes$exp_cv <- NULL
 
     # Sample coefficient of variation for each gene
     for (g in 1:nrow(genes)){
-        mean <- genes[g, 'expMean']
+        mean <- genes[g, 'exp_mean']
         bin <- cv.param[(cv.param$start < mean) & (cv.param$end >= mean), ]
-        genes[g,'expCV'] <- rgamma(1, shape = bin$shape, rate = bin$rate)
+        genes[g,'exp_cv'] <- rgamma(1, shape = bin$shape, rate = bin$rate)
     }
 
     return(genes)
@@ -232,7 +240,7 @@ eqtl.sample.means <- function(params, genes, eQTLparams){
 #' distribution parameterized using the effect sizes from a bulk eQTL study
 #' using the GTEx data from the thyroid tissue.
 #'
-#' @param genes Dataframe with gene ID and location
+#' @param genes Dataframe with gene ID, chromosome, chromosome, and location
 #' @param snps Dataframe with SNP ID, location, and sample genotypes
 #' @param eQTLparams eQTLParams object containing parameters for the
 #'         simulation of the mean expression levels for the population.
@@ -241,7 +249,7 @@ eqtl.sample.means <- function(params, genes, eQTLparams){
 #' @return A dataframe eSNPs-eGenes pair assignments and their effect sizes
 #' @importFrom dplyr mutate "%>%"
 #'
-eqtl.key <- function(genes, snps, eQTLparams){
+eqtl.assign.eqtl.effects <- function(genes, snps, eQTLparams){
     eqtl.n <- getParam(eQTLparams, "eqtl.n")
     if (eqtl.n > dim(genes)[1]){
         eqtl.n <- dim(genes)[1]
@@ -265,7 +273,9 @@ eqtl.key <- function(genes, snps, eQTLparams){
             snps_list <- snps_list[!snps_list==s]
 
             l <- snps[s, 'loc']
-            matches <- subset(genes, TSS > l - eqtl.dist & TSS < l + eqtl.dist)
+            s_chr <- snps[s, 'chr']
+            matches <- subset(genes, (chr == s_chr & loc > l - eqtl.dist &
+                                          loc < l + eqtl.dist))
             if(dim(matches)[1] > 0){
                 match <- sample(matches$geneID, 1)
                 again <- FALSE
@@ -303,7 +313,7 @@ eqtl.key <- function(genes, snps, eQTLparams){
 #'
 #' @return A dataframe eSNPs-eGenes pair assignments and their effect sizes
 #'
-eqtl.group.effects <- function(key, groups, eQTLparams){
+eqtl.assign.group.effects <- function(key, groups, eQTLparams){
 
     eqtl.n <- getParam(eQTLparams, "eqtl.n")
     g.specific.perc <- getParam(eQTLparams, "eqtl.group.specific")
@@ -324,7 +334,7 @@ eqtl.group.effects <- function(key, groups, eQTLparams){
 #'
 #' Gene mean expression levels are assigned to each gene:sample pair randomly
 #' from a normal distribution parameterized using the mean and CV assigned to
-#' each gene (see `eqtl.sample.means`).
+#' each gene (see `eqtl.assign.means`).
 #'
 #' @param samples Vector with the names of the samples
 #' @param key A dataframe eSNPs-eGenes pair assignments and their effect sizes
@@ -337,9 +347,9 @@ eqtl.sim.means <- function(samples, key){
 
     means <- lapply(key$geneID,
                     function(g) rnorm(length(samples),
-                                      mean = key[key$geneID == g,]$expMean,
-                                      sd = key[key$geneID == g,]$expMean *
-                                          key[key$geneID == g,]$expCV))
+                                      mean = key[key$geneID == g,]$exp_mean,
+                                      sd = key[key$geneID == g,]$exp_mean *
+                                          key[key$geneID == g,]$exp_cv))
 
     means.df <- data.frame(do.call(rbind, means), row.names = key$geneID)
     names(means.df) <- samples
@@ -350,14 +360,14 @@ eqtl.sim.means <- function(samples, key){
 
 #' Add eQTL effects to means matrix
 #'
+#' For eSNP-eGene pairs for id group, the eQTL effect is added to the
+#' gene mean y = (scaled Effect Size) \* (assigned mean for that gene)
+#' \* genotype + error
+#'
 #' @param id The group ID (e.g. "global" or "g1")
 #' @param key A dataframe eSNPs-eGenes pair assignments and their effect sizes
 #' @param snps A dataframe containing SNP names, locations, & sample genotypes.
 #' @param MeansPop Mean gene expression dataframe
-#'
-#' @details
-#' For eSNP-eGene pairs for id group, the eQTL effect is added to the gene mean
-#' y = (scaled Effect Size) \* (assigned mean for that gene) \* genotype + error
 #'
 #' @return Matrix of simulated gene means for eQTL population.
 #'
@@ -368,7 +378,7 @@ eqtl.sim.eqtl.eff <- function(id, key, snps, MeansPop){
     samples <- names(snps)[grepl('Sample', names(snps))]
 
     # Calculate eSNP effect size given gean mean assigned
-    key$EffectSize_m <- key$expMean * key$EffectSize
+    key$EffectSize_m <- key$exp_mean * key$EffectSize
 
     for(g in genes_use){
         without_eqtl <- as.numeric(MeansPop[g,])
@@ -384,14 +394,12 @@ eqtl.sim.eqtl.eff <- function(id, key, snps, MeansPop){
 }
 
 #' Quantile normalize expression levels by sample to fit sc parameters
+#' For each sample, expression value is quantile normalized (qgamma)
+#' using the gamma distribution parameterized from splatEstimate().
 #'
 #' @param params SplatParams object containing parameters for the simulation.
 #'               See \code{\link{SplatParams}} for details.
 #' @param MeansMatrix The gene expression means for the population
-#'
-#' @details
-#' For each sample, expression value is quantile normalized (qgamma) using the
-#' gamma distribution parameterized from splatEstimate().
 #'
 #' @return Matrix of simulated gene means for eQTL population.
 #'

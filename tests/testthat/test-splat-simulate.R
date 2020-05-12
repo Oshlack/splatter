@@ -3,11 +3,31 @@ context("Splat simulations")
 test.params <- newSplatParams(nGenes = 100, batchCells = c(5, 5),
                               group.prob = c(0.5, 0.5), lib.scale = 0)
 
+data(ex_snps)
+ex_snps <- ex_snps[, 1:19]
+eqtl.params <- setParams(neweQTLParams(), list(eqtl.n = 10, seed = 42))
+eqtl <- eQTLSimulate(eQTLparams = eqtl.params)
+test.params.eqtl <- newSplatParams(nGenes = 100, batchCells = c(10, 10),
+                              group.prob = c(0.5, 0.5), lib.scale = 0)
+
 test_that("splatSimulate output is valid", {
     expect_true(validObject(splatSimulate(test.params, method = "single")))
     expect_true(validObject(splatSimulate(test.params, method = "groups")))
     expect_true(validObject(splatSimulate(test.params, method = "paths",
                                           path.from = c(0, 1))))
+})
+
+test_that("splatSimulate with eQTL effects output is valid", {
+    expect_true(validObject(splatSimulateeQTL(eqtl = eqtl$means, 
+                                              params=test.params.eqtl, 
+                                              method = "single")))
+    expect_true(validObject(splatSimulateeQTL(eqtl = eqtl$means, 
+                                              params=test.params.eqtl, 
+                                              method = "groups")))
+    expect_true(validObject(splatSimulateeQTL(eqtl = eqtl$means, 
+                                              params=test.params.eqtl, 
+                                              method = "paths",
+                                              path.from = c(0, 1))))
 })
 
 test_that("one group switches to single mode", {
@@ -33,3 +53,5 @@ test_that("dropout.type checks work", {
                     dropout.type = "group")
     expect_error(splatSimulate(pp), "groups have not been simulated")
 })
+
+

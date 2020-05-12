@@ -1,18 +1,25 @@
 context("eQTLSimulate")
 
-data(ex_gff)
 data(ex_snps)
-vcf <- ex_snps[1:5000,]
+ex_snps <- ex_snps[, 1:19]
 eparams <- setParams(neweQTLParams(), list(eqtl.n = 10, seed = 42))
 
 test_that("eQTLSimulate output is valid and works", {
-    eqtl <- eQTLSimulate(eQTLparams = eparams, 
-                         vcf = vcf, eqtl.save = FALSE)
+    eqtl <- eQTLSimulate(eQTLparams = eparams, vcf = ex_snps)
     expect_true(validObject(eqtl))
-    expect_false(any(is.na(eqtl)))
-    expect_false(any(sapply(eqtl, is.infinite)))
-    expect_length(eqtl, 100)
-    #expect_true(round(eqtl[1,1], 2) == 30.68)
+    expect_false(any(is.na(eqtl$means)))
+    expect_false(any(sapply(eqtl$means, is.infinite)))
+    expect_length(eqtl$means, 10)
+})
+
+eparams.g2 <- setParams(neweQTLParams(), list(eqtl.n = 10, seed = 42, 
+                                              eqtl.groups = 2))
+test_that("eQTLSimulate on multiple groups output is valid and works", {
+    eqtl <- eQTLSimulate(eQTLparams = eparams.g2, vcf = ex_snps)
+    expect_true(validObject(eqtl))
+    expect_false(any(is.na(eqtl$means[[1]])))
+    expect_false(any(sapply(eqtl$means[[1]], is.infinite)))
+    expect_length(eqtl$means, 2)
 })
 
 test_that("input data checks", {
@@ -24,7 +31,7 @@ test_that("input data checks", {
     
     vcf_bad <- ex_snps
     vcf_bad$V1 <- NULL
-    expect_error(eQTLsnps(vcf_bad, eparams),
+    expect_error(eQTLSimulate(vcf = vcf_bad, eQTLparams = eparams),
                  "snps not in the expected VCF format. See example data.")
     
     vcf_bad2 <- ex_snps[1:5,]

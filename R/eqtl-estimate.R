@@ -117,6 +117,9 @@ eQTLEstES <- function(all.pairs, eQTLparams) {
 #' 
 #' @return eQTLParams object with estimated values.
 #' @importFrom stats quantile
+#' @importFrom grDevices boxplot.stats
+#' @importFrom matrixStats rowMedians
+#' 
 eQTLEstMeanCV <- function(gene.means, eQTLparams) {
     
     # Test input gene means
@@ -130,7 +133,8 @@ eQTLEstMeanCV <- function(gene.means, eQTLparams) {
     gene.means <- gene.means[genes, ]
     
     # Calculate mean expression parameters
-    means <- rowMeans(gene.means)
+    means <- rowMedians(as.matrix(gene.means))
+    names(means) <- row.names(gene.means)
     mfit <- fitdistrplus::fitdist(means, "gamma", optim.method="Nelder-Mead")
     
     # Calculate CV parameters for genes based on 10 expresion mean bins
@@ -144,8 +148,12 @@ eQTLEstMeanCV <- function(gene.means, eQTLparams) {
         b_genes <- names(unlist(bins[b], use.names = T))
         b_genes <- gsub(paste0(b, '.'), '', b_genes, fixed=T)
         b_gene.means <- gene.means[b_genes, ]
+        
         cv <- apply(b_gene.means, 1, co.var)
         cv[is.na(cv)] <- 0
+        # outliers <- boxplot(cv)$out
+        # cv <- cv[-outliers]
+        cv <- cv[!cv %in% boxplot.stats(cv)$out]
         cvfit <- fitdistrplus::fitdist(cv, "gamma", method = "mge", gof = "CvM")
         cvparams <- rbind(cvparams, 
                           list(start= as.numeric(stst[1]),
