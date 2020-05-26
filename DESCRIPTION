@@ -36,6 +36,7 @@ Imports:
     locfit,
     matrixStats,
     methods,
+    preprocessCore,
     scales,
     scater, 
     stats,

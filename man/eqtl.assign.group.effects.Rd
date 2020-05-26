@@ -4,7 +4,7 @@
 \alias{eqtl.assign.group.effects}
 \title{Simulate group-specific eQTL associations.}
 \usage{
-eqtl.assign.group.effects(key, groups, eQTLparams)
+eqtl.assign.group.effects(key, groups, eQTLparams, params)
 }
 \arguments{
 \item{key}{eGene:eSNP key dataframe.}
@@ -14,9 +14,12 @@ eqtl.assign.group.effects(key, groups, eQTLparams)
 \item{eQTLparams}{eQTLParams object containing parameters for the 
  simulation of the mean expression levels for the population.
 See \code{\link{eQTLParams}} for details.}
+
+\item{params}{SplatParams object containing parameters for the simulation.
+See \code{\link{SplatParams}} for details.}
 }
 \value{
-A dataframe eSNPs-eGenes pair assignments and their effect sizes
+Updated key matrix with group specific eQTL and non-eQTL effects
 }
 \description{
 If the number of groups is >1, this function randomly selects eSNP-eGene

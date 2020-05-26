@@ -19,7 +19,6 @@ Chu
 CMD
 compareSCEs
 compareSCESets
-continaing
 cpm
 cutoff
 cv
@@ -38,6 +37,7 @@ eGenes
 eqt
 eqtl
 eQTL
+eqtlEstimate
 eQTLgroup
 eQTLparams
 eQTLParams

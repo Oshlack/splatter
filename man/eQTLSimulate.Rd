@@ -36,7 +36,7 @@ generate new key using params in eQTLparams and genes from gff}
 \code{params}.}
 }
 \value{
-A list continaing: `means` a dataframe or list of dataframes (if 
+A list containing: `means` a dataframe or list of dataframes (if 
 n.groups > 1) with the simulated mean gene expression value for each gene 
 (row) and each sample (column) and `key` a dataframe with the eSNP-eGene
 assignments.
@@ -65,8 +65,8 @@ eQTLSimulate involves the following steps:
     by sampling randomly from a normal distribution parameterized from 
     eqtlEstimate.
     \item Add in eQTL effects. 
-    \item Quantile normalize expression levels by sample from a gamma 
-    distribution parameterized from splatEstimate.}
+    \item Quantile normalize expression levels to match distribution of 
+    single cell data from `splatEstimate`.}
 }
 \examples{
 # Load example data
