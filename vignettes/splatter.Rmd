@@ -3,7 +3,7 @@ title: "Introduction to Splatter"
 author: "Luke Zappia"
 date: "`r Sys.Date()`"
 output:
-    BiocStyle::html_document:
+    BiocStyle::pdf_document:
         toc: true
 vignette: >
   %\VignetteIndexEntry{An introduction to the Splatter package}
@@ -468,8 +468,23 @@ data(ex_snps)
 data(ex_gff)
 ex_snps <- ex_snps[, 1:19]
 
+eqtl.param <- neweQTLParams()  
 eqtl <- eQTLSimulate(eQTLparams = eqtl.param, vcf = ex_snps, gff = ex_gff)
 round(eqtl$means[1:5, 1:5], 3)
+```
+
+
+To simulate single cell expression data for real population with existing 
+bulk expression data, use the following function to quantile normalize the 
+empirical bulk expression data to match the distribution of the single cell data
+determined using `splatEstimate()`. 
+
+```{r quant normalize population data}
+data("ex_means")
+params <- newSplatParams()
+bulk_qnorm <- eqtl.quan.norm.sc(params, ex_means)
+print(length(bulk_qnorm$means))
+round(bulk_qnorm[1:5, 1:5], 3)
 ```
 
 

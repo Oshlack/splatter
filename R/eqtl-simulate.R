@@ -36,10 +36,10 @@
 #'     by sampling randomly from a normal distribution parameterized from
 #'     eqtlEstimate.
 #'     \item Add in eQTL effects.
-#'     \item Quantile normalize expression levels by sample from a gamma
-#'     distribution parameterized from splatEstimate.}
+#'     \item Quantile normalize expression levels to match distribution of
+#'     single cell data from `splatEstimate`.}
 #'
-#' @return A list continaing: `means` a dataframe or list of dataframes (if
+#' @return A list containing: `means` a dataframe or list of dataframes (if
 #' n.groups > 1) with the simulated mean gene expression value for each gene
 #' (row) and each sample (column) and `key` a dataframe with the eSNP-eGene
 #' assignments.
@@ -92,7 +92,9 @@ eQTLSimulate <- function(params = newSplatParams(),
     if (!all(c("eQTL", "eSNP", "EffectSize") %in% names(key))){
         if (verbose) {message("Assigning eQTL effects...")}
         key <- eqtl.assign.eqtl.effects(key, snps, eQTLparams)
-        if(length(groups) > 1){key <- eqtl.assign.group.effects(key, groups, eQTLparams)}
+
+        if(length(groups) > 1){
+            key <- eqtl.assign.group.effects(key, groups, eQTLparams, params)}
     }
 
     # Use info in key to generate matrix of gene expression levels
@@ -103,6 +105,7 @@ eQTLSimulate <- function(params = newSplatParams(),
     # Add group-specific eQTL effects if present
     if(length(groups) > 1){
         eMeansPopq_groups <- list()
+
         for(id in groups){
             eMeansPop.g <- eqtl.sim.eqtl.eff(id, key, snps, eMeansPop)
             eMeansPop.g.q <- eqtl.quan.norm.sc(params, eMeansPop.g)
@@ -310,11 +313,14 @@ eqtl.assign.eqtl.effects <- function(genes, snps, eQTLparams){
 #' @param eQTLparams eQTLParams object containing parameters for the
 #'         simulation of the mean expression levels for the population.
 #'        See \code{\link{eQTLParams}} for details.
+#' @param params SplatParams object containing parameters for the simulation.
+#'               See \code{\link{SplatParams}} for details.
 #'
-#' @return A dataframe eSNPs-eGenes pair assignments and their effect sizes
+#' @return Updated key matrix with group specific eQTL and non-eQTL effects
 #'
-eqtl.assign.group.effects <- function(key, groups, eQTLparams){
+eqtl.assign.group.effects <- function(key, groups, eQTLparams, params){
 
+    # Assign group-specific eQTL
     eqtl.n <- getParam(eQTLparams, "eqtl.n")
     g.specific.perc <- getParam(eQTLparams, "eqtl.group.specific")
     n.groups <- length(groups)
@@ -326,6 +332,18 @@ eqtl.assign.group.effects <- function(key, groups, eQTLparams){
         key$eQTL[key$geneID %in% g.specific] <- g
     }
 
+    # Assign group-specific effects (differential expression)
+    nGenes <- nrow(key)
+    de.prob <- getParam(params, "de.prob") / 2
+    de.downProb <- getParam(params, "de.downProb")
+    de.facLoc <- getParam(params, "de.facLoc")
+    de.facScale <- getParam(params, "de.facScale")
+
+    for (idx in seq_len(n.groups)) {
+        de.facs <- getLNormFactors(nGenes, de.prob, de.downProb,
+                                   de.facLoc, de.facScale)
+        key[, paste0(groups[idx], "_group_effect")] <- de.facs
+    }
     return(key)
 }
 
@@ -373,11 +391,9 @@ eqtl.sim.means <- function(samples, key){
 #'
 eqtl.sim.eqtl.eff <- function(id, key, snps, MeansPop){
 
-    # Get list of genes with eQTL effects of the type specified in id
+    # Add group-specific eQTL effects
     genes_use <- subset(key, eQTL == id)$geneID
     samples <- names(snps)[grepl('Sample', names(snps))]
-
-    # Calculate eSNP effect size given gean mean assigned
     key$EffectSize_m <- key$exp_mean * key$EffectSize
 
     for(g in genes_use){
@@ -388,10 +404,16 @@ eqtl.sim.eqtl.eff <- function(id, key, snps, MeansPop){
         MeansPop[g,] <- (ES * genotype) + without_eqtl
     }
 
+    # Add group-specific non-eQTL effects
+    if(id != "global"){
+        MeansPop <- MeansPop * key[, paste0(id, "_group_effect")]
+    }
+
     MeansPop[MeansPop < 0] <- 0
 
     return(MeansPop)
 }
+
 
 #' Quantile normalize expression levels by sample to fit sc parameters
 #' For each sample, expression value is quantile normalized (qgamma)
@@ -403,22 +425,19 @@ eqtl.sim.eqtl.eff <- function(id, key, snps, MeansPop){
 #'
 #' @return Matrix of simulated gene means for eQTL population.
 #'
-#' @importFrom stats pnorm qgamma sd quantile
+#' @importFrom preprocessCore normalize.quantiles.use.target
 
 eqtl.quan.norm.sc <- function(params, MeansMatrix){
 
-    # For each sample, quantile gamma normalize expression across genes.
+    # Generate sample target distribution from sc parameters
     mean.shape <- getParam(params, "mean.shape")
     mean.rate <- getParam(params, "mean.rate")
+    target <- rgamma(10000, shape=mean.shape, rate=mean.rate)
 
-    for(s in names(MeansMatrix)){
-        s_values <- MeansMatrix[, s]
-        pnorm.tmp <- pnorm(s_values, mean(s_values), sd(s_values))
-        pnorm.tmp[pnorm.tmp == 1] <- 1 - 1e-6
-        MeansMatrix[, s] <- qgamma(pnorm.tmp, shape=mean.shape, rate=mean.rate)
-    }
+    mat_norm <- preprocessCore::normalize.quantiles.use.target(as.matrix(MeansMatrix), target)
+    mat_norm[mat_norm < 0] <- 0
+    df_norm <- as.data.frame(mat_norm, row.names = row.names(MeansMatrix))
+    names(df_norm) <- names(MeansMatrix)
 
-    MeansMatrix[MeansMatrix < 0] <- 0
-
-    return(MeansMatrix)
+    return(df_norm)
 }
