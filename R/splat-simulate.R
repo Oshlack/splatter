@@ -307,7 +307,7 @@ splatSimulateeQTL <- function(params = newSplatParams(),
         
         samples <- names((eqtl[[1]]))
         g_sims <- list()
-        
+        gene_names <- row.names(eqtl[[1]])
         for(g in seq(1, length(eqtl))){
             
             g_id <- paste0('g', g)
@@ -335,6 +335,7 @@ splatSimulateeQTL <- function(params = newSplatParams(),
 
     # Simulating sc data with global eQTL effects     
     }else{
+        gene_names <- row.names(eqtl)
         samples <- names(eqtl)
         sims <- lapply(samples,
                       function(x) splatSimulate(params = params, 
@@ -348,6 +349,22 @@ splatSimulateeQTL <- function(params = newSplatParams(),
         }
         sim.all <- do.call(SingleCellExperiment::cbind, sims)
     }
+    
+    
+    # Remove redundant sce info
+    rownames(sim.all) <- gene_names
+    random_id <-  gsub('_Gene', '', names(rowData(sim.all))[1])
+    
+    shared.out.factor <- rowData(sim.all)[[paste0(random_id, '_OutlierFactor')]]
+    rowData(sim.all)[grepl('_OutlierFactor', names(rowData(sim.all)))] <- NULL
+    rowData(sim.all)$Shared_OutlierFactor <- shared.out.factor
+    
+    shared.gene.names <- rowData(sim.all)[[paste0(random_id, '_Gene')]]
+    rowData(sim.all)[grepl('_Gene', names(rowData(sim.all)))] <- NULL
+    rowData(sim.all)$Shared_Gene <- shared.gene.names
+    
+    metadata(sim.all)[2:length(names(metadata(sim.all)))] <- NULL
+    
     message('Done!')
     return (sim.all)
 }

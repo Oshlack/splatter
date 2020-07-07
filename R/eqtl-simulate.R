@@ -71,15 +71,15 @@ eQTLSimulate <- function(params = newSplatParams(),
     set.seed(seed)
 
     if (verbose) {message("Loading VCF...")}
-    snps <- eqtl.parse.snps(vcf, eQTLparams)
+    snps <- eqtl.parse.vcf(vcf, eQTLparams)
     samples <- names(snps)[grepl('Sample', names(snps))]
     groups <- paste0('g', seq(1, getParam(eQTLparams, "eqtl.groups")))
     
     # Read in genes and gene locations from GFF/GTF or from the provided key
     if (key == FALSE){
-        key <- eqtl.parse.vcf(gff)
+        key <- eqtl.parse.gff(gff)
     }else{
-        key <- read.csv(key)
+        key <- key
     }
     
     # If mean and CV not provided in key, sim using parameters from eQTLparams.
@@ -135,7 +135,7 @@ eQTLSimulate <- function(params = newSplatParams(),
 #' 
 #' @return A dataframe containing gene IDs, chr, and location.
 #' 
-eqtl.parse.vcf <- function(gff){
+eqtl.parse.gff <- function(gff){
     
     # Test input gff file
     if ((length(names(gff)) < 8 | nrow(gff[gff[,3]=="gene",]) < 1)) {
@@ -166,19 +166,19 @@ eqtl.parse.vcf <- function(gff){
 #'
 #' @return A dataframe containing SNP names, locations, and sample genotypes.
 #' 
-eqtl.parse.snps <- function(vcf, eQTLparams){
+eqtl.parse.vcf <- function(vcf, eQTLparams){
     
     eqtl.maf <- getParam(eQTLparams, "eqtl.maf")
     eqtl.mafd <- getParam(eQTLparams, "eqtl.mafd")
 
-    # Test input VCF file
-    if (!('V1' %in% names(vcf))) {
-        stop("snps not in the expected VCF format. See example data.")
-    }
-    
     # Read in genotype matrix in .vcf format
-    vcf[, c('V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9')] <- NULL
-    names(vcf) <- c('chr', 'loc', paste0('Sample', 1:(dim(vcf)[2]-2)))
+    vcf[, 3:9] <- NULL
+    samp_n <- dim(vcf)[2] - 2
+    samp_n_dig <- nchar(samp_n)
+    names(vcf) <- c('chr', 'loc', paste0('Sample', formatC(1:samp_n,
+                                                           width=samp_n_dig, 
+                                                           format="d", 
+                                                           flag="0")))
 
     vcf[] <- lapply(vcf, function(x) gsub("0/0", 0.0, x))
     vcf[] <- lapply(vcf, function(x) gsub("0/1", 1.0, x))
@@ -334,7 +334,7 @@ eqtl.assign.group.effects <- function(key, groups, eQTLparams, params){
     
     # Assign group-specific effects (differential expression)
     nGenes <- nrow(key)
-    de.prob <- getParam(params, "de.prob") / 2
+    de.prob <- getParam(params, "de.prob") 
     de.downProb <- getParam(params, "de.downProb")
     de.facLoc <- getParam(params, "de.facLoc")
     de.facScale <- getParam(params, "de.facScale")
@@ -393,13 +393,13 @@ eqtl.sim.eqtl.eff <- function(id, key, snps, MeansPop){
     
     # Add group-specific eQTL effects
     genes_use <- subset(key, eQTL == id)$geneID
-    samples <- names(snps)[grepl('Sample', names(snps))]
+    samples <- names(MeansPop)
     key$EffectSize_m <- key$exp_mean * key$EffectSize
     
     for(g in genes_use){
         without_eqtl <- as.numeric(MeansPop[g,])
-        ES <- subset(key, key$geneID == g)$EffectSize_m
-        eSNPsample <- subset(key, key$geneID == g)$eSNP
+        ES <- key[key$geneID == g, 'EffectSize_m']
+        eSNPsample <- key[key$geneID == g, 'eSNP']
         genotype <- as.numeric(snps[eSNPsample, samples])
         MeansPop[g,] <- (ES * genotype) + without_eqtl
     }
@@ -408,7 +408,6 @@ eqtl.sim.eqtl.eff <- function(id, key, snps, MeansPop){
     if(id != "global"){
         MeansPop <- MeansPop * key[, paste0(id, "_group_effect")]
     }
-    
     MeansPop[MeansPop < 0] <- 0
     
     return(MeansPop)
@@ -426,6 +425,7 @@ eqtl.sim.eqtl.eff <- function(id, key, snps, MeansPop){
 #' @return Matrix of simulated gene means for eQTL population.
 #' 
 #' @importFrom preprocessCore normalize.quantiles.use.target
+#' @export
 
 eqtl.quan.norm.sc <- function(params, MeansMatrix){    
     

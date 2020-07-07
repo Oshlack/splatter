@@ -2,17 +2,22 @@
 % Please edit documentation in R/eqtl-simulate.R
 \name{eqtl.parse.vcf}
 \alias{eqtl.parse.vcf}
-\title{Process gene data}
+\title{Process genotype data}
 \usage{
-eqtl.parse.vcf(gff)
+eqtl.parse.vcf(vcf, eQTLparams)
 }
 \arguments{
-\item{gff}{Dataframe containing the genes to include in GFF/GTF format.}
+\item{vcf}{Dataframe containing real/simulated genotype data in .vcf format. 
+Where each column is a sample and each row is a SNP.}
+
+\item{eQTLparams}{eQTLParams object containing parameters for the 
+ simulation of the mean expression levels for the population.
+See \code{\link{eQTLParams}} for details.}
 }
 \value{
-A dataframe containing gene IDs, chr, and location.
+A dataframe containing SNP names, locations, and sample genotypes.
 }
 \description{
-Select features labeled "gene", pull the chromosome and transcriptional start
-site (considering strand direction) for each gene.
+Read in SNP (genotype matrix) file and remove extra columns. Then calculate
+the Minor Allele Frequency and filter SNPs outside of the MAF range defined.
 }
