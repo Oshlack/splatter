@@ -15,7 +15,7 @@ Where each column is a sample and each row is a SNP.}
 See \code{\link{eQTLParams}} for details.}
 }
 \value{
-A dataframe containing SNP names, locations, and sample genotypes.
+A list containing the genotype dataframe and a list of samples.
 }
 \description{
 Read in SNP (genotype matrix) file and remove extra columns. Then calculate

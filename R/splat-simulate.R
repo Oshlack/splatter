@@ -10,7 +10,8 @@
 #'        (eg. cell types), "paths" which selects cells from continuous
 #'        trajectories (eg. differentiation processes).
 #' @param eqtl_means Gene means to use if running splatSimulateeQTL().
-#' @param verbose logical. Whether to print progress messages.
+#' @param small logical. Whether to return only the counts (Default=FALSE).
+#' @param verbose logical. Whether to print progress messages (Default=TRUE).
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
 #'
@@ -133,6 +134,7 @@
 splatSimulate <- function(params = newSplatParams(),
                           method = c("single", "groups", "paths"),
                           eqtl_means = NULL,
+                          small = FALSE,
                           verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "SplatParams")
@@ -228,6 +230,7 @@ splatSimulate <- function(params = newSplatParams(),
     if (verbose) {message("Simulating dropout (if needed)...")}
     sim <- splatSimDropout(sim, params)
     
+    if (small) {assays(sim)[!grepl('counts', names(assays(sim)))] <- NULL}
     if (verbose) {message("Done!")}
     return(sim)
     
@@ -273,6 +276,7 @@ splatSimulatePaths <- function(params = newSplatParams(),
 #'        trajectories (eg. differentiation processes).
 #' @param eqtl Matrix or list of matrices of gene means for eQTL population. 
 #'        Output from eQTLSimulate(). 
+#' @param small logical. Whether to return only the counts (Default=FALSE).
 #' @param verbose logical. Whether to print progress messages.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -285,6 +289,7 @@ splatSimulatePaths <- function(params = newSplatParams(),
 splatSimulateeQTL <- function(params = newSplatParams(), 
                               method = c("single", "groups", "paths"),
                               eqtl = NULL,
+                              small = FALSE,
                               verbose = FALSE, ...){
 
     if (verbose) {message("Getting parameters...")}
@@ -346,10 +351,11 @@ splatSimulateeQTL <- function(params = newSplatParams(),
             s <- samples[i]
             sims[i][[1]]$Sample <- s
             names(rowData(sims[i][[1]])) <- paste (s, names(rowData(sims[i][[1]])), sep='_')
+            
         }
         sim.all <- do.call(SingleCellExperiment::cbind, sims)
     }
-    
+        
     
     # Remove redundant sce info
     rownames(sim.all) <- gene_names
