@@ -8,6 +8,7 @@ splatSimulateeQTL(
   params = newSplatParams(),
   method = c("single", "groups", "paths"),
   eqtl = NULL,
+  small = FALSE,
   verbose = FALSE,
   ...
 )
@@ -22,6 +23,8 @@ trajectories (eg. differentiation processes).}
 
 \item{eqtl}{Matrix or list of matrices of gene means for eQTL population. 
 Output from eQTLSimulate().}
+
+\item{small}{logical. Whether to return only the counts (Default=FALSE).}
 
 \item{verbose}{logical. Whether to print progress messages.}
 

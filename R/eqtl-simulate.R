@@ -71,18 +71,21 @@ eQTLSimulate <- function(params = newSplatParams(),
     set.seed(seed)
 
     if (verbose) {message("Loading VCF...")}
-    snps <- eqtl.parse.vcf(vcf, eQTLparams)
-    samples <- names(snps)[grepl('Sample', names(snps))]
+    vcf.parsed <- eqtl.parse.vcf(vcf, eQTLparams)
+    snps <- vcf.parsed$snps
+    samples <- vcf.parsed$samples
     groups <- paste0('g', seq(1, getParam(eQTLparams, "eqtl.groups")))
     
     # Read in genes and gene locations from GFF/GTF or from the provided key
     if (key == FALSE){
+        if (verbose) {message("Pulling genes from GFF...")}
         key <- eqtl.parse.gff(gff)
     }else{
+        if (verbose) {message("Using genes from key provided...")}
         key <- key
     }
     
-    # If mean and CV not provided in key, sim using parameters from eQTLparams.
+    # If mean and CV not provided in key, simulate using params from eQTLparams
     if (!all(c("exp_mean", "exp_cv") %in% names(key))){
         if (verbose) {message("Assigning gene means & cv...")}
         key <- eqtl.assign.means(params, key, eQTLparams)
@@ -111,19 +114,19 @@ eQTLSimulate <- function(params = newSplatParams(),
             eMeansPop.g.q <- eqtl.quan.norm.sc(params, eMeansPop.g)
             eMeansPopq_groups[[id]] <- eMeansPop.g.q
         }
+        key <- eqtl.key.update.quan.norm(key, eMeansPopq_groups)
         
         if (verbose) {message("Done!")} 
         return(list(means=eMeansPopq_groups, key=key))
     
     # Otherwise quantile normalize single matrix and return
     }else{
-        
         eMeansPopq <- eqtl.quan.norm.sc(params, eMeansPop)
+        key <- eqtl.key.update.quan.norm(key, eMeansPopq)
         
         if (verbose) {message("Done!")} 
         return(list(means=eMeansPopq, key=key))
     }
-    
 }
 
 #' Process gene data
@@ -144,10 +147,13 @@ eqtl.parse.gff <- function(gff){
     }
 
     genes <- gff[gff[,3]=="gene",]
-    genes$loc <- ifelse(genes[, 7] == "-", genes[, 5], genes[, 4])
     genes$geneID <- c(paste0("gene", 1:dim(genes)[1]))
     genes$chr <- genes[, 1]
-    key <- genes[,c('geneID', 'chr', 'loc')]
+    genes$gene_start <- genes[, 4]
+    genes$gene_end <- genes[, 5]
+    genes$gene_dir <- genes[, 7]
+    genes$loc <- ifelse(genes$gene_dir == "-", genes$gene_end, genes$gene_start)
+    key <- genes[,c('geneID', 'chr', 'gene_start', 'gene_end', 'gene_dir', 'loc')]
     
     return(key)
 }
@@ -164,7 +170,7 @@ eqtl.parse.gff <- function(gff){
 #'         simulation of the mean expression levels for the population.
 #'        See \code{\link{eQTLParams}} for details.
 #'
-#' @return A dataframe containing SNP names, locations, and sample genotypes.
+#' @return A list containing the genotype dataframe and a list of samples.
 #' 
 eqtl.parse.vcf <- function(vcf, eQTLparams){
     
@@ -175,11 +181,15 @@ eqtl.parse.vcf <- function(vcf, eQTLparams){
     vcf[, 3:9] <- NULL
     samp_n <- dim(vcf)[2] - 2
     samp_n_dig <- nchar(samp_n)
-    names(vcf) <- c('chr', 'loc', paste0('Sample', formatC(1:samp_n,
-                                                           width=samp_n_dig, 
-                                                           format="d", 
-                                                           flag="0")))
-
+    if(names(vcf)[3] == "V10"){
+        names(vcf) <- c('chr', 'loc', paste0('Sample', 
+                                             formatC(1:samp_n, width=samp_n_dig, 
+                                                     format="d", flag="0")))
+    }else{
+        names(vcf)[1:2] <- c('chr', 'loc')
+    }
+    
+    samples <- names(vcf)[3:ncol(vcf)]
     vcf[] <- lapply(vcf, function(x) gsub("0/0", 0.0, x))
     vcf[] <- lapply(vcf, function(x) gsub("0/1", 1.0, x))
     vcf[] <- lapply(vcf, function(x) gsub("1/1", 2.0, x))
@@ -187,13 +197,12 @@ eqtl.parse.vcf <- function(vcf, eQTLparams){
     vcf <- cbind(eSNP = paste('snp', vcf$chr, vcf$loc, sep=":"), vcf, stringsAsFactors=FALSE)
     
     # Filter out SNPs not within MAF requested
-    samples <- names(vcf)[grepl('Sample', names(vcf))]
     vcf$MAF <- rowSums(vcf[, samples] / (length(samples) * 2))
     snps <- subset(vcf, MAF > eqtl.maf-eqtl.mafd & MAF < eqtl.maf+eqtl.mafd)
     row.names(snps) <- snps$eSNP
     snps$eSNP <- NULL
     
-    return(snps)
+    return(list(snps=snps, samples=samples))
 }
 
 
@@ -442,3 +451,39 @@ eqtl.quan.norm.sc <- function(params, MeansMatrix){
     return(df_norm)
 }
 
+#' Add gene mean and cv after quantile normalization to the eQTL key
+#' 
+#' @param params SplatParams object containing parameters for the simulation.
+#'               See \code{\link{SplatParams}} for details.
+#' @param MeansMatrix The output from eqtl.quan.norm.sc as a matrix or list of
+#'                    matrices.
+#'
+#' @return Updated key
+#' 
+#' @export
+eqtl.key.update.quan.norm <- function(key, MeansMatrix){
+    
+    if (type(MeansMatrix) == "list"){
+        qn_means <- list()
+        qn_cvs <- list()
+        
+        for(group in names(MeansMatrix)){
+            qn_mean_gr <- rowMeans(MeansMatrix[[group]])
+            qn_cv_gr <- apply(MeansMatrix[[group]], 1, FUN=co.var)
+            qn_means[[group]] <- qn_mean_gr
+            qn_cvs[[group]] <- qn_cv_gr
+        }
+        qn_mean <- rowMeans(as.data.frame(qn_means))
+        qn_cv <- rowMeans(as.data.frame(qn_cvs))
+        
+    }else{
+        qn_mean <- rowMeans(MeansMatrix)
+        qn_cv <- apply(MeansMatrix, 1, FUN=co.var)
+    }
+    
+    qn_df <- data.frame(list(expQN_mean=qn_mean, expQN_cv=qn_cv))
+    qn_df$geneID <- row.names(qn_df)
+    key <- merge(key, qn_df, by='geneID')
+
+    return(key)
+}

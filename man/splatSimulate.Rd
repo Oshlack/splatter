@@ -11,6 +11,7 @@ splatSimulate(
   params = newSplatParams(),
   method = c("single", "groups", "paths"),
   eqtl_means = NULL,
+  small = FALSE,
   verbose = TRUE,
   ...
 )
@@ -32,7 +33,9 @@ trajectories (eg. differentiation processes).}
 
 \item{eqtl_means}{Gene means to use if running splatSimulateeQTL().}
 
-\item{verbose}{logical. Whether to print progress messages.}
+\item{small}{logical. Whether to return only the counts (Default=FALSE).}
+
+\item{verbose}{logical. Whether to print progress messages (Default=TRUE).}
 
 \item{...}{any additional parameter settings to override what is provided in
 \code{params}.}
