@@ -7,15 +7,15 @@
 eqtl.sim.means(samples, key)
 }
 \arguments{
-\item{samples}{Vector with the names of the samples}
+\item{samples}{Vector containing the sample names.}
 
-\item{key}{A dataframe eSNPs-eGenes pair assignments and their effect sizes}
+\item{key}{Partial eQTL key dataframe.}
 }
 \value{
-Mean gene expression levels for the population WITHOUT eQTL effects
+Dataframe of gene mean expression levels WITHOUT eQTL effects.
 }
 \description{
-Gene mean expression levels are assigned to each gene:sample pair randomly
-from a normal distribution parameterized using the mean and CV assigned to 
-each gene (see `eqtl.assign.means`).
+Gene mean expression levels are assigned to each gene for each pair randomly
+from a normal distribution parameterized using the mean and cv assigned to 
+each gene in the key.
 }

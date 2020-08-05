@@ -2,23 +2,22 @@
 % Please edit documentation in R/eqtl-simulate.R
 \name{eqtl.quan.norm.sc}
 \alias{eqtl.quan.norm.sc}
-\title{Quantile normalize expression levels by sample to fit sc parameters  
-For each sample, expression value is quantile normalized (qgamma) 
-using the gamma distribution parameterized from splatEstimate().}
+\title{Quantile normalize by sample to fit sc expression distribution.}
 \usage{
 eqtl.quan.norm.sc(params, MeansMatrix)
 }
 \arguments{
 \item{params}{SplatParams object containing parameters for the simulation.
-See \code{\link{SplatParams}} for details.}
+See \code{\link{SplatParams}} for details. Default=`newSplatParams()`.}
 
-\item{MeansMatrix}{The gene expression means for the population}
+\item{MeansMatrix}{Mean gene expression with eQTL effects dataframe.}
 }
 \value{
-Matrix of simulated gene means for eQTL population.
+Dataframe of quantile normalized gene mean expression levels.
 }
 \description{
-Quantile normalize expression levels by sample to fit sc parameters  
-For each sample, expression value is quantile normalized (qgamma) 
-using the gamma distribution parameterized from splatEstimate().
+For each sample, expression values are quantile normalized (qgamma) 
+using the gamma distribution parameterized from splatEstimate(). This ensures
+the simulated gene means reflect the distribution expected from a sc dataset
+and not a bulk dataset.
 }

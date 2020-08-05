@@ -2,17 +2,16 @@
 % Please edit documentation in R/eqtl-simulate.R
 \name{eqtl.parse.gff}
 \alias{eqtl.parse.gff}
-\title{Process gene data}
+\title{Generate eQTL key matrix using information from the GTF/GFF file.}
 \usage{
 eqtl.parse.gff(gff)
 }
 \arguments{
-\item{gff}{Dataframe containing the genes to include in GFF/GTF format.}
+\item{gff}{Dataframe of genes to simulate from a GFF or GTF file.}
 }
 \value{
-A dataframe containing gene IDs, chr, and location.
+The partial eQTL key dataframe.
 }
 \description{
-Select features labeled "gene", pull the chromosome and transcriptional start
-site (considering strand direction) for each gene.
+Generate eQTL key matrix using information from the GTF/GFF file.
 }

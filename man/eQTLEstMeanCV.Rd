@@ -31,7 +31,7 @@ samples have exp <0.1) and parameters for the cv gamma distribution are
 estimated for each bin of mean expression using the cv of expression across
 the population for genes in that bin. Both are fit using 
 \code{\link[fitdistrplus]{fitdist}}. The "Nelder-Mead" method is used to fit
-the mean gamma distribution and the 'maximum goodness-of-fit estimation' 
+the mean gamma distribution and the maximum goodness-of-fit estimation 
 method is used to minimise the Cramer-von Mises distance for the CV 
 distribution.
 }

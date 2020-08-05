@@ -3,7 +3,7 @@ title: "Introduction to Splatter"
 author: "Luke Zappia"
 date: "`r Sys.Date()`"
 output:
-    BiocStyle::pdf_document:
+    BiocStyle::html_document:
         toc: true
 vignette: >
   %\VignetteIndexEntry{An introduction to the Splatter package}
@@ -380,7 +380,7 @@ population. The effect sizes of the eQTL associations are simulated from a
 assigned a mean expression level and coefficient of variation, both sampled from
 gamma distributions derived from real bulk expression data. Then the mean
 expression levels for each individual are quantile normalized to match the gamma
-distribution derived from real single cell data by `splatEstiamte`. Finally,
+distribution derived from real single cell data by `splatEstimate`. Finally,
 single cell level counts are simulated from these mean expression values using
 `splatSimulateeQTL`, which is essentially a wrapper around  `splatSimulate`.
 
@@ -389,8 +389,8 @@ single cell level counts are simulated from these mean expression values using
 
 The parameters needed to simulate gene mean expression levels with eQTL effects
 can be either estimated from real data or defined by the user. The default
-parameters were estimated from the GTEx Thyroid data and the resulting eQTL
-mapping results. You can estimate these parameters from your own bulk and
+parameters were estimated from the thyroid data and eQTL
+mapping results from GTEx. You can estimate these parameters from your own bulk and
 eQTL mapping data using `eQTLEstimate` or you can change the parameters manually
 using `setParams`.
 
@@ -468,16 +468,16 @@ data(ex_snps)
 data(ex_gff)
 ex_snps <- ex_snps[, 1:19]
 
-eqtl.param <- neweQTLParams()  
+eqtl.param <- neweQTLParams()
 eqtl <- eQTLSimulate(eQTLparams = eqtl.param, vcf = ex_snps, gff = ex_gff)
 round(eqtl$means[1:5, 1:5], 3)
 ```
 
 
-To simulate single cell expression data for real population with existing 
-bulk expression data, use the following function to quantile normalize the 
+To simulate single cell expression data for real population with existing
+bulk expression data, use the following function to quantile normalize the
 empirical bulk expression data to match the distribution of the single cell data
-determined using `splatEstimate()`. 
+determined using `splatEstimate()`.
 
 ```{r quant normalize population data}
 data("ex_means")

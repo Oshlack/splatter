@@ -2,27 +2,26 @@
 % Please edit documentation in R/eqtl-simulate.R
 \name{eqtl.assign.group.effects}
 \alias{eqtl.assign.group.effects}
-\title{Simulate group-specific eQTL associations.}
+\title{Designate subset of eQTL associations as group-specific.}
 \usage{
 eqtl.assign.group.effects(key, groups, eQTLparams, params)
 }
 \arguments{
-\item{key}{eGene:eSNP key dataframe.}
+\item{key}{Partial eQTL key dataframe.}
 
 \item{groups}{array of group names}
 
 \item{eQTLparams}{eQTLParams object containing parameters for the 
  simulation of the mean expression levels for the population.
-See \code{\link{eQTLParams}} for details.}
+See \code{\link{eQTLParams}} for details. Default=`neweQTLParams()`.}
 
 \item{params}{SplatParams object containing parameters for the simulation.
-See \code{\link{SplatParams}} for details.}
+See \code{\link{SplatParams}} for details. Default=`newSplatParams()`.}
 }
 \value{
-Updated key matrix with group specific eQTL and non-eQTL effects
+he key updated with group eQTL and non-eQTL effects.
 }
 \description{
-If the number of groups is >1, this function randomly selects eSNP-eGene
-pairs to be group specific. The number of group specific pairs is controlled
-by the eqtl.group.specific parameter.
+If groups > 1, n eSNP-eGene pairs (n = 'eqtl.group.specific') are randomly
+assigned as group specific.
 }

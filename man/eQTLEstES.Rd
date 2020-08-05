@@ -8,7 +8,7 @@ eQTLEstES(all.pairs, eQTLparams)
 }
 \arguments{
 \item{all.pairs}{Txt file with all eQTL pairs from a bulk eQTL analysis. Must
-include 3 columns: 'gene_id', 'pval_nominal', and 'slope'.}
+include 3 columns: gene_id, pval_nominal, and slope.}
 
 \item{eQTLparams}{eQTLParams object containing parameters for the 
  simulation of the mean expression levels for the population.
@@ -24,7 +24,7 @@ simulate eQTL (eSNP-eGene) effect sizes.
 \details{
 Parameters for the gamma distribution are estimated by fitting the top eSNP-
 eGene pair effect sizes using \code{\link[fitdistrplus]{fitdist}}. The 
-'maximum goodness-of-fit estimation' method is used to minimise the 
+maximum goodness-of-fit estimation method is used to minimise the 
 Cramer-von Mises distance. This can fail in some situations, in which case 
-the 'method of moments estimation' method is used instead.
+the method of moments estimation method is used instead.
 }

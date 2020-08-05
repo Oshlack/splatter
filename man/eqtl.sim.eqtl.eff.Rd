@@ -7,19 +7,28 @@
 eqtl.sim.eqtl.eff(id, key, snps, MeansPop)
 }
 \arguments{
-\item{id}{The group ID (e.g. "global" or "g1")}
+\item{key}{Partial eQTL key dataframe.}
 
-\item{key}{A dataframe eSNPs-eGenes pair assignments and their effect sizes}
+\item{snps}{Dataframe of genotype information output from `vcf.parsed`.}
 
-\item{snps}{A dataframe containing SNP names, locations, & sample genotypes.}
-
-\item{MeansPop}{Mean gene expression dataframe}
+\item{MeansPop}{Mean gene expression dataframe.}
 }
 \value{
-Matrix of simulated gene means for eQTL population.
+Dataframe of gene mean expression levels WITH eQTL effects.
 }
 \description{
-For eSNP-eGene pairs for id group, the eQTL effect is added to the 
-gene mean y = (scaled Effect Size) \* (assigned mean for that gene) 
-\* genotype + error
+Add eQTL effects and non-eQTL group effects to simulated means matrix.
+The eQTL effects are incorporated using the following equation:
+\deqn{Ygs = (ESg * Mg) + Mgs } 
+Where Ygs is the mean for gene *g* and sample *s*, ESg is the effect size
+assigned to *g*, Mg is the mean expression assigned to *g*, and Mgs is the
+mean expression sampled for *g* for *s*. Non-eQTL group effects are 
+incorporated as: 
+\deqn{Ygs = Mgs * GEg}
+Where GEg is the group effect (i.e. differential expression) assigned to *g*.
+To simulate multiple gene mean matrices with different group effects, this
+function can be run with `id` designating the group id.
+}
+\details{
+#' @param id The group ID (e.g. "global" or "g1")
 }
