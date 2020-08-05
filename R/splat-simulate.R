@@ -315,8 +315,8 @@ splatSimulateeQTL <- function(params = newSplatParams(),
         gene_names <- row.names(eqtl[[1]])
         for(g in seq(1, length(eqtl))){
             
-            g_id <- paste0('g', g)
-            message(paste0('Simulating ', g_id, '...'))
+            g_id <- paste0("g", g)
+            message(paste0("Simulating ", g_id, "..."))
             params_g <- params
             params_g <- setParams(params_g, batchCells = unlist(eq.group.n[g]))
             
@@ -330,7 +330,7 @@ splatSimulateeQTL <- function(params = newSplatParams(),
                 s <- samples[i]
                 sims[i][[1]]$Sample <- s
                 sims[i][[1]]$eQTLGroup <- g_id
-                names(rowData(sims[i][[1]])) <- paste(s, g_id, names(rowData(sims[i][[1]])), sep='_')
+                names(rowData(sims[i][[1]])) <- paste(s, g_id, names(rowData(sims[i][[1]])), sep="_")
             }
             
             g_sims[[g_id]] <- do.call(SingleCellExperiment::cbind, sims)
@@ -350,7 +350,7 @@ splatSimulateeQTL <- function(params = newSplatParams(),
         for(i in seq(1, length(sims))){
             s <- samples[i]
             sims[i][[1]]$Sample <- s
-            names(rowData(sims[i][[1]])) <- paste (s, names(rowData(sims[i][[1]])), sep='_')
+            names(rowData(sims[i][[1]])) <- paste (s, names(rowData(sims[i][[1]])), sep="_")
             
         }
         sim.all <- do.call(SingleCellExperiment::cbind, sims)
@@ -359,19 +359,19 @@ splatSimulateeQTL <- function(params = newSplatParams(),
     
     # Remove redundant sce info
     rownames(sim.all) <- gene_names
-    random_id <-  gsub('_Gene', '', names(rowData(sim.all))[1])
+    random_id <-  gsub("_Gene", "", names(rowData(sim.all))[1])
     
-    shared.out.factor <- rowData(sim.all)[[paste0(random_id, '_OutlierFactor')]]
-    rowData(sim.all)[grepl('_OutlierFactor', names(rowData(sim.all)))] <- NULL
+    shared.out.factor <- rowData(sim.all)[[paste0(random_id, "_OutlierFactor")]]
+    rowData(sim.all)[grepl("_OutlierFactor", names(rowData(sim.all)))] <- NULL
     rowData(sim.all)$Shared_OutlierFactor <- shared.out.factor
     
-    shared.gene.names <- rowData(sim.all)[[paste0(random_id, '_Gene')]]
-    rowData(sim.all)[grepl('_Gene', names(rowData(sim.all)))] <- NULL
+    shared.gene.names <- rowData(sim.all)[[paste0(random_id, "_Gene")]]
+    rowData(sim.all)[grepl("_Gene", names(rowData(sim.all)))] <- NULL
     rowData(sim.all)$Shared_Gene <- shared.gene.names
     
     metadata(sim.all)[2:length(names(metadata(sim.all)))] <- NULL
     
-    message('Done!')
+    message("Done!")
     return (sim.all)
 }
 

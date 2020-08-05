@@ -2,24 +2,24 @@
 % Please edit documentation in R/eqtl-simulate.R
 \name{eqtl.assign.eqtl.effects}
 \alias{eqtl.assign.eqtl.effects}
-\title{Select eGenes-eSNPs pairs and assign effect sizes.}
+\title{Assign eGenes-eSNPs pairs and effect sizes.}
 \usage{
-eqtl.assign.eqtl.effects(genes, snps, eQTLparams)
+eqtl.assign.eqtl.effects(key, snps, eQTLparams)
 }
 \arguments{
-\item{genes}{Dataframe with gene ID, chromosome, chromosome, and location}
+\item{key}{Partial eQTL key dataframe.}
 
-\item{snps}{Dataframe with SNP ID, location, and sample genotypes}
+\item{snps}{Dataframe of genotype information output from `vcf.parsed`.}
 
 \item{eQTLparams}{eQTLParams object containing parameters for the 
  simulation of the mean expression levels for the population.
-See \code{\link{eQTLParams}} for details.}
+See \code{\link{eQTLParams}} for details. Default=`neweQTLParams()`.}
 }
 \value{
-A dataframe eSNPs-eGenes pair assignments and their effect sizes
+The key updated with assigned eQTL effects.
 }
 \description{
-Randomly pairs N eSNPs with an eGene within the designated window size 
+Randomly pairs N genes (eGene) a SNP (eSNP) within the window size 
 (eqtl.dist) and assigns each pair an effect size sampled from a gamma 
 distribution parameterized using the effect sizes from a bulk eQTL study 
 using the GTEx data from the thyroid tissue.

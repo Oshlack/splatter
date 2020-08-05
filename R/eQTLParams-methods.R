@@ -44,18 +44,18 @@ setValidity("eQTLParams", function(object) {
 #' @importFrom methods callNextMethod
 setMethod("show", "eQTLParams", function(object) {
     
-    pp <- list("eQTL.General:"      = c("[eQTL.N]"    = "eqtl.n",
-                                       "[Distance]"   = "eqtl.dist",
-                                       "[MAF]"        = "eqtl.maf",
-                                       "[MAF dev]"    = "eqtl.maf",
-                                       "[Group.N]"    = "eqtl.groups",
-                                       "[%G.spec]"    = "eqtl.group.specific"),
-               "eQTL.Effect Size:"= c("(Shape)"       = "eqtlES.shape",
-                                      "(Rate)"        = "eqtlES.rate"),
-               "eQTL.Mean:"      = c("(Shape)"        = "bulkmean.shape",
-                                     "(Rate)"         = "bulkmean.rate",
-                                     "[CV bins]"      = "bulkcv.bins",
-                                     "(CV params)"    = "bulkcv.param"))
+    pp <- list("eQTL.General:" = c("[eQTL.N]"    = "eqtl.n",
+                                   "[Distance]" = "eqtl.dist",
+                                   "[MAF]" = "eqtl.maf",
+                                   "[MAF dev]" = "eqtl.maf",
+                                   "[Group.N]" = "eqtl.groups",
+                                   "[%G.spec]" = "eqtl.group.specific"),
+               "eQTL.Effect Size:" = c("(Shape)" = "eqtlES.shape",
+                                       "(Rate)" = "eqtlES.rate"),
+               "eQTL.Mean:" = c("(Shape)" = "bulkmean.shape",
+                                "(Rate)" = "bulkmean.rate",
+                                "[CV bins]" = "bulkcv.bins",
+                                "(CV params)" = "bulkcv.param"))
     
     callNextMethod()
     showPP(object, pp)

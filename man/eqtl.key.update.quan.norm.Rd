@@ -2,20 +2,19 @@
 % Please edit documentation in R/eqtl-simulate.R
 \name{eqtl.key.update.quan.norm}
 \alias{eqtl.key.update.quan.norm}
-\title{Add gene mean and cv after quantile normalization to the eQTL key}
+\title{Add quantile normalized gene mean and cv info the eQTL key.}
 \usage{
 eqtl.key.update.quan.norm(key, MeansMatrix)
 }
 \arguments{
-\item{MeansMatrix}{The output from eqtl.quan.norm.sc as a matrix or list of
-matrices.}
+\item{key}{Partial eQTL key dataframe.}
 
-\item{params}{SplatParams object containing parameters for the simulation.
-See \code{\link{SplatParams}} for details.}
+\item{MeansMatrix}{The output from `eqtl.quan.norm.sc` as a matrix or list of
+matrices.}
 }
 \value{
-Updated key
+Final eQTL key.
 }
 \description{
-Add gene mean and cv after quantile normalization to the eQTL key
+Add quantile normalized gene mean and cv info the eQTL key.
 }

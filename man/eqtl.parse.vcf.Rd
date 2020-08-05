@@ -2,22 +2,21 @@
 % Please edit documentation in R/eqtl-simulate.R
 \name{eqtl.parse.vcf}
 \alias{eqtl.parse.vcf}
-\title{Process genotype data}
+\title{Format and subset genotype data from a VCF file.}
 \usage{
 eqtl.parse.vcf(vcf, eQTLparams)
 }
 \arguments{
-\item{vcf}{Dataframe containing real/simulated genotype data in .vcf format. 
-Where each column is a sample and each row is a SNP.}
+\item{vcf}{Data.frame of genotypes for samples to simulate from a VCF file.}
 
-\item{eQTLparams}{eQTLParams object containing parameters for the 
+\item{eQTLparams}{eQTLparams object containing parameters for the 
  simulation of the mean expression levels for the population.
-See \code{\link{eQTLParams}} for details.}
+See \code{\link{eQTLParams}} for details. Default=`neweQTLParams()`.}
 }
 \value{
 A list containing the genotype dataframe and a list of samples.
 }
 \description{
-Read in SNP (genotype matrix) file and remove extra columns. Then calculate
-the Minor Allele Frequency and filter SNPs outside of the MAF range defined.
+Convert [0/0, 0/1, 1/1] alleles into [0,1,2] format and remove SNPs that do
+not meet Minor Allele Frequency requirements specified in `eQTLParams`.
 }

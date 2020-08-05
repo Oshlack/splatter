@@ -26,7 +26,7 @@ logistic <- function(x, x0, k) {
 #' @return data.frame containing rows from \code{df1} and \code{df2} but only
 #'         common columns.
 rbindMatched <- function(df1, df2) {
-    common.names <- intersect(names(df1), names(df2))
+    common.names <- intersect(colnames(df1), colnames(df2))
     if (length(common.names) < 2) {
         stop("There must be at least two columns in common")
     }
@@ -94,7 +94,7 @@ winsorize <- function(x, q) {
 #' @return Value of coefficient of variation for vector
 #' @importFrom stats sd
 co.var <- function(x) {
-    sd(x)/mean(x) 
+    stats::sd(x)/mean(x) 
 } 
 
 

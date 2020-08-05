@@ -2,26 +2,26 @@
 % Please edit documentation in R/eqtl-simulate.R
 \name{eqtl.assign.means}
 \alias{eqtl.assign.means}
-\title{Assign a mean expression value to each gene}
+\title{Assign expression mean and variance to each gene}
 \usage{
-eqtl.assign.means(params, genes, eQTLparams)
+eqtl.assign.means(params, key, eQTLparams)
 }
 \arguments{
 \item{params}{SplatParams object containing parameters for the simulation.
 See \code{\link{SplatParams}} for details.}
 
-\item{genes}{A dataframe of genes included in the sim}
+\item{key}{Partial eQTL key dataframe.}
 
 \item{eQTLparams}{eQTLParams object containing parameters for the 
  simulation of the mean expression levels for the population.
 See \code{\link{eQTLParams}} for details.}
 }
 \value{
-the gene dataframe updated to include the mean gene expression 
-level and coefficient of variation.
+The key updated with assigned means and variances.
 }
 \description{
-Means are sampled from a gamma distribution parameterized by splatEstimate, 
-then sample a coefficient of variation for each gene from a gamma 
-distribution parameterized by splatEstimate for genes in expression bins.
+A mean and coefficient of variation is assigned to each gene by sampling from
+gamma distributions parameterized from real data using `splatEstimate`. 
+The cv gamma distributions are binned by gene mean because the distribution 
+of variance in real data is not independent from the mean.
 }
