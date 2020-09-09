@@ -382,7 +382,7 @@ from real data using `eQTLEstimate` or defined by the user using `setParams`.
 The default parameters were estimated from bulk RNA-seq data and eQTL mapping
 results from GTEx (tissue=thyroid). Let's see what the default object looks like.
 
-```{r default eqtl parameters}
+```{r default-eqtl-parameters}
 eqtl.params <- neweQTLParams()
 eqtl.params
 ```
@@ -414,7 +414,7 @@ eqtl.params <- eQTLEstimate(eQTLparams = eqtl.params,
                             gene.means = ex_means)
 
 # Adjust eQTL parameters or setting by hand
-eqtl.params <- setParams(eqtl.params, 'eqtl.n' = 100)
+eqtl.params <- setParams(eqtl.params, "eqtl.n" = 100)
 
 eqtl.params
 ```
@@ -424,10 +424,12 @@ eqtl.params
 Given genotype information for a population (vcf file) and information about
 gene locations (either a GFF/GTF or a tab delimited file with *geneID*, *chr*,
 and *loc* columns, where loc is the transcriptional start site),`eQTLSimulate`
-uses parameters estimated by `eQTLEstimate` to simulate gene means for each individual for each gene. **eqtl.n** genes (eGenes) will be assigned an eSNP
+uses parameters estimated by `eQTLEstimate` to simulate gene means for each
+individual for each gene. **eqtl.n** genes (eGenes) will be assigned an eSNP
 with minor allele frequency (MAF) between **eqtl.maf.min** and **eqtl.maf.max**
 that is no more than **eqtl.dist** away from the TSS. Each eGene-eSNP pair (an
-eQTL pair) will be randomly assigned an effect size from a gamma distribution parameterized in `eQTLEstimate`. By default all eQTL relationships will be
+eQTL pair) will be randomly assigned an effect size from a gamma distribution
+parameterized in `eQTLEstimate`. By default all eQTL relationships will be
 considered global,but group-specific eQTL can be simulated by setting
 **eqtl.groups** equal to 2+. This setting will result in a percent of all eQTL
 pairs, specified by **eqtl.group.specific**, being included for only one group.
@@ -449,11 +451,10 @@ using `setParams`:
 ```{r eqtlSimulate}
 data(ex_snps)
 data(ex_gff)
-ex_snps <- ex_snps[, 1:20]
-ex_snps[c('V11', 'V14', 'V16', 'V17', 'V18')] <- NULL
+ex_snps <- ex_snps[, c(1:10, 12, 13, 15, 19, 20)]
 
 eqtl <- eQTLSimulate(eQTLparams = eqtl.params, vcf = ex_snps, gff = ex_gff)
-round(eqtl$means[1:5, 1:6], 3)
+round(eqtl$means[1:5, 1:6], digits = 3)
 ```
 
 The output of `eQTLSimulate()` is an object with two components:
@@ -464,8 +465,8 @@ The output of `eQTLSimulate()` is an object with two components:
   and variances before and after quantile normalization, and, for genes assigned
   an eSNP, the eSNP ID, effect size, and type (global or group specific).
 
-```{r eqtlSimulate show key}
-data.frame(lapply(eqtl$key[1:5, ], function(y) if(is.numeric(y)) round(y, 2) else y))
+```{r eqtlSimulate-show-key}
+print(eqtl$key[1:5, ], digits = 2)
 ```
 
 To simulate single cell expression data for real population with existing
@@ -473,7 +474,7 @@ bulk expression data, use the following function to quantile normalize the
 empirical bulk expression data to match the distribution of the single cell data
 determined using `splatEstimate()`.
 
-```{r quant normalize population data}
+```{r quant-normalize-population-data}
 data("ex_means")
 params <- newSplatParams()
 bulk_qnorm <- eqtl.quan.norm.sc(params, ex_means[, 1:5])
@@ -491,7 +492,7 @@ some of the parameters in `SplatParams` that control `splatSimulate` will be
 ignored by `splatSimulateeQTL` because they were determined by `eQTLSimulate`,
 including *nGenes*, *mean.shape*, *mean.rate*, and *nGroups*.
 
-```{r eqtl splatSimulateeQTL}
+```{r eqtl-splatSimulateeQTL}
 sim.pop <- splatSimulateeQTL(eqtl = eqtl$means, batchCells = 50)
 sim.pop <- logNormCounts(sim.pop)
 sim.pop <- runPCA(sim.pop)
@@ -523,7 +524,7 @@ outputs:
 * **Cell information (`colData`)**
     * `eQTLGroup` - The group ID for group-specifc eQTL.
 
-```{r group specific eQTL simulations}
+```{r group-specific-eQTL-simulations}
 eqtl.param2 <- setParams(eqtl.params,
                          "eqtl.groups" = 2,
                          "eqtl.group.specific" = 0.4)
@@ -539,7 +540,8 @@ sim.pop.2 <- splatSimulateeQTL(eqtl = eqtl.2$means,
 sim.pop.2 <- logNormCounts(sim.pop.2)
 sim.pop.2 <- runPCA(sim.pop.2)
 
-plotPCA(sim.pop.2, colour_by = "eQTLGroup", shape_by = "Sample", ncomponents=5:6)
+plotPCA(sim.pop.2, colour_by = "eQTLGroup", shape_by = "Sample",
+        ncomponents = 5:6)
 ```
 
 ### Simulate SC data for population with path and batch effects
@@ -553,24 +555,26 @@ use `eQTLSimulate` with *eqtl.groups = 2* and `splatSimulateeQTL` with
 for each sample will have eQTL and DE group effects and another random half will
 have just DE group effects.
 
-```{r simulate population with batch effects}
+```{r simulate-population-with-batch-effects}
 sim.pop.batches <- splatSimulateeQTL(eqtl = eqtl$means,
                                     batchCells = c(50, 50),
                                     batch.facLoc = 0.2,
                                     batch.facScale = 0.2)
 sim.pop.batches <- logNormCounts(sim.pop.batches)
 sim.pop.batches <- runPCA(sim.pop.batches)
-plotPCA(sim.pop.batches, colour_by = "Batch", shape_by = "Sample", ncomponents=5:6)
+plotPCA(sim.pop.batches, colour_by = "Batch", shape_by = "Sample",
+        ncomponents = 5:6)
 
 ```
 
-```{r simulate population with path effects}
+```{r simulate-population-with-path-effects}
 sim.pop.paths <- splatSimulateeQTL(eqtl = eqtl$means,
-                                    method = 'paths',
+                                   method = 'paths',
                                    de.prob = 0.5)
 sim.pop.paths <- logNormCounts(sim.pop.paths)
 sim.pop.paths <- runPCA(sim.pop.paths)
-plotPCA(sim.pop.paths, colour_by = "Step", shape_by = "Sample", ncomponents=5:6)
+plotPCA(sim.pop.paths, colour_by = "Step", shape_by = "Sample",
+        ncomponents = 5:6)
 ```
 
 
