@@ -12,6 +12,7 @@ Bioc
 Biocondutor
 biocViews
 bioRxiv
+bp
 BPPARAM
 CellX
 chr
@@ -27,16 +28,15 @@ diffSCEs
 diffSCESets
 DM
 doi
+downProb
 DP
 Dudoit
 EE
 eg
 eGene
 eGenes
-eqt
 eqtl
 eQTL
-eQTLgroup
 eQTLparams
 eQTLParams
 eQTLSimulate
@@ -44,6 +44,8 @@ ESg
 eSNP
 eSNPs
 etc
+facLoc
+facScale
 fpkm
 FPKM
 gam
@@ -51,7 +53,6 @@ GEg
 geneID
 getCounts
 getLNormFactors
-gff
 GFF
 Github
 GRCh
@@ -67,7 +68,6 @@ KersplatParams
 Korthauer
 KR
 labeled
-LD
 len
 Lifecycle
 listSims
@@ -81,7 +81,6 @@ MADs
 MAEs
 maf
 MAF
-mafd
 Marioni
 meanlog
 MeanZeros
@@ -108,6 +107,7 @@ PhenoPath
 PLoS
 poisson
 Poisson
+prob
 PROSSTT
 pseudotime
 pval

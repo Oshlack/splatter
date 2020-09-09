@@ -168,8 +168,8 @@ eqtl.parse.gff <- function(gff){
 #'
 eqtl.parse.vcf <- function(vcf, eQTLparams){
 
-    eqtl.maf <- getParam(eQTLparams, "eqtl.maf")
-    eqtl.mafd <- getParam(eQTLparams, "eqtl.mafd")
+    eqtl.maf.min <- getParam(eQTLparams, "eqtl.maf.min")
+    eqtl.maf.max <- getParam(eQTLparams, "eqtl.maf.max")
 
     # Read in genotype matrix in .vcf format
     vcf[, 3:9] <- NULL
@@ -192,7 +192,7 @@ eqtl.parse.vcf <- function(vcf, eQTLparams){
 
     # Filter out SNPs not within MAF requested
     vcf$MAF <- rowSums(vcf[, samples] / (length(samples) * 2))
-    snps <- subset(vcf, MAF > eqtl.maf-eqtl.mafd & MAF < eqtl.maf+eqtl.mafd)
+    snps <- subset(vcf, MAF >= eqtl.maf.min & MAF <= eqtl.maf.max)
     row.names(snps) <- snps$eSNP
     snps$eSNP <- NULL
 
@@ -219,13 +219,13 @@ eqtl.parse.vcf <- function(vcf, eQTLparams){
 eqtl.assign.means <- function(params, key, eQTLparams){
 
     # Load parameters generated from real data using splatEstimate()
-    bulk_mean_shape <- getParam(eQTLparams, "bulkmean.shape")
-    bulk_mean_rate <- getParam(eQTLparams, "bulkmean.rate")
-    cv.param <- getParam(eQTLparams, "bulkcv.param")
+    pop_mean_shape <- getParam(eQTLparams, "pop.mean.shape")
+    pop_mean_rate <- getParam(eQTLparams, "pop.mean.rate")
+    cv.param <- getParam(eQTLparams, "pop.cv.param")
 
     # Sample gene means
-    key$exp_mean <- rgamma(nrow(key), shape = bulk_mean_shape,
-                            rate = bulk_mean_rate)
+    key$exp_mean <- rgamma(nrow(key), shape = pop_mean_shape,
+                            rate = pop_mean_rate)
     key$exp_cv <- NULL
 
     # Sample coefficient of variation for each gene
@@ -244,8 +244,7 @@ eqtl.assign.means <- function(params, key, eQTLparams){
 #'
 #' Randomly pairs N genes (eGene) a SNP (eSNP) within the window size
 #' (eqtl.dist) and assigns each pair an effect size sampled from a gamma
-#' distribution parameterized using the effect sizes from a bulk eQTL study
-#' using the GTEx data from the thyroid tissue.
+#' distribution parameterized using the effect sizes from a real eQTL study.
 #'
 #' @param key Partial eQTL key dataframe.
 #' @param snps Dataframe of genotype information output from `vcf.parsed`.
@@ -257,15 +256,14 @@ eqtl.assign.means <- function(params, key, eQTLparams){
 #'
 eqtl.assign.eqtl.effects <- function(key, snps, eQTLparams){
     eqtl.n <- getParam(eQTLparams, "eqtl.n")
-    if (eqtl.n > nrow(key)){
-        eqtl.n <- nrow(key)
-    }
+    if (eqtl.n > nrow(key)){eqtl.n <- nrow(key)}
     eqtl.dist <- getParam(eQTLparams, "eqtl.dist")
-    eqtlES_shape <- getParam(eQTLparams, "eqtlES.shape")
-    eqtlES_rate <- getParam(eQTLparams, "eqtlES.rate")
+    eqtlES_shape <- getParam(eQTLparams, "eqtl.ES.shape")
+    eqtlES_rate <- getParam(eQTLparams, "eqtl.ES.rate")
 
     # Set up dataframe to save info about selected eSNP-eGENE pairs
     snps_list <- row.names(snps)
+    key_tmp <- key
     key$eQTL <- NA
     key$eSNP <- NA
     key$EffectSize <- 0
@@ -274,15 +272,14 @@ eqtl.assign.eqtl.effects <- function(key, snps, eQTLparams){
         again <- TRUE
         while (again == TRUE){
             if(length(snps_list) == 0) {
-                stop("Not enough SNPs within desired MAF range. Increase the
-                    eqtl.mafd allowed, include more SNPs, or reduce eqtl.n.")
+                stop("Not enough SNPs in MAF range.")
             }
             s <- sample(snps_list, 1)
             snps_list <- snps_list[!snps_list==s]
 
             l <- snps[s, "loc"]
             s_chr <- snps[s, "chr"]
-            matches <- subset(genes, (chr == s_chr & loc > l - eqtl.dist &
+            matches <- subset(key_tmp, (chr == s_chr & loc > l - eqtl.dist &
                                           loc < l + eqtl.dist))
             if(nrow(matches) > 0){
                 match <- sample(matches$geneID, 1)
@@ -290,7 +287,7 @@ eqtl.assign.eqtl.effects <- function(key, snps, eQTLparams){
             }
         }
 
-        genes <- genes[!(genes$geneID==match),]
+        key_tmp <- key_tmp[!(key_tmp$geneID==match),]
         ES <- rgamma(1, shape = eqtlES_shape, rate = eqtlES_rate)
 
         key[key$geneID == match, ]$eSNP <- s
@@ -394,7 +391,7 @@ eqtl.sim.means <- function(samples, key){
 #' To simulate multiple gene mean matrices with different group effects, this
 #' function can be run with `id` designating the group id.
 #'
-#' #' @param id The group ID (e.g. "global" or "g1")
+#' @param id The group ID (e.g. "global" or "g1")
 #' @param key Partial eQTL key dataframe.
 #' @param snps Dataframe of genotype information output from `vcf.parsed`.
 #' @param MeansPop Mean gene expression dataframe.

@@ -16,8 +16,8 @@ The eQTL simulation requires the following parameters:
 \describe{
     \item{\code{[eqtl.n]}}{The number genes to assign eQTL effects.}
     \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
-    \item{\code{[eqtl.maf]}}{Minor Allele Frequency of chosen eSNPs.}
-    \item{\code{[eqtl.mafd]}}{Deviation allowed in MAF of chosen eSNPs.}
+    \item{\code{[eqtl.maf.min]}}{Minimum Minor Allele Frequency of eSNPs.}
+    \item{\code{[eqtl.maf.max]}}{Maximum Minor Allele Frequency of eSNPs.}
     \item{\code{[eqtl.groups]}}{Number of groups to simulate.}
     \item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate 
     as group specific.}
@@ -33,9 +33,9 @@ The eQTL simulation requires the following parameters:
     \item{\emph{Bulk Mean Expression distribution parameters. Defaults 
     estimated from GTEx data, see vignette for more information.}}{
         \describe{
-            \item{\code{bulkmean.shape}}{Shape parameter for the mean (i.e. 
+            \item{\code{pop.mean.shape}}{Shape parameter for the mean (i.e. 
             bulk) expression gamma distribution}
-            \item{\code{bulkmean.rate}}{Rate parameter for the mean (i.e. 
+            \item{\code{pop.mean.rate}}{Rate parameter for the mean (i.e. 
             bulk) expression gamma distribution}
         }
     }
@@ -43,7 +43,7 @@ The eQTL simulation requires the following parameters:
     parameters binned. Defaults estimated from GTEx data, see vignette for 
     more information.}}{
         \describe{
-            \item{\code{bulkcv.param}}{Dataframe containing gene
+            \item{\code{pop.cv.param}}{Dataframe containing gene
             mean bin range, and the CV shape, and CV rate parameters for
             each of those bins.}
         }
