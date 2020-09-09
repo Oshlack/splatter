@@ -15,7 +15,7 @@ eQTLEstimate(
  simulation of the mean expression levels for the population.
 See \code{\link{eQTLParams}} for details.}
 
-\item{all.pairs}{Txt file with all eQTL pairs from a bulk eQTL analysis. Must
+\item{all.pairs}{Txt file with all eQTL pairs from a real eQTL analysis. Must
 include 3 columns: 'gene_id', 'pval_nominal', and 'slope'.}
 
 \item{gene.means}{Dataframe of real gene means across a population, where 

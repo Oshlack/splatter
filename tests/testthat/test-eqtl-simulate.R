@@ -32,10 +32,8 @@ test_that("input data checks", {
     vcf_bad <- ex_snps
     vcf_bad$V1 <- NULL
     expect_error(eQTLSimulate(vcf = vcf_bad, eQTLparams = eparams),
-                 "snps not in the expected VCF format. See example data.")
+                 "Not enough SNPs in MAF range.")
     
     vcf_bad2 <- ex_snps[1:5,]
-    expect_error(eQTLSimulate(vcf = vcf_bad2), 
-    "Not enough SNPs within desired MAF range. Increase the
-                    eqtl.mafd allowed, include more SNPs, or reduce eqtl.n.")
+    expect_error(eQTLSimulate(vcf = vcf_bad2), "Not enough SNPs in MAF range.")
 })

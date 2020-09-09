@@ -21,6 +21,5 @@ The key updated with assigned eQTL effects.
 \description{
 Randomly pairs N genes (eGene) a SNP (eSNP) within the window size 
 (eqtl.dist) and assigns each pair an effect size sampled from a gamma 
-distribution parameterized using the effect sizes from a bulk eQTL study 
-using the GTEx data from the thyroid tissue.
+distribution parameterized using the effect sizes from a real eQTL study.
 }

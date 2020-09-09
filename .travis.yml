@@ -26,7 +26,5 @@ after_success:
 
 notifications:
   email:
-    recipients:
-      - cazodi@svi.edu.au
-    on_success: never
-    on_failure: never
+    on_success: change
+    on_failure: change

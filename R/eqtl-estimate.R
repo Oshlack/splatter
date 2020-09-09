@@ -7,7 +7,7 @@
 #' @param eQTLparams eQTLParams object containing parameters for the 
 #'         simulation of the mean expression levels for the population.
 #'        See \code{\link{eQTLParams}} for details.
-#' @param all.pairs Txt file with all eQTL pairs from a bulk eQTL analysis. Must
+#' @param all.pairs Txt file with all eQTL pairs from a real eQTL analysis. Must
 #'        include 3 columns: 'gene_id', 'pval_nominal', and 'slope'.
 #' @param gene.means Dataframe of real gene means across a population, where 
 #'        each row is a gene and each column is an individual in the population.
@@ -46,7 +46,7 @@ eQTLEstimate <- function(eQTLparams = neweQTLParams(),
 #' Estimate rate and shape parameters for the gamma distribution used to
 #' simulate eQTL (eSNP-eGene) effect sizes.
 #'
-#' @param all.pairs Txt file with all eQTL pairs from a bulk eQTL analysis. Must
+#' @param all.pairs Txt file with all eQTL pairs from a real eQTL analysis. Must
 #'        include 3 columns: gene_id, pval_nominal, and slope. 
 #' @param eQTLparams eQTLParams object containing parameters for the 
 #'         simulation of the mean expression levels for the population.
@@ -85,8 +85,8 @@ eQTLEstES <- function(all.pairs, eQTLparams) {
     }
     
     eQTLparams <- setParams(eQTLparams, 
-                            eqtlES.shape = unname(fit$estimate["shape"]),
-                            eqtlES.rate = unname(fit$estimate["rate"]))
+                            eqtl.ES.shape = unname(fit$estimate["shape"]),
+                            eqtl.ES.rate = unname(fit$estimate["rate"]))
 
     return(eQTLparams)
 }
@@ -141,7 +141,7 @@ eQTLEstMeanCV <- function(gene.means, eQTLparams) {
     mfit <- fitdistrplus::fitdist(means, "gamma", optim.method="Nelder-Mead")
     
     # Calculate CV parameters for genes based on 10 expresion mean bins
-    nbins <- getParam(eQTLparams, "bulkcv.bins")
+    nbins <- getParam(eQTLparams, "pop.cv.bins")
     bins <- split(means, cut(means, quantile(means,(0:nbins)/nbins), include.lowest=TRUE))
     cvparams <- data.frame(start = character(), end = character(),
                            shape = character(), rate = character(), 
@@ -168,9 +168,9 @@ eQTLEstMeanCV <- function(gene.means, eQTLparams) {
     cvparams[1, "start"] <- 0
     cvparams[nrow(cvparams), "end"] <- 1e100
     eQTLparams <- setParams(eQTLparams, 
-                             bulkmean.shape = unname(mfit$estimate["shape"]),
-                             bulkmean.rate = unname(mfit$estimate["rate"]),
-                             bulkcv.param = cvparams)
+                             pop.mean.shape = unname(mfit$estimate["shape"]),
+                             pop.mean.rate = unname(mfit$estimate["rate"]),
+                             pop.cv.param = cvparams)
 
     return(eQTLparams)
 }

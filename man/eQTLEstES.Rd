@@ -7,7 +7,7 @@
 eQTLEstES(all.pairs, eQTLparams)
 }
 \arguments{
-\item{all.pairs}{Txt file with all eQTL pairs from a bulk eQTL analysis. Must
+\item{all.pairs}{Txt file with all eQTL pairs from a real eQTL analysis. Must
 include 3 columns: gene_id, pval_nominal, and slope.}
 
 \item{eQTLparams}{eQTLParams object containing parameters for the 

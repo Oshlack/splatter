@@ -15,14 +15,14 @@ test_that("nCells checks work", {
 
 
 test_that("CV params checks work", {
-    expect_error(setParam(params, "bulkcv.param", data.frame(
+    expect_error(setParam(params, "pop.cv.param", data.frame(
         start = c(0, 10), shape = c(10, 2), rate = c(7, 3))),
-                 "Need to set bulkcv.bins to length of bulkcv.param")
+                 "Need to set pop.cv.bins to length of pop.cv.param")
 
 })
 
 
 test_that("setParams order doesn't matter", {
-    expect_silent(setParams(params, eqtl.n = 10, eqtl.maf = 0.5))
-    expect_silent(setParams(params, eqtl.maf = 0.5, eqtl.n = 10))
+    expect_silent(setParams(params, eqtl.n = 10, eqtl.maf.max = 0.4))
+    expect_silent(setParams(params, eqtl.maf.max = 0.4, eqtl.n = 10))
 })

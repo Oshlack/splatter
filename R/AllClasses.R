@@ -430,8 +430,8 @@ setClass("KersplatParams",
 #' \describe{
 #'     \item{\code{[eqtl.n]}}{The number genes to assign eQTL effects.}
 #'     \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
-#'     \item{\code{[eqtl.maf]}}{Minor Allele Frequency of chosen eSNPs.}
-#'     \item{\code{[eqtl.mafd]}}{Deviation allowed in MAF of chosen eSNPs.}
+#'     \item{\code{[eqtl.maf.min]}}{Minimum Minor Allele Frequency of eSNPs.}
+#'     \item{\code{[eqtl.maf.max]}}{Maximum Minor Allele Frequency of eSNPs.}
 #'     \item{\code{[eqtl.groups]}}{Number of groups to simulate.}
 #'     \item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate 
 #'     as group specific.}
@@ -447,9 +447,9 @@ setClass("KersplatParams",
 #'     \item{\emph{Bulk Mean Expression distribution parameters. Defaults 
 #'     estimated from GTEx data, see vignette for more information.}}{
 #'         \describe{
-#'             \item{\code{bulkmean.shape}}{Shape parameter for the mean (i.e. 
+#'             \item{\code{pop.mean.shape}}{Shape parameter for the mean (i.e. 
 #'             bulk) expression gamma distribution}
-#'             \item{\code{bulkmean.rate}}{Rate parameter for the mean (i.e. 
+#'             \item{\code{pop.mean.rate}}{Rate parameter for the mean (i.e. 
 #'             bulk) expression gamma distribution}
 #'         }
 #'     }
@@ -457,7 +457,7 @@ setClass("KersplatParams",
 #'     parameters binned. Defaults estimated from GTEx data, see vignette for 
 #'     more information.}}{
 #'         \describe{
-#'             \item{\code{bulkcv.param}}{Dataframe containing gene
+#'             \item{\code{pop.cv.param}}{Dataframe containing gene
 #'             mean bin range, and the CV shape, and CV rate parameters for
 #'             each of those bins.}
 #'         }
@@ -475,28 +475,28 @@ setClass("eQTLParams",
          contains = "Params",
          slots = c(eqtl.n = "numeric",
                    eqtl.dist = "numeric",
-                   eqtl.maf = "numeric",
-                   eqtl.mafd = "numeric",
-                   eqtlES.shape = "numeric",
-                   eqtlES.rate = "numeric",
+                   eqtl.maf.min = "numeric",
+                   eqtl.maf.max = "numeric",
+                   eqtl.ES.shape = "numeric",
+                   eqtl.ES.rate = "numeric",
                    eqtl.groups = "numeric",
                    eqtl.group.specific = "numeric",
-                   bulkmean.shape = "numeric",
-                   bulkmean.rate = "numeric",
-                   bulkcv.bins = "numeric",
-                   bulkcv.param = "data.frame"),
+                   pop.mean.shape = "numeric",
+                   pop.mean.rate = "numeric",
+                   pop.cv.bins = "numeric",
+                   pop.cv.param = "data.frame"),
          prototype = prototype(eqtl.n = 100,
                                eqtl.dist = 1000000, 
-                               eqtl.maf = 0.15, 
-                               eqtl.mafd = 0.1,
-                               eqtlES.shape = 2.538049, 
-                               eqtlES.rate = 5.962323,
+                               eqtl.maf.min = 0.05, 
+                               eqtl.maf.max = 0.5,
+                               eqtl.ES.shape = 2.538049, 
+                               eqtl.ES.rate = 5.962323,
                                eqtl.groups = 1,
                                eqtl.group.specific = 0.2,
-                               bulkmean.shape = 0.3395709, 
-                               bulkmean.rate = 0.008309486, 
-                               bulkcv.bins = 10,
-                               bulkcv.param =
+                               pop.mean.shape = 0.3395709, 
+                               pop.mean.rate = 0.008309486, 
+                               pop.cv.bins = 10,
+                               pop.cv.param =
                                    data.frame(
                                        start = c(0, 0.476, 0.955, 1.86, 3.49, 
                                                  6.33, 10.4, 16.3, 26.5,49.9),
