@@ -356,11 +356,11 @@ the batch effects (second component) but by adjusting the parameters we could
 made the batch effects dominate.
 
 
-## Simulating population-scale single cell data (Splat-eQTL)
+## Simulating population-scale single cell data (Splat-pop)
 
 The ability to simulate single-cell counts for multiple individuals means that
 Splatter can simulate data needed for functional genomics studies. Given real 
-(or simulated) genotype information for a population of samples, Splat-eQTL 
+(or simulated) genotype information for a population of samples, Splat-pop 
 simulates gene mean expression levels across the population, taking into
 account population structure and allowing for the simulation of global and 
 group-specific expression Quantitative Trait Loci (eQTL) effects. Gene means and variances are simulated from [gamma distributions][gamma] derived from real population scale RNA-seq data and eQTL effect sizes from a 
