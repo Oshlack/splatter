@@ -1,6 +1,5 @@
 #' @importFrom utils globalVariables
-utils::globalVariables(c("pval_nominal", 'perc', 'ex_pairs', 'ex_means', 
-                         'gene_id', 'ex_gff', 'ex_snps', 'type', 'eQTL',
+utils::globalVariables(c("pval_nominal", 'perc', 'gene_id',  'type', 'eQTL',
                          'chr', 'loc', "MAF"))
 
 #' Logistic function
