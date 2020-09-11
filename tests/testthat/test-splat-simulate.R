@@ -3,12 +3,6 @@ context("Splat simulations")
 test.params <- newSplatParams(nGenes = 100, batchCells = c(5, 5),
                               group.prob = c(0.5, 0.5), lib.scale = 0)
 
-data(ex_snps)
-ex_snps <- ex_snps[, 1:19]
-eqtl.params <- setParams(neweQTLParams(), list(eqtl.n = 10, seed = 42))
-eqtl <- eQTLSimulate(eQTLparams = eqtl.params)
-test.params.eqtl <- newSplatParams(nGenes = 100, batchCells = c(10, 10),
-                              group.prob = c(0.5, 0.5), lib.scale = 0)
 
 test_that("splatSimulate output is valid", {
     expect_true(validObject(splatSimulate(test.params, method = "single")))
@@ -17,15 +11,30 @@ test_that("splatSimulate output is valid", {
                                           path.from = c(0, 1))))
 })
 
-test_that("splatSimulate with eQTL effects output is valid", {
-    expect_true(validObject(splatSimulateeQTL(eqtl = eqtl$means, 
-                                              params=test.params.eqtl, 
+# Make mock vcf file
+genotypes <- c(rep("0/0", 20), rep("0/1", 2), rep("1/1", 1))
+nsnps <- 1e5
+vcf <- data.frame(list(V1=rep(22, nsnps), V2=sample(1:5e7, nsnps)))
+vcf[, c("V3","V4","V5","V6","V7","V8","V9")] <- NA
+vcf[, c("V10","V11","V12","V13","V14","V15")] <- sample(
+    genotypes, 6*nsnps, replace=TRUE)
+
+# Set up for population simulation
+pop.params <- newPopParams(eqtl.n = 0.5, nGenes = 100) 
+pop <- popSimulate(vcf = vcf, popParams = pop.params)
+
+params <- newSplatParams(batchCells = c(10, 10),
+                         group.prob = c(0.5, 0.5), lib.scale = 0)
+
+test_that("splatSimulatePop output is valid", {
+    expect_true(validObject(splatSimulatePop(pop = pop$means, 
+                                              params=params, 
                                               method = "single")))
-    expect_true(validObject(splatSimulateeQTL(eqtl = eqtl$means, 
-                                              params=test.params.eqtl, 
+    expect_true(validObject(splatSimulatePop(pop = pop$means, 
+                                              params=params, 
                                               method = "groups")))
-    expect_true(validObject(splatSimulateeQTL(eqtl = eqtl$means, 
-                                              params=test.params.eqtl, 
+    expect_true(validObject(splatSimulatePop(pop = pop$means, 
+                                              params=params, 
                                               method = "paths",
                                               path.from = c(0, 1))))
 })

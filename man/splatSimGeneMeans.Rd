@@ -4,14 +4,14 @@
 \alias{splatSimGeneMeans}
 \title{Simulate gene means}
 \usage{
-splatSimGeneMeans(sim, params, eqtl_means)
+splatSimGeneMeans(sim, params, pop_means)
 }
 \arguments{
 \item{sim}{SingleCellExperiment to add gene means to.}
 
 \item{params}{SplatParams object with simulation parameters.}
 
-\item{eqtl_means}{Object output from `eQTLSimulate()`}
+\item{pop_means}{Object output from `popSimulate()`}
 }
 \value{
 SingleCellExperiment with simulated gene means.

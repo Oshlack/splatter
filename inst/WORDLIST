@@ -38,9 +38,6 @@ eGene
 eGenes
 eqtl
 eQTL
-eQTLparams
-eQTLParams
-eQTLSimulate
 ESg
 eSNP
 eSNPs
@@ -93,12 +90,11 @@ Mgs
 mockSCE
 modeling
 Nelder
-neweQTLParams
+newPopParams
 newSplatParams
 nGenes
 nGroups
 NOTEs
-param
 params
 Params
 Parra
@@ -108,6 +104,8 @@ PhenoPath
 PLoS
 poisson
 Poisson
+popParams
+popSimulate
 prob
 PROSSTT
 pseudotime
@@ -153,8 +151,8 @@ splatEstLib
 splatParams
 SplatParams
 splatSimulate
-splatSimulateeQTL
 splatSimulatePaths
+splatSimulatePop
 Splatter's
 splotchEstimate
 SplotchParams
@@ -166,6 +164,7 @@ thining
 tpm
 TPM
 TSS
+tsv
 UMAP
 UpperCamelCase
 Vallejos

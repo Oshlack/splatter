@@ -1,16 +1,15 @@
-context("eQTLParams")
+context("popParams")
 
-params <- neweQTLParams()
+params <- newPopParams()
 
 test_that("printing works", {
-    expect_output(show(params), "A Params object of class eQTLParams")
+    expect_output(show(params), "A Params object of class popParams")
 })
 
 
 test_that("nCells checks work", {
-    expect_warning(setParam(params, "nCells", 1),
-                 "nCells parameter does not impact eQTL simulation, set nCells
-             in the sc simulation Params object instead.")
+    expect_warning(setParam(params, "nCells", 1), 
+                   "nCells only used if genes='random'")
 })
 
 

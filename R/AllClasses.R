@@ -419,16 +419,17 @@ setClass("KersplatParams",
                                ambient.scale = 0.05,
                                ambient.nEmpty = 0))
 
-#' The eQTLParams class
+#' The popParams class
 #'
-#' S4 class that holds parameters for the eQTL simulation.
+#' S4 class that holds parameters for the population simulation.
 #'
 #' @section Parameters:
 #'
-#' The eQTL simulation requires the following parameters:
+#' The population simulation requires the following parameters:
 #'
 #' \describe{
-#'     \item{\code{[eqtl.n]}}{The number genes to assign eQTL effects.}
+#'     \item{\code{[eqtl.n]}}{The number (>1) or percent (<=1) of genes to 
+#'     assign eQTL effects.}
 #'     \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
 #'     \item{\code{[eqtl.maf.min]}}{Minimum Minor Allele Frequency of eSNPs.}
 #'     \item{\code{[eqtl.maf.max]}}{Maximum Minor Allele Frequency of eSNPs.}
@@ -438,9 +439,9 @@ setClass("KersplatParams",
 #'     \item{\emph{eQTL Effect size distribution parameters. Defaults estimated
 #'     from GTEx eQTL mapping results, see vignette for more information.}}{
 #'         \describe{
-#'             \item{\code{eqtlES.shape}}{Shape parameter for the effect size 
+#'             \item{\code{eqtl.ES.shape}}{Shape parameter for the effect size 
 #'             gamma distribution.}
-#'             \item{\code{eqtlES.rate}}{Rate parameter for the effect size 
+#'             \item{\code{eqtl.ES.rate}}{Rate parameter for the effect size 
 #'             gamma distribution.}
 #'         }
 #'     }
@@ -464,14 +465,14 @@ setClass("KersplatParams",
 #'     }
 #'}
 #' The parameters not shown in brackets can be estimated from real data using
-#' \code{\link{eQTLEstimate}}. For details of the eQTL simulation
-#' see \code{\link{eQTLSimulate}}.
+#' \code{\link{popEstimate}}. For details of the eQTL simulation
+#' see \code{\link{popSimulate}}.
 #'
-#' @name eQTLParams
-#' @rdname eQTLParams
-#' @aliases eQTLParams-class
-#' @exportClass eQTLParams
-setClass("eQTLParams",
+#' @name popParams
+#' @rdname popParams
+#' @aliases popParams-class
+#' @exportClass popParams
+setClass("popParams",
          contains = "Params",
          slots = c(eqtl.n = "numeric",
                    eqtl.dist = "numeric",
@@ -485,7 +486,7 @@ setClass("eQTLParams",
                    pop.mean.rate = "numeric",
                    pop.cv.bins = "numeric",
                    pop.cv.param = "data.frame"),
-         prototype = prototype(eqtl.n = 100,
+         prototype = prototype(eqtl.n = 1,
                                eqtl.dist = 1000000, 
                                eqtl.maf.min = 0.05, 
                                eqtl.maf.max = 0.5,

@@ -1,9 +1,9 @@
 #' @rdname newParams
 #' @importFrom methods new
 #' @export
-neweQTLParams <- function(...) {
+newPopParams <- function(...) {
     
-    params <- new("eQTLParams")
+    params <- new("popParams")
     params <- setParams(params, ...)
 
     return(params)
@@ -12,11 +12,11 @@ neweQTLParams <- function(...) {
 
 #' @importFrom checkmate checkInt checkIntegerish checkNumber checkNumeric
 #' checkFlag
-setValidity("eQTLParams", function(object) {
+setValidity("popParams", function(object) {
     
     v <- getParams(object, c(slotNames(object)))
     
-    checks <- c(eqtl.n = checkInt(v$eqtl.n, lower = 1),
+    checks <- c(eqtl.n = checkNumber(v$eqtl.n, lower = 0),
                 eqtl.dist = checkInt(v$eqtl.dist, lower = 1),
                 eqtl.maf.min = checkNumber(v$eqtl.maf.min, lower = 0, upper = 0.5),
                 eqtl.maf.max = checkNumber(v$eqtl.maf.max, lower = 0, upper = 0.5),
@@ -42,7 +42,7 @@ setValidity("eQTLParams", function(object) {
 
 
 #' @importFrom methods callNextMethod
-setMethod("show", "eQTLParams", function(object) {
+setMethod("show", "popParams", function(object) {
     
     pp <- list("eQTL.General:" = c("[eqtl.n]"    = "eqtl.n",
                                    "[eqtl.dist]" = "eqtl.dist",
@@ -63,12 +63,11 @@ setMethod("show", "eQTLParams", function(object) {
 
 
 #' @rdname setParam
-setMethod("setParam", "eQTLParams", function(object, name, value) {
+setMethod("setParam", "popParams", function(object, name, value) {
     checkmate::assertString(name)
     
     if (name == "nCells") {
-        warning(name, " parameter does not impact eQTL simulation, set nCells
-             in the sc simulation Params object instead.")
+        warning(name, " only used if genes='random'")
     }
     
     if (name == "pop.cv.param") {
@@ -99,9 +98,9 @@ setMethod("setParam", "eQTLParams", function(object, name, value) {
 })
 
 #' @rdname setParams
-setMethod("setParams", "eQTLParams", function(object, update = NULL, ...) {
+setMethod("setParams", "popParams", function(object, update = NULL, ...) {
     
-    checkmate::assertClass(object, classes = "eQTLParams")
+    checkmate::assertClass(object, classes = "popParams")
     checkmate::assertList(update, null.ok = TRUE)
     
     update <- c(update, list(...))

@@ -1,29 +1,31 @@
-#' eQTL-Simulate
+#' popSimulate
 #'
 #' Simulate mean gene counts for a population of samples based on sample 
 #' genotype with eQTL effects included for certain genes (eGenes). 
 #' 
 #' @param params SplatParams object containing parameters for the simulation.
 #'        See \code{\link{SplatParams}} for details. Default=`newSplatParams()`.
-#' @param eQTLparams eQTLParams object containing parameters for the 
+#' @param popParams popParams object containing parameters for the 
 #'         simulation of the mean expression levels for the population.
-#'        See \code{\link{eQTLParams}} for details. Default=`neweQTLParams()`.
-#' @param gff Data.frame of genes to simulate from a GFF or GTF file.
+#'        See \code{\link{popParams}} for details. Default=`newPopParams()`.
+#' @param genes Specify genes to include. Either provide data.frame of genes 
+#'        from a GFF/GTF or set to "random" to have popSimulate randomly
+#'        generate genes. Default="random".
 #' @param vcf Data.frame of genotypes for samples to simulate from a VCF file.
 #' @param key Data.frame of complete or partial eQTL key that is output from 
-#'        `eQTLSimulate()`. If FALSE, a key will be generated from scratch. 
+#'        `popSimulate()`. If FALSE, a key will be generated from scratch. 
 #'        Default=FALSE.
 #' @param verbose logical. Whether to print progress messages. Default=TRUE.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
 #'        
-#' @details SplatParams and eQTLParams can be set in a variety of ways. 1. If 
+#' @details SplatParams and popParams can be set in a variety of ways. 1. If 
 #' not provided, default parameters are used. 2. Default parameters can be 
 #' overridden by supplying desired parameters using \code{\link{setParams}}. 
 #' 3. Parameters can be estimated from real data of your choice using 
-#' \code{\link{splatEstimate}} and \code{\link{eQTLEstimate}}.
+#' \code{\link{splatEstimate}} and \code{\link{popEstimate}}.
 #' 
-#' `eQTLSimulate` involves the following steps:
+#' `popSimulate` involves the following steps:
 #' \enumerate{
 #'     \item Load eQTL key or generate eQTL key from the GTF/GFF file.
 #'     \item Format and subset genotype data from the VCF file.
@@ -43,83 +45,85 @@
 #' assignments.
 #' 
 #' @seealso
-#' \code{\link{eqtl.parse.gff}}, \code{\link{eqtl.parse.vcf}},
-#' \code{\link{eqtl.assign.means}}, \code{\link{eqtl.assign.eqtl.effects}}, 
-#' \code{\link{eqtl.assign.group.effects}}, \code{\link{eqtl.sim.means}},
-#' \code{\link{eqtl.sim.eqtl.eff}}, \code{\link{eqtl.quan.norm.sc}}, 
-#' \code{\link{eqtl.key.update.quan.norm}}
-
-#' @examples
-#' # Load example data
-#' data(ex_gff)
-#' data(ex_snps)
-#' pop.sim <- eQTLSimulate()
+#' \code{\link{pop.parse.vcf}}, \code{\link{pop.parse.gff}},
+#' \code{\link{pop.random.genes}}, \code{\link{pop.assign.means}}, 
+#' \code{\link{pop.assign.eqtl.effects}}, 
+#' \code{\link{pop.assign.group.effects}}, \code{\link{pop.sim.means}},
+#' \code{\link{pop.sim.eqtl.eff}}, \code{\link{pop.quan.norm.sc}}, 
+#' \code{\link{pop.key.update.quan.norm}}
 #' 
 #' @export
 #' 
-eQTLSimulate <- function(params = newSplatParams(),
-                      eQTLparams = neweQTLParams(),
-                      gff = ex_gff, 
-                      vcf = ex_snps,
-                      key = FALSE,
-                      verbose = TRUE, ...) {
+popSimulate <- function(vcf,
+                        params = newSplatParams(),
+                        popParams = newPopParams(),
+                        genes = 'random', 
+                        key = FALSE,
+                        verbose = TRUE, ...) {
     
     # Set random seed
-    seed <- getParam(eQTLparams, "seed")
+    seed <- getParam(popParams, "seed")
     set.seed(seed)
-
+    
+    # Read in SNPs from VCF
     if (verbose) {message("Loading VCF...")}
-    vcf.parsed <- eqtl.parse.vcf(vcf, eQTLparams)
+    vcf.parsed <- pop.parse.vcf(vcf, popParams)
     snps <- vcf.parsed$snps
     samples <- vcf.parsed$samples
-    groups <- paste0("g", seq(1, getParam(eQTLparams, "eqtl.groups")))
+    groups <- paste0("g", seq(1, getParam(popParams, "eqtl.groups")))
     
     # Read in genes and gene locations from GFF/GTF or from the provided key
     if (key == FALSE){
-        if (verbose) {message("Pulling genes from GFF...")}
-        key <- eqtl.parse.gff(gff)
+        if(genes == "random"){
+            if (verbose) {message("Generating random genes...")}
+            key <- pop.random.genes(popParams, vcf)
+        }else{
+            if (verbose) {message("Pulling genes from GFF...")}
+            key <- pop.parse.gff(genes)
+        }
+        
     }else{
         if (verbose) {message("Using genes from key provided...")}
     }
     
-    # If mean and CV not provided in key, simulate using params from eQTLparams
+    # If mean and CV not provided in key, simulate using params from popParams
     if (!all(c("exp_mean", "exp_cv") %in% names(key))){
         if (verbose) {message("Assigning gene means & cv...")}
-        key <- eqtl.assign.means(params, key, eQTLparams)
+        key <- pop.assign.means(params, key, popParams)
     }
     
     # If eqtl effects are not provided, simulate them.
     if (!all(c("eQTL", "eSNP", "EffectSize") %in% names(key))){
         if (verbose) {message("Assigning eQTL effects...")}
-        key <- eqtl.assign.eqtl.effects(key, snps, eQTLparams)
+        key <- pop.assign.eqtl.effects(key, snps, popParams)
         
         if(length(groups) > 1){
-            key <- eqtl.assign.group.effects(key, groups, eQTLparams, params)}
+            key <- pop.assign.group.effects(key, groups, popParams, params)}
     }
     
     # Use info in key to generate matrix of gene expression levels
     if (verbose) {message("Simulating gene means for population...")}
-    MeansPop <- eqtl.sim.means(samples, key)
-    eMeansPop <- eqtl.sim.eqtl.eff('global', key, snps, MeansPop)
+    MeansPop <- pop.sim.means(samples, key)
+    eMeansPop <- pop.sim.eqtl.eff('global', key, snps, MeansPop)
     
     # Add group-specific eQTL effects if present
     if(length(groups) > 1){
         eMeansPopq_groups <- list()
         
         for(id in groups){
-            eMeansPop.g <- eqtl.sim.eqtl.eff(id, key, snps, eMeansPop)
-            eMeansPop.g.q <- eqtl.quan.norm.sc(params, eMeansPop.g)
+            eMeansPop.g <- pop.sim.eqtl.eff(id, key, snps, eMeansPop)
+            eMeansPop.g.q <- pop.quan.norm.sc(params, eMeansPop.g)
             eMeansPopq_groups[[id]] <- eMeansPop.g.q
         }
-        key <- eqtl.key.update.quan.norm(key, eMeansPopq_groups)
+        key <- pop.key.update.quan.norm(key, eMeansPopq_groups)
         
         if (verbose) {message("Done!")} 
         return(list(means=eMeansPopq_groups, key=key))
     
     # Otherwise quantile normalize single matrix and return
     }else{
-        eMeansPopq <- eqtl.quan.norm.sc(params, eMeansPop)
-        key <- eqtl.key.update.quan.norm(key, eMeansPopq)
+        eMeansPopq <- pop.quan.norm.sc(params, eMeansPop)
+        key <- pop.key.update.quan.norm(key, eMeansPopq)
         
         if (verbose) {message("Done!")} 
         return(list(means=eMeansPopq, key=key))
@@ -127,49 +131,22 @@ eQTLSimulate <- function(params = newSplatParams(),
 }
 
 
-#' Generate eQTL key matrix using information from the GTF/GFF file.
-#'
-#' @param gff Dataframe of genes to simulate from a GFF or GTF file.
-#' 
-#' @return The partial eQTL key dataframe.
-#' 
-eqtl.parse.gff <- function(gff){
-    
-    # Test input gff file
-    if ((length(names(gff)) < 8 | nrow(gff[gff[,3]=="gene",]) < 1)) {
-        stop("GFF file did not contain gene features or other issue with 
-            file format. See example data.")
-    }
-
-    genes <- gff[gff[,3]=="gene",]
-    genes$geneID <- c(paste0("gene", 1:nrow(genes)))
-    genes$chr <- genes[, 1]
-    genes$gene_start <- genes[, 4]
-    genes$gene_end <- genes[, 5]
-    genes$gene_dir <- genes[, 7]
-    genes$loc <- ifelse(genes$gene_dir == "-", genes$gene_end, genes$gene_start)
-    key <- genes[,c("geneID", "chr", "gene_start", "gene_end", "gene_dir", "loc")]
-    
-    return(key)
-}
-
-
 #' Format and subset genotype data from a VCF file.
 #' 
 #' Convert [0/0, 0/1, 1/1] alleles into [0,1,2] format and remove SNPs that do
-#' not meet Minor Allele Frequency requirements specified in `eQTLParams`. 
+#' not meet Minor Allele Frequency requirements specified in `popParams`. 
 #'
 #' @param vcf Data.frame of genotypes for samples to simulate from a VCF file.
-#' @param eQTLparams eQTLparams object containing parameters for the 
+#' @param popParams popParams object containing parameters for the 
 #'         simulation of the mean expression levels for the population.
-#'        See \code{\link{eQTLParams}} for details. Default=`neweQTLParams()`.
+#'        See \code{\link{popParams}} for details. Default=`newPopParams()`.
 #'
 #' @return A list containing the genotype dataframe and a list of samples.
 #' 
-eqtl.parse.vcf <- function(vcf, eQTLparams){
+pop.parse.vcf <- function(vcf, popParams){
     
-    eqtl.maf.min <- getParam(eQTLparams, "eqtl.maf.min")
-    eqtl.maf.max <- getParam(eQTLparams, "eqtl.maf.max")
+    eqtl.maf.min <- getParam(popParams, "eqtl.maf.min")
+    eqtl.maf.max <- getParam(popParams, "eqtl.maf.max")
 
     # Read in genotype matrix in .vcf format
     vcf[, 3:9] <- NULL
@@ -200,6 +177,57 @@ eqtl.parse.vcf <- function(vcf, eQTLparams){
 }
 
 
+#' Generating eQTL key matrix with random genes
+#' 
+#' @param popParams popParams object containing parameters for the 
+#'         simulation of the mean expression levels for the population.
+#'        See \code{\link{popParams}} for details. Default=`newPopParams()`.
+#' @param vcf output from `pop.parse.vcf`
+#' 
+#' @return The partial eQTL key dataframe.
+#' 
+pop.random.genes <- function(popParams, vcf){
+    
+    nGenes <- getParam(popParams, "nGenes")
+
+    key <- data.frame(list('geneID' = paste0('gene', 1:nGenes),
+                           'tmp_snp' = sample(1:nrow(vcf), nGenes)))
+    key$chr <- vcf[key$tmp_snp, 'V1']
+    key$loc <- vcf[key$tmp_snp, 'V2'] + sample(-1e3:1e3, nGenes, replace=TRUE)
+
+    key <- key[,c("geneID", "chr", "loc")]
+
+    return(key)
+}
+
+#' Generate eQTL key matrix using information from the GTF/GFF file.
+#'
+#' @param gff Dataframe of genes to simulate from a GFF or GTF file.
+#' 
+#' @return The partial eQTL key dataframe.
+#' 
+pop.parse.gff <- function(gff){
+    
+    # Test input gff file
+    if ((length(names(gff)) < 8 | nrow(gff[gff[,3]=="gene",]) < 1)) {
+        stop("GFF file did not contain gene features or other issue with 
+            file format. See example data.")
+    }
+    
+    genes <- gff[gff[,3]=="gene",]
+    genes$geneID <- c(paste0("gene", 1:nrow(genes)))
+    genes$chr <- genes[, 1]
+    genes$gene_start <- genes[, 4]
+    genes$gene_end <- genes[, 5]
+    genes$gene_dir <- genes[, 7]
+    genes$loc <- ifelse(genes$gene_dir == "-", genes$gene_end, genes$gene_start)
+    key <- genes[,c("geneID", "chr", "gene_start", "gene_end", "gene_dir", "loc")]
+    
+    return(key)
+}
+
+
+
 #' Assign expression mean and variance to each gene
 #'
 #' A mean and coefficient of variation is assigned to each gene by sampling from
@@ -210,18 +238,18 @@ eqtl.parse.vcf <- function(vcf, eQTLparams){
 #' @param params SplatParams object containing parameters for the simulation.
 #'        See \code{\link{SplatParams}} for details.
 #' @param key Partial eQTL key dataframe. 
-#' @param eQTLparams eQTLParams object containing parameters for the 
+#' @param popParams popParams object containing parameters for the 
 #'         simulation of the mean expression levels for the population.
-#'        See \code{\link{eQTLParams}} for details.
+#'        See \code{\link{popParams}} for details.
 #' 
 #' @return The key updated with assigned means and variances.
 #' 
-eqtl.assign.means <- function(params, key, eQTLparams){
+pop.assign.means <- function(params, key, popParams){
     
     # Load parameters generated from real data using splatEstimate()
-    pop_mean_shape <- getParam(eQTLparams, "pop.mean.shape")
-    pop_mean_rate <- getParam(eQTLparams, "pop.mean.rate")
-    cv.param <- getParam(eQTLparams, "pop.cv.param")
+    pop_mean_shape <- getParam(popParams, "pop.mean.shape")
+    pop_mean_rate <- getParam(popParams, "pop.mean.rate")
+    cv.param <- getParam(popParams, "pop.cv.param")
     
     # Sample gene means
     key$exp_mean <- rgamma(nrow(key), shape = pop_mean_shape, 
@@ -248,18 +276,21 @@ eqtl.assign.means <- function(params, key, eQTLparams){
 #'
 #' @param key Partial eQTL key dataframe. 
 #' @param snps Dataframe of genotype information output from `vcf.parsed`.
-#' @param eQTLparams eQTLParams object containing parameters for the 
+#' @param popParams popParams object containing parameters for the 
 #'         simulation of the mean expression levels for the population.
-#'        See \code{\link{eQTLParams}} for details. Default=`neweQTLParams()`.
+#'        See \code{\link{popParams}} for details. Default=`newPopParams()`.
 #' 
 #' @return The key updated with assigned eQTL effects.
 #' 
-eqtl.assign.eqtl.effects <- function(key, snps, eQTLparams){
-    eqtl.n <- getParam(eQTLparams, "eqtl.n")
-    if (eqtl.n > nrow(key)){eqtl.n <- nrow(key)}
-    eqtl.dist <- getParam(eQTLparams, "eqtl.dist")
-    eqtlES_shape <- getParam(eQTLparams, "eqtl.ES.shape") 
-    eqtlES_rate <- getParam(eQTLparams, "eqtl.ES.rate")
+pop.assign.eqtl.effects <- function(key, snps, popParams){
+    
+    eqtl.n <- getParam(popParams, "eqtl.n")
+    if (eqtl.n > nrow(key)){eqtl.n <- nrow(key)} # Can't be greater than nGenes
+    if (eqtl.n <= 1){eqtl.n <- nrow(key) * eqtl.n} # If <= 1 it is a percent
+
+    eqtl.dist <- getParam(popParams, "eqtl.dist")
+    eqtlES_shape <- getParam(popParams, "eqtl.ES.shape") 
+    eqtlES_rate <- getParam(popParams, "eqtl.ES.rate")
 
     # Set up dataframe to save info about selected eSNP-eGENE pairs 
     snps_list <- row.names(snps)
@@ -311,19 +342,19 @@ eqtl.assign.eqtl.effects <- function(key, snps, eQTLparams){
 #'
 #' @param key Partial eQTL key dataframe. 
 #' @param groups array of group names
-#' @param eQTLparams eQTLParams object containing parameters for the 
+#' @param popParams popParams object containing parameters for the 
 #'         simulation of the mean expression levels for the population.
-#'        See \code{\link{eQTLParams}} for details. Default=`neweQTLParams()`.
+#'        See \code{\link{popParams}} for details. Default=`newPopParams()`.
 #' @param params SplatParams object containing parameters for the simulation.
 #'        See \code{\link{SplatParams}} for details. Default=`newSplatParams()`.
 #' 
 #' @return he key updated with group eQTL and non-eQTL effects.
 #'
-eqtl.assign.group.effects <- function(key, groups, eQTLparams, params){
+pop.assign.group.effects <- function(key, groups, popParams, params){
     
     # Assign group-specific eQTL
-    eqtl.n <- getParam(eQTLparams, "eqtl.n")
-    g.specific.perc <- getParam(eQTLparams, "eqtl.group.specific")
+    eqtl.n <- getParam(popParams, "eqtl.n")
+    g.specific.perc <- getParam(popParams, "eqtl.group.specific")
     n.groups <- length(groups)
     n.specific.each <- ceiling(eqtl.n * g.specific.perc / n.groups)
     
@@ -362,7 +393,7 @@ eqtl.assign.group.effects <- function(key, groups, eQTLparams, params){
 #'
 #' @importFrom stats rnorm
 #' 
-eqtl.sim.means <- function(samples, key){
+pop.sim.means <- function(samples, key){
     
     means <- lapply(key$geneID, 
                     function(g) rnorm(length(samples), 
@@ -398,7 +429,7 @@ eqtl.sim.means <- function(samples, key){
 #'
 #' @return Dataframe of gene mean expression levels WITH eQTL effects.
 #' 
-eqtl.sim.eqtl.eff <- function(id, key, snps, MeansPop){
+pop.sim.eqtl.eff <- function(id, key, snps, MeansPop){
     
     # Add group-specific eQTL effects
     genes_use <- subset(key, eQTL == id)$geneID
@@ -439,7 +470,7 @@ eqtl.sim.eqtl.eff <- function(id, key, snps, MeansPop){
 #' @importFrom preprocessCore normalize.quantiles.use.target
 #' @export
 
-eqtl.quan.norm.sc <- function(params, MeansMatrix){    
+pop.quan.norm.sc <- function(params, MeansMatrix){    
     
     # Generate sample target distribution from sc parameters
     mean.shape <- getParam(params, "mean.shape")
@@ -457,13 +488,13 @@ eqtl.quan.norm.sc <- function(params, MeansMatrix){
 #' Add quantile normalized gene mean and cv info the eQTL key.
 #' 
 #' @param key Partial eQTL key dataframe.
-#' @param MeansMatrix The output from `eqtl.quan.norm.sc` as a matrix or list of
+#' @param MeansMatrix The output from `pop.quan.norm.sc` as a matrix or list of
 #'                    matrices.
 #'
 #' @return Final eQTL key.
 #' 
 #' @export
-eqtl.key.update.quan.norm <- function(key, MeansMatrix){
+pop.key.update.quan.norm <- function(key, MeansMatrix){
     
     if (type(MeansMatrix) == "list"){
         qn_means <- list()

@@ -1,44 +1,36 @@
-#' Estimate eQTL simulation parameters
+#' Estimate population/eQTL simulation parameters
 #'
 #' Estimate simulation parameters for the eQTL population simulation from
 #' real data. See the individual estimation functions for more details on
 #' how this is done. 
 #'
-#' @param eQTLparams eQTLParams object containing parameters for the 
-#'         simulation of the mean expression levels for the population.
-#'        See \code{\link{eQTLParams}} for details.
-#' @param all.pairs Txt file with all eQTL pairs from a real eQTL analysis. Must
-#'        include 3 columns: 'gene_id', 'pval_nominal', and 'slope'.
 #' @param gene.means Dataframe of real gene means across a population, where 
 #'        each row is a gene and each column is an individual in the population.
+#' @param eqtl Txt file with all or top eQTL pairs from a real eQTL analysis.
+#'         Must include columns: 'gene_id', 'pval_nominal', and 'slope'.
+#' @param popParams popParams object containing parameters for the 
+#'         simulation of the mean expression levels for the population.
+#'        See \code{\link{popParams}} for details.
+#' 
 #'
 #' @seealso
-#' \code{\link{eQTLEstES}},  \code{\link{eQTLEstMeanCV}}
+#' \code{\link{popEstimate.ES}},  \code{\link{popEstimate.MeanCV}}
 #'
-#' @return eQTLParams object containing the estimated parameters.
-#'
-#' @examples
-#' # Load example data
-#' data(ex_means)
-#' data(ex_pairs)
-#' eQTLparams <- eQTLEstimate()
-#' eQTLparams
+#' @return popParams object containing the estimated parameters.
 #' 
 #' @export
 #' 
-eQTLEstimate <- function(eQTLparams = neweQTLParams(),
-                         all.pairs = ex_pairs,
-                         gene.means = ex_means){
+popEstimate <- function(gene.means, eqtl, popParams = newPopParams()){
     
-    checkmate::assertClass(eQTLparams, "eQTLParams")
+    checkmate::assertClass(popParams, "popParams")
     
     # Get parameters for eQTL Effect Size distribution
-    eQTLparams <- eQTLEstES(all.pairs, eQTLparams)
+    popParams <- popEstimate.ES(eqtl, popParams)
         
     # Get parameters for population wide gene mean and variance distributions
-    eQTLparams <- eQTLEstMeanCV(gene.means, eQTLparams)
+    popParams <- popEstimate.MeanCV(gene.means, popParams)
 
-    return(eQTLparams)
+    return(popParams)
 }
 
 #' Estimate eQTL Effect Size parameters
@@ -46,11 +38,11 @@ eQTLEstimate <- function(eQTLparams = neweQTLParams(),
 #' Estimate rate and shape parameters for the gamma distribution used to
 #' simulate eQTL (eSNP-eGene) effect sizes.
 #'
-#' @param all.pairs Txt file with all eQTL pairs from a real eQTL analysis. Must
-#'        include 3 columns: gene_id, pval_nominal, and slope. 
-#' @param eQTLparams eQTLParams object containing parameters for the 
+#' @param eqtl Txt file with all or top eQTL pairs from a real eQTL analysis. 
+#'         Must include columns: gene_id, pval_nominal, and slope. 
+#' @param popParams popParams object containing parameters for the 
 #'         simulation of the mean expression levels for the population.
-#'        See \code{\link{eQTLParams}} for details.
+#'        See \code{\link{popParams}} for details.
 #'
 #' @details
 #' Parameters for the gamma distribution are estimated by fitting the top eSNP-
@@ -59,19 +51,19 @@ eQTLEstimate <- function(eQTLparams = neweQTLParams(),
 #' Cramer-von Mises distance. This can fail in some situations, in which case 
 #' the method of moments estimation method is used instead. 
 #'
-#' @return eQTLparams object with estimated values.
+#' @return popParams object with estimated values.
 #' @importFrom dplyr group_by filter "%>%"
 #' 
-eQTLEstES <- function(all.pairs, eQTLparams) {
+popEstimate.ES <- function(eqtl, popParams) {
 
     # Test input eSNP-eGene pairs
-    if (!("gene_id" %in% names(all.pairs) &
-          "pval_nominal" %in% names(all.pairs))) {
-        stop("Incorrect format for all.pairs. See example data.")
+    if (!("gene_id" %in% names(eqtl) &
+          "pval_nominal" %in% names(eqtl))) {
+        stop("Incorrect format for eqtl data.")
     }
     
     # Select top eSNP for each gene (i.e. lowest p.value)
-    pairs_top <- all.pairs %>% group_by(gene_id) %>%
+    pairs_top <- eqtl %>% group_by(gene_id) %>%
         filter(pval_nominal == min(pval_nominal))
 
     # Fit absolute value of effect sizes to gamma distribution
@@ -84,11 +76,11 @@ eQTLEstES <- function(all.pairs, eQTLparams) {
         fit <- fitdistrplus::fitdist(e.sizes, "gamma", method = "mme")
     }
     
-    eQTLparams <- setParams(eQTLparams, 
+    popParams <- setParams(popParams, 
                             eqtl.ES.shape = unname(fit$estimate["shape"]),
                             eqtl.ES.rate = unname(fit$estimate["rate"]))
 
-    return(eQTLparams)
+    return(popParams)
 }
 
 #' Estimate gene mean and gene mean variance parameters
@@ -99,9 +91,9 @@ eQTLEstES <- function(all.pairs, eQTLparams) {
 #' estimated parameters are added to the params object. See
 #' \code{\link[fitdistrplus]{fitdist}} for details on the fitting.
 #'
-#' @param eQTLparams eQTLParams object containing parameters for the 
+#' @param popParams popParams object containing parameters for the 
 #'         simulation of the mean expression levels for the population.
-#'        See \code{\link{eQTLParams}} for details.
+#'        See \code{\link{popParams}} for details.
 #' @param gene.means Dataframe of real gene means across a population, where 
 #'        each row is a gene and each column is an individual in the population.
 #'
@@ -116,12 +108,12 @@ eQTLEstES <- function(all.pairs, eQTLparams) {
 #' method is used to minimise the Cramer-von Mises distance for the CV 
 #' distribution.
 #' 
-#' @return eQTLParams object with estimated values.
+#' @return popParams object with estimated values.
 #' @importFrom stats quantile
 #' @importFrom grDevices boxplot.stats
 #' @importFrom matrixStats rowMedians
 #' 
-eQTLEstMeanCV <- function(gene.means, eQTLparams) {
+popEstimate.MeanCV <- function(gene.means, popParams) {
     
     # Test input gene means
     if ((anyNA(gene.means) | !(validObject(rowSums(gene.means))))) {
@@ -141,8 +133,9 @@ eQTLEstMeanCV <- function(gene.means, eQTLparams) {
     mfit <- fitdistrplus::fitdist(means, "gamma", optim.method="Nelder-Mead")
     
     # Calculate CV parameters for genes based on 10 expresion mean bins
-    nbins <- getParam(eQTLparams, "pop.cv.bins")
-    bins <- split(means, cut(means, quantile(means,(0:nbins)/nbins), include.lowest=TRUE))
+    nbins <- getParam(popParams, "pop.cv.bins")
+    bins <- split(means, cut(means, quantile(means,(0:nbins)/nbins), 
+                             include.lowest=TRUE))
     cvparams <- data.frame(start = character(), end = character(),
                            shape = character(), rate = character(), 
                            stringsAsFactors=FALSE)
@@ -167,11 +160,10 @@ eQTLEstMeanCV <- function(gene.means, eQTLparams) {
     }
     cvparams[1, "start"] <- 0
     cvparams[nrow(cvparams), "end"] <- 1e100
-    eQTLparams <- setParams(eQTLparams, 
-                             pop.mean.shape = unname(mfit$estimate["shape"]),
-                             pop.mean.rate = unname(mfit$estimate["rate"]),
-                             pop.cv.param = cvparams)
-
-    return(eQTLparams)
+    popParams <- setParams(popParams, 
+                            pop.mean.shape = unname(mfit$estimate["shape"]),
+                            pop.mean.rate = unname(mfit$estimate["rate"]),
+                            pop.cv.param = cvparams)
+    
+    return(popParams)
 }
-
