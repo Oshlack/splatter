@@ -7,13 +7,15 @@ env:
  global:
    - _R_CHECK_FORCE_SUGGESTS_: false
 
- addons:
-   apt:
-     update: true
-     sources:
-       - sourceline: 'ppa:opencpu/imagemagick'
-     packages:
-       - libmagick++-dev
+addons:
+  apt:
+    update: true
+    sources:
+      - sourceline: 'ppa:opencpu/imagemagick'
+    packages:
+      - libmagick++-dev
+
+cache: packages
 
 install:
     - R -e 'install.packages(c("devtools", "knitr"))'
