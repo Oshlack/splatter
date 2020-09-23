@@ -225,7 +225,8 @@ setClass("SplatParams",
                    path.nSteps = "numeric",
                    path.skew = "numeric",
                    path.nonlinearProb = "numeric",
-                   path.sigmaFac = "numeric"),
+                   path.sigmaFac = "numeric",
+                   eqtl.group.prop = "numeric"),
          prototype = prototype(nBatches = 1,
                                batchCells = 100,
                                batch.facLoc = 0.1,
@@ -253,7 +254,8 @@ setClass("SplatParams",
                                path.nSteps = 100,
                                path.skew = 0.5,
                                path.nonlinearProb = 0.1,
-                               path.sigmaFac = 0.8))
+                               path.sigmaFac = 0.8,
+                               eqtl.group.prop = c(0.5, 0.5)))
 
 #' The KersplatParams class
 #'
@@ -417,87 +419,98 @@ setClass("KersplatParams",
                                ambient.scale = 0.05,
                                ambient.nEmpty = 0))
 
-#' The eQTLParams class
+#' The popParams class
 #'
-#' S4 class that holds parameters for the eQTL simulation.
+#' S4 class that holds parameters for the population simulation.
 #'
 #' @section Parameters:
 #'
-#' The eQTL simulation requires the following parameters:
+#' The population simulation requires the following parameters:
 #'
 #' \describe{
-#'     \item{\code{[eqtl.n]}}{The number eSNPs to include.}
+#'     \item{\code{[eqtl.n]}}{The number (>1) or percent (<=1) of genes to 
+#'     assign eQTL effects.}
 #'     \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
-#'     \item{\code{[eqtl.maf]}}{Minor Allele Frequency of chosen eSNPs.}
-#'     \item{\code{[eqtl.mafd]}}{Deviation allowed in MAF of chosen eSNPs.}
-#'     \item{\emph{eQTL Effect size distribution parameters}}{
+#'     \item{\code{[eqtl.maf.min]}}{Minimum Minor Allele Frequency of eSNPs.}
+#'     \item{\code{[eqtl.maf.max]}}{Maximum Minor Allele Frequency of eSNPs.}
+#'     \item{\code{[eqtl.groups]}}{Number of groups to simulate.}
+#'     \item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate 
+#'     as group specific.}
+#'     \item{\emph{eQTL Effect size distribution parameters. Defaults estimated
+#'     from GTEx eQTL mapping results, see vignette for more information.}}{
 #'         \describe{
-#'             \item{\code{eqtlES.shape}}{Shape parameter for the effect size 
+#'             \item{\code{eqtl.ES.shape}}{Shape parameter for the effect size 
 #'             gamma distribution.}
-#'             \item{\code{eqtlES.rate}}{Rate parameter for the effect size 
+#'             \item{\code{eqtl.ES.rate}}{Rate parameter for the effect size 
 #'             gamma distribution.}
 #'         }
 #'     }
-#'     \item{\emph{Bulk Mean Expression distribution parameters}}{
+#'     \item{\emph{Bulk Mean Expression distribution parameters. Defaults 
+#'     estimated from GTEx data, see vignette for more information.}}{
 #'         \describe{
-#'             \item{\code{bulkmean.shape}}{Shape parameter for the mean (i.e. 
+#'             \item{\code{pop.mean.shape}}{Shape parameter for the mean (i.e. 
 #'             bulk) expression gamma distribution}
-#'             \item{\code{bulkmean.rate}}{Rate parameter for the mean (i.e. 
+#'             \item{\code{pop.mean.rate}}{Rate parameter for the mean (i.e. 
 #'             bulk) expression gamma distribution}
 #'         }
 #'     }
 #'     \item{\emph{Bulk Expression Coefficient of Variation distribution
-#'     parameters binned}}{
+#'     parameters binned. Defaults estimated from GTEx data, see vignette for 
+#'     more information.}}{
 #'         \describe{
-#'             \item{\code{bulk_cv.param}}{Dataframe containing gene
+#'             \item{\code{pop.cv.param}}{Dataframe containing gene
 #'             mean bin range, and the CV shape, and CV rate parameters for
 #'             each of those bins.}
 #'         }
 #'     }
 #'}
 #' The parameters not shown in brackets can be estimated from real data using
-#' \code{\link{eQTLEstimate}}. For details of the eQTL simulation
-#' see \code{\link{eQTLSimulate}}.
+#' \code{\link{popEstimate}}. For details of the eQTL simulation
+#' see \code{\link{popSimulate}}.
 #'
-#' @name eQTLParams
-#' @rdname eQTLParams
-#' @aliases eQTLParams-class
-#' @exportClass eQTLParams
-setClass("eQTLParams",
+#' @name popParams
+#' @rdname popParams
+#' @aliases popParams-class
+#' @exportClass popParams
+setClass("popParams",
          contains = "Params",
          slots = c(eqtl.n = "numeric",
                    eqtl.dist = "numeric",
-                   eqtl.maf = "numeric",
-                   eqtl.mafd = "numeric",
-                   eqtlES.shape = "numeric",
-                   eqtlES.rate = "numeric",
-                   bulkmean.shape = "numeric",
-                   bulkmean.rate = "numeric",
-                   bulkcv.bins = "numeric",
-                   bulkcv.param = "data.frame"),
-         prototype = prototype(eqtl.n = 100,
+                   eqtl.maf.min = "numeric",
+                   eqtl.maf.max = "numeric",
+                   eqtl.ES.shape = "numeric",
+                   eqtl.ES.rate = "numeric",
+                   eqtl.groups = "numeric",
+                   eqtl.group.specific = "numeric",
+                   pop.mean.shape = "numeric",
+                   pop.mean.rate = "numeric",
+                   pop.cv.bins = "numeric",
+                   pop.cv.param = "data.frame"),
+         prototype = prototype(eqtl.n = 1,
                                eqtl.dist = 1000000, 
-                               eqtl.maf = 0.1, 
-                               eqtl.mafd = 0.01,
-                               eqtlES.shape = 2.538049, 
-                               eqtlES.rate = 5.962323,
-                               bulkmean.shape = 0.3395709, 
-                               bulkmean.rate = 0.008309486, 
-                               bulkcv.bins = 10,
-                               bulkcv.param =
+                               eqtl.maf.min = 0.05, 
+                               eqtl.maf.max = 0.5,
+                               eqtl.ES.shape = 2.538049, 
+                               eqtl.ES.rate = 5.962323,
+                               eqtl.groups = 1,
+                               eqtl.group.specific = 0.2,
+                               pop.mean.shape = 0.3395709, 
+                               pop.mean.rate = 0.008309486, 
+                               pop.cv.bins = 10,
+                               pop.cv.param =
                                    data.frame(
                                        start = c(0, 0.476, 0.955, 1.86, 3.49, 
                                                  6.33, 10.4, 16.3, 26.5,49.9),
                                        end = c(0.476 ,0.955, 1.86, 3.49, 6.33, 
                                                10.4, 16.3, 26.5, 49.9, 1e+10),
-                                       shape = c(10.292887, 5.430483, 3.809073,
-                                                 3.053875, 2.697310, 2.863795,
-                                                 3.445139, 3.797391, 3.623769,
-                                                 2.630798),
-                                       rate = c(7.191267, 3.426294, 2.316489, 
-                                                1.915820, 1.865218, 2.443333,
-                                                3.535612, 4.286780, 4.247780,
-                                                2.689131))))
+                                       shape = c(11.636709, 5.084263, 3.161149,
+                                                 2.603407, 2.174618, 2.472718,
+                                                 2.911565, 3.754947, 3.623545,
+                                                 2.540001),
+                                       rate = c(8.229737, 3.236401, 1.901426, 
+                                                1.615142, 1.467896, 2.141105,
+                                                3.005807, 4.440894, 4.458207,
+                                                2.702462))))
 
 #' The LunParams class
 #'

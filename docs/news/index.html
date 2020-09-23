@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -65,7 +69,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -79,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.5</span>
       </span>
     </div>
 
@@ -115,7 +119,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/Oshlack/splatter">
+  <a href="https://github.com/Oshlack/splatter/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -133,114 +137,371 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
+      <h1 data-toc-skip>Changelog <small></small></h1>
       <small>Source: <a href='https://github.com/Oshlack/splatter/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="version-1-8-0-2019-05-03" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-8-0-2019-05-03" class="anchor"></a>Version 1.8.0 (2019-05-03)</h1>
+    <div id="version-1100-2019-10-30" class="section level1">
+<h1 class="page-header" data-toc-text="1.10.0">
+<a href="#version-1100-2019-10-30" class="anchor"></a>Version 1.10.0 (2019-10-30)</h1>
+<ul>
+<li>Bioconductor 3.10 release</li>
+</ul>
+<div id="version-1911-2019-10-20" class="section level2">
+<h2 class="hasAnchor">
+<a href="#version-1911-2019-10-20" class="anchor"></a>Version 1.9.11 (2019-10-20)</h2>
+<ul>
+<li>Update NEWS.Rd</li>
+</ul>
+</div>
+<div id="version-1910-2019-10-20" class="section level2">
+<h2 class="hasAnchor">
+<a href="#version-1910-2019-10-20" class="anchor"></a>Version 1.9.10 (2019-10-20)</h2>
+<ul>
+<li>Update scater QC function names</li>
+</ul>
+</div>
+<div id="version-199-2019-10-16" class="section level2">
+<h2 class="hasAnchor">
+<a href="#version-199-2019-10-16" class="anchor"></a>Version 1.9.9 (2019-10-16)</h2>
+<ul>
+<li>Add missing documentation for sce argument in getCounts</li>
+<li>Update maintainer email address</li>
+</ul>
+</div>
+<div id="version-198-2019-10-11" class="section level2">
+<h2 class="hasAnchor">
+<a href="#version-198-2019-10-11" class="anchor"></a>Version 1.9.8 (2019-10-11)</h2>
+<ul>
+<li>Add Kersplat simulation! Still experimental but is useable.</li>
+<li>Check for counts assay when estimating from SingleCellExperiment objects (Fixes <a href='https://github.com/Oshlack/splatter/issues/82'>#82</a>)</li>
+<li>Fix where simpleSimulate stores parameters (Fixes <a href='https://github.com/Oshlack/splatter/issues/72'>#72</a>)</li>
+</ul>
+<div id="version-1979019-2019-10-11" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1979019-2019-10-11" class="anchor"></a>Version 1.9.7.9019 (2019-10-11)</h3>
+<ul>
+<li>Run checks</li>
+</ul>
+</div>
+<div id="version-1979018-2019-10-10" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1979018-2019-10-10" class="anchor"></a>Version 1.9.7.9018 (2019-10-10)</h3>
+<ul>
+<li>Document Splotch estimation functions</li>
+<li>Add Splotch to listSims</li>
+<li>Rename Splotch to Kersplat</li>
+</ul>
+</div>
+<div id="version-1979017-2019-10-09" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1979017-2019-10-09" class="anchor"></a>Version 1.9.7.9017 (2019-10-09)</h3>
+<ul>
+<li>Document Splotch simulation functions</li>
+</ul>
+</div>
+<div id="version-1979016-2019-10-01" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1979016-2019-10-01" class="anchor"></a>Version 1.9.7.9016 (2019-10-01)</h3>
+<ul>
+<li>Change the default SplotchParams cell design to place cells at end of path</li>
+<li>Add one time warning for Splotch simulation</li>
+<li>Avoid unnecessarily resetting cells.design in SplotchParams</li>
+</ul>
+</div>
+<div id="version-1979015-2019-09-26" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1979015-2019-09-26" class="anchor"></a>Version 1.9.7.9015 (2019-09-26)</h3>
+<ul>
+<li>Add doublets to splotchSimulate</li>
+</ul>
+</div>
+<div id="version-1979014-2019-09-24" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1979014-2019-09-24" class="anchor"></a>Version 1.9.7.9014 (2019-09-24)</h3>
+<ul>
+<li>Add ambient expression and empty cells to splotchSimulate</li>
+</ul>
+</div>
+<div id="version-1979013-2019-09-19" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1979013-2019-09-19" class="anchor"></a>Version 1.9.7.9013 (2019-09-19)</h3>
+<ul>
+<li>Merge master into splotch branch</li>
+</ul>
+</div>
+</div>
+<div id="version-197-2019-09-19" class="section level2">
+<h2 class="hasAnchor">
+<a href="#version-197-2019-09-19" class="anchor"></a>Version 1.9.7 (2019-09-19)</h2>
+<ul>
+<li>Rescale when sampling Phi in BASiCSSimulate</li>
+</ul>
+</div>
+<div id="version-196-2019-09-17" class="section level2">
+<h2 class="hasAnchor">
+<a href="#version-196-2019-09-17" class="anchor"></a>Version 1.9.6 (2019-09-17)</h2>
+<ul>
+<li>Adjust BASiCSSimulate to match development version of BASiCS</li>
+</ul>
+<div id="version-1959012-2019-09-09" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1959012-2019-09-09" class="anchor"></a>Version 1.9.5.9012 (2019-09-09)</h3>
+<ul>
+<li>Merge master into splotch branch</li>
+</ul>
+</div>
+</div>
+<div id="version-195-2019-09-09" class="section level2">
+<h2 class="hasAnchor">
+<a href="#version-195-2019-09-09" class="anchor"></a>Version 1.9.5 (2019-09-09)</h2>
+<ul>
+<li>Fix bug in NAMESPACE</li>
+</ul>
+<div id="version-1949011-2019-08-29" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1949011-2019-08-29" class="anchor"></a>Version 1.9.4.9011 (2019-08-29)</h3>
+<ul>
+<li>Add BCV adjustment to Splotch simulation</li>
+<li>Use new exponential correction for bcv.common</li>
+</ul>
+</div>
+<div id="version-1949010-2019-08-22" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1949010-2019-08-22" class="anchor"></a>Version 1.9.4.9010 (2019-08-22)</h3>
+<ul>
+<li>Add density sampling options for means and library sizes</li>
+</ul>
+</div>
+<div id="version-1949009-2019-08-21" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1949009-2019-08-21" class="anchor"></a>Version 1.9.4.9009 (2019-08-21)</h3>
+<ul>
+<li>Replace library size log-normal with density and rejection sampling</li>
+<li>Add violins to comparison plots</li>
+</ul>
+</div>
+<div id="version-1949008-2019-08-20" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1949008-2019-08-20" class="anchor"></a>Version 1.9.4.9008 (2019-08-20)</h3>
+<ul>
+<li>Merge master into splotch branch</li>
+<li>Fix dataset in splotchEstimate example</li>
+</ul>
+</div>
+</div>
+<div id="version-194-2019-08-20" class="section level2">
+<h2 class="hasAnchor">
+<a href="#version-194-2019-08-20" class="anchor"></a>Version 1.9.4 (2019-08-20)</h2>
+<ul>
+<li>Fix deprecated column name in diffSCEs QQ plots</li>
+<li>Fix bugs where parameters were not being passed correctly in BASiCSEstimate and sparseDCEstimate</li>
+<li>Replace the sc_example_counts dataset from scater with the mockSCE function</li>
+<li>Tidy and improve estimation function examples</li>
+</ul>
+<div id="version-1939008-2019-08-20" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1939008-2019-08-20" class="anchor"></a>Version 1.9.3.9008 (2019-08-20)</h3>
+<ul>
+<li>Add expression outliers to Splotch</li>
+</ul>
+</div>
+<div id="version-1939007-2019-08-14" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1939007-2019-08-14" class="anchor"></a>Version 1.9.3.9007 (2019-08-14)</h3>
+<ul>
+<li>Fix bug in selectFit</li>
+</ul>
+</div>
+<div id="version-1939006-2019-08-13" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1939006-2019-08-13" class="anchor"></a>Version 1.9.3.9006 (2019-08-13)</h3>
+<ul>
+<li>Add splotchEstimate function</li>
+</ul>
+</div>
+<div id="version-1939005-2019-08-08" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1939005-2019-08-08" class="anchor"></a>Version 1.9.3.9005 (2019-08-08)</h3>
+<ul>
+<li>Simulate counts in splotchSimulate</li>
+<li>Split splotchSimulate into separate functions for each stage</li>
+</ul>
+</div>
+<div id="version-1939004-2019-08-08" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1939004-2019-08-08" class="anchor"></a>Version 1.9.3.9004 (2019-08-08)</h3>
+<ul>
+<li>Merge master into splotch branch</li>
+</ul>
+</div>
+</div>
+<div id="version-193-2019-08-08" class="section level2">
+<h2 class="hasAnchor">
+<a href="#version-193-2019-08-08" class="anchor"></a>Version 1.9.3 (2019-08-08)</h2>
+<ul>
+<li>Remove deprecated scater functions</li>
+</ul>
+<div id="version-1929003-2019-07-17" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1929003-2019-07-17" class="anchor"></a>Version 1.9.2.9003 (2019-07-17)</h3>
+<ul>
+<li>Topologically sort Splotch paths</li>
+<li>Add library size parameters to SplotchParams</li>
+<li>Simulate cell means in splotchSimulate</li>
+</ul>
+</div>
+<div id="version-1929002-2019-07-16" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1929002-2019-07-16" class="anchor"></a>Version 1.9.2.9002 (2019-07-16)</h3>
+<ul>
+<li>Add paths parameters to SplotchParams</li>
+</ul>
+</div>
+<div id="version-1929001-2019-07-16" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1929001-2019-07-16" class="anchor"></a>Version 1.9.2.9001 (2019-07-16)</h3>
+<ul>
+<li>Add mean parameters to SplotchParams</li>
+</ul>
+</div>
+<div id="version-1929000-2019-07-11" class="section level3">
+<h3 class="hasAnchor">
+<a href="#version-1929000-2019-07-11" class="anchor"></a>Version 1.9.2.9000 (2019-07-11)</h3>
+<ul>
+<li>Add SplotchParams object</li>
+</ul>
+</div>
+</div>
+<div id="version-192-2019-06-13" class="section level2">
+<h2 class="hasAnchor">
+<a href="#version-192-2019-06-13" class="anchor"></a>Version 1.9.2 (2019-06-13)</h2>
+<ul>
+<li>Add variable gene correlation plot to compareSCEs</li>
+</ul>
+</div>
+<div id="version-191-2019-06-05" class="section level2">
+<h2 class="hasAnchor">
+<a href="#version-191-2019-06-05" class="anchor"></a>Version 1.9.1 (2019-06-05)</h2>
+<ul>
+<li>Refactor the summariseDiff function</li>
+<li>Add the KS statistic to summariseDiff</li>
+<li>Set gam method for fitted lines in comparison plots</li>
+<li>Add checks for suggested packages in examples</li>
+</ul>
+</div>
+<div id="version-190-2019-05-03" class="section level2">
+<h2 class="hasAnchor">
+<a href="#version-190-2019-05-03" class="anchor"></a>Version 1.9.0 (2019-05-03)</h2>
+<ul>
+<li>Bioconductor 3.10 devel</li>
+</ul>
+</div>
+</div>
+    <div id="version-180-2019-05-03" class="section level1">
+<h1 class="page-header" data-toc-text="1.8.0">
+<a href="#version-180-2019-05-03" class="anchor"></a>Version 1.8.0 (2019-05-03)</h1>
 <ul>
 <li>Bioconductor 3.9 release</li>
 </ul>
-<div id="version-1-7-5-2018-04-18" class="section level2">
+<div id="version-175-2018-04-18" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-7-5-2018-04-18" class="anchor"></a>Version 1.7.5 (2018-04-18)</h2>
+<a href="#version-175-2018-04-18" class="anchor"></a>Version 1.7.5 (2018-04-18)</h2>
 <ul>
 <li>Add Splat parameters vignette</li>
 <li>Fix spelling</li>
 </ul>
 </div>
-<div id="version-1-7-4-2018-04-17" class="section level2">
+<div id="version-174-2018-04-17" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-7-4-2018-04-17" class="anchor"></a>Version 1.7.4 (2018-04-17)</h2>
+<a href="#version-174-2018-04-17" class="anchor"></a>Version 1.7.4 (2018-04-17)</h2>
 <ul>
 <li>Allow SplatParams parameters to be set in any order</li>
 </ul>
 </div>
-<div id="version-1-7-3-2018-04-15" class="section level2">
+<div id="version-173-2018-04-15" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-7-3-2018-04-15" class="anchor"></a>Version 1.7.3 (2018-04-15)</h2>
+<a href="#version-173-2018-04-15" class="anchor"></a>Version 1.7.3 (2018-04-15)</h2>
 <ul>
 <li>Minor changes to documentation</li>
 <li>Protect against integer overflow in simulation functions</li>
 <li>Fix order of groups in splatSimulate</li>
 </ul>
 </div>
-<div id="version-1-7-2-2018-12-06" class="section level2">
+<div id="version-172-2018-12-06" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-7-2-2018-12-06" class="anchor"></a>Version 1.7.2 (2018-12-06)</h2>
+<a href="#version-172-2018-12-06" class="anchor"></a>Version 1.7.2 (2018-12-06)</h2>
 <ul>
 <li>Add ImmunoOncology biocViews tag at request of Bioconductor team</li>
 </ul>
 </div>
-<div id="version-1-7-1-2018-11-17" class="section level2">
+<div id="version-171-2018-11-17" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-7-1-2018-11-17" class="anchor"></a>Version 1.7.1 (2018-11-17)</h2>
+<a href="#version-171-2018-11-17" class="anchor"></a>Version 1.7.1 (2018-11-17)</h2>
 <ul>
 <li>Fix bugs in vignette</li>
 </ul>
 </div>
-<div id="version-1-7-0-2018-11-01" class="section level2">
+<div id="version-170-2018-11-01" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-7-0-2018-11-01" class="anchor"></a>Version 1.7.0 (2018-11-01)</h2>
+<a href="#version-170-2018-11-01" class="anchor"></a>Version 1.7.0 (2018-11-01)</h2>
 <ul>
 <li>Bioconductor 3.9 devel</li>
 </ul>
 </div>
-<div id="version-1-6-1-2018-12-06" class="section level2">
+<div id="version-161-2018-12-06" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-6-1-2018-12-06" class="anchor"></a>Version 1.6.1 (2018-12-06)</h2>
+<a href="#version-161-2018-12-06" class="anchor"></a>Version 1.6.1 (2018-12-06)</h2>
 <ul>
 <li>Add ImmunoOncology biocViews tag at request of Bioconductor team</li>
 </ul>
 </div>
 </div>
-    <div id="version-1-6-0-2018-11-01" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-6-0-2018-11-01" class="anchor"></a>Version 1.6.0 (2018-11-01)</h1>
+    <div id="version-160-2018-11-01" class="section level1">
+<h1 class="page-header" data-toc-text="1.6.0">
+<a href="#version-160-2018-11-01" class="anchor"></a>Version 1.6.0 (2018-11-01)</h1>
 <ul>
 <li>Bioconductor 3.8 release</li>
 </ul>
-<div id="version-1-5-8-2018-10-22" class="section level2">
+<div id="version-158-2018-10-22" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-5-8-2018-10-22" class="anchor"></a>Version 1.5.8 (2018-10-22)</h2>
+<a href="#version-158-2018-10-22" class="anchor"></a>Version 1.5.8 (2018-10-22)</h2>
 <ul>
 <li>Add WithSpikes argument when calling BASiCS::BASiCS_MCMC()</li>
 </ul>
 </div>
-<div id="version-1-5-7-2018-10-03" class="section level2">
+<div id="version-157-2018-10-03" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-5-7-2018-10-03" class="anchor"></a>Version 1.5.7 (2018-10-03)</h2>
+<a href="#version-157-2018-10-03" class="anchor"></a>Version 1.5.7 (2018-10-03)</h2>
 <ul>
 <li>Fix BASiCSEstimate tests</li>
 </ul>
 </div>
-<div id="version-1-5-4-2018-08-30" class="section level2">
+<div id="version-154-2018-08-30" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-5-4-2018-08-30" class="anchor"></a>Version 1.5.4 (2018-08-30)</h2>
+<a href="#version-154-2018-08-30" class="anchor"></a>Version 1.5.4 (2018-08-30)</h2>
 <ul>
 <li>Fix installation instructions</li>
 </ul>
 </div>
-<div id="version-1-5-3-2018-08-20" class="section level2">
+<div id="version-153-2018-08-20" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-5-3-2018-08-20" class="anchor"></a>Version 1.5.3 (2018-08-20)</h2>
+<a href="#version-153-2018-08-20" class="anchor"></a>Version 1.5.3 (2018-08-20)</h2>
 <ul>
 <li>Fix bug in BASiCSEstimate when no spike-ins provided</li>
 </ul>
-<div id="version-1-5-2-9000-2018-08-16" class="section level3">
+<div id="version-1529000-2018-08-16" class="section level3">
 <h3 class="hasAnchor">
-<a href="#version-1-5-2-9000-2018-08-16" class="anchor"></a>Version 1.5.2.9000 (2018-08-16)</h3>
+<a href="#version-1529000-2018-08-16" class="anchor"></a>Version 1.5.2.9000 (2018-08-16)</h3>
 <ul>
 <li>Add missing regression argument to BASiCSEstimate</li>
 <li>Add new BASiCS tests</li>
 </ul>
 </div>
 </div>
-<div id="version-1-5-2-2018-08-16" class="section level2">
+<div id="version-152-2018-08-16" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-5-2-2018-08-16" class="anchor"></a>Version 1.5.2 (2018-08-16)</h2>
+<a href="#version-152-2018-08-16" class="anchor"></a>Version 1.5.2 (2018-08-16)</h2>
 <ul>
 <li>Fix bug in getLNormFactors when reversing factors less than one</li>
 <li>Update documentation to new Roxygen version (6.1.0)</li>
@@ -248,40 +509,40 @@
 <li>Add suggested package checks to tests</li>
 </ul>
 </div>
-<div id="version-1-5-1-2018-06-12" class="section level2">
+<div id="version-151-2018-06-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-5-1-2018-06-12" class="anchor"></a>Version 1.5.1 (2018-06-12)</h2>
+<a href="#version-151-2018-06-12" class="anchor"></a>Version 1.5.1 (2018-06-12)</h2>
 <ul>
 <li>Fix normality testing error in splatEstLib</li>
 <li>Correct p-value cutoff in normality test</li>
 <li>Sample library sizes for normality testing if &gt; 5000 cells</li>
 </ul>
 </div>
-<div id="version-1-5-0-2018-05-02" class="section level2">
+<div id="version-150-2018-05-02" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-5-0-2018-05-02" class="anchor"></a>Version 1.5.0 (2018-05-02)</h2>
+<a href="#version-150-2018-05-02" class="anchor"></a>Version 1.5.0 (2018-05-02)</h2>
 <ul>
 <li>Bioconductor 3.7 devel</li>
 </ul>
 </div>
-<div id="version-1-4-3-2018-08-20" class="section level2">
+<div id="version-143-2018-08-20" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-4-3-2018-08-20" class="anchor"></a>Version 1.4.3 (2018-08-20)</h2>
+<a href="#version-143-2018-08-20" class="anchor"></a>Version 1.4.3 (2018-08-20)</h2>
 <ul>
 <li>Fix bug in BASiCSEstimate when no spike-ins provided</li>
 </ul>
 </div>
-<div id="version-1-4-2-2018-08-16" class="section level2">
+<div id="version-142-2018-08-16" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-4-2-2018-08-16" class="anchor"></a>Version 1.4.2 (2018-08-16)</h2>
+<a href="#version-142-2018-08-16" class="anchor"></a>Version 1.4.2 (2018-08-16)</h2>
 <ul>
 <li>Add missing regression argument to BASiCSEstimate</li>
 <li>Add new BASiCS tests</li>
 </ul>
 </div>
-<div id="version-1-4-1-2018-06-12" class="section level2">
+<div id="version-141-2018-06-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-4-1-2018-06-12" class="anchor"></a>Version 1.4.1 (2018-06-12)</h2>
+<a href="#version-141-2018-06-12" class="anchor"></a>Version 1.4.1 (2018-06-12)</h2>
 <ul>
 <li>Fix normality testing error in splatEstLib</li>
 <li>Correct p-value cutoff in normality test</li>
@@ -289,22 +550,22 @@
 </ul>
 </div>
 </div>
-    <div id="version-1-4-0-2018-05-02" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-4-0-2018-05-02" class="anchor"></a>Version 1.4.0 (2018-05-02)</h1>
+    <div id="version-140-2018-05-02" class="section level1">
+<h1 class="page-header" data-toc-text="1.4.0">
+<a href="#version-140-2018-05-02" class="anchor"></a>Version 1.4.0 (2018-05-02)</h1>
 <ul>
 <li>Bioconductor 3.7 release</li>
 </ul>
-<div id="version-1-3-6-2018-04-30" class="section level2">
+<div id="version-136-2018-04-30" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-3-6-2018-04-30" class="anchor"></a>Version 1.3.6 (2018-04-30)</h2>
+<a href="#version-136-2018-04-30" class="anchor"></a>Version 1.3.6 (2018-04-30)</h2>
 <ul>
 <li>Set seed in sparseDCEstimate tests</li>
 </ul>
 </div>
-<div id="version-1-3-5-2018-04-25" class="section level2">
+<div id="version-135-2018-04-25" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-3-5-2018-04-25" class="anchor"></a>Version 1.3.5 (2018-04-25)</h2>
+<a href="#version-135-2018-04-25" class="anchor"></a>Version 1.3.5 (2018-04-25)</h2>
 <ul>
 <li>Replace dropout.present with dropout.type in SplatParams
 <ul>
@@ -313,9 +574,9 @@
 </li>
 </ul>
 </div>
-<div id="version-1-3-4-2018-04-19" class="section level2">
+<div id="version-134-2018-04-19" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-3-4-2018-04-19" class="anchor"></a>Version 1.3.4 (2018-04-19)</h2>
+<a href="#version-134-2018-04-19" class="anchor"></a>Version 1.3.4 (2018-04-19)</h2>
 <ul>
 <li>Add option to use a normal distribution for library sizes in Splat simulations</li>
 <li>Add SparseDC simulation</li>
@@ -326,16 +587,16 @@
 <li>Improve warning message when fitting means in splatEstimate fails</li>
 <li>Simplify problematic documentation links</li>
 </ul>
-<div id="version-1-3-3-9010-2018-04-12" class="section level3">
+<div id="version-1339010-2018-04-12" class="section level3">
 <h3 class="hasAnchor">
-<a href="#version-1-3-3-9010-2018-04-12" class="anchor"></a>Version 1.3.3.9010 (2018-04-12)</h3>
+<a href="#version-1339010-2018-04-12" class="anchor"></a>Version 1.3.3.9010 (2018-04-12)</h3>
 <ul>
 <li>Add option to use a normal distribution for library sizes in Splat simulations</li>
 </ul>
 </div>
-<div id="version-1-3-3-9000-2018-04-12" class="section level3">
+<div id="version-1339000-2018-04-12" class="section level3">
 <h3 class="hasAnchor">
-<a href="#version-1-3-3-9000-2018-04-12" class="anchor"></a>Version 1.3.3.9000 (2018-04-12)</h3>
+<a href="#version-1339000-2018-04-12" class="anchor"></a>Version 1.3.3.9000 (2018-04-12)</h3>
 <ul>
 <li>Replace dropout.present with dropout.type in SplatParams
 <ul>
@@ -345,16 +606,16 @@
 </ul>
 </div>
 </div>
-<div id="version-1-3-3-2018-03-27" class="section level2">
+<div id="version-133-2018-03-27" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-3-3-2018-03-27" class="anchor"></a>Version 1.3.3 (2018-03-27)</h2>
+<a href="#version-133-2018-03-27" class="anchor"></a>Version 1.3.3 (2018-03-27)</h2>
 <ul>
 <li>Fix parameter passing bug in scDDEstimate</li>
 </ul>
 </div>
-<div id="version-1-3-2-2018-01-31" class="section level2">
+<div id="version-132-2018-01-31" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-3-2-2018-01-31" class="anchor"></a>Version 1.3.2 (2018-01-31)</h2>
+<a href="#version-132-2018-01-31" class="anchor"></a>Version 1.3.2 (2018-01-31)</h2>
 <ul>
 <li>Fix QC names that have been changed in scater</li>
 <li>Move scater to Imports and add scater version</li>
@@ -362,92 +623,92 @@
 <li>Add more tests</li>
 </ul>
 </div>
-<div id="version-1-3-1-2018-01-03" class="section level2">
+<div id="version-131-2018-01-03" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-3-1-2018-01-03" class="anchor"></a>Version 1.3.1 (2018-01-03)</h2>
+<a href="#version-131-2018-01-03" class="anchor"></a>Version 1.3.1 (2018-01-03)</h2>
 <ul>
 <li>Fix error in vignette caused by changes in scater</li>
 </ul>
 </div>
-<div id="version-1-3-0-2017-10-13" class="section level2">
+<div id="version-130-2017-10-13" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-3-0-2017-10-13" class="anchor"></a>Version 1.3.0 (2017-10-13)</h2>
+<a href="#version-130-2017-10-13" class="anchor"></a>Version 1.3.0 (2017-10-13)</h2>
 <ul>
 <li>Bioconductor 3.7 devel</li>
 </ul>
 </div>
-<div id="version-1-2-2-2018-03-27" class="section level2">
+<div id="version-122-2018-03-27" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-2-2-2018-03-27" class="anchor"></a>Version 1.2.2 (2018-03-27)</h2>
+<a href="#version-122-2018-03-27" class="anchor"></a>Version 1.2.2 (2018-03-27)</h2>
 <ul>
 <li>Fix parameter passing bug in scDDEstimate</li>
 </ul>
 </div>
-<div id="version-1-2-1-2017-11-23" class="section level2">
+<div id="version-121-2017-11-23" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-2-1-2017-11-23" class="anchor"></a>Version 1.2.1 (2017-11-23)</h2>
+<a href="#version-121-2017-11-23" class="anchor"></a>Version 1.2.1 (2017-11-23)</h2>
 <ul>
 <li>Fix zinbwave installation error</li>
 </ul>
 </div>
 </div>
-    <div id="version-1-2-0-2017-10-30" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-2-0-2017-10-30" class="anchor"></a>Version 1.2.0 (2017-10-30)</h1>
+    <div id="version-120-2017-10-30" class="section level1">
+<h1 class="page-header" data-toc-text="1.2.0">
+<a href="#version-120-2017-10-30" class="anchor"></a>Version 1.2.0 (2017-10-30)</h1>
 <ul>
 <li>Bioconductor 3.6 release</li>
 </ul>
-<div id="version-1-1-8-2017-10-13" class="section level2">
+<div id="version-118-2017-10-13" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-1-8-2017-10-13" class="anchor"></a>Version 1.1.8 (2017-10-13)</h2>
+<a href="#version-118-2017-10-13" class="anchor"></a>Version 1.1.8 (2017-10-13)</h2>
 <ul>
 <li>Add BASiCS simulation</li>
 <li>Update Splatter citation</li>
 <li>Update Lun2 reference</li>
 </ul>
 </div>
-<div id="version-1-1-7-2017-10-05" class="section level2">
+<div id="version-117-2017-10-05" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-1-7-2017-10-05" class="anchor"></a>Version 1.1.7 (2017-10-05)</h2>
+<a href="#version-117-2017-10-05" class="anchor"></a>Version 1.1.7 (2017-10-05)</h2>
 <ul>
 <li>Add PhenoPath simulation</li>
 <li>Add ZINB-WaVE simulation</li>
 <li>Adjust mfaSimulate output</li>
 </ul>
 </div>
-<div id="version-1-1-6-2017-10-02" class="section level2">
+<div id="version-116-2017-10-02" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-1-6-2017-10-02" class="anchor"></a>Version 1.1.6 (2017-10-02)</h2>
+<a href="#version-116-2017-10-02" class="anchor"></a>Version 1.1.6 (2017-10-02)</h2>
 <ul>
 <li>Update scDD version</li>
 <li>Add mfa simulation</li>
 </ul>
 </div>
-<div id="version-1-1-5-2017-09-13" class="section level2">
+<div id="version-115-2017-09-13" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-1-5-2017-09-13" class="anchor"></a>Version 1.1.5 (2017-09-13)</h2>
+<a href="#version-115-2017-09-13" class="anchor"></a>Version 1.1.5 (2017-09-13)</h2>
 <ul>
 <li>Convert to SingleCellExperiment</li>
 </ul>
 </div>
-<div id="version-1-1-4-2017-08-04" class="section level2">
+<div id="version-114-2017-08-04" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-1-4-2017-08-04" class="anchor"></a>Version 1.1.4 (2017-08-04)</h2>
+<a href="#version-114-2017-08-04" class="anchor"></a>Version 1.1.4 (2017-08-04)</h2>
 <ul>
 <li>Fix group factors bug</li>
 </ul>
 </div>
-<div id="version-1-1-3-2017-07-20" class="section level2">
+<div id="version-113-2017-07-20" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-1-3-2017-07-20" class="anchor"></a>Version 1.1.3 (2017-07-20)</h2>
+<a href="#version-113-2017-07-20" class="anchor"></a>Version 1.1.3 (2017-07-20)</h2>
 <ul>
 <li>Add verbose option to scDDEstimate</li>
 <li>Change “mean-dropout” to “mean-zeros” in compareSCESets</li>
 </ul>
 </div>
-<div id="version-1-1-2-2017-07-16" class="section level2">
+<div id="version-112-2017-07-16" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-1-2-2017-07-16" class="anchor"></a>Version 1.1.2 (2017-07-16)</h2>
+<a href="#version-112-2017-07-16" class="anchor"></a>Version 1.1.2 (2017-07-16)</h2>
 <ul>
 <li>Update summariseDiff</li>
 <li>Update scDDEstimate, now estimates gene types</li>
@@ -455,39 +716,39 @@
 <li>Import SummarizedExperiment to avoid warnings</li>
 </ul>
 </div>
-<div id="version-1-1-1-2017-07-07" class="section level2">
+<div id="version-111-2017-07-07" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-1-1-2017-07-07" class="anchor"></a>Version 1.1.1 (2017-07-07)</h2>
+<a href="#version-111-2017-07-07" class="anchor"></a>Version 1.1.1 (2017-07-07)</h2>
 <ul>
 <li>Add batch effects to Splat simulation</li>
 <li>Make Splat group assignment probabilistic</li>
 <li>Update SplatParams with new parameters</li>
 </ul>
 </div>
-<div id="version-1-1-0-2017-07-07" class="section level2">
+<div id="version-110-2017-07-07" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-1-0-2017-07-07" class="anchor"></a>Version 1.1.0 (2017-07-07)</h2>
+<a href="#version-110-2017-07-07" class="anchor"></a>Version 1.1.0 (2017-07-07)</h2>
 <ul>
 <li>Bioconductor 3.6 devel</li>
 </ul>
 </div>
-<div id="version-1-0-3-2017-05-26" class="section level2">
+<div id="version-103-2017-05-26" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-0-3-2017-05-26" class="anchor"></a>Version 1.0.3 (2017-05-26)</h2>
+<a href="#version-103-2017-05-26" class="anchor"></a>Version 1.0.3 (2017-05-26)</h2>
 <ul>
 <li>Update citation</li>
 </ul>
 </div>
-<div id="version-1-0-2-2017-05-15" class="section level2">
+<div id="version-102-2017-05-15" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-0-2-2017-05-15" class="anchor"></a>Version 1.0.2 (2017-05-15)</h2>
+<a href="#version-102-2017-05-15" class="anchor"></a>Version 1.0.2 (2017-05-15)</h2>
 <ul>
 <li>Fix error handling when fitting means</li>
 </ul>
 </div>
-<div id="version-1-0-1-2017-04-28" class="section level2">
+<div id="version-101-2017-04-28" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-1-0-1-2017-04-28" class="anchor"></a>Version 1.0.1 (2017-04-28)</h2>
+<a href="#version-101-2017-04-28" class="anchor"></a>Version 1.0.1 (2017-04-28)</h2>
 <ul>
 <li>Fix scales in some difference plots</li>
 <li>Fix colours in difference plots</li>
@@ -495,15 +756,15 @@
 </ul>
 </div>
 </div>
-    <div id="version-1-0-0-2017-04-28" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-0-0-2017-04-28" class="anchor"></a>Version 1.0.0 (2017-04-28)</h1>
+    <div id="version-100-2017-04-28" class="section level1">
+<h1 class="page-header" data-toc-text="1.0.0">
+<a href="#version-100-2017-04-28" class="anchor"></a>Version 1.0.0 (2017-04-28)</h1>
 <ul>
 <li>Bioconductor 3.5 release</li>
 </ul>
-<div id="version-0-99-15-2017-04-14" class="section level2">
+<div id="version-09915-2017-04-14" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-15-2017-04-14" class="anchor"></a>Version 0.99.15 (2017-04-14)</h2>
+<a href="#version-09915-2017-04-14" class="anchor"></a>Version 0.99.15 (2017-04-14)</h2>
 <ul>
 <li>Add summariseDiff function</li>
 <li>Add BPPARAM argument to scDDSimulate</li>
@@ -512,27 +773,27 @@
 <li>Remove estimation of dropout.present</li>
 </ul>
 </div>
-<div id="version-0-99-14-2017-03-28" class="section level2">
+<div id="version-09914-2017-03-28" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-14-2017-03-28" class="anchor"></a>Version 0.99.14 (2017-03-28)</h2>
+<a href="#version-09914-2017-03-28" class="anchor"></a>Version 0.99.14 (2017-03-28)</h2>
 <ul>
 <li>Add functions for making comparison panels</li>
 <li>Add panel section to vignette</li>
 <li>Change variance plot scale (for consistency)</li>
 </ul>
 </div>
-<div id="version-0-99-13-2017-03-25" class="section level2">
+<div id="version-09913-2017-03-25" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-13-2017-03-25" class="anchor"></a>Version 0.99.13 (2017-03-25)</h2>
+<a href="#version-09913-2017-03-25" class="anchor"></a>Version 0.99.13 (2017-03-25)</h2>
 <ul>
 <li>Modify how Lun2Params stores gene parameters to use data.frame</li>
 <li>Move sampling of genes/cells to lun2Simulate</li>
 <li>Return to old Lun2 nGenes estimate</li>
 </ul>
 </div>
-<div id="version-0-99-12-2017-03-22" class="section level2">
+<div id="version-09912-2017-03-22" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-12-2017-03-22" class="anchor"></a>Version 0.99.12 (2017-03-22)</h2>
+<a href="#version-09912-2017-03-22" class="anchor"></a>Version 0.99.12 (2017-03-22)</h2>
 <ul>
 <li>Add diffSCESets function</li>
 <li>Update compareSCESets plots</li>
@@ -541,9 +802,9 @@
 <li>Add infinite bcv.df warning to splatSimulate</li>
 </ul>
 </div>
-<div id="version-0-99-11-2017-03-20" class="section level2">
+<div id="version-09911-2017-03-20" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-11-2017-03-20" class="anchor"></a>Version 0.99.11 (2017-03-20)</h2>
+<a href="#version-09911-2017-03-20" class="anchor"></a>Version 0.99.11 (2017-03-20)</h2>
 <ul>
 <li>Add parallel option to lun2Estimate</li>
 <li>Allow non-integer library sizes in Lun2Params</li>
@@ -551,9 +812,9 @@
 <li>Adjust comparison plots</li>
 </ul>
 </div>
-<div id="version-0-99-10-2017-03-07" class="section level2">
+<div id="version-09910-2017-03-07" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-10-2017-03-07" class="anchor"></a>Version 0.99.10 (2017-03-07)</h2>
+<a href="#version-09910-2017-03-07" class="anchor"></a>Version 0.99.10 (2017-03-07)</h2>
 <ul>
 <li>Improve Splat estimation procedure</li>
 <li>Update default Splat parameters</li>
@@ -561,92 +822,92 @@
 <li>Add MeanZeros plot to compareSCESets</li>
 </ul>
 </div>
-<div id="version-0-99-9-2017-02-02" class="section level2">
+<div id="version-0999-2017-02-02" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-9-2017-02-02" class="anchor"></a>Version 0.99.9 (2017-02-02)</h2>
+<a href="#version-0999-2017-02-02" class="anchor"></a>Version 0.99.9 (2017-02-02)</h2>
 <ul>
 <li>Add addGeneLengths function</li>
 <li>Update scDD reference</li>
 </ul>
 </div>
-<div id="version-0-99-8-2017-01-23" class="section level2">
+<div id="version-0998-2017-01-23" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-8-2017-01-23" class="anchor"></a>Version 0.99.8 (2017-01-23)</h2>
+<a href="#version-0998-2017-01-23" class="anchor"></a>Version 0.99.8 (2017-01-23)</h2>
 <ul>
 <li>Fix bug that meant non-linear path factors weren’t stored in output</li>
 </ul>
 </div>
-<div id="version-0-99-7-2017-01-10" class="section level2">
+<div id="version-0997-2017-01-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-7-2017-01-10" class="anchor"></a>Version 0.99.7 (2017-01-10)</h2>
+<a href="#version-0997-2017-01-10" class="anchor"></a>Version 0.99.7 (2017-01-10)</h2>
 <ul>
 <li>Small changes to avoid NOTEs and reduce check time</li>
 </ul>
 </div>
-<div id="version-0-99-6-2016-12-29" class="section level2">
+<div id="version-0996-2016-12-29" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-6-2016-12-29" class="anchor"></a>Version 0.99.6 (2016-12-29)</h2>
+<a href="#version-0996-2016-12-29" class="anchor"></a>Version 0.99.6 (2016-12-29)</h2>
 <ul>
 <li>Add installation to vignette</li>
 <li>Add detail about counts matrix to vignette</li>
 <li>Replace 1:x with seq_len/seq_along</li>
 </ul>
 </div>
-<div id="version-0-99-5-2016-12-28" class="section level2">
+<div id="version-0995-2016-12-28" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-5-2016-12-28" class="anchor"></a>Version 0.99.5 (2016-12-28)</h2>
+<a href="#version-0995-2016-12-28" class="anchor"></a>Version 0.99.5 (2016-12-28)</h2>
 <ul>
 <li>Set R_TESTS environment</li>
 </ul>
 </div>
-<div id="version-0-99-4-2016-12-23" class="section level2">
+<div id="version-0994-2016-12-23" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-4-2016-12-23" class="anchor"></a>Version 0.99.4 (2016-12-23)</h2>
+<a href="#version-0994-2016-12-23" class="anchor"></a>Version 0.99.4 (2016-12-23)</h2>
 <ul>
 <li>Version bump to start build</li>
 </ul>
 </div>
-<div id="version-0-99-3-2016-12-21" class="section level2">
+<div id="version-0993-2016-12-21" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-3-2016-12-21" class="anchor"></a>Version 0.99.3 (2016-12-21)</h2>
+<a href="#version-0993-2016-12-21" class="anchor"></a>Version 0.99.3 (2016-12-21)</h2>
 <ul>
 <li>Fix to match Bioconductor version of scDD</li>
 <li>Add logo to repository</li>
 </ul>
 </div>
-<div id="version-0-99-2-2016-12-13" class="section level2">
+<div id="version-0992-2016-12-13" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-2-2016-12-13" class="anchor"></a>Version 0.99.2 (2016-12-13)</h2>
+<a href="#version-0992-2016-12-13" class="anchor"></a>Version 0.99.2 (2016-12-13)</h2>
 <ul>
 <li>Add rownames, colnames to matrices in splatSimulate, lunSimulate</li>
 <li>Bump R version to 3.4</li>
 </ul>
 </div>
-<div id="version-0-99-1-2016-12-12" class="section level2">
+<div id="version-0991-2016-12-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-99-1-2016-12-12" class="anchor"></a>Version 0.99.1 (2016-12-12)</h2>
+<a href="#version-0991-2016-12-12" class="anchor"></a>Version 0.99.1 (2016-12-12)</h2>
 <ul>
 <li>Address Biocondutor build warnings, notes</li>
 </ul>
 </div>
 </div>
-    <div id="version-0-99-0-2016-12-05" class="section level1">
-<h1 class="page-header">
-<a href="#version-0-99-0-2016-12-05" class="anchor"></a>Version 0.99.0 (2016-12-05)</h1>
+    <div id="version-0990-2016-12-05" class="section level1">
+<h1 class="page-header" data-toc-text="0.99.0">
+<a href="#version-0990-2016-12-05" class="anchor"></a>Version 0.99.0 (2016-12-05)</h1>
 <ul>
 <li>Submit to Bioconductor</li>
 </ul>
-<div id="version-0-12-1-2016-11-25" class="section level2">
+<div id="version-0121-2016-11-25" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-12-1-2016-11-25" class="anchor"></a>Version 0.12.1 (2016-11-25)</h2>
+<a href="#version-0121-2016-11-25" class="anchor"></a>Version 0.12.1 (2016-11-25)</h2>
 <ul>
 <li>Fix bug in compareSCESets</li>
 <li>Dataset order is now kept in plots</li>
 </ul>
 </div>
-<div id="version-0-12-0-2016-10-25" class="section level2">
+<div id="version-0120-2016-10-25" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-12-0-2016-10-25" class="anchor"></a>Version 0.12.0 (2016-10-25)</h2>
+<a href="#version-0120-2016-10-25" class="anchor"></a>Version 0.12.0 (2016-10-25)</h2>
 <ul>
 <li>Add compareSCESets function</li>
 <li>Update vignette</li>
@@ -654,91 +915,91 @@
 <li>Add logo</li>
 </ul>
 </div>
-<div id="version-0-11-1-2016-11-23" class="section level2">
+<div id="version-0111-2016-11-23" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-11-1-2016-11-23" class="anchor"></a>Version 0.11.1 (2016-11-23)</h2>
+<a href="#version-0111-2016-11-23" class="anchor"></a>Version 0.11.1 (2016-11-23)</h2>
 <ul>
 <li>Fix bug in splatSimulatePaths that caused NAs</li>
 </ul>
 </div>
-<div id="version-0-11-0-2016-11-22" class="section level2">
+<div id="version-0110-2016-11-22" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-11-0-2016-11-22" class="anchor"></a>Version 0.11.0 (2016-11-22)</h2>
+<a href="#version-0110-2016-11-22" class="anchor"></a>Version 0.11.0 (2016-11-22)</h2>
 <ul>
 <li>Make compatible with Bioconductor 3.4</li>
 </ul>
 </div>
-<div id="version-0-10-1-2016-10-17" class="section level2">
+<div id="version-0101-2016-10-17" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-10-1-2016-10-17" class="anchor"></a>Version 0.10.1 (2016-10-17)</h2>
+<a href="#version-0101-2016-10-17" class="anchor"></a>Version 0.10.1 (2016-10-17)</h2>
 <ul>
 <li>Fix error for SCESets in lun2Estimate, scDDEstimate</li>
 </ul>
 </div>
-<div id="version-0-10-0-2016-10-16" class="section level2">
+<div id="version-0100-2016-10-16" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-10-0-2016-10-16" class="anchor"></a>Version 0.10.0 (2016-10-16)</h2>
+<a href="#version-0100-2016-10-16" class="anchor"></a>Version 0.10.0 (2016-10-16)</h2>
 <ul>
 <li>Add listSims function</li>
 <li>Add vignette</li>
 </ul>
 </div>
-<div id="version-0-9-0-2016-10-15" class="section level2">
+<div id="version-090-2016-10-15" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-9-0-2016-10-15" class="anchor"></a>Version 0.9.0 (2016-10-15)</h2>
+<a href="#version-090-2016-10-15" class="anchor"></a>Version 0.9.0 (2016-10-15)</h2>
 <ul>
 <li>Add scDD simulation</li>
 </ul>
 </div>
-<div id="version-0-8-0-2016-10-15" class="section level2">
+<div id="version-080-2016-10-15" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-8-0-2016-10-15" class="anchor"></a>Version 0.8.0 (2016-10-15)</h2>
+<a href="#version-080-2016-10-15" class="anchor"></a>Version 0.8.0 (2016-10-15)</h2>
 <ul>
 <li>Add Lun2 simulation</li>
 </ul>
 </div>
-<div id="version-0-7-0-2016-10-14" class="section level2">
+<div id="version-070-2016-10-14" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-7-0-2016-10-14" class="anchor"></a>Version 0.7.0 (2016-10-14)</h2>
+<a href="#version-070-2016-10-14" class="anchor"></a>Version 0.7.0 (2016-10-14)</h2>
 <ul>
 <li>Redesign how parameters are stored</li>
 <li>Each simulation now has it’s own S4 Params class</li>
 <li>Modify existing simulations to use new parameter objects</li>
 </ul>
 </div>
-<div id="version-0-6-0-2016-10-12" class="section level2">
+<div id="version-060-2016-10-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-6-0-2016-10-12" class="anchor"></a>Version 0.6.0 (2016-10-12)</h2>
+<a href="#version-060-2016-10-12" class="anchor"></a>Version 0.6.0 (2016-10-12)</h2>
 <ul>
 <li>Add Lun simulation</li>
 <li>Modify splatParams to take Lun parameters</li>
 </ul>
 </div>
-<div id="version-0-5-0-2016-10-12" class="section level2">
+<div id="version-050-2016-10-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-5-0-2016-10-12" class="anchor"></a>Version 0.5.0 (2016-10-12)</h2>
+<a href="#version-050-2016-10-12" class="anchor"></a>Version 0.5.0 (2016-10-12)</h2>
 <ul>
 <li>Add simple simulation</li>
 </ul>
 </div>
-<div id="version-0-4-0-2016-10-12" class="section level2">
+<div id="version-040-2016-10-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-4-0-2016-10-12" class="anchor"></a>Version 0.4.0 (2016-10-12)</h2>
+<a href="#version-040-2016-10-12" class="anchor"></a>Version 0.4.0 (2016-10-12)</h2>
 <ul>
 <li>Add splatter simulations</li>
 <li>Modify some parts of splatParams and fix bugs</li>
 </ul>
 </div>
-<div id="version-0-3-0-2016-10-06" class="section level2">
+<div id="version-030-2016-10-06" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-3-0-2016-10-06" class="anchor"></a>Version 0.3.0 (2016-10-06)</h2>
+<a href="#version-030-2016-10-06" class="anchor"></a>Version 0.3.0 (2016-10-06)</h2>
 <ul>
 <li>Added parameter estimation functions</li>
 </ul>
 </div>
-<div id="version-0-2-0-2016-10-06" class="section level2">
+<div id="version-020-2016-10-06" class="section level2">
 <h2 class="hasAnchor">
-<a href="#version-0-2-0-2016-10-06" class="anchor"></a>Version 0.2.0 (2016-10-06)</h2>
+<a href="#version-020-2016-10-06" class="anchor"></a>Version 0.2.0 (2016-10-06)</h2>
 <ul>
 <li>Added splatParams object</li>
 <li>Added functions for interacting with splatParams</li>
@@ -747,18 +1008,10 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#version-1-8-0-2019-05-03">1.8.0</a></li>
-        <li><a href="#version-1-6-0-2018-11-01">1.6.0</a></li>
-        <li><a href="#version-1-4-0-2018-05-02">1.4.0</a></li>
-        <li><a href="#version-1-2-0-2017-10-30">1.2.0</a></li>
-        <li><a href="#version-1-0-0-2017-04-28">1.0.0</a></li>
-        <li><a href="#version-0-99-0-2016-12-05">0.99.0</a></li>
-      </ul>
-    </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
@@ -770,7 +1023,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

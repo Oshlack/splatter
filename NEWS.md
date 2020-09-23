@@ -1,5 +1,28 @@
 # DEVELOPMENT VERSION
 
+## Version 1.11.5 (2020-04-20)
+
+* Use alternative algorithm if splatEstimate dropout fitting fails (Fixes #96
+  and #31)
+
+## Version 1.11.4 (2020-04-01)
+
+* Adjust paths example in vignette (Fixes #90)
+* Use option for Kersplat warning to avoid NOTE about ':::'
+
+## Version 1.11.3 (2020-02-20)
+
+* Check for cycles in path.from (Fixes #91)
+
+## Version 1.11.2 (2020-02-14)
+
+* Update tests to work with checkmate 2.0.0
+* Add suggested checks to Kersplat tests and examples
+
+## Version 1.10.1 (2020-02-14)
+
+* Update tests to work with checkmate 2.0.0
+
 ## Version 1.11.1 (2010-01-30)
 
 * Replace defunct scater function in vignettes

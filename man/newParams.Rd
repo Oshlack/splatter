@@ -3,7 +3,7 @@
 %   R/KersplatParams-methods.R, R/Lun2Params-methods.R, R/LunParams-methods.R,
 %   R/MFAParams-methods.R, R/PhenoParams-methods.R, R/SCDDParams-methods.R,
 %   R/SimpleParams-methods.R, R/SparseDCParams-methods.R,
-%   R/SplatParams-methods.R, R/ZINBParams-methods.R, R/eQTLParams-methods.R
+%   R/SplatParams-methods.R, R/ZINBParams-methods.R, R/popParams-methods.R
 \name{newParams}
 \alias{newParams}
 \alias{newBASiCSParams}
@@ -17,7 +17,7 @@
 \alias{newSparseDCParams}
 \alias{newSplatParams}
 \alias{newZINBParams}
-\alias{neweQTLParams}
+\alias{newPopParams}
 \title{New Params}
 \usage{
 newBASiCSParams(...)
@@ -42,7 +42,7 @@ newSplatParams(...)
 
 newZINBParams(...)
 
-neweQTLParams(...)
+newPopParams(...)
 }
 \arguments{
 \item{...}{additional parameters passed to \code{\link{setParams}}.}

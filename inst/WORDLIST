@@ -12,22 +12,24 @@ Bioc
 Biocondutor
 biocViews
 bioRxiv
+bp
 BPPARAM
+CellX
+chr
 Chu
+CMD
 compareSCEs
 compareSCESets
 cpm
 cutoff
-<<<<<<< HEAD
 cv
-=======
->>>>>>> b3c4d4a06a7a29688fa73c41e620c53a55f2284b
 df
 diffSCEs
 diffSCESets
 dist
 DM
 doi
+downProb
 DP
 Dudoit
 EE
@@ -36,18 +38,17 @@ eGene
 eGenes
 eqtl
 eQTL
-<<<<<<< HEAD
-eQTLparams
-eQTLParams
-=======
->>>>>>> b3c4d4a06a7a29688fa73c41e620c53a55f2284b
+ESg
 eSNP
 eSNPs
 etc
+facLoc
+facScale
 fpkm
 FPKM
 gam
-GeneMeansPop
+GEg
+geneID
 getCounts
 getLNormFactors
 GFF
@@ -56,7 +57,6 @@ GRCh
 Gribkova
 GTEx
 GTF
-ie
 ImmunoOncology
 ingroup
 JC
@@ -65,9 +65,11 @@ Kersplat
 KersplatParams
 Korthauer
 KR
+labeled
 len
 Lifecycle
 listSims
+loc
 loProb
 lun
 Lun
@@ -75,29 +77,23 @@ LunParams
 lunSimulate
 MADs
 MAEs
-<<<<<<< HEAD
-=======
 maf
->>>>>>> b3c4d4a06a7a29688fa73c41e620c53a55f2284b
 MAF
 Marioni
 meanlog
-MeansMatrix
 MeanZeros
 mfa
 MFA
 MFAParams
 mfaSimulate
+Mgs
 mockSCE
 modeling
-NAR
-<<<<<<< HEAD
 Nelder
-=======
->>>>>>> b3c4d4a06a7a29688fa73c41e620c53a55f2284b
+newPopParams
+newSplatParams
 nGenes
 nGroups
-normGeneMeansPop
 NOTEs
 params
 Params
@@ -106,24 +102,24 @@ Perraudeau
 PhenoParams
 PhenoPath
 PLoS
-pnorm
 poisson
 Poisson
+popParams
+popSimulate
+prob
 PROSSTT
 pseudotime
-<<<<<<< HEAD
 pval
-=======
->>>>>>> b3c4d4a06a7a29688fa73c41e620c53a55f2284b
 qgamma
+quan
 Quickstart
 RG
 Risso
 RMSEs
-rnorm
 Roxygen
 RStudio
 RStudio's
+SampleX
 sc
 scater
 scDD
@@ -149,13 +145,14 @@ SparseDC
 sparseDCEstimate
 SparseDCParams
 SparseParams
-splateQTL
+specifc
 splatEstimate
 splatEstLib
 splatParams
 SplatParams
 splatSimulate
 splatSimulatePaths
+splatSimulatePop
 Splatter's
 splotchEstimate
 SplotchParams
@@ -166,14 +163,13 @@ th
 thining
 tpm
 TPM
-<<<<<<< HEAD
-=======
 TSS
->>>>>>> b3c4d4a06a7a29688fa73c41e620c53a55f2284b
+tsv
 UMAP
 UpperCamelCase
 Vallejos
 vcf
+VCF
 WaVE
 Wellcome
 Wilks
@@ -183,6 +179,7 @@ winsorized
 Winsorized
 WithSpikes
 Yau
+Ygs
 ZINB
 ZINBParams
 zinbwave

@@ -270,11 +270,18 @@ splatEstDropout <- function(norm.counts, params) {
 
     df <- data.frame(x, y)
 
-    fit <- nls(y ~ logistic(x, x0 = x0, k = k), data = df,
-               start = list(x0 = 0, k = -1))
+    fit <- tryCatch({
+        nls(y ~ logistic(x, x0 = x0, k = k), data = df,
+            start = list(x0 = 0, k = -1))
+    },
+    error = function(err) {
+        warning("Fitting dropout using the Gauss-Newton method failed, ",
+                "using the Golub-Pereyra algorithm instead")
+        nls(y ~ logistic(x, x0 = x0, k = k), data = df,
+            start = list(x0 = 0, k = -1), alg = "plinear")
+    })
 
     #exp.zeros <- dnbinom(0, mu = means, size = 1 / 0.1) * ncol(norm.counts)
-
     #present <- max(obs.zeros - exp.zeros) > 0.1 * ncol(norm.counts)
 
     mid <- summary(fit)$coefficients["x0", "Estimate"]

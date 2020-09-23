@@ -13,14 +13,17 @@
 # RStudio files
 *.Rproj
 .Rproj.user/
+
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
+
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth
 # knitr and R markdown default cache directories
 /*_cache/
 /cache/
+
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
@@ -29,10 +32,5 @@ inst/doc
 doc
 Meta
 # Testing datasets
-<<<<<<< HEAD
 data/*
-=======
-test_data/*
->>>>>>> b3c4d4a06a7a29688fa73c41e620c53a55f2284b
-# Output from eQTL 
-eqtl_out/*
+

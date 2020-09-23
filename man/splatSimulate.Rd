@@ -9,8 +9,9 @@
 \usage{
 splatSimulate(
   params = newSplatParams(),
-  method = c("single", "groups", "paths", "eqtl"),
-  eqtl = NULL,
+  method = c("single", "groups", "paths"),
+  pop_means = NULL,
+  small = FALSE,
   verbose = TRUE,
   ...
 )
@@ -28,14 +29,13 @@ See \code{\link{SplatParams}} for details.}
 \item{method}{which simulation method to use. Options are "single" which
 produces a single population, "groups" which produces distinct groups
 (eg. cell types), "paths" which selects cells from continuous
-trajectories (eg. differentiation processes), or "eqtl" which produces
-a single population for every sample (ie column) in the dataframe 
-output by splateQTL().}
+trajectories (eg. differentiation processes).}
 
-\item{eqtl}{matrix of mean gene counts across the eQTL population, output 
-from splateQTL().}
+\item{pop_means}{Gene means to use if running splatSimulatePop().}
 
-\item{verbose}{logical. Whether to print progress messages.}
+\item{small}{logical. Whether to return only the counts (Default=FALSE).}
+
+\item{verbose}{logical. Whether to print progress messages (Default=TRUE).}
 
 \item{...}{any additional parameter settings to override what is provided in
 \code{params}.}
@@ -83,6 +83,8 @@ information includes:
             \item{Group}{The group or path the cell belongs to.}
             \item{ExpLibSize}{The expected library size for that cell.}
             \item{Step (paths only)}{how far along the path each cell is.}
+            \item{Sample (pop only)}{Sample ID.}
+            \item{popGroup (pop with 2+ groups only)}{The group for group-specifc eQTL/DE effects. }
         }
     }
     \item{\code{rowData}}{
@@ -138,9 +140,9 @@ sim <- splatSimulate(params, mean.rate = 0.6, out.prob = 0.2)
 sim <- splatSimulate(method = "groups")
 # Simulate paths
 sim <- splatSimulate(method = "paths")
-# Simulate eQTL data
-eqtl <- splateQTL(params=params)
-sim <- splatSimulate(params=params, method = 'eqtl', eqtl = eqtl)
+# Simulate population scale data with eQTL effects
+pop <- popSimulate(params=params, popParams=pop.params, vcf=vcf)
+sim <- splatSimulatePop(params=params, pop = pop$means)
 }
 }
 \references{
@@ -156,5 +158,5 @@ Code: \url{https://github.com/Oshlack/splatter}
 \code{\link{splatSimBatchEffects}}, \code{\link{splatSimBatchCellMeans}},
 \code{\link{splatSimDE}}, \code{\link{splatSimCellMeans}},
 \code{\link{splatSimBCVMeans}}, \code{\link{splatSimTrueCounts}},
-\code{\link{splatSimDropout}}
+\code{\link{splatSimDropout}}, \code{\link{splatSimulatePop}}
 }

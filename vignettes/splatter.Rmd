@@ -16,6 +16,9 @@ vignette: >
 # rmarkdown::render("vignettes/splatter.Rmd", "all")
 knitr::opts_chunk$set(fig.align = 'center', fig.width = 6, fig.height = 5,
                       dev = 'png')
+
+# Use exact BSPARAM to avoid warnings
+options(BiocSingularParam.default = BiocSingular::ExactParam())
 ```
 
 ![Splatter logo](splatter-logo-small.png)
@@ -28,17 +31,11 @@ introduction to Splatter's functionality.
 
 Splatter can be installed from Bioconductor:
 
-```{r install, eval = FALSE}
-if (!requireNamespace("BiocManager", quietly=TRUE))
-    install.packages("BiocManager")
-BiocManager::install("splatter")
-```
-
 To install the most recent development version from Github use:
 
 ```{r install-github, eval = FALSE}
 BiocManager::install("Oshlack/splatter", dependencies = TRUE,
-         build_vignettes = TRUE)
+                    build_vignettes = TRUE)
 ```
 
 # Quickstart
@@ -49,10 +46,13 @@ Splatter. Here is an example a mock dataset generated with the `scater` package:
 
 ```{r quickstart}
 # Load package
-library(splatter)
+suppressPackageStartupMessages({
+  library(splatter)
+  library(scater)
+  devtools::load_all(".")
+})
 
 # Create mock data
-library(scater)
 set.seed(1)
 sce <- mockSCE()
 
@@ -306,7 +306,8 @@ cell to a step. We can create this kind of simulation using the `"paths"`
 method.
 
 ```{r paths}
-sim.paths <- splatSimulate(method = "paths", verbose = FALSE)
+sim.paths <- splatSimulate(de.prob = 0.2, nGenes = 1000, method = "paths",
+                           verbose = FALSE)
 sim.paths <- logNormCounts(sim.paths)
 sim.paths <- runPCA(sim.paths)
 plotPCA(sim.paths, colour_by = "Step")
@@ -318,6 +319,8 @@ similar to the originating cell type and the light coloured cells are closer
 to the final, differentiated, cell type. By setting additional parameters it is
 possible to simulate more complex process (for example multiple mature cell
 types from a single progenitor).
+
+
 
 ## Batch effects
 
@@ -352,6 +355,250 @@ Here we see that the effects of the group (first component) are stronger than
 the batch effects (second component) but by adjusting the parameters we could
 made the batch effects dominate.
 
+
+## Simulating population-scale single cell data (Splat-pop)
+
+The ability to simulate single-cell counts for multiple individuals means that
+Splatter can simulate data needed for functional genomics studies. Given real 
+(or simulated) genotype information for a population of samples, Splat-pop 
+simulates gene mean expression levels across the population, taking into
+account population structure and allowing for the simulation of global and 
+group-specific expression Quantitative Trait Loci (eQTL) effects. Gene means 
+and variances are simulated from [gamma distributions][gamma] derived from real
+population scale RNA-seq data and eQTL effect sizes from a 
+[gamma distribution][gamma] derived from real eQTL mapping results. Parameters 
+for these distributions are estimated by `popEstimate` and simulations are 
+performed by `popSimulate`. `popSimulate` also performs quantile normalization
+to the mean gene expression levels for each sample to match the 
+[gamma distribution][gamma] derived from real single-cell RNA-seq data by 
+`splatEstimate`. This means that the real population scale RNA-seq data and 
+eQTL mapping results can come from bulk data, which is useful because of the 
+limited number of population-scale scRNA-seq datasets available. Finally, the
+quantile normalized gene means become the input to `splatSimulatePop`, which is
+essentially a wrapper around `splatSimulate`. 
+
+### The popParams object
+
+The parameters needed to simulate gene mean expression levels with eQTL effects
+are stored in a `popParams` object that is structured similarity to the 
+`SplatParams` object described above. The parameters can be either estimated 
+from real data using `popEstimate` or defined by the user using `setParams`. 
+The default parameters were estimated from bulk RNA-seq data and eQTL mapping 
+results from GTEx (thyroid tissue). Let's see what the default object looks like.
+
+```{r default-eqtl-parameters}
+pop.params <- newPopParams()  
+pop.params
+```
+This tells us we have "a `Params` object of class `popParams`" and shows the 
+values of these parameters. As with the `SplatParams` object, the parameters
+that can be estimated with the `popEstimate` function are in parentheses, those  
+that can't be estimated are in brackets, and those that have been changed from
+their default are in ALL CAPS. The global parameters need to be changed in the
+`SplatParams` object, as the `popParams` object only controls `popSimulate`.
+
+The following eQTL parameters can be estimated or manually defined: 
+
+* **eQTL effect size parameters**
+    * `eqtl.ES.shape` - Shape parameter for eQTL effect sizes.
+    * `eqtl.ES.rate` - Rate parameter for eQTL effect sizes.
+* **Population parameters**
+    * `pop.mean.shape` - Shape parameter for mean expression from population 
+    scale data.
+    * `pop.mean.rate` - Rate parameter for mean expression from population 
+    scale data.
+    * `pop.cv.param` - Shape and rate parameters for the coefficient of 
+    variation (cv) across individuals from the population scale data, binned by
+    mean expression.
+
+```{r eqtlEstimate}
+# Mock bulk expression matrix
+bulk_means <- data.frame(mean = rnbinom(1e3, 1,0.1))
+bulk_matrix <- data.frame(abs(t(apply(bulk_means, 1, 
+                                      function(x) rnorm(50, x, 1)))))
+
+# Mock eQTL mapping results
+bulk_eqtl <- data.frame(list(gene_id=1:1e3, pval_nominal=0.05,
+                             slope=rnorm(1e3, 0, 0.5)))
+
+# Estimates eQTL params from real data
+pop.params.est <- popEstimate(eqtl = bulk_eqtl,
+                              gene.means = bulk_matrix)  
+
+pop.params.est
+```
+
+### Simulating population scale gene mean expression levels
+
+Given genotype information for a population (vcf file),`popSimulate` 
+uses parameters estimated by `popEstimate` to simulate gene means for each 
+individual for each gene. Genes can be provided in three ways using the 
+**genes** flag:
+
+1. Randomly based on the locations of the SNPs in the vcf (genes='random')
+2. From a data.frame object of a GFF/GTF file
+3. From a tab delimited key object (key=file.tsv) with columns *geneID*, *chr*, 
+and *loc* (indicating the TSS).
+
+The number of genes assigned as eGenes is controlled using the **eqtl.n** flag,
+where if eqtl.n <= 1, then that percentage of genes are simulated as eGenes. 
+The eSNP assigned to each eGene will have a minor allele frequency (MAF) between 
+**eqtl.maf.min** and **eqtl.maf.max** and be no more than **eqtl.dist** away
+from the loc. Each eGene-eSNP pair (an eQTL pair) is randomly assigned an effect
+size from a gamma distribution parameterized in `popEstimate`. By default all 
+eQTL relationships will be considered global (applied to all cells), but 
+group-specific eQTL can be simulated by setting **eqtl.groups** equal to 2+. 
+This setting will result in a percent of all eQTL pairs, specified by
+**eqtl.group.specific**, being simulated in a single group. In addition, setting
+eqtl.groups equal to 2+ will result in differential expression effects that are
+not associated with a genetic variant (described for single-cell level group
+effects in base splatter above) to be applied.
+
+To summarize, the following `popParams` control parameters can be changed 
+using `setParams`:
+
+* **Population general parameters (all user defined)**
+    * `nGenes` - Number genes to simulate (if genes='random').
+    * `eqtl.n` - Number (>1) or percent (<=1) of genes to assign eQTL effects.
+    * `eqtl.dist` - Maximum distance (bp) between eGene and eSNP.
+    * `eqtl.maf.min` - Minimum Minor Allele Frequency (MAF) of eSNPs.
+    * `eqtl.maf.max` - Maximum MAF of eSNPs.
+    * `eqtl.groups` - Number of groups to simulate.
+    * `eqtl.group.specific` - Percent of eQTL effects to make group specific.
+
+```{r eqtlSimulate}
+# Generate a mock genotype (vcf) data.frame
+genotypes <- c(rep("0/0", 20), rep("0/1", 2), rep("1/1", 1))
+nsnps <- 1e5
+vcf <- data.frame(list(V1=rep(22, nsnps), V2=sample(1:5e7, nsnps)))
+vcf[, c("V3","V4","V5","V6","V7","V8","V9")] <- NA
+vcf[, c("V10","V11","V12","V13","V14","V15")] <- sample(
+  genotypes, 6*nsnps, replace=TRUE)
+
+# Adjust eQTL parameters or setting by hand
+pop.params <- setParams(newPopParams(), "nGenes" = 400) 
+pop <- popSimulate(vcf = vcf,
+                   popParams = pop.params,
+                   genes = 'random')
+round(pop$means[1:5, 1:6], digits = 3)
+```
+
+The output of `popSimulate()` is an object with two components:
+  * `means` - a dataframe (or list of dataframes if `eqtl.groups` > 1) with 
+  simulated mean gene expression value for each gene (row) and each sample
+  (column).
+  * `key` - a dataframe listing all of the genes simulated, their assigned means
+  and variances (before and after quantile normalization), and, for genes 
+  assigned an eSNP, the eSNP ID, effect size, and type (global/group specific).
+
+```{r eqtlSimulate-show-key}
+print(pop$key[1:5, ], digits = 2)
+```
+
+To simulate single cell expression data for real population with existing 
+bulk expression data, use the following function to quantile normalize the 
+empirical bulk expression data to match the distribution of the single cell data
+parameterized using `splatEstimate()`. 
+
+```{r quant-normalize-population-data}
+bulk_qnorm <- pop.quan.norm.sc(newSplatParams(), bulk_matrix)
+round(bulk_qnorm[1:5, 1:5], 3)
+```
+
+
+### Simulating population scale single-cell data with global eQTL effects
+
+Finally, single cell level data is simulated using`splatSimulatePop`, a wrapper
+around the `splatSimulate` function. The output is a single sce object with a 
+column for each cell for each sample, labeled as: "SampleX_CellX". Note that 
+some of the parameters in `SplatParams` that control `splatSimulate` will be 
+ignored by `splatSimulatePop` because they were determined by `popSimulate`, 
+including *nGenes*, *mean.shape*, *mean.rate*, and *nGroups*.
+
+```{r eqtl-splatSimulatePop}
+sim.pop <- splatSimulatePop(pop = pop$means, batchCells = 50)
+sim.pop <- logNormCounts(sim.pop)
+sim.pop <- runPCA(sim.pop)
+plotPCA(sim.pop, colour_by = "Sample")
+```
+
+The `splatSimulatePop` function outputs, in addition to the information output
+by `splatSimulate`, the following information:
+
+* **Cell information (`colData`)**
+    * `Sample` - The sample number.
+
+### Simulating population scale single-cell data with group effects
+
+The population simulation above is an example of a dataset with a single cell
+type across many samples. However, with the `popSimulate()` function, you can 
+also simulate population-scale data for a mixture of cell-types (i.e. groups). 
+Two types of group effects are included: group-eQTL and group-DE effects. The 
+number of groups to simulate is set using the `eqtl.groups` parameter in 
+`popParams`.The DE effects are implemented as in the base splatter package, 
+with the user able to control `SplatParams` parameters including *de.prob*, 
+*de.downProb*, *de.facLoc*, and *de.facScale*. For group-specific eQTL, the
+proportion of eQTL to designate as group-specific eQTL is set using 
+`eqtl.group.specific`. 
+
+When used to simulate sc data with group-specific eQTL,`splatSimulatePop` also
+outputs:
+
+* **Cell information (`colData`)**
+    * `eQTLGroup` - The group ID for group-specifc eQTL. 
+    
+```{r group-specific-eQTL-simulations}
+pop.param2 <- setParams(pop.params, 
+                         "eqtl.groups" = 2, 
+                         "eqtl.group.specific" = 0.4)
+params2 <- setParams(newSplatParams(), de.prob = 0.3,
+                     de.facLoc = 0.4, de.facScale = 0.4)
+
+pop2 <- popSimulate(vcf=vcf, popParams=pop.param2, params=params2)
+sim.pop2 <- splatSimulatePop(pop=pop2$means, params=params2)
+
+
+sim.pop2 <- logNormCounts(sim.pop2)
+sim.pop2 <- runPCA(sim.pop2)
+plotPCA(sim.pop2, colour_by = "popGroup", shape_by = "Sample",
+        ncomponents = 5:6) 
+```
+
+### Simulate SC data for population with path and batch effects
+
+As in the base `splatSimulate` function, users can also simulate single-cell 
+data with path or batch effects using the `method` tag in `splatSimulatePop`.
+Note that using the *method = group* tag here generates cell with DE group 
+effects separate from the group effects simulated in `popSimulate`. Thus,if you
+use `popSimulate` with *eqtl.groups = 2* and `splatSimulatePop` with 
+*method = groups* and *group.prob = c(0.5, 0.5)*, then a random half of cells 
+for each sample will have eQTL and DE group effects and another random half will
+have just DE group effects.
+
+```{r simulate-population-with-batch-effects}
+sim.pop.batches <- splatSimulatePop(pop = pop$means,
+                                    batchCells = c(50, 50),
+                                    batch.facLoc = 0.2, 
+                                    batch.facScale = 0.2)
+sim.pop.batches <- logNormCounts(sim.pop.batches)
+sim.pop.batches <- runPCA(sim.pop.batches)
+plotPCA(sim.pop.batches, colour_by = "Batch", shape_by = "Sample", 
+        ncomponents = 5:6)
+
+```
+
+```{r simulate-population-with-path-effects}
+sim.pop.paths <- splatSimulatePop(pop = pop$means,
+                                   method = 'paths',
+                                   de.prob = 0.5)
+sim.pop.paths <- logNormCounts(sim.pop.paths)
+sim.pop.paths <- runPCA(sim.pop.paths)
+plotPCA(sim.pop.paths, colour_by = "Step", shape_by = "Sample", 
+        ncomponents = 5:6) 
+```
+
+
+
 ## Convenience functions
 
 Each of the Splatter simulation methods has it's own convenience function.
@@ -359,7 +606,10 @@ To simulate a single population use `splatSimulateSingle()` (equivalent to
 `splatSimulate(method = "single")`), to simulate groups use
 `splatSimulateGroups()` (equivalent to `splatSimulate(method = "groups")`) or to
 simulate paths use `splatSimulatePaths()` (equivalent to
-`splatSimulate(method = "paths")`).
+`splatSimulate(method = "paths")`). Note that the eQTL simulation method only
+runs using the convenience function (i.e.`splatSimulate(method = "eqtl")` is not 
+valid, only `splatSimulatePop()`.
+
 
 # Other simulations
 
@@ -510,5 +760,6 @@ sessionInfo()
 
 [gamma]: https://en.wikipedia.org/wiki/Gamma_distribution
 [poisson]: https://en.wikipedia.org/wiki/Poisson_distribution
+[eQTL]: https://en.wikipedia.org/wiki/Expression_quantitative_trait_loci
 [scater-vignette]: https://bioconductor.org/packages/release/bioc/vignettes/scater/inst/doc/vignette.html
 [SCE-vignette]: https://bioconductor.org/packages/devel/bioc/vignettes/SingleCellExperiment/inst/doc/intro.html

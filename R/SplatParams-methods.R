@@ -61,6 +61,8 @@ setValidity("SplatParams", function(object) {
                 path.nonlinearProb = checkNumber(v$path.nonlinearProb,
                                                  lower = 0, upper = 1),
                 path.sigmaFac = checkNumber(v$path.sigmaFac, lower = 0),
+                eqtl.group.prop = checkNumeric(v$eqtl.group.prop[1], lower = 0,
+                                           upper = 1),
                 seed = checkInt(v$seed, lower = 0))
 
     # Check batchCells matches nCells, nBatches
@@ -76,9 +78,31 @@ setValidity("SplatParams", function(object) {
 
     # Check path.from
     if (!(0 %in% v$path.from)) {
-       checks <- c(checks, path.from = "origin must be specified in path.from")
+        checks <- c(checks, path.from = "origin must be specified in path.from")
     } else if (any(v$path.from == seq_len(nGroups))) {
         checks <- c(checks, "path cannot begin at itself")
+    } else if (nGroups > 1 && all(v$path.from <= nGroups)) {
+        nodes <- seq_along(v$path.from)
+        # Create empty degree and adjacency matrix
+        adj <- matrix(0, ncol = length(v$path.from) + 1,
+                      nrow = length(v$path.from) + 1)
+        deg <- adj
+        # Fill adjacency matrix
+        adj[(v$path.from + 1) + nrow(adj) * nodes] <- 1
+        # Covert to undirected by making symmetrical
+        adj <- adj + t(adj)
+
+        # Fill degree matrix and calculate Laplacian
+        diag(deg) <- rowSums(adj)
+        lap <- deg - adj
+
+        # See https://stackoverflow.com/a/25537032 for explanation of this test
+        lap.trace <- sum(diag(lap))
+        lap.rank <- qr(lap)$rank
+
+        if (0.5 * lap.trace != lap.rank) {
+            checks <- c(checks, "path.from cannot contain cycles")
+        }
     }
 
     # Check dropout type
