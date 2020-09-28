@@ -29,13 +29,16 @@ dataset. See the individual estimation functions for more details on how this
 is done.
 }
 \examples{
-# Load example data
-library(scater)
-set.seed(1)
-sce <- mockSCE()
 
-params <- kersplatEstimate(sce)
-params
+if (requireNamespace("igraph", quietly = TRUE)) {
+    # Load example data
+    library(scater)
+    set.seed(1)
+    sce <- mockSCE()
+
+    params <- kersplatEstimate(sce)
+    params
+}
 }
 \seealso{
 \code{\link{kersplatEstMean}},  \code{\link{kersplatEstBCV}},

@@ -16,6 +16,9 @@ vignette: >
 # rmarkdown::render("vignettes/splatter.Rmd", "all")
 knitr::opts_chunk$set(fig.align = 'center', fig.width = 6, fig.height = 5,
                       dev = 'png')
+
+# Use exact BSPARAM to avoid warnings
+options(BiocSingularParam.default = BiocSingular::ExactParam())
 ```
 
 ![Splatter logo](splatter-logo-small.png)
@@ -38,7 +41,7 @@ To install the most recent development version from Github use:
 
 ```{r install-github, eval = FALSE}
 BiocManager::install("Oshlack/splatter", dependencies = TRUE,
-         build_vignettes = TRUE)
+                     build_vignettes = TRUE)
 ```
 
 # Quickstart
@@ -306,7 +309,8 @@ cell to a step. We can create this kind of simulation using the `"paths"`
 method.
 
 ```{r paths}
-sim.paths <- splatSimulate(method = "paths", verbose = FALSE)
+sim.paths <- splatSimulate(de.prob = 0.2, nGenes = 1000, method = "paths",
+                           verbose = FALSE)
 sim.paths <- logNormCounts(sim.paths)
 sim.paths <- runPCA(sim.paths)
 plotPCA(sim.paths, colour_by = "Step")

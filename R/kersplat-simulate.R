@@ -21,7 +21,10 @@
 #' values
 #'
 #' @examples
-#' sim <- kersplatSimulate()
+#'
+#' if (requireNamespace("igraph", quietly = TRUE)) {
+#'     sim <- kersplatSimulate
+#' }
 #'
 #' @export
 kersplatSimulate <- function(params = newKersplatParams(), verbose = TRUE,
@@ -79,7 +82,10 @@ kersplatSimulate <- function(params = newKersplatParams(), verbose = TRUE,
 #' @export
 #'
 #' @examples
-#' params <- kersplatSetup()
+#'
+#' if (requireNamespace("igraph", quietly = TRUE)) {
+#'     params <- kersplatSetup()
+#' }
 kersplatSetup <- function(params = newKersplatParams(), verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "KersplatParams")
@@ -180,8 +186,11 @@ kersplatSetup <- function(params = newKersplatParams(), verbose = TRUE, ...) {
 #' @export
 #'
 #' @examples
-#' params <- kersplatSetup()
-#' sim <- kersplatSample(params)
+#'
+#' if (requireNamespace("igraph", quietly = TRUE)) {
+#'     params <- kersplatSetup()
+#'     sim <- kersplatSample(params)
+#' }
 kersplatSample <- function(params, verbose = TRUE) {
 
     # Check that parameters are set up

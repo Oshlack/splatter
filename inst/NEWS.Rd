@@ -1,6 +1,16 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
+\section{Version 1.12.0, Bioconductor 3.11 Release (2020-04-20)}{
+  \itemize{
+    \item{Add checks for cycles in the Splat path.from parameter.}
+    \item{Use alternative algorithm if fitting dropout fails in splatEstimate.}
+    \item{Adjust paths example in vignette.}
+    \item{Replace defunct functions in vignettes.}
+    \item{Minor fixes for compatibility with updates to other packages.}
+  }
+}
+
 \section{Version 1.10.0, Bioconductor 3.10 Release (2019-10-20)}{
   \itemize{
     \item{Add the (experimental) Kersplat simulation model. This model
@@ -19,7 +29,7 @@
     suggested packages.}
     \item{Various fixes for compatibility with updates to other
       packages.}
-    }
+  }
 }
 
 \section{Version 1.8.0, Bioconductor 3.9 Release (2019-04-18)}{

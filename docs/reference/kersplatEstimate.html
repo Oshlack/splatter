@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -41,7 +45,6 @@
 <meta property="og:description" content="Estimate simulation parameters for the Kersplat simulation from a real
 dataset. See the individual estimation functions for more details on how this
 is done." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -69,7 +72,7 @@ is done." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -83,7 +86,7 @@ is done." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.13.0</span>
       </span>
     </div>
 
@@ -119,7 +122,7 @@ is done." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/Oshlack/splatter">
+  <a href="https://github.com/Oshlack/splatter/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -151,12 +154,10 @@ is done.</p>
     <pre class="usage"><span class='fu'>kersplatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newKersplatParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>kersplatEstimate</span>(<span class='no'>counts</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newKersplatParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>kersplatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newKersplatParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>kersplatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newKersplatParams</a></span>(),
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>kersplatEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newKersplatParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,79 +186,76 @@ containing count data to estimate parameters from.</p></td>
 <code><a href='kersplatEstLib.html'>kersplatEstLib</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load example data</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>scater</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: package ‘scater’ was built under R version 3.6.1</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/scater/man/mockSCE.html'>mockSCE</a></span>()
+    <pre class="examples"><div class='input'>
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"igraph"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+    <span class='co'># Load example data</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>scater</span>)
+    <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+    <span class='no'>sce</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/scater/man/mockSCE.html'>mockSCE</a></span>()
 
-<span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>kersplatEstimate</span>(<span class='no'>sce</span>)</div><div class='output co'>#&gt; <span class='message'>Registered S3 method overwritten by 'R.oo':</span>
-#&gt; <span class='message'>  method        from       </span>
-#&gt; <span class='message'>  throw.default R.methodsS3</span></div><div class='output co'>#&gt; <span class='warning'>Warning: The Kersplat simulation is still experimental and may produce unreliable results. Please try it and report any issues to https://github.com/Oshlack/splatter/issues. The development version may have improved features.</span>
-#&gt; <span class='warning'>This warning is displayed once per session.</span></div><div class='output co'>#&gt; <span class='message'>Estimating mean parameters...</span></div><div class='output co'>#&gt; <span class='message'>Selected MGE (CvM) fit</span></div><div class='output co'>#&gt; <span class='message'>Estimating expression outlier parameters...</span></div><div class='output co'>#&gt; <span class='message'>Estimating BCV parameters...</span></div><div class='output co'>#&gt; <span class='message'>Raw: 2.60817370717138 A: 8.12109336156054 B: 1.31905414419672 C: -8.4603750374735 Y: 1.36293824634938</span></div><div class='output co'>#&gt; <span class='message'>Estimating library size parameters...</span></div><div class='output co'>#&gt; <span class='message'>Selected MGE (CvM) fit</span></div><div class='input'><span class='no'>params</span></div><div class='output co'>#&gt; A Params object of class KersplatParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
-#&gt; Secondary parameters are usually set during simulation
+    <span class='no'>params</span> <span class='kw'>&lt;-</span> <span class='fu'>kersplatEstimate</span>(<span class='no'>sce</span>)
+    <span class='no'>params</span>
+}</div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='output co'>#&gt; <span class='warning'>Warning: The Kersplat simulation is still experimental and may produce unreliable results. Please try it and report any issues to https://github.com/Oshlack/splatter/issues. The development version may have improved features.</span></div><div class='output co'>#&gt; <span class='message'>Estimating mean parameters...</span></div><div class='output co'>#&gt; <span class='message'>Selected MGE (CvM) fit</span></div><div class='output co'>#&gt; <span class='message'>Estimating expression outlier parameters...</span></div><div class='output co'>#&gt; <span class='message'>Estimating BCV parameters...</span></div><div class='output co'>#&gt; <span class='message'>Raw: 2.60817370717138 A: 8.12109336156054 B: 1.31905414419672 C: -8.4603750374735 Y: 1.36293824634938</span></div><div class='output co'>#&gt; <span class='message'>Estimating library size parameters...</span></div><div class='output co'>#&gt; <span class='message'>Selected MGE (CvM) fit</span></div><div class='output co'>#&gt; A <span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>KersplatParams</span><span> 
+#&gt; Parameters can be (estimable) or </span><span style='color: #0000BB;'>[not estimable]</span><span>, 'Default' or  </span><span style='color: #00BB00;font-weight: bold;'>'NOT DEFAULT'</span><span> 
+#&gt; </span><span style='color: #000000;background-color: #BBBB00;'>Secondary</span><span> parameters are usually set during simulation
 #&gt; 
-#&gt; Global: 
-#&gt; (GENES)  (CELLS)   [Seed] 
-#&gt;    2000      200   955861 
+#&gt; </span><span style='font-weight: bold;'>Global:</span><span> 
+#&gt; </span><span style='font-weight: bold;'>(GENES)</span><span>  </span><span style='font-weight: bold;'>(CELLS)</span><span>   </span><span style='color: #0000BB;'>[Seed]</span><span> 
+#&gt;    </span><span style='color: #00BB00;font-weight: bold;'>2000</span><span>      </span><span style='color: #00BB00;font-weight: bold;'>200</span><span>   374097 
 #&gt; 
 #&gt; 24 additional parameters 
 #&gt; 
-#&gt; Mean: 
-#&gt;                  (RATE)                  (SHAPE)               (OUT PROB) 
-#&gt;     0.00272354467142995        0.475100032448728                        0 
-#&gt;          (Out Location)              (Out Scale)                (DENSITY) 
-#&gt;                       4                      0.5  Object of class density 
-#&gt;                [Method]                 [Values] 
+#&gt; </span><span style='font-weight: bold;'>Mean:</span><span> 
+#&gt;                  </span><span style='font-weight: bold;'>(RATE)</span><span>                  </span><span style='font-weight: bold;'>(SHAPE)</span><span>               </span><span style='font-weight: bold;'>(OUT PROB)</span><span> 
+#&gt;     </span><span style='color: #00BB00;font-weight: bold;'>0.00272354467142995</span><span>        </span><span style='color: #00BB00;font-weight: bold;'>0.475100032448728</span><span>                        </span><span style='color: #00BB00;font-weight: bold;'>0</span><span> 
+#&gt;          (Out Location)              (Out Scale)                </span><span style='font-weight: bold;'>(DENSITY)</span><span> 
+#&gt;                       4                      0.5  </span><span style='color: #00BB00;font-weight: bold;'>Object of class density</span><span> 
+#&gt;                </span><span style='color: #0000BB;'>[Method]</span><span>                 </span><span style='color: #0000BB;background-color: #BBBB00;'>[Values]</span><span> 
 #&gt;                     fit                  Not set 
 #&gt; 
-#&gt; BCV: 
-#&gt;    (COMMON DISP)             [DoF] 
-#&gt; 1.11818764383748                60 
+#&gt; </span><span style='font-weight: bold;'>BCV:</span><span> 
+#&gt;    </span><span style='font-weight: bold;'>(COMMON DISP)</span><span>             </span><span style='color: #0000BB;'>[DoF]</span><span> 
+#&gt; </span><span style='color: #00BB00;font-weight: bold;'>1.11818764383748</span><span>                60 
 #&gt; 
-#&gt; Network: 
-#&gt;    [Graph]     [nRegs]   [regsSet] 
+#&gt; </span><span style='font-weight: bold;'>Network:</span><span> 
+#&gt;    </span><span style='color: #0000BB;background-color: #BBBB00;'>[Graph]</span><span>     </span><span style='color: #0000BB;'>[nRegs]</span><span>   </span><span style='color: #0000BB;background-color: #BBBB00;'>[regsSet]</span><span> 
 #&gt;    Not set         100       FALSE 
 #&gt; 
-#&gt; Paths: 
-#&gt; [nPrograms]      [Means] 
+#&gt; </span><span style='font-weight: bold;'>Paths:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[nPrograms]</span><span>      </span><span style='color: #0000BB;background-color: #BBBB00;'>[Means]</span><span> 
 #&gt;          10      Not set 
 #&gt; 
-#&gt; [Design]
+#&gt; </span><span style='color: #0000BB;'>[Design]</span><span>
 #&gt; data.frame (1 x 3) with columns: Path, From, Steps 
 #&gt;   Path From Steps
 #&gt; 1    1    0   100
 #&gt; 
-#&gt; Library size: 
-#&gt;              (LOCATION)                  (SCALE)                (DENSITY) 
-#&gt;        12.7854772402738       0.0327578186101294  Object of class density 
-#&gt;                [Method] 
+#&gt; </span><span style='font-weight: bold;'>Library size:</span><span> 
+#&gt;              </span><span style='font-weight: bold;'>(LOCATION)</span><span>                  </span><span style='font-weight: bold;'>(SCALE)</span><span>                </span><span style='font-weight: bold;'>(DENSITY)</span><span> 
+#&gt;        </span><span style='color: #00BB00;font-weight: bold;'>12.7854772402738</span><span>       </span><span style='color: #00BB00;font-weight: bold;'>0.0327578186101294</span><span>  </span><span style='color: #00BB00;font-weight: bold;'>Object of class density</span><span> 
+#&gt;                </span><span style='color: #0000BB;'>[Method]</span><span> 
 #&gt;                     fit 
 #&gt; 
-#&gt; Cells: 
+#&gt; </span><span style='font-weight: bold;'>Cells:</span><span> 
 #&gt; 
-#&gt; [Design]
+#&gt; </span><span style='color: #0000BB;'>[Design]</span><span>
 #&gt; data.frame (1 x 4) with columns: Path, Probability, Alpha, Beta 
 #&gt;   Path Probability Alpha Beta
 #&gt; 1    1           1     1    0
 #&gt; 
-#&gt; Doublets: 
-#&gt; [Prop] 
+#&gt; </span><span style='font-weight: bold;'>Doublets:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[Prop]</span><span> 
 #&gt;      0 
 #&gt; 
-#&gt; Ambient: 
-#&gt; [Scale]  [Empty] 
+#&gt; </span><span style='font-weight: bold;'>Ambient:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[Scale]</span><span>  </span><span style='color: #0000BB;'>[Empty]</span><span> 
 #&gt;    0.05        0 
-#&gt; </div></pre>
+#&gt; </div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -268,7 +266,7 @@ containing count data to estimate parameters from.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

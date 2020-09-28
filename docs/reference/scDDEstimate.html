@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -39,7 +43,6 @@
 
 <meta property="og:title" content="Estimate scDD simulation parameters — scDDEstimate" />
 <meta property="og:description" content="Estimate simulation parameters for the scDD simulation from a real dataset." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -67,7 +70,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -81,7 +84,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Splatter</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.7.9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.13.0</span>
       </span>
     </div>
 
@@ -117,7 +120,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/Oshlack/splatter">
+  <a href="https://github.com/Oshlack/splatter/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -144,21 +147,43 @@
     <p>Estimate simulation parameters for the scDD simulation from a real dataset.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>scDDEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSCDDParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>scDDEstimate</span>(
+  <span class='no'>counts</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSCDDParams</a></span>(),
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
+  <span class='no'>...</span>
+)
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>scDDEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSCDDParams</a></span>(),
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(), <span class='no'>conditions</span>, <span class='no'>...</span>)
+<span class='fu'>scDDEstimate</span>(
+  <span class='no'>counts</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSCDDParams</a></span>(),
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
+  <span class='no'>conditions</span>,
+  <span class='no'>...</span>
+)
 
 <span class='co'># S3 method for SingleCellExperiment</span>
-<span class='fu'>scDDEstimate</span>(<span class='no'>counts</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSCDDParams</a></span>(), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
-  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='st'>"condition"</span>, <span class='no'>...</span>)
+<span class='fu'>scDDEstimate</span>(
+  <span class='no'>counts</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSCDDParams</a></span>(),
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
+  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='st'>"condition"</span>,
+  <span class='no'>...</span>
+)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>scDDEstimate</span>(<span class='no'>counts</span>, <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSCDDParams</a></span>(),
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(), <span class='no'>condition</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>scDDEstimate</span>(
+  <span class='no'>counts</span>,
+  <span class='kw'>params</span> <span class='kw'>=</span> <span class='fu'><a href='newParams.html'>newSCDDParams</a></span>(),
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>BPPARAM</span> <span class='kw'>=</span> <span class='fu'>SerialParam</span>(),
+  <span class='no'>condition</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -219,13 +244,13 @@ simulate. The output is then converted to a SCDDParams object. See
     <span class='no'>params</span>
 }</div><div class='output co'>#&gt; <span class='message'>Performing Median Normalization</span></div><div class='output co'>#&gt; <span class='message'>Notice: 10 genes have less than 3 nonzero cells per condition.  Skipping these genes.</span></div><div class='output co'>#&gt; <span class='message'>Setting up parallel back-end using FALSE cores</span></div><div class='output co'>#&gt; <span class='message'>Clustering observed expression data for each gene</span></div><div class='output co'>#&gt; <span class='message'>Notice: Number of permutations is set to zero; using </span>
 #&gt; <span class='message'>            Kolmogorov-Smirnov to test for differences in distributions</span>
-#&gt; <span class='message'>            instead of the Bayes Factor permutation test</span></div><div class='output co'>#&gt; <span class='message'>Classifying significant genes into patterns</span></div><div class='output co'>#&gt; A Params object of class SCDDParams 
-#&gt; Parameters can be (estimable) or [not estimable], 'Default' or  'NOT DEFAULT' 
-#&gt; Secondary parameters are usually set during simulation
+#&gt; <span class='message'>            instead of the Bayes Factor permutation test</span></div><div class='output co'>#&gt; <span class='message'>Classifying significant genes into patterns</span></div><div class='output co'>#&gt; A <span style='font-weight: bold;'>Params</span><span> object of class </span><span style='font-weight: bold;'>SCDDParams</span><span> 
+#&gt; Parameters can be (estimable) or </span><span style='color: #0000BB;'>[not estimable]</span><span>, 'Default' or  </span><span style='color: #00BB00;font-weight: bold;'>'NOT DEFAULT'</span><span> 
+#&gt; </span><span style='color: #000000;background-color: #BBBB00;'>Secondary</span><span> parameters are usually set during simulation
 #&gt; 
-#&gt; Global: 
-#&gt; (GENES)  (CELLS)   [Seed] 
-#&gt;     100       10   955861 
+#&gt; </span><span style='font-weight: bold;'>Global:</span><span> 
+#&gt; </span><span style='font-weight: bold;'>(GENES)</span><span>  </span><span style='font-weight: bold;'>(CELLS)</span><span>   </span><span style='color: #0000BB;'>[Seed]</span><span> 
+#&gt;     </span><span style='color: #00BB00;font-weight: bold;'>100</span><span>       </span><span style='color: #00BB00;font-weight: bold;'>10</span><span>   374097 
 #&gt; 
 #&gt; 11 additional parameters 
 #&gt; 
@@ -233,33 +258,28 @@ simulate. The output is then converted to a SCDDParams object. See
 #&gt; (SCdat) 
 #&gt; SingleCellExperiment with 95 features and 20 cells 
 #&gt; 
-#&gt; Genes: 
-#&gt; (NDE)  (NDP)  (NDM)  (NDP)  (NEE)  (NEP) 
-#&gt;     0      0      0      0     95      5 
+#&gt; </span><span style='font-weight: bold;'>Genes:</span><span> 
+#&gt; </span><span style='font-weight: bold;'>(NDE)</span><span>  </span><span style='font-weight: bold;'>(NDP)</span><span>  </span><span style='font-weight: bold;'>(NDM)</span><span>  </span><span style='font-weight: bold;'>(NDP)</span><span>  </span><span style='font-weight: bold;'>(NEE)</span><span>  </span><span style='font-weight: bold;'>(NEP)</span><span> 
+#&gt;     </span><span style='color: #00BB00;font-weight: bold;'>0</span><span>      </span><span style='color: #00BB00;font-weight: bold;'>0</span><span>      </span><span style='color: #00BB00;font-weight: bold;'>0</span><span>      </span><span style='color: #00BB00;font-weight: bold;'>0</span><span>     </span><span style='color: #00BB00;font-weight: bold;'>95</span><span>      </span><span style='color: #00BB00;font-weight: bold;'>5</span><span> 
 #&gt; 
-#&gt; Fold change: 
-#&gt; [SD Range]   [Mode FC] 
+#&gt; </span><span style='font-weight: bold;'>Fold change:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[SD Range]</span><span>   </span><span style='color: #0000BB;'>[Mode FC]</span><span> 
 #&gt;       1, 3     2, 3, 4 
 #&gt; 
-#&gt; Variance: 
-#&gt; [Inflation] 
+#&gt; </span><span style='font-weight: bold;'>Variance:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[Inflation]</span><span> 
 #&gt;        1, 1 
 #&gt; 
-#&gt; Condition: 
-#&gt; [Condition] 
+#&gt; </span><span style='font-weight: bold;'>Condition:</span><span> 
+#&gt; </span><span style='color: #0000BB;'>[Condition]</span><span> 
 #&gt;   condition 
 #&gt; </div><div class='input'>
-</div></pre>
+</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -270,7 +290,7 @@ simulate. The output is then converted to a SCDDParams object. See
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
