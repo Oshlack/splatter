@@ -420,13 +420,14 @@ setClass("KersplatParams",
                                ambient.scale = 0.05,
                                ambient.nEmpty = 0))
 
-#' The popParams class
+#' The splatPopParams class
 #'
-#' S4 class that holds parameters for the population simulation.
+#' S4 class that holds parameters for the splatPop simulation.
 #'
 #' @section Parameters:
 #'
-#' The population simulation requires the following parameters:
+#' In addition to the \code{\link{SplatParams}} parameters, splatPop simulation
+#'  requires the following parameters:
 #'
 #' \describe{
 #'     \item{\code{[eqtl.n]}}{The number (>1) or percent (<=1) of genes to 
@@ -469,32 +470,28 @@ setClass("KersplatParams",
 #' \code{\link{popEstimate}}. For details of the eQTL simulation
 #' see \code{\link{popSimulate}}.
 #'
-#' @name popParams
-#' @rdname popParams
-#' @aliases popParams-class
-#' @exportClass popParams
-setClass("popParams",
-         contains = "Params",
-         slots = c(eqtl.n = "numeric",
+#' @name splatPopParams
+#' @rdname splatPopParams
+#' @aliases splatPopParams-class
+#' @exportClass splatPopParams
+setClass("splatPopParams",
+         contains = "SplatParams",
+         slots = c(pop.key = "character",
+                   gene.source = "character",
+                   pop.mean.shape = "numeric",
+                   pop.mean.rate = "numeric",
+                   pop.cv.bins = "numeric",
+                   pop.cv.param = "data.frame",
+                   eqtl.n = "numeric",
                    eqtl.dist = "numeric",
                    eqtl.maf.min = "numeric",
                    eqtl.maf.max = "numeric",
                    eqtl.ES.shape = "numeric",
                    eqtl.ES.rate = "numeric",
                    eqtl.groups = "numeric",
-                   eqtl.group.specific = "numeric",
-                   pop.mean.shape = "numeric",
-                   pop.mean.rate = "numeric",
-                   pop.cv.bins = "numeric",
-                   pop.cv.param = "data.frame"),
-         prototype = prototype(eqtl.n = 1,
-                               eqtl.dist = 1000000, 
-                               eqtl.maf.min = 0.05, 
-                               eqtl.maf.max = 0.5,
-                               eqtl.ES.shape = 2.538049, 
-                               eqtl.ES.rate = 5.962323,
-                               eqtl.groups = 1,
-                               eqtl.group.specific = 0.2,
+                   eqtl.group.specific = "numeric"),
+         prototype = prototype(pop.key = "build",
+                               gene.source = "random",
                                pop.mean.shape = 0.3395709, 
                                pop.mean.rate = 0.008309486, 
                                pop.cv.bins = 10,
@@ -511,7 +508,15 @@ setClass("popParams",
                                        rate = c(8.229737, 3.236401, 1.901426, 
                                                 1.615142, 1.467896, 2.141105,
                                                 3.005807, 4.440894, 4.458207,
-                                                2.702462))))
+                                                2.702462)),
+                               eqtl.n = 1,
+                               eqtl.dist = 1000000, 
+                               eqtl.maf.min = 0.05, 
+                               eqtl.maf.max = 0.5,
+                               eqtl.ES.shape = 2.538049, 
+                               eqtl.ES.rate = 5.962323,
+                               eqtl.groups = 1,
+                               eqtl.group.specific = 0.2))
 
 #' The LunParams class
 #'
