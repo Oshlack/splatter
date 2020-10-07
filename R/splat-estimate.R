@@ -43,7 +43,7 @@ splatEstimate.SingleCellExperiment <- function(counts,
 splatEstimate.matrix <- function(counts, params = newSplatParams()) {
 
     if(class(params) == "splatPopParams"){
-        checkmate::assertClass(params, "SplatPopParams")
+        checkmate::assertClass(params, "splatPopParams")
     }else{checkmate::assertClass(params, "SplatParams")}
 
     # Normalise for library size and remove all zero genes
