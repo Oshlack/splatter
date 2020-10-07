@@ -13,7 +13,8 @@
 #' \code{\link{splatEstOutlier}}, \code{\link{splatEstBCV}},
 #' \code{\link{splatEstDropout}}
 #'
-#' @return SplatParams object containing the estimated parameters.
+#' @return SplatParams or splatPopParams object containing the estimated 
+#' parameters.
 #'
 #' @examples
 #' # Load example data
@@ -41,7 +42,9 @@ splatEstimate.SingleCellExperiment <- function(counts,
 #' @export
 splatEstimate.matrix <- function(counts, params = newSplatParams()) {
 
-    checkmate::assertClass(params, "SplatParams")
+    if(class(params) == "splatPopParams"){
+        checkmate::assertClass(params, "SplatPopParams")
+    }else{checkmate::assertClass(params, "SplatParams")}
 
     # Normalise for library size and remove all zero genes
     lib.sizes <- colSums(counts)
@@ -78,7 +81,8 @@ splatEstimate.matrix <- function(counts, params = newSplatParams()) {
 #' winsorized by setting the top and bottom 10 percent of values to the 10th
 #' and 90th percentiles.
 #'
-#' @return SplatParams object with estimated values.
+#' @return SplatParams or splatPopParams object containing the estimated 
+#' parameters.
 splatEstMean <- function(norm.counts, params) {
 
     means <- rowMeans(norm.counts)
@@ -111,7 +115,8 @@ splatEstMean <- function(norm.counts, params) {
 #' @param counts counts matrix to estimate parameters from.
 #' @param params splatParams object to store estimated values in.
 #'
-#' @return SplatParams object with estimated values.
+#' @return SplatParams or splatPopParams object containing the estimated 
+#' parameters.
 #'
 #' @importFrom stats shapiro.test
 splatEstLib <- function(counts, params) {
@@ -166,7 +171,8 @@ splatEstLib <- function(counts, params) {
 #' fitted to these factors in order to estimate the outlier factor location and
 #' scale parameters using \code{\link[fitdistrplus]{fitdist}}.
 #'
-#' @return SplatParams object with estimated values.
+#' @return SplatParams or splatPopParams object containing the estimated 
+#' parameters.
 splatEstOutlier <- function(norm.counts, params) {
 
     means <- rowMeans(norm.counts)
@@ -211,7 +217,8 @@ splatEstOutlier <- function(norm.counts, params) {
 #' underlying common dispersion and the \code{edgR} estimate, therefore we
 #' apply a small correction, \code{disp = 0.1 + 0.25 * edgeR.disp}.
 #'
-#' @return SplatParams object with estimated values.
+#' @return SplatParams or splatPopParams object containing the estimated 
+#' parameters.
 splatEstBCV <- function(counts, params) {
 
     # Add dummy design matrix to avoid print statement
@@ -255,7 +262,8 @@ splatEstBCV <- function(counts, params) {
 # #' is to look at a plot of log2 mean expression vs the difference between
 # #' observed and expected number of zeros across all genes.
 #'
-#' @return SplatParams object with estimated values.
+#' @return SplatParams or splatPopParams object containing the estimated 
+#' parameters.
 #'
 #' @importFrom stats dnbinom nls
 splatEstDropout <- function(norm.counts, params) {

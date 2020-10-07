@@ -36,6 +36,12 @@ listSims <- function(print = TRUE) {
                    "The Kersplat simulation extends the Splat model by adding a
                    gene network, more complex cell structure, doublets and
                    empty cells (Experimental)."),
+                 c("splatPop", "splatPop", "",
+                   "Oshlack/splatter",
+                   "The splatPop simulation enables splat simulations to be 
+                   generated for multiple individuals in a population, 
+                   accounting for correlation structure by simulating 
+                   expression quantitative trait loci (eQTL)."),
                  c("Simple", "simple", "10.1186/s13059-017-1305-0",
                    "Oshlack/splatter",
                    "A simple simulation with gamma means and negative binomial

@@ -1,6 +1,6 @@
 #' @importFrom utils globalVariables
 utils::globalVariables(c("pval_nominal", 'perc', 'gene_id',  'type', 'eQTL',
-                         'chr', 'loc', "MAF"))
+                         'chr', 'gene_mid', "maf", "data", "vcf", "gff", "dna"))
 
 #' Logistic function
 #'
