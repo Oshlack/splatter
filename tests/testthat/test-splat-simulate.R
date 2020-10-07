@@ -35,5 +35,3 @@ test_that("dropout.type checks work", {
                     dropout.type = "group")
     expect_error(splatSimulate(pp), "groups have not been simulated")
 })
-
-

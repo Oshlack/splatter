@@ -31,7 +31,7 @@ splatPopEstimate <- function(params = newSplatPopParams(),
 
     # Estimate single-cell parameters using base splatEstimate function
     # THIS DOESN'T WORK BECAUSE IT RETURNS A SPLATPARAM NOT A SPLATPOPPARAM...
-    if(!is.character(counts)){params <- splatEstimate(counts)}
+    #if(!is.character(counts)){params <- splatEstimate(counts)}
     
     # Get parameters for eQTL Effect Size distribution
     if(!is.character(eqtl)){params <- splatPopEstimateEffectSize(params, eqtl)}
