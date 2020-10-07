@@ -131,9 +131,9 @@ splatSimulate <- function(params = newSplatParams(),
                           verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "SplatParams")
-    
+
     method <- match.arg(method)
-    
+
     if (verbose) {message("Getting parameters...")}
     params <- setParams(params, ...)
     params <- expandParams(params)
@@ -142,7 +142,7 @@ splatSimulate <- function(params = newSplatParams(),
     # Set random seed
     seed <- getParam(params, "seed")
     set.seed(seed)
-    
+
     # Get the parameters we are going to use
     nCells <- getParam(params, "nCells")
     nGenes <- getParam(params, "nGenes")
@@ -150,13 +150,12 @@ splatSimulate <- function(params = newSplatParams(),
     batch.cells <- getParam(params, "batchCells")
     nGroups <- getParam(params, "nGroups")
     group.prob <- getParam(params, "group.prob")
-    
-    # Run sanity checks
+
     if (nGroups == 1 && method == "groups") {
         warning("nGroups is 1, switching to single mode")
         method <- "single"
     }
-    
+
     # Set up name vectors
     if (verbose) {message("Creating simulation object...")}
     cell.names <- paste0("Cell", seq_len(nCells))
@@ -167,7 +166,7 @@ splatSimulate <- function(params = newSplatParams(),
     } else if (method == "paths") {
         group.names <- paste0("Path", seq_len(nGroups))
     }
-    
+
     # Create SingleCellExperiment to store simulation
     cells <-  data.frame(Cell = cell.names)
     rownames(cells) <- cell.names
@@ -188,13 +187,11 @@ splatSimulate <- function(params = newSplatParams(),
                          replace = TRUE)
         colData(sim)$Group <- factor(group.names[groups], levels = group.names)
     }
-    
+
     if (verbose) {message("Simulating library sizes...")}
     sim <- splatSimLibSizes(sim, params)
-
     if (verbose) {message("Simulating gene means...")}
     sim <- splatSimGeneMeans(sim, params)
-    
     if (nBatches > 1) {
         if (verbose) {message("Simulating batch effects...")}
         sim <- splatSimBatchEffects(sim, params)
@@ -219,7 +216,7 @@ splatSimulate <- function(params = newSplatParams(),
     sim <- splatSimTrueCounts(sim, params)
     if (verbose) {message("Simulating dropout (if needed)...")}
     sim <- splatSimDropout(sim, params)
-    
+
     if (verbose) {message("Done!")}
     return(sim)
     
@@ -245,13 +242,11 @@ splatSimulateGroups <- function(params = newSplatParams(),
 
 #' @rdname splatSimulate
 #' @export
-splatSimulatePaths <- function(params = newSplatParams(), 
-                               verbose = TRUE, ...) {
+splatSimulatePaths <- function(params = newSplatParams(), verbose = TRUE, ...) {
     sim <- splatSimulate(params = params, method = "paths",
                          verbose = verbose, ...)
     return(sim)
 }
-
 
 #' Simulate library sizes
 #'
@@ -280,7 +275,7 @@ splatSimLibSizes <- function(sim, params) {
     } else {
         exp.lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
     }
-    
+
     colData(sim)$ExpLibSize <- exp.lib.sizes
 
     return(sim)
@@ -294,7 +289,7 @@ splatSimLibSizes <- function(sim, params) {
 #'
 #' @param sim SingleCellExperiment to add gene means to.
 #' @param params SplatParams object with simulation parameters.
-#' 
+#'
 #' @return SingleCellExperiment with simulated gene means.
 #'
 #' @importFrom SummarizedExperiment rowData rowData<-
@@ -311,7 +306,7 @@ splatSimGeneMeans <- function(sim, params) {
     out.prob <- getParam(params, "out.prob")
     out.facLoc <- getParam(params, "out.facLoc")
     out.facScale <- getParam(params, "out.facScale")
-    
+
     # Simulate base gene means
     base.means.gene <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
 
@@ -323,7 +318,7 @@ splatSimGeneMeans <- function(sim, params) {
     is.outlier <- outlier.facs != 1
     means.gene <- base.means.gene
     means.gene[is.outlier] <- outlier.means[is.outlier]
-    
+
     rowData(sim)$BaseGeneMean <- base.means.gene
     rowData(sim)$OutlierFactor <- outlier.facs
     rowData(sim)$GeneMean <- means.gene
