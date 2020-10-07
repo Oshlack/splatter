@@ -1,25 +1,31 @@
-context("SplatParams")
+context("popParams")
 
-params <- newSplatParams()
+params <- newSplatPopParams()
 
 test_that("printing works", {
-    expect_output(show(params), "A Params object of class SplatParams")
+    expect_output(show(params), "A Params object of class splatPopParams")
 })
 
-test_that("nBatches checks work", {
-  expect_error(setParam(params, "nCells", 1),
-               "nCells cannot be set directly, set batchCells instead")
-  expect_error(setParam(params, "nBatches", 1),
-               "nBatches cannot be set directly, set batchCells instead")
-})
-
-test_that("nGroups checks work", {
-    expect_error(setParam(params, "nGroups", 1),
-                 "nGroups cannot be set directly, set group.prob instead")
+test_that("nCells checks work", {
+    expect_error(setParam(params, "nCells", 1), 
+                   "nCells cannot be set directly, set batchCells instead")
 })
 
 
-### These tests are also run in test-splatPopParams.R, please update both
+
+test_that("CV params checks work", {
+    expect_error(setParam(params, "pop.cv.param", data.frame(
+        start = c(0, 10), shape = c(10, 2), rate = c(7, 3))),
+                 "Need to set pop.cv.bins to length of pop.cv.param")
+
+})
+
+test_that("setParams order doesn't matter", {
+    expect_silent(setParams(params, eqtl.n = 10, eqtl.maf.max = 0.4))
+    expect_silent(setParams(params, eqtl.maf.max = 0.4, eqtl.n = 10))
+})
+
+### These tests are also run in test-splatParams.R, please update both
 test_that("path.from checks work", {
     pp <- setParams(params, group.prob = c(0.5, 0.5))
     pp <- setParamUnchecked(pp, "path.from", c(0, 1))
@@ -41,7 +47,7 @@ test_that("path.from checks work", {
     expect_error(validObject(pp), "path.from cannot contain cycles")
 })
 
-### These tests are also run in test-splatPopParams.R, please update both
+### These tests are also run in test-splatParams.R, please update both
 test_that("dropout.type checks work", {
     expect_error(setParam(params, "dropout.type", "cell"),
                  "dropout.type cannot be set to 'cell'")
@@ -50,12 +56,4 @@ test_that("dropout.type checks work", {
     expect_silent(setParam(pp, "dropout.type", "cell"))
     expect_error(setParam(params, "dropout.type", "a"),
                  "dropout.type must be one of: ")
-})
-
-
-test_that("setParams order doesn't matter", {
-    expect_silent(setParams(params, group.prob = c(0.5, 0.5),
-                            de.facLoc = c(0.1, 5)))
-    expect_silent(setParams(params, de.facLoc = c(0.1, 5),
-                            group.prob = c(0.5, 0.5)))
 })

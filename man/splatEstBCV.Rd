@@ -12,7 +12,8 @@ splatEstBCV(counts, params)
 \item{params}{SplatParams object to store estimated values in.}
 }
 \value{
-SplatParams object with estimated values.
+SplatParams or splatPopParams object containing the estimated 
+parameters.
 }
 \description{
 Parameters are estimated using the \code{\link[edgeR]{estimateDisp}} function

@@ -12,7 +12,8 @@ splatEstMean(norm.counts, params)
 \item{params}{SplatParams object to store estimated values in.}
 }
 \value{
-SplatParams object with estimated values.
+SplatParams or splatPopParams object containing the estimated 
+parameters.
 }
 \description{
 Estimate rate and shape parameters for the gamma distribution used to

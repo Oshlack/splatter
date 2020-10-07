@@ -12,7 +12,8 @@ splatEstOutlier(norm.counts, params)
 \item{params}{SplatParams object to store estimated values in.}
 }
 \value{
-SplatParams object with estimated values.
+SplatParams or splatPopParams object containing the estimated 
+parameters.
 }
 \description{
 Parameters are estimated by comparing means of individual genes to the
