@@ -27,7 +27,6 @@ suppressPackageStartupMessages({
   library("scater")
   library("vcfR")
   library("ggplot2")
-  devtools::load_all(".")
 })
 ```
 
