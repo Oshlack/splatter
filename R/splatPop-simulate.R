@@ -235,8 +235,7 @@ splatPopSimulateSC <- function(sim_means,
     group.names <- paste0("Group", seq_len(nGroups))
     group.prop <- getParam(params, "group.prop")
     batchCells <- getParam(params, "batchCells")
-    
-    print("1")
+
     # Simulate sc counts with group-specific effects
     if (type(sim_means) == "list"){
         if(length(group.prop) != length(sim_means)){
@@ -275,14 +274,12 @@ splatPopSimulateSC <- function(sim_means,
     }else{
         if (verbose) {message("Simulating population single cell counts...")}
         samples <- names(sim_means)
-        print("2")
         sims <- lapply(samples,
                        function(x) splatPopSimulateSample(params = params, 
                                                  method = method,
                                                  sample_means = sim_means[x], 
                                                  counts_only = counts_only,
                                                  verbose = verbose))
-        print("3")
         for(i in seq(1, length(sims))){
             s <- samples[i]
             sims[i][[1]]$Sample <- s
@@ -291,11 +288,10 @@ splatPopSimulateSC <- function(sim_means,
                                                   sep="_")}
         
         sim.all <- do.call(SingleCellExperiment::cbind, sims)
-        print("4")
     }
     
     sim.all <- splatPopCleanSCE(sim.all)
-    print("5")
+
     if (verbose) {message("Done...")}
     return (sim.all)
 }
@@ -362,7 +358,6 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
         method <- "single"
     }
     
-    print("A")
     # Set up name vectors
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- row.names(sample_means)
@@ -373,7 +368,6 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
         group.names <- paste0("Path", seq_len(nGroups))
     }
     
-    print("B")
     # Create SingleCellExperiment to store simulation
     cells <-  data.frame(Cell = cell.names)
     rownames(cells) <- cell.names
@@ -394,7 +388,7 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
                          replace = TRUE)
         colData(sim)$Group <- factor(group.names[groups], levels = group.names)
     }
-    print("C")
+
     sim <- splatSimLibSizes(sim, params)
     sim <- splatPopSimGeneMeans(sim, params, base.means.gene=sample_means[[1]])
     
@@ -414,7 +408,6 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
     sim <- splatSimTrueCounts(sim, params)
     sim <- splatSimDropout(sim, params)
     
-    print("D")
     if (counts_only) {assays(sim)[!grepl('counts', names(assays(sim)))] <- NULL}
     return(sim)
     
