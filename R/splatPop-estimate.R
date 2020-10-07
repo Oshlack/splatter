@@ -4,32 +4,41 @@
 #' real data. See the individual estimation functions for more details on
 #' how this is done. 
 #'
-#' @param gene.means Dataframe of real gene means across a population, where 
-#'        each row is a gene and each column is an individual in the population.
-#' @param eqtl Txt file with all or top eQTL pairs from a real eQTL analysis.
-#'         Must include columns: 'gene_id', 'pval_nominal', and 'slope'.
 #' @param params splatPopParams object containing parameters for the 
 #'         simulation of the mean expression levels for the population.
 #'        See \code{\link{splatPopParams}} for details.
+#' @param counts either a counts matrix or a SingleCellExperiment object
+#'        containing count data to estimate parameters from.
+#' @param means Dataframe of real gene means across a population, where 
+#'        each row is a gene and each column is an individual in the population.
+#' @param eqtl Txt file with all or top eQTL pairs from a real eQTL analysis.
+#'         Must include columns: 'gene_id', 'pval_nominal', and 'slope'.
 #' 
-#'
 #' @seealso
-#' \code{\link{popEstimate.ES}},  \code{\link{popEstimate.MeanCV}}
+#' \code{\link{splatPopEstimateEffectSize}},
+#' \code{\link{splatPopEstimateMeanCV}}
 #'
 #' @return splatPopParams object containing the estimated parameters.
 #' 
 #' @export
 #' 
-popEstimate <- function(gene.means, eqtl, params = newSplatPopParams()){
+splatPopEstimate <- function(params = newSplatPopParams(), 
+                             counts = "skip",
+                             means = "skip",
+                             eqtl = "skip"){
     
     checkmate::assertClass(params, "splatPopParams")
+
+    # Estimate single-cell parameters using base splatEstimate function
+    # THIS DOESN'T WORK BECAUSE IT RETURNS A SPLATPARAM NOT A SPLATPOPPARAM...
+    #if(!is.character(counts)){params <- splatEstimate(counts)}
     
     # Get parameters for eQTL Effect Size distribution
-    params <- popEstimate.ES(eqtl, params)
-        
-    # Get parameters for population wide gene mean and variance distributions
-    params <- popEstimate.MeanCV(gene.means, params)
+    if(!is.character(eqtl)){params <- splatPopEstimateEffectSize(params, eqtl)}
 
+    # Get parameters for population wide gene mean and variance distributions
+    if(!is.character(means)){params <- splatPopEstimateMeanCV(params, means)}
+    
     return(params)
 }
 
@@ -52,33 +61,30 @@ popEstimate <- function(gene.means, eqtl, params = newSplatPopParams()){
 #' the method of moments estimation method is used instead. 
 #'
 #' @return params object with estimated values.
-#' @importFrom dplyr group_by filter "%>%"
 #' 
-popEstimate.ES <- function(eqtl, params) {
+splatPopEstimateEffectSize <- function(params, eqtl) {
 
     # Test input eSNP-eGene pairs
-    if (!("gene_id" %in% names(eqtl) &
-          "pval_nominal" %in% names(eqtl))) {
-        stop("Incorrect format for eqtl data.")
-    }
+    if (!("gene_id" %in% names(eqtl) & 
+          "pval_nominal" %in% names(eqtl) & 
+          "slope" %in% names(eqtl))) {
+        stop("Incorrect format for eqtl data.")}
     
     # Select top eSNP for each gene (i.e. lowest p.value)
-    pairs_top <- eqtl %>% group_by(gene_id) %>%
-        filter(pval_nominal == min(pval_nominal))
+    eqtl_top <- eqtl[order(eqtl$gene_id, eqtl$pval_nominal), ]
+    eqtl_top <- eqtl_top[!duplicated(eqtl_top$gene_id), ]
 
     # Fit absolute value of effect sizes to gamma distribution
-    e.sizes <- abs(pairs_top$slope)
+    e.sizes <- abs(eqtl_top$slope)
     fit <- fitdistrplus::fitdist(e.sizes, "gamma", method = "mge", gof = "CvM")
-    
     if (fit$convergence > 0) {
         warning("Fitting effect sizes using the Goodness of Fit method failed,",
                 " using the Method of Moments instead")
         fit <- fitdistrplus::fitdist(e.sizes, "gamma", method = "mme")
     }
-    
-    params <- setParams(params, 
-                            eqtl.ES.shape = unname(fit$estimate["shape"]),
-                            eqtl.ES.rate = unname(fit$estimate["rate"]))
+
+    params <- setParams(params, eqtl.ES.shape = unname(fit$estimate["shape"]),
+                        eqtl.ES.rate = unname(fit$estimate["rate"]))
 
     return(params)
 }
@@ -94,7 +100,7 @@ popEstimate.ES <- function(eqtl, params) {
 #' @param params splatPopParams object containing parameters for the 
 #'         simulation of the mean expression levels for the population.
 #'        See \code{\link{splatPopParams}} for details.
-#' @param gene.means Dataframe of real gene means across a population, where 
+#' @param means Dataframe of real gene means across a population, where 
 #'        each row is a gene and each column is an individual in the population.
 #'
 #' @details
@@ -113,42 +119,42 @@ popEstimate.ES <- function(eqtl, params) {
 #' @importFrom grDevices boxplot.stats
 #' @importFrom matrixStats rowMedians
 #' 
-popEstimate.MeanCV <- function(gene.means, params) {
+splatPopEstimateMeanCV <- function(params, means) {
     
     # Test input gene means
-    if ((anyNA(gene.means) | !(validObject(rowSums(gene.means))))) {
+    if ((anyNA(means) | !(validObject(rowSums(means))))) {
         stop("Incorrect format or NAs present in gene.means. See example data.")
     }
     
     # Remove genes with low variance/low means
-    abv_thr <- data.frame(perc = (rowSums(gene.means >= 0.1)/ncol(gene.means)),
-                          gene_id = row.names(gene.means))
+    abv_thr <- data.frame(perc = (rowSums(means >= 0.1)/ncol(means)),
+                          gene_id = row.names(means))
     
     genes <- row.names(abv_thr[abv_thr$perc > 0.5, ])
-    gene.means <- gene.means[genes, ]
-    
+    means <- means[genes, ]
+
     # Calculate mean expression parameters
-    means <- rowMedians(as.matrix(gene.means))
-    names(means) <- row.names(gene.means)
-    mfit <- fitdistrplus::fitdist(means, "gamma", optim.method="Nelder-Mead")
+    row_means <- rowMedians(as.matrix(means))
+    names(row_means) <- row.names(means)
+    mfit <- fitdistrplus::fitdist(row_means, "gamma",
+                                  optim.method="Nelder-Mead")
     
     # Calculate CV parameters for genes based on 10 expresion mean bins
     nbins <- getParam(params, "pop.cv.bins")
-    bins <- split(means, cut(means, quantile(means,(0:nbins)/nbins), 
+    bins <- split(row_means, cut(row_means, quantile(row_means,(0:nbins)/nbins), 
                              include.lowest=TRUE))
     cvparams <- data.frame(start = character(), end = character(),
                            shape = character(), rate = character(), 
                            stringsAsFactors=FALSE)
+
     for(b in names(bins)){
         stst <- unlist(strsplit(gsub("\\)|\\(|\\[|\\]", "", b), ","))
         b_genes <- names(unlist(bins[b], use.names = T))
         b_genes <- gsub(paste0(b, "."), "", b_genes, fixed=T)
-        b_gene.means <- gene.means[b_genes, ]
+        b_gene.means <- means[b_genes, ]
         
         cv <- apply(b_gene.means, 1, co.var)
         cv[is.na(cv)] <- 0
-        # outliers <- boxplot(cv)$out
-        # cv <- cv[-outliers]
         cv <- cv[!cv %in% boxplot.stats(cv)$out]
         cvfit <- fitdistrplus::fitdist(cv, "gamma", method = "mge", gof = "CvM")
         cvparams <- rbind(cvparams, 
@@ -158,12 +164,13 @@ popEstimate.MeanCV <- function(gene.means, params) {
                                rate=cvfit$estimate["rate"]),
                           stringsAsFactors=FALSE)
     }
+    
     cvparams[1, "start"] <- 0
     cvparams[nrow(cvparams), "end"] <- 1e100
     params <- setParams(params, 
-                            pop.mean.shape = unname(mfit$estimate["shape"]),
-                            pop.mean.rate = unname(mfit$estimate["rate"]),
-                            pop.cv.param = cvparams)
+                        pop.mean.shape = unname(mfit$estimate["shape"]),
+                        pop.mean.rate = unname(mfit$estimate["rate"]),
+                        pop.cv.param = cvparams)
     
     return(params)
 }
