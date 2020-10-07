@@ -226,8 +226,7 @@ setClass("SplatParams",
                    path.nSteps = "numeric",
                    path.skew = "numeric",
                    path.nonlinearProb = "numeric",
-                   path.sigmaFac = "numeric",
-                   eqtl.group.prop = "numeric"),
+                   path.sigmaFac = "numeric"),
          prototype = prototype(nBatches = 1,
                                batchCells = 100,
                                batch.facLoc = 0.1,
@@ -255,8 +254,7 @@ setClass("SplatParams",
                                path.nSteps = 100,
                                path.skew = 0.5,
                                path.nonlinearProb = 0.1,
-                               path.sigmaFac = 0.8,
-                               eqtl.group.prop = c(0.5, 0.5)))
+                               path.sigmaFac = 0.8))
 
 #' The KersplatParams class
 #'
@@ -430,12 +428,16 @@ setClass("KersplatParams",
 #'  requires the following parameters:
 #'
 #' \describe{
+#'     \item{\code{[random.genes]}}{Logical specifying if splatPopSimulateMeans
+#'     should simulate random genes (TRUE) or if it should look for genes in
+#'     the *-gff* or *-key* flag.}
+#'     \item{\code{[group.prop]}}{Proportion of single cells to simulate in each
+#'     group.}
 #'     \item{\code{[eqtl.n]}}{The number (>1) or percent (<=1) of genes to 
 #'     assign eQTL effects.}
 #'     \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
 #'     \item{\code{[eqtl.maf.min]}}{Minimum Minor Allele Frequency of eSNPs.}
 #'     \item{\code{[eqtl.maf.max]}}{Maximum Minor Allele Frequency of eSNPs.}
-#'     \item{\code{[eqtl.groups]}}{Number of groups to simulate.}
 #'     \item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate 
 #'     as group specific.}
 #'     \item{\emph{eQTL Effect size distribution parameters. Defaults estimated
@@ -467,8 +469,8 @@ setClass("KersplatParams",
 #'     }
 #'}
 #' The parameters not shown in brackets can be estimated from real data using
-#' \code{\link{popEstimate}}. For details of the eQTL simulation
-#' see \code{\link{popSimulate}}.
+#' \code{\link{splatPopEstimate}}. For details of the eQTL simulation
+#' see \code{\link{splatPopSimulate}}.
 #'
 #' @name splatPopParams
 #' @rdname splatPopParams
@@ -476,8 +478,8 @@ setClass("KersplatParams",
 #' @exportClass splatPopParams
 setClass("splatPopParams",
          contains = "SplatParams",
-         slots = c(pop.key = "character",
-                   gene.source = "character",
+         slots = c(random.genes = "logical",
+                   group.prop = "numeric",
                    pop.mean.shape = "numeric",
                    pop.mean.rate = "numeric",
                    pop.cv.bins = "numeric",
@@ -488,10 +490,9 @@ setClass("splatPopParams",
                    eqtl.maf.max = "numeric",
                    eqtl.ES.shape = "numeric",
                    eqtl.ES.rate = "numeric",
-                   eqtl.groups = "numeric",
                    eqtl.group.specific = "numeric"),
-         prototype = prototype(pop.key = "build",
-                               gene.source = "random",
+         prototype = prototype(random.genes = TRUE,
+                               group.prop = c(0.5, 0.5),
                                pop.mean.shape = 0.3395709, 
                                pop.mean.rate = 0.008309486, 
                                pop.cv.bins = 10,
@@ -515,7 +516,6 @@ setClass("splatPopParams",
                                eqtl.maf.max = 0.5,
                                eqtl.ES.shape = 2.538049, 
                                eqtl.ES.rate = 5.962323,
-                               eqtl.groups = 1,
                                eqtl.group.specific = 0.2))
 
 #' The LunParams class

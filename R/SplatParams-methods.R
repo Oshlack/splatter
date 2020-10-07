@@ -61,8 +61,6 @@ setValidity("SplatParams", function(object) {
                 path.nonlinearProb = checkNumber(v$path.nonlinearProb,
                                                  lower = 0, upper = 1),
                 path.sigmaFac = checkNumber(v$path.sigmaFac, lower = 0),
-                eqtl.group.prop = checkNumeric(v$eqtl.group.prop[1], lower = 0,
-                                           upper = 1),
                 seed = checkInt(v$seed, lower = 0))
 
     # Check batchCells matches nCells, nBatches
