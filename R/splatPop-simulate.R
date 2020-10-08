@@ -438,6 +438,7 @@ splatPopParseVCF <- function(vcf, params){
     eqtl.maf.min <- getParam(params, "eqtl.maf.min")
     eqtl.maf.max <- getParam(params, "eqtl.maf.max")
     
+    vcf@fix[,"ID"] <- NA
     vcf_gt <- as.data.frame(vcfR::extract.gt(vcf, 
                                              element = "GT",
                                              as.numeric=TRUE))
