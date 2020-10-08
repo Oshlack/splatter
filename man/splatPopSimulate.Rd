@@ -61,6 +61,7 @@ functions for more details.
 }
 \examples{
 if (requireNamespace("vcfR", quietly = TRUE)) {
+    library(vcfR)
     vcf <- mock_vcf(n_samples=6)
     sim <- splatPopSimulate(vcf=vcf)
 }

@@ -9,7 +9,7 @@ splatPopSimulateSC(
   params,
   method = c("single", "groups", "paths"),
   counts_only = FALSE,
-  verbose = FALSE,
+  verbose = TRUE,
   ...
 )
 }

@@ -147,7 +147,6 @@ splatPopSimulateMeans <- function(vcf=mock_vcf(),
     
     nGroups <- getParam(params, "nGroups")
     
-    if (verbose) {message("Sampling population level value....")}
     vcf.parsed <- splatPopParseVCF(vcf, params)
     group.names <- paste0("Group", seq_len(nGroups))
     
@@ -347,6 +346,7 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
     # Get the parameters we are going to use
     nCells <- getParam(params, "nCells")
     nGenes <- nrow(sample_means)
+    params <- setParams(params, nGenes = nGenes)
     nBatches <- getParam(params, "nBatches")
     batch.cells <- getParam(params, "batchCells")
     nGroups <- getParam(params, "nGroups")
@@ -357,8 +357,8 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
         warning("nGroups is 1, switching to single mode")
         method <- "single"
     }
-    
-    # Set up name vectors
+
+        # Set up name vectors
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- row.names(sample_means)
     batch.names <- paste0("Batch", seq_len(nBatches))
@@ -388,7 +388,7 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
                          replace = TRUE)
         colData(sim)$Group <- factor(group.names[groups], levels = group.names)
     }
-
+    
     sim <- splatSimLibSizes(sim, params)
     sim <- splatPopSimGeneMeans(sim, params, base.means.gene=sample_means[[1]])
     
@@ -404,11 +404,13 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
         sim <- splatSimPathDE(sim, params)
         sim <- splatSimPathCellMeans(sim, params)
     }
+    
     sim <- splatSimBCVMeans(sim, params)
     sim <- splatSimTrueCounts(sim, params)
     sim <- splatSimDropout(sim, params)
     
     if (counts_only) {assays(sim)[!grepl('counts', names(assays(sim)))] <- NULL}
+    
     return(sim)
     
 }
