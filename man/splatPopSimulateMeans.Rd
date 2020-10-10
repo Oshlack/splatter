@@ -9,7 +9,7 @@ splatPopSimulateMeans(
   params = newSplatPopParams(nGenes = 1000),
   verbose = TRUE,
   key = "new",
-  gff,
+  gff = NA,
   ...
 )
 }

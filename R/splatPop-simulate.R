@@ -135,7 +135,7 @@ splatPopSimulate <- function(vcf=mock_vcf(),
 
 splatPopSimulateMeans <- function(vcf=mock_vcf(), 
                                   params = newSplatPopParams(nGenes=1000),
-                                  verbose = TRUE, key = "new", gff, ...) {
+                                  verbose = TRUE, key = "new", gff = NA, ...) {
     
     if (!requireNamespace("vcfR", quietly = TRUE)) {
         stop("The splatPop means simulation requires the 'vcfR' package.")}
@@ -677,10 +677,10 @@ splatPopSimMeans <- function(vcf, key){
 #'
 #' Add eQTL effects and non-eQTL group effects to simulated means matrix.
 #' The eQTL effects are incorporated using the following equation:
-#' \deqn{Ygs = (ESg * Mg) + Mgs }
+#' \deqn{Ygs = (ESg * Mgs * Gs) + Mgs }
 #' Where Ygs is the mean for gene *g* and sample *s*, ESg is the effect size
-#' assigned to *g*, Mg is the mean expression assigned to *g*, and Mgs is the
-#' mean expression sampled for *g* for *s*. Non-eQTL group effects are
+#' assigned to *g*, Mgs is the mean expression assigned to *g* for *s*, and Gs
+#' is the genotype (number of minor alleles) for *s*. Non-eQTL group effects are
 #' incorporated as:
 #' \deqn{Ygs = Mgs * GEg}
 #' Where GEg is the group effect (i.e. differential expression) assigned to *g*.
@@ -699,15 +699,14 @@ splatPopSimEffects <- function(id, key, snps, MeansPop){
     # Add group-specific eQTL effects
     genes_use <- subset(key, eQTL == id)$geneID
     samples <- names(MeansPop)
-    key$EffectSize_m <- key$expQN_mean * key$EffectSize
     snps$MAF <- NULL
     
     for(g in genes_use){
         without_eqtl <- as.numeric(MeansPop[g,])
-        ES <- key[key$geneID == g, "EffectSize_m"]
+        ES <- key[key$geneID == g, "EffectSize"]
         eSNPsample <- key[key$geneID == g, "eSNP"]
         genotype <- as.numeric(snps[eSNPsample, samples])
-        MeansPop[g,] <- (ES * genotype) + without_eqtl
+        MeansPop[g,] <- without_eqtl + (ES * genotype * MeansPop[g,]) 
     }
     
     # Add group-specific non-eQTL effects

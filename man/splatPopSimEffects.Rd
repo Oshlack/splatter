@@ -21,10 +21,10 @@ Dataframe of gene mean expression levels WITH eQTL effects.
 \description{
 Add eQTL effects and non-eQTL group effects to simulated means matrix.
 The eQTL effects are incorporated using the following equation:
-\deqn{Ygs = (ESg * Mg) + Mgs }
+\deqn{Ygs = (ESg * Mgs * Gs) + Mgs }
 Where Ygs is the mean for gene *g* and sample *s*, ESg is the effect size
-assigned to *g*, Mg is the mean expression assigned to *g*, and Mgs is the
-mean expression sampled for *g* for *s*. Non-eQTL group effects are
+assigned to *g*, Mgs is the mean expression assigned to *g* for *s*, and Gs
+is the genotype (number of minor alleles) for *s*. Non-eQTL group effects are
 incorporated as:
 \deqn{Ygs = Mgs * GEg}
 Where GEg is the group effect (i.e. differential expression) assigned to *g*.

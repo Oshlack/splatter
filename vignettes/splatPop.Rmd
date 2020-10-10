@@ -154,12 +154,12 @@ mock vcfR object (that does not have realistic population structure) can
 be produced using the `mock_vcf` function. Genes can be provided in three ways 
 (note that options 2 and 3 overwrite nGene in `splatPopParams`): 
 
-1. Randomly ("gene.source" = "random"): This option will call `mock_gff` to 
+1. Randomly (-gff = NA): This option will call `mock_gff` to 
 generate a random gff file for a specified chromosome. This is the default
-option.
-2. GFF/GTF ("gene.source" = gff): This option takes a GFF/GTF data.frame object
+option if neither a gff or key is provided.
+2. GFF/GTF (-gff = gff.object): This option takes a GFF/GTF data.frame object
 and selects just the genes.
-3. Key ("pop.key" = key): This option uses the genes in a population key
+3. Key (-key = key): This option uses the genes in a population key
 data.frame object that includes columns: *geneID*, *chr*, *gene_mid*.
 
 The number of genes assigned as eGenes is controlled using the **eqtl.n** flag,
@@ -180,9 +180,6 @@ To summarize, the following `splatPopParams` control parameters can be changed
 using `setParams`:
 
 * **Population general parameters (all user defined)**
-    * `random.genes` - T/F indicating if random genes should be simulated. 
-    If random_genes = FALSE, genes need to be provided using the -gff or -key
-    tag.
     * `eqtl.n` - Number (>1) or percent (<=1) of genes to assign eQTL effects.
     * `eqtl.dist` - Maximum distance (bp) between eGene and eSNP.
     * `eqtl.maf.min` - Minimum Minor Allele Frequency (MAF) of eSNPs.
@@ -226,8 +223,7 @@ Here is a snapshot of simulated gene means for genes provided as a GFF:
 
 ```{r splatPopSimulateMeans-from-gff}
 gff <- mock_gff(n_genes = 100)
-params_gff <- setParams(params, random.genes = FALSE)
-sim_means_gff <- splatPopSimulateMeans(vcf = vcf, params = params_gff, gff=gff)
+sim_means_gff <- splatPopSimulateMeans(vcf = vcf, params = params, gff=gff)
 
 round(sim_means_gff$means[1:5, 1:6], digits = 3)
 ```
@@ -315,7 +311,7 @@ sim_sc_gr2 <- splatPopSimulate(vcf=vcf, params=params2)
 
 sim_sc_gr2$sc <- logNormCounts(sim_sc_gr2$sc)
 sim_sc_gr2$sc <- runPCA(sim_sc_gr2$sc)
-plotPCA(sim_sc_gr2$sc, colour_by = "popGroup", shape_by = "Sample")
+plotPCA(sim_sc_gr2$sc, colour_by = "Group", shape_by = "Sample")
 ```
 
 These are relatively small group-effects, but they can be increased by adjusting 
@@ -332,7 +328,7 @@ sim_sc_gr2 <- splatPopSimulate(vcf=vcf, params=params2)
 
 sim_sc_gr2$sc <- logNormCounts(sim_sc_gr2$sc)
 sim_sc_gr2$sc <- runPCA(sim_sc_gr2$sc)
-plotPCA(sim_sc_gr2$sc, colour_by = "popGroup", shape_by = "Sample")
+plotPCA(sim_sc_gr2$sc, colour_by = "Group", shape_by = "Sample")
 ```
 
 ### Simulate SC data for population with path and batch effects
