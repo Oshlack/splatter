@@ -15,7 +15,7 @@ test_that("splatPopSimulate output is valid and works", {
     expect_false(any(is.na(pop$means)))
     expect_false(any(sapply(pop$means, is.infinite)))
     expect_length(pop$means, n_samples)
-    expect_length(pop$key, 12) # Number of columns expected in splatPop key
+    expect_length(pop$key, 13) # Number of columns expected in splatPop key
 })
 
 params.g2 <- setParams(params, group.prob = c(0.5, 0.5), nGenes=n_genes)

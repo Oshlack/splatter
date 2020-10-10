@@ -145,7 +145,7 @@ splatPopSimulateMeans <- function(vcf=mock_vcf(),
     checkmate::assertClass(params, "splatPopParams")
     set.seed(getParam(params, "seed"))
     
-    nGroups <- getParam(params, "nGroups")
+    nGroups <- length(getParam(params, "group.prob"))
     
     vcf.parsed <- splatPopParseVCF(vcf, params)
     group.names <- paste0("Group", seq_len(nGroups))
@@ -260,7 +260,7 @@ splatPopSimulateSC <- function(sim_means,
             for(i in seq(1, length(sims))){
                 s <- samples[i]
                 sims[i][[1]]$Sample <- s
-                sims[i][[1]]$popGroup <- g
+                sims[i][[1]]$Group <- g
                 names(rowData(sims[i][[1]])) <- paste(s, g, 
                                                 names(rowData(sims[i][[1]])), 
                                                 sep="_")}
@@ -450,7 +450,6 @@ splatPopParseVCF <- function(vcf, params){
     vcf_gt <- vcf_gt[complete.cases(vcf_gt), ]
     vcf_gt <- vcf_gt[vcf_gt$MAF >= eqtl.maf.min, ]
     vcf_gt <- vcf_gt[vcf_gt$MAF <= eqtl.maf.max, ]
-    vcf_gt$MAF <- NULL
     
     return(vcf_gt)
 }
@@ -560,6 +559,7 @@ splatPopeQTLEffects <- function(params, key, snps){
     key_tmp <- key
     key$eQTL <- NA
     key$eSNP <- NA
+    key$eSNP_MAF <- NA
     key$EffectSize <- 0
     
     for(i in seq_len(eqtl.n)){
@@ -584,9 +584,11 @@ splatPopeQTLEffects <- function(params, key, snps){
         
         key_tmp <- key_tmp[!(key_tmp$geneID==match),]
         ES <- rgamma(1, shape = eqtlES_shape, rate = eqtlES_rate)
+        esnp_maf <- 
         
         key[key$geneID == match, ]$eSNP <- s
         key[key$geneID == match, ]$EffectSize <- ES
+        key[key$geneID == match, ]$eSNP_MAF <- snps[s, "MAF"]
         key[key$geneID == match, ]$eQTL <- "global"
         
         # Randomly make some effects negative
@@ -698,7 +700,7 @@ splatPopSimEffects <- function(id, key, snps, MeansPop){
     # Add group-specific eQTL effects
     genes_use <- subset(key, eQTL == id)$geneID
     samples <- names(MeansPop)
-    key$EffectSize_m <- key$exp_mean * key$EffectSize
+    key$EffectSize_m <- key$expQN_mean * key$EffectSize
     
     for(g in genes_use){
         without_eqtl <- as.numeric(MeansPop[g,])
