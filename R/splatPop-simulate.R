@@ -11,8 +11,7 @@
 #'        produces a single population, "groups" which produces distinct groups
 #'        (eg. cell types), "paths" which selects cells from continuous
 #'        trajectories (eg. differentiation processes).
-#' @param gff Either FALSE (if random.genes=TRUE) or a data.frame object 
-#'        containing a GFF/GTF file.
+#' @param gff Either NA or a data.frame object containing a GFF/GTF file.
 #' @param key Either FALSE or a data.frame object containing a full or partial
 #'        splatPop key.
 #' @param counts_only logical. Whether to save only counts in sce object.       
@@ -50,7 +49,7 @@
 splatPopSimulate <- function(vcf=mock_vcf(), 
                              params = newSplatPopParams(nGenes=1000),
                              method = c("single", "groups", "paths"),
-                             gff = FALSE,
+                             gff = NA,
                              key = "new",
                              counts_only = FALSE,
                              verbose = TRUE, ...) {
@@ -92,8 +91,7 @@ splatPopSimulate <- function(vcf=mock_vcf(),
 #' @param params splatPopParams object containing parameters for population
 #'        scale simulations. See \code{\link{splatPopParams}} for details. 
 #'        Default=`newSplatPopParams()`.
-#' @param gff Either FALSE (if random.genes=TRUE) or a data.frame object 
-#'        containing a GFF/GTF file.
+#' @param gff Either NA or a data.frame object containing a GFF/GTF file.
 #' @param key Either FALSE or a data.frame object containing a full or partial
 #'        splatPop key.
 #' @param verbose logical. Whether to print progress messages. Default=TRUE.
@@ -150,18 +148,20 @@ splatPopSimulateMeans <- function(vcf=mock_vcf(),
     vcf.parsed <- splatPopParseVCF(vcf, params)
     group.names <- paste0("Group", seq_len(nGroups))
     
-    if(!is.data.frame(key)){key <- splatPopParseGenes(params, gff)}
+    # Genes from key or gff or mock (in that order)
+    if(!(is.data.frame(key))){key <- splatPopParseGenes(params, gff)}
+    
     if (!all(c("exp_mean", "exp_cv") %in% names(key))){
-        key <- splatPopAssignMeans(params, key)
-    }
+        key <- splatPopAssignMeans(params, key)}
     
     if (!all(c("eQTL", "eSNP", "EffectSize") %in% names(key))){
         key <- splatPopeQTLEffects(params, key, vcf.parsed)
         
         if(length(group.names) > 1){
             key <- splatPopGroupEffects(params, key, group.names)
-            }
+        }
     }
+    
     
     if (verbose) {message("Simulating gene means for population...")}
 
@@ -459,17 +459,15 @@ splatPopParseVCF <- function(vcf, params){
 #' @param params splatPopParams object containing parameters for population
 #'        scale simulations. See \code{\link{splatPopParams}} for details. 
 #'        Default=`newSplatPopParams()`.
-#' @param gff Either FALSE (if random genes desired) or data.frame object 
-#'        of a GFF/GTF file.
+#' @param gff Either NA or a data.frame object containing a GFF/GTF file.
 #'
 #' @return The partial eQTL key dataframe.
 #'
 splatPopParseGenes <- function(params, gff){
     
-    random.genes <- getParam(params, "random.genes")
     nGenes <- getParam(params, "nGenes")
     
-    if(random.genes){
+    if(is.logical(gff)){
         gff <- mock_gff(nGenes)
     }else{
         gff <- as.data.frame(gff)
@@ -661,6 +659,7 @@ splatPopGroupEffects <- function(params, key, groups){
 #'
 splatPopSimMeans <- function(vcf, key){
     
+    vcf$MAF <- NULL
     means <- lapply(key$geneID,
                     function(g) rnorm(ncol(vcf),
                                       mean = key[key$geneID == g,]$exp_mean,
@@ -701,6 +700,7 @@ splatPopSimEffects <- function(id, key, snps, MeansPop){
     genes_use <- subset(key, eQTL == id)$geneID
     samples <- names(MeansPop)
     key$EffectSize_m <- key$expQN_mean * key$EffectSize
+    snps$MAF <- NULL
     
     for(g in genes_use){
         without_eqtl <- as.numeric(MeansPop[g,])

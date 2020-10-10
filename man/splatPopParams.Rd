@@ -15,9 +15,6 @@ In addition to the \code{\link{SplatParams}} parameters, splatPop simulation
  requires the following parameters:
 
 \describe{
-    \item{\code{[random.genes]}}{Logical specifying if splatPopSimulateMeans
-    should simulate random genes (TRUE) or if it should look for genes in
-    the *-gff* or *-key* flag.}
     \item{\code{[group.prop]}}{Proportion of single cells to simulate in each
     group.}
     \item{\code{[eqtl.n]}}{The number (>1) or percent (<=1) of genes to 

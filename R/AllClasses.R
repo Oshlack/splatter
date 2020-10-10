@@ -428,9 +428,6 @@ setClass("KersplatParams",
 #'  requires the following parameters:
 #'
 #' \describe{
-#'     \item{\code{[random.genes]}}{Logical specifying if splatPopSimulateMeans
-#'     should simulate random genes (TRUE) or if it should look for genes in
-#'     the *-gff* or *-key* flag.}
 #'     \item{\code{[group.prop]}}{Proportion of single cells to simulate in each
 #'     group.}
 #'     \item{\code{[eqtl.n]}}{The number (>1) or percent (<=1) of genes to 
@@ -478,8 +475,7 @@ setClass("KersplatParams",
 #' @exportClass splatPopParams
 setClass("splatPopParams",
          contains = "SplatParams",
-         slots = c(random.genes = "logical",
-                   group.prop = "numeric",
+         slots = c(group.prop = "numeric",
                    pop.mean.shape = "numeric",
                    pop.mean.rate = "numeric",
                    pop.cv.bins = "numeric",
@@ -491,8 +487,7 @@ setClass("splatPopParams",
                    eqtl.ES.shape = "numeric",
                    eqtl.ES.rate = "numeric",
                    eqtl.group.specific = "numeric"),
-         prototype = prototype(random.genes = TRUE,
-                               group.prop = c(0.5, 0.5),
+         prototype = prototype(group.prop = c(0.5, 0.5),
                                pop.mean.shape = 0.3395709, 
                                pop.mean.rate = 0.008309486, 
                                pop.cv.bins = 10,

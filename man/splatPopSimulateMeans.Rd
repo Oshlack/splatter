@@ -25,8 +25,7 @@ Default=`newSplatPopParams()`.}
 \item{key}{Either FALSE or a data.frame object containing a full or partial
 splatPop key.}
 
-\item{gff}{Either FALSE (if random.genes=TRUE) or a data.frame object 
-containing a GFF/GTF file.}
+\item{gff}{Either NA or a data.frame object containing a GFF/GTF file.}
 
 \item{...}{any additional parameter settings to override what is provided in
 \code{params}.}

@@ -47,8 +47,7 @@ setValidity("splatPopParams", function(object) {
 #' @importFrom methods callNextMethod
 setMethod("show", "splatPopParams", function(object) {
     
-    pp <- list("Population params:" = c("[random.genes]" = "random.genes",
-                                        "(mean.shape)" = "pop.mean.shape",
+    pp <- list("Population params:" = c("(mean.shape)" = "pop.mean.shape",
                                         "(mean.rate)" = "pop.mean.rate",
                                         "[group.prop]" = "group.prop",
                                         "[cv.bins]" = "pop.cv.bins",

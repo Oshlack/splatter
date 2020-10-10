@@ -11,8 +11,7 @@ splatPopParseGenes(params, gff)
 scale simulations. See \code{\link{splatPopParams}} for details. 
 Default=`newSplatPopParams()`.}
 
-\item{gff}{Either FALSE (if random genes desired) or data.frame object 
-of a GFF/GTF file.}
+\item{gff}{Either NA or a data.frame object containing a GFF/GTF file.}
 }
 \value{
 The partial eQTL key dataframe.

@@ -8,7 +8,7 @@ splatPopSimulate(
   vcf = mock_vcf(),
   params = newSplatPopParams(nGenes = 1000),
   method = c("single", "groups", "paths"),
-  gff = FALSE,
+  gff = NA,
   key = "new",
   counts_only = FALSE,
   verbose = TRUE,
@@ -27,8 +27,7 @@ produces a single population, "groups" which produces distinct groups
 (eg. cell types), "paths" which selects cells from continuous
 trajectories (eg. differentiation processes).}
 
-\item{gff}{Either FALSE (if random.genes=TRUE) or a data.frame object 
-containing a GFF/GTF file.}
+\item{gff}{Either NA or a data.frame object containing a GFF/GTF file.}
 
 \item{key}{Either FALSE or a data.frame object containing a full or partial
 splatPop key.}
