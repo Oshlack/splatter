@@ -9,25 +9,25 @@ splatPopSimEffects(id, key, snps, MeansPop)
 \arguments{
 \item{id}{The group ID (e.g. "global" or "g1")}
 
-\item{key}{Partial eQTL key dataframe.}
+\item{key}{Partial splatPop key data.frame.}
 
-\item{snps}{Dataframe of genotype information output from `vcf.parsed`.}
+\item{snps}{Data.frame of genotype information output from `vcf.parsed`.}
 
-\item{MeansPop}{Mean gene expression dataframe.}
+\item{MeansPop}{Mean gene expression data.frame.}
 }
 \value{
-Dataframe of gene mean expression levels WITH eQTL effects.
+Data.frame of gene mean expression levels WITH eQTL effects.
 }
 \description{
 Add eQTL effects and non-eQTL group effects to simulated means matrix.
 The eQTL effects are incorporated using the following equation:
-\deqn{Ygs = (ESg * Mgs * Gs) + Mgs }
-Where Ygs is the mean for gene *g* and sample *s*, ESg is the effect size
-assigned to *g*, Mgs is the mean expression assigned to *g* for *s*, and Gs
-is the genotype (number of minor alleles) for *s*. Non-eQTL group effects are
+\deqn{Ygs = (ESg x Mgs x Gs) + Mgs }
+Where Ygs is the mean for gene g and sample s, ESg is the effect size
+assigned to g, Mgs is the mean expression assigned to g for s, and Gs
+is the genotype (number of minor alleles) for s. Non-eQTL group effects are
 incorporated as:
-\deqn{Ygs = Mgs * GEg}
-Where GEg is the group effect (i.e. differential expression) assigned to *g*.
+\deqn{Ygs = Mgs x GEg}
+Where GEg is the group effect (i.e. differential expression) assigned to g.
 To simulate multiple gene mean matrices with different group effects, this
 function can be run with `id` designating the group id.
 }

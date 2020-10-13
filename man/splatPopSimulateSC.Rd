@@ -5,21 +5,20 @@
 \title{splatPopSimulateSC}
 \usage{
 splatPopSimulateSC(
-  sim_means,
+  sim.means,
   params,
   method = c("single", "groups", "paths"),
-  counts_only = FALSE,
+  counts.only = FALSE,
   verbose = TRUE,
   ...
 )
 }
 \arguments{
-\item{sim_means}{Matrix or list of matrices of gene means for the population. 
+\item{sim.means}{Matrix or list of matrices of gene means for the population. 
 Output from `splatPopSimulateMeans()`.}
 
 \item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details. 
-Default=`newSplatPopParams()`.}
+scale simulations. See \code{\link{splatPopParams}} for details.}
 
 \item{method}{which simulation method to use. Options are "single" which
 produces a single cell population for each sample, "groups" which 
@@ -28,7 +27,7 @@ creates separate groups from those created in `popSimulate` with only
 DE effects), and "paths" which selects cells from continuous
 trajectories (eg. differentiation processes).}
 
-\item{counts_only}{logical. Whether to return only the counts (Default=FALSE).}
+\item{counts.only}{logical. Whether to return only the counts.}
 
 \item{verbose}{logical. Whether to print progress messages.}
 

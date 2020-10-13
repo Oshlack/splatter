@@ -8,13 +8,12 @@ splatPopQuantNorm(params, MeansMatrix)
 }
 \arguments{
 \item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details. 
-Default=`newSplatPopParams()`.}
+scale simulations. See \code{\link{splatPopParams}} for details.}
 
-\item{MeansMatrix}{Mean gene expression with eQTL effects dataframe.}
+\item{MeansMatrix}{Mean gene expression with eQTL effects data.frame.}
 }
 \value{
-Dataframe of quantile normalized gene mean expression levels.
+Data.frame of quantile normalized gene mean expression levels.
 }
 \description{
 For each sample, expression values are quantile normalized (qgamma)

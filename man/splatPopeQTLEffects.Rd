@@ -8,12 +8,11 @@ splatPopeQTLEffects(params, key, snps)
 }
 \arguments{
 \item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details. 
-Default=`newSplatPopParams()`.}
+scale simulations. See \code{\link{splatPopParams}} for details.}
 
-\item{key}{Partial eQTL key dataframe.}
+\item{key}{Partial splatPop key data.frame.}
 
-\item{snps}{Dataframe of genotype information output from `vcf.parsed`.}
+\item{snps}{Data.frame of genotype information output from `vcf.parsed`.}
 }
 \value{
 The key updated with assigned eQTL effects.

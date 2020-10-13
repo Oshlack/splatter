@@ -6,9 +6,9 @@
 \usage{
 splatPopEstimate(
   params = newSplatPopParams(),
-  counts = "skip",
-  means = "skip",
-  eqtl = "skip"
+  counts = NULL,
+  means = NULL,
+  eqtl = NULL
 )
 }
 \arguments{
@@ -19,10 +19,10 @@ See \code{\link{splatPopParams}} for details.}
 \item{counts}{either a counts matrix or a SingleCellExperiment object
 containing count data to estimate parameters from.}
 
-\item{means}{Dataframe of real gene means across a population, where 
+\item{means}{Matrix of real gene means across a population, where 
 each row is a gene and each column is an individual in the population.}
 
-\item{eqtl}{Txt file with all or top eQTL pairs from a real eQTL analysis.
+\item{eqtl}{Data.frame with all or top eQTL pairs from a real eQTL analysis.
 Must include columns: 'gene_id', 'pval_nominal', and 'slope'.}
 }
 \value{

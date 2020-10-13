@@ -8,10 +8,9 @@ splatPopGroupEffects(params, key, groups)
 }
 \arguments{
 \item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details. 
-Default=`newSplatPopParams()`.}
+scale simulations. See \code{\link{splatPopParams}} for details.}
 
-\item{key}{Partial eQTL key dataframe.}
+\item{key}{Partial splatPop key data.frame.}
 
 \item{groups}{array of group names}
 }

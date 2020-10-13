@@ -10,8 +10,7 @@ splatPopParseVCF(vcf, params)
 \item{vcf}{vcfR object containing genotypes of samples to simulate.}
 
 \item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details. 
-Default=`newSplatPopParams()`.}
+scale simulations. See \code{\link{splatPopParams}} for details.}
 }
 \value{
 Genotype data.frame

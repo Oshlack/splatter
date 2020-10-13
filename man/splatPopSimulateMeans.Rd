@@ -5,11 +5,11 @@
 \title{splatPopSimulateMeans}
 \usage{
 splatPopSimulateMeans(
-  vcf = mock_vcf(),
+  vcf = mockVCF(),
   params = newSplatPopParams(nGenes = 1000),
   verbose = TRUE,
-  key = "new",
-  gff = NA,
+  key = NULL,
+  gff = NULL,
   ...
 )
 }
@@ -17,21 +17,20 @@ splatPopSimulateMeans(
 \item{vcf}{vcfR object containing genotypes of samples to simulate.}
 
 \item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details. 
-Default=`newSplatPopParams()`.}
+scale simulations. See \code{\link{splatPopParams}} for details.}
 
-\item{verbose}{logical. Whether to print progress messages. Default=TRUE.}
+\item{verbose}{logical. Whether to print progress messages.}
 
 \item{key}{Either FALSE or a data.frame object containing a full or partial
 splatPop key.}
 
-\item{gff}{Either NA or a data.frame object containing a GFF/GTF file.}
+\item{gff}{Either NULL or a data.frame object containing a GFF/GTF file.}
 
 \item{...}{any additional parameter settings to override what is provided in
 \code{params}.}
 }
 \value{
-A list containing: `means` a data.frame (or list of dataframes if
+A list containing: `means` a data.frame (or list of data.frames if
 n.groups > 1) with the simulated mean gene expression value for each gene
 (row) and each sample (column) and `key` a data.frame with population 
 information including eQTL and group effects.

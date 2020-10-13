@@ -69,7 +69,7 @@ from bulk population expression data and eQTL mapping results.
 
 
 ```{r quick-start}
-vcf <- mock_vcf(n_samples=6)
+vcf <- mockVCF(n.samples=6)
 
 params <- setParams(newSplatPopParams(), "nGenes" = 200, "eqtl.n" = 0.4)
 sim <- splatPopSimulate(vcf = vcf, params = params)
@@ -122,12 +122,12 @@ For example, these parameters can be estimated from user provided bulk or
 single-cell gene means across a population and eQTL mapping results:
 
 ```{r eqtlEstimate}
-bulk_means <- mock_bulk_matrix(n_genes=500, n_samples=100)
-bulk_eqtl <- mock_bulk_eqtl(n_genes=500)
+bulk.means <- mockBulkMatrix(n.genes=500, n.samples=100)
+bulk.eqtl <- mockBulkeQTL(n.genes=500)
 counts <- mockSCE()
 
-params.est <- splatPopEstimate(means = bulk_means,
-                               eqtl = bulk_eqtl,
+params.est <- splatPopEstimate(means = bulk.means,
+                               eqtl = bulk.eqtl,
                                counts = counts)
 params.est
 ```
@@ -151,10 +151,10 @@ highlight its unique functions.
 Genotype information should be provided as a 
 [vcfR object](https://cran.r-project.org/web/packages/vcfR/index.html). A 
 mock vcfR object (that does not have realistic population structure) can
-be produced using the `mock_vcf` function. Genes can be provided in three ways 
+be produced using the `mockVCF` function. Genes can be provided in three ways 
 (note that options 2 and 3 overwrite nGene in `splatPopParams`): 
 
-1. Randomly (-gff = NA): This option will call `mock_gff` to 
+1. Randomly (-gff = NA): This option will call `mockGFF` to 
 generate a random gff file for a specified chromosome. This is the default
 option if neither a gff or key is provided.
 2. GFF/GTF (-gff = gff.object): This option takes a GFF/GTF data.frame object
@@ -190,9 +190,9 @@ using `setParams`:
 
 ```{r splatPopSimulateMeans}
 params <- setParams(newSplatPopParams(), "nGenes" = 200, "eqtl.n" = 0.4)
-sim_means <- splatPopSimulateMeans(vcf = vcf, params = params)
+sim.means <- splatPopSimulateMeans(vcf = vcf, params = params)
 
-round(sim_means$means[1:5, 1:6], digits = 3)
+round(sim.means$means[1:5, 1:6], digits = 3)
 ```
 
 The output of `splatPopSimulate()` is an object with two components:
@@ -205,7 +205,7 @@ The output of `splatPopSimulate()` is an object with two components:
 
 Here is a snapshot of the key produced by `splatPopSimulateMeans` above:
 ```{r eqtlSimulate-show-key}
-print(sim_means$key[1:5, ], digits = 2)
+print(sim.means$key[1:5, ], digits = 2)
 ```
 
 Gene information can also be provided using a GFF/GTF file read in as a 
@@ -222,19 +222,19 @@ splatPop key can be provided to specify:
 Here is a snapshot of simulated gene means for genes provided as a GFF:
 
 ```{r splatPopSimulateMeans-from-gff}
-gff <- mock_gff(n_genes = 100)
-sim_means_gff <- splatPopSimulateMeans(vcf = vcf, params = params, gff=gff)
+gff <- mockGFF(n.genes = 100)
+sim.means.gff <- splatPopSimulateMeans(vcf = vcf, params = params, gff=gff)
 
-round(sim_means_gff$means[1:5, 1:6], digits = 3)
+round(sim.means.gff$means[1:5, 1:6], digits = 3)
 ```
 
 Here is a snapshot of simulated gene means for genes provided in a splatPop key:
 
 ```{r splatPopSimulateMeans-from-key}
-partial_key <- sim_means$key[, c("geneID", "chr", "gene_mid")]
-sim_means_key <- splatPopSimulateMeans(vcf = vcf, params = params, key=partial_key)
+partial.key <- sim.means$key[, c("geneID", "chr", "gene_mid")]
+sim.means.key <- splatPopSimulateMeans(vcf = vcf, params = params, key=partial.key)
 
-round(sim_means_key$means[1:5, 1:6], digits = 3)
+round(sim.means.key$means[1:5, 1:6], digits = 3)
 ```
 
 A critical step of splatPop is to quantile normalize the simulated gene means
@@ -244,8 +244,8 @@ you can use the quantile normalization function directly on that data so that
 it can be used as input to `splatPopSimulateSC`. 
 
 ```{r quant-normalize-population-data}
-bulk_qnorm <- splatPopQuantNorm(newSplatPopParams(), bulk_means)
-round(bulk_qnorm[1:5, 1:5], 3)
+bulk.qnorm <- splatPopQuantNorm(newSplatPopParams(), bulk.means)
+round(bulk.qnorm[1:5, 1:5], 3)
 ```
 
 
@@ -258,12 +258,12 @@ together using `splatPopSimulate`, the output contains a list of objects
 including the simulated means, splatPop key, and the sce object described above.
 
 ```{r eqtl-splatSimulatePop}
-sim_sc <- splatPopSimulateSC(params=params, 
-                             sim_means=sim_means$means, 
+sim.sc <- splatPopSimulateSC(params=params, 
+                             sim.means=sim.means$means, 
                              batchCells=50)
-sim_sc <- logNormCounts(sim_sc)
-sim_sc <- runPCA(sim_sc)
-plotPCA(sim_sc, colour_by = "Sample")
+sim.sc <- logNormCounts(sim.sc)
+sim.sc <- runPCA(sim.sc)
+plotPCA(sim.sc, colour_by = "Sample")
 ```
 
 The `splatSimulatePop` function outputs, in addition to the information output
@@ -307,11 +307,11 @@ params2 <- setParams(params,
                      batchCells = 40,
                      group.prob = c(0.5, 0.5))
 
-sim_sc_gr2 <- splatPopSimulate(vcf=vcf, params=params2)
+sim.sc.gr2 <- splatPopSimulate(vcf=vcf, params=params2)
 
-sim_sc_gr2$sc <- logNormCounts(sim_sc_gr2$sc)
-sim_sc_gr2$sc <- runPCA(sim_sc_gr2$sc)
-plotPCA(sim_sc_gr2$sc, colour_by = "Group", shape_by = "Sample")
+sim.sc.gr2$sc <- logNormCounts(sim.sc.gr2$sc)
+sim.sc.gr2$sc <- runPCA(sim.sc.gr2$sc)
+plotPCA(sim.sc.gr2$sc, colour_by = "Group", shape_by = "Sample")
 ```
 
 These are relatively small group-effects, but they can be increased by adjusting 
@@ -324,11 +324,11 @@ params2 <- setParams(params2,
                      de.facLoc = 0.8, 
                      de.facScale = 0.6)
 
-sim_sc_gr2 <- splatPopSimulate(vcf=vcf, params=params2)
+sim.sc.gr2 <- splatPopSimulate(vcf=vcf, params=params2)
 
-sim_sc_gr2$sc <- logNormCounts(sim_sc_gr2$sc)
-sim_sc_gr2$sc <- runPCA(sim_sc_gr2$sc)
-plotPCA(sim_sc_gr2$sc, colour_by = "Group", shape_by = "Sample")
+sim.sc.gr2$sc <- logNormCounts(sim.sc.gr2$sc)
+sim.sc.gr2$sc <- runPCA(sim.sc.gr2$sc)
+plotPCA(sim.sc.gr2$sc, colour_by = "Group", shape_by = "Sample")
 ```
 
 ### Simulate SC data for population with path and batch effects

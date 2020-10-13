@@ -2,23 +2,23 @@
 #'
 #' Quick function to generate a mock gff. 
 #' 
-#' @param n_genes Number of genes in mock gff file
-#' @param chromosome Chromosome value. Default=1.
+#' @param n.genes Number of genes in mock gff file
+#' @param chromosome Chromosome name 
 #' 
 #' @return data.frame containing mock gff data from chromosome 1.
 #' 
 #' @export
 #' 
-mock_gff <- function(n_genes=1000, chromosome=1){
+mockGFF <- function(n.genes = 1000, chromosome = 1){
     
-    mock_gff <- data.frame(list(V1 = chromosome,
+    mock.gff <- data.frame(list(V1 = chromosome,
                                 V2 = "source",
                                 V3 = "gene",
-                                V4 = sort(sample(1e4:2e8, n_genes))))
-    mock_gff$V5 <- mock_gff$V4 + floor(rnorm(n_genes, 1500, 1000))
-    mock_gff[, c("V6", "V7", "V8", "V9")] <- "."
+                                V4 = sort(sample(1e4:2e8, n.genes))))
+    mock.gff$V5 <- mock.gff$V4 + floor(rnorm(n.genes, 1500, 1000))
+    mock.gff[, c("V6", "V7", "V8", "V9")] <- "."
     
-    return(mock_gff)
+    return(mock.gff)
 }
 
 
@@ -27,24 +27,23 @@ mock_gff <- function(n_genes=1000, chromosome=1){
 #' Quick function to generate mock vcf file. Note this data has unrealistic
 #' population structure.
 #' 
-#' @param n_snps Number of SNPs in mock vcf file. Default=10,000.
-#' @param n_samples Number of samples in mock bulk data. Default=10.
-#' @param chromosome Chromosome value. Default=1.
+#' @param n.snps Number of SNPs in mock vcf file.
+#' @param n.samples Number of samples in mock bulk data.
+#' @param chromosome Chromosome name
 #' 
 #' @return data.frame containing mock gff data from chromosome 1.
 #'
 #' @export
 #' 
-mock_vcf <- function(n_snps=1e4, n_samples=10, chromosome=1){
+mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 1){
     
     if (requireNamespace("vcfR", quietly = TRUE))
-    data(vcfR_example)
-    mock_vcf <- vcf
-    rm(gff, vcf, dna, pos=1)
-    mock_vcf@meta[2] <- "##source=\"Mock\""    
+    data(vcfR_example, envir = environment())
+    vcf@meta[2] <- "##source=\"Mock\""    
     
-    fix <- t(do.call(rbind, list(CHROM = rep(chromosome, n_snps),
-                              POS = sort(sample(1:2e8, n_snps, replace=FALSE)),
+    fix <- t(do.call(rbind, list(CHROM = rep(chromosome, n.snps),
+                              POS = sort(sample(1:2e8, n.snps, 
+                                                replace = FALSE)),
                               ID = NA,
                               REF = "A",
                               ALT = "T", 
@@ -52,24 +51,24 @@ mock_vcf <- function(n_snps=1e4, n_samples=10, chromosome=1){
                               FILTER = NA,
                               INFO = NA)))
     
-    genotypes <- as.data.frame(mock_vcf@gt)
+    genotypes <- as.data.frame(vcf@gt)
     format <- genotypes$FORMAT[1]
     genotypes$FORMAT <- NULL
     genotypes <- na.omit(as.vector(t(genotypes)))
     
-    gt <- data.frame(list(FORMAT = rep(format, n_snps)))
+    gt <- data.frame(list(FORMAT = rep(format, n.snps)))
     
-    samples <- paste0("sample_", formatC(1:n_samples, 
-                                         width= nchar(n_samples),
-                                         format="d", flag="0"))
+    samples <- paste0("sample_", formatC(1:n.samples, 
+                                         width = nchar(n.samples),
+                                         format = "d", flag = "0"))
     
-    gt[,  samples] <- sample(genotypes, n_samples * n_snps, replace=TRUE)
+    gt[,  samples] <- sample(genotypes, n.samples * n.snps, replace = TRUE)
     gt <- as.matrix(gt)
     
-    mock_vcf@fix <- fix
-    mock_vcf@gt <- gt
+    vcf@fix <- fix
+    vcf@gt <- gt
 
-    return(mock_vcf)
+    return(vcf)
 }
 
 
@@ -78,35 +77,35 @@ mock_vcf <- function(n_snps=1e4, n_samples=10, chromosome=1){
 #' Quick function to generate mock bulk expression data for a population, with
 #' parameters estimated using real thyroid tissue data from GTEx. 
 #' 
-#' @param n_genes Number of genes in mock bulk data. Default=1,000.
-#' @param n_samples Number of samples in mock bulk data. Default=100.
+#' @param n.genes Number of genes in mock bulk data. 
+#' @param n.samples Number of samples in mock bulk data.
 #' 
-#' @return data.frame containing mock bulk expression data.
+#' @return matrix containing mock bulk expression data.
 #' 
 #' @export
 
-mock_bulk_matrix <- function(n_genes=1000, n_samples=100){
+mockBulkMatrix <- function(n.genes = 1000, n.samples = 100){
     
-    tmp_params <- newSplatPopParams()
-    mean_shape <- getParam(tmp_params, "pop.mean.shape")
-    mean_rate <- getParam(tmp_params, "pop.mean.rate")
-    cv_df <- getParam(tmp_params, "pop.cv.param")
-    cv_shape <- cv_df[5, "shape"]
-    cv_rate <- cv_df[5, "rate"]
+    tmp.params <- newSplatPopParams()
+    mean.shape <- getParam(tmp.params, "pop.mean.shape")
+    mean.rate <- getParam(tmp.params, "pop.mean.rate")
+    cv.df <- getParam(tmp.params, "pop.cv.param")
+    cv.shape <- cv.df[5, "shape"]
+    cv.rate <- cv.df[5, "rate"]
     
-    key <- data.frame(list(id = c(1:n_genes),
-                           mean = rgamma(n_genes, mean_shape, mean_rate),
-                           cv = rgamma(n_genes, cv_shape, cv_rate)))
+    key <- data.frame(list(id = c(1:n.genes),
+                           mean = rgamma(n.genes, mean.shape, mean.rate),
+                           cv = rgamma(n.genes, cv.shape, cv.rate)))
     
-    mock_means <- lapply(key$id, function(g) rnorm(n_samples,
+    mock.means <- lapply(key$id, function(g) rnorm(n.samples,
                                               mean = key[key$id == g,]$mean,
                                               sd = key[key$id == g,]$mean *
                                                   key[key$id == g,]$cv))
     
-    mock_means <- data.frame(do.call(rbind, mock_means))
-    mock_means[mock_means < 0] <- 0
+    mock.means <- do.call(rbind, mock.means)
+    mock.means[mock.means < 0] <- 0
     
-    return(mock_means)
+    return(mock.means)
 }
 
 #' Generate mock eQTL mapping results
@@ -114,21 +113,21 @@ mock_bulk_matrix <- function(n_genes=1000, n_samples=100){
 #' Quick function to generate mock eQTL mapping results, with parameters 
 #' estimated using real eQTL mapping results from GTEX using thyroid tissue. 
 #' 
-#' @param n_genes Number of genes in mock eQTL data. Default=1,000.
+#' @param n.genes Number of genes in mock eQTL data.
 #' 
 #' @return data.frame containing mock bulk eQTL mapping results.
 #' 
 #' @export
 #' 
-mock_bulk_eqtl <- function(n_genes=1000){
+mockBulkeQTL <- function(n.genes = 1000){
     
-    tmp_params <- newSplatPopParams()
-    eqtl_shape <- getParam(tmp_params, "eqtl.ES.shape")
-    eqtl_rate <- getParam(tmp_params, "eqtl.ES.rate")
+    tmp.params <- newSplatPopParams()
+    eqtl.shape <- getParam(tmp.params, "eqtl.ES.shape")
+    eqtl.rate <- getParam(tmp.params, "eqtl.ES.rate")
     
-    mock_eq <- data.frame(list(gene_id = 1:n_genes, 
+    mock.eq <- data.frame(list(gene_id = 1:n.genes, 
                                pval_nominal = 0.01,
-                               slope = rgamma(n_genes, eqtl_shape, eqtl_rate)))
+                               slope = rgamma(n.genes, eqtl.shape, eqtl.rate)))
     
-    return(mock_eq)
+    return(mock.eq)
 }

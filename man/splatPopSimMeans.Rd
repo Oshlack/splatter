@@ -9,10 +9,10 @@ splatPopSimMeans(vcf, key)
 \arguments{
 \item{vcf}{vcfR object containing genotypes of samples to simulate.}
 
-\item{key}{Partial eQTL key dataframe.}
+\item{key}{Partial splatPop key data.frame.}
 }
 \value{
-Dataframe of gene mean expression levels WITHOUT eQTL effects.
+Data.frame of gene mean expression levels WITHOUT eQTL effects.
 }
 \description{
 Gene mean expression levels are assigned to each gene for each pair randomly

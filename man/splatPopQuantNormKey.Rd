@@ -7,7 +7,7 @@
 splatPopQuantNormKey(key, MeansMatrix)
 }
 \arguments{
-\item{key}{Partial eQTL key dataframe.}
+\item{key}{Partial splatPop key data.frame.}
 
 \item{MeansMatrix}{The output from `splatPopQuantNorm` as a matrix or list of
 matrices.}

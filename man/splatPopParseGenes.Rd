@@ -8,13 +8,12 @@ splatPopParseGenes(params, gff)
 }
 \arguments{
 \item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details. 
-Default=`newSplatPopParams()`.}
+scale simulations. See \code{\link{splatPopParams}} for details.}
 
-\item{gff}{Either NA or a data.frame object containing a GFF/GTF file.}
+\item{gff}{Either NULL or a data.frame object containing a GFF/GTF file.}
 }
 \value{
-The partial eQTL key dataframe.
+The Partial splatPop key data.frame.
 }
 \description{
 Generate population key matrix from random or gff provided gene information

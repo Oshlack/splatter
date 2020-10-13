@@ -11,7 +11,7 @@ splatPopEstimateEffectSize(params, eqtl)
  simulation of the mean expression levels for the population.
 See \code{\link{splatPopParams}} for details.}
 
-\item{eqtl}{Txt file with all or top eQTL pairs from a real eQTL analysis. 
+\item{eqtl}{Data.frame with all or top eQTL pairs from a real eQTL analysis. 
 Must include columns: gene_id, pval_nominal, and slope.}
 }
 \value{

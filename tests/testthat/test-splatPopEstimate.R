@@ -1,31 +1,40 @@
 context("splatPopEstimate")
-set.seed(42)
+set.seed(1)
 
 # Mock data
-bulk_means <- mock_bulk_matrix(n_genes=500, n_samples=100)
-bulk_eqtl <- mock_bulk_eqtl(n_genes=500)
+bulk.means <- mockBulkMatrix(n.genes=500, n.samples=100)
+bulk.eqtl <- mockBulkeQTL(n.genes=500)
+library(scater)
 counts <- mockSCE()
 
 test_that("splatPopEstimate works", {
-    params <- splatPopEstimate(means=bulk_means, 
-                               eqtl=bulk_eqtl,
+    # Check separate functions
+    params <- splatPopEstimateMeanCV(newSplatPopParams(), bulk.means)
+    expect_true(validObject(params))
+    params <- splatPopEstimateEffectSize(newSplatPopParams(), bulk.eqtl)
+    expect_true(validObject(params))
+    #params <- splatEstimate(params = newSplatPopParams(), counts)
+    #expect_true(validObject(params))
+    
+    # Check full function
+    params <- splatPopEstimate(means=bulk.means, 
+                               eqtl=bulk.eqtl,
                                counts=counts)
     expect_true(validObject(params))
 })
 
 test_that("splatPopEstimate checks on input data", {
-    bulk_eqtl_bad <- bulk_eqtl
-    bulk_eqtl_bad$gene_id <- NULL
-    expect_error(splatPopEstimate(means=bulk_means, 
-                                  eqtl=bulk_eqtl_bad, 
+    bulk.eqtl.bad <- bulk.eqtl
+    bulk.eqtl.bad$gene_id <- NULL
+    expect_error(splatPopEstimate(means=bulk.means, 
+                                  eqtl=bulk.eqtl.bad, 
                                   counts=counts),
         "Incorrect format for eqtl data.")
     
-    bulk_means_bad <- bulk_means
-    bulk_means_bad$new_sample <- NA
-    expect_error(splatPopEstimate(means=bulk_means_bad, 
-                                  eqtl=bulk_eqtl, 
+    bulk.means.bad <- bulk.means
+    bulk.means.bad[, 1] <- NA
+    expect_error(splatPopEstimate(means=bulk.means.bad, 
+                                  eqtl=bulk.eqtl, 
                                   counts=counts),
         "Incorrect format or NAs present in gene.means.")
 })
-

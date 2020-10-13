@@ -26,7 +26,7 @@ See \code{\link{SplatParams}} for details.}
 
 \item{method}{which simulation method to use. Options are "single" which
 produces a single population, "groups" which produces distinct groups
-(eg. cell types), "paths" which selects cells from continuous
+(eg. cell types), or "paths" which selects cells from continuous
 trajectories (eg. differentiation processes).}
 
 \item{verbose}{logical. Whether to print progress messages (Default=TRUE).}

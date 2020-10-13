@@ -7,27 +7,26 @@
 splatPopSimulateSample(
   params = newSplatPopParams(),
   method = c("single", "groups", "paths"),
-  counts_only = FALSE,
+  counts.only = FALSE,
   verbose = TRUE,
-  sample_means,
+  sample.means,
   ...
 )
 }
 \arguments{
 \item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details. 
-Default=`newSplatPopParams()`.}
+scale simulations. See \code{\link{splatPopParams}} for details.}
 
 \item{method}{which simulation method to use. Options are "single" which
 produces a single population, "groups" which produces distinct groups
 (eg. cell types), "paths" which selects cells from continuous
 trajectories (eg. differentiation processes).}
 
-\item{counts_only}{logical. Whether to return only the counts (Default=FALSE).}
+\item{counts.only}{logical. Whether to return only the counts.}
 
-\item{verbose}{logical. Whether to print progress messages (Default=TRUE).}
+\item{verbose}{logical. Whether to print progress messages.}
 
-\item{sample_means}{Gene means to use if running splatSimulatePop().}
+\item{sample.means}{Gene means to use if running splatSimulatePop().}
 
 \item{...}{any additional parameter settings to override what is provided in
 \code{params}.}

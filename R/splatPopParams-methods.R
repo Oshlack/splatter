@@ -30,7 +30,7 @@ setValidity("splatPopParams", function(object) {
                                                  lower = 0, upper = 1),
                 pop.mean.shape = checkNumber(v$pop.mean.shape, lower = 0),
                 pop.mean.rate = checkNumber(v$pop.mean.rate, lower = 0),
-                pop.cv.bins = checkInt(v$pop.cv.bins, lower=1),
+                pop.cv.bins = checkInt(v$pop.cv.bins, lower = 1),
                 pop.cv.param = checkDataFrame(v$pop.cv.param))
     
     if (all(checks == TRUE)) {
@@ -69,10 +69,7 @@ setMethod("show", "splatPopParams", function(object) {
 setMethod("setParam", "splatPopParams", function(object, name, value) {
     checkmate::assertString(name)
     
-    if (name == "nCells") {
-        warning(name, " only used if genes='random'")
-    }
-    
+    # splatPopParam checks
     if (name == "pop.cv.param") {
         if (getParam(object, "pop.cv.bins") != nrow(value)) {
             stop("Need to set pop.cv.bins to length of pop.cv.param")
@@ -85,6 +82,77 @@ setMethod("setParam", "splatPopParams", function(object, name, value) {
                  Be sure eqtl.maf.min < eqtl.maf.max.")
         }
     }
+    
+    # splatParam checks 
+    if (name == "path.length") {
+        warning("path.length has been renamed path.nSteps, ",
+                "please use path.nSteps in the future.")
+        name <- "path.nSteps"
+    }
+    
+    if (name == "nCells" || name == "nBatches") {
+        stop(name, " cannot be set directly, set batchCells instead")
+    }
+    
+    if (name == "nGroups") {
+        stop(name, " cannot be set directly, set group.prob instead")
+    }
+    
+    if (name == "batchCells") {
+        object <- setParamUnchecked(object, "nCells", sum(value))
+        object <- setParamUnchecked(object, "nBatches", length(value))
+    }
+    
+    if (name == "group.prob") {
+        object <- setParamUnchecked(object, "nGroups", length(value))
+        path.from <- getParam(object, "path.from")
+        if (length(path.from) > 1 & length(path.from) != length(value)) {
+            warning("nGroups has changed, resetting path.from")
+            object <- setParam(object, "path.from", 0)
+        }
+    }
+    
+    if (name == "dropout.type") {
+        mid.len <- length(getParam(object, "dropout.mid"))
+        mid.shape <- length(getParam(object, "dropout.shape"))
+        if ((value == "experiment")) {
+            if ((mid.len != 1) | (mid.shape != 1)) {
+                stop("dropout.type cannot be set to 'experiment' because ",
+                     "dropout.mid and dropout.shape aren't length 1, ",
+                     "set dropout.mid and dropout.shape first")
+            }
+        }
+        if ((value == "batch")) {
+            n <- getParam(object, "nBatches")
+            if ((mid.len != n) | (mid.shape != n)) {
+                stop("dropout.type cannot be set to 'batch' because ",
+                     "dropout.mid and dropout.shape aren't length equal to ",
+                     "nBatches (", n, "), set dropout.mid and dropout.shape ",
+                     "first")
+            }
+        }
+        if ((value == "group")) {
+            n <- getParam(object, "nGroups")
+            if ((mid.len != n) | (mid.shape != n)) {
+                stop("dropout.type cannot be set to 'group' because ",
+                     "dropout.mid and dropout.shape aren't length equal to ",
+                     "nGroups (", n, "), set dropout.mid and dropout.shape ",
+                     "first")
+            }
+        }
+        if ((value == "cell")) {
+            n <- getParam(object, "nCells")
+            if ((mid.len != n) | (mid.shape != n)) {
+                stop("dropout.type cannot be set to 'cell' because ",
+                     "dropout.mid and dropout.shape aren't length equal to ",
+                     "nCells (", n, "), set dropout.mid and dropout.shape ",
+                     "first")
+            }
+        }
+    }
+    
+
+
     
     object <- callNextMethod()
     

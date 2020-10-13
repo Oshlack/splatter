@@ -5,34 +5,33 @@
 \title{splatPop simulation}
 \usage{
 splatPopSimulate(
-  vcf = mock_vcf(),
   params = newSplatPopParams(nGenes = 1000),
+  vcf = mockVCF(),
   method = c("single", "groups", "paths"),
-  gff = NA,
-  key = "new",
-  counts_only = FALSE,
+  gff = NULL,
+  key = NULL,
+  counts.only = FALSE,
   verbose = TRUE,
   ...
 )
 }
 \arguments{
-\item{vcf}{vcfR object containing genotypes of samples to simulate.}
-
 \item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details. 
-Default=`newSplatPopParams()`.}
+scale simulations. See \code{\link{splatPopParams}} for details.}
+
+\item{vcf}{vcfR object containing genotypes of samples to simulate.}
 
 \item{method}{which simulation method to use. Options are "single" which
 produces a single population, "groups" which produces distinct groups
 (eg. cell types), "paths" which selects cells from continuous
 trajectories (eg. differentiation processes).}
 
-\item{gff}{Either NA or a data.frame object containing a GFF/GTF file.}
+\item{gff}{Either NULL or a data.frame object containing a GFF/GTF file.}
 
-\item{key}{Either FALSE or a data.frame object containing a full or partial
+\item{key}{Either NULL or a data.frame object containing a full or partial
 splatPop key.}
 
-\item{counts_only}{logical. Whether to save only counts in sce object.}
+\item{counts.only}{logical. Whether to save only counts in sce object.}
 
 \item{verbose}{logical. Whether to print progress messages.}
 
@@ -40,9 +39,9 @@ splatPop key.}
 \code{params}.}
 }
 \value{
-A list containing: `means` a dataframe (or list of dataframes if
+A list containing: `means` a data.frame (or list of data.frames if
 n.groups > 1) with the simulated mean gene expression value for each gene
-(row) and each sample (column), `key` a dataframe with population information
+(row) and each sample (column), `key` a data.frame with population information
 including eQTL and group effects, and `sce` a SingleCellExperiment object
 containing simulated counts and intermediate values.
 }
@@ -59,10 +58,10 @@ single-cell counts per individual. Please see the documentation for those
 functions for more details.
 }
 \examples{
-if (requireNamespace("vcfR", quietly = TRUE)) {
+if (requireNamespace(c("vcfR", "preprocessCore"), quietly = TRUE)) {
     library(vcfR)
-    vcf <- mock_vcf(n_samples=6)
-    sim <- splatPopSimulate(vcf=vcf)
+    vcf <- mockVCF(n.samples = 6)
+    sim <- splatPopSimulate(vcf = vcf)
 }
 sim <- splatPopSimulate()
 
