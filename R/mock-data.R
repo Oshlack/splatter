@@ -37,7 +37,9 @@ mock_gff <- function(n_genes=1000, chromosome=1){
 #' 
 mock_vcf <- function(n_snps=1e4, n_samples=10, chromosome=1){
     
-    if (requireNamespace("vcfR", quietly = TRUE))
+    if (!requireNamespace("vcfR", quietly = TRUE)) {
+        stop("Creating a mock VCF requires the 'vcfR' package.")
+    }
     data(vcfR_example)
     mock_vcf <- vcf
     rm(gff, vcf, dna, pos=1)
