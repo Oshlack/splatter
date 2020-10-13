@@ -37,7 +37,9 @@ mockGFF <- function(n.genes = 1000, chromosome = 1){
 #' 
 mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 1){
     
-    if (requireNamespace("vcfR", quietly = TRUE))
+    if (!requireNamespace("vcfR", quietly = TRUE)) {
+        stop("Creating a mock VCF requires the 'vcfR' package.")
+    }
     data(vcfR_example, envir = environment())
     vcf@meta[2] <- "##source=\"Mock\""    
     
