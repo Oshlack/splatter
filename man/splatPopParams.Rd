@@ -15,8 +15,10 @@ In addition to the \code{\link{SplatParams}} parameters, splatPop simulation
  requires the following parameters:
 
 \describe{
-    \item{\code{[group.prop]}}{Proportion of single cells to simulate in each
-    group.}
+    \item{\code{[similarity.scale]}}{Scaling factor for pop.cv.param.rate, 
+    where values larger than 1 increase the similarity between individuals in
+    the population and values less than one make the individuals less 
+    similar.}
     \item{\code{[eqtl.n]}}{The number (>1) or percent (<=1) of genes to 
     assign eQTL effects.}
     \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}

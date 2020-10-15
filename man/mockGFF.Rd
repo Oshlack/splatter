@@ -4,7 +4,7 @@
 \alias{mockGFF}
 \title{Generate mock gff}
 \usage{
-mockGFF(n.genes = 1000, chromosome = 1)
+mockGFF(n.genes = 500, chromosome = 22)
 }
 \arguments{
 \item{n.genes}{Number of genes in mock gff file}
@@ -12,7 +12,7 @@ mockGFF(n.genes = 1000, chromosome = 1)
 \item{chromosome}{Chromosome name}
 }
 \value{
-data.frame containing mock gff data from chromosome 1.
+data.frame containing mock gff data.
 }
 \description{
 Quick function to generate a mock gff.

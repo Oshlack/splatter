@@ -17,8 +17,8 @@ setValidity("splatPopParams", function(object) {
     v <- getParams(object, c(slotNames(object)))
     
     checks <- c(eqtl.n = checkNumber(v$eqtl.n, lower = 0),
-                group.prop = checkNumeric(v$group.prop[1], lower = 0, 
-                                          upper = 1),
+                #group.prop = checkNumeric(v$group.prop[1], lower = 0, 
+                #                          upper = 1),
                 eqtl.dist = checkInt(v$eqtl.dist, lower = 1),
                 eqtl.maf.min = checkNumber(v$eqtl.maf.min, lower = 0, 
                                            upper = 0.5),
@@ -31,7 +31,8 @@ setValidity("splatPopParams", function(object) {
                 pop.mean.shape = checkNumber(v$pop.mean.shape, lower = 0),
                 pop.mean.rate = checkNumber(v$pop.mean.rate, lower = 0),
                 pop.cv.bins = checkInt(v$pop.cv.bins, lower = 1),
-                pop.cv.param = checkDataFrame(v$pop.cv.param))
+                pop.cv.param = checkDataFrame(v$pop.cv.param),
+                similarity.scale = checkNumber(v$similarity.scale, lower = 0))
     
     if (all(checks == TRUE)) {
         valid <- TRUE
@@ -49,7 +50,8 @@ setMethod("show", "splatPopParams", function(object) {
     
     pp <- list("Population params:" = c("(mean.shape)" = "pop.mean.shape",
                                         "(mean.rate)" = "pop.mean.rate",
-                                        "[group.prop]" = "group.prop",
+                                        #"[group.prop]" = "group.prop",
+                                        "[similarity.scale]" = "similarity.scale",
                                         "[cv.bins]" = "pop.cv.bins",
                                         "(cv.params)" = "pop.cv.param"),
                "eQTL params:" = c("[eqtl.n]"    = "eqtl.n",

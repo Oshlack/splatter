@@ -74,9 +74,9 @@ vcf <- mockVCF(n.samples=6)
 params <- setParams(newSplatPopParams(), "nGenes" = 200, "eqtl.n" = 0.4)
 sim <- splatPopSimulate(vcf = vcf, params = params)
 
-sim$sc <- logNormCounts(sim$sc)
-sim$sc <- runPCA(sim$sc)
-plotPCA(sim$sc, colour_by = "Sample")
+sim <- logNormCounts(sim)
+sim <- runPCA(sim)
+plotPCA(sim, colour_by = "Sample")
 ```
 
 # splatPop in 3 steps
@@ -107,6 +107,9 @@ In addition to the SplatParams parameters described in detail in the
 contains the following parameters that can be estimated or manually defined:
 
 * **Population parameters**
+    * `similarity.scale` - Scaling factor for the population variance (cv) rate
+    parameter. Increasing this scaling factor makes the simulated individuals
+    more similar to each other.
     * `pop.mean.shape` - Shape parameter for mean expression from population
     scale data.
     * `pop.mean.rate` - Rate parameter for mean expression from population
@@ -231,7 +234,7 @@ round(sim.means.gff$means[1:5, 1:6], digits = 3)
 Here is a snapshot of simulated gene means for genes provided in a splatPop key:
 
 ```{r splatPopSimulateMeans-from-key}
-partial.key <- sim.means$key[, c("geneID", "chr", "gene_mid")]
+partial.key <- sim.means$key[, c("geneID", "chromosome", "geneMiddle")]
 sim.means.key <- splatPopSimulateMeans(vcf = vcf, params = params, key=partial.key)
 
 round(sim.means.key$means[1:5, 1:6], digits = 3)
@@ -259,6 +262,7 @@ including the simulated means, splatPop key, and the sce object described above.
 
 ```{r eqtl-splatSimulatePop}
 sim.sc <- splatPopSimulateSC(params=params, 
+                             key = sim.means$key,
                              sim.means=sim.means$means, 
                              batchCells=50)
 sim.sc <- logNormCounts(sim.sc)
@@ -309,9 +313,9 @@ params2 <- setParams(params,
 
 sim.sc.gr2 <- splatPopSimulate(vcf=vcf, params=params2)
 
-sim.sc.gr2$sc <- logNormCounts(sim.sc.gr2$sc)
-sim.sc.gr2$sc <- runPCA(sim.sc.gr2$sc)
-plotPCA(sim.sc.gr2$sc, colour_by = "Group", shape_by = "Sample")
+sim.sc.gr2 <- logNormCounts(sim.sc.gr2)
+sim.sc.gr2 <- runPCA(sim.sc.gr2)
+plotPCA(sim.sc.gr2, colour_by = "Group", shape_by = "Sample")
 ```
 
 These are relatively small group-effects, but they can be increased by adjusting 
@@ -326,9 +330,9 @@ params2 <- setParams(params2,
 
 sim.sc.gr2 <- splatPopSimulate(vcf=vcf, params=params2)
 
-sim.sc.gr2$sc <- logNormCounts(sim.sc.gr2$sc)
-sim.sc.gr2$sc <- runPCA(sim.sc.gr2$sc)
-plotPCA(sim.sc.gr2$sc, colour_by = "Group", shape_by = "Sample")
+sim.sc.gr2 <- logNormCounts(sim.sc.gr2)
+sim.sc.gr2 <- runPCA(sim.sc.gr2)
+plotPCA(sim.sc.gr2, colour_by = "Group", shape_by = "Sample")
 ```
 
 ### Simulate SC data for population with path and batch effects
@@ -343,9 +347,9 @@ sim.pop.batches <- splatPopSimulate(vcf = vcf, params = params,
                                     batchCells = c(20, 20),
                                     batch.facLoc = 0.2,
                                     batch.facScale = 0.3)
-sim.pop.batches$sc <- logNormCounts(sim.pop.batches$sc)
-sim.pop.batches$sc <- runPCA(sim.pop.batches$sc)
-plotPCA(sim.pop.batches$sc, colour_by = "Batch", shape_by = "Sample",
+sim.pop.batches <- logNormCounts(sim.pop.batches)
+sim.pop.batches <- runPCA(sim.pop.batches)
+plotPCA(sim.pop.batches, colour_by = "Batch", shape_by = "Sample",
         ncomponents = 5:6)
 
 ```
@@ -354,9 +358,9 @@ plotPCA(sim.pop.batches$sc, colour_by = "Batch", shape_by = "Sample",
 sim.pop.paths <- splatPopSimulate(vcf = vcf, params = params,
                                   method = 'paths',
                                   de.prob = 0.5)
-sim.pop.paths$sc <- logNormCounts(sim.pop.paths$sc)
-sim.pop.paths$sc <- runPCA(sim.pop.paths$sc)
-plotPCA(sim.pop.paths$sc, colour_by = "Step", shape_by = "Sample",
+sim.pop.paths <- logNormCounts(sim.pop.paths)
+sim.pop.paths <- runPCA(sim.pop.paths)
+plotPCA(sim.pop.paths, colour_by = "Step", shape_by = "Sample",
         ncomponents = 5:6)
 ```
 

@@ -13,8 +13,6 @@ test_that("splatPopEstimate works", {
     expect_true(validObject(params))
     params <- splatPopEstimateEffectSize(newSplatPopParams(), bulk.eqtl)
     expect_true(validObject(params))
-    #params <- splatEstimate(params = newSplatPopParams(), counts)
-    #expect_true(validObject(params))
     
     # Check full function
     params <- splatPopEstimate(means=bulk.means, 

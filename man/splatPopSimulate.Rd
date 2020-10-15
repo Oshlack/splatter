@@ -39,11 +39,10 @@ splatPop key.}
 \code{params}.}
 }
 \value{
-A list containing: `means` a data.frame (or list of data.frames if
-n.groups > 1) with the simulated mean gene expression value for each gene
-(row) and each sample (column), `key` a data.frame with population information
-including eQTL and group effects, and `sce` a SingleCellExperiment object
-containing simulated counts and intermediate values.
+SingleCellExperiment object containing simulated counts, 
+intermediate values like the gene means simulated in `splatPopSimulateMeans`,
+and information about the differential expression and eQTL effects assigned 
+to each gene.
 }
 \description{
 Simulate scRNA-seq count data using the splat model for a population of
@@ -58,7 +57,7 @@ single-cell counts per individual. Please see the documentation for those
 functions for more details.
 }
 \examples{
-if (requireNamespace(c("vcfR", "preprocessCore"), quietly = TRUE)) {
+if (requireNamespace("preprocessCore", quietly = TRUE) & requireNamespace("vcfR", quietly = TRUE)) {
     library(vcfR)
     vcf <- mockVCF(n.samples = 6)
     sim <- splatPopSimulate(vcf = vcf)

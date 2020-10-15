@@ -5,11 +5,11 @@
 #' @param n.genes Number of genes in mock gff file
 #' @param chromosome Chromosome name 
 #' 
-#' @return data.frame containing mock gff data from chromosome 1.
+#' @return data.frame containing mock gff data.
 #' 
 #' @export
 #' 
-mockGFF <- function(n.genes = 1000, chromosome = 1){
+mockGFF <- function(n.genes = 500, chromosome = 22){
     
     mock.gff <- data.frame(list(V1 = chromosome,
                                 V2 = "source",
@@ -31,16 +31,21 @@ mockGFF <- function(n.genes = 1000, chromosome = 1){
 #' @param n.samples Number of samples in mock bulk data.
 #' @param chromosome Chromosome name
 #' 
-#' @return data.frame containing mock gff data from chromosome 1.
+#' @return data.frame containing mock gff data.
 #'
 #' @export
 #' 
-mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 1){
+mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
     
+    
+    #fl <- system.file("extdata", "chr22.vcf.gz", package="VariantAnnotation")
+    #vcf <- readVcf(fl, "hg38")
+    #snps <- genotypeToSnpMatrix(vcf)
     if (!requireNamespace("vcfR", quietly = TRUE)) {
-        stop("Creating a mock VCF requires the 'vcfR' package.")
+        stop("Creating a mock VCF requires the 'VariantAnnotation' package.")
     }
-    data(vcfR_example, envir = environment())
+    
+    data(vcfR_example, package = "vcfR", envir = environment())
     vcf@meta[2] <- "##source=\"Mock\""    
     
     fix <- t(do.call(rbind, list(CHROM = rep(chromosome, n.snps),

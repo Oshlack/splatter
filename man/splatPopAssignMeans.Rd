@@ -19,5 +19,7 @@ The key updated with assigned means and variances.
 A mean and coefficient of variation is assigned to each gene by sampling from
 gamma distributions parameterized from real data in `splatPopEstimate`.
 The cv gamma distributions are binned by gene mean because the distribution
-of variance in real data is not independent from the mean.
+of variance in real data is not independent from the mean. The degree of 
+similarity between individuals can be further tuned using the 
+similarity.scale parameter in `splatPopParams`.
 }

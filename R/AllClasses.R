@@ -428,8 +428,10 @@ setClass("KersplatParams",
 #'  requires the following parameters:
 #'
 #' \describe{
-#'     \item{\code{[group.prop]}}{Proportion of single cells to simulate in each
-#'     group.}
+#'     \item{\code{[similarity.scale]}}{Scaling factor for pop.cv.param.rate, 
+#'     where values larger than 1 increase the similarity between individuals in
+#'     the population and values less than one make the individuals less 
+#'     similar.}
 #'     \item{\code{[eqtl.n]}}{The number (>1) or percent (<=1) of genes to 
 #'     assign eQTL effects.}
 #'     \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
@@ -475,7 +477,7 @@ setClass("KersplatParams",
 #' @exportClass splatPopParams
 setClass("splatPopParams",
          contains = "SplatParams",
-         slots = c(group.prop = "numeric",
+         slots = c(similarity.scale = "numeric",
                    pop.mean.shape = "numeric",
                    pop.mean.rate = "numeric",
                    pop.cv.bins = "numeric",
@@ -487,7 +489,7 @@ setClass("splatPopParams",
                    eqtl.ES.shape = "numeric",
                    eqtl.ES.rate = "numeric",
                    eqtl.group.specific = "numeric"),
-         prototype = prototype(group.prop = c(0.5, 0.5),
+         prototype = prototype(similarity.scale = 1.0,
                                pop.mean.shape = 0.3395709, 
                                pop.mean.rate = 0.008309486, 
                                pop.cv.bins = 10,

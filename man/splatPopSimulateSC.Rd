@@ -7,6 +7,7 @@
 splatPopSimulateSC(
   sim.means,
   params,
+  key,
   method = c("single", "groups", "paths"),
   counts.only = FALSE,
   verbose = TRUE,
@@ -35,7 +36,10 @@ trajectories (eg. differentiation processes).}
 \code{params}.}
 }
 \value{
-SingleCellExperiment with simulated data for whole population.
+SingleCellExperiment object containing simulated counts, 
+intermediate values like the gene means simulated in `splatPopSimulateMeans`,
+and information about the differential expression and eQTL effects assigned 
+to each gene.
 }
 \description{
 Simulate count data for a population from a fictional single-cell 

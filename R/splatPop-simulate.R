@@ -30,14 +30,13 @@
 #' @seealso
 #' \code{\link{splatPopSimulateMeans}}, \code{\link{splatPopSimulateSC}}
 #'
-#' @return A list containing: `means` a data.frame (or list of data.frames if
-#' n.groups > 1) with the simulated mean gene expression value for each gene
-#' (row) and each sample (column), `key` a data.frame with population information
-#' including eQTL and group effects, and `sce` a SingleCellExperiment object
-#' containing simulated counts and intermediate values.
+#' @return SingleCellExperiment object containing simulated counts, 
+#' intermediate values like the gene means simulated in `splatPopSimulateMeans`,
+#' and information about the differential expression and eQTL effects assigned 
+#' to each gene. 
 #'
 #' @examples
-#' if (requireNamespace(c("vcfR", "preprocessCore"), quietly = TRUE)) {
+#' if (requireNamespace("preprocessCore", quietly = TRUE) & requireNamespace("vcfR", quietly = TRUE)) {
 #'     library(vcfR)
 #'     vcf <- mockVCF(n.samples = 6)
 #'     sim <- splatPopSimulate(vcf = vcf)
@@ -69,14 +68,13 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
                                        verbose = verbose)
     
     sim.sc <- splatPopSimulateSC(sim.means = sim.means$means, 
-                                 params = params, 
+                                 params = params,
+                                 key = sim.means$key,
                                  method = method,
                                  counts.only = counts.only, 
                                  verbose = verbose)
     
-    out <- list(key = sim.means$key, means = sim.means$means, sc = sim.sc)
-    
-    return(out)
+    return(sim.sc)
 }
 
 
@@ -149,10 +147,10 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
     # Genes from key or gff or mock (in that order)
     if(is.null(key)){key <- splatPopParseGenes(params, gff)}
     
-    if (!all(c("exp_mean", "exp_cv") %in% names(key))){
+    if (!all(c("meanSampled", "cvSampled") %in% names(key))){
         key <- splatPopAssignMeans(params, key)}
     
-    if (!all(c("eQTL", "eSNP", "EffectSize") %in% names(key))){
+    if (!all(c("eQTL.type", "eSNP.ID", "eQTL.EffectSize") %in% names(key))){
         key <- splatPopeQTLEffects(params, key, vcf.parsed)
         
         if(length(group.names) > 1){
@@ -194,6 +192,8 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
 #'        Output from `splatPopSimulateMeans()`. 
 #' @param params splatPopParams object containing parameters for population
 #'        scale simulations. See \code{\link{splatPopParams}} for details. 
+#' @param key data.frame object containing a full or partial splatPop key. 
+#'        Output from `splatPopSimulateMeans()`. 
 #' @param method which simulation method to use. Options are "single" which
 #'        produces a single cell population for each sample, "groups" which 
 #'        produces distinct groups (eg. cell types) for each sample (note, this
@@ -205,7 +205,10 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
 #'
-#' @return SingleCellExperiment with simulated data for whole population.
+#' @return SingleCellExperiment object containing simulated counts, 
+#' intermediate values like the gene means simulated in `splatPopSimulateMeans`,
+#' and information about the differential expression and eQTL effects assigned 
+#' to each gene. 
 #'
 #' @importFrom SingleCellExperiment SingleCellExperiment cbind
 #' @importFrom SummarizedExperiment rowData rowData<-
@@ -213,6 +216,7 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
 #' 
 splatPopSimulateSC <- function(sim.means,
                                params, 
+                               key,
                                method = c("single", "groups", "paths"),
                                counts.only = FALSE,
                                verbose = TRUE, ...){
@@ -230,15 +234,15 @@ splatPopSimulateSC <- function(sim.means,
     
     nGroups <- getParam(params, "nGroups")
     group.names <- paste0("Group", seq_len(nGroups))
-    group.prop <- getParam(params, "group.prop")
+    group.prob <- getParam(params, "group.prob")
     batchCells <- getParam(params, "batchCells")
 
     # Simulate sc counts with group-specific effects
     if (type(sim.means) == "list"){
-        if(length(group.prop) != length(sim.means)){
-            group.prop <- rep(1/length(sim.means), length(sim.means))}
+        if(length(group.prob) != length(sim.means)){
+            group.prob <- rep(1/length(sim.means), length(sim.means))}
         
-        group.n <- lapply(group.prop, function(x) ceiling(x * batchCells))
+        group.n <- lapply(group.prob, function(x) ceiling(x * batchCells))
         names(group.n) <- group.names
         samples <- names((sim.means[[1]]))
         group.sims <- list()
@@ -288,8 +292,12 @@ splatPopSimulateSC <- function(sim.means,
     }
     
     sim.all <- splatPopCleanSCE(sim.all)
-
-    if (verbose) {message("Done...")}
+    
+    metadata(sim.all)$Simulated_Means <- sim.means
+    rowData(sim.all) <- merge(rowData(sim.all), key, 
+                              by.x = "row.names", by.y = "geneID") 
+    
+    if (verbose) {message("Done!")}
     return (sim.all)
 }
 
@@ -473,17 +481,17 @@ splatPopParseGenes <- function(params, gff){
         nGenes <- nrow(gff)
     }
     
-    genes <- gff[gff[,3] == "gene",]
-    genes$geneID <- paste0("gene_", formatC(1:nGenes, 
-                                            width = nchar(nrow(genes)),
+    key <- gff[gff[,3] == "gene",]
+    key$geneID <- paste0("gene_", formatC(1:nGenes, 
+                                            width = nchar(nrow(key)),
                                             format = "d",
                                             flag = "0"))
-    genes$chr <- genes[, 1]
-    genes$gene_start <- genes[, 4]
-    genes$gene_end <- genes[, 5]
-    genes$gene_mid <- floor(abs((genes$gene_start - genes$gene_end)/2)) + 
-        genes$gene_start
-    key <- genes[,c("geneID", "chr", "gene_start", "gene_end", "gene_mid")]
+    key[['chromosome']] <- key[, 1]
+    key[['geneStart']] <- key[, 4]
+    key[['geneEnd']] <- key[, 5]
+    key[['geneMiddle']] <- floor(abs((key$geneStart - key$geneEnd)/2)) + 
+        key$geneStart
+    key <- key[,c("geneID", "chromosome", "geneStart", "geneEnd", "geneMiddle")]
     
     return(key)
 }
@@ -493,7 +501,9 @@ splatPopParseGenes <- function(params, gff){
 #' A mean and coefficient of variation is assigned to each gene by sampling from
 #' gamma distributions parameterized from real data in `splatPopEstimate`.
 #' The cv gamma distributions are binned by gene mean because the distribution
-#' of variance in real data is not independent from the mean.
+#' of variance in real data is not independent from the mean. The degree of 
+#' similarity between individuals can be further tuned using the 
+#' similarity.scale parameter in `splatPopParams`.
 #'
 #' @param params splatPopParams object containing parameters for population
 #'        scale simulations. See \code{\link{splatPopParams}} for details.
@@ -506,17 +516,21 @@ splatPopAssignMeans <- function(params, key){
     mean.shape <- getParam(params, "pop.mean.shape")
     mean.rate <- getParam(params, "pop.mean.rate")
     cv.param <- getParam(params, "pop.cv.param")
+    similarity.scale <- getParam(params, "similarity.scale")
+    
+    # Scale the CV rate parameters 
+    cv.param$rate <- cv.param$rate * similarity.scale
     
     # Sample gene means
-    key$exp_mean <- rgamma(nrow(key), shape = mean.shape, rate = mean.rate)
-    key$exp_cv <- NULL
+    key[["meanSampled"]] <- rgamma(nrow(key), shape = mean.shape, rate = mean.rate)
+    key[["cvSampled"]] <- NULL
     
     # Sample coefficient of variation for each gene
     for (g in 1:nrow(key)){
-        exp.mean <- key[g, "exp_mean"]
+        exp.mean <- key[g, "meanSampled"]
         bin <- cv.param[(cv.param$start < exp.mean) &
                             (cv.param$end >= exp.mean), ]
-        key[g,"exp_cv"] <- rgamma(1, shape = bin$shape, rate = bin$rate)
+        key[g,"cvSampled"] <- rgamma(1, shape = bin$shape, rate = bin$rate)
     }
     
     return(key)
@@ -549,10 +563,10 @@ splatPopeQTLEffects <- function(params, key, snps){
     # Set up data.frame to save info about selected eSNP-eGENE pairs
     snps.list <- row.names(snps)
     key.tmp <- key
-    key$eQTL <- NA
-    key$eSNP <- NA
-    key$eSNP_MAF <- NA
-    key$EffectSize <- 0
+    key[['eQTL.type']] <- NA
+    key[["eSNP.ID"]] <- NA
+    key[["eSNP.MAF"]] <- NA
+    key[["eQTL.EffectSize"]] <- 0
     
     for(i in seq_len(eqtl.n)){
         again <- TRUE
@@ -565,9 +579,9 @@ splatPopeQTLEffects <- function(params, key, snps){
             s.chr <- as.numeric(strsplit(s, "[_]")[[1]][1])
             s.loc <- as.numeric(strsplit(s, "[_]")[[1]][2])
             
-            matches <- subset(key.tmp, (chr == s.chr & 
-                                            gene_mid > s.loc - eqtl.dist &
-                                            gene_mid < s.loc + eqtl.dist))
+            matches <- subset(key.tmp, (chromosome == s.chr & 
+                                            geneMiddle > s.loc - eqtl.dist &
+                                            geneMiddle < s.loc + eqtl.dist))
             if(nrow(matches) > 0){
                 match <- sample(matches$geneID, 1)
                 again <- FALSE
@@ -577,14 +591,14 @@ splatPopeQTLEffects <- function(params, key, snps){
         key.tmp <- key.tmp[!(key.tmp$geneID == match),]
         ES <- rgamma(1, shape = eqtlES.shape, rate = eqtlES.rate)
 
-        key[key$geneID == match, ]$eSNP <- s
-        key[key$geneID == match, ]$EffectSize <- ES
-        key[key$geneID == match, ]$eSNP_MAF <- snps[s, "MAF"]
-        key[key$geneID == match, ]$eQTL <- "global"
+        key[key$geneID == match, ]$eSNP.ID <- s
+        key[key$geneID == match, ]$eQTL.EffectSize <- ES
+        key[key$geneID == match, ]$eSNP.MAF <- snps[s, "MAF"]
+        key[key$geneID == match, ]$eQTL.type <- "global"
         
         # Randomly make some effects negative
-        key$EffectSize <- key$EffectSize * sample(c(1, -1),
-                                                  length(key$EffectSize),
+        key$eQTL.EffectSize <- key$eQTL.EffectSize * sample(c(1, -1),
+                                                  length(key$eQTL.EffectSize),
                                                   replace = TRUE)
     }
     
@@ -616,9 +630,9 @@ splatPopGroupEffects <- function(params, key, groups){
     n.specific.each <- ceiling(eqtl.n * g.specific.perc / n.groups)
     
     for(g in groups){
-        glob.genes <- subset(key, eQTL == "global")$geneID
+        glob.genes <- subset(key, eQTL.type == "global")$geneID
         g.specific <- sample(glob.genes, size = n.specific.each)
-        key$eQTL[key$geneID %in% g.specific] <- g
+        key[["eQTL.type"]][key$geneID %in% g.specific] <- g
     }
     
     # Assign group-specific effects (differential expression, not eQTL)
@@ -631,7 +645,7 @@ splatPopGroupEffects <- function(params, key, groups){
     for (idx in seq_len(n.groups)) {
         de.facs <- getLNormFactors(nGenes, de.prob, de.downProb,
                                    de.facLoc, de.facScale)
-        key[, paste0(groups[idx], "_group_effect")] <- de.facs
+        key[, paste0(groups[idx], ".GroupEffect")] <- de.facs
     }
     return(key)
 }
@@ -655,9 +669,9 @@ splatPopSimMeans <- function(vcf, key){
 
     means <- lapply(key$geneID,
                     function(g) rnorm(ncol(vcf),
-                                      mean = key[key$geneID == g,]$exp_mean,
-                                      sd = key[key$geneID == g,]$exp_mean *
-                                          key[key$geneID == g,]$exp_cv))
+                                      mean = key[key$geneID == g,]$meanSampled,
+                                      sd = key[key$geneID == g,]$meanSampled *
+                                          key[key$geneID == g,]$cvSampled))
     
     means.df <- data.frame(do.call(rbind, means), row.names = key$geneID)
     names(means.df) <- names(vcf)
@@ -690,21 +704,21 @@ splatPopSimMeans <- function(vcf, key){
 splatPopSimEffects <- function(id, key, snps, MeansPop){
     
     # Add group-specific eQTL effects
-    genes.use <- subset(key, eQTL == id)$geneID
+    genes.use <- subset(key, eQTL.type == id)$geneID
     samples <- names(MeansPop)
     snps$MAF <- NULL
     
     for(g in genes.use){
         without.eqtl <- as.numeric(MeansPop[g,])
-        ES <- key[key$geneID == g, "EffectSize"]
-        eSNPsample <- key[key$geneID == g, "eSNP"]
+        ES <- key[key$geneID == g, "eQTL.EffectSize"]
+        eSNPsample <- key[key$geneID == g, "eSNP.ID"]
         genotype <- as.numeric(snps[eSNPsample, samples])
         MeansPop[g,] <- without.eqtl + (ES * genotype * MeansPop[g,]) 
     }
     
     # Add group-specific non-eQTL effects
     if(id != "global"){
-        MeansPop <- MeansPop * key[, paste0(id, "_group_effect")]
+        MeansPop <- MeansPop * key[, paste0(id, ".GroupEffect")]
     }
     MeansPop[MeansPop < 0] <- 0
     
@@ -774,7 +788,8 @@ splatPopQuantNormKey <- function(key, MeansMatrix){
         qn.cv <- apply(MeansMatrix, 1, FUN = co.var)
     }
     
-    qn.df <- data.frame(list(expQN_mean = qn.mean, expQN_cv = qn.cv))
+    qn.df <- data.frame(list(meanQuantileNorm = qn.mean, 
+                             cvQuantileNorm = qn.cv))
     qn.df$geneID <- row.names(qn.df)
     key <- merge(key, qn.df, by = "geneID")
     
