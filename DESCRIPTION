@@ -66,7 +66,7 @@ Suggests:
     igraph,
     DropletUtils,
     BiocSingular,
-    vcfR
+    VariantAnnotation
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software, ImmunoOncology
 URL: https://github.com/Oshlack/splatter

@@ -4,7 +4,7 @@
 \alias{splatPopeQTLEffects}
 \title{Assign eGenes-eSNPs pairs and effect sizes.}
 \usage{
-splatPopeQTLEffects(params, key, snps)
+splatPopeQTLEffects(params, key, vcf)
 }
 \arguments{
 \item{params}{splatPopParams object containing parameters for population
@@ -12,7 +12,7 @@ scale simulations. See \code{\link{splatPopParams}} for details.}
 
 \item{key}{Partial splatPop key data.frame.}
 
-\item{snps}{Data.frame of genotype information output from `vcf.parsed`.}
+\item{vcf}{VariantAnnotation object containing genotypes of samples.}
 }
 \value{
 The key updated with assigned eQTL effects.

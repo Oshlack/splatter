@@ -33,49 +33,64 @@ mockGFF <- function(n.genes = 500, chromosome = 22){
 #' 
 #' @return data.frame containing mock gff data.
 #'
+#' @importFrom stats setNames
+#' 
 #' @export
 #' 
 mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
     
     
-    #fl <- system.file("extdata", "chr22.vcf.gz", package="VariantAnnotation")
-    #vcf <- readVcf(fl, "hg38")
-    #snps <- genotypeToSnpMatrix(vcf)
-    if (!requireNamespace("vcfR", quietly = TRUE)) {
+    if (!requireNamespace("VariantAnnotation", quietly = TRUE)) {
         stop("Creating a mock VCF requires the 'VariantAnnotation' package.")
     }
     
-    data(vcfR_example, package = "vcfR", envir = environment())
-    vcf@meta[2] <- "##source=\"Mock\""    
+    sample_names <- paste0("sample_", formatC(1:n.samples, 
+                                              width = nchar(n.samples),
+                                              format = "d", 
+                                              flag = "0"))
+    snp_names <- paste0("snp_", formatC(1:n.snps, 
+                                        width = nchar(n.snps),
+                                        format = "d",
+                                        flag = "0"))
+    # rowRanges
+    vcf.rowRanges <- GenomicRanges::GRanges(
+        seqnames = Rle(rep(chromosome, n.snps)),
+        ranges = IRanges(sample(1:2e8, n.snps, replace = FALSE), 
+                         names = snp_names),
+        strand = Rle(strand(rep("*", n.snps))),
+        paramRangeID = Rle(rep(NA, n.snps)))
     
-    fix <- t(do.call(rbind, list(CHROM = rep(chromosome, n.snps),
-                              POS = sort(sample(1:2e8, n.snps, 
-                                                replace = FALSE)),
-                              ID = NA,
-                              REF = "A",
-                              ALT = "T", 
-                              QUAL = "50.0",
-                              FILTER = NA,
-                              INFO = NA)))
+    # Geno
+    genotypes <- c(rep("0|0", 100), rep("1|0", 10), rep("1|1", 10))
+    geno <- setNames(data.frame(matrix(ncol = n.samples, nrow = n.snps)), 
+                     sample_names)
+    geno[,  sample_names] <- sample(genotypes, n.samples * n.snps, 
+                                    replace = TRUE)
+    row.names(geno) <- snp_names
+    geno <- as.matrix(geno)
     
-    genotypes <- as.data.frame(vcf@gt)
-    format <- genotypes$FORMAT[1]
-    genotypes$FORMAT <- NULL
-    genotypes <- na.omit(as.vector(t(genotypes)))
+    # colData, info, and fixed
+    vcf.col.data <- DataFrame(list(Samples = 1:n.samples))
+    row.names(vcf.col.data) <- sample_names
     
-    gt <- data.frame(list(FORMAT = rep(format, n.snps)))
+    vcf.info <- DataFrame(list(VT = rep("SNP", n.snps)))
+    row.names(vcf.info) <- snp_names
     
-    samples <- paste0("sample_", formatC(1:n.samples, 
-                                         width = nchar(n.samples),
-                                         format = "d", flag = "0"))
+    vcf.fixed <- DataFrame(
+        REF = DNAStringSet(rep("A", n.snps)),
+        ALT = rep(DNAStringSetList("T"), n.snps),
+        QUAL = rep(100, n.snps),
+        FILTER = rep("PASS", n.snps))
     
-    gt[,  samples] <- sample(genotypes, n.samples * n.snps, replace = TRUE)
-    gt <- as.matrix(gt)
+    # Merge into mock VCF object
+    mock.vcf <- VariantAnnotation::VCF(rowRanges = vcf.rowRanges, 
+                colData = vcf.col.data,
+                info = vcf.info, 
+                fixed = vcf.fixed,
+                geno = list(GT=geno), 
+                collapsed = TRUE)
     
-    vcf@fix <- fix
-    vcf@gt <- gt
-
-    return(vcf)
+    return(mock.vcf)
 }
 
 

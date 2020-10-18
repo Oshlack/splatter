@@ -7,7 +7,7 @@
 splatPopSimMeans(vcf, key)
 }
 \arguments{
-\item{vcf}{vcfR object containing genotypes of samples to simulate.}
+\item{vcf}{VariantAnnotation object containing genotypes of samples.}
 
 \item{key}{Partial splatPop key data.frame.}
 }

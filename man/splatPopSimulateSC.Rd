@@ -21,6 +21,9 @@ Output from `splatPopSimulateMeans()`.}
 \item{params}{splatPopParams object containing parameters for population
 scale simulations. See \code{\link{splatPopParams}} for details.}
 
+\item{key}{data.frame object containing a full or partial splatPop key. 
+Output from `splatPopSimulateMeans()`.}
+
 \item{method}{which simulation method to use. Options are "single" which
 produces a single cell population for each sample, "groups" which 
 produces distinct groups (eg. cell types) for each sample (note, this

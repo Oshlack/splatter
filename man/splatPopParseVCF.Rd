@@ -7,7 +7,7 @@
 splatPopParseVCF(vcf, params)
 }
 \arguments{
-\item{vcf}{vcfR object containing genotypes of samples to simulate.}
+\item{vcf}{VariantAnnotation object containing genotypes of samples.}
 
 \item{params}{splatPopParams object containing parameters for population
 scale simulations. See \code{\link{splatPopParams}} for details.}

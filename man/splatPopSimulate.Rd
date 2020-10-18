@@ -19,7 +19,7 @@ splatPopSimulate(
 \item{params}{splatPopParams object containing parameters for population
 scale simulations. See \code{\link{splatPopParams}} for details.}
 
-\item{vcf}{vcfR object containing genotypes of samples to simulate.}
+\item{vcf}{VariantAnnotation object containing genotypes of samples.}
 
 \item{method}{which simulation method to use. Options are "single" which
 produces a single population, "groups" which produces distinct groups
@@ -55,15 +55,6 @@ expression level per gene per sample, followed by a call to
 \code{\link{splatPopSimulateSC}}, which uses the splat model to simulate 
 single-cell counts per individual. Please see the documentation for those 
 functions for more details.
-}
-\examples{
-if (requireNamespace("preprocessCore", quietly = TRUE) & requireNamespace("vcfR", quietly = TRUE)) {
-    library(vcfR)
-    vcf <- mockVCF(n.samples = 6)
-    sim <- splatPopSimulate(vcf = vcf)
-}
-sim <- splatPopSimulate()
-
 }
 \seealso{
 \code{\link{splatPopSimulateMeans}}, \code{\link{splatPopSimulateSC}}

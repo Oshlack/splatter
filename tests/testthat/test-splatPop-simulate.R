@@ -1,6 +1,6 @@
 context("splatPopSimulate")
 
-library(vcfR)
+library(VariantAnnotation)
 set.seed(1)
 
 n.samples <- 6
