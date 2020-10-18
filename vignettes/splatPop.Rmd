@@ -129,8 +129,8 @@ For example, these parameters can be estimated from user provided bulk or
 single-cell gene means across a population and eQTL mapping results:
 
 ```{r eqtlEstimate}
-bulk.means <- mockBulkMatrix(n.genes=500, n.samples=100)
-bulk.eqtl <- mockBulkeQTL(n.genes=500)
+bulk.means <- mockBulkMatrix(n.genes=100, n.samples=100)
+bulk.eqtl <- mockBulkeQTL(n.genes=100)
 counts <- mockSCE()
 
 params.est <- splatPopEstimate(means = bulk.means,
@@ -219,7 +219,8 @@ The output of `splatPopSimulate()` is a list containing:
   and variance (before and after quantile normalization), the assigned eSNP and
   its effect size and type (global/group specific), and other group effects.
 
-Let's look at a snapshot of some simulated means and the corresponding key... 
+Let's look at a snapshot of some simulated means and the corresponding key...
+
 ```{r splatPopSimulateMeans}
 vcf <- mockVCF(n.samples = 6)
 gff <- mockGFF(n.genes = 100)
@@ -248,7 +249,7 @@ replicate:
 sim.means.rep2 <- splatPopSimulateMeans(vcf = vcf, key=sim.means$key,
                                    params = newSplatPopParams())
 
-round(sim.means.key$means[1:5, 1:6], digits = 2)
+round(sim.means.rep2$means[1:5, 1:6], digits = 2)
 ```
 
 **Use real population-scale bulk expression data** 
@@ -256,19 +257,13 @@ round(sim.means.key$means[1:5, 1:6], digits = 2)
 An important step of `splatPopSimulate` is the quantile normalization of
 simulated gene means for each sample to match a [gamma distribution][gamma] 
 estimated from real single-cell RNA-seq data using `splatEstimate` or 
-`splatPopEstimate`. This stage ensures that even if bulk sequencing data are
+`splatPopEstimate`. This step ensures that even if bulk sequencing data are
 used to estimate population parameters, the means output from
-`splatPopSimulateMeans` will have a distribution resembling single-cell data.
-
-If 
-will allows one to simulate population scale single-cell counts
-from bulk population expression data and eQTL mapping results.
-
-A critical step of splatPop is to quantile normalize the simulated gene means
-for every individual to match the desired single-cell distribution parameterized
-in `splatEstimate()`. If you already have bulk expression data for a population, 
-you can use the quantile normalization function directly on that data so that
-it can be used as input to `splatPopSimulateSC`. 
+`splatPopSimulateMeans` will be distributed like a single-cell dataset.
+If you already have matrix of bulk expression data for a population, 
+you can use this quantile normalization function directly on that data and use
+the output as input to `splatPopSimulateSC`. Note that this will not simulate
+eQTL or group effects, just simulate single-cell counts given the gene means. 
 
 ```{r quant-normalize-population-data}
 bulk.qnorm <- splatPopQuantNorm(newSplatPopParams(), bulk.means)
@@ -278,27 +273,38 @@ round(bulk.qnorm[1:5, 1:5], 3)
 
 ## Step 3: Simulate single cell counts
 
-Finally, single cell level data is simulated using `splatPopSimulateSC`.
-The output is a single sce object with a column for each cell for each sample,
-labeled as: "SampleX_CellX". If both mean and single-cell simulations are run
-together using `splatPopSimulate`, the output contains a list of objects 
-including the simulated means, splatPop key, and the sce object described above.
+Finally, single cell level data is simulated using `splatPopSimulateSC`. 
+Running this function on its own requires the splatPopParams object, and the 
+two outputs from `splatPopSimulateMeans`: the key and the simulated means 
+matrix (or list of matricies if nGroups > 1). The user can also provide 
+additional parameters for the single-cell simulation, for example how many 
+cells to simulate. 
 
-```{r eqtl-splatSimulatePop}
+Looking at the output of `splatPopSimulateSC` we see that it is a single
+`SingleCellExperiment` object with a row for each feature (gene) and
+a column for each cell. The simulated counts are accessed using `counts`.
+although it can also hold other expression measures such as FPKM or TPM.
+Information about each cell (e.g. sample, group, batch) is held in the
+`colData` and information about each gene (e.g. location, eQTL/group effects,
+mean for each sample) is held in the `rowData`. 
+
+```{r eqtl-splatPopSimulateSC-simple-object}
 sim.sc <- splatPopSimulateSC(params=params, 
                              key = sim.means$key,
                              sim.means=sim.means$means, 
                              batchCells=50)
+sim.sc
+```
+
+We can visualize these simulations using plotting functions from scater like
+plotPCA... 
+
+```{r eqtl-splatPopSimulateSC-simple-plots}
 sim.sc <- logNormCounts(sim.sc)
 sim.sc <- runPCA(sim.sc)
 plotPCA(sim.sc, colour_by = "Sample")
 ```
 
-The `splatSimulatePop` function outputs, in addition to the information output
-by `splatSimulate`, the following information:
-
-* **Cell information (`colData`)**
-    * `Sample` - The sample number.
 
 ## splatPop with group, batch, and path effects
 
@@ -331,28 +337,37 @@ outputs:
     * `eQTLGroup` - The group ID for group-specific eQTL.
 
 ```{r group-specific-eQTL-simulations}
-params2 <- setParams(params, 
-                     batchCells = 40,
-                     group.prob = c(0.5, 0.5))
+params.group <- setParams(newSplatPopParams(), 
+                          nGenes = 50,
+                          batchCells = 40,
+                          group.prob = c(0.5, 0.5))
 
-sim.sc.gr2 <- splatPopSimulate(vcf=vcf, params=params2)
+sim.sc.gr2 <- splatPopSimulate(vcf=vcf, params=params.group)
 
 sim.sc.gr2 <- logNormCounts(sim.sc.gr2)
 sim.sc.gr2 <- runPCA(sim.sc.gr2)
 plotPCA(sim.sc.gr2, colour_by = "Group", shape_by = "Sample")
 ```
 
-These are relatively small group-effects, but they can be increased by adjusting 
-the *eqtl.group.specific* and *de* parameters: 
+
+From the PCA plot above you can see that in this simulation the sample effect
+outweighs the group effect. But we can tune these parameters to change the 
+relative weight of theese effects. First we can decrease the sample effect by
+increasing the similarity.scale parameter. And second we can increase the group
+effect by adjusting the *eqtl.group.specific* and *de* parameters: 
 
 ```{r group-specific-eQTL-simulations-bigger}
-params2 <- setParams(params2, 
-                     eqtl.group.specific = 0.6,
-                     de.prob = 0.75,
-                     de.facLoc = 0.8, 
-                     de.facScale = 0.6)
+params.group <- setParams(newSplatPopParams(), 
+                          batchCells = 40,
+                          nGenes = 50,
+                          similarity.scale = 5,
+                          eqtl.group.specific = 0.6,
+                          de.prob = 0.4,
+                          de.facLoc = 0.4, 
+                          de.facScale = 0.3,
+                          group.prob = c(0.5, 0.5))
 
-sim.sc.gr2 <- splatPopSimulate(vcf=vcf, params=params2)
+sim.sc.gr2 <- splatPopSimulate(vcf=vcf, params=params.group)
 
 sim.sc.gr2 <- logNormCounts(sim.sc.gr2)
 sim.sc.gr2 <- runPCA(sim.sc.gr2)
@@ -361,16 +376,21 @@ plotPCA(sim.sc.gr2, colour_by = "Group", shape_by = "Sample")
 
 ### Simulate SC data for population with path and batch effects
 
-As in `splatSimulate`, users can also simulate single-cell data with path or 
+Like splat, splatPop also allows you to simulate single-cell data with path or 
 batch effects using the `method` tag in `splatSimulatePop`. Note that you can
 also set *method = group*, but this is done automatically by setting the 
-*group.prob* parameter. 
+*group.prob* parameter. For more information about these settings, see the
+[Splat parameters vignette](splat_params.html).
 
 ```{r simulate-population-with-batch-effects}
-sim.pop.batches <- splatPopSimulate(vcf = vcf, params = params,
-                                    batchCells = c(20, 20),
-                                    batch.facLoc = 0.2,
-                                    batch.facScale = 0.3)
+params.batches <- setParams(newSplatPopParams(), 
+                            batchCells = c(20, 20),
+                            nGenes = 50,
+                            similarity.scale = 9,
+                            batch.facLoc = 0.3,
+                            batch.facScale = 0.3)
+
+sim.pop.batches <- splatPopSimulate(vcf = vcf, params = params.batches)
 sim.pop.batches <- logNormCounts(sim.pop.batches)
 sim.pop.batches <- runPCA(sim.pop.batches)
 plotPCA(sim.pop.batches, colour_by = "Batch", shape_by = "Sample",
@@ -379,12 +399,20 @@ plotPCA(sim.pop.batches, colour_by = "Batch", shape_by = "Sample",
 ```
 
 ```{r simulate-population-with-path-effects}
-sim.pop.paths <- splatPopSimulate(vcf = vcf, params = params,
-                                  method = 'paths',
-                                  de.prob = 0.5)
+
+params.paths <- setParams(newSplatPopParams(), 
+                          batchCells = 40,
+                          nGenes = 50,
+                          similarity.scale = 6,
+                          de.facLoc = 0.5,
+                          de.facScale = 0.5,
+                          de.prob = 0.5)
+
+sim.pop.paths <- splatPopSimulate(vcf = vcf, params = params.paths,
+                                  method = 'paths')
 sim.pop.paths <- logNormCounts(sim.pop.paths)
 sim.pop.paths <- runPCA(sim.pop.paths)
-plotPCA(sim.pop.paths, colour_by = "Step", shape_by = "Sample",
+plotPCA(sim.pop.paths, colour_by = "Step", shape_by = "Sample", 
         ncomponents = 5:6)
 ```
 

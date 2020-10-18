@@ -438,7 +438,7 @@ splatPopParseVCF <- function(vcf, params){
     eqtl.maf.min <- getParam(params, "eqtl.maf.min")
     eqtl.maf.max <- getParam(params, "eqtl.maf.max")
     
-    rowRanges(vcf)$MAF <- snpSummary(vcf)$a1Freq
+    rowRanges(vcf)$MAF <- VariantAnnotation::snpSummary(vcf)$a1Freq
 
     vcf <- vcf[rowRanges(vcf)$MAF >= eqtl.maf.min & 
                    rowRanges(vcf)$MAF <= eqtl.maf.max]

@@ -54,8 +54,8 @@ mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
                                         flag = "0"))
     # rowRanges
     vcf.rowRanges <- GenomicRanges::GRanges(
-        seqnames = Rle(rep(chromosome, n.snps)),
-        ranges = IRanges(sample(1:2e8, n.snps, replace = FALSE), 
+        seqnames = IRanges::Rle(rep(chromosome, n.snps)),
+        ranges = IRanges::IRanges(sample(1:2e8, n.snps, replace = FALSE), 
                          names = snp_names),
         strand = Rle(strand(rep("*", n.snps))),
         paramRangeID = Rle(rep(NA, n.snps)))
