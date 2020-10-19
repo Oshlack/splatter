@@ -45,7 +45,6 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
                              verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "splatPopParams")
-    if (requireNamespace("VariantAnnotation", quietly = TRUE))
 
     if (verbose) {message("Getting parameters...")}
     params <- setParams(params, ...)
@@ -123,10 +122,7 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
 
 splatPopSimulateMeans <- function(vcf = mockVCF(),
                                   params = newSplatPopParams(nGenes = 1000),
-                                  verbose = TRUE, key = NULL, gff = NULL, ...){
-
-    if (!requireNamespace("VariantAnnotation", quietly = TRUE)) {
-        stop("The splatPop requires 'VariantAnnotation'")}
+                                  verbose = TRUE, key = NULL, gff = NULL, ...) {
 
     checkmate::assertClass(params, "splatPopParams")
     set.seed(getParam(params, "seed"))
@@ -432,8 +428,6 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
 
 splatPopParseVCF <- function(vcf, params){
 
-    if (requireNamespace("VariantAnnotation", quietly = TRUE))
-
     # Filter SNPs with NAs and outside MAF range
     eqtl.maf.min <- getParam(params, "eqtl.maf.min")
     eqtl.maf.max <- getParam(params, "eqtl.maf.max")
@@ -734,8 +728,6 @@ splatPopSimEffects <- function(id, key, vcf, MeansPop){
 #' @export
 
 splatPopQuantNorm <- function(params, MeansMatrix){
-
-    if (requireNamespace("preprocessCore", quietly = TRUE))
 
     # Generate sample target distribution from sc parameters
     mean.shape <- getParam(params, "mean.shape")
