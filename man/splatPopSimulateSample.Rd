@@ -36,7 +36,7 @@ SingleCellExperiment object containing the simulated counts and
 intermediate values for one sample.
 }
 \description{
-Simulate count data for one sample from a fictional single-cell RNA-seq 
+Simulate count data for one sample from a fictional single-cell RNA-seq
 experiment using the Splat method.
 }
 \details{

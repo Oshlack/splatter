@@ -15,17 +15,17 @@ splatPopSimulateSC(
 )
 }
 \arguments{
-\item{sim.means}{Matrix or list of matrices of gene means for the population. 
+\item{sim.means}{Matrix or list of matrices of gene means for the population.
 Output from `splatPopSimulateMeans()`.}
 
 \item{params}{splatPopParams object containing parameters for population
 scale simulations. See \code{\link{splatPopParams}} for details.}
 
-\item{key}{data.frame object containing a full or partial splatPop key. 
+\item{key}{data.frame object containing a full or partial splatPop key.
 Output from `splatPopSimulateMeans()`.}
 
 \item{method}{which simulation method to use. Options are "single" which
-produces a single cell population for each sample, "groups" which 
+produces a single cell population for each sample, "groups" which
 produces distinct groups (eg. cell types) for each sample (note, this
 creates separate groups from those created in `popSimulate` with only
 DE effects), and "paths" which selects cells from continuous
@@ -39,12 +39,12 @@ trajectories (eg. differentiation processes).}
 \code{params}.}
 }
 \value{
-SingleCellExperiment object containing simulated counts, 
+SingleCellExperiment object containing simulated counts,
 intermediate values like the gene means simulated in `splatPopSimulateMeans`,
-and information about the differential expression and eQTL effects assigned 
+and information about the differential expression and eQTL effects assigned
 to each gene.
 }
 \description{
-Simulate count data for a population from a fictional single-cell 
+Simulate count data for a population from a fictional single-cell
 RNA-seq experiment using the Splat method.
 }

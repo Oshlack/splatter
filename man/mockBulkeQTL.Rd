@@ -13,6 +13,6 @@ mockBulkeQTL(n.genes = 1000)
 data.frame containing mock bulk eQTL mapping results.
 }
 \description{
-Quick function to generate mock eQTL mapping results, with parameters 
+Quick function to generate mock eQTL mapping results, with parameters
 estimated using real eQTL mapping results from GTEX using thyroid tissue.
 }

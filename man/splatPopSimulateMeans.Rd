@@ -32,11 +32,11 @@ splatPop key.}
 \value{
 A list containing: `means` a data.frame (or list of data.frames if
 n.groups > 1) with the simulated mean gene expression value for each gene
-(row) and each sample (column) and `key` a data.frame with population 
+(row) and each sample (column) and `key` a data.frame with population
 information including eQTL and group effects.
 }
 \description{
-Simulate mean expression levels for all genes for all samples, with between 
+Simulate mean expression levels for all genes for all samples, with between
 sample correlation structure simulated with eQTL effects and with the option
 to simulate multiple groups (i.e. cell-types).
 }
@@ -65,6 +65,6 @@ overridden by supplying desired parameters using \code{\link{setParams}}.
 \code{\link{splatPopParseVCF}}, \code{\link{splatPopParseGenes}},
 \code{\link{splatPopAssignMeans}},
 \code{\link{splatPopQuantNorm}}, \code{\link{splatPopQuantNormKey}}
-\code{\link{splatPopeQTLEffects}}, \code{\link{splatPopGroupEffects}}, 
+\code{\link{splatPopeQTLEffects}}, \code{\link{splatPopGroupEffects}},
 \code{\link{splatPopSimMeans}}, \code{\link{splatPopSimEffects}},
 }
