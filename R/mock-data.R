@@ -54,8 +54,8 @@ mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
                                         flag = "0"))
     # rowRanges
     vcf.rowRanges <- GenomicRanges::GRanges(
-        seqnames = IRanges::Rle(rep(chromosome, n.snps)),
-        ranges = IRanges::IRanges(sample(1:2e8, n.snps, replace = FALSE), 
+        seqnames = Rle(rep(chromosome, n.snps)),
+        ranges = IRanges(sample(1:2e8, n.snps, replace = FALSE), 
                          names = snp_names),
         strand = Rle(strand(rep("*", n.snps))),
         paramRangeID = Rle(rep(NA, n.snps)))
@@ -77,8 +77,8 @@ mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
     row.names(vcf.info) <- snp_names
     
     vcf.fixed <- DataFrame(
-        REF = DNAStringSet(rep("A", n.snps)),
-        ALT = rep(DNAStringSetList("T"), n.snps),
+        REF = Biostrings::DNAStringSet(rep("A", n.snps)),
+        ALT = rep(Biostrings::DNAStringSetList("T"), n.snps),
         QUAL = rep(100, n.snps),
         FILTER = rep("PASS", n.snps))
     

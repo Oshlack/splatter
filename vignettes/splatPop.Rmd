@@ -276,7 +276,7 @@ round(bulk.qnorm[1:5, 1:5], 3)
 Finally, single cell level data is simulated using `splatPopSimulateSC`. 
 Running this function on its own requires the splatPopParams object, and the 
 two outputs from `splatPopSimulateMeans`: the key and the simulated means 
-matrix (or list of matricies if nGroups > 1). The user can also provide 
+matrix (or list of matrices if nGroups > 1). The user can also provide 
 additional parameters for the single-cell simulation, for example how many 
 cells to simulate. 
 
@@ -349,10 +349,9 @@ sim.sc.gr2 <- runPCA(sim.sc.gr2)
 plotPCA(sim.sc.gr2, colour_by = "Group", shape_by = "Sample")
 ```
 
-
 From the PCA plot above you can see that in this simulation the sample effect
 outweighs the group effect. But we can tune these parameters to change the 
-relative weight of theese effects. First we can decrease the sample effect by
+relative weight of these effects. First we can decrease the sample effect by
 increasing the similarity.scale parameter. And second we can increase the group
 effect by adjusting the *eqtl.group.specific* and *de* parameters: 
 

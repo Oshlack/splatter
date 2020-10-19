@@ -44,7 +44,6 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
                              counts.only = FALSE,
                              verbose = TRUE, ...) {
     
-    checkmate::assertClass(params, "splatPopParams")
     if (requireNamespace("VariantAnnotation", quietly = TRUE))
         
     if (verbose) {message("Getting parameters...")}
@@ -128,7 +127,6 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
     if (!requireNamespace("VariantAnnotation", quietly = TRUE)) {
         stop("The splatPop requires 'VariantAnnotation'")}
     
-    checkmate::assertClass(params, "splatPopParams")
     set.seed(getParam(params, "seed"))
     
     nGroups <- getParam(params, "nGroups")
@@ -213,7 +211,6 @@ splatPopSimulateSC <- function(sim.means,
                                counts.only = FALSE,
                                verbose = TRUE, ...){
     
-    checkmate::assertClass(params, "splatPopParams")
     set.seed(getParam(params, "seed"))
     method <- match.arg(method)
     

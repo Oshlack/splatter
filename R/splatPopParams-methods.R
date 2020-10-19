@@ -5,6 +5,8 @@ newSplatPopParams <- function(...) {
     
     params <- new("splatPopParams")
     params <- setParams(params, ...)
+    
+    checkmate::assertClass(params, "splatPopParams")
 
     return(params)
 }
@@ -161,15 +163,3 @@ setMethod("setParam", "splatPopParams", function(object, name, value) {
     return(object)
 })
 
-#' @rdname setParams
-setMethod("setParams", "splatPopParams", function(object, update = NULL, ...) {
-    
-    checkmate::assertClass(object, classes = "splatPopParams")
-    checkmate::assertList(update, null.ok = TRUE)
-    
-    update <- c(update, list(...))
-    
-    object <- callNextMethod(object, update)
-    
-    return(object)
-})
