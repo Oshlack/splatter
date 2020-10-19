@@ -7,11 +7,11 @@
 splatPopEstimateMeanCV(params, means)
 }
 \arguments{
-\item{params}{splatPopParams object containing parameters for the 
+\item{params}{splatPopParams object containing parameters for the
  simulation of the mean expression levels for the population.
 See \code{\link{splatPopParams}} for details.}
 
-\item{means}{Dataframe of real gene means across a population, where 
+\item{means}{Dataframe of real gene means across a population, where
 each row is a gene and each column is an individual in the population.}
 }
 \value{
@@ -27,11 +27,11 @@ estimated parameters are added to the params object. See
 \details{
 Parameters for the mean gamma distribution are estimated by fitting the mean
 (across the population) expression of genes that meet the criteria (<50% of
-samples have exp <0.1) and parameters for the cv gamma distribution are 
+samples have exp <0.1) and parameters for the cv gamma distribution are
 estimated for each bin of mean expression using the cv of expression across
-the population for genes in that bin. Both are fit using 
+the population for genes in that bin. Both are fit using
 \code{\link[fitdistrplus]{fitdist}}. The "Nelder-Mead" method is used to fit
-the mean gamma distribution and the maximum goodness-of-fit estimation 
-method is used to minimise the Cramer-von Mises distance for the CV 
+the mean gamma distribution and the maximum goodness-of-fit estimation
+method is used to minimise the Cramer-von Mises distance for the CV
 distribution.
 }
