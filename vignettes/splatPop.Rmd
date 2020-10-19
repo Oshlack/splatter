@@ -1,24 +1,23 @@
 ---
-title: "splatPop"
-date: "Last updated: 02 October 2020"
+title: "Splat simulation parameters"
+author: "Christina Azodi"
+package: splatter
+date: "Last updated: 19 October 2020"
 output:
     BiocStyle::html_document:
         toc: true
         toc_float: true
 vignette: >
-  %\VignetteIndexEntry{splatPop vignette}
+  %\VignetteIndexEntry{splatPop simulation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+```{r knitr-options, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
-This vignette describes the Splat simulation model and the parameters it uses
+This vignette describes the SplatPop simulation model and the parameters it uses
 in more detail.
 
 ```{r setup}
