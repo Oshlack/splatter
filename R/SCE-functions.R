@@ -195,6 +195,7 @@ getCounts <- function(sce) {
 #' object.size(sce.min)
 #'
 #' @export
+#' @importFrom utils object.size
 minimiseSCE <- function(sce, rowData.keep = FALSE, colData.keep = FALSE,
                         metadata.keep = FALSE, assays.keep = "counts",
                         sparsify = c("auto", "all", "none"), verbose = TRUE) {
