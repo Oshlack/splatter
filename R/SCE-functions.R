@@ -164,3 +164,183 @@ getCounts <- function(sce) {
 
     return(counts)
 }
+
+#' Minimise SCE
+#'
+#' Reduce the size of a SingleCellExperiment object by unneeded information.
+#'
+#' @param sce SingleCellExperiment object
+#' @param rowData.keep Either TRUE (keep all rowData columns), FALSE (remove all
+#' rowData columns) or a character vector with the names of the rowData columns
+#' to keep
+#' @param colData.keep Either TRUE (keep all colData columns), FALSE (remove all
+#' colData columns) or a character vector with the names of the colData columns
+#' to keep
+#' @param metadata.keep Either TRUE (keep all metadata), FALSE (remove all
+#' metadata) or a character vector with the names of the metadata items to keep
+#' @param assays.keep Either TRUE (keep all assays), FALSE (remove all
+#' assays) or a character vector with the names of the assays to keep
+#' @param sparsify Whether to convert assay matrices to sparse format. Either
+#' "all", "none" or "auto" (default) to only convert those matrices that will
+#' result in a size reduction
+#' @param verbose Whether to print status messages
+#'
+#' @return SingleCellExperiment object
+#'
+#' @examples
+#'
+#' sce <- splatSimulate(verbose = FALSE)
+#' sce.min <- minimiseSCE(sce, verbose = FALSE)
+#' object.size(sce)
+#' object.size(sce.min)
+#'
+#' @export
+minimiseSCE <- function(sce, rowData.keep = FALSE, colData.keep = FALSE,
+                        metadata.keep = FALSE, assays.keep = "counts",
+                        sparsify = c("auto", "all", "none"), verbose = TRUE) {
+
+    sparsify <- match.arg(sparsify)
+
+    if (verbose) {
+        start.size <- object.size(sce)
+        message("Original size: ", format(start.size, unit = "auto"))
+    }
+
+    if (isFALSE(rowData.keep)) {
+        if (verbose) {message("Removing all rowData columns")}
+        SummarizedExperiment::rowData(sce) <- NULL
+    } else if (is.character(rowData.keep)) {
+        rowData <- SummarizedExperiment::rowData(sce)
+        keep <- colnames(rowData) %in% rowData.keep
+        if (verbose) {
+            message("Keeping ", sum(keep), " rowData columns: ",
+                    paste(colnames(rowData)[keep], collapse = ", "))
+            message("Removing ", sum(!keep), " rowData columns: ",
+                    paste(colnames(rowData)[!keep], collapse = ", "))
+        }
+        SummarizedExperiment::rowData(sce) <- rowData[, keep, drop = FALSE]
+    }
+
+    if (isFALSE(colData.keep)) {
+        if (verbose) {message("Removing all colData columns")}
+        SummarizedExperiment::colData(sce) <- NULL
+    } else if (is.character(colData.keep)) {
+        colData <- SummarizedExperiment::colData(sce)
+        keep <- colnames(colData) %in% colData.keep
+        if (verbose) {
+            message("Keeping ", sum(keep), " colData columns: ",
+                    paste(colnames(colData)[keep], collapse = ", "))
+            message("Removing ", sum(!keep), " colData columns: ",
+                    paste(colnames(colData)[!keep], collapse = ", "))
+        }
+        SummarizedExperiment::colData(sce) <- colData[, keep, drop = FALSE]
+    }
+
+    if (isFALSE(metadata.keep)) {
+        if (verbose) {message("Removing all metadata items")}
+        S4Vectors::metadata(sce) <- list()
+    } else if (is.character(metadata.keep)) {
+        metadata <- S4Vectors::metadata(sce)
+        keep <- names(metadata) %in% metadata.keep
+        if (verbose) {
+            message("Keeping ", sum(keep), " metadata items: ",
+                    paste(names(metadata)[keep], collapse = ", "))
+            message("Removing ", sum(!keep), " metadata items: ",
+                    paste(names(metadata)[!keep], collapse = ", "))
+        }
+        S4Vectors::metadata(sce) <- metadata[keep]
+    }
+
+    if (isFALSE(assays.keep)) {
+        if (verbose) {message("Removing all assays")}
+        SummarizedExperiment::assays(sce) <- list()
+    } else if (is.character(assays.keep)) {
+        assays <- SummarizedExperiment::assays(sce)
+        keep <- names(assays) %in% assays.keep
+        if (verbose) {
+            message("Keeping ", sum(keep), " assays: ",
+                    paste(names(assays)[keep], collapse = ", "))
+            message("Removing ", sum(!keep), " assays: ",
+                    paste(names(assays)[!keep], collapse = ", "))
+        }
+        SummarizedExperiment::assays(sce) <- assays[keep]
+    }
+
+    if (sparsify != "none") {
+        SummarizedExperiment::assays(sce) <- sparsifyMatrices(
+            SummarizedExperiment::assays(sce), auto = sparsify == "auto",
+            verbose = verbose)
+    }
+
+    if (verbose) {
+        final.size <- object.size(sce)
+        message("Minimised size: ", format(final.size, unit = "auto"),
+                " (", round(final.size / start.size * 100), "% of original)")
+    }
+
+    return(sce)
+}
+
+#' Sparsify matrices
+#'
+#' Convert a list of matrices to sparse matrices.
+#'
+#' @param matrix.list List of matrices
+#' @param auto Whether to automatically choose which matrices to convert based
+#' on how big the size reduction will be
+#' @param threshold Threshold for automatically selecting matrices to convert,
+#' any matrix with an estimated sparse size less than this proportion of the
+#' original size will be converted
+#' @param verbose Whether to print status messages
+#'
+#' @return List of converted matrices
+sparsifyMatrices <- function(matrix.list, auto = TRUE, threshold = 0.95,
+                             verbose = TRUE) {
+
+    # If not auto, just do it and return
+    if (!auto) {
+
+        if (verbose) {message("Converting all matrices to sparse format")}
+        matrix.list <- lapply(matrix.list, as, Class = "dgCMatrix")
+
+        return(matrix.list)
+    }
+
+    if (verbose) {
+        message("Automatically converting matrices, threshold = ", threshold)
+    }
+    for (mat.name in names(matrix.list)) {
+        mat <- matrix.list[[mat.name]]
+        prop.zero <- sum(mat == 0) / length(mat)
+        if (is.integer(mat)) {
+            size.factor <- 3 - 3 * prop.zero
+        } else if (is.numeric(mat)) {
+            size.factor <- 1.5 - 1.5 * prop.zero
+        } else if (is(mat, "dgCMatrix")) {
+            if (verbose) {
+                message("Skipping '", mat.name,
+                        "' as it is already a dgCMatrix")
+                next
+            }
+        } else {
+            warning("matrix '", mat.name, "' is class '", class(mat),
+                    "', unable to estimate size reduction factor")
+            size.factor <- NA
+        }
+        if (is.na(size.factor) | size.factor < threshold) {
+            if (verbose) {
+                message("Converting '", mat.name, "' to sparse matrix, ",
+                        "estimated size factor: ", size.factor,
+                        " * dense matrix")
+            }
+            matrix.list[[mat.name]] <- as(mat, "dgCMatrix")
+        } else {
+            if (verbose) {
+                message("Skipping '", mat.name, "', estimated size factor: ",
+                        size.factor, " * dense matrix")
+            }
+        }
+    }
+
+    return(matrix.list)
+}
