@@ -431,6 +431,30 @@ genes but can be adjusted if needed (for example for other species).
 Alternatively lengths can be sampled from a provided vector (see
 `?addGeneLengths` for details and an example).
 
+# Reducing simulation size
+
+The simulations in Splatter include many of the intermediate values used during
+the simulation process as part of the final output. These values can be useful
+for evaluating various things but if you don't need them they can greatly
+increase the size of the object. If you would like to reduce the size of your
+simulation output you can use the `minimiseSCE()` function:
+
+```{r minimise}
+sim <- splatSimulate()
+minimiseSCE(sim)
+```
+
+By default it will remove everything in `rowData(sce)`, `colData(sce)` and
+`metadata(sce)` and all assays except for `counts`. If there are other things
+you would like to keep you can specify them in the various `keep` arguments.
+Giving a character will keep only columns/items with those names or you can use
+`TRUE` to keep everything in that slot.
+
+```{r minimise-keep}
+minimiseSCE(sim, rowData.keep = "Gene", colData.keep = c("Cell", "Batch"),
+            metadata.keep = TRUE)
+```
+
 # Comparing simulations and real data
 
 One thing you might like to do after simulating data is to compare it to a real
