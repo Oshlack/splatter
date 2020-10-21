@@ -4,8 +4,8 @@ library(VariantAnnotation)
 set.seed(1)
 
 n.samples <- 6
-n.genes <- 100
-vcf <- mockVCF(n.samples=n.samples)
+n.genes <- 10
+vcf <- mockVCF(n.samples=n.samples, n.snps = 1000)
 
 params <- setParams(newSplatPopParams(), eqtl.n = 10, nGenes=n.genes)
 

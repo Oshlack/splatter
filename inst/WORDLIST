@@ -14,9 +14,7 @@ biocViews
 bioRxiv
 bp
 BPPARAM
-CellX
 center
-chr
 Chu
 CMD
 compareSCEs
@@ -24,6 +22,7 @@ compareSCESets
 cpm
 cutoff
 cv
+cvSampled
 DEGs
 df
 diffSCEs
@@ -35,6 +34,7 @@ downProb
 DP
 Dudoit
 EE
+EffectSize
 eg
 eGene
 eGenes
@@ -51,6 +51,7 @@ FPKM
 gam
 GEg
 geneID
+geneMiddle
 getCounts
 getLNormFactors
 gff
@@ -69,7 +70,6 @@ Kersplat
 KersplatParams
 Korthauer
 KR
-labeled
 len
 Lifecycle
 listSims
@@ -80,10 +80,10 @@ LunParams
 lunSimulate
 MADs
 MAEs
-maf
 MAF
 Marioni
 meanlog
+meanSampled
 MeanZeros
 mfa
 MFA
@@ -93,7 +93,6 @@ Mgs
 mockSCE
 modeling
 Nelder
-nGene
 nGenes
 nGroups
 NOTEs
@@ -105,6 +104,7 @@ Perraudeau
 PhenoParams
 PhenoPath
 PLoS
+plotPCA
 poisson
 Poisson
 popSimulate
@@ -114,13 +114,13 @@ pseudotime
 pval
 qgamma
 Quickstart
+rd
 RG
 Risso
 RMSEs
 Roxygen
 RStudio
 RStudio's
-SampleX
 sc
 scater
 scDD

@@ -7,11 +7,11 @@
 splatPopEstimateEffectSize(params, eqtl)
 }
 \arguments{
-\item{params}{splatPopParams object containing parameters for the 
+\item{params}{splatPopParams object containing parameters for the
  simulation of the mean expression levels for the population.
 See \code{\link{splatPopParams}} for details.}
 
-\item{eqtl}{Data.frame with all or top eQTL pairs from a real eQTL analysis. 
+\item{eqtl}{Data.frame with all or top eQTL pairs from a real eQTL analysis.
 Must include columns: gene_id, pval_nominal, and slope.}
 }
 \value{
@@ -23,8 +23,8 @@ simulate eQTL (eSNP-eGene) effect sizes.
 }
 \details{
 Parameters for the gamma distribution are estimated by fitting the top eSNP-
-eGene pair effect sizes using \code{\link[fitdistrplus]{fitdist}}. The 
-maximum goodness-of-fit estimation method is used to minimise the 
-Cramer-von Mises distance. This can fail in some situations, in which case 
+eGene pair effect sizes using \code{\link[fitdistrplus]{fitdist}}. The
+maximum goodness-of-fit estimation method is used to minimise the
+Cramer-von Mises distance. This can fail in some situations, in which case
 the method of moments estimation method is used instead.
 }

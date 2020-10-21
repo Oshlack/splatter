@@ -12,14 +12,14 @@ splatPopEstimate(
 )
 }
 \arguments{
-\item{params}{splatPopParams object containing parameters for the 
+\item{params}{splatPopParams object containing parameters for the
  simulation of the mean expression levels for the population.
 See \code{\link{splatPopParams}} for details.}
 
 \item{counts}{either a counts matrix or a SingleCellExperiment object
 containing count data to estimate parameters from.}
 
-\item{means}{Matrix of real gene means across a population, where 
+\item{means}{Matrix of real gene means across a population, where
 each row is a gene and each column is an individual in the population.}
 
 \item{eqtl}{Data.frame with all or top eQTL pairs from a real eQTL analysis.

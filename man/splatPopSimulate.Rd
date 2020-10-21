@@ -39,9 +39,9 @@ splatPop key.}
 \code{params}.}
 }
 \value{
-SingleCellExperiment object containing simulated counts, 
+SingleCellExperiment object containing simulated counts,
 intermediate values like the gene means simulated in `splatPopSimulateMeans`,
-and information about the differential expression and eQTL effects assigned 
+and information about the differential expression and eQTL effects assigned
 to each gene.
 }
 \description{
@@ -50,10 +50,10 @@ individuals with correlation structure.
 }
 \details{
 This functions is for simulating data in a single step. It consists of a
-call to \code{\link{splatPopSimulateMeans}}, which simulates a mean 
-expression level per gene per sample, followed by a call to 
-\code{\link{splatPopSimulateSC}}, which uses the splat model to simulate 
-single-cell counts per individual. Please see the documentation for those 
+call to \code{\link{splatPopSimulateMeans}}, which simulates a mean
+expression level per gene per sample, followed by a call to
+\code{\link{splatPopSimulateSC}}, which uses the splat model to simulate
+single-cell counts per individual. Please see the documentation for those
 functions for more details.
 }
 \seealso{

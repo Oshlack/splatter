@@ -1,10 +1,15 @@
 ---
 title: "Introduction to Splatter"
-author: "Luke Zappia"
-date: "`r Sys.Date()`"
+author:
+  - "Luke Zappia"
+  - "Belinda Phipson"
+  - "Alicia Oshlack"
+package: splatter
+date: "Last updated: 19 October 2020"
 output:
     BiocStyle::html_document:
         toc: true
+        toc_float: true
 vignette: >
   %\VignetteIndexEntry{An introduction to the Splatter package}
   %\VignetteEngine{knitr::rmarkdown}
@@ -12,10 +17,7 @@ vignette: >
 ---
 
 ```{r knitr-options, echo = FALSE, message = FALSE, warning = FALSE}
-# To render an HTML version that works nicely with github and web pages, do:
-# rmarkdown::render("vignettes/splatter.Rmd", "all")
-knitr::opts_chunk$set(fig.align = 'center', fig.width = 6, fig.height = 5,
-                      dev = 'png')
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 # Use exact BSPARAM to avoid warnings
 options(BiocSingularParam.default = BiocSingular::ExactParam())
@@ -31,11 +33,15 @@ introduction to Splatter's functionality.
 
 Splatter can be installed from Bioconductor:
 
+```{r install-bioc, eval = FALSE}
+BiocManager::install("splatter")
+```
+
 To install the most recent development version from Github use:
 
 ```{r install-github, eval = FALSE}
 BiocManager::install("Oshlack/splatter", dependencies = TRUE,
-                    build_vignettes = TRUE)
+                     build_vignettes = TRUE)
 ```
 
 # Quickstart
@@ -49,7 +55,6 @@ Splatter. Here is an example a mock dataset generated with the `scater` package:
 suppressPackageStartupMessages({
   library(splatter)
   library(scater)
-  #devtools::load_all(".")
 })
 
 # Create mock data
