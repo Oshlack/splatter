@@ -94,16 +94,10 @@ splatPopEstimateEffectSize <- function(params, eqtl) {
 
 #' Estimate gene mean and gene mean variance parameters
 #'
-#' The Shapiro-Wilks test is used to determine if the library sizes are
-#' normally distributed. If so a normal distribution is fitted to the library
-#' sizes, if not (most cases) a log-normal distribution is fitted and the
-#' estimated parameters are added to the params object. See
-#' \code{\link[fitdistrplus]{fitdist}} for details on the fitting.
-#'
 #' @param params SplatPopParams object containing parameters for the
 #'        simulation of the mean expression levels for the population.
 #'        See \code{\link{SplatPopParams}} for details.
-#' @param means Dataframe of real gene means across a population, where
+#' @param means data.frame of real gene means across a population, where
 #'        each row is a gene and each column is an individual in the population.
 #'
 #' @details

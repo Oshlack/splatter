@@ -18,11 +18,7 @@ each row is a gene and each column is an individual in the population.}
 params object with estimated values.
 }
 \description{
-The Shapiro-Wilks test is used to determine if the library sizes are
-normally distributed. If so a normal distribution is fitted to the library
-sizes, if not (most cases) a log-normal distribution is fitted and the
-estimated parameters are added to the params object. See
-\code{\link[fitdistrplus]{fitdist}} for details on the fitting.
+Estimate gene mean and gene mean variance parameters
 }
 \details{
 Parameters for the mean gamma distribution are estimated by fitting the mean
