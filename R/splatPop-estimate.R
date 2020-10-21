@@ -11,7 +11,7 @@
 #'        containing count data to estimate parameters from.
 #' @param means Matrix of real gene means across a population, where
 #'        each row is a gene and each column is an individual in the population.
-#' @param eqtl Data.frame with all or top eQTL pairs from a real eQTL analysis.
+#' @param eqtl data.frame with all or top eQTL pairs from a real eQTL analysis.
 #'         Must include columns: 'gene_id', 'pval_nominal', and 'slope'.
 #'
 #' @seealso
@@ -50,7 +50,7 @@ splatPopEstimate <- function(params = newSplatPopParams(), counts = NULL,
 #' Estimate rate and shape parameters for the gamma distribution used to
 #' simulate eQTL (eSNP-eGene) effect sizes.
 #'
-#' @param eqtl Data.frame with all or top eQTL pairs from a real eQTL analysis.
+#' @param eqtl data.frame with all or top eQTL pairs from a real eQTL analysis.
 #'        Must include columns: gene_id, pval_nominal, and slope.
 #' @param params SplatPopParams object containing parameters for the
 #'        simulation of the mean expression levels for the population.

@@ -642,7 +642,7 @@ splatPopGroupEffects <- function(params, key, groups){
 #' @param vcf VariantAnnotation object containing genotypes of samples.
 #' @param key Partial splatPop key data.frame.
 #'
-#' @return Data.frame of gene mean expression levels WITHOUT eQTL effects.
+#' @return data.frame of gene mean expression levels WITHOUT eQTL effects.
 #'
 #' @importFrom stats rnorm
 #'
@@ -680,7 +680,7 @@ splatPopSimMeans <- function(vcf, key){
 #' @param vcf VariantAnnotation object containing genotypes of samples.
 #' @param MeansPop Mean gene expression data.frame.
 #'
-#' @return Data.frame of gene mean expression levels WITH eQTL effects.
+#' @return data.frame of gene mean expression levels WITH eQTL effects.
 #'
 splatPopSimEffects <- function(id, key, vcf, MeansPop){
 
@@ -723,7 +723,7 @@ splatPopSimEffects <- function(id, key, vcf, MeansPop){
 #'        scale simulations. See \code{\link{SplatPopParams}} for details.
 #' @param MeansMatrix Mean gene expression with eQTL effects data.frame.
 #'
-#' @return Data.frame of quantile normalized gene mean expression levels.
+#' @return data.frame of quantile normalized gene mean expression levels.
 #'
 #' @export
 

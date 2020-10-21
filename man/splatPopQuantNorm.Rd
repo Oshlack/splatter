@@ -13,7 +13,7 @@ scale simulations. See \code{\link{SplatPopParams}} for details.}
 \item{MeansMatrix}{Mean gene expression with eQTL effects data.frame.}
 }
 \value{
-Data.frame of quantile normalized gene mean expression levels.
+data.frame of quantile normalized gene mean expression levels.
 }
 \description{
 For each sample, expression values are quantile normalized (qgamma)

@@ -16,7 +16,7 @@ splatPopSimEffects(id, key, vcf, MeansPop)
 \item{MeansPop}{Mean gene expression data.frame.}
 }
 \value{
-Data.frame of gene mean expression levels WITH eQTL effects.
+data.frame of gene mean expression levels WITH eQTL effects.
 }
 \description{
 Add eQTL effects and non-eQTL group effects to simulated means matrix.
