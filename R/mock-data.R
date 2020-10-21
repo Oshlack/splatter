@@ -44,14 +44,13 @@ mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
         stop("Creating a mock VCF requires the 'VariantAnnotation' package.")
     }
 
-    sample_names <- paste0("sample_", formatC(1:n.samples,
+    sample_names <- paste0("sample_", formatC(seq_len(n.samples),
                                               width = nchar(n.samples),
                                               format = "d",
                                               flag = "0"))
-    snp_names <- paste0("snp_", formatC(1:n.snps,
+    snp_names <- paste0("snp_", formatC(seq_len(n.snps),
                                         width = nchar(n.snps),
-                                        format = "d",
-                                        flag = "0"))
+                                        format = "d", flag = "0"))
     # rowRanges
     vcf.rowRanges <- GenomicRanges::GRanges(
         seqnames = S4Vectors::Rle(rep(chromosome, n.snps)),
@@ -71,7 +70,7 @@ mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
     geno <- as.matrix(geno)
 
     # colData, info, and fixed
-    vcf.col.data <- S4Vectors::DataFrame(list(Samples = 1:n.samples))
+    vcf.col.data <- S4Vectors::DataFrame(list(Samples = seq_len(n.samples)))
     row.names(vcf.col.data) <- sample_names
 
     vcf.info <- S4Vectors::DataFrame(list(VT = rep("SNP", n.snps)))
@@ -117,7 +116,7 @@ mockBulkMatrix <- function(n.genes = 1000, n.samples = 100){
     cv.shape <- cv.df[5, "shape"]
     cv.rate <- cv.df[5, "rate"]
 
-    key <- data.frame(list(id = c(1:n.genes),
+    key <- data.frame(list(id = seq_len(n.genes),
                            mean = rgamma(n.genes, mean.shape, mean.rate),
                            cv = rgamma(n.genes, cv.shape, cv.rate)))
 
@@ -149,7 +148,7 @@ mockBulkeQTL <- function(n.genes = 1000){
     eqtl.shape <- getParam(tmp.params, "eqtl.ES.shape")
     eqtl.rate <- getParam(tmp.params, "eqtl.ES.rate")
 
-    mock.eq <- data.frame(list(gene_id = 1:n.genes,
+    mock.eq <- data.frame(list(gene_id = seq_len(n.genes),
                                pval_nominal = 0.01,
                                slope = rgamma(n.genes, eqtl.shape, eqtl.rate)))
 

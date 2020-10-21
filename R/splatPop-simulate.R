@@ -43,9 +43,9 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
                              key = NULL,
                              counts.only = FALSE,
                              verbose = TRUE, ...) {
-    
+
     if (requireNamespace("VariantAnnotation", quietly = TRUE))
-        
+
     if (verbose) {message("Getting parameters...")}
     params <- setParams(params, ...)
     params <- expandParams(params)
@@ -123,10 +123,10 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
 splatPopSimulateMeans <- function(vcf = mockVCF(),
                                   params = newSplatPopParams(nGenes = 1000),
                                   verbose = TRUE, key = NULL, gff = NULL, ...){
-    
+
     if (!requireNamespace("VariantAnnotation", quietly = TRUE)) {
         stop("The splatPop requires 'VariantAnnotation'")}
-    
+
     set.seed(getParam(params, "seed"))
 
     nGroups <- getParam(params, "nGroups")
@@ -326,7 +326,7 @@ splatPopSimulateSC <- function(sim.means,
 #' @importFrom SummarizedExperiment rowData colData colData<- assays
 #' @importFrom SingleCellExperiment SingleCellExperiment
 #' @importFrom methods validObject
-#' 
+#'
 
 splatPopSimulateSample <- function(params = newSplatPopParams(),
                                    method = c("single", "groups", "paths"),
@@ -464,10 +464,10 @@ splatPopParseGenes <- function(params, gff){
     }
 
     key <- gff[gff[,3] %in% c("gene", "Gene"),]
-    key$geneID <- paste0("gene_", formatC(1:nGenes,
-                                            width = nchar(nrow(key)),
-                                            format = "d",
-                                            flag = "0"))
+    key$geneID <- paste0("gene_", formatC(seq_len(nGenes),
+                                          width = nchar(nrow(key)),
+                                          format = "d", flag = "0"))
+
     key[['chromosome']] <- key[, 1]
     key[['geneStart']] <- key[, 4]
     key[['geneEnd']] <- key[, 5]
@@ -508,7 +508,7 @@ splatPopAssignMeans <- function(params, key){
     key[["cvSampled"]] <- NULL
 
     # Sample coefficient of variation for each gene
-    for (g in 1:nrow(key)){
+    for (g in seq_len(nrow(key))) {
         exp.mean <- key[g, "meanSampled"]
         bin <- cv.param[(cv.param$start < exp.mean) &
                             (cv.param$end >= exp.mean), ]
