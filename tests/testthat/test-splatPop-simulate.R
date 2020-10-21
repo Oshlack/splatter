@@ -5,7 +5,7 @@ set.seed(1)
 
 n.samples <- 6
 n.genes <- 10
-vcf <- mockVCF(n.samples=n.samples, n.snps = 1000)
+vcf <- mockVCF(n.samples = n.samples, n.snps = 1000)
 
 params <- setParams(newSplatPopParams(), eqtl.n = 10, nGenes=n.genes)
 
@@ -15,7 +15,7 @@ test_that("splatPopSimulate output is valid and works", {
     expect_false(any(is.na(pop$means)))
     expect_false(any(sapply(pop$means, is.infinite)))
     expect_length(pop$means, n.samples)
-    expect_length(pop$key, 13) # Number of columns expected in splatPop key
+    expect_length(pop$key, 15) # Number of columns expected in splatPop key
     expect_true(validObject(splatPopSimulateSC(sim.means = pop$means,
                                                key = pop$key,
                                                params = params)))
