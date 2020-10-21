@@ -547,6 +547,8 @@ splatPopeQTLEffects <- function(params, key, vcf){
     key2 <- key
     key[["eQTL.type"]] <- NA
     key[["eSNP.ID"]] <- NA
+    key[["eSNP.chromosome"]] <- NA
+    key[["eSNP.loc"]] <- NA
     key[["eSNP.MAF"]] <- NA
     key[["eQTL.EffectSize"]] <- 0
 
@@ -574,6 +576,8 @@ splatPopeQTLEffects <- function(params, key, vcf){
         ES <- rgamma(1, shape = eqtlES.shape, rate = eqtlES.rate)
 
         key[key$geneID == match, ]$eSNP.ID <- s
+        key[key$geneID == match, ]$eSNP.chromosome <- as.character(seqnames(vcf[s]))
+        key[key$geneID == match, ]$eSNP.loc <- start(vcf[s])
         key[key$geneID == match, ]$eQTL.EffectSize <- ES
         key[key$geneID == match, ]$eSNP.MAF <-
             SummarizedExperiment::rowRanges(vcf[s])$MAF
