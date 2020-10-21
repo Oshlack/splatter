@@ -12,7 +12,7 @@ splatPopSimMeans(vcf, key)
 \item{key}{Partial splatPop key data.frame.}
 }
 \value{
-data.frame of gene mean expression levels WITHOUT eQTL effects.
+matrix of gene mean expression levels WITHOUT eQTL effects.
 }
 \description{
 Gene mean expression levels are assigned to each gene for each pair randomly

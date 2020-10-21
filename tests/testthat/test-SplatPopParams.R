@@ -1,4 +1,4 @@
-context("popParams")
+context("splatPopParams")
 
 params <- newSplatPopParams()
 
@@ -10,8 +10,6 @@ test_that("nCells checks work", {
     expect_error(setParam(params, "nCells", 1),
                    "nCells cannot be set directly, set batchCells instead")
 })
-
-
 
 test_that("CV params checks work", {
     expect_error(setParam(params, "pop.cv.param", data.frame(

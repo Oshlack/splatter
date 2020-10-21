@@ -30,7 +30,7 @@ splatPop key.}
 \code{params}.}
 }
 \value{
-A list containing: `means` a data.frame (or list of data.frames if
+A list containing: `means` a matrix (or list of matrices if
 n.groups > 1) with the simulated mean gene expression value for each gene
 (row) and each sample (column) and `key` a data.frame with population
 information including eQTL and group effects.
@@ -59,7 +59,8 @@ overridden by supplying desired parameters using \code{\link{setParams}}.
     \item Quantile normalize by sample to fit single-cell expression
     distribution as defined in `splatEstimate`.
     \item Add quantile normalized gene mean and cv info the eQTL key.
-    \item Add eQTL effects to means matrix.}
+    \item Add eQTL effects to means matrix.
+}
 }
 \seealso{
 \code{\link{splatPopParseVCF}}, \code{\link{splatPopParseGenes}},

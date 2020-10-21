@@ -4,7 +4,7 @@
 \alias{splatPopSimEffects}
 \title{Add eQTL effects to means matrix}
 \usage{
-splatPopSimEffects(id, key, vcf, MeansPop)
+splatPopSimEffects(id, key, vcf, means.pop)
 }
 \arguments{
 \item{id}{The group ID (e.g. "global" or "g1")}
@@ -13,7 +13,7 @@ splatPopSimEffects(id, key, vcf, MeansPop)
 
 \item{vcf}{VariantAnnotation object containing genotypes of samples.}
 
-\item{MeansPop}{Mean gene expression data.frame.}
+\item{means.pop}{Population mean gene expression matrix}
 }
 \value{
 data.frame of gene mean expression levels WITH eQTL effects.

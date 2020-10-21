@@ -4,13 +4,13 @@
 \alias{splatPopQuantNormKey}
 \title{Add quantile normalized gene mean and cv info the eQTL key.}
 \usage{
-splatPopQuantNormKey(key, MeansMatrix)
+splatPopQuantNormKey(key, means)
 }
 \arguments{
 \item{key}{Partial splatPop key data.frame.}
 
-\item{MeansMatrix}{The output from `splatPopQuantNorm` as a matrix or list of
-matrices.}
+\item{means}{matrix or list of matrices containing means from
+`splatPopQuantNorm`}
 }
 \value{
 Final eQTL key.

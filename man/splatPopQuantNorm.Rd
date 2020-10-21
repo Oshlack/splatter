@@ -4,16 +4,16 @@
 \alias{splatPopQuantNorm}
 \title{Quantile normalize by sample to fit sc expression distribution.}
 \usage{
-splatPopQuantNorm(params, MeansMatrix)
+splatPopQuantNorm(params, means)
 }
 \arguments{
 \item{params}{SplatPopParams object containing parameters for population
 scale simulations. See \code{\link{SplatPopParams}} for details.}
 
-\item{MeansMatrix}{Mean gene expression with eQTL effects data.frame.}
+\item{means}{Mean gene expression matrix with eQTL effects.}
 }
 \value{
-data.frame of quantile normalized gene mean expression levels.
+matrix of quantile normalized gene mean expression levels.
 }
 \description{
 For each sample, expression values are quantile normalized (qgamma)
