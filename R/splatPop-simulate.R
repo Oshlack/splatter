@@ -576,8 +576,9 @@ splatPopeQTLEffects <- function(params, key, vcf){
         ES <- rgamma(1, shape = eqtlES.shape, rate = eqtlES.rate)
 
         key[key$geneID == match, ]$eSNP.ID <- s
-        key[key$geneID == match, ]$eSNP.chromosome <- as.character(seqnames(vcf[s]))
-        key[key$geneID == match, ]$eSNP.loc <- start(vcf[s])
+        key[key$geneID == match, ]$eSNP.chromosome <-
+            as.character(GenomeInfoDb::seqnames(vcf[s]))
+        key[key$geneID == match, ]$eSNP.loc <- BiocGenerics::start(vcf[s])
         key[key$geneID == match, ]$eQTL.EffectSize <- ES
         key[key$geneID == match, ]$eSNP.MAF <-
             SummarizedExperiment::rowRanges(vcf[s])$MAF
