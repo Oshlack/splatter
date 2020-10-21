@@ -88,76 +88,7 @@ setMethod("setParam", "SplatPopParams", function(object, name, value) {
         }
     }
 
-    # splatParam checks
-    if (name == "path.length") {
-        warning("path.length has been renamed path.nSteps, ",
-                "please use path.nSteps in the future.")
-        name <- "path.nSteps"
-    }
-
-    if (name == "nCells" || name == "nBatches") {
-        stop(name, " cannot be set directly, set batchCells instead")
-    }
-
-    if (name == "nGroups") {
-        stop(name, " cannot be set directly, set group.prob instead")
-    }
-
-    if (name == "batchCells") {
-        object <- setParamUnchecked(object, "nCells", sum(value))
-        object <- setParamUnchecked(object, "nBatches", length(value))
-    }
-
-    if (name == "group.prob") {
-        object <- setParamUnchecked(object, "nGroups", length(value))
-        path.from <- getParam(object, "path.from")
-        if (length(path.from) > 1 & length(path.from) != length(value)) {
-            warning("nGroups has changed, resetting path.from")
-            object <- setParam(object, "path.from", 0)
-        }
-    }
-
-    if (name == "dropout.type") {
-        mid.len <- length(getParam(object, "dropout.mid"))
-        mid.shape <- length(getParam(object, "dropout.shape"))
-        if ((value == "experiment")) {
-            if ((mid.len != 1) | (mid.shape != 1)) {
-                stop("dropout.type cannot be set to 'experiment' because ",
-                     "dropout.mid and dropout.shape aren't length 1, ",
-                     "set dropout.mid and dropout.shape first")
-            }
-        }
-        if ((value == "batch")) {
-            n <- getParam(object, "nBatches")
-            if ((mid.len != n) | (mid.shape != n)) {
-                stop("dropout.type cannot be set to 'batch' because ",
-                     "dropout.mid and dropout.shape aren't length equal to ",
-                     "nBatches (", n, "), set dropout.mid and dropout.shape ",
-                     "first")
-            }
-        }
-        if ((value == "group")) {
-            n <- getParam(object, "nGroups")
-            if ((mid.len != n) | (mid.shape != n)) {
-                stop("dropout.type cannot be set to 'group' because ",
-                     "dropout.mid and dropout.shape aren't length equal to ",
-                     "nGroups (", n, "), set dropout.mid and dropout.shape ",
-                     "first")
-            }
-        }
-        if ((value == "cell")) {
-            n <- getParam(object, "nCells")
-            if ((mid.len != n) | (mid.shape != n)) {
-                stop("dropout.type cannot be set to 'cell' because ",
-                     "dropout.mid and dropout.shape aren't length equal to ",
-                     "nCells (", n, "), set dropout.mid and dropout.shape ",
-                     "first")
-            }
-        }
-    }
-
     object <- callNextMethod()
 
     return(object)
 })
-
