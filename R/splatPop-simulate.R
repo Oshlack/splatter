@@ -326,7 +326,7 @@ splatPopSimulateSC <- function(sim.means,
 #' @importFrom SummarizedExperiment rowData colData colData<- assays
 #' @importFrom SingleCellExperiment SingleCellExperiment
 #' @importFrom methods validObject
-#' @export
+#' 
 
 splatPopSimulateSample <- function(params = newSplatPopParams(),
                                    method = c("single", "groups", "paths"),
@@ -425,7 +425,6 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
 #' @importFrom stats complete.cases na.omit
 #' @importFrom utils data
 #'
-#' @export
 
 splatPopParseVCF <- function(vcf, params){
 
@@ -752,7 +751,6 @@ splatPopQuantNorm <- function(params, MeansMatrix){
 #'
 #' @return Final eQTL key.
 #'
-#' @export
 splatPopQuantNormKey <- function(key, MeansMatrix){
 
     if (type(MeansMatrix) == "list"){
