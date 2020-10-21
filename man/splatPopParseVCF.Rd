@@ -9,13 +9,13 @@ splatPopParseVCF(vcf, params)
 \arguments{
 \item{vcf}{VariantAnnotation object containing genotypes of samples.}
 
-\item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details.}
+\item{params}{SplatPopParams object containing parameters for population
+scale simulations. See \code{\link{SplatPopParams}} for details.}
 }
 \value{
 Genotype data.frame
 }
 \description{
 Extract numeric alleles from vcf object and filter out SNPs missing genotype
-data or outside the Minor Allele Frequency range in `splatPopParams`.
+data or outside the Minor Allele Frequency range in `SplatPopParams`.
 }

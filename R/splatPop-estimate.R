@@ -4,9 +4,9 @@
 #' real data. See the individual estimation functions for more details on
 #' how this is done.
 #'
-#' @param params splatPopParams object containing parameters for the
-#'         simulation of the mean expression levels for the population.
-#'        See \code{\link{splatPopParams}} for details.
+#' @param params SplatPopParams object containing parameters for the
+#'        simulation of the mean expression levels for the population.
+#'        See \code{\link{SplatPopParams}} for details.
 #' @param counts either a counts matrix or a SingleCellExperiment object
 #'        containing count data to estimate parameters from.
 #' @param means Matrix of real gene means across a population, where
@@ -18,13 +18,13 @@
 #' \code{\link{splatPopEstimateEffectSize}},
 #' \code{\link{splatPopEstimateMeanCV}}
 #'
-#' @return splatPopParams object containing the estimated parameters.
+#' @return SplatPopParams object containing the estimated parameters.
 #'
 #' @export
 splatPopEstimate <- function(params = newSplatPopParams(), counts = NULL,
                              means = NULL, eqtl = NULL) {
 
-    checkmate::assertClass(params, "splatPopParams")
+    checkmate::assertClass(params, "SplatPopParams")
 
     # Estimate single-cell parameters using base splatEstimate function
     if (!is.null(counts)) {
@@ -51,10 +51,10 @@ splatPopEstimate <- function(params = newSplatPopParams(), counts = NULL,
 #' simulate eQTL (eSNP-eGene) effect sizes.
 #'
 #' @param eqtl Data.frame with all or top eQTL pairs from a real eQTL analysis.
-#'         Must include columns: gene_id, pval_nominal, and slope.
-#' @param params splatPopParams object containing parameters for the
-#'         simulation of the mean expression levels for the population.
-#'        See \code{\link{splatPopParams}} for details.
+#'        Must include columns: gene_id, pval_nominal, and slope.
+#' @param params SplatPopParams object containing parameters for the
+#'        simulation of the mean expression levels for the population.
+#'        See \code{\link{SplatPopParams}} for details.
 #'
 #' @details
 #' Parameters for the gamma distribution are estimated by fitting the top eSNP-
@@ -100,9 +100,9 @@ splatPopEstimateEffectSize <- function(params, eqtl) {
 #' estimated parameters are added to the params object. See
 #' \code{\link[fitdistrplus]{fitdist}} for details on the fitting.
 #'
-#' @param params splatPopParams object containing parameters for the
-#'         simulation of the mean expression levels for the population.
-#'        See \code{\link{splatPopParams}} for details.
+#' @param params SplatPopParams object containing parameters for the
+#'        simulation of the mean expression levels for the population.
+#'        See \code{\link{SplatPopParams}} for details.
 #' @param means Dataframe of real gene means across a population, where
 #'        each row is a gene and each column is an individual in the population.
 #'

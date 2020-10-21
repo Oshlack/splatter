@@ -3,11 +3,11 @@ context("popParams")
 params <- newSplatPopParams()
 
 test_that("printing works", {
-    expect_output(show(params), "A Params object of class splatPopParams")
+    expect_output(show(params), "A Params object of class SplatPopParams")
 })
 
 test_that("nCells checks work", {
-    expect_error(setParam(params, "nCells", 1), 
+    expect_error(setParam(params, "nCells", 1),
                    "nCells cannot be set directly, set batchCells instead")
 })
 

@@ -18,8 +18,8 @@ splatPopSimulateSC(
 \item{sim.means}{Matrix or list of matrices of gene means for the population.
 Output from `splatPopSimulateMeans()`.}
 
-\item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details.}
+\item{params}{SplatPopParams object containing parameters for population
+scale simulations. See \code{\link{SplatPopParams}} for details.}
 
 \item{key}{data.frame object containing a full or partial splatPop key.
 Output from `splatPopSimulateMeans()`.}

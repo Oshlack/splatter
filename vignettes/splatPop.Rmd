@@ -94,10 +94,10 @@ also provide `splatPopEstimate` with real single-cell RNA-sequencing data to
 estimate single-cell parameters as in `splatEstimate`.
 
 All parameters needed for splatPop simulations are stored in a 
-`splatPopParams` object. In addition to the compartments in `SplatParams` 
+`SplatPopParams` object. In addition to the compartments in `SplatParams` 
 described in detail in the [Splat parameters vignette](splat_params.html) and
 the parameters that are set manually (described below), 
-`splatPopParams` also contains the following parameters that can be estimated
+`SplatPopParams` also contains the following parameters that can be estimated
 from real data: 
 
 * **Population parameters**
@@ -114,11 +114,11 @@ from real data:
 
 Let's take a look at the default parameters...
 
-```{r default-splatPopParams}
+```{r default-SplatPopParams}
 params <- newSplatPopParams()
 params
 ```
-This tells us we have "a `Params` object of class `splatPopParams`" and shows
+This tells us we have "a `Params` object of class `SplatPopParams`" and shows
 the values of these parameters. As with `SplatParams`, the parameters that can 
 be estimated by `splatPopEstimate` are in parentheses, those that can't be 
 estimated are in brackets, and those that have been changed from their default
@@ -181,9 +181,9 @@ generate a random gff file for a specified chromosome. This is the default
 option if neither a gff or key is provided.
 
 ### Control parameters
-In addition to the parameters estimated from real data, the `splatPopParams` 
+In addition to the parameters estimated from real data, the `SplatPopParams` 
 object also includes control parameters that must be set by the user. The 
-following `splatPopParams` control parameters can be changed using `setParams`:
+following `SplatPopParams` control parameters can be changed using `setParams`:
 
 * **Population parameters** 
     * `similarity.scale` - Scaling factor for the population variance (cv) rate
@@ -276,7 +276,7 @@ round(bulk.qnorm[1:5, 1:5], 3)
 ## Step 3: Simulate single cell counts
 
 Finally, single cell level data is simulated using `splatPopSimulateSC`. 
-Running this function on its own requires the splatPopParams object, and the 
+Running this function on its own requires the `SplatPopParams` object, and the 
 two outputs from `splatPopSimulateMeans`: the key and the simulated means 
 matrix (or list of matrices if nGroups > 1). The user can also provide 
 additional parameters for the single-cell simulation, for example how many 
@@ -324,7 +324,7 @@ type across many samples. However, splatPop also allows you to simulate
 population-scale data for a mixture of cell-types (i.e. groups).
 Two types of group effects are included: group-eQTL and group-differential 
 expression (DE) effects. The number of groups to simulate is set using the 
-*nGroups* or *group.prob* parameter in `splatPopParams`. The DE effects are 
+*nGroups* or *group.prob* parameter in `SplatPopParams`. The DE effects are 
 implemented as in the base splatter package, with the user able to control 
 `splatPopParam` parameters including *de.prob*, *de.downProb*, *de.facLoc*,
 and *de.facScale*. For group-specific eQTL, the proportion of eQTL to designate

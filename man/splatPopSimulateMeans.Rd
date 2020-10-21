@@ -16,8 +16,8 @@ splatPopSimulateMeans(
 \arguments{
 \item{vcf}{VariantAnnotation object containing genotypes of samples.}
 
-\item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details.}
+\item{params}{SplatPopParams object containing parameters for population
+scale simulations. See \code{\link{SplatPopParams}} for details.}
 
 \item{verbose}{logical. Whether to print progress messages.}
 
@@ -41,7 +41,7 @@ sample correlation structure simulated with eQTL effects and with the option
 to simulate multiple groups (i.e. cell-types).
 }
 \details{
-splatPopParams can be set in a variety of ways. 1. If
+SplatPopParams can be set in a variety of ways. 1. If
 not provided, default parameters are used. 2. Default parameters can be
 overridden by supplying desired parameters using \code{\link{setParams}}.
 3. Parameters can be estimated from real data of your choice using

@@ -29,7 +29,7 @@ produces a single population, "groups" which produces distinct groups
 (eg. cell types), or "paths" which selects cells from continuous
 trajectories (eg. differentiation processes).}
 
-\item{verbose}{logical. Whether to print progress messages (Default=TRUE).}
+\item{verbose}{logical. Whether to print progress messages.}
 
 \item{...}{any additional parameter settings to override what is provided in
 \code{params}.}

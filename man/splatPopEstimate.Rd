@@ -12,9 +12,9 @@ splatPopEstimate(
 )
 }
 \arguments{
-\item{params}{splatPopParams object containing parameters for the
- simulation of the mean expression levels for the population.
-See \code{\link{splatPopParams}} for details.}
+\item{params}{SplatPopParams object containing parameters for the
+simulation of the mean expression levels for the population.
+See \code{\link{SplatPopParams}} for details.}
 
 \item{counts}{either a counts matrix or a SingleCellExperiment object
 containing count data to estimate parameters from.}
@@ -26,7 +26,7 @@ each row is a gene and each column is an individual in the population.}
 Must include columns: 'gene_id', 'pval_nominal', and 'slope'.}
 }
 \value{
-splatPopParams object containing the estimated parameters.
+SplatPopParams object containing the estimated parameters.
 }
 \description{
 Estimate simulation parameters for the eQTL population simulation from

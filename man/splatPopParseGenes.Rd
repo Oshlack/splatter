@@ -7,8 +7,8 @@
 splatPopParseGenes(params, gff)
 }
 \arguments{
-\item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details.}
+\item{params}{SplatPopParams object containing parameters for population
+scale simulations. See \code{\link{SplatPopParams}} for details.}
 
 \item{gff}{Either NULL or a data.frame object containing a GFF/GTF file.}
 }

@@ -19,8 +19,7 @@ containing count data to estimate parameters from.}
 \item{params}{SplatParams object to store estimated values in.}
 }
 \value{
-SplatParams or splatPopParams object containing the estimated 
-parameters.
+SplatParams object with estimated values.
 }
 \description{
 Estimate simulation parameters for the Splat simulation from a real

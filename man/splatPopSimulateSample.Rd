@@ -14,8 +14,8 @@ splatPopSimulateSample(
 )
 }
 \arguments{
-\item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details.}
+\item{params}{SplatPopParams object containing parameters for population
+scale simulations. See \code{\link{SplatPopParams}} for details.}
 
 \item{method}{which simulation method to use. Options are "single" which
 produces a single population, "groups" which produces distinct groups

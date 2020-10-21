@@ -7,8 +7,8 @@
 splatPopeQTLEffects(params, key, vcf)
 }
 \arguments{
-\item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details.}
+\item{params}{SplatPopParams object containing parameters for population
+scale simulations. See \code{\link{SplatPopParams}} for details.}
 
 \item{key}{Partial splatPop key data.frame.}
 

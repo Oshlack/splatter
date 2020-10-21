@@ -7,9 +7,9 @@
 splatPopEstimateEffectSize(params, eqtl)
 }
 \arguments{
-\item{params}{splatPopParams object containing parameters for the
- simulation of the mean expression levels for the population.
-See \code{\link{splatPopParams}} for details.}
+\item{params}{SplatPopParams object containing parameters for the
+simulation of the mean expression levels for the population.
+See \code{\link{SplatPopParams}} for details.}
 
 \item{eqtl}{Data.frame with all or top eQTL pairs from a real eQTL analysis.
 Must include columns: gene_id, pval_nominal, and slope.}

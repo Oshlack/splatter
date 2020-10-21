@@ -7,8 +7,8 @@
 splatPopQuantNorm(params, MeansMatrix)
 }
 \arguments{
-\item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details.}
+\item{params}{SplatPopParams object containing parameters for population
+scale simulations. See \code{\link{SplatPopParams}} for details.}
 
 \item{MeansMatrix}{Mean gene expression with eQTL effects data.frame.}
 }

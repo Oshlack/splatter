@@ -7,9 +7,9 @@
 splatPopEstimateMeanCV(params, means)
 }
 \arguments{
-\item{params}{splatPopParams object containing parameters for the
- simulation of the mean expression levels for the population.
-See \code{\link{splatPopParams}} for details.}
+\item{params}{SplatPopParams object containing parameters for the
+simulation of the mean expression levels for the population.
+See \code{\link{SplatPopParams}} for details.}
 
 \item{means}{Dataframe of real gene means across a population, where
 each row is a gene and each column is an individual in the population.}

@@ -3,8 +3,8 @@
 #' Simulate scRNA-seq count data using the splat model for a population of
 #' individuals with correlation structure.
 #'
-#' @param params splatPopParams object containing parameters for population
-#'        scale simulations. See \code{\link{splatPopParams}} for details.
+#' @param params SplatPopParams object containing parameters for population
+#'        scale simulations. See \code{\link{SplatPopParams}} for details.
 #' @param vcf VariantAnnotation object containing genotypes of samples.
 #' @param method which simulation method to use. Options are "single" which
 #'        produces a single population, "groups" which produces distinct groups
@@ -76,8 +76,8 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
 #' to simulate multiple groups (i.e. cell-types).
 #'
 #' @param vcf VariantAnnotation object containing genotypes of samples.
-#' @param params splatPopParams object containing parameters for population
-#'        scale simulations. See \code{\link{splatPopParams}} for details.
+#' @param params SplatPopParams object containing parameters for population
+#'        scale simulations. See \code{\link{SplatPopParams}} for details.
 #' @param gff Either NULL or a data.frame object containing a GFF/GTF file.
 #' @param key Either FALSE or a data.frame object containing a full or partial
 #'        splatPop key.
@@ -85,7 +85,7 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
 #'
-#' @details splatPopParams can be set in a variety of ways. 1. If
+#' @details SplatPopParams can be set in a variety of ways. 1. If
 #' not provided, default parameters are used. 2. Default parameters can be
 #' overridden by supplying desired parameters using \code{\link{setParams}}.
 #' 3. Parameters can be estimated from real data of your choice using
@@ -180,8 +180,8 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
 #'
 #' @param sim.means Matrix or list of matrices of gene means for the population.
 #'        Output from `splatPopSimulateMeans()`.
-#' @param params splatPopParams object containing parameters for population
-#'        scale simulations. See \code{\link{splatPopParams}} for details.
+#' @param params SplatPopParams object containing parameters for population
+#'        scale simulations. See \code{\link{SplatPopParams}} for details.
 #' @param key data.frame object containing a full or partial splatPop key.
 #'        Output from `splatPopSimulateMeans()`.
 #' @param method which simulation method to use. Options are "single" which
@@ -295,8 +295,8 @@ splatPopSimulateSC <- function(sim.means,
 #' Simulate count data for one sample from a fictional single-cell RNA-seq
 #' experiment using the Splat method.
 #'
-#' @param params splatPopParams object containing parameters for population
-#'        scale simulations. See \code{\link{splatPopParams}} for details.
+#' @param params SplatPopParams object containing parameters for population
+#'        scale simulations. See \code{\link{SplatPopParams}} for details.
 #' @param method which simulation method to use. Options are "single" which
 #'        produces a single population, "groups" which produces distinct groups
 #'        (eg. cell types), "paths" which selects cells from continuous
@@ -414,11 +414,11 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
 #' Format and subset genotype data from a VCF file.
 #'
 #' Extract numeric alleles from vcf object and filter out SNPs missing genotype
-#' data or outside the Minor Allele Frequency range in `splatPopParams`.
+#' data or outside the Minor Allele Frequency range in `SplatPopParams`.
 #'
 #' @param vcf VariantAnnotation object containing genotypes of samples.
-#' @param params splatPopParams object containing parameters for population
-#'        scale simulations. See \code{\link{splatPopParams}} for details.
+#' @param params SplatPopParams object containing parameters for population
+#'        scale simulations. See \code{\link{SplatPopParams}} for details.
 #'
 #' @return Genotype data.frame
 #'
@@ -443,8 +443,8 @@ splatPopParseVCF <- function(vcf, params){
 
 #' Generate population key matrix from random or gff provided gene information
 #'
-#' @param params splatPopParams object containing parameters for population
-#'        scale simulations. See \code{\link{splatPopParams}} for details.
+#' @param params SplatPopParams object containing parameters for population
+#'        scale simulations. See \code{\link{SplatPopParams}} for details.
 #' @param gff Either NULL or a data.frame object containing a GFF/GTF file.
 #'
 #' @return The Partial splatPop key data.frame.
@@ -485,10 +485,10 @@ splatPopParseGenes <- function(params, gff){
 #' The cv gamma distributions are binned by gene mean because the distribution
 #' of variance in real data is not independent from the mean. The degree of
 #' similarity between individuals can be further tuned using the
-#' similarity.scale parameter in `splatPopParams`.
+#' similarity.scale parameter in `SplatPopParams`.
 #'
-#' @param params splatPopParams object containing parameters for population
-#'        scale simulations. See \code{\link{splatPopParams}} for details.
+#' @param params SplatPopParams object containing parameters for population
+#'        scale simulations. See \code{\link{SplatPopParams}} for details.
 #' @param key Partial splatPop key data.frame.
 #'
 #' @return The key updated with assigned means and variances.
@@ -525,8 +525,8 @@ splatPopAssignMeans <- function(params, key){
 #' (eqtl.dist) and assigns each pair an effect size sampled from a gamma
 #' distribution parameterized using the effect sizes from a real eQTL study.
 #'
-#' @param params splatPopParams object containing parameters for population
-#'        scale simulations. See \code{\link{splatPopParams}} for details.
+#' @param params SplatPopParams object containing parameters for population
+#'        scale simulations. See \code{\link{SplatPopParams}} for details.
 #' @param key Partial splatPop key data.frame.
 #' @param vcf VariantAnnotation object containing genotypes of samples.
 #'
@@ -599,8 +599,8 @@ splatPopeQTLEffects <- function(params, key, vcf){
 #' If groups > 1, n eSNP-eGene pairs (n = 'eqtl.group.specific') are randomly
 #' assigned as group specific.
 #'
-#' @param params splatPopParams object containing parameters for population
-#'        scale simulations. See \code{\link{splatPopParams}} for details.
+#' @param params SplatPopParams object containing parameters for population
+#'        scale simulations. See \code{\link{SplatPopParams}} for details.
 #' @param key Partial splatPop key data.frame.
 #' @param groups array of group names
 #'
@@ -724,8 +724,8 @@ splatPopSimEffects <- function(id, key, vcf, MeansPop){
 #' the simulated gene means reflect the distribution expected from a sc dataset
 #' and not a bulk dataset.
 #'
-#' @param params splatPopParams object containing parameters for population
-#'        scale simulations. See \code{\link{splatPopParams}} for details.
+#' @param params SplatPopParams object containing parameters for population
+#'        scale simulations. See \code{\link{SplatPopParams}} for details.
 #' @param MeansMatrix Mean gene expression with eQTL effects data.frame.
 #'
 #' @return Data.frame of quantile normalized gene mean expression levels.

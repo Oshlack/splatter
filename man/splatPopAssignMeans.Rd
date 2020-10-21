@@ -7,8 +7,8 @@
 splatPopAssignMeans(params, key)
 }
 \arguments{
-\item{params}{splatPopParams object containing parameters for population
-scale simulations. See \code{\link{splatPopParams}} for details.}
+\item{params}{SplatPopParams object containing parameters for population
+scale simulations. See \code{\link{SplatPopParams}} for details.}
 
 \item{key}{Partial splatPop key data.frame.}
 }
@@ -21,5 +21,5 @@ gamma distributions parameterized from real data in `splatPopEstimate`.
 The cv gamma distributions are binned by gene mean because the distribution
 of variance in real data is not independent from the mean. The degree of
 similarity between individuals can be further tuned using the
-similarity.scale parameter in `splatPopParams`.
+similarity.scale parameter in `SplatPopParams`.
 }

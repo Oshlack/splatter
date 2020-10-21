@@ -3,10 +3,10 @@
 #' @export
 newSplatPopParams <- function(...) {
 
-    params <- new("splatPopParams")
+    params <- new("SplatPopParams")
     params <- setParams(params, ...)
-    
-    checkmate::assertClass(params, "splatPopParams")
+
+    checkmate::assertClass(params, "SplatPopParams")
 
     for (pkg in c("VariantAnnotation", "preprocessCore")) {
         if (!requireNamespace(pkg, quietly = TRUE)) {
@@ -20,7 +20,7 @@ newSplatPopParams <- function(...) {
 
 #' @importFrom checkmate checkInt checkIntegerish checkNumber checkNumeric
 #' checkFlag
-setValidity("splatPopParams", function(object) {
+setValidity("SplatPopParams", function(object) {
 
     v <- getParams(object, c(slotNames(object)))
 
@@ -52,7 +52,7 @@ setValidity("splatPopParams", function(object) {
 
 
 #' @importFrom methods callNextMethod
-setMethod("show", "splatPopParams", function(object) {
+setMethod("show", "SplatPopParams", function(object) {
 
     pp <- list("Population params:" = c("(mean.shape)" = "pop.mean.shape",
                                         "(mean.rate)" = "pop.mean.rate",
@@ -74,7 +74,7 @@ setMethod("show", "splatPopParams", function(object) {
 
 
 #' @rdname setParam
-setMethod("setParam", "splatPopParams", function(object, name, value) {
+setMethod("setParam", "SplatPopParams", function(object, name, value) {
     checkmate::assertString(name)
 
     # splatPopParam checks
