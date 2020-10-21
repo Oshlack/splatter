@@ -9,7 +9,7 @@
 #'        produces a single population, "groups" which produces distinct groups
 #'        (eg. cell types), or "paths" which selects cells from continuous
 #'        trajectories (eg. differentiation processes).
-#' @param verbose logical. Whether to print progress messages (Default=TRUE).
+#' @param verbose logical. Whether to print progress messages.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
 #'
@@ -219,7 +219,7 @@ splatSimulate <- function(params = newSplatParams(),
 
     if (verbose) {message("Done!")}
     return(sim)
-    
+
 }
 
 #' @rdname splatSimulate
@@ -297,9 +297,9 @@ splatSimLibSizes <- function(sim, params) {
 splatSimGeneMeans <- function(sim, params) {
 
     # Note: splatPopSimGeneMeans in splatPop-simulate.R mirrors this function.
-    # If changes are made to the "add expression outliers" method here, please 
-    # make the same changes in splatPopSimGeneMeans. 
-    
+    # If changes are made to the "add expression outliers" method here, please
+    # make the same changes in splatPopSimGeneMeans.
+
     nGenes <- getParam(params, "nGenes")
     mean.shape <- getParam(params, "mean.shape")
     mean.rate <- getParam(params, "mean.rate")
