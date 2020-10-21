@@ -44,8 +44,6 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
                              counts.only = FALSE,
                              verbose = TRUE, ...) {
 
-    if (requireNamespace("VariantAnnotation", quietly = TRUE))
-
     if (verbose) {message("Getting parameters...")}
     params <- setParams(params, ...)
     params <- expandParams(params)
@@ -123,9 +121,6 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
 splatPopSimulateMeans <- function(vcf = mockVCF(),
                                   params = newSplatPopParams(nGenes = 1000),
                                   verbose = TRUE, key = NULL, gff = NULL, ...){
-
-    if (!requireNamespace("VariantAnnotation", quietly = TRUE)) {
-        stop("The splatPop requires 'VariantAnnotation'")}
 
     set.seed(getParam(params, "seed"))
 
