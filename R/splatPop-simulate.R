@@ -222,7 +222,7 @@ splatPopSimulateSC <- function(sim.means,
     batchCells <- getParam(params, "batchCells")
 
     # Simulate sc counts with group-specific effects
-    if (type(sim.means) == "list"){
+    if (is.list(sim.means)){
         if(length(group.prob) != length(sim.means)){
             group.prob <- rep(1/length(sim.means), length(sim.means))}
 
@@ -750,10 +750,9 @@ splatPopQuantNorm <- function(params, MeansMatrix){
 #'                    matrices.
 #'
 #' @return Final eQTL key.
-#'
 splatPopQuantNormKey <- function(key, MeansMatrix){
 
-    if (type(MeansMatrix) == "list"){
+    if (is.list(MeansMatrix)){
         qn.means <- list()
         qn.cvs <- list()
 

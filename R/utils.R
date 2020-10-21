@@ -1,7 +1,3 @@
-#' @importFrom utils globalVariables
-utils::globalVariables(c("pval_nominal", 'perc', 'gene_id', 'type', 'eQTL',
-                         'chr', 'gene_mid', "maf")) #, "data"))
-
 #' Logistic function
 #'
 #' Implementation of the logistic function
@@ -94,7 +90,5 @@ winsorize <- function(x, q) {
 #' @return Value of coefficient of variation for vector
 #' @importFrom stats sd
 co.var <- function(x) {
-    stats::sd(x)/mean(x) 
-} 
-
-
+    sd(x) / mean(x)
+}
