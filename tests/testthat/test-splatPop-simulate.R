@@ -1,15 +1,20 @@
 context("splatPopSimulate")
 
-library(VariantAnnotation)
-set.seed(1)
+if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
+    requireNamespace("preprocessCore", quietly = TRUE)) {
 
-n.samples <- 6
-n.genes <- 10
-vcf <- mockVCF(n.samples = n.samples, n.snps = 1000)
+    set.seed(1)
 
-params <- setParams(newSplatPopParams(), eqtl.n = 10, nGenes = n.genes)
+    n.samples <- 6
+    n.genes <- 10
+    vcf <- mockVCF(n.samples = n.samples, n.snps = 1000)
+
+    params <- setParams(newSplatPopParams(), eqtl.n = 10, nGenes = n.genes)
+}
 
 test_that("splatPopSimulate output is valid and works", {
+    skip_if_not_installed("VariantAnnotation")
+    skip_if_not_installed("preprocessCore")
     expect_true(validObject(splatPopSimulate(params = params, vcf = vcf)))
     pop <- splatPopSimulateMeans(params = params, vcf = vcf)
     expect_false(any(is.na(pop$means)))
@@ -23,6 +28,8 @@ test_that("splatPopSimulate output is valid and works", {
 
 
 test_that("splatPopSimulate on multiple groups output is valid and works", {
+    skip_if_not_installed("VariantAnnotation")
+    skip_if_not_installed("preprocessCore")
     params.g2 <- setParams(params, group.prob = c(0.5, 0.5), nGenes = n.genes)
     eqtl <- splatPopSimulate(params = params.g2, vcf = vcf)
     expect_true(validObject(eqtl))
@@ -30,6 +37,8 @@ test_that("splatPopSimulate on multiple groups output is valid and works", {
 })
 
 test_that("splatPopSimulate can read genes from gff data.frame", {
+    skip_if_not_installed("VariantAnnotation")
+    skip_if_not_installed("preprocessCore")
     gff <- mockGFF(n.genes = n.genes)
     sim <- splatPopSimulateMeans(vcf = vcf, params = params, gff = gff)
     expect_true(validObject(sim))
