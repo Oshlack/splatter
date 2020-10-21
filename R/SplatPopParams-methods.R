@@ -54,7 +54,6 @@ setMethod("show", "SplatPopParams", function(object) {
 
     pp <- list("Population params:" = c("(mean.shape)" = "pop.mean.shape",
                                         "(mean.rate)" = "pop.mean.rate",
-                                        #"[group.prop]" = "group.prop",
                                         "[similarity.scale]" = "similarity.scale",
                                         "[cv.bins]" = "pop.cv.bins",
                                         "(cv.params)" = "pop.cv.param"),
