@@ -3,16 +3,14 @@
 #' @export
 newSplatPopParams <- function(...) {
 
-    params <- new("SplatPopParams")
-    params <- setParams(params, ...)
-
-    checkmate::assertClass(params, "SplatPopParams")
-
     for (pkg in c("VariantAnnotation", "preprocessCore")) {
         if (!requireNamespace(pkg, quietly = TRUE)) {
             stop("The splatPop simulation requires the ", pkg, " package.")
         }
     }
+
+    params <- new("SplatPopParams")
+    params <- setParams(params, ...)
 
     return(params)
 }
