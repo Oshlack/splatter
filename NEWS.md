@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.13.1 (2020-10-22)
+
+* Add the splatPop simulation (PR #106)
+
 ## Version 1.13.0 (2020-04-29)
 
 * Bioconductor 3.12 devel
