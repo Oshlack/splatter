@@ -240,9 +240,9 @@ plotPCA(sim)
 (**NOTE:** Your values and plots may look different as the simulation is random
 and produces different results each time it is run.)
 
-For more details about the `SingleCellExperiment` object refer to the [vignette]
-[SCE-vignette]. For information about what you can do with `scater` refer to the
-`scater` documentation and [vignette][scater-vignette].
+For more details about the `SingleCellExperiment` object refer to the
+[vignette][SCE-vignette]. For information about what you can do with `scater`
+refer to the `scater` documentation and [vignette][scater-vignette].
 
 The `splatSimulate` function outputs the following additional information about
 the simulation:
@@ -360,6 +360,14 @@ Here we see that the effects of the group (first component) are stronger than
 the batch effects (second component) but by adjusting the parameters we could
 made the batch effects dominate.
 
+## Convenience functions
+
+Each of the Splatter simulation methods has it's own convenience function.
+To simulate a single population use `splatSimulateSingle()` (equivalent to
+`splatSimulate(method = "single")`), to simulate groups use
+`splatSimulateGroups()` (equivalent to `splatSimulate(method = "groups")`) or to
+simulate paths use `splatSimulatePaths()` (equivalent to
+`splatSimulate(method = "paths")`).
 
 ## splatPop: Simulating populations
 
@@ -371,20 +379,6 @@ parameters estimated from real data. These simulated means are then used as
 input to`splatPopSimulateSC`, which is essentially a wrapper around the base 
 `splatSimulate`. For more information on generating population scale single-cell
 count data, see the [splatPop vignette](splatPop.html).
-
-
-
-## Convenience functions
-
-Each of the Splatter simulation methods has it's own convenience function.
-To simulate a single population use `splatSimulateSingle()` (equivalent to
-`splatSimulate(method = "single")`), to simulate groups use
-`splatSimulateGroups()` (equivalent to `splatSimulate(method = "groups")`) or to
-simulate paths use `splatSimulatePaths()` (equivalent to
-`splatSimulate(method = "paths")`). Note that the eQTL simulation method only
-runs using the convenience function (i.e.`splatSimulate(method = "eqtl")` is not
-valid, only `splatSimulatePop()`.
-
 
 # Other simulations
 
@@ -535,6 +529,5 @@ sessionInfo()
 
 [gamma]: https://en.wikipedia.org/wiki/Gamma_distribution
 [poisson]: https://en.wikipedia.org/wiki/Poisson_distribution
-[eQTL]: https://en.wikipedia.org/wiki/Expression_quantitative_trait_loci
 [scater-vignette]: https://bioconductor.org/packages/release/bioc/vignettes/scater/inst/doc/vignette.html
 [SCE-vignette]: https://bioconductor.org/packages/devel/bioc/vignettes/SingleCellExperiment/inst/doc/intro.html
