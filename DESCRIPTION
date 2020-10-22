@@ -10,6 +10,9 @@ Authors@R:
       person("Belinda", "Phipson", role = c("aut"),
       email = "belinda.phipson@petermac.org",
       comment = c(ORCID = "0000-0002-1711-7454")),
+      person("Christina", "Azodi", role = c("ctb"),
+      email = "cazodi@svi.edu.au",
+      comment = c(ORCID = "0000-0002-6097-606X")),
       person("Alicia", "Oshlack", role = c("aut"),
       email = "alicia.oshlack@petermac.org",
       comment = c(ORCID = "0000-0001-9788-5690")))
