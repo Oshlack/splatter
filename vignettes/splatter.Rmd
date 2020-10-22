@@ -1,10 +1,15 @@
 ---
 title: "Introduction to Splatter"
-author: "Luke Zappia"
-date: "`r Sys.Date()`"
+author:
+  - "Luke Zappia"
+  - "Belinda Phipson"
+  - "Alicia Oshlack"
+package: splatter
+date: "Last updated: 19 October 2020"
 output:
     BiocStyle::html_document:
         toc: true
+        toc_float: true
 vignette: >
   %\VignetteIndexEntry{An introduction to the Splatter package}
   %\VignetteEngine{knitr::rmarkdown}
@@ -12,10 +17,7 @@ vignette: >
 ---
 
 ```{r knitr-options, echo = FALSE, message = FALSE, warning = FALSE}
-# To render an HTML version that works nicely with github and web pages, do:
-# rmarkdown::render("vignettes/splatter.Rmd", "all")
-knitr::opts_chunk$set(fig.align = 'center', fig.width = 6, fig.height = 5,
-                      dev = 'png')
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 # Use exact BSPARAM to avoid warnings
 options(BiocSingularParam.default = BiocSingular::ExactParam())
@@ -31,9 +33,7 @@ introduction to Splatter's functionality.
 
 Splatter can be installed from Bioconductor:
 
-```{r install, eval = FALSE}
-if (!requireNamespace("BiocManager", quietly=TRUE))
-    install.packages("BiocManager")
+```{r install-bioc, eval = FALSE}
 BiocManager::install("splatter")
 ```
 
@@ -52,10 +52,12 @@ Splatter. Here is an example a mock dataset generated with the `scater` package:
 
 ```{r quickstart}
 # Load package
-library(splatter)
+suppressPackageStartupMessages({
+  library(splatter)
+  library(scater)
+})
 
 # Create mock data
-library(scater)
 set.seed(1)
 sce <- mockSCE()
 
@@ -238,9 +240,9 @@ plotPCA(sim)
 (**NOTE:** Your values and plots may look different as the simulation is random
 and produces different results each time it is run.)
 
-For more details about the `SingleCellExperiment` object refer to the [vignette]
-[SCE-vignette]. For information about what you can do with `scater` refer to the
-`scater` documentation and [vignette][scater-vignette].
+For more details about the `SingleCellExperiment` object refer to the
+[vignette][SCE-vignette]. For information about what you can do with `scater`
+refer to the `scater` documentation and [vignette][scater-vignette].
 
 The `splatSimulate` function outputs the following additional information about
 the simulation:
@@ -323,6 +325,8 @@ to the final, differentiated, cell type. By setting additional parameters it is
 possible to simulate more complex process (for example multiple mature cell
 types from a single progenitor).
 
+
+
 ## Batch effects
 
 Another factor that is important in the analysis of any sequencing experiment
@@ -364,6 +368,17 @@ To simulate a single population use `splatSimulateSingle()` (equivalent to
 `splatSimulateGroups()` (equivalent to `splatSimulate(method = "groups")`) or to
 simulate paths use `splatSimulatePaths()` (equivalent to
 `splatSimulate(method = "paths")`).
+
+## splatPop: Simulating populations
+
+splatPop uses the splat model to simulate single cell count data across a
+population with relationship structure including expression quantitative loci
+(eQTL) effects. The major addition in splatPop is the `splatPopSimulateMeans` 
+function, which simulates gene means for each gene for each individual using
+parameters estimated from real data. These simulated means are then used as 
+input to`splatPopSimulateSC`, which is essentially a wrapper around the base 
+`splatSimulate`. For more information on generating population scale single-cell
+count data, see the [splatPop vignette](splatPop.html).
 
 # Other simulations
 

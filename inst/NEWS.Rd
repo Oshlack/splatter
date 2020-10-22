@@ -1,6 +1,15 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
+\section{Version 1.14.0, Bioconductor 3.12 Release (2020-10-28)}{
+  \itemize{
+    \item{Add the splatPop simulation. This is a extension to the splat
+    simulation contributed by Christina Azodi and Davis McCarthy that adds
+    population effects. It allows you to specify relatedness between individuals
+    and generate cell-type specific eQTL effects.}
+  }
+}
+
 \section{Version 1.12.0, Bioconductor 3.11 Release (2020-04-20)}{
   \itemize{
     \item{Add checks for cycles in the Splat path.from parameter.}

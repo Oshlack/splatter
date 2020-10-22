@@ -1,8 +1,8 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 1.13.0
-Date: 2020-04-29
+Version: 1.13.1
+Date: 2020-10-22
 Authors@R:
     c(person("Luke", "Zappia", role = c("aut", "cre"),
       email = "luke@lazappi.id.au",
@@ -10,6 +10,9 @@ Authors@R:
       person("Belinda", "Phipson", role = c("aut"),
       email = "belinda.phipson@petermac.org",
       comment = c(ORCID = "0000-0002-1711-7454")),
+      person("Christina", "Azodi", role = c("ctb"),
+      email = "cazodi@svi.edu.au",
+      comment = c(ORCID = "0000-0002-6097-606X")),
       person("Alicia", "Oshlack", role = c("aut"),
       email = "alicia.oshlack@petermac.org",
       comment = c(ORCID = "0000-0001-9788-5690")))
@@ -45,12 +48,14 @@ Suggests:
     BiocStyle,
     covr,
     cowplot,
+    magick,
     knitr,
     limSolve,
     lme4,
     progress,
     pscl,
     testthat,
+    preprocessCore,
     rmarkdown,
     scDD,
     scran,
@@ -63,12 +68,17 @@ Suggests:
     spelling,
     igraph,
     DropletUtils,
-    BiocSingular
+    BiocSingular,
+    VariantAnnotation,
+    Biostrings,
+    GenomeInfoDb,
+    GenomicRanges,
+    IRanges
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software, ImmunoOncology
 URL: https://github.com/Oshlack/splatter
 BugReports: https://github.com/Oshlack/splatter/issues
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Encoding: UTF-8
 VignetteBuilder: knitr
 Language: en-GB

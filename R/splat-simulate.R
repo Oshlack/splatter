@@ -7,7 +7,7 @@
 #'        See \code{\link{SplatParams}} for details.
 #' @param method which simulation method to use. Options are "single" which
 #'        produces a single population, "groups" which produces distinct groups
-#'        (eg. cell types) or "paths" which selects cells from continuous
+#'        (eg. cell types), or "paths" which selects cells from continuous
 #'        trajectories (eg. differentiation processes).
 #' @param verbose logical. Whether to print progress messages.
 #' @param ... any additional parameter settings to override what is provided in
@@ -156,8 +156,8 @@ splatSimulate <- function(params = newSplatParams(),
         method <- "single"
     }
 
-    if (verbose) {message("Creating simulation object...")}
     # Set up name vectors
+    if (verbose) {message("Creating simulation object...")}
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
     batch.names <- paste0("Batch", seq_len(nBatches))
@@ -219,6 +219,7 @@ splatSimulate <- function(params = newSplatParams(),
 
     if (verbose) {message("Done!")}
     return(sim)
+
 }
 
 #' @rdname splatSimulate
@@ -294,6 +295,10 @@ splatSimLibSizes <- function(sim, params) {
 #' @importFrom SummarizedExperiment rowData rowData<-
 #' @importFrom stats rgamma median
 splatSimGeneMeans <- function(sim, params) {
+
+    # Note: splatPopSimGeneMeans in splatPop-simulate.R mirrors this function.
+    # If changes are made to the "add expression outliers" method here, please
+    # make the same changes in splatPopSimGeneMeans.
 
     nGenes <- getParam(params, "nGenes")
     mean.shape <- getParam(params, "mean.shape")

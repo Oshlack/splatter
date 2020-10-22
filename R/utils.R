@@ -80,3 +80,15 @@ winsorize <- function(x, q) {
 
     return(x)
 }
+
+#' Calculate coefficient of variation
+#'
+#' Implementation of the coefficient of variation
+#'
+#' @param x vector of values.
+#'
+#' @return Value of coefficient of variation for vector
+#' @importFrom stats sd
+co.var <- function(x) {
+    sd(x) / mean(x)
+}

@@ -13,7 +13,7 @@
 #' \code{\link{splatEstOutlier}}, \code{\link{splatEstBCV}},
 #' \code{\link{splatEstDropout}}
 #'
-#' @return SplatParams object containing the estimated parameters.
+#' @return SplatParams object with estimated values.
 #'
 #' @examples
 #' # Load example data
@@ -78,7 +78,7 @@ splatEstimate.matrix <- function(counts, params = newSplatParams()) {
 #' winsorized by setting the top and bottom 10 percent of values to the 10th
 #' and 90th percentiles.
 #'
-#' @return SplatParams object with estimated values.
+#' @return SplatParams object containing the estimated parameters.
 splatEstMean <- function(norm.counts, params) {
 
     means <- rowMeans(norm.counts)

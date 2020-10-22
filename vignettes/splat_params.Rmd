@@ -1,6 +1,8 @@
 ---
 title: "Splat simulation parameters"
-date: "Last updated: 18 April 2019"
+author: "Luke Zappia"
+package: splatter
+date: "Last updated: 19 October 2020"
 output:
     BiocStyle::html_document:
         toc: true
@@ -11,11 +13,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+```{r knitr-options, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 This vignette describes the Splat simulation model and the parameters it uses

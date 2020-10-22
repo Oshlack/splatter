@@ -18,6 +18,8 @@ test_that("nGroups checks work", {
                  "nGroups cannot be set directly, set group.prob instead")
 })
 
+
+### These tests are also run in test-SplatPopParams.R, please update both
 test_that("path.from checks work", {
     pp <- setParams(params, group.prob = c(0.5, 0.5))
     pp <- setParamUnchecked(pp, "path.from", c(0, 1))
@@ -39,6 +41,7 @@ test_that("path.from checks work", {
     expect_error(validObject(pp), "path.from cannot contain cycles")
 })
 
+### These tests are also run in test-SplatPopParams.R, please update both
 test_that("dropout.type checks work", {
     expect_error(setParam(params, "dropout.type", "cell"),
                  "dropout.type cannot be set to 'cell'")
