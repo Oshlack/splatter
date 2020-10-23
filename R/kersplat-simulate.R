@@ -3,6 +3,8 @@
 #' Simulate scRNA-seq count data using the Kersplat model
 #'
 #' @param params KersplatParams object containing simulation parameters.
+#' @param sparsify logical. Whether to automatically convert assays to sparse
+#'        matrices if there will be a size reduction.
 #' @param verbose logical. Whether to print progress messages
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -27,11 +29,11 @@
 #' }
 #'
 #' @export
-kersplatSimulate <- function(params = newKersplatParams(), verbose = TRUE,
-                             ...) {
+kersplatSimulate <- function(params = newKersplatParams(), sparsify = TRUE,
+                             verbose = TRUE, ...) {
 
     params <- kersplatSetup(params, verbose, ...)
-    sim <- kersplatSample(params, verbose)
+    sim <- kersplatSample(params, sparsify, verbose)
 
     return(sim)
 }
@@ -109,6 +111,8 @@ kersplatSetup <- function(params = newKersplatParams(), verbose = TRUE, ...) {
 #' Sample cells for the Kersplat simulation
 #'
 #' @param params KersplatParams object containing simulation parameters.
+#' @param sparsify logical. Whether to automatically convert assays to sparse
+#'        matrices if there will be a size reduction.
 #' @param verbose logical. Whether to print progress messages
 #'
 #' @details
@@ -191,7 +195,7 @@ kersplatSetup <- function(params = newKersplatParams(), verbose = TRUE, ...) {
 #'     params <- kersplatSetup()
 #'     sim <- kersplatSample(params)
 #' }
-kersplatSample <- function(params, verbose = TRUE) {
+kersplatSample <- function(params, sparsify = TRUE, verbose = TRUE) {
 
     # Check that parameters are set up
     checkmate::assertClass(params, "KersplatParams")
@@ -248,6 +252,12 @@ kersplatSample <- function(params, verbose = TRUE) {
     sim <- kersplatSimCellCounts(sim, params, verbose)
     sim <- kersplatSimAmbientCounts(sim, params, verbose)
     sim <- kersplatSimCounts(sim, params, verbose)
+
+    if (sparsify) {
+        if (verbose) {message("Sparsifying assays...")}
+        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
+                                        verbose = verbose)
+    }
 
     return(sim)
 

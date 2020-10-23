@@ -9,6 +9,8 @@
 #'        produces a single population, "groups" which produces distinct groups
 #'        (eg. cell types), or "paths" which selects cells from continuous
 #'        trajectories (eg. differentiation processes).
+#' @param sparsify logical. Whether to automatically convert assays to sparse
+#'        matrices if there will be a size reduction.
 #' @param verbose logical. Whether to print progress messages.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -128,7 +130,7 @@
 #' @export
 splatSimulate <- function(params = newSplatParams(),
                           method = c("single", "groups", "paths"),
-                          verbose = TRUE, ...) {
+                          sparsify = TRUE, verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "SplatParams")
 
@@ -216,6 +218,12 @@ splatSimulate <- function(params = newSplatParams(),
     sim <- splatSimTrueCounts(sim, params)
     if (verbose) {message("Simulating dropout (if needed)...")}
     sim <- splatSimDropout(sim, params)
+
+    if (sparsify) {
+        if (verbose) {message("Sparsifying assays...")}
+        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
+                                        verbose = verbose)
+    }
 
     if (verbose) {message("Done!")}
     return(sim)

@@ -204,6 +204,7 @@ minimiseSCE <- function(sce, rowData.keep = FALSE, colData.keep = FALSE,
 
     if (verbose) {
         start.size <- object.size(sce)
+        message("Minimising SingleCellExperiment...")
         message("Original size: ", format(start.size, unit = "auto"))
     }
 
@@ -268,6 +269,7 @@ minimiseSCE <- function(sce, rowData.keep = FALSE, colData.keep = FALSE,
     }
 
     if (sparsify != "none") {
+        if (verbose) {message("Sparsifying assays...")}
         SummarizedExperiment::assays(sce) <- sparsifyMatrices(
             SummarizedExperiment::assays(sce), auto = sparsify == "auto",
             verbose = verbose)
@@ -308,7 +310,8 @@ sparsifyMatrices <- function(matrix.list, auto = TRUE, threshold = 0.95,
     }
 
     if (verbose) {
-        message("Automatically converting matrices, threshold = ", threshold)
+        message("Automatically converting to sparse matrices, ",
+                "threshold = ", threshold)
     }
     for (mat.name in names(matrix.list)) {
         mat <- matrix.list[[mat.name]]
@@ -330,15 +333,15 @@ sparsifyMatrices <- function(matrix.list, auto = TRUE, threshold = 0.95,
         }
         if (is.na(size.factor) | size.factor < threshold) {
             if (verbose) {
-                message("Converting '", mat.name, "' to sparse matrix, ",
-                        "estimated size factor: ", size.factor,
+                message("Converting '", mat.name, "' to sparse matrix: ",
+                        "estimated sparse size ", round(size.factor, 2),
                         " * dense matrix")
             }
             matrix.list[[mat.name]] <- as(mat, "dgCMatrix")
         } else {
             if (verbose) {
-                message("Skipping '", mat.name, "', estimated size factor: ",
-                        size.factor, " * dense matrix")
+                message("Skipping '", mat.name, "': estimated sparse size ",
+                        round(size.factor, 2), " * dense matrix")
             }
         }
     }

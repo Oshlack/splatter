@@ -3,6 +3,8 @@
 #' Simulate counts from a pseudotime trajectory using the PhenoPath method.
 #'
 #' @param params PhenoParams object containing simulation parameters.
+#' @param sparsify logical. Whether to automatically convert assays to sparse
+#'        matrices if there will be a size reduction.
 #' @param verbose logical. Whether to print progress messages
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -34,7 +36,8 @@
 #' }
 #' @export
 #' @importFrom SingleCellExperiment SingleCellExperiment
-phenoSimulate <- function(params = newPhenoParams(), verbose = TRUE, ...) {
+phenoSimulate <- function(params = newPhenoParams(), sparsify = TRUE,
+                          verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "PhenoParams")
     params <- setParams(params, ...)
@@ -86,6 +89,12 @@ phenoSimulate <- function(params = newPhenoParams(), verbose = TRUE, ...) {
                                 rowData = features,
                                 colData = cells,
                                 metadata = list(Params = params))
+
+    if (sparsify) {
+        if (verbose) {message("Sparsifying assays...")}
+        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
+                                        verbose = verbose)
+    }
 
     return(sim)
 }

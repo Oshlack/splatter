@@ -14,6 +14,8 @@
 #' @param key Either NULL or a data.frame object containing a full or partial
 #'        splatPop key.
 #' @param counts.only logical. Whether to save only counts in sce object.
+#' @param sparsify logical. Whether to automatically convert assays to sparse
+#'        matrices if there will be a size reduction.
 #' @param verbose logical. Whether to print progress messages.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -42,6 +44,7 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
                              gff = NULL,
                              key = NULL,
                              counts.only = FALSE,
+                             sparsify = TRUE,
                              verbose = TRUE, ...) {
 
     if (verbose) {message("Getting parameters...")}
@@ -61,6 +64,7 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
                                  key = sim.means$key,
                                  method = method,
                                  counts.only = counts.only,
+                                 sparsify = sparsify,
                                  verbose = verbose)
 
     return(sim.sc)
@@ -190,6 +194,8 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
 #'        DE effects), and "paths" which selects cells from continuous
 #'        trajectories (eg. differentiation processes).
 #' @param counts.only logical. Whether to return only the counts.
+#' @param sparsify logical. Whether to automatically convert assays to sparse
+#'        matrices if there will be a size reduction.
 #' @param verbose logical. Whether to print progress messages.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -207,6 +213,7 @@ splatPopSimulateSC <- function(sim.means,
                                key,
                                method = c("single", "groups", "paths"),
                                counts.only = FALSE,
+                               sparsify = TRUE,
                                verbose = TRUE, ...){
 
     set.seed(getParam(params, "seed"))
@@ -287,6 +294,12 @@ splatPopSimulateSC <- function(sim.means,
     metadata(sim.all)$Simulated_Means <- sim.means
     rowData(sim.all) <- merge(rowData(sim.all), key,
                               by.x = "row.names", by.y = "geneID")
+
+    if (sparsify) {
+        if (verbose) {message("Sparsifying assays...")}
+        assays(sim.all) <- sparsifyMatrices(assays(sim.all), auto = TRUE,
+                                            verbose = verbose)
+    }
 
     if (verbose) {message("Done!")}
     return (sim.all)

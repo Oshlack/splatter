@@ -4,10 +4,13 @@
 \alias{phenoSimulate}
 \title{PhenoPath simulation}
 \usage{
-phenoSimulate(params = newPhenoParams(), verbose = TRUE, ...)
+phenoSimulate(params = newPhenoParams(), sparsify = TRUE, verbose = TRUE, ...)
 }
 \arguments{
 \item{params}{PhenoParams object containing simulation parameters.}
+
+\item{sparsify}{logical. Whether to automatically convert assays to sparse
+matrices if there will be a size reduction.}
 
 \item{verbose}{logical. Whether to print progress messages}
 

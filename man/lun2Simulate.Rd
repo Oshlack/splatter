@@ -4,14 +4,23 @@
 \alias{lun2Simulate}
 \title{Lun2 simulation}
 \usage{
-lun2Simulate(params = newLun2Params(), zinb = FALSE, verbose = TRUE, ...)
+lun2Simulate(
+  params = newLun2Params(),
+  zinb = FALSE,
+  sparsify = TRUE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{params}{Lun2Params object containing simulation parameters.}
 
 \item{zinb}{logical. Whether to use a zero-inflated model.}
 
-\item{verbose}{logical. Whether to print progress messages}
+\item{sparsify}{logical. Whether to automatically convert assays to sparse
+matrices if there will be a size reduction.}
+
+\item{verbose}{logical. Whether to print progress messages.}
 
 \item{...}{any additional parameter settings to override what is provided in
 \code{params}.}

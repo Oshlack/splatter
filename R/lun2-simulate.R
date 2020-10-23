@@ -6,7 +6,9 @@
 #'
 #' @param params Lun2Params object containing simulation parameters.
 #' @param zinb logical. Whether to use a zero-inflated model.
-#' @param verbose logical. Whether to print progress messages
+#' @param sparsify logical. Whether to automatically convert assays to sparse
+#'        matrices if there will be a size reduction.
+#' @param verbose logical. Whether to print progress messages.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
 #'
@@ -42,7 +44,7 @@
 #' @importFrom SummarizedExperiment assays<-
 #' @importFrom SingleCellExperiment SingleCellExperiment
 lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
-                         verbose = TRUE, ...) {
+                         sparsify = TRUE, verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "Lun2Params")
     params <- setParams(params, ...)
@@ -180,7 +182,7 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
 
     sim <- SingleCellExperiment(assays = list(counts = counts,
                                               CellMeans = cell.means,
-                                              TrueCounts <- true.counts),
+                                              TrueCounts = true.counts),
                                 rowData = features,
                                 colData = cells,
                                 metadata = list(Params = params))
@@ -189,6 +191,12 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
         rownames(is.zero) <- gene.names
         colnames(is.zero) <- cell.names
         assays(sim)$ZeroInflation <- is.zero
+    }
+
+    if (sparsify) {
+        if (verbose) {message("Sparsifying assays...")}
+        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
+                                        verbose = verbose)
     }
 
     if (verbose) {message("Done!")}

@@ -3,6 +3,8 @@
 #' Simulate counts using the ZINB-WaVE method.
 #'
 #' @param params ZINBParams object containing simulation parameters.
+#' @param sparsify logical. Whether to automatically convert assays to sparse
+#'        matrices if there will be a size reduction.
 #' @param verbose logical. Whether to print progress messages
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -36,7 +38,8 @@
 #'
 #' @export
 #' @importFrom SingleCellExperiment SingleCellExperiment
-zinbSimulate <- function(params = newZINBParams(), verbose = TRUE, ...) {
+zinbSimulate <- function(params = newZINBParams(), sparsify = TRUE,
+                         verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "ZINBParams")
     params <- setParams(params, ...)
@@ -71,6 +74,12 @@ zinbSimulate <- function(params = newZINBParams(), verbose = TRUE, ...) {
                                 rowData = features,
                                 colData = cells,
                                 metadata = list(Params = params))
+
+    if (sparsify) {
+        if (verbose) {message("Sparsifying assays...")}
+        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
+                                        verbose = verbose)
+    }
 
     return(sim)
 }

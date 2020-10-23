@@ -3,6 +3,8 @@
 #' Simulate counts using the BASiCS method.
 #'
 #' @param params BASiCSParams object containing simulation parameters.
+#' @param sparsify logical. Whether to automatically convert assays to sparse
+#'        matrices if there will be a size reduction.
 #' @param verbose logical. Whether to print progress messages
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -29,7 +31,8 @@
 #'     sim <- BASiCSSimulate()
 #' }
 #' @export
-BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
+BASiCSSimulate <- function(params = newBASiCSParams(), sparsify = TRUE,
+                           verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "BASiCSParams")
     params <- setParams(params, ...)
@@ -144,6 +147,12 @@ BASiCSSimulate <- function(params = newBASiCSParams(), verbose = TRUE, ...) {
                                 rowData = features,
                                 colData = cells,
                                 metadata = list(Params = params))
+
+    if (sparsify) {
+        if (verbose) {message("Sparsifying assays...")}
+        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
+                                        verbose = verbose)
+    }
 
     if (verbose) {message("Done!")}
     return(sim)

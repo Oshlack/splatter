@@ -4,10 +4,13 @@
 \alias{lunSimulate}
 \title{Lun simulation}
 \usage{
-lunSimulate(params = newLunParams(), verbose = TRUE, ...)
+lunSimulate(params = newLunParams(), sparsify = TRUE, verbose = TRUE, ...)
 }
 \arguments{
 \item{params}{LunParams object containing Lun simulation parameters.}
+
+\item{sparsify}{logical. Whether to automatically convert assays to sparse
+matrices if there will be a size reduction.}
 
 \item{verbose}{logical. Whether to print progress messages.}
 

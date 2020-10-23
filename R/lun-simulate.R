@@ -6,6 +6,8 @@
 #'
 #' @param params LunParams object containing Lun simulation parameters.
 #' @param verbose logical. Whether to print progress messages.
+#' @param sparsify logical. Whether to automatically convert assays to sparse
+#'        matrices if there will be a size reduction.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
 #'
@@ -37,7 +39,8 @@
 #' @importFrom SingleCellExperiment SingleCellExperiment
 #' @importFrom stats rnorm rgamma rnbinom
 #' @export
-lunSimulate <- function(params = newLunParams(), verbose = TRUE, ...) {
+lunSimulate <- function(params = newLunParams(), sparsify = TRUE,
+                        verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "LunParams")
 
@@ -135,6 +138,12 @@ lunSimulate <- function(params = newLunParams(), verbose = TRUE, ...) {
                                 rowData = features,
                                 colData = cells,
                                 metadata = list(Params = params))
+
+    if (sparsify) {
+        if (verbose) {message("Sparsifying assays...")}
+        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
+                                        verbose = verbose)
+    }
 
     if (verbose) {message("Done!")}
 

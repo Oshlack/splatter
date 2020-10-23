@@ -3,6 +3,8 @@
 #' Simulate a bifurcating pseudotime path using the mfa method.
 #'
 #' @param params MFAParams object containing simulation parameters.
+#' @param sparsify logical. Whether to automatically convert assays to sparse
+#'        matrices if there will be a size reduction.
 #' @param verbose Logical. Whether to print progress messages.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -31,7 +33,8 @@
 #'     sim <- mfaSimulate()
 #' }
 #' @export
-mfaSimulate <- function(params = newMFAParams(), verbose = TRUE, ...) {
+mfaSimulate <- function(params = newMFAParams(), sparsify = TRUE,
+                        verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "MFAParams")
     params <- setParams(params, ...)
@@ -87,6 +90,12 @@ mfaSimulate <- function(params = newMFAParams(), verbose = TRUE, ...) {
                                 rowData = features,
                                 colData = cells,
                                 metadata = list(Params = params))
+
+    if (sparsify) {
+        if (verbose) {message("Sparsifying assays...")}
+        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
+                                        verbose = verbose)
+    }
 
     return(sim)
 }

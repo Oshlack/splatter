@@ -4,10 +4,13 @@
 \alias{kersplatSample}
 \title{Kersplat sample}
 \usage{
-kersplatSample(params, verbose = TRUE)
+kersplatSample(params, sparsify = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{params}{KersplatParams object containing simulation parameters.}
+
+\item{sparsify}{logical. Whether to automatically convert assays to sparse
+matrices if there will be a size reduction.}
 
 \item{verbose}{logical. Whether to print progress messages}
 }

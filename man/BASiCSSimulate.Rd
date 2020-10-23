@@ -4,10 +4,18 @@
 \alias{BASiCSSimulate}
 \title{BASiCS simulation}
 \usage{
-BASiCSSimulate(params = newBASiCSParams(), verbose = TRUE, ...)
+BASiCSSimulate(
+  params = newBASiCSParams(),
+  sparsify = TRUE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{params}{BASiCSParams object containing simulation parameters.}
+
+\item{sparsify}{logical. Whether to automatically convert assays to sparse
+matrices if there will be a size reduction.}
 
 \item{verbose}{logical. Whether to print progress messages}
 
