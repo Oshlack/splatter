@@ -1,5 +1,13 @@
 # DEVELOPMENT VERSION
 
+## Version 1.13.2 (2020-10-25)
+
+* Add batch.rmEffect parameter to SplatParams (PR #103)
+* Add minimiseSCE() function
+* Automatically sparsify assays by default in all simulations
+* Add checkDependencies() function
+* Replace DropletUtils::downsampleMatrix() with scuttle::downsampleMatrix()
+
 ## Version 1.13.1 (2020-10-22)
 
 * Add the splatPop simulation (PR #106)

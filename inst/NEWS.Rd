@@ -7,6 +7,16 @@
     simulation contributed by Christina Azodi and Davis McCarthy that adds
     population effects. It allows you to specify relatedness between individuals
     and generate cell-type specific eQTL effects.}
+    \item{Add a batch.rmEffect parameter to the Splat simulation. This allows
+    generation of a paired simulation without any batch effects.}
+    \item{Add a new minimiseSCE function which can be used to remove unneeded
+    information from simulation output (or any SingleCellExperiment)}
+    \item{All simulations now return sparse assay matrices by default when they
+    would be smaller than the equivalent dense matrix. This is controlled by a
+    new sparsify argument.}
+    \item{Users will now be automatically prompted to install packages if they
+    try to use a simulation for which the suggested dependencies are not
+    available}
   }
 }
 
