@@ -67,7 +67,7 @@ Suggests:
     BiocManager,
     spelling,
     igraph,
-    DropletUtils,
+    scuttle,
     BiocSingular,
     VariantAnnotation,
     Biostrings,

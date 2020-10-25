@@ -23,8 +23,8 @@ Simulate the final counts matrix for a Kersplat simulation
 The cell counts matrix and ambient counts matrix are added together. The
 result is then downsampled to the cell library size (for cells and doublets)
 or the ambient library size (for empty cells) using the
-\code{\link[DropletUtils]{downsampleMatrix}} function.
+\code{\link[scuttle]{downsampleMatrix}} function.
 }
 \seealso{
-\code{\link[DropletUtils]{downsampleMatrix}}
+\code{\link[scuttle]{downsampleMatrix}}
 }

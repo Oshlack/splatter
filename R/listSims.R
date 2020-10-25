@@ -40,7 +40,7 @@ listSims <- function(print = TRUE) {
                    "The Kersplat simulation extends the Splat model by adding a
                    gene network, more complex cell structure, doublets and
                    empty cells (Experimental).",
-                   "DropletUtils, igraph"),
+                   "scuttle, igraph"),
                  c("splatPop", "splatPop", "",
                    "Oshlack/splatter",
                    "The splatPop simulation enables splat simulations to be

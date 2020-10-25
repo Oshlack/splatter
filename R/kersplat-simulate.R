@@ -845,9 +845,9 @@ kersplatSimAmbientCounts <- function(sim, params, verbose) {
 #' The cell counts matrix and ambient counts matrix are added together. The
 #' result is then downsampled to the cell library size (for cells and doublets)
 #' or the ambient library size (for empty cells) using the
-#' \code{\link[DropletUtils]{downsampleMatrix}} function.
+#' \code{\link[scuttle]{downsampleMatrix}} function.
 #'
-#' @seealso \code{\link[DropletUtils]{downsampleMatrix}}
+#' @seealso \code{\link[scuttle]{downsampleMatrix}}
 #'
 #' @return SingleCellExperiment with counts matrix
 kersplatSimCounts <- function(sim, params, verbose) {
@@ -868,7 +868,7 @@ kersplatSimCounts <- function(sim, params, verbose) {
     # Avoid proportion creeping over 1 for empty cells
     down.prop <- min(down.prop, 1)
 
-    counts <- DropletUtils::downsampleMatrix(counts, down.prop)
+    counts <- scuttle::downsampleMatrix(counts, down.prop)
 
     assays(sim)$counts <- counts
 
