@@ -41,7 +41,7 @@ test_that("minimiseSCE works", {
     expect_s4_class(min_sce, "SingleCellExperiment")
 })
 
-test_that("minimiseSCE works keep arguments work", {
+test_that("minimiseSCE keep arguments work", {
     min_sce <- minimiseSCE(sce, rowData.keep = "Gene", verbose = FALSE)
     expect_true("Gene" %in% colnames(rowData(min_sce)))
     min_sce <- minimiseSCE(sce, colData.keep = "Cell", verbose = FALSE)

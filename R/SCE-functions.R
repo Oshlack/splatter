@@ -328,8 +328,8 @@ sparsifyMatrices <- function(matrix.list, auto = TRUE, threshold = 0.95,
             if (verbose) {
                 message("Skipping '", mat.name,
                         "' as it is already a dgCMatrix")
-                next
             }
+            next
         } else {
             warning("matrix '", mat.name, "' is class '", class(mat),
                     "', unable to estimate size reduction factor")
