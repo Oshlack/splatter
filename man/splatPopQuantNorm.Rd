@@ -21,3 +21,12 @@ using the gamma distribution parameterized from splatEstimate(). This ensures
 the simulated gene means reflect the distribution expected from a sc dataset
 and not a bulk dataset.
 }
+\examples{
+
+if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
+    requireNamespace("preprocessCore", quietly = TRUE)) {
+    bulk.means <- mockBulkMatrix(n.genes = 100, n.samples = 100)
+    bulk.qnorm <- splatPopQuantNorm(newSplatPopParams(), bulk.means)
+}
+
+}

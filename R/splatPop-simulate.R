@@ -39,9 +39,11 @@
 #'
 #' @examples
 #'
+#' \donttest{
 #' if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
 #'     requireNamespace("preprocessCore", quietly = TRUE)) {
 #'     sim <- splatPopSimulate()
+#' }
 #' }
 #'
 #' @export
@@ -129,9 +131,11 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
 #'
 #' @examples
 #'
+#' \donttest{
 #' if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
 #'     requireNamespace("preprocessCore", quietly = TRUE)) {
 #'     means <- splatPopSimulateMeans()
+#' }
 #' }
 #'
 #' @export
@@ -221,11 +225,13 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
 #'
 #' @examples
 #'
+#' \donttest{
 #' if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
 #'     requireNamespace("preprocessCore", quietly = TRUE)) {
 #'     params <- newSplatPopParams()
 #'     sim.means <- splatPopSimulateMeans()
 #'     sim <- splatPopSimulateSC(sim.means$means, params, sim.means$key)
+#' }
 #' }
 #'
 #' @importFrom SingleCellExperiment SingleCellExperiment cbind
@@ -759,6 +765,16 @@ splatPopSimEffects <- function(id, key, vcf, means.pop){
 #' @param means Mean gene expression matrix with eQTL effects.
 #'
 #' @return matrix of quantile normalized gene mean expression levels.
+#'
+#' @examples
+#'
+#' if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
+#'     requireNamespace("preprocessCore", quietly = TRUE)) {
+#'     bulk.means <- mockBulkMatrix(n.genes = 100, n.samples = 100)
+#'     bulk.qnorm <- splatPopQuantNorm(newSplatPopParams(), bulk.means)
+#' }
+#'
+#' @export
 splatPopQuantNorm <- function(params, means){
 
     # Generate sample target distribution from sc parameters

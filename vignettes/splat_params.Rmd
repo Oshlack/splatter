@@ -179,14 +179,16 @@ identical to when `batch.rmEffect` is `FALSE` but with the batch effect removed.
 This can be used as the ground truth for evaluating batch correction.
 
 ```{r batch-rmEffect}
-sim1 <- splatSimulate(param, batchCells = c(100, 100), batch.rmEffect = FALSE,
+sim1 <- splatSimulate(params, batchCells = c(100, 100), batch.rmEffect = FALSE,
                       verbose = FALSE)
 sim1 <- logNormCounts(sim1)
+sim1 <- runPCA(sim1)
 plotPCA(sim1, colour_by = "Batch") + ggtitle("With batch effects")
 
-sim2 <- splatSimulate(param, batchCells = c(100, 100), batch.rmEffect = TRUE,
+sim2 <- splatSimulate(params, batchCells = c(100, 100), batch.rmEffect = TRUE,
                       verbose = FALSE)
 sim2 <- logNormCounts(sim2)
+sim2 <- runPCA(sim2)
 plotPCA(sim2, colour_by = "Batch") + ggtitle("Batch effects removed")
 ```
 

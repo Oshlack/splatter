@@ -64,9 +64,11 @@ overridden by supplying desired parameters using \code{\link{setParams}}.
 }
 \examples{
 
+\donttest{
 if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
     requireNamespace("preprocessCore", quietly = TRUE)) {
     means <- splatPopSimulateMeans()
+}
 }
 
 }

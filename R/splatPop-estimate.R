@@ -24,6 +24,9 @@
 #'
 #' if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
 #'     requireNamespace("preprocessCore", quietly = TRUE)) {
+#'     # Load example data
+#'     library(scater)
+#'
 #'     sce <- mockSCE()
 #'     params <- splatPopEstimate(sce)
 #' }

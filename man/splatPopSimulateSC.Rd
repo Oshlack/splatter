@@ -54,11 +54,13 @@ RNA-seq experiment using the Splat method.
 }
 \examples{
 
+\donttest{
 if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
     requireNamespace("preprocessCore", quietly = TRUE)) {
     params <- newSplatPopParams()
     sim.means <- splatPopSimulateMeans()
     sim <- splatPopSimulateSC(sim.means$means, params, sim.means$key)
+}
 }
 
 }

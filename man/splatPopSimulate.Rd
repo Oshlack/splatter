@@ -62,9 +62,11 @@ functions for more details.
 }
 \examples{
 
+\donttest{
 if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
     requireNamespace("preprocessCore", quietly = TRUE)) {
     sim <- splatPopSimulate()
+}
 }
 
 }
