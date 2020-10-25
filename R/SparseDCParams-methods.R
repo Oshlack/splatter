@@ -3,9 +3,7 @@
 #' @export
 newSparseDCParams <- function(...) {
 
-    if (!requireNamespace("SparseDC", quietly = TRUE)) {
-        stop("The SparseDC simulation requires the 'SparseDC' package.")
-    }
+    checkDependencies("sparseDC")
 
     params <- new("SparseDCParams")
     params <- setParams(params, ...)

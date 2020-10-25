@@ -3,9 +3,7 @@
 #' @export
 newPhenoParams <- function(...) {
 
-    if (!requireNamespace("phenopath", quietly = TRUE)) {
-        stop("The PhenoPath simulation requires the 'phenopath' package.")
-    }
+    checkDependencies("pheno")
 
     params <- new("PhenoParams")
     params <- setParams(params, ...)

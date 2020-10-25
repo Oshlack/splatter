@@ -3,9 +3,7 @@
 #' @export
 newMFAParams <- function(...) {
 
-    if (!requireNamespace("mfa", quietly = TRUE)) {
-        stop("The mfa simulation requires the 'mfa' package.")
-    }
+    checkDependencies("mfa")
 
     params <- new("MFAParams")
     params <- setParams(params, ...)

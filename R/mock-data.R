@@ -40,9 +40,7 @@ mockGFF <- function(n.genes = 500, chromosome = 22){
 mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
 
 
-    if (!requireNamespace("VariantAnnotation", quietly = TRUE)) {
-        stop("Creating a mock VCF requires the 'VariantAnnotation' package.")
-    }
+    checkDependencies(deps = "VariantAnnotation")
 
     sample_names <- paste0("sample_", formatC(seq_len(n.samples),
                                               width = nchar(n.samples),

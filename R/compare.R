@@ -613,9 +613,7 @@ makeCompPanel <- function(comp, title = "Comparison",
                                      "Zeros per cell",
                                      "Mean-zeros relationship")) {
 
-    if (!requireNamespace("cowplot", quietly = TRUE)) {
-        stop("The `cowplot` package is required to make panels.")
-    }
+    checkDependencies(deps = "cowplot")
 
     checkmate::assertList(comp, any.missing = FALSE, len = 3)
     checkmate::checkString(title)
@@ -696,9 +694,7 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
                                      "Mean-variance relationship",
                                      "Mean-zeros relationship")) {
 
-    if (!requireNamespace("cowplot", quietly = TRUE)) {
-        stop("The `cowplot` package is required to make panels.")
-    }
+    checkDependencies(deps = "cowplot")
 
     checkmate::assertList(diff, any.missing = FALSE, len = 5)
     checkmate::checkString(title)
@@ -790,9 +786,7 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
                                             "Zeros per gene",
                                             "Mean-zeros relationship")) {
 
-    if (!requireNamespace("cowplot", quietly = TRUE)) {
-        stop("The `cowplot` package is required to make panels.")
-    }
+    checkDependencies(deps = "cowplot")
 
     checkmate::assertList(comp, any.missing = FALSE, len = 3)
     checkmate::assertList(diff, any.missing = FALSE, len = 5)

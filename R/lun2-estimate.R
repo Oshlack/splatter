@@ -56,23 +56,7 @@ lun2Estimate.matrix <- function(counts, plates, params = newLun2Params(),
                                 min.size = 200, verbose = TRUE,
                                 BPPARAM = SerialParam()) {
 
-    # Check suggested packages
-    if (!requireNamespace("scran", quietly = TRUE)) {
-        stop("The Lun2 simulation requires the 'scran' package for estimation.")
-    }
-
-    if (!requireNamespace("lme4", quietly = TRUE)) {
-        stop("The Lun2 simulation requires the 'lme4' package for estimation.")
-    }
-
-    if (!requireNamespace("pscl", quietly = TRUE)) {
-        stop("The Lun2 simulation requires the 'pscl' package for estimation.")
-    }
-
-    if (!requireNamespace("limSolve", quietly = TRUE)) {
-        stop("The Lun2 simulation requires the 'limSolve' package for ",
-             "estimation.")
-    }
+    checkDependencies("lun2")
 
     progress <- FALSE
     if (requireNamespace("progress", quietly = TRUE)) {

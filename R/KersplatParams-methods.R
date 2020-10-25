@@ -3,13 +3,7 @@
 #' @export
 newKersplatParams <- function(...) {
 
-    if (!requireNamespace("igraph", quietly = TRUE)) {
-        stop("The Kersplat simulation requires the 'igraph' package.")
-    }
-
-    if (!requireNamespace("DropletUtils", quietly = TRUE)) {
-        stop("The Kersplat simulation requires the 'DropletUtils' package.")
-    }
+    checkDependencies("kersplat")
 
     if (getOption("splatter.warn.kersplat", TRUE)) {
         warning("The Kersplat simulation is still experimental and may ",

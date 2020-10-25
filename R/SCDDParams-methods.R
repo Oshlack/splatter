@@ -3,9 +3,7 @@
 #' @export
 newSCDDParams <- function(...) {
 
-    if (!requireNamespace("scDD", quietly = TRUE)) {
-        stop("The scDD simulation requires the 'scDD' package.")
-    }
+    checkDependencies("scDD")
 
     # Initialise scDatEx to avoid NOTE
     scDatEx <- NA

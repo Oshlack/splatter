@@ -40,10 +40,6 @@ scDDEstimate <- function(counts, #conditions, condition,
                          params = newSCDDParams(), verbose = TRUE,
                          BPPARAM = SerialParam(), ...) {
 
-    if (!requireNamespace("scDD", quietly = TRUE)) {
-        stop("The scDD simulation requires the 'scDD' package.")
-    }
-
     UseMethod("scDDEstimate")
 }
 

@@ -3,9 +3,7 @@
 #' @export
 newBASiCSParams <- function(...) {
 
-    if (!requireNamespace("BASiCS", quietly = TRUE)) {
-        stop("The BASiCS simulation requires the 'BASiCS' package.")
-    }
+    checkDependencies("BASiCS")
 
     params <- new("BASiCSParams")
     params <- setParams(params, ...)

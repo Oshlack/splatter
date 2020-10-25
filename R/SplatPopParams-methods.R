@@ -3,11 +3,7 @@
 #' @export
 newSplatPopParams <- function(...) {
 
-    for (pkg in c("VariantAnnotation", "preprocessCore")) {
-        if (!requireNamespace(pkg, quietly = TRUE)) {
-            stop("The splatPop simulation requires the ", pkg, " package.")
-        }
-    }
+    checkDependencies("splatPop")
 
     params <- new("SplatPopParams")
     params <- setParams(params, ...)
