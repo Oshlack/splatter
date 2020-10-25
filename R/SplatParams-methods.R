@@ -10,6 +10,7 @@ newSplatParams <- function(...) {
 }
 
 #' @importFrom checkmate checkInt checkIntegerish checkNumber checkNumeric
+#' @importFrom checkmate checkLogical
 #' checkFlag
 setValidity("SplatParams", function(object) {
 
@@ -26,6 +27,7 @@ setValidity("SplatParams", function(object) {
                 batch.facLoc = checkNumeric(v$batch.facLoc, len = nBatches),
                 batch.facScale = checkNumeric(v$batch.facScale, lower = 0,
                                               len = nBatches),
+                batch.rmEffect = checkLogical(v$batch.rmEffect, len = 1),
                 mean.rate = checkNumber(v$mean.rate, lower = 0),
                 mean.shape = checkNumber(v$mean.shape, lower = 0),
                 lib.loc = checkNumber(v$lib.loc),
@@ -218,7 +220,8 @@ setMethod("show", "SplatParams", function(object) {
     pp <- list("Batches:"        = c("[Batches]"      = "nBatches",
                                      "[Batch Cells]"  = "batchCells",
                                      "[Location]"     = "batch.facLoc",
-                                     "[Scale]"        = "batch.facScale"),
+                                     "[Scale]"        = "batch.facScale",
+                                     "[Remove]"       = "batch.rmEffect"),
                "Mean:"           = c("(Rate)"         = "mean.rate",
                                      "(Shape)"        = "mean.shape"),
                "Library size:"   = c("(Location)"     = "lib.loc",

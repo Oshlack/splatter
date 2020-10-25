@@ -172,6 +172,23 @@ sim2 <- runPCA(sim2)
 plotPCA(sim2, colour_by = "Batch") + ggtitle("Big batch effects")
 ```
 
+### `batch.rmEffect` - Remove batch effect
+
+Setting `batch.rmEffect` to `TRUE` produces a dataset that is (approximately)
+identical to when `batch.rmEffect` is `FALSE` but with the batch effect removed.
+This can be used as the ground truth for evaluating batch correction.
+
+```{r batch-rmEffect}
+sim1 <- splatSimulate(param, batchCells = c(100, 100), batch.rmEffect = FALSE,
+                      verbose = FALSE)
+sim1 <- logNormCounts(sim1)
+plotPCA(sim1, colour_by = "Batch") + ggtitle("With batch effects")
+
+sim2 <- splatSimulate(param, batchCells = c(100, 100), batch.rmEffect = TRUE,
+                      verbose = FALSE)
+sim2 <- logNormCounts(sim2)
+plotPCA(sim2, colour_by = "Batch") + ggtitle("Batch effects removed")
+```
 
 ## Mean parameters
 

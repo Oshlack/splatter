@@ -83,6 +83,10 @@ setClass("SimpleParams",
 #'             batch effect factor log-normal distribution. Can be a vector.}
 #'             \item{\code{[batch.facScale]}}{Scale (sdlog) parameter for the
 #'             batch effect factor log-normal distribution. Can be a vector.}
+#'             \item{\code{[batch.rmEffect]}}{Logical, removes the batch effect
+#'             and continues with the simulation when TRUE. This allows the 
+#'             user to test batch removal algorithms without having to calculate
+#'             the new expected cell means with batch removed.}
 #'         }
 #'     }
 #'     \item{\emph{Mean parameters}}{
@@ -203,6 +207,7 @@ setClass("SplatParams",
                    batchCells = "numeric",
                    batch.facLoc = "numeric",
                    batch.facScale = "numeric",
+                   batch.rmEffect = "logical",
                    mean.shape = "numeric",
                    mean.rate = "numeric",
                    lib.loc = "numeric",
@@ -231,6 +236,7 @@ setClass("SplatParams",
                                batchCells = 100,
                                batch.facLoc = 0.1,
                                batch.facScale = 0.1,
+                               batch.rmEffect = FALSE,
                                mean.rate = 0.3,
                                mean.shape = 0.6,
                                lib.loc = 11,
