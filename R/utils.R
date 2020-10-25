@@ -92,3 +92,66 @@ winsorize <- function(x, q) {
 co.var <- function(x) {
     sd(x) / mean(x)
 }
+
+#' Check dependencies
+#'
+#' Check suggested dependencies and prompt the user to install them if not
+#' available
+#'
+#' @param sim.prefix prefix for a simulation to check.
+#' @param deps vector of dependency names.
+checkDependencies <- function(sim.prefix = NULL, deps = NULL) {
+
+    if (is.null(sim.prefix) && is.null(deps)) {
+        stop("One of 'sim.prefix' or 'deps' must be provided")
+    }
+
+    if (!is.null(sim.prefix) && !is.null(deps)) {
+        stop("Only one of 'sim.prefix' or 'deps' must be provided")
+    }
+
+    if (!is.null(sim.prefix)) {
+        sims <- listSims(print = FALSE)
+
+        sim.prefix <- match.arg(sim.prefix, sims$Prefix)
+
+        deps <- sims$Dependencies[sims$Prefix == sim.prefix]
+        deps <- strsplit(deps, ", ")[[1]]
+    }
+
+    deps.available <- sapply(deps, requireNamespace, quietly = TRUE)
+
+    if (all(deps.available)) {
+        return(invisible(TRUE))
+    }
+
+    message("The following dependencies for this function are not available: ",
+            paste("'", deps[!deps.available], "'", collapse = ", ", sep = ""))
+
+    install <- askYesNo("Do you want to install these packages?")
+
+    if (!install) {
+        stop("Manually install dependencies to continue", call. = FALSE)
+    }
+
+    if (!requireNamespace("BiocManager", quietly = TRUE)) {
+        message("'BiocManager' is not installed and is required for installation")
+        install.bioc <- askYesNo("Do you want to install 'BiocManager'?")
+
+        if (install.bioc) {
+            install.packages("BiocManager")
+        } else {
+            stop("Manually install BiocManager to continue", call. = FALSE)
+        }
+    }
+
+    BiocManager::install(deps)
+
+    deps.available <- sapply(deps, requireNamespace, quietly = TRUE)
+
+    if (!all(deps.available)) {
+        stop("Some dependencies are still not available")
+    }
+
+    invisible(TRUE)
+}
