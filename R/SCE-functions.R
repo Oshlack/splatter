@@ -50,6 +50,10 @@ addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
            }
     )
 
+    if (is(values, "dgCMatrix")) {
+        values <- as.matrix(values)
+    }
+
     if (no.zeros) {
         values[values == 0] <- NA
         suffix = paste0(suffix, "No0")
