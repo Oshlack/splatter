@@ -27,6 +27,7 @@ reference:
       - '`SCDDParams`'
       - '`SimpleParams`'
       - '`SplatParams`'
+      - '`SplatPopParams`'
       - '`SparseDCParams`'
       - '`ZINBParams`'
   - title: Estimation
@@ -43,6 +44,9 @@ reference:
       - '`phenoEstimate`'
       - '`scDDEstimate`'
       - '`simpleEstimate`'
+      - '`splatPopEstimate`'
+      - '`splatPopEstimateEffectSize`'
+      - '`splatPopEstimateMeanCV`'
       - '`splatEstBCV`'
       - '`splatEstDropout`'
       - '`splatEstimate`'
@@ -73,6 +77,21 @@ reference:
       - '`phenoSimulate`'
       - '`scDDSimulate`'
       - '`simpleSimulate`'
+      - '`splatPopAssignMeans`'
+      - '`splatPopCleanSCE`'
+      - '`splatPopeQTLEffects`'
+      - '`splatPopGroupEffects`'
+      - '`splatPopParseGenes`'
+      - '`splatPopParseVCF`'
+      - '`splatPopQuantNorm`'
+      - '`splatPopQuantNormKey`'
+      - '`splatPopSimEffects`'
+      - '`splatPopSimGeneMeans`'
+      - '`splatPopSimMeans`'
+      - '`splatPopSimulate`'
+      - '`splatPopSimulateMeans'
+      - '`splatPopSimulateSample`'
+      - '`splatPopSimulateSC'
       - '`splatSimBatchCellMeans`'
       - '`splatSimBatchEffects`'
       - '`splatSimBCVMeans`'
@@ -97,17 +116,24 @@ reference:
       - '`summariseDiff`'
       - '`summariseStats`'
       - '`tidyStatSumm`'
+  - title: Mock data
+    desc: Simple mock datasets for tests and examples
+    contents:
+      - '`compareSCEs`'
   - title: Other exported functions
     desc: Additional functions exported by Splatter
     contents:
-      - '`addFeatureStats`'
-      - '`addGeneLengths`'
-      - '`listSims`'
+      - '`mockBulkMatrix`'
+      - '`mockBulkeQTL`'
+      - '`mockGFF`'
+      - '`mockVCF`'
   - title: Internals
     desc: Additional internal functions and helpers
     contents:
       - '`bridge`'
       - '`bringItemsForward`'
+      - '`checkDependencies`'
+      - '`co.var`'
       - '`expandParams`'
       - '`getBetaStepProbs`'
       - '`getCounts`'
@@ -122,4 +148,5 @@ reference:
       - '`showDFs`'
       - '`showPP`'
       - '`showValues`'
+      - '`sparsifyMatrices`'
       - '`winsorize`'
