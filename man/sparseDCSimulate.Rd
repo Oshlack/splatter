@@ -4,10 +4,18 @@
 \alias{sparseDCSimulate}
 \title{SparseDC simulation}
 \usage{
-sparseDCSimulate(params = newSparseDCParams(), verbose = TRUE, ...)
+sparseDCSimulate(
+  params = newSparseDCParams(),
+  sparsify = TRUE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{params}{SparseDCParams object containing simulation parameters.}
+
+\item{sparsify}{logical. Whether to automatically convert assays to sparse
+matrices if there will be a size reduction.}
 
 \item{verbose}{logical. Whether to print progress messages}
 

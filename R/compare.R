@@ -81,14 +81,13 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         colData(sce)$Dataset <- name
         sce <- scater::addPerCellQC(sce)
         sce <- scater::addPerFeatureQC(sce)
-        cpm(sce) <- scater::calculateCPM(sce)
+        cpm(sce) <- as.matrix(scater::calculateCPM(sce))
         sce <- addFeatureStats(sce, "counts")
         sce <- addFeatureStats(sce, "cpm")
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
         n.features <- colData(sce)$detected
         colData(sce)$PctZero <- 100 * (1 - n.features / nrow(sce))
         rowData(sce)$PctZero <- 100 - rowData(sce)$detected
-
         var.genes <- rev(order(rowData(sce)$VarLogCPM))[seq_len(100)]
         var.cpm <- log2(cpm(sce)[var.genes, ] + 1)
         var.cors <- as.data.frame.table(cor(t(var.cpm), method = "spearman"))
@@ -360,7 +359,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         colData(sce)$Dataset <- name
         sce <- scater::addPerCellQC(sce)
         sce <- scater::addPerFeatureQC(sce)
-        cpm(sce) <- scater::calculateCPM(sce)
+        cpm(sce) <- as.matrix(scater::calculateCPM(sce))
         sce <- addFeatureStats(sce, "counts")
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
         n.features <- colData(sce)$detected

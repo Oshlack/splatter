@@ -4,6 +4,8 @@
 #' simulated library sizes, differential expression etc.
 #'
 #' @param params SimpleParams object containing simulation parameters.
+#' @param sparsify logical. Whether to automatically convert assays to sparse
+#'        matrices if there will be a size reduction.
 #' @param verbose logical. Whether to print progress messages
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -23,7 +25,8 @@
 #' @export
 #' @importFrom stats rgamma rnbinom
 #' @importFrom SingleCellExperiment SingleCellExperiment
-simpleSimulate <- function(params = newSimpleParams(), verbose = TRUE, ...) {
+simpleSimulate <- function(params = newSimpleParams(), sparsify = TRUE,
+                           verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "SimpleParams")
     params <- setParams(params, ...)
@@ -63,6 +66,12 @@ simpleSimulate <- function(params = newSimpleParams(), verbose = TRUE, ...) {
                                 rowData = features,
                                 colData = cells,
                                 metadata = list(Params = params))
+
+    if (sparsify) {
+        if (verbose) {message("Sparsifying assays...")}
+        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
+                                        verbose = verbose)
+    }
 
     return(sim)
 }

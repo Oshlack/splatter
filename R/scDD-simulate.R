@@ -6,6 +6,8 @@
 #' @param plots logical. whether to generate scDD fold change and validation
 #' plots.
 #' @param plot.file File path to save plots as PDF.
+#' @param sparsify logical. Whether to automatically convert assays to sparse
+#'        matrices if there will be a size reduction.
 #' @param verbose logical. Whether to print progress messages
 #' @param BPPARAM A \code{\link{BiocParallelParam}} instance giving the parallel
 #'        back-end to be used. Default is \code{\link{SerialParam}} which uses a
@@ -39,7 +41,7 @@
 #' @importFrom BiocParallel SerialParam
 #' @importFrom SingleCellExperiment SingleCellExperiment
 scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
-                         plot.file = NULL, verbose = TRUE,
+                         plot.file = NULL, sparsify = TRUE, verbose = TRUE,
                          BPPARAM = SerialParam(), ...) {
 
     checkmate::assertClass(params, "SCDDParams")
@@ -71,7 +73,7 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
                                       condition = getParam(params, "condition"),
                                       param = BPPARAM)
     } else {
-        suppressMessages(
+        suppressMessages({
         scDD.sim <- scDD::simulateSet(SCdat = getParam(params, "SCdat"),
                                       numSamples = nCells,
                                       nDE = getParam(params, "nDE"),
@@ -88,7 +90,7 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
                                       varInflation = varInflation,
                                       condition = getParam(params, "condition"),
                                       param = BPPARAM)
-        )
+        })
     }
 
     counts <- SummarizedExperiment::assays(scDD.sim)$normcounts
@@ -114,6 +116,12 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
                                 rowData = features,
                                 colData = cells,
                                 metadata = list(Params = params))
+
+    if (sparsify) {
+        if (verbose) {message("Sparsifying assays...")}
+        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
+                                        verbose = verbose)
+    }
 
     if (verbose) {message("Done!")}
 

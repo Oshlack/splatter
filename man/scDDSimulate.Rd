@@ -8,6 +8,7 @@ scDDSimulate(
   params = newSCDDParams(),
   plots = FALSE,
   plot.file = NULL,
+  sparsify = TRUE,
   verbose = TRUE,
   BPPARAM = SerialParam(),
   ...
@@ -20,6 +21,9 @@ scDDSimulate(
 plots.}
 
 \item{plot.file}{File path to save plots as PDF.}
+
+\item{sparsify}{logical. Whether to automatically convert assays to sparse
+matrices if there will be a size reduction.}
 
 \item{verbose}{logical. Whether to print progress messages}
 

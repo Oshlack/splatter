@@ -11,6 +11,7 @@ splatPopSimulate(
   gff = NULL,
   key = NULL,
   counts.only = FALSE,
+  sparsify = TRUE,
   verbose = TRUE,
   ...
 )
@@ -32,6 +33,9 @@ trajectories (eg. differentiation processes).}
 splatPop key.}
 
 \item{counts.only}{logical. Whether to save only counts in sce object.}
+
+\item{sparsify}{logical. Whether to automatically convert assays to sparse
+matrices if there will be a size reduction.}
 
 \item{verbose}{logical. Whether to print progress messages.}
 

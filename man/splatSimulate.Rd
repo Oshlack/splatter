@@ -10,6 +10,7 @@
 splatSimulate(
   params = newSplatParams(),
   method = c("single", "groups", "paths"),
+  sparsify = TRUE,
   verbose = TRUE,
   ...
 )
@@ -28,6 +29,9 @@ See \code{\link{SplatParams}} for details.}
 produces a single population, "groups" which produces distinct groups
 (eg. cell types), or "paths" which selects cells from continuous
 trajectories (eg. differentiation processes).}
+
+\item{sparsify}{logical. Whether to automatically convert assays to sparse
+matrices if there will be a size reduction.}
 
 \item{verbose}{logical. Whether to print progress messages.}
 

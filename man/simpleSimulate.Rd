@@ -4,10 +4,18 @@
 \alias{simpleSimulate}
 \title{Simple simulation}
 \usage{
-simpleSimulate(params = newSimpleParams(), verbose = TRUE, ...)
+simpleSimulate(
+  params = newSimpleParams(),
+  sparsify = TRUE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{params}{SimpleParams object containing simulation parameters.}
+
+\item{sparsify}{logical. Whether to automatically convert assays to sparse
+matrices if there will be a size reduction.}
 
 \item{verbose}{logical. Whether to print progress messages}
 

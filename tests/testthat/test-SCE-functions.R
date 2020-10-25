@@ -35,3 +35,19 @@ test_that("addGeneLength sample method works", {
     expect_error(addGeneLengths(sce, method = "sample"), lengths = 0)
     expect_error(addGeneLengths(sce, method = "sample"), lengths = "a")
 })
+
+test_that("minimiseSCE works", {
+    min_sce <- minimiseSCE(sce)
+    expect_s4_class(min_sce, "SingleCellExperiment")
+})
+
+test_that("minimiseSCE keep arguments work", {
+    min_sce <- minimiseSCE(sce, rowData.keep = "Gene", verbose = FALSE)
+    expect_true("Gene" %in% colnames(rowData(min_sce)))
+    min_sce <- minimiseSCE(sce, colData.keep = "Cell", verbose = FALSE)
+    expect_true("Cell" %in% colnames(colData(min_sce)))
+    min_sce <- minimiseSCE(sce, metadata.keep = "Params", verbose = FALSE)
+    expect_true("Params" %in% names(metadata(min_sce)))
+    min_sce <- minimiseSCE(sce, assays.keep = FALSE, verbose = FALSE)
+    expect_true(length(assays(min_sce)) == 0)
+})

@@ -4,10 +4,13 @@
 \alias{mfaSimulate}
 \title{MFA simulation}
 \usage{
-mfaSimulate(params = newMFAParams(), verbose = TRUE, ...)
+mfaSimulate(params = newMFAParams(), sparsify = TRUE, verbose = TRUE, ...)
 }
 \arguments{
 \item{params}{MFAParams object containing simulation parameters.}
+
+\item{sparsify}{logical. Whether to automatically convert assays to sparse
+matrices if there will be a size reduction.}
 
 \item{verbose}{Logical. Whether to print progress messages.}
 
