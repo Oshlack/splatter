@@ -60,6 +60,14 @@ expression level per gene per sample, followed by a call to
 single-cell counts per individual. Please see the documentation for those
 functions for more details.
 }
+\examples{
+
+if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
+    requireNamespace("preprocessCore", quietly = TRUE)) {
+    sim <- splatPopSimulate()
+}
+
+}
 \seealso{
 \code{\link{splatPopSimulateMeans}}, \code{\link{splatPopSimulateSC}}
 }

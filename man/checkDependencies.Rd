@@ -11,6 +11,9 @@ checkDependencies(sim.prefix = NULL, deps = NULL)
 
 \item{deps}{vector of dependency names.}
 }
+\value{
+TRUE invisibly if successful
+}
 \description{
 Check suggested dependencies and prompt the user to install them if not
 available

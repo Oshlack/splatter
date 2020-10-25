@@ -62,6 +62,14 @@ overridden by supplying desired parameters using \code{\link{setParams}}.
     \item Add eQTL effects to means matrix.
 }
 }
+\examples{
+
+if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
+    requireNamespace("preprocessCore", quietly = TRUE)) {
+    means <- splatPopSimulateMeans()
+}
+
+}
 \seealso{
 \code{\link{splatPopParseVCF}}, \code{\link{splatPopParseGenes}},
 \code{\link{splatPopAssignMeans}},

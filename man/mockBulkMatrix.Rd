@@ -18,3 +18,7 @@ matrix containing mock bulk expression data.
 Quick function to generate mock bulk expression data for a population, with
 parameters estimated using real thyroid tissue data from GTEx.
 }
+\examples{
+bulk <- mockBulkMatrix
+
+}

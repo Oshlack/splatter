@@ -17,3 +17,7 @@ data.frame containing mock gff data.
 \description{
 Quick function to generate a mock gff.
 }
+\examples{
+gff <- mockGFF()
+
+}

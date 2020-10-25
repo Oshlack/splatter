@@ -7,8 +7,10 @@
 #'
 #' @return data.frame containing mock gff data.
 #'
-#' @export
+#' @examples
+#' gff <- mockGFF()
 #'
+#' @export
 mockGFF <- function(n.genes = 500, chromosome = 22){
 
     mock.gff <- data.frame(list(V1 = chromosome,
@@ -33,10 +35,11 @@ mockGFF <- function(n.genes = 500, chromosome = 22){
 #'
 #' @return data.frame containing mock gff data.
 #'
-#' @importFrom stats setNames
+#' @examples
+#' vcf <- mockVCF()
 #'
 #' @export
-#'
+#' @importFrom stats setNames
 mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
 
 
@@ -52,7 +55,7 @@ mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
     # rowRanges
     vcf.rowRanges <- GenomicRanges::GRanges(
         seqnames = S4Vectors::Rle(rep(chromosome, n.snps)),
-        ranges = IRanges::IRanges(sample(1:2e8, n.snps, replace = FALSE),
+        ranges = IRanges::IRanges(sample(seq_len(2e8), n.snps, replace = FALSE),
                                   names = snp_names),
         strand = S4Vectors::Rle(BiocGenerics::strand(rep("*", n.snps))),
         paramRangeID = S4Vectors::Rle(rep(NA, n.snps))
@@ -103,8 +106,10 @@ mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
 #'
 #' @return matrix containing mock bulk expression data.
 #'
+#' @examples
+#' bulk <- mockBulkMatrix
+#'
 #' @export
-
 mockBulkMatrix <- function(n.genes = 1000, n.samples = 100){
 
     tmp.params <- newSplatPopParams()
@@ -138,8 +143,10 @@ mockBulkMatrix <- function(n.genes = 1000, n.samples = 100){
 #'
 #' @return data.frame containing mock bulk eQTL mapping results.
 #'
-#' @export
+#' @examples
+#' eqtl <- mockBulkeQTL()
 #'
+#' @export
 mockBulkeQTL <- function(n.genes = 1000){
 
     tmp.params <- newSplatPopParams()

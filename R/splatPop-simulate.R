@@ -37,6 +37,13 @@
 #' and information about the differential expression and eQTL effects assigned
 #' to each gene.
 #'
+#' @examples
+#'
+#' if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
+#'     requireNamespace("preprocessCore", quietly = TRUE)) {
+#'     sim <- splatPopSimulate()
+#' }
+#'
 #' @export
 splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
                              vcf = mockVCF(),
@@ -119,6 +126,13 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
 #' \code{\link{splatPopQuantNorm}}, \code{\link{splatPopQuantNormKey}}
 #' \code{\link{splatPopeQTLEffects}}, \code{\link{splatPopGroupEffects}},
 #' \code{\link{splatPopSimMeans}}, \code{\link{splatPopSimEffects}},
+#'
+#' @examples
+#'
+#' if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
+#'     requireNamespace("preprocessCore", quietly = TRUE)) {
+#'     means <- splatPopSimulateMeans()
+#' }
 #'
 #' @export
 splatPopSimulateMeans <- function(vcf = mockVCF(),
@@ -204,6 +218,15 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
 #' intermediate values like the gene means simulated in `splatPopSimulateMeans`,
 #' and information about the differential expression and eQTL effects assigned
 #' to each gene.
+#'
+#' @examples
+#'
+#' if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
+#'     requireNamespace("preprocessCore", quietly = TRUE)) {
+#'     params <- newSplatPopParams()
+#'     sim.means <- splatPopSimulateMeans()
+#'     sim <- splatPopSimulateSC(sim.means$means, params, sim.means$key)
+#' }
 #'
 #' @importFrom SingleCellExperiment SingleCellExperiment cbind
 #' @importFrom SummarizedExperiment rowData rowData<-
@@ -736,9 +759,6 @@ splatPopSimEffects <- function(id, key, vcf, means.pop){
 #' @param means Mean gene expression matrix with eQTL effects.
 #'
 #' @return matrix of quantile normalized gene mean expression levels.
-#'
-#' @export
-
 splatPopQuantNorm <- function(params, means){
 
     # Generate sample target distribution from sc parameters

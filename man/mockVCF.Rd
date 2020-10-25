@@ -20,3 +20,7 @@ data.frame containing mock gff data.
 Quick function to generate mock vcf file. Note this data has unrealistic
 population structure.
 }
+\examples{
+vcf <- mockVCF()
+
+}

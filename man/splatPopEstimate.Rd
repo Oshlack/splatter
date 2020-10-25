@@ -5,17 +5,13 @@
 \title{Estimate population/eQTL simulation parameters}
 \usage{
 splatPopEstimate(
-  params = newSplatPopParams(),
   counts = NULL,
   means = NULL,
-  eqtl = NULL
+  eqtl = NULL,
+  params = newSplatPopParams()
 )
 }
 \arguments{
-\item{params}{SplatPopParams object containing parameters for the
-simulation of the mean expression levels for the population.
-See \code{\link{SplatPopParams}} for details.}
-
 \item{counts}{either a counts matrix or a SingleCellExperiment object
 containing count data to estimate parameters from.}
 
@@ -24,6 +20,10 @@ each row is a gene and each column is an individual in the population.}
 
 \item{eqtl}{data.frame with all or top eQTL pairs from a real eQTL analysis.
 Must include columns: 'gene_id', 'pval_nominal', and 'slope'.}
+
+\item{params}{SplatPopParams object containing parameters for the
+simulation of the mean expression levels for the population.
+See \code{\link{SplatPopParams}} for details.}
 }
 \value{
 SplatPopParams object containing the estimated parameters.
@@ -32,6 +32,15 @@ SplatPopParams object containing the estimated parameters.
 Estimate simulation parameters for the eQTL population simulation from
 real data. See the individual estimation functions for more details on
 how this is done.
+}
+\examples{
+
+if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
+    requireNamespace("preprocessCore", quietly = TRUE)) {
+    sce <- mockSCE()
+    params <- splatPopEstimate(sce)
+}
+
 }
 \seealso{
 \code{\link{splatPopEstimateEffectSize}},

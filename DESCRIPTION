@@ -43,7 +43,8 @@ Imports:
     SummarizedExperiment,
     utils,
     crayon,
-    S4Vectors
+    S4Vectors,
+    grDevices
 Suggests:
     BiocStyle,
     covr,

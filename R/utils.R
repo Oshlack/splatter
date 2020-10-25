@@ -100,6 +100,10 @@ co.var <- function(x) {
 #'
 #' @param sim.prefix prefix for a simulation to check.
 #' @param deps vector of dependency names.
+#'
+#' @return TRUE invisibly if successful
+#'
+#' @importFrom utils askYesNo install.packages
 checkDependencies <- function(sim.prefix = NULL, deps = NULL) {
 
     if (is.null(sim.prefix) && is.null(deps)) {
@@ -119,7 +123,7 @@ checkDependencies <- function(sim.prefix = NULL, deps = NULL) {
         deps <- strsplit(deps, ", ")[[1]]
     }
 
-    deps.available <- sapply(deps, requireNamespace, quietly = TRUE)
+    deps.available <- vapply(deps, requireNamespace, c(TRUE), quietly = TRUE)
 
     if (all(deps.available)) {
         return(invisible(TRUE))
@@ -147,7 +151,7 @@ checkDependencies <- function(sim.prefix = NULL, deps = NULL) {
 
     BiocManager::install(deps)
 
-    deps.available <- sapply(deps, requireNamespace, quietly = TRUE)
+    deps.available <- vapply(deps, requireNamespace, c(TRUE), quietly = TRUE)
 
     if (!all(deps.available)) {
         stop("Some dependencies are still not available")
