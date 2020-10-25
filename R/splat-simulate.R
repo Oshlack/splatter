@@ -345,8 +345,11 @@ splatSimBatchEffects <- function(sim, params) {
     for (idx in seq_len(nBatches)) {
         batch.facs <- getLNormFactors(nGenes, 1, 0.5, batch.facLoc[idx],
                                         batch.facScale[idx])
-        if (batch.rmEffect) batch.facs <- rep(1, length(batch.facs))
-        # batch.means.gene <- means.gene * batch.facs
+
+        if (batch.rmEffect) {
+            batch.facs <- rep(1, length(batch.facs))
+        }
+
         rowData(sim)[[paste0("BatchFacBatch", idx)]] <- batch.facs
     }
 
