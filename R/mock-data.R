@@ -132,7 +132,7 @@ mockBulkMatrix <- function(n.genes = 1000, n.samples = 100){
 #' Generate mock eQTL mapping results
 #'
 #' Quick function to generate mock eQTL mapping results, with parameters
-#' estimated using real eQTL mapping results from GTEX using thyroid tissue.
+#' estimated using real eQTL mapping results from GTEx using thyroid tissue.
 #'
 #' @param n.genes Number of genes in mock eQTL data.
 #'
