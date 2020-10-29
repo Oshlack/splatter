@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+# Version 1.14.0 (2020-10-28)
+
+Bioconductor 3.12 release
+
 ## Version 1.13.2 (2020-10-25)
 
 * Add batch.rmEffect parameter to SplatParams (PR #103)
