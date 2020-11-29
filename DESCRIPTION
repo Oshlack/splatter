@@ -27,7 +27,6 @@ Depends:
     R (>= 4.0),
     SingleCellExperiment
 Imports:
-    akima,
     BiocGenerics,
     BiocParallel,
     checkmate (>= 2.0.0),
