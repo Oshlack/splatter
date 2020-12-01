@@ -1,5 +1,10 @@
 # DEVELOPMENT VERSION
 
+## Version 1.15.1 (2020-12-01)
+
+* Replace akima::aspline() with stats::spline(..., method = "natrual") in
+  buildBridges() (Fixes #108)
+
 ## Version 1.15.0 (2020-10-28)
 
 Bioconductor 3.13 devel
