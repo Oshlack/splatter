@@ -13,6 +13,11 @@ Bioconductor 3.13 devel
 
 Bioconductor 3.12 release
 
+## Version 1.14.1 (2020-12-01)
+
+* Replace akima::aspline() with stats::spline(..., method = "natrual") in
+  buildBridges() (Fixes #108)
+
 ## Version 1.13.2 (2020-10-25)
 
 * Add batch.rmEffect parameter to SplatParams (PR #103)
