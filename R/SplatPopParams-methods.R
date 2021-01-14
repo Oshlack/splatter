@@ -32,7 +32,8 @@ setValidity("SplatPopParams", function(object) {
                 pop.mean.rate = checkNumber(v$pop.mean.rate, lower = 0),
                 pop.cv.bins = checkInt(v$pop.cv.bins, lower = 1),
                 pop.cv.param = checkDataFrame(v$pop.cv.param),
-                similarity.scale = checkNumber(v$similarity.scale, lower = 0))
+                similarity.scale = checkNumber(v$similarity.scale, lower = 0),
+                batch.size = checkInt(v$batch.size, lower = 1))
 
     if (all(checks == TRUE)) {
         valid <- TRUE
@@ -50,6 +51,7 @@ setMethod("show", "SplatPopParams", function(object) {
 
     pp <- list("Population params:" = c("(mean.shape)" = "pop.mean.shape",
                                         "(mean.rate)" = "pop.mean.rate",
+                                        "[batch.size]" = "batch.size",
                                         "[similarity.scale]" = "similarity.scale",
                                         "[cv.bins]" = "pop.cv.bins",
                                         "(cv.params)" = "pop.cv.param"),

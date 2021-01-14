@@ -20,7 +20,6 @@ test_that("splatPopSimulate output is valid and works", {
     expect_false(any(is.na(pop$means)))
     expect_false(any(sapply(pop$means, is.infinite)))
     expect_equal(ncol(pop$means), n.samples)
-    expect_length(pop$key, 15) # Number of columns expected in splatPop key
     expect_true(validObject(splatPopSimulateSC(sim.means = pop$means,
                                                key = pop$key,
                                                params = params)))

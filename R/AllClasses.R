@@ -472,6 +472,16 @@ setClass("KersplatParams",
 #'             each of those bins.}
 #'         }
 #'     }
+#'     \item{\emph{Specify number of samples per batch. Note that splatPop will
+#'     randomly assign donors to be present in multiple batches to fulfill the 
+#'     specified nBatches and batch.size parameters. For example, if 10 samples 
+#'     are simulated with batchPool.n=4 and batchPool.size= 4, then 6 samples 
+#'     will be randomly chosen to be replicated in two pools.}}{
+#'         \describe{
+#'             \item{\code{batch.size}}{The number of donors in
+#'             each pool/batch.}
+#'         }
+#'     }
 #'}
 #' The parameters not shown in brackets can be estimated from real data using
 #' \code{\link{splatPopEstimate}}. For details of the eQTL simulation
@@ -494,7 +504,8 @@ setClass("SplatPopParams",
                    eqtl.maf.max = "numeric",
                    eqtl.ES.shape = "numeric",
                    eqtl.ES.rate = "numeric",
-                   eqtl.group.specific = "numeric"),
+                   eqtl.group.specific = "numeric",
+                   batch.size = "numeric"),
          prototype = prototype(similarity.scale = 1.0,
                                pop.mean.shape = 0.3395709,
                                pop.mean.rate = 0.008309486,
@@ -517,9 +528,10 @@ setClass("SplatPopParams",
                                eqtl.dist = 1000000,
                                eqtl.maf.min = 0.05,
                                eqtl.maf.max = 0.5,
-                               eqtl.ES.shape = 2.538049,
-                               eqtl.ES.rate = 5.962323,
-                               eqtl.group.specific = 0.2))
+                               eqtl.ES.shape = 3.590247,
+                               eqtl.ES.rate = 12.002204,
+                               eqtl.group.specific = 0.2,
+                               batch.size = 10))
 
 #' The LunParams class
 #'

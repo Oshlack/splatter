@@ -382,19 +382,39 @@ also set *method = group*, but this is done automatically by setting the
 
 #### Batch effects
 
+Population-scale single-cell RNA-sequencing is typically achieved through
+multiplexing, where multiple samples are sequenced together in one batch and 
+then separated computationally. Two parameters control how splatPop simulates
+data with batch structure: *batchCells* and *batch.size*. The 
+*batchCells* parameter is a list containing the number of cells you want to 
+simulate for each sample in each batch, where the length of the list is the 
+total number of batches to simulate. The *batch.size* parameter controls how 
+many samples are included in each batch. If (# batches) x (# samples per batch)
+is greater than the number of samples in the VCF file, splatPop will randomly 
+assign some samples to >1 batch. Thus, by adjusting these two parameters you can 
+design experiments where:
+
+  - all samples are in one batch (batchCells=nCells, batch.size=nSamples)
+  - all samples are present in multiple batches (batchCells=c(nCells, nCells), 
+batch.size=nSamples)
+
+In the following example, we request two batches (with 20 cells/sample in each) 
+with 4 samples in each batch. Given the VCF file contains 6 samples, the 
+simulated data will have two samples replicated in both batches. 
+
 ```{r simulate-population-with-batch-effects}
 params.batches <- newSplatPopParams(batchCells = c(20, 20),
-                                    nGenes = 50,
-                                    similarity.scale = 5,
+                                    batch.size = 4,
+                                    nGenes = 100,
+                                    similarity.scale = 8,
                                     batch.facLoc = 0.3,
-                                    batch.facScale = 0.3)
+                                    batch.facScale = 0.6,
+                                    seed=10)
 
 sim.pop.batches <- splatPopSimulate(vcf = vcf, params = params.batches)
 sim.pop.batches <- logNormCounts(sim.pop.batches)
 sim.pop.batches <- runPCA(sim.pop.batches, ncomponents = 10)
-plotPCA(sim.pop.batches, colour_by = "Batch", shape_by = "Sample",
-        ncomponents = 5:6)
-
+plotPCA(sim.pop.batches, colour_by = "Sample", shape_by = "Batch", point_size=3)
 ```
 
 #### Path effects

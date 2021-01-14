@@ -12,6 +12,7 @@ Chu
 DEGs
 DM
 DP
+DropletUtils
 Dudoit
 EE
 ESg
@@ -95,12 +96,17 @@ ZINB
 ZINBParams
 addFeatureStats
 addGeneLengths
+akima
 analyzers
+aspline
+batchCells
 bcv
 bioRxiv
 biocViews
 bp
+buildBridges
 center
+checkDependencies
 colData
 compareSCESets
 compareSCEs
@@ -114,6 +120,7 @@ diffSCEs
 dist
 doi
 downProb
+downsampleMatrix
 eGene
 eGenes
 eQTL
@@ -141,10 +148,15 @@ meanSampled
 meanlog
 mfa
 mfaSimulate
+minimiseSCE
 mockSCE
 modeling
+nCells
 nGenes
 nGroups
+nSamples
+natrual
+param
 params
 plotPCA
 poisson
@@ -154,6 +166,7 @@ pseudotime
 pval
 qgamma
 rd
+rmEffect
 rowData
 sc
 scDD
@@ -168,6 +181,7 @@ selectFit
 seq
 simpleSimulate
 sparseDCEstimate
+sparsify
 splatEstLib
 splatEstimate
 splatParams

@@ -53,6 +53,16 @@ requires the following parameters:
             each of those bins.}
         }
     }
+    \item{\emph{Specify number of samples per batch. Note that splatPop will
+    randomly assign donors to be present in multiple batches to fulfill the 
+    specified nBatches and batch.size parameters. For example, if 10 samples 
+    are simulated with batchPool.n=4 and batchPool.size= 4, then 6 samples 
+    will be randomly chosen to be replicated in two pools.}}{
+        \describe{
+            \item{\code{batch.size}}{The number of donors in
+            each pool/batch.}
+        }
+    }
 }
 The parameters not shown in brackets can be estimated from real data using
 \code{\link{splatPopEstimate}}. For details of the eQTL simulation

@@ -245,64 +245,39 @@ splatPopSimulateSC <- function(sim.means,
                                sparsify = TRUE,
                                verbose = TRUE, ...){
 
-    set.seed(getParam(params, "seed"))
     method <- match.arg(method)
-
     params <- setParams(params, ...)
     params <- expandParams(params)
     validObject(params)
 
-    seed <- getParam(params, "seed")
-    set.seed(seed)
+    set.seed(getParam(params, "seed"))
 
     nGroups <- getParam(params, "nGroups")
     group.names <- paste0("Group", seq_len(nGroups))
     group.prob <- getParam(params, "group.prob")
     batchCells <- getParam(params, "batchCells")
 
-    # Simulate single-cell counts with group-specific effects
-    if (is.list(sim.means)){
-        if (length(group.prob) != length(sim.means)) {
-            group.prob <- rep(1 / length(sim.means), length(sim.means))
-        }
+    if (!is.list(sim.means)){sim.means <- list(Group1 = sim.means)}
+    if (length(group.prob) != length(sim.means)) {
+        group.prob <- rep(1 / length(sim.means), length(sim.means))}
+    samples <- colnames((sim.means[[1]]))
+    
+    batches <- splatPopDesignBatches(params, samples)
+    
+    # Simulate single-cell counts for each group/cell-type
+    group.n <- lapply(group.prob, function(x) {ceiling(x * batchCells)})
+    names(group.n) <- group.names
+    group.sims <- list()
+    
+    for (g in group.names) {
+        if (verbose) {message(paste0("Simulating sc counts for ", g, "..."))}
 
-        group.n <- lapply(group.prob, function(x) {ceiling(x * batchCells)})
-        names(group.n) <- group.names
-        samples <- colnames((sim.means[[1]]))
-        group.sims <- list()
-
-        for (g in group.names) {
-            if (verbose) {message(paste0("Simulating sc counts for ", g, "..."))}
-            paramsG <- setParams(params, batchCells = unlist(group.n[g]))
-
-            sims <- lapply(samples, function(x) {
-                splatPopSimulateSample(params = paramsG,
-                                       method = method,
-                                       sample.means = sim.means[[g]][, x],
-                                       counts.only = counts.only,
-                                       verbose = verbose)
-            })
-
-            for (i in seq(1, length(sims))) {
-                s <- samples[i]
-                sims[i][[1]]$Sample <- s
-                sims[i][[1]]$Group <- g
-                names(rowData(sims[i][[1]])) <- paste(s, g,
-                                                names(rowData(sims[i][[1]])),
-                                                sep = "_")}
-
-            group.sims[[g]] <- do.call(SingleCellExperiment::cbind, sims)
-        }
-
-        sim.all <- do.call(SingleCellExperiment::cbind, group.sims)
-
-    }else{
-        if (verbose) {message("Simulating population single cell counts...")}
-        samples <- colnames(sim.means)
+        paramsG <- setParams(params, batchCells = unlist(group.n[g]))
         sims <- lapply(samples, function(x) {
-            splatPopSimulateSample(params = params,
+            splatPopSimulateSample(params = paramsG,
                                    method = method,
-                                   sample.means = sim.means[, x],
+                                   sample.means = sim.means[[g]][, x],
+                                   batch = batches[[x]],
                                    counts.only = counts.only,
                                    verbose = verbose)
         })
@@ -310,14 +285,15 @@ splatPopSimulateSC <- function(sim.means,
         for (i in seq(1, length(sims))) {
             s <- samples[i]
             sims[i][[1]]$Sample <- s
-            names(rowData(sims[i][[1]])) <- paste(s,
-                                                  names(rowData(sims[i][[1]])),
-                                                  sep = "_")
-        }
+            sims[i][[1]]$Group <- g
+            names(rowData(sims[i][[1]])) <- paste(s, g,
+                                            names(rowData(sims[i][[1]])),
+                                            sep = "_")}
 
-        sim.all <- do.call(SingleCellExperiment::cbind, sims)
+        group.sims[[g]] <- do.call(SingleCellExperiment::cbind, sims)
     }
 
+    sim.all <- do.call(SingleCellExperiment::cbind, group.sims)
     sim.all <- splatPopCleanSCE(sim.all)
 
     metadata(sim.all)$Simulated_Means <- sim.means
@@ -346,6 +322,7 @@ splatPopSimulateSC <- function(sim.means,
 #'        (eg. cell types), "paths" which selects cells from continuous
 #'        trajectories (eg. differentiation processes).
 #' @param sample.means Gene means to use if running splatSimulatePop().
+#' @param batch Batch number.
 #' @param counts.only logical. Whether to return only the counts.
 #' @param verbose logical. Whether to print progress messages.
 #' @param ... any additional parameter settings to override what is provided in
@@ -371,6 +348,7 @@ splatPopSimulateSC <- function(sim.means,
 #' @importFrom SingleCellExperiment SingleCellExperiment
 splatPopSimulateSample <- function(params = newSplatPopParams(),
                                    method = c("single", "groups", "paths"),
+                                   batch = "batch1",
                                    counts.only = FALSE,
                                    verbose = TRUE,
                                    sample.means, ...) {
@@ -396,7 +374,6 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
     # Set up name vectors
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- names(sample.means)
-    batch.names <- paste0("Batch", seq_len(nBatches))
     if (method == "groups") {
         group.names <- paste0("Group", seq_len(nGroups))
     } else if (method == "paths") {
@@ -409,51 +386,58 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
     features <- data.frame(Gene = gene.names)
     rownames(features) <- gene.names
 
-    sim <- SingleCellExperiment(rowData = features, colData = cells,
-                                metadata = list(Params = params))
-
     # Make batches vector which is the index of param$batchCells repeated
     # params$batchCells[index] times
-    batches <- lapply(seq_len(nBatches), function(i, b) {rep(i, b[i])},
-                      b = batch.cells)
-    batches <- unlist(batches)
-    colData(sim)$Batch <- batch.names[batches]
+    #batches <- lapply(seq_len(nBatches), function(i, b) {rep(i, b[i])},
+    #                  b = batch.cells)
+    #batches <- unlist(batches)
 
-    if (method != "single") {
-        groups <- sample(seq_len(nGroups), nCells, prob = group.prob,
-                         replace = TRUE)
-        colData(sim)$Group <- factor(group.names[groups], levels = group.names)
+    batch.list <- unlist(strsplit(batch, ","))
+    batch.sims <- list()
+    
+    for (b in batch.list){
+        sim <- SingleCellExperiment(rowData = features, colData = cells,
+                                    metadata = list(Params = params))
+        colData(sim)$Batch <- b
+        
+        if (method != "single") {
+            groups <- sample(seq_len(nGroups), nCells, prob = group.prob,
+                             replace = TRUE)
+            colData(sim)$Group <- factor(group.names[groups], levels = group.names)
+        }
+        
+        sim <- splatSimLibSizes(sim, params)
+        rowData(sim)$GeneMean <- sample.means
+        
+        if (nBatches > 1) {
+            sim <- splatPopSimBatchEffects(sim, params)
+        }
+        sim <- splatSimBatchCellMeans(sim, params)
+        
+        if (method == "single") {
+            sim <- splatSimSingleCellMeans(sim, params)
+        } else if (method == "groups") {
+            sim <- splatSimGroupDE(sim, params)
+            sim <- splatSimGroupCellMeans(sim, params)
+        } else {
+            sim <- splatSimPathDE(sim, params)
+            sim <- splatSimPathCellMeans(sim, params)
+        }
+        
+        sim <- splatSimBCVMeans(sim, params)
+        sim <- splatSimTrueCounts(sim, params)
+        sim <- splatSimDropout(sim, params)
+        
+        batch.sims[[b]] <- sim
     }
     
-    sim <- splatSimLibSizes(sim, params)
-    
-    # Use gene means for sample determined by splatPopSimulateMeans
-    rowData(sim)$GeneMean <- sample.means
-    
-    if (nBatches > 1) {
-        sim <- splatSimBatchEffects(sim, params)
-    }
-    sim <- splatSimBatchCellMeans(sim, params)
-
-    if (method == "single") {
-        sim <- splatSimSingleCellMeans(sim, params)
-    } else if (method == "groups") {
-        sim <- splatSimGroupDE(sim, params)
-        sim <- splatSimGroupCellMeans(sim, params)
-    } else {
-        sim <- splatSimPathDE(sim, params)
-        sim <- splatSimPathCellMeans(sim, params)
-    }
-    
-    sim <- splatSimBCVMeans(sim, params)
-    sim <- splatSimTrueCounts(sim, params)
-    sim <- splatSimDropout(sim, params)
+    batch.sims <- do.call(SingleCellExperiment::cbind, batch.sims)
 
     if (counts.only) {
-        assays(sim)[!grepl('counts', names(assays(sim)))] <- NULL
+        assays(batch.sims)[!grepl('counts', names(assays(batch.sims)))] <- NULL
     }
 
-    return(sim)
+    return(batch.sims)
 
 }
 
@@ -887,6 +871,93 @@ splatPopSimGeneMeans <- function(sim, params, base.means.gene) {
     return(sim)
 }
 
+#' Simulate batch effects
+#'
+#' Simulate batch effects. Batch effect factors for each batch are produced
+#' using \code{\link{getLNormFactors}} and these are added along with updated
+#' means for each batch.
+#'
+#' @param sim SingleCellExperiment to add batch effects to.
+#' @param params SplatParams object with simulation parameters.
+#'
+#' @return SingleCellExperiment with simulated batch effects.
+#'
+#' @importFrom SummarizedExperiment rowData rowData<-
+splatPopSimBatchEffects <- function(sim, params) {
+    
+    nGenes <- getParam(params, "nGenes")
+    nBatches <- getParam(params, "nBatches")
+    batch.facLoc <- getParam(params, "batch.facLoc")
+    batch.facScale <- getParam(params, "batch.facScale")
+    batch.rmEffect <- getParam(params, "batch.rmEffect")
+    means.gene <- rowData(sim)$GeneMean
+
+    batch <- unique(colData(sim)$Batch)
+    batch.num <- as.numeric(gsub("[^0-9.-]", "", batch))
+    set.seed(getParam(params, "seed") * batch.num)
+
+    batch.facs <- getLNormFactors(nGenes, 1, 0.5, batch.facLoc,
+                                  batch.facScale)
+    
+    if (batch.rmEffect) {
+        batch.facs <- rep(1, length(batch.facs))
+    }
+
+    rowData(sim)[[paste0("BatchFac", batch)]] <- batch.facs
+
+    set.seed(getParam(params, "seed"))
+    return(sim)
+}
+
+#' Set up pooled experimental design
+#'
+#' @param params SplatParams object with simulation parameters.
+#' @param samples List of samples from vcf.
+#' 
+#' @return Vector with batch assignments for each sample.
+#'
+splatPopDesignBatches <- function(params, samples){
+    
+    nBatches <- getParam(params, "nBatches")
+    batch.size <- getParam(params, "batch.size")
+    
+    if (nBatches == 1){
+        batches = rep("Batch1", length(samples))
+        names(batches) <- samples
+    }else{
+        # Make sure enough batches for all samples
+        if (length(samples) > nBatches * batch.size) {
+            warning("Not enough batches requested to include all samples!")
+            warning("Increase nBatches or batch.size...")
+        } else if(length(samples) )
+            
+            x.int <- (nBatches * batch.size) %/% length(samples) 
+        x.rem <- (nBatches * batch.size) %% length(samples)
+        samples <- sample(samples)
+        counts <- sort(table(c(rep(samples, x.int), samples[1: x.rem])), 
+                       decreasing = TRUE)
+        
+        try.design <- TRUE
+        while(try.design) {
+            all.batches <- rep(paste0("Batch", 1:nBatches), batch.size)
+            batches <- list()
+            try.again <- FALSE
+            for(s in names(counts)){
+                batches.remaining <- unique(all.batches)
+                if(length(batches.remaining) >= counts[s]){
+                    b <- sample(batches.remaining, counts[s], replace = FALSE)
+                    all.batches <- all.batches[-match(b, all.batches)]
+                    batches[[s]] <- b
+                }else{
+                    try.again <- TRUE
+                }
+            }
+            try.design <- try.again
+        }
+    }
+    
+    return(batches)
+}
 
 #' Clean up the population-scale SCE to remove redundant information
 #'
