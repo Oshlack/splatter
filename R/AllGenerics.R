@@ -115,3 +115,4 @@ setGeneric("setParams", function(object, update = NULL, ...) {
 setGeneric("expandParams", function(object, ...) {
     standardGeneric("expandParams")
 })
+

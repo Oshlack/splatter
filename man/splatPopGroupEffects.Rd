@@ -15,7 +15,7 @@ scale simulations. See \code{\link{SplatPopParams}} for details.}
 \item{groups}{array of group names}
 }
 \value{
-The key updated with group eQTL and non-eQTL effects.
+The key updated with group eQTL and DE effects.
 }
 \description{
 If groups > 1, n eSNP-eGene pairs (n = 'eqtl.group.specific') are randomly

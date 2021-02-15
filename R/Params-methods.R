@@ -57,6 +57,7 @@ setMethod("show", "Params", function(object) {
     cat(length(slotNames(object)) - 3, "additional parameters", "\n\n")
 })
 
+
 setMethod("expandParams", "Params", function(object, vectors, n) {
 
     update <- list()

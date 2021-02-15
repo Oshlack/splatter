@@ -26,6 +26,8 @@ requires the following parameters:
     \item{\code{[eqtl.maf.max]}}{Maximum Minor Allele Frequency of eSNPs.}
     \item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate
     as group specific.}
+    \item{\code{[eqtl.condition.specific]}}{Percent of eQTL effects to 
+    simulate as condition specific.}
     \item{\emph{eQTL Effect size distribution parameters. Defaults estimated
     from GTEx eQTL mapping results, see vignette for more information.}}{
         \describe{
@@ -61,6 +63,25 @@ requires the following parameters:
         \describe{
             \item{\code{batch.size}}{The number of donors in
             each pool/batch.}
+        }
+    }
+    \item{\emph{Condition/treatment differential expression parameters}}{
+        \describe{
+            \item{\code{[nConditions]}}{The number of conditions/treatments
+            to divide samples into.}
+            \item{\code{[condition.prob]}}{Probability that a sample belongs 
+            to each condition/treatment group. Can be a vector.}
+            \item{\code{[cde.prob]}}{Probability that a gene is 
+            differentially expressed in a condition group. Can be a vector.}
+            \item{\code{[cde.downProb]}}{Probability that a conditionally 
+            differentially expressed gene is down-regulated. Can be a 
+            vector.}
+            \item{\code{[cde.facLoc]}}{Location (meanlog) parameter for the
+            conditional differential expression factor log-normal 
+            distribution. Can be a vector.}
+            \item{\code{[cde.facScale]}}{Scale (sdlog) parameter for the
+            conditional differential expression factor log-normal 
+            distribution. Can be a vector.}
         }
     }
 }

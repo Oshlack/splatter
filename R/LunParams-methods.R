@@ -53,7 +53,7 @@ setValidity("LunParams", function(object) {
 #' @rdname setParam
 setMethod("setParam", "LunParams", function(object, name, value) {
     checkmate::assertString(name)
-
+    
     if (name == "nCells" || name == "nGroups") {
       stop(name, " cannot be set directly, set groupCells instead")
     }
