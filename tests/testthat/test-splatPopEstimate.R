@@ -1,14 +1,12 @@
 context("splatPopEstimate")
-
+seed <- 49
 if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
     requireNamespace("preprocessCore", quietly = TRUE)) {
 
-    set.seed(1)
-
     # Mock data
-    bulk.means <- mockBulkMatrix(n.genes=500, n.samples=100)
-    bulk.eqtl <- mockBulkeQTL(n.genes=500)
-
+    bulk.means <- mockBulkMatrix(n.genes=50, n.samples=10, seed=seed)
+    bulk.eqtl <- mockBulkeQTL(n.genes=50, seed=seed)
+    set.seed(seed)
     counts <- scater::mockSCE()
 }
 

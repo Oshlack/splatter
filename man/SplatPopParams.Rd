@@ -65,6 +65,19 @@ requires the following parameters:
             each pool/batch.}
         }
     }
+    \item{\emph{Specify shape and rate of gamma distribution to sample
+    number of cells per batch per donor. Will only be used if nCells 
+    parameter is set to 0.}}{
+        \describe{
+            \item{\code{nCells.sample}}{True/False if nCells should be 
+            set as nCells or sampled from a gamma distribution for each
+            batch/donor.}
+            \item{\code{nCells.shape}}{Shape parameter for the nCells per
+            batch per donor distribution.}
+            \item{\code{nCells.rate}}{Rate parameter for the nCells per
+            batch per donor distribution.}
+        }
+    }
     \item{\emph{Condition/treatment differential expression parameters}}{
         \describe{
             \item{\code{[nConditions]}}{The number of conditions/treatments

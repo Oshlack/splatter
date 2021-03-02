@@ -484,6 +484,19 @@ setClass("KersplatParams",
 #'             each pool/batch.}
 #'         }
 #'     }
+#'     \item{\emph{Specify shape and rate of gamma distribution to sample
+#'     number of cells per batch per donor. Will only be used if nCells 
+#'     parameter is set to 0.}}{
+#'         \describe{
+#'             \item{\code{nCells.sample}}{True/False if nCells should be 
+#'             set as nCells or sampled from a gamma distribution for each
+#'             batch/donor.}
+#'             \item{\code{nCells.shape}}{Shape parameter for the nCells per
+#'             batch per donor distribution.}
+#'             \item{\code{nCells.rate}}{Rate parameter for the nCells per
+#'             batch per donor distribution.}
+#'         }
+#'     }
 #'     \item{\emph{Condition/treatment differential expression parameters}}{
 #'         \describe{
 #'             \item{\code{[nConditions]}}{The number of conditions/treatments
@@ -529,6 +542,9 @@ setClass("SplatPopParams",
                    eqtl.group.specific = "numeric",
                    eqtl.condition.specific = "numeric",
                    batch.size = "numeric",
+                   nCells.sample = "logical",
+                   nCells.shape = "numeric",
+                   nCells.rate = "numeric",
                    nConditions = "numeric",
                    condition.prob = "numeric",
                    cde.prob = "numeric",
@@ -563,6 +579,9 @@ setClass("SplatPopParams",
                                eqtl.group.specific = 0.2,
                                eqtl.condition.specific = 0.2,
                                batch.size = 10,
+                               nCells.sample = FALSE,
+                               nCells.shape = 1.5,
+                               nCells.rate = 0.015,
                                nConditions = 1,
                                condition.prob = 1,
                                cde.prob = 0.1,

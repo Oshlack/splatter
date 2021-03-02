@@ -108,7 +108,7 @@ splatPopEstimateEffectSize <- function(params, eqtl) {
 #' @param params SplatPopParams object containing parameters for the
 #'        simulation of the mean expression levels for the population.
 #'        See \code{\link{SplatPopParams}} for details.
-#' @param means data.frame of real gene means across a population, where
+#' @param gene.means data.frame of real gene means across a population, where
 #'        each row is a gene and each column is an individual in the population.
 #'
 #' @details
@@ -127,21 +127,16 @@ splatPopEstimateEffectSize <- function(params, eqtl) {
 #' @importFrom grDevices boxplot.stats
 #' @importFrom matrixStats rowMedians
 #'
-splatPopEstimateMeanCV <- function(params, means) {
+splatPopEstimateMeanCV <- function(params, gene.means) {
 
     # Test input gene means
-    if ((anyNA(means) | !(validObject(rowSums(means))))) {
+    if ((anyNA(gene.means) | !(validObject(rowSums(gene.means))))) {
         stop("Incorrect format or NAs present in gene.means. See example data.")
     }
 
-    # Remove genes with low variance/low means
-    abv.thr <- data.frame(perc = (rowSums(means >= 0.1)/ncol(means)))
-
-    means.use <- means[abv.thr$perc > 0.5, ]
-
     # Calculate mean expression parameters
-    row.means <- rowMedians(means.use)
-    names(row.means) <- row.names(means.use)
+    row.means <- rowMeans(gene.means)
+    names(row.means) <- row.names(gene.means)
     mfit <- fitdistrplus::fitdist(row.means, "gamma",
                                   optim.method = "Nelder-Mead")
 
@@ -157,7 +152,7 @@ splatPopEstimateMeanCV <- function(params, means) {
         re.brack.paren <- "\\[|\\]|\\)|\\("
         min.max <- strsplit(gsub(re.brack.paren, "", unlist(b)), split = ",")
 
-        b.gene.means <- means.use[row.means > as.numeric(min.max[[1]][1]) &
+        b.gene.means <- gene.means[row.means > as.numeric(min.max[[1]][1]) &
                                       row.means < as.numeric(min.max[[1]][2]), ]
 
         cv <- apply(b.gene.means, 1, co.var)

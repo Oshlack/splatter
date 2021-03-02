@@ -4,14 +4,14 @@
 \alias{splatPopEstimateMeanCV}
 \title{Estimate gene mean and gene mean variance parameters}
 \usage{
-splatPopEstimateMeanCV(params, means)
+splatPopEstimateMeanCV(params, gene.means)
 }
 \arguments{
 \item{params}{SplatPopParams object containing parameters for the
 simulation of the mean expression levels for the population.
 See \code{\link{SplatPopParams}} for details.}
 
-\item{means}{data.frame of real gene means across a population, where
+\item{gene.means}{data.frame of real gene means across a population, where
 each row is a gene and each column is an individual in the population.}
 }
 \value{

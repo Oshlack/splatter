@@ -4,12 +4,14 @@
 \alias{mockBulkMatrix}
 \title{Generate mock bulk population scale expression data}
 \usage{
-mockBulkMatrix(n.genes = 1000, n.samples = 100)
+mockBulkMatrix(n.genes = 1000, n.samples = 100, seed = 0)
 }
 \arguments{
 \item{n.genes}{Number of genes in mock bulk data.}
 
 \item{n.samples}{Number of samples in mock bulk data.}
+
+\item{seed}{Optional: seed for random seed}
 }
 \value{
 matrix containing mock bulk expression data.

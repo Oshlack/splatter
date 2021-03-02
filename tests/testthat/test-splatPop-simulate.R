@@ -2,15 +2,18 @@ context("splatPopSimulate")
 
 if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
     requireNamespace("preprocessCore", quietly = TRUE)) {
-
+    
     set.seed(1)
-
+    
     n.samples <- 6
     n.genes <- 10
     vcf <- mockVCF(n.samples = n.samples, n.snps = 1000)
-
+    
     params <- setParams(newSplatPopParams(), eqtl.n = 10, nGenes = n.genes)
 }
+
+
+### End to end tests
 
 test_that("splatPopSimulate output is valid and works", {
     skip_if_not_installed("VariantAnnotation")
@@ -24,7 +27,6 @@ test_that("splatPopSimulate output is valid and works", {
                                                key = pop$key,
                                                params = params)))
 })
-
 
 test_that("splatPopSimulate on multiple groups output is valid and works", {
     skip_if_not_installed("VariantAnnotation")
@@ -42,3 +44,7 @@ test_that("splatPopSimulate can read genes from gff data.frame", {
     sim <- splatPopSimulateMeans(vcf = vcf, params = params, gff = gff)
     expect_true(validObject(sim))
 })
+
+
+### Unit testing
+

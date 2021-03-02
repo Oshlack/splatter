@@ -152,6 +152,7 @@ minimiseSCE
 mockSCE
 modeling
 nCells
+nConditions
 nGenes
 nGroups
 nSamples

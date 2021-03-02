@@ -275,7 +275,6 @@ splatPopSimulateSC <- function(sim.means,
     group.n <- lapply(group.prob, function(x) {ceiling(x * batchCells)})
     names(group.n) <- group.names
     group.sims <- list()
-    
     for (g in group.names) {
         if (verbose) {message(paste0("Simulating sc counts for ", g, "..."))}
 
@@ -300,7 +299,6 @@ splatPopSimulateSC <- function(sim.means,
             names(rowData(sims[i][[1]])) <- paste(s, g,
                                             names(rowData(sims[i][[1]])),
                                             sep = "_")}
-
         group.sims[[g]] <- do.call(SingleCellExperiment::cbind, sims)
     }
     
@@ -365,10 +363,19 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
                                    sample.means, ...) {
 
     method <- match.arg(method)
-    set.seed(getParam(params, "seed"))
 
     # Get the parameters we are going to use
-    nCells <- getParam(params, "nCells")
+    if(getParam(params, "nCells.sample")){
+        nGroups <- getParam(params, "nGroups")
+        nCells.shape <- getParam(params, "nCells.shape")
+        nCells.rate <- getParam(params, "nCells.rate")
+        nCells <- rgamma(1, shape = nCells.shape, rate = nCells.rate)
+        nCells <- ceiling(nCells / nGroups)
+    }else{
+        nCells <- getParam(params, "nCells")
+    }
+
+    set.seed(getParam(params, "seed"))
     nGenes <- length(sample.means)
     params <- setParams(params, nGenes = nGenes)
     nBatches <- getParam(params, "nBatches")
@@ -414,7 +421,6 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
 
         sim <- splatSimLibSizes(sim, params)
         rowData(sim)$GeneMean <- sample.means
-
         if (nBatches > 1) {
             sim <- splatPopSimBatchEffects(sim, params)
         }
@@ -434,6 +440,7 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
         sim <- splatSimBCVMeans(sim, params)
         sim <- splatSimTrueCounts(sim, params)
         sim <- splatSimDropout(sim, params)
+        #print(summary(rowSds(assays(sim)$CellMeans) / rowMeans(assays(sim)$CellMeans)))
         
         batch.sims[[b]] <- sim
     }
@@ -603,17 +610,22 @@ splatPopeQTLEffects <- function(params, key, vcf){
     key[["eQTL.EffectSize"]] <- 0
 
     for(i in seq_len(eqtl.n)){
-        g <- sample(key2$geneID, 1)
-
-        g.rgn <- GenomicRanges::GRanges(
-            seqnames = S4Vectors::Rle(key[key$geneID==g, "chromosome"]),
-            ranges = IRanges::IRanges(key[key$geneID==g, "geneMiddle"] - eqtl.dist,
-                                      key[key$geneID==g, "geneMiddle"] + eqtl.dist))
         
-        vcf.subset <- subsetByOverlaps(rowRanges(vcf), g.rgn)
-        
-        if(length(vcf.subset) == 0) {
-            stop(paste("No SNPs within eqtl.dist limit for:", g))
+        try <- TRUE
+        while(try){
+            g <- sample(key2$geneID, 1)
+            
+            g.rgn <- GenomicRanges::GRanges(
+                seqnames = S4Vectors::Rle(key[key$geneID==g, "chromosome"]),
+                ranges = IRanges::IRanges(key[key$geneID==g, "geneMiddle"] - eqtl.dist,
+                                          key[key$geneID==g, "geneMiddle"] + eqtl.dist))
+            
+            vcf.subset <- subsetByOverlaps(rowRanges(vcf), g.rgn)
+            
+            if(length(vcf.subset) == 0) {
+                key2 <- key2[!(key2$geneID == g),]
+                message(paste("No SNP within eqtl.dist limit for:", g))
+            }else{try <- FALSE}
         }
         
         s <- sample(names(vcf.subset), 1)
@@ -1092,7 +1104,6 @@ splatPopDesignBatches <- function(params, samples){
             try.design <- try.again
         }
     }
-    print(batches)
     return(batches)
 }
 

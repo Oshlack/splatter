@@ -4,6 +4,7 @@
 #'
 #' @param n.genes Number of genes in mock gff file
 #' @param chromosome Chromosome name
+#' @param seed Optional: seed for random seed
 #'
 #' @return data.frame containing mock gff data.
 #'
@@ -11,8 +12,9 @@
 #' gff <- mockGFF()
 #'
 #' @export
-mockGFF <- function(n.genes = 500, chromosome = 22){
-
+mockGFF <- function(n.genes = 500, chromosome = 22, seed=0){
+    if(seed !=0){set.seed(seed)}
+    
     mock.gff <- data.frame(list(V1 = chromosome,
                                 V2 = "source",
                                 V3 = "gene",
@@ -32,6 +34,7 @@ mockGFF <- function(n.genes = 500, chromosome = 22){
 #' @param n.snps Number of SNPs in mock vcf file.
 #' @param n.samples Number of samples in mock bulk data.
 #' @param chromosome Chromosome name
+#' @param seed Optional: seed for random seed
 #'
 #' @return data.frame containing mock gff data.
 #'
@@ -40,9 +43,9 @@ mockGFF <- function(n.genes = 500, chromosome = 22){
 #'
 #' @export
 #' @importFrom stats setNames
-mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
+mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22, seed=0){
 
-
+    if(seed !=0){set.seed(seed)}
     checkDependencies(deps = "VariantAnnotation")
 
     sample_names <- paste0("sample_", formatC(seq_len(n.samples),
@@ -103,6 +106,7 @@ mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
 #'
 #' @param n.genes Number of genes in mock bulk data.
 #' @param n.samples Number of samples in mock bulk data.
+#' @param seed Optional: seed for random seed
 #'
 #' @return matrix containing mock bulk expression data.
 #'
@@ -110,8 +114,9 @@ mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
 #' bulk <- mockBulkMatrix
 #'
 #' @export
-mockBulkMatrix <- function(n.genes = 1000, n.samples = 100){
-
+mockBulkMatrix <- function(n.genes = 1000, n.samples = 100, seed=0){
+    
+    if(seed !=0){set.seed(seed)}
     tmp.params <- newSplatPopParams()
     mean.shape <- getParam(tmp.params, "pop.mean.shape")
     mean.rate <- getParam(tmp.params, "pop.mean.rate")
@@ -140,6 +145,7 @@ mockBulkMatrix <- function(n.genes = 1000, n.samples = 100){
 #' estimated using real eQTL mapping results from GTEx using thyroid tissue.
 #'
 #' @param n.genes Number of genes in mock eQTL data.
+#' @param seed Optional: seed for random seed
 #'
 #' @return data.frame containing mock bulk eQTL mapping results.
 #'
@@ -147,8 +153,9 @@ mockBulkMatrix <- function(n.genes = 1000, n.samples = 100){
 #' eqtl <- mockBulkeQTL()
 #'
 #' @export
-mockBulkeQTL <- function(n.genes = 1000){
-
+mockBulkeQTL <- function(n.genes = 1000, seed=0){
+    
+    if(seed !=0){set.seed(seed)}
     tmp.params <- newSplatPopParams()
     eqtl.shape <- getParam(tmp.params, "eqtl.ES.shape")
     eqtl.rate <- getParam(tmp.params, "eqtl.ES.rate")

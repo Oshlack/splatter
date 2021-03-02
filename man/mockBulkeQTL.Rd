@@ -4,10 +4,12 @@
 \alias{mockBulkeQTL}
 \title{Generate mock eQTL mapping results}
 \usage{
-mockBulkeQTL(n.genes = 1000)
+mockBulkeQTL(n.genes = 1000, seed = 0)
 }
 \arguments{
 \item{n.genes}{Number of genes in mock eQTL data.}
+
+\item{seed}{Optional: seed for random seed}
 }
 \value{
 data.frame containing mock bulk eQTL mapping results.

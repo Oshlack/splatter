@@ -4,7 +4,7 @@
 \alias{mockVCF}
 \title{Generate mock vcf}
 \usage{
-mockVCF(n.snps = 10000, n.samples = 10, chromosome = 22)
+mockVCF(n.snps = 10000, n.samples = 10, chromosome = 22, seed = 0)
 }
 \arguments{
 \item{n.snps}{Number of SNPs in mock vcf file.}
@@ -12,6 +12,8 @@ mockVCF(n.snps = 10000, n.samples = 10, chromosome = 22)
 \item{n.samples}{Number of samples in mock bulk data.}
 
 \item{chromosome}{Chromosome name}
+
+\item{seed}{Optional: seed for random seed}
 }
 \value{
 data.frame containing mock gff data.
