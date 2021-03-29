@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.15.2 (2021-03-30)
+
+* Updates to splatPop including conditional effects, multiplexed batch structure, and nCells per individual sampling.
+
 ## Version 1.15.1 (2020-12-01)
 
 * Replace akima::aspline() with stats::spline(..., method = "natrual") in

@@ -168,7 +168,10 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
         }
     }
     
-    key <- splatPopConditionEffects(params, key, conditions)
+    if (!all(c("eQTL.condition", "ConditionDE.Condition1") %in% names(key))) {
+        key <- splatPopConditionEffects(params, key, conditions)
+    }
+    
 
     if (verbose) {message("Simulating gene means for population...")}
 
@@ -1074,18 +1077,19 @@ splatPopDesignBatches <- function(params, samples){
         batches = rep("Batch1", length(samples))
         names(batches) <- samples
     }else{
-        # Make sure enough batches for all samples
         if (length(samples) > nBatches * batch.size) {
             warning("Not enough batches requested to include all samples!")
             warning("Increase nBatches or batch.size...")
         } 
-            
+        
         xInt <- floor((nBatches * batch.size) / length(samples))
         xRem <- (nBatches * batch.size) %% length(samples)
-        samples <- sample(samples)
-        counts <- sort(table(c(rep(samples, xInt), samples[1: xRem])), 
-                       decreasing = TRUE)
-        
+        if(xRem > 0){
+            counts <- sort(table(c(rep(samples, xInt), 
+                                   sample(samples)[1: xRem])), 
+                           decreasing = TRUE)
+        }else{counts <- table(rep(samples, xInt))}
+
         try.design <- TRUE
         while(try.design) {
             all.batches <- rep(paste0("Batch", 1:nBatches), batch.size)
