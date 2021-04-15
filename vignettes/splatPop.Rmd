@@ -321,6 +321,22 @@ sim.pop.batches <- runPCA(sim.pop.batches, ncomponents = 10)
 plotPCA(sim.pop.batches, colour_by = "Sample", shape_by = "Batch", point_size=3)
 ```
 
+Different distributions can be used to sample batch effect sizes for different batches. For example, here we simulate three batches (5 cells/sample/batch), where batch 1 has a large batch effect compared to batches 2 and 3.
+
+```{r simulate-population-with-batch-effects}
+params.batches <- newSplatPopParams(nGenes = 100,
+                                    similarity.scale = 8,
+                                    batchCells = c(5, 5, 5),
+                                    batch.size = 5,
+                                    batch.facLoc = c(0.5, 0.1,  0.1),
+                                    batch.facScale = c(0.6, 0.3, 0.3))
+
+sim.pop.batches <- splatPopSimulate(vcf = vcf, params = params.batches, sparsify = FALSE)
+sim.pop.batches <- logNormCounts(sim.pop.batches)
+sim.pop.batches <- runPCA(sim.pop.batches, ncomponents = 10)
+plotPCA(sim.pop.batches, colour_by = "Sample", shape_by = "Batch", point_size=3)
+```
+
 ```{r sessionInfo}
 sessionInfo()
 ```

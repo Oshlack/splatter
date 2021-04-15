@@ -1048,8 +1048,8 @@ splatPopSimBatchEffects <- function(sim, params) {
     batch.num <- as.numeric(gsub("[^0-9.-]", "", batch))
     set.seed(getParam(params, "seed") * batch.num)
 
-    batch.facs <- getLNormFactors(nGenes, 1, 0.5, batch.facLoc,
-                                  batch.facScale)
+    batch.facs <- getLNormFactors(nGenes, 1, 0.5, batch.facLoc[batch.num],
+                                  batch.facScale[batch.num])
     
     if (batch.rmEffect) {
         batch.facs <- rep(1, length(batch.facs))
