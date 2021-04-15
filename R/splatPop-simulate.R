@@ -1043,7 +1043,11 @@ splatPopSimBatchEffects <- function(sim, params) {
     batch.facScale <- getParam(params, "batch.facScale")
     batch.rmEffect <- getParam(params, "batch.rmEffect")
     means.gene <- rowData(sim)$GeneMean
-
+    
+    if(length(batch.facLoc) == 1 ){batch.facLoc <- rep(batch.facLoc, nBatches)}
+    if(length(batch.facScale) == 1 ){batch.facScale <- rep(batch.facScale, 
+                                                           nBatches)}
+    
     batch <- unique(colData(sim)$Batch)
     batch.num <- as.numeric(gsub("[^0-9.-]", "", batch))
     set.seed(getParam(params, "seed") * batch.num)
