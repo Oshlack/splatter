@@ -105,7 +105,7 @@ setMethod("expandParams", "BASiCSParams", function(object) {
 
     vectors <- c("theta")
 
-    object <- callNextMethod(object, vectors, n)
+    object <- paramsExpander(object, vectors, n)
 
     return(object)
 })

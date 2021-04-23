@@ -53,7 +53,7 @@ setValidity("LunParams", function(object) {
 #' @rdname setParam
 setMethod("setParam", "LunParams", function(object, name, value) {
     checkmate::assertString(name)
-    
+
     if (name == "nCells" || name == "nGroups") {
       stop(name, " cannot be set directly, set groupCells instead")
     }
@@ -88,7 +88,7 @@ setMethod("expandParams", "LunParams", function(object) {
 
     vectors <- c("de.nGenes", "de.upProp", "de.upFC", "de.downFC")
 
-    object <- callNextMethod(object, vectors, n)
+    object <- paramsExpander(object, vectors, n)
 
     return(object)
 })

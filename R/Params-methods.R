@@ -57,18 +57,10 @@ setMethod("show", "Params", function(object) {
     cat(length(slotNames(object)) - 3, "additional parameters", "\n\n")
 })
 
-
+#' @rdname expandParams
 setMethod("expandParams", "Params", function(object, vectors, n) {
 
-    update <- list()
-    for (parameter in vectors) {
-        value <- getParam(object, parameter)
-        if (length(value) == 1) {
-            update[[parameter]] <- rep(value, n)
-        }
-    }
-
-    object <- setParamsUnchecked(object, update)
+    object <- paramsExpander(object, vectors, n)
 
     return(object)
 })
