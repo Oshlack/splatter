@@ -271,7 +271,7 @@ splatSimulatePaths <- function(params = newSplatParams(), verbose = TRUE, ...) {
 #' @importFrom stats rlnorm rnorm
 splatSimLibSizes <- function(sim, params) {
 
-    nCells <- length(colData(sim)$Cell)
+    nCells <- length(colData(sim)$Cell) # splatPop: different nCells per sample
     lib.loc <- getParam(params, "lib.loc")
     lib.scale <- getParam(params, "lib.scale")
     lib.norm <- getParam(params, "lib.norm")
@@ -391,7 +391,7 @@ splatSimBatchCellMeans <- function(sim, params) {
         batches <- colData(sim)$Batch
         batch.names <- unique(batches)
         
-        batch.facs.gene <- as.data.frame(rowData(sim)[, paste0("BatchFac", batch.names)])
+        batch.facs.gene <- as.matrix(rowData(sim)[, paste0("BatchFac", batch.names)])
         batch.facs.cell <- as.matrix(batch.facs.gene[,
                                                      as.numeric(factor(batches))])
     } else {

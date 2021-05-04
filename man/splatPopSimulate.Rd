@@ -5,7 +5,7 @@
 \title{splatPop simulation}
 \usage{
 splatPopSimulate(
-  params = newSplatPopParams(nGenes = 1000),
+  params = newSplatPopParams(nGenes = 50),
   vcf = mockVCF(),
   method = c("single", "groups", "paths"),
   gff = NULL,

@@ -41,5 +41,5 @@ test_that("splatPopEstimate checks on input data", {
     expect_error(splatPopEstimate(means=bulk.means.bad,
                                   eqtl=bulk.eqtl,
                                   counts=counts),
-        "Incorrect format or NAs present in gene.means.")
+        "Incorrect format or NAs present in emp.gene.means.")
 })

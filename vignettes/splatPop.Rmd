@@ -19,8 +19,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 ```{r setup}
 suppressPackageStartupMessages({
-  devtools::load_all(".")
-  #library("splatter")
+  library("splatter")
   library("scater")
   library("VariantAnnotation")
   library("ggplot2")
@@ -53,12 +52,13 @@ The second phase is essentially a wrapper around the original `splatSimulate` fu
 To get started with splatPop, you only need genotype information for the population you want to simulate provided as a [VariantAnnotation object](https://bioconductor.org/packages/release/bioc/html/VariantAnnotation.html). A mock VariantAnnotation object can be produced using the `mockVCF` function. Here we simulate single-cell RNA-sequencing counts for 100 random genes for 6 random samples:
 
 ```{r quick-start}
-vcf <- mockVCF(n.samples = 5)
+vcf <- mockVCF()
+gff <- mockGFF()
 
-sim <- splatPopSimulate(vcf = vcf, "nGenes" = 100, sparsify = FALSE)
+sim <- splatPopSimulate(vcf = vcf, gff = gff, sparsify = FALSE)
 
 sim <- logNormCounts(sim)
-sim <- runPCA(sim, ncomponents = 10)
+sim <- runPCA(sim, ncomponents = 5)
 plotPCA(sim, colour_by = "Sample")
 ```
 
@@ -152,8 +152,6 @@ The output of `splatPopSimulateMeans` is a list containing:
 Note that when `splatPopSimulate` is run, these to objects are contained in the output SingleCellExperiment object (details below). Let's look at a snapshot of some simulated means and the corresponding key...
 
 ```{r splatPopSimulateMeans}
-vcf <- mockVCF(n.samples = 5)
-gff <- mockGFF(n.genes = 100)
 params <- newSplatPopParams()
 
 sim.means <- splatPopSimulateMeans(vcf = vcf, gff = gff,
@@ -215,16 +213,15 @@ plotPCA(sim.sc, colour_by = "Sample")
 Another useful feature of splatPop is the ability to simulate N cells per individual, where N is sampled from a gamma distribution provided by the user. 
 
 ```{r splatPop-simulation-nCells-sampled}
-params.nCells <- newSplatPopParams(nGenes = 50,
-                                   nCells.sample = TRUE,
-                                   nCells.shape = 1.1,
+params.nCells <- newSplatPopParams(nCells.sample = TRUE,
+                                   nCells.shape = 1.5,
                                    nCells.rate = 0.01)
 
-sim.sc.nCells <- splatPopSimulate(vcf = vcf, params = params.nCells, 
+sim.sc.nCells <- splatPopSimulate(vcf = vcf, gff = gff, params = params.nCells, 
                                sparsify = FALSE)
 
 sim.sc.nCells <- logNormCounts(sim.sc.nCells)
-sim.sc.nCells <- runPCA(sim.sc.nCells, ncomponents = 10)
+sim.sc.nCells <- runPCA(sim.sc.nCells, ncomponents = 2)
 plotPCA(sim.sc.nCells, colour_by = "Sample")
 ```
 
@@ -242,11 +239,10 @@ When used to simulate single-cell data with group-specific effects, `splatSimula
     * `Group` - The group ID for each cell.
 
 ```{r group-specific-eQTL-simulations}
-params.group <- newSplatPopParams(nGenes = 50,
-                                  batchCells = 40,
+params.group <- newSplatPopParams(batchCells = 50,
                                   group.prob = c(0.5, 0.5))
 
-sim.sc.gr2 <- splatPopSimulate(vcf = vcf, params = params.group, 
+sim.sc.gr2 <- splatPopSimulate(vcf = vcf, gff = gff, params = params.group, 
                                sparsify = FALSE)
 
 sim.sc.gr2 <- logNormCounts(sim.sc.gr2)
@@ -257,8 +253,7 @@ plotPCA(sim.sc.gr2, colour_by = "Group", shape_by = "Sample")
 From the PCA plot above you can see that in this simulation the sample effect outweighs the group effect. But we can tune these parameters to change the  relative weight of these effects. First we can decrease the sample effect by increasing the *similarity.scale* parameter. And second we can increase the group effect by adjusting the *eqtl.group.specific* and *de* parameters: 
 
 ```{r group-specific-eQTL-simulations-bigger}
-params.group <- newSplatPopParams(batchCells = 40,
-                                  nGenes = 50,
+params.group <- newSplatPopParams(batchCells = 50,
                                   similarity.scale = 8,
                                   eqtl.group.specific = 0.6,
                                   de.prob = 0.5,
@@ -266,7 +261,7 @@ params.group <- newSplatPopParams(batchCells = 40,
                                   de.facScale = 0.5,
                                   group.prob = c(0.5, 0.5))
 
-sim.sc.gr2 <- splatPopSimulate(vcf = vcf, params = params.group, 
+sim.sc.gr2 <- splatPopSimulate(vcf = vcf, gff = gff, params = params.group, 
                                sparsify = FALSE)
 
 sim.sc.gr2 <- logNormCounts(sim.sc.gr2)
@@ -282,6 +277,7 @@ Like with group effects, the two types of conditional effects are included: cond
 
 ```{r simulate-population-with-condition-effects}
 params.cond <- newSplatPopParams(eqtl.n = 0.5, 
+                                 batchCells = 50,
                                  similarity.scale = 5,
                                  condition.prob = c(0.5, 0.5),
                                  eqtl.condition.specific = 0.5,
@@ -308,30 +304,30 @@ batch.size=nSamples)
 In the following example, we request two batches (with 20 cells/sample in each) with 3 samples in each batch. Given the VCF file contains 5 samples, the simulated data will have one sample replicated in both batches. 
 
 ```{r simulate-population-with-batch-effects}
-params.batches <- newSplatPopParams(nGenes = 100,
-                                    similarity.scale = 4,
+params.batches <- newSplatPopParams(similarity.scale = 4,
                                     batchCells = c(20, 20),
                                     batch.size = 3,
                                     batch.facLoc = 0.1,
                                     batch.facScale = 0.2)
 
-sim.pop.batches <- splatPopSimulate(vcf = vcf, params = params.batches, sparsify = FALSE)
+sim.pop.batches <- splatPopSimulate(vcf = vcf, gff = gff, 
+                                    params = params.batches, sparsify = FALSE)
 sim.pop.batches <- logNormCounts(sim.pop.batches)
 sim.pop.batches <- runPCA(sim.pop.batches, ncomponents = 10)
 plotPCA(sim.pop.batches, colour_by = "Sample", shape_by = "Batch", point_size=3)
 ```
 
-Different distributions can be used to sample batch effect sizes for different batches. For example, here we simulate three batches (5 cells/sample/batch), where batch 1 has a large batch effect compared to batches 2 and 3.
+Different distributions can be used to sample batch effect sizes for different batches. For example, here we simulate three batches with 3 samples per batch and only 5 cells/sample/batch (for easy viewing), where batch 1 has a large batch effect compared to batches 2 and 3.
 
-```{r simulate-population-with-batch-effects}
-params.batches <- newSplatPopParams(nGenes = 100,
-                                    similarity.scale = 8,
+```{r simulate-population-with-different-sized-batch-effects}
+params.batches <- newSplatPopParams(similarity.scale = 8,
                                     batchCells = c(5, 5, 5),
-                                    batch.size = 5,
+                                    batch.size = 3,
                                     batch.facLoc = c(0.5, 0.1,  0.1),
-                                    batch.facScale = c(0.6, 0.3, 0.3))
+                                    batch.facScale = c(0.6, 0.15, 0.15))
 
-sim.pop.batches <- splatPopSimulate(vcf = vcf, params = params.batches, sparsify = FALSE)
+sim.pop.batches <- splatPopSimulate(vcf = vcf, gff = gff, 
+                                    params = params.batches, sparsify = FALSE)
 sim.pop.batches <- logNormCounts(sim.pop.batches)
 sim.pop.batches <- runPCA(sim.pop.batches, ncomponents = 10)
 plotPCA(sim.pop.batches, colour_by = "Sample", shape_by = "Batch", point_size=3)

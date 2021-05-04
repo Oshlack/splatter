@@ -47,7 +47,7 @@
 #' }
 #'
 #' @export
-splatPopSimulate <- function(params = newSplatPopParams(nGenes = 1000),
+splatPopSimulate <- function(params = newSplatPopParams(nGenes = 50),
                              vcf = mockVCF(),
                              method = c("single", "groups", "paths"),
                              gff = NULL,
@@ -149,7 +149,7 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
     
     vcf <- splatPopParseVCF(vcf, params)
     group.names <- paste0("Group", seq_len(nGroups))
-    samples <- colnames(geno(vcf)$GT)
+    samples <- colnames(vcf)
     conditions <- splatPopDesignConditions(params, samples)
 
     # Genes from key or gff or mock (in that order)
@@ -443,8 +443,7 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
         sim <- splatSimBCVMeans(sim, params)
         sim <- splatSimTrueCounts(sim, params)
         sim <- splatSimDropout(sim, params)
-        #print(summary(rowSds(assays(sim)$CellMeans) / rowMeans(assays(sim)$CellMeans)))
-        
+
         batch.sims[[b]] <- sim
     }
     
@@ -623,7 +622,8 @@ splatPopeQTLEffects <- function(params, key, vcf){
                 ranges = IRanges::IRanges(key[key$geneID==g, "geneMiddle"] - eqtl.dist,
                                           key[key$geneID==g, "geneMiddle"] + eqtl.dist))
             
-            vcf.subset <- subsetByOverlaps(rowRanges(vcf), g.rgn)
+            vcf.subset <- IRanges::subsetByOverlaps(
+                SummarizedExperiment::rowRanges(vcf), g.rgn)
             
             if(length(vcf.subset) == 0) {
                 key2 <- key2[!(key2$geneID == g),]
@@ -847,7 +847,7 @@ splatPopSimConditionalEffects <- function(key, means.pop, conditions){
         c.samples <- names(conditions[conditions == c])
         c.de <- key[[paste0("ConditionDE.", c)]]
 
-        if(type(means.pop) == "list"){
+        if(is.list(means.pop)){
             for (i in names(means.pop)){
                 means.pop[[i]][, c.samples] <- mapply("*", 
                                                       means.pop[[i]][, c.samples],

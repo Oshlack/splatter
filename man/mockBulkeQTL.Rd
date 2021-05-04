@@ -4,7 +4,7 @@
 \alias{mockBulkeQTL}
 \title{Generate mock eQTL mapping results}
 \usage{
-mockBulkeQTL(n.genes = 1000, seed = 0)
+mockBulkeQTL(n.genes = 500, seed = NULL)
 }
 \arguments{
 \item{n.genes}{Number of genes in mock eQTL data.}
