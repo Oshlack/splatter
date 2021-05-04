@@ -104,10 +104,14 @@ setGeneric("setParams", function(object, update = NULL, ...) {
 #' Expand parameters
 #'
 #' Expand the parameters that can be vectors so that they are the same length as
-#' the number of groups.
+#' the number of groups. Work is done by \code{\link{paramsExpander}} called
+#' from each method. Expansions are stored using
+#' \code{\link{setParamsUnchecked}}.
 #'
 #' @param object object to expand.
 #' @param ... additional arguments.
+#' @param vector names of vector parameters to expand
+#' @param n number of times to repeat each parameter
 #'
 #' @return Expanded object.
 #'
@@ -115,4 +119,3 @@ setGeneric("setParams", function(object, update = NULL, ...) {
 setGeneric("expandParams", function(object, ...) {
     standardGeneric("expandParams")
 })
-

@@ -203,3 +203,20 @@ showDFs <- function(dfs, not.default) {
         }
     }
 }
+
+#' @rdname expandParams
+paramsExpander <- function(object, vectors, n) {
+
+    update <- list()
+
+    for (parameter in vectors) {
+        value <- getParam(object, parameter)
+        if (length(value) == 1) {
+            update[[parameter]] <- rep(value, n)
+        }
+    }
+
+    object <- setParamsUnchecked(object, update)
+
+    return(object)
+}
