@@ -2,7 +2,6 @@ context("splatPopSimulate")
 
 if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
     requireNamespace("preprocessCore", quietly = TRUE)) {
-    library(VariantAnnotation)
     set.seed(1)
     
     n.samples <- 6

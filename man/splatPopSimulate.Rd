@@ -65,7 +65,9 @@ functions for more details.
 \donttest{
 if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
     requireNamespace("preprocessCore", quietly = TRUE)) {
-    sim <- splatPopSimulate()
+    vcf <- mockVCF()
+    gff <- mockVCF()
+    sim <- splatPopSimulate(vcf = vcf, gff = gff, sparsify = FALSE)
 }
 }
 

@@ -14,7 +14,7 @@ splatPopSimConditionalEffects(key, means.pop, conditions)
 \item{conditions}{array of condition assignments for each sample}
 }
 \value{
-data.frame of gene mean expression levels WITH conditional DE 
+data.frame of gene mean expression levels WITH conditional DE
 effects.
 }
 \description{

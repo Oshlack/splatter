@@ -3,7 +3,7 @@
 #' @export
 newSplatPopParams <- function(...) {
 
-    #checkDependencies("splatPop")
+    checkDependencies("splatPop")
 
     params <- new("SplatPopParams")
     params <- setParams(params, ...)

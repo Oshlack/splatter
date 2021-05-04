@@ -42,7 +42,9 @@
 #' \donttest{
 #' if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
 #'     requireNamespace("preprocessCore", quietly = TRUE)) {
-#'     sim <- splatPopSimulate()
+#'     vcf <- mockVCF()
+#'     gff <- mockVCF()
+#'     sim <- splatPopSimulate(vcf = vcf, gff = gff, sparsify = FALSE)
 #' }
 #' }
 #'
@@ -368,7 +370,7 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
     method <- match.arg(method)
 
     # Get the parameters we are going to use
-    if(getParam(params, "nCells.sample")){
+    if(isTRUE(getParam(params, "nCells.sample"))){
         nGroups <- getParam(params, "nGroups")
         nCells.shape <- getParam(params, "nCells.shape")
         nCells.rate <- getParam(params, "nCells.rate")

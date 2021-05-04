@@ -1,6 +1,6 @@
 # DEVELOPMENT VERSION
 
-## Version 1.15.2 (2021-03-30)
+## Version 1.15.2 (2021-05-04)
 
 * Updates to splatPop including conditional effects, multiplexed batch structure, and nCells per individual sampling.
 
