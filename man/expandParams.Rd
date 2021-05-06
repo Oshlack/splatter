@@ -31,9 +31,9 @@ paramsExpander(object, vectors, n)
 
 \item{...}{additional arguments.}
 
-\item{n}{number of times to repeat each parameter}
+\item{vectors}{names of vector parameters to expand}
 
-\item{vector}{names of vector parameters to expand}
+\item{n}{number of times to repeat each parameter}
 }
 \value{
 Expanded object.

@@ -110,7 +110,7 @@ setGeneric("setParams", function(object, update = NULL, ...) {
 #'
 #' @param object object to expand.
 #' @param ... additional arguments.
-#' @param vector names of vector parameters to expand
+#' @param vectors names of vector parameters to expand
 #' @param n number of times to repeat each parameter
 #'
 #' @return Expanded object.
