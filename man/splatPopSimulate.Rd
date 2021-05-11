@@ -61,14 +61,11 @@ single-cell counts per individual. Please see the documentation for those
 functions for more details.
 }
 \examples{
-
-\donttest{
 if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
     requireNamespace("preprocessCore", quietly = TRUE)) {
     vcf <- mockVCF()
-    gff <- mockVCF()
+    gff <- mockGFF()
     sim <- splatPopSimulate(vcf = vcf, gff = gff, sparsify = FALSE)
-}
 }
 
 }

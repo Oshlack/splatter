@@ -38,15 +38,12 @@
 #' to each gene.
 #'
 #' @examples
-#'
-#' \donttest{
-#' if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
+#' \donttest{if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
 #'     requireNamespace("preprocessCore", quietly = TRUE)) {
 #'     vcf <- mockVCF()
-#'     gff <- mockVCF()
+#'     gff <- mockGFF()
 #'     sim <- splatPopSimulate(vcf = vcf, gff = gff, sparsify = FALSE)
-#' }
-#' }
+#' }}
 #'
 #' @export
 splatPopSimulate <- function(params = newSplatPopParams(nGenes = 50),
@@ -60,7 +57,7 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 50),
 
     if (verbose) {message("Designing population...")}
     params <- setParams(params, ...)
-    #params <- expandParams(params)
+    params <- expandParams(params)
     validObject(params)
 
 
@@ -255,7 +252,7 @@ splatPopSimulateSC <- function(sim.means,
 
     method <- match.arg(method)
     params <- setParams(params, ...)
-    #params <- expandParams(params)
+    params <- expandParams(params)
     validObject(params)
 
     set.seed(getParam(params, "seed"))
