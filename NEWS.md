@@ -1,12 +1,13 @@
 # DEVELOPMENT VERSION
 
-## Version 1.15.2 (2021-05-04)
+## Version 1.15.2 (2021-05-11)
 
-* Updates to splatPop including conditional effects, multiplexed batch structure, and nCells per individual sampling.
+* Updates to splatPop including conditional effects, multiplexed batch
+  structure, and nCells per individual sampling. (PR #113)
 
 ## Version 1.15.1 (2020-12-01)
 
-* Replace akima::aspline() with stats::spline(..., method = "natrual") in
+* Replace akima::aspline() with stats::spline(..., method = "natural") in
   buildBridges() (Fixes #108)
 
 ## Version 1.15.0 (2020-10-28)
@@ -19,7 +20,7 @@ Bioconductor 3.12 release
 
 ## Version 1.14.1 (2020-12-01)
 
-* Replace akima::aspline() with stats::spline(..., method = "natrual") in
+* Replace akima::aspline() with stats::spline(..., method = "natural") in
   buildBridges() (Fixes #108)
 
 ## Version 1.13.2 (2020-10-25)
