@@ -11,7 +11,7 @@ test_that("constructor is valid", {
 
 test_that("printing works", {
     skip_if_not_installed("scDD")
-    expect_output(show(params), "A Params object of class SCDDParams")
+    expect_output(show(params), "SCDDParams")
 })
 
 test_that("nGenes checks work", {

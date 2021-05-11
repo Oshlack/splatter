@@ -6,7 +6,7 @@ if (requireNamespace("BASiCS", quietly = TRUE)) {
 
 test_that("printing works", {
     skip_if_not_installed("BASiCS")
-    expect_output(show(params), "A Params object of class BASiCSParams")
+    expect_output(show(params), "BASiCSParams")
 })
 
 test_that("gene.params checks work", {

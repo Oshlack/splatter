@@ -88,7 +88,7 @@ setMethod("expandParams", "LunParams", function(object) {
 
     vectors <- c("de.nGenes", "de.upProp", "de.upFC", "de.downFC")
 
-    object <- callNextMethod(object, vectors, n)
+    object <- paramsExpander(object, vectors, n)
 
     return(object)
 })

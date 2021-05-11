@@ -4,6 +4,8 @@
 #'
 #' @param n.genes Number of genes in mock gff file
 #' @param chromosome Chromosome name
+#' @param chr.length Length of mock chromosome 
+#' @param seed Optional: seed for random seed
 #'
 #' @return data.frame containing mock gff data.
 #'
@@ -11,12 +13,13 @@
 #' gff <- mockGFF()
 #'
 #' @export
-mockGFF <- function(n.genes = 500, chromosome = 22){
-
+mockGFF <- function(n.genes = 50, chromosome = 1, chr.length = 2e6, seed=NULL){
+    if(!is.null(seed)){set.seed(seed)}
+    
     mock.gff <- data.frame(list(V1 = chromosome,
                                 V2 = "source",
                                 V3 = "gene",
-                                V4 = sort(sample(1e4:2e8, n.genes))))
+                                V4 = sort(sample(1e4:chr.length, n.genes))))
     mock.gff$V5 <- mock.gff$V4 + floor(rnorm(n.genes, 1500, 1000))
     mock.gff[, c("V6", "V7", "V8", "V9")] <- "."
 
@@ -32,6 +35,8 @@ mockGFF <- function(n.genes = 500, chromosome = 22){
 #' @param n.snps Number of SNPs in mock vcf file.
 #' @param n.samples Number of samples in mock bulk data.
 #' @param chromosome Chromosome name
+#' @param chr.length Length of mock chromosome 
+#' @param seed Optional: seed for random seed
 #'
 #' @return data.frame containing mock gff data.
 #'
@@ -40,9 +45,10 @@ mockGFF <- function(n.genes = 500, chromosome = 22){
 #'
 #' @export
 #' @importFrom stats setNames
-mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
+mockVCF <- function(n.snps = 200, n.samples = 5, 
+                    chromosome = 1,  chr.length = 2e6, seed=NULL){
 
-
+    if(!is.null(seed)){set.seed(seed)}
     checkDependencies(deps = "VariantAnnotation")
 
     sample_names <- paste0("sample_", formatC(seq_len(n.samples),
@@ -55,7 +61,8 @@ mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
     # rowRanges
     vcf.rowRanges <- GenomicRanges::GRanges(
         seqnames = S4Vectors::Rle(rep(chromosome, n.snps)),
-        ranges = IRanges::IRanges(sample(seq_len(2e8), n.snps, replace = FALSE),
+        ranges = IRanges::IRanges(sample(seq_len(chr.length), n.snps, 
+                                         replace = FALSE),
                                   names = snp_names),
         strand = S4Vectors::Rle(BiocGenerics::strand(rep("*", n.snps))),
         paramRangeID = S4Vectors::Rle(rep(NA, n.snps))
@@ -103,6 +110,7 @@ mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
 #'
 #' @param n.genes Number of genes in mock bulk data.
 #' @param n.samples Number of samples in mock bulk data.
+#' @param seed Optional: seed for random seed
 #'
 #' @return matrix containing mock bulk expression data.
 #'
@@ -110,8 +118,9 @@ mockVCF <- function(n.snps = 1e4, n.samples = 10, chromosome = 22){
 #' bulk <- mockBulkMatrix
 #'
 #' @export
-mockBulkMatrix <- function(n.genes = 1000, n.samples = 100){
-
+mockBulkMatrix <- function(n.genes = 100, n.samples = 50, seed=NULL){
+    
+    if(!is.null(seed)){set.seed(seed)}
     tmp.params <- newSplatPopParams()
     mean.shape <- getParam(tmp.params, "pop.mean.shape")
     mean.rate <- getParam(tmp.params, "pop.mean.rate")
@@ -140,6 +149,7 @@ mockBulkMatrix <- function(n.genes = 1000, n.samples = 100){
 #' estimated using real eQTL mapping results from GTEx using thyroid tissue.
 #'
 #' @param n.genes Number of genes in mock eQTL data.
+#' @param seed Optional: seed for random seed
 #'
 #' @return data.frame containing mock bulk eQTL mapping results.
 #'
@@ -147,8 +157,9 @@ mockBulkMatrix <- function(n.genes = 1000, n.samples = 100){
 #' eqtl <- mockBulkeQTL()
 #'
 #' @export
-mockBulkeQTL <- function(n.genes = 1000){
-
+mockBulkeQTL <- function(n.genes = 500, seed=NULL){
+    
+    if(!is.null(seed)){set.seed(seed)}
     tmp.params <- newSplatPopParams()
     eqtl.shape <- getParam(tmp.params, "eqtl.ES.shape")
     eqtl.rate <- getParam(tmp.params, "eqtl.ES.rate")

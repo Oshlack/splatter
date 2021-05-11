@@ -445,6 +445,8 @@ setClass("KersplatParams",
 #'     \item{\code{[eqtl.maf.max]}}{Maximum Minor Allele Frequency of eSNPs.}
 #'     \item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate
 #'     as group specific.}
+#'     \item{\code{[eqtl.condition.specific]}}{Percent of eQTL effects to 
+#'     simulate as condition specific.}
 #'     \item{\emph{eQTL Effect size distribution parameters. Defaults estimated
 #'     from GTEx eQTL mapping results, see vignette for more information.}}{
 #'         \describe{
@@ -472,6 +474,48 @@ setClass("KersplatParams",
 #'             each of those bins.}
 #'         }
 #'     }
+#'     \item{\emph{Specify number of samples per batch. Note that splatPop will
+#'     randomly assign donors to be present in multiple batches to fulfill the 
+#'     specified nBatches and batch.size parameters. For example, if 10 samples 
+#'     are simulated with batchPool.n=4 and batchPool.size= 4, then 6 samples 
+#'     will be randomly chosen to be replicated in two pools.}}{
+#'         \describe{
+#'             \item{\code{batch.size}}{The number of donors in
+#'             each pool/batch.}
+#'         }
+#'     }
+#'     \item{\emph{Specify shape and rate of gamma distribution to sample
+#'     number of cells per batch per donor. Will only be used if nCells 
+#'     parameter is set to 0.}}{
+#'         \describe{
+#'             \item{\code{nCells.sample}}{True/False if nCells should be 
+#'             set as nCells or sampled from a gamma distribution for each
+#'             batch/donor.}
+#'             \item{\code{nCells.shape}}{Shape parameter for the nCells per
+#'             batch per donor distribution.}
+#'             \item{\code{nCells.rate}}{Rate parameter for the nCells per
+#'             batch per donor distribution.}
+#'         }
+#'     }
+#'     \item{\emph{Condition/treatment differential expression parameters}}{
+#'         \describe{
+#'             \item{\code{[nConditions]}}{The number of conditions/treatments
+#'             to divide samples into.}
+#'             \item{\code{[condition.prob]}}{Probability that a sample belongs 
+#'             to each condition/treatment group. Can be a vector.}
+#'             \item{\code{[cde.prob]}}{Probability that a gene is 
+#'             differentially expressed in a condition group. Can be a vector.}
+#'             \item{\code{[cde.downProb]}}{Probability that a conditionally 
+#'             differentially expressed gene is down-regulated. Can be a 
+#'             vector.}
+#'             \item{\code{[cde.facLoc]}}{Location (meanlog) parameter for the
+#'             conditional differential expression factor log-normal 
+#'             distribution. Can be a vector.}
+#'             \item{\code{[cde.facScale]}}{Scale (sdlog) parameter for the
+#'             conditional differential expression factor log-normal 
+#'             distribution. Can be a vector.}
+#'         }
+#'     }
 #'}
 #' The parameters not shown in brackets can be estimated from real data using
 #' \code{\link{splatPopEstimate}}. For details of the eQTL simulation
@@ -486,6 +530,7 @@ setClass("SplatPopParams",
          slots = c(similarity.scale = "numeric",
                    pop.mean.shape = "numeric",
                    pop.mean.rate = "numeric",
+                   pop.quant.norm = "logical",
                    pop.cv.bins = "numeric",
                    pop.cv.param = "data.frame",
                    eqtl.n = "numeric",
@@ -494,32 +539,49 @@ setClass("SplatPopParams",
                    eqtl.maf.max = "numeric",
                    eqtl.ES.shape = "numeric",
                    eqtl.ES.rate = "numeric",
-                   eqtl.group.specific = "numeric"),
+                   eqtl.group.specific = "numeric",
+                   eqtl.condition.specific = "numeric",
+                   batch.size = "numeric",
+                   nCells.sample = "logical",
+                   nCells.shape = "numeric",
+                   nCells.rate = "numeric",
+                   nConditions = "numeric",
+                   condition.prob = "numeric",
+                   cde.prob = "numeric",
+                   cde.downProb = "numeric",
+                   cde.facLoc = "numeric",
+                   cde.facScale = "numeric"),
          prototype = prototype(similarity.scale = 1.0,
-                               pop.mean.shape = 0.3395709,
-                               pop.mean.rate = 0.008309486,
+                               pop.mean.shape = 0.34,
+                               pop.mean.rate = 0.008,
+                               pop.quant.norm = TRUE,
                                pop.cv.bins = 10,
                                pop.cv.param =
                                    data.frame(
-                                       start = c(0, 0.476, 0.955, 1.86, 3.49,
-                                                 6.33, 10.4, 16.3, 26.5,49.9),
-                                       end = c(0.476 ,0.955, 1.86, 3.49, 6.33,
-                                               10.4, 16.3, 26.5, 49.9, 1e+10),
-                                       shape = c(11.636709, 5.084263, 3.161149,
-                                                 2.603407, 2.174618, 2.472718,
-                                                 2.911565, 3.754947, 3.623545,
-                                                 2.540001),
-                                       rate = c(8.229737, 3.236401, 1.901426,
-                                                1.615142, 1.467896, 2.141105,
-                                                3.005807, 4.440894, 4.458207,
-                                                2.702462)),
-                               eqtl.n = 1,
+                                       start = c(0, 0.5, 1, 2, 3.5,
+                                                 6, 10, 15, 25,50),
+                                       end = c(0.5 ,1, 2, 3.5, 6,
+                                               10, 16, 25, 50, 1e+10),
+                                       shape = c(11, 5, 3, 2, 2, 2, 2, 3, 3, 2),
+                                       rate = c(9, 4, 2, 2, 2, 2, 3, 5, 5, 3)),
+                               eqtl.n = 0.5,
                                eqtl.dist = 1000000,
                                eqtl.maf.min = 0.05,
                                eqtl.maf.max = 0.5,
-                               eqtl.ES.shape = 2.538049,
-                               eqtl.ES.rate = 5.962323,
-                               eqtl.group.specific = 0.2))
+                               eqtl.ES.shape = 3.6,
+                               eqtl.ES.rate = 12,
+                               eqtl.group.specific = 0.2,
+                               eqtl.condition.specific = 0.2,
+                               batch.size = 10,
+                               nCells.sample = FALSE,
+                               nCells.shape = 1.5,
+                               nCells.rate = 0.015,
+                               nConditions = 1,
+                               condition.prob = 1,
+                               cde.prob = 0.1,
+                               cde.downProb = 0.5,
+                               cde.facLoc = 0.1,
+                               cde.facScale = 0.4))
 
 #' The LunParams class
 #'

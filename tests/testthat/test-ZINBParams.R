@@ -11,7 +11,7 @@ test_that("constructor is valid", {
 
 test_that("printing works", {
     skip_if_not_installed("zinbwave")
-    expect_output(show(params), "A Params object of class ZINBParams")
+    expect_output(show(params), "ZINBParams")
 })
 
 test_that("nGenes checks work", {

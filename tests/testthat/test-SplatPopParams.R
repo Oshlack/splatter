@@ -8,7 +8,7 @@ if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
 test_that("printing works", {
     skip_if_not_installed("VariantAnnotation")
     skip_if_not_installed("preprocessCore")
-    expect_output(show(params), "A Params object of class SplatPopParams")
+    expect_output(show(params), "SplatPopParams")
 })
 
 test_that("nCells checks work", {

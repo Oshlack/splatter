@@ -271,7 +271,7 @@ splatSimulatePaths <- function(params = newSplatParams(), verbose = TRUE, ...) {
 #' @importFrom stats rlnorm rnorm
 splatSimLibSizes <- function(sim, params) {
 
-    nCells <- getParam(params, "nCells")
+    nCells <- length(colData(sim)$Cell) # splatPop: different nCells per sample
     lib.loc <- getParam(params, "lib.loc")
     lib.scale <- getParam(params, "lib.scale")
     lib.norm <- getParam(params, "lib.norm")
@@ -390,12 +390,12 @@ splatSimBatchCellMeans <- function(sim, params) {
     if (nBatches > 1) {
         batches <- colData(sim)$Batch
         batch.names <- unique(batches)
-
-        batch.facs.gene <- rowData(sim)[, paste0("BatchFac", batch.names)]
+        
+        batch.facs.gene <- as.matrix(rowData(sim)[, paste0("BatchFac", batch.names)])
         batch.facs.cell <- as.matrix(batch.facs.gene[,
-                                                  as.numeric(factor(batches))])
+                                                     as.numeric(factor(batches))])
     } else {
-        nCells <- getParam(params, "nCells")
+        nCells <- length(colData(sim)$Cell)
         nGenes <- getParam(params, "nGenes")
 
         batch.facs.cell <- matrix(1, ncol = nCells, nrow = nGenes)
@@ -495,7 +495,7 @@ NULL
 #' @importFrom SummarizedExperiment rowData colData assays assays<-
 splatSimSingleCellMeans <- function(sim, params) {
 
-    nCells <- getParam(params, "nCells")
+    nCells <- length(colData(sim)$Cell)
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
     exp.lib.sizes <- colData(sim)$ExpLibSize
@@ -543,7 +543,7 @@ splatSimGroupCellMeans <- function(sim, params) {
 splatSimPathCellMeans <- function(sim, params) {
 
     nGenes <- getParam(params, "nGenes")
-    nCells <- getParam(params, "nCells")
+    nCells <- length(colData(sim)$Cell)
     nGroups <- getParam(params, "nGroups")
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
@@ -651,11 +651,10 @@ splatSimBCVMeans <- function(sim, params) {
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
     nGenes <- getParam(params, "nGenes")
-    nCells <- getParam(params, "nCells")
+    nCells <- length(colData(sim)$Cell)
     bcv.common <- getParam(params, "bcv.common")
     bcv.df <- getParam(params, "bcv.df")
     base.means.cell <- assays(sim)$BaseCellMeans
-
     if (is.finite(bcv.df)) {
         bcv <- (bcv.common + (1 / sqrt(base.means.cell))) *
             sqrt(bcv.df / rchisq(nGenes, df = bcv.df))
@@ -663,11 +662,10 @@ splatSimBCVMeans <- function(sim, params) {
         warning("'bcv.df' is infinite. This parameter will be ignored.")
         bcv <- (bcv.common + (1 / sqrt(base.means.cell)))
     }
-
     means.cell <- matrix(rgamma(
         as.numeric(nGenes) * as.numeric(nCells),
         shape = 1 / (bcv ^ 2), scale = base.means.cell * (bcv ^ 2)),
-    nrow = nGenes, ncol = nCells)
+        nrow = nGenes, ncol = nCells)
 
     colnames(means.cell) <- cell.names
     rownames(means.cell) <- gene.names
@@ -696,7 +694,7 @@ splatSimTrueCounts <- function(sim, params) {
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
     nGenes <- getParam(params, "nGenes")
-    nCells <- getParam(params, "nCells")
+    nCells <- length(colData(sim)$Cell)
     cell.means <- assays(sim)$CellMeans
 
     true.counts <- matrix(rpois(
@@ -734,7 +732,7 @@ splatSimDropout <- function(sim, params) {
     dropout.shape <- getParam(params, "dropout.shape")
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
-    nCells <- getParam(params, "nCells")
+    nCells <- length(colData(sim)$Cell)
     nGenes <- getParam(params, "nGenes")
     nBatches <- getParam(params, "nBatches")
     nGroups <- getParam(params, "nGroups")

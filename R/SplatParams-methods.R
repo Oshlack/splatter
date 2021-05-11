@@ -258,14 +258,14 @@ setMethod("expandParams", "SplatParams", function(object) {
 
     vectors <- c("batch.facLoc", "batch.facScale")
 
-    object <- callNextMethod(object, vectors, n)
+    object <- paramsExpander(object, vectors, n)
 
     n <- getParam(object, "nGroups")
 
     vectors <- c("de.prob", "de.downProb", "de.facLoc", "de.facScale",
                  "path.from", "path.nSteps", "path.skew")
 
-    object <- callNextMethod(object, vectors, n)
+    object <- paramsExpander(object, vectors, n)
 
     return(object)
 })

@@ -5,7 +5,7 @@
 \title{splatPop simulation}
 \usage{
 splatPopSimulate(
-  params = newSplatPopParams(nGenes = 1000),
+  params = newSplatPopParams(nGenes = 50),
   vcf = mockVCF(),
   method = c("single", "groups", "paths"),
   gff = NULL,
@@ -61,13 +61,12 @@ single-cell counts per individual. Please see the documentation for those
 functions for more details.
 }
 \examples{
-
-\donttest{
-if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
+\donttest{if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
     requireNamespace("preprocessCore", quietly = TRUE)) {
-    sim <- splatPopSimulate()
-}
-}
+    vcf <- mockVCF()
+    gff <- mockGFF()
+    sim <- splatPopSimulate(vcf = vcf, gff = gff, sparsify = FALSE)
+}}
 
 }
 \seealso{

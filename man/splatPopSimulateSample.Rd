@@ -7,6 +7,7 @@
 splatPopSimulateSample(
   params = newSplatPopParams(),
   method = c("single", "groups", "paths"),
+  batch = "batch1",
   counts.only = FALSE,
   verbose = TRUE,
   sample.means,
@@ -21,6 +22,8 @@ scale simulations. See \code{\link{SplatPopParams}} for details.}
 produces a single population, "groups" which produces distinct groups
 (eg. cell types), "paths" which selects cells from continuous
 trajectories (eg. differentiation processes).}
+
+\item{batch}{Batch number.}
 
 \item{counts.only}{logical. Whether to return only the counts.}
 

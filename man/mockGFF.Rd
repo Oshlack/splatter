@@ -4,12 +4,16 @@
 \alias{mockGFF}
 \title{Generate mock gff}
 \usage{
-mockGFF(n.genes = 500, chromosome = 22)
+mockGFF(n.genes = 50, chromosome = 1, chr.length = 2e+06, seed = NULL)
 }
 \arguments{
 \item{n.genes}{Number of genes in mock gff file}
 
 \item{chromosome}{Chromosome name}
+
+\item{chr.length}{Length of mock chromosome}
+
+\item{seed}{Optional: seed for random seed}
 }
 \value{
 data.frame containing mock gff data.

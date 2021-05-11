@@ -3,7 +3,7 @@ context("LunParams")
 params <- newLunParams()
 
 test_that("printing works", {
-    expect_output(show(params), "A Params object of class LunParams")
+    expect_output(show(params), "LunParams")
 })
 
 test_that("nCells checks work", {
