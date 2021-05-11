@@ -72,7 +72,7 @@ setValidity("SplatParams", function(object) {
     }
 
     # Check group.prob sums to 1
-    if (sum(v$group.prob) != 1) {
+    if (sum(round(v$group.prob, 5)) != 1) {
         checks <- c(checks, "group.probs must sum to 1")
     }
 

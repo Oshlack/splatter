@@ -54,8 +54,8 @@ setValidity("SplatPopParams", function(object) {
                 cde.facScale = checkNumeric(v$cde.facScale, lower = 0,
                                            len = nConditions))
 
-    # Check group.prob sums to 1
-    if (sum(v$condition.prob) != 1) {
+    # Check condition.prob sums to 1
+    if (sum(round(v$condition.prob), 5) != 1) {
         checks <- c(checks, "condition.probs must sum to 1")
     }
 

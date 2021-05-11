@@ -117,7 +117,7 @@ setValidity("KersplatParams", function(object) {
             checks <- c(checks,
                         cells.design = "Path names don't match paths.design")
         }
-        if (sum(v$cells.design$Probability) != 1) {
+        if (sum(round(v$cells.design$Probability, 5)) != 1) {
             checks <- c(checks, cells.design = "Probability must sum to 1")
         }
         checks <- c(checks,

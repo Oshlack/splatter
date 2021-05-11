@@ -1,6 +1,7 @@
 # DEVELOPMENT VERSION
 
 * Modify sparsifyMatrices() to handle logical matrices
+* Adjust checking that vectors sum to 1 (Fixes #107)
 
 ## Version 1.15.2 (2021-05-11)
 
