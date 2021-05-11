@@ -3,7 +3,7 @@ context("SplatParams")
 params <- newSplatParams()
 
 test_that("printing works", {
-    expect_output(show(params), "A Params object of class SplatParams")
+    expect_output(show(params), "SplatParams")
 })
 
 test_that("nBatches checks work", {

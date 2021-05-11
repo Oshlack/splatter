@@ -11,7 +11,7 @@ test_that("constructor is valid", {
 
 test_that("printing works", {
     skip_if_not_installed("phenopath")
-    expect_output(show(params), "A Params object of class PhenoParams")
+    expect_output(show(params), "PhenoParams")
 })
 
 test_that("nGenes checks work", {

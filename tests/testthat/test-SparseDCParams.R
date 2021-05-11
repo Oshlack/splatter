@@ -11,7 +11,7 @@ test_that("constructor is valid", {
 
 test_that("printing works", {
     skip_if_not_installed("SparseDC")
-    expect_output(show(params), "A Params object of class SparseDCParams")
+    expect_output(show(params), "SparseDCParams")
 })
 
 test_that("clusts checks work", {
