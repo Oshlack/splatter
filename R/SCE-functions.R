@@ -308,7 +308,10 @@ sparsifyMatrices <- function(matrix.list, auto = TRUE, threshold = 0.95,
     if (!auto) {
 
         if (verbose) {message("Converting all matrices to sparse format")}
-        matrix.list <- lapply(matrix.list, as, Class = "dgCMatrix")
+        matrix.list <- lapply(matrix.list, function(mat) {
+            class <- ifelse(is.logical(mat), "lgCMatrix", "dgCMatrix")
+            as(mat, class)
+        })
 
         return(matrix.list)
     }
@@ -319,17 +322,18 @@ sparsifyMatrices <- function(matrix.list, auto = TRUE, threshold = 0.95,
     }
     for (mat.name in names(matrix.list)) {
         mat <- matrix.list[[mat.name]]
-        prop.zero <- sum(mat == 0) / length(mat)
         if (is.integer(mat)) {
-            size.factor <- 3 - 3 * prop.zero
+            size.factor <- 3 - 3 * (sum(mat == 0) / length(mat))
         } else if (is.numeric(mat)) {
-            size.factor <- 1.5 - 1.5 * prop.zero
+            size.factor <- 1.5 - 1.5 * (sum(mat == 0) / length(mat))
         } else if (is(mat, "dgCMatrix")) {
             if (verbose) {
                 message("Skipping '", mat.name,
                         "' as it is already a dgCMatrix")
             }
             next
+        } else if (is.logical(mat)) {
+            size.factor <- 2 - 2 * (sum(!mat) / length(mat))
         } else {
             warning("matrix '", mat.name, "' is class '", class(mat),
                     "', unable to estimate size reduction factor")
@@ -341,7 +345,12 @@ sparsifyMatrices <- function(matrix.list, auto = TRUE, threshold = 0.95,
                         "estimated sparse size ", round(size.factor, 2),
                         " * dense matrix")
             }
-            matrix.list[[mat.name]] <- as(mat, "dgCMatrix")
+            if (is.logical(mat)) {
+                mat <- as(mat, "lgCMatrix")
+            } else {
+                mat <- as(mat, "dgCMatrix")
+            }
+            matrix.list[[mat.name]] <- mat
         } else {
             if (verbose) {
                 message("Skipping '", mat.name, "': estimated sparse size ",

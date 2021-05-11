@@ -1,5 +1,7 @@
 # DEVELOPMENT VERSION
 
+* Modify sparsifyMatrices() to handle logical matrices
+
 ## Version 1.15.2 (2021-05-11)
 
 * Updates to splatPop including conditional effects, multiplexed batch
