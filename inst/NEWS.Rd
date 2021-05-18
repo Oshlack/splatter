@@ -1,6 +1,39 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
+\section{Version 1.16.0, Bioconductor 3.13 Release (2020-05-20)}{
+  \itemize{
+    \item{
+      Substantial updates to the splatPop simulation (from Christina Azodi)
+      \itemize{
+        \item{
+          Added ability to simulate data with complex multiplexed sequencing
+          designs
+        }
+        \item{
+          Added simulation of “conditional” effects, where a subset of DE and
+          eQTL effects are applied to only a subset of individuals (e.g. disease
+          vs. healthy samples)
+        }
+        \item{
+          Added the ability to simulate different numbers of cells for each
+          sample, sampled from a gamma distribution.
+        }
+        \item{
+          Updates to the splatPop vignette describing these changes
+        }
+      }
+    }
+    \item{
+      Logical matrices should now be handled correctly when minimising output
+      SingleCellExperiment objects
+    }
+    \item{
+      Other minor fixes
+    }
+  }
+}
+
 \section{Version 1.14.0, Bioconductor 3.12 Release (2020-10-28)}{
   \itemize{
     \item{Add the splatPop simulation. This is a extension to the splat
