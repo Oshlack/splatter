@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.17.1 (2021-05-20)
+
+* Fix bug in validating splatPopParams
+
 ## Version 1.17.0 (2021-05-20)
 
 Bioconductor 3.14 devel
@@ -7,6 +11,10 @@ Bioconductor 3.14 devel
 # Version 1.16.0 (2021-05-20)
 
 Bioconductor 3.13 release
+
+## Version 1.16.1 (2021-05-20)
+
+* Fix bug in validating splatPopParams
 
 ## Version 1.15.3 (2021-05-18)
 

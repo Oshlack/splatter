@@ -55,7 +55,7 @@ setValidity("SplatPopParams", function(object) {
                                            len = nConditions))
 
     # Check condition.prob sums to 1
-    if (sum(round(v$condition.prob), 5) != 1) {
+    if (sum(round(v$condition.prob, 5)) != 1) {
         checks <- c(checks, "condition.probs must sum to 1")
     }
 
