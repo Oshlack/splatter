@@ -4,6 +4,10 @@
 
 Bioconductor 3.13 release
 
+## Version 1.16.1 (2021-05-20)
+
+* Fix bug in validating splatPopParams
+
 ## Version 1.15.3 (2021-05-18)
 
 * Modify sparsifyMatrices() to handle logical matrices
