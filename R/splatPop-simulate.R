@@ -13,6 +13,13 @@
 #' @param gff Either NULL or a data.frame object containing a GFF/GTF file.
 #' @param key Either NULL or a data.frame object containing a full or partial
 #'        splatPop key.
+#' @param eqtl Either NULL or if simulating population parameters directly from
+#'        empirical data, a data.frame with empirical/desired eQTL results.
+#'        To see required format, run `mockEmpiricalSet()` and see eqtl output.
+#' @param means Either NULL or if simulating population parameters directly from
+#'        empirical data, a Matrix of real gene means across a population, where
+#'        each row is a gene and each column is an individual in the population.
+#'        To see required format, run `mockEmpiricalSet()` and see means output.
 #' @param counts.only logical. Whether to save only counts in sce object.
 #' @param sparsify logical. Whether to automatically convert assays to sparse
 #'        matrices if there will be a size reduction.
@@ -50,6 +57,8 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 50),
                              vcf = mockVCF(),
                              method = c("single", "groups", "paths"),
                              gff = NULL,
+                             eqtl = NULL, 
+                             means = NULL,
                              key = NULL,
                              counts.only = FALSE,
                              sparsify = TRUE,
@@ -91,6 +100,13 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 50),
 #' @param gff Either NULL or a data.frame object containing a GFF/GTF file.
 #' @param key Either FALSE or a data.frame object containing a full or partial
 #'        splatPop key.
+#' @param eqtl Either NULL or if simulating population parameters directly from
+#'        empirical data, a data.frame with empirical/desired eQTL results.
+#'        To see required format, run `mockEmpiricalSet()` and see eqtl output.
+#' @param means Either NULL or if simulating population parameters directly from
+#'        empirical data, a Matrix of real gene means across a population, where
+#'        each row is a gene and each column is an individual in the population.
+#'        To see required format, run `mockEmpiricalSet()` and see means output.
 #' @param verbose logical. Whether to print progress messages.
 #' @param ... any additional parameter settings to override what is provided in
 #'        \code{params}.
@@ -140,7 +156,8 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 50),
 #' @export
 splatPopSimulateMeans <- function(vcf = mockVCF(),
                                   params = newSplatPopParams(nGenes = 1000),
-                                  verbose = TRUE, key = NULL, gff = NULL, ...){
+                                  verbose = TRUE, key = NULL, gff = NULL, 
+                                  eqtl = NULL, means = NULL, ...){
 
     set.seed(getParam(params, "seed"))
     nGroups <- getParam(params, "nGroups")
@@ -151,9 +168,14 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
     samples <- colnames(VariantAnnotation::geno(vcf)$GT)
     conditions <- splatPopDesignConditions(params, samples)
 
-    # Genes from key or gff or mock (in that order)
+    # Genes from key if provided, or from empirical data or simulated from gff 
     if (is.null(key)) {
-        key <- splatPopParseGenes(params, gff)
+        if (is.null(eqtl) | is.null(means)){
+            key <- splatPopParseGenes(params, gff)
+        }else {
+            key <- splatPopParseEmpirical(vcf = vcf, gff = gff, eqtl = eqtl, 
+                                          means = means, params = params)
+        }
     }
 
     if (!all(c("meanSampled", "cvSampled") %in% names(key))) {
@@ -162,15 +184,15 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
 
     if (!all(c("eQTL.group", "eSNP.ID", "eQTL.EffectSize") %in% names(key))) {
         key <- splatPopeQTLEffects(params, key, vcf)
-        if(length(group.names) > 1){
-            key <- splatPopGroupEffects(params, key, group.names)
-        }
+    }
+    
+    if(length(group.names) > 1){
+        key <- splatPopGroupEffects(params, key, group.names)
     }
 
     if (!all(c("eQTL.condition", "ConditionDE.Condition1") %in% names(key))) {
         key <- splatPopConditionEffects(params, key, conditions)
     }
-
 
     if (verbose) {message("Simulating gene means for population...")}
 
@@ -180,7 +202,7 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
         means.pop <- splatPopQuantNorm(params, means.pop)
         key <- splatPopQuantNormKey(key, means.pop)
     }
-
+    
     eMeansPop <- splatPopSimEffects("global", key, conditions, vcf, means.pop)
 
     if (length(group.names) > 1) {
@@ -198,6 +220,62 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
     return(list(means = sim.means, key = key))
 }
 
+
+#' splatPopParseEmpirical
+#'
+#' Parse splatPop key information from empirical data provided.
+#' 
+#' NOTE: This function 
+#'
+#' @param vcf VariantAnnotation object containing genotypes of samples.
+#' @param gff Either NULL or a data.frame object containing a GFF/GTF file.
+#' @param eqtl Either NULL or if simulating population parameters directly from
+#'        empirical data, a data.frame with empirical/desired eQTL results.
+#'        To see required format, run `mockEmpiricalSet()` and see eqtl output.
+#' @param means Either NULL or if simulating population parameters directly from
+#'        empirical data, a Matrix of real gene means across a population, where
+#'        each row is a gene and each column is an individual in the population.
+#'        To see required format, run `mockEmpiricalSet()` and see means output.
+#' @param params SplatPopParams object containing parameters for population
+#'        scale simulations. See \code{\link{SplatPopParams}} for details.
+#' @param verbose logical. Whether to print progress messages.
+#' @param ... any additional parameter settings to override what is provided in
+#'        \code{params}.
+#'
+#' @details This function will ignore a number of parameters defined in 
+#' splatPopParams, instead pulling key information directly from provided VCF,
+#' GFF, gene means, and eQTL mapping result data provided.
+#'
+#' }
+#'
+#' @return A partial splatPop `key` 
+#'
+#' @export
+splatPopParseEmpirical <- function(vcf = vcf, gff = gff, eqtl = eqtl, 
+                                   means = means, params = params){
+    
+    key <- data.frame(list(geneID = eqtl$geneID,
+                           chromosome = gff$V1,
+                           geneStart = gff$V4,
+                           geneEnd = gff$V5,
+                           geneMiddle = floor(abs((gff$V4 - gff$V5)/2)) +
+                               gff$V4,
+                           meanSampled.noOutliers = rowMeans(means),
+                           OutlierFactor = 1,
+                           meanSampled = rowMeans(means),
+                           cvSampled = apply(means, 1, co.var),
+                           eQTL.group = ifelse(is.na(eqtl$snpID), NA, "global"),
+                           eQTL.condition = "global",
+                           eSNP.ID = eqtl$snpID,
+                           eSNP.chromosome = eqtl$snpCHR, 
+                           eSNP.loc = eqtl$snpLOC,
+                           eSNP.MAF = eqtl$snpMAF, 
+                           eQTL.EffectSize = eqtl$slope))
+    
+    params <- setParams(params, nGenes = nrow(key))
+    
+    return(key)
+}
 
 #' splatPopSimulateSC
 #'
@@ -316,7 +394,9 @@ splatPopSimulateSC <- function(sim.means,
         assays(sim.all) <- sparsifyMatrices(assays(sim.all), auto = TRUE,
                                             verbose = verbose)
     }
-
+    
+    colnames(sim.all) <- paste(sim.all$Sample, sim.all$Cell, sep=":")
+    
     if (verbose) {message("Done!")}
     return (sim.all)
 }
