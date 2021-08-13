@@ -129,7 +129,7 @@
 #' @importFrom methods validObject
 #' @export
 splatSimulate <- function(params = newSplatParams(),
-                          method = c("single", "groups", "paths"),
+                          method = c("single", "groups", "paths", "hierarchical"),
                           sparsify = TRUE, verbose = TRUE, ...) {
 
     checkmate::assertClass(params, "SplatParams")
@@ -151,6 +151,7 @@ splatSimulate <- function(params = newSplatParams(),
     nBatches <- getParam(params, "nBatches")
     batch.cells <- getParam(params, "batchCells")
     nGroups <- getParam(params, "nGroups")
+    splits.per.level <- getParam(params, "splits.per.level")
     group.prob <- getParam(params, "group.prob")
 
     if (nGroups == 1 && method == "groups") {
@@ -167,6 +168,8 @@ splatSimulate <- function(params = newSplatParams(),
         group.names <- paste0("Group", seq_len(nGroups))
     } else if (method == "paths") {
         group.names <- paste0("Path", seq_len(nGroups))
+    } else if (method == "hierarchical") {
+        group.names = paste0("Group", createGroupHierarchy(splits.per.level))
     }
 
     # Create SingleCellExperiment to store simulation
@@ -204,6 +207,11 @@ splatSimulate <- function(params = newSplatParams(),
     } else if (method == "groups") {
         if (verbose) {message("Simulating group DE...")}
         sim <- splatSimGroupDE(sim, params)
+        if (verbose) {message("Simulating cell means...")}
+        sim <- splatSimGroupCellMeans(sim, params)
+    } else if  (method == "hierarchical") {
+        if (verbose) {message("Simulating hierarchical group DE...")}
+        sim <- splatSimHierarchicalDE(sim, params)
         if (verbose) {message("Simulating cell means...")}
         sim <- splatSimGroupCellMeans(sim, params)
     } else {
@@ -390,7 +398,7 @@ splatSimBatchCellMeans <- function(sim, params) {
     if (nBatches > 1) {
         batches <- colData(sim)$Batch
         batch.names <- unique(batches)
-        
+
         batch.facs.gene <- as.matrix(rowData(sim)[, paste0("BatchFac", batch.names)])
         batch.facs.cell <- as.matrix(batch.facs.gene[,
                                                      as.numeric(factor(batches))])
@@ -445,6 +453,42 @@ splatSimGroupDE <- function(sim, params) {
     }
 
     return(sim)
+}
+
+#' @rdname splatSimDE
+#' @importFrom SummarizedExperiment rowData
+splatSimHierarchicalDE <- function(sim, params) {
+
+    nGenes <- getParam(params, "nGenes")
+    nGroups <- getParam(params, "nGroups")
+    splits.per.level <- getParam(params, "splits.per.level")
+    de.prob <- getParam(params, "de.prob")
+    de.downProb <- getParam(params, "de.downProb")
+    de.facLoc <- getParam(params, "de.facLoc")
+    de.facScale <- getParam(params, "de.facScale")
+    means.gene <- rowData(sim)$GeneMean
+
+    group.names = createGroupHierarchy(splits.per.level)
+
+    de.facs = sapply(1:splits.per.level[1], function(x) getLNormFactors(nGenes, de.prob[1], de.downProb[1],
+                                                            de.facLoc[1], de.facScale[1]))
+
+    for (l in 2:length(splits.per.level)) {
+        temp.de.facs = matrix(nrow = nrow(de.facs), ncol = ncol(de.facs) * splits.per.level[l])
+        for (c in 1:ncol(de.facs)) {
+            for (s in 1:splits.per.level[l]) {
+                index = (c - 1) * splits.per.level[l] + s
+                temp.de.facs[, index] = getLNormFactors(nGenes, de.prob[l], de.downProb[l],
+                                                        de.facLoc[l], de.facScale[l], de.facs[, c, drop = TRUE])
+            }
+        }
+        de.facs = temp.de.facs
+    }
+
+    rowData(sim)[, paste0("DEFacGroup", group.names)] <- de.facs
+
+    return(sim)
+
 }
 
 #' @rdname splatSimDE
@@ -831,7 +875,7 @@ splatSimDropout <- function(sim, params) {
 #' @return Vector containing generated factors.
 #'
 #' @importFrom stats rbinom rlnorm
-getLNormFactors <- function(n.facs, sel.prob, neg.prob, fac.loc, fac.scale) {
+getLNormFactors <- function(n.facs, sel.prob, neg.prob, fac.loc, fac.scale, factors = rep(1, n.facs)) {
 
     is.selected <- as.logical(rbinom(n.facs, 1, sel.prob))
     n.selected <- sum(is.selected)
@@ -839,7 +883,6 @@ getLNormFactors <- function(n.facs, sel.prob, neg.prob, fac.loc, fac.scale) {
     facs.selected <- rlnorm(n.selected, fac.loc, fac.scale)
     # Reverse directions for factors that are less than one
     dir.selected[facs.selected < 1] <- -1 * dir.selected[facs.selected < 1]
-    factors <- rep(1, n.facs)
     factors[is.selected] <- facs.selected ^ dir.selected
 
     return(factors)

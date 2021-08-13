@@ -37,15 +37,16 @@ setValidity("SplatParams", function(object) {
                 out.facLoc = checkNumber(v$out.facLoc),
                 out.facScale = checkNumber(v$out.facScale, lower = 0),
                 nGroups = checkInt(v$nGroups, lower = 1),
-                group.prob = checkNumeric(v$de.prob, lower = 0, upper = 1,
+                splits.per.level = checkNumeric(v$splits.per.level, lower = 1),
+                group.prob = checkNumeric(v$group.prob, lower = 0, upper = 1,
                                           len = nGroups),
-                de.prob = checkNumeric(v$de.prob, lower = 0, upper = 1,
-                                       len = nGroups),
-                de.downProb = checkNumeric(v$de.downProb, lower = 0, upper = 1,
-                                           len = nGroups),
-                de.facLoc = checkNumeric(v$de.facLoc, len = nGroups),
-                de.facScale = checkNumeric(v$de.facScale, lower = 0,
-                                           len = nGroups),
+                # de.prob = checkNumeric(v$de.prob, lower = 0, upper = 1,
+                #                        len = nGroups),
+                # de.downProb = checkNumeric(v$de.downProb, lower = 0, upper = 1,
+                #                            len = nGroups),
+                # de.facLoc = checkNumeric(v$de.facLoc, len = nGroups),
+                # de.facScale = checkNumeric(v$de.facScale, lower = 0,
+                #                            len = nGroups),
                 bcv.common = checkNumber(v$bcv.common, lower = 0),
                 bcv.df = checkNumber(v$bcv.df, lower = 0),
                 dropout.type = checkCharacter(v$dropout.type, len = 1,
@@ -146,6 +147,16 @@ setMethod("setParam", "SplatParams", function(object, name, value) {
         object <- setParamUnchecked(object, "nBatches", length(value))
     }
 
+    if (name == "splits.per.level") {
+        nGroups = prod(value)
+        object <- setParamUnchecked(object, "nGroups", nGroups)
+        group.prob <- getParam(object, "group.prob")
+        if (length(group.prob) != nGroups) {
+            warning("nGroups has changed as a result of changing splits.per.level, resetting group.prob to uniform")
+            object <- setParam(object, "group.prob", rep(1/nGroups, nGroups))
+        }
+    }
+
     if (name == "group.prob") {
         object <- setParamUnchecked(object, "nGroups", length(value))
         path.from <- getParam(object, "path.from")
@@ -207,7 +218,7 @@ setMethod("setParams", "SplatParams", function(object, update = NULL, ...) {
 
     update <- c(update, list(...))
 
-    update <- bringItemsForward(update, c("batchCells", "group.prob"))
+    update <- bringItemsForward(update, c("batchCells", "splits.per.level", "group.prob"))
 
     object <- callNextMethod(object, update)
 
@@ -231,6 +242,7 @@ setMethod("show", "SplatParams", function(object) {
                                      "(Location)"     = "out.facLoc",
                                      "(Scale)"        = "out.facScale"),
                "Groups:"         = c("[Groups]"       = "nGroups",
+                                     "[Splits per Level]"  = "splits.per.level",
                                      "[Group Probs]"  = "group.prob"),
                "Diff expr:"      = c("[Probability]"  = "de.prob",
                                      "[Down Prob]"    = "de.downProb",
