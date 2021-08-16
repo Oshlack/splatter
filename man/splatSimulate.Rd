@@ -9,7 +9,7 @@
 \usage{
 splatSimulate(
   params = newSplatParams(),
-  method = c("single", "groups", "paths"),
+  method = c("single", "groups", "paths", "hierarchical"),
   sparsify = TRUE,
   verbose = TRUE,
   ...

@@ -40,13 +40,20 @@ setValidity("SplatParams", function(object) {
                 splits.per.level = checkNumeric(v$splits.per.level, lower = 1),
                 group.prob = checkNumeric(v$group.prob, lower = 0, upper = 1,
                                           len = nGroups),
-                # de.prob = checkNumeric(v$de.prob, lower = 0, upper = 1,
-                #                        len = nGroups),
-                # de.downProb = checkNumeric(v$de.downProb, lower = 0, upper = 1,
-                #                            len = nGroups),
-                # de.facLoc = checkNumeric(v$de.facLoc, len = nGroups),
-                # de.facScale = checkNumeric(v$de.facScale, lower = 0,
-                #                            len = nGroups),
+                de.prob = checkNumeric(v$de.prob, lower = 0, upper = 1,
+                                       len = nGroups),
+                de.downProb = checkNumeric(v$de.downProb, lower = 0, upper = 1,
+                                           len = nGroups),
+                de.facLoc = checkNumeric(v$de.facLoc, len = nGroups),
+                de.facScale = checkNumeric(v$de.facScale, lower = 0,
+                                           len = nGroups),
+                de.prob.per.level = checkNumeric(v$de.prob.per.level, lower = 0, upper = 1,
+                                       len = length(v$splits.per.level)),
+                de.downProb.per.level = checkNumeric(v$de.downProb.per.level, lower = 0, upper = 1,
+                                           len = length(v$splits.per.level)),
+                de.facLoc.per.level = checkNumeric(v$de.facLoc.per.level, len = length(v$splits.per.level)),
+                de.facScale.per.level = checkNumeric(v$de.facScale.per.level, lower = 0,
+                                           len = length(v$splits.per.level)),
                 bcv.common = checkNumber(v$bcv.common, lower = 0),
                 bcv.df = checkNumber(v$bcv.df, lower = 0),
                 dropout.type = checkCharacter(v$dropout.type, len = 1,
@@ -73,7 +80,7 @@ setValidity("SplatParams", function(object) {
     }
 
     # Check group.prob sums to 1
-    if (sum(round(v$group.prob, 5)) != 1) {
+    if (round(sum(v$group.prob), 5) != 1) {
         checks <- c(checks, "group.probs must sum to 1")
     }
 
@@ -147,13 +154,18 @@ setMethod("setParam", "SplatParams", function(object, name, value) {
         object <- setParamUnchecked(object, "nBatches", length(value))
     }
 
+    # both splits.per.level and group.prob have to agree, and both can change nGroups
+    # if both don't agree, then reset the other and give a warning
+    # however, if both are set at the same time and agree in given parameters, still get a warning when not needed
+    # because parameters are updated one at a time and checked as each is updated
+
     if (name == "splits.per.level") {
         nGroups = prod(value)
         object <- setParamUnchecked(object, "nGroups", nGroups)
         group.prob <- getParam(object, "group.prob")
         if (length(group.prob) != nGroups) {
             warning("nGroups has changed as a result of changing splits.per.level, resetting group.prob to uniform")
-            object <- setParam(object, "group.prob", rep(1/nGroups, nGroups))
+            object <- setParamUnchecked(object, "group.prob", rep(1/nGroups, nGroups))
         }
     }
 
@@ -163,6 +175,11 @@ setMethod("setParam", "SplatParams", function(object, name, value) {
         if (length(path.from) > 1 & length(path.from) != length(value)) {
             warning("nGroups has changed, resetting path.from")
             object <- setParam(object, "path.from", 0)
+        }
+        splits.per.level = getParam(object, "splits.per.level")
+        if (length(value) != prod(splits.per.level)) {
+            if (length(splits.per.level) != 1) warning("nGroups has changed as a result of changing group.prob, resetting splits.per.level to have only 1 level")
+            object <- setParamUnchecked(object, "splits.per.level", length(value))
         }
     }
 
@@ -242,12 +259,16 @@ setMethod("show", "SplatParams", function(object) {
                                      "(Location)"     = "out.facLoc",
                                      "(Scale)"        = "out.facScale"),
                "Groups:"         = c("[Groups]"       = "nGroups",
-                                     "[Splits per Level]"  = "splits.per.level",
+                                     "[Splits per level]"  = "splits.per.level",
                                      "[Group Probs]"  = "group.prob"),
                "Diff expr:"      = c("[Probability]"  = "de.prob",
                                      "[Down Prob]"    = "de.downProb",
                                      "[Location]"     = "de.facLoc",
                                      "[Scale]"        = "de.facScale"),
+               "Hierarchical diff expr:"      = c("[Probability per level]"  = "de.prob.per.level",
+                                     "[Down Prob per level]"    = "de.downProb.per.level",
+                                     "[Location per level]"     = "de.facLoc.per.level",
+                                     "[Scale per level]"        = "de.facScale.per.level"),
                "BCV:"            = c("(Common Disp)"  = "bcv.common",
                                      "(DoF)"          = "bcv.df"),
                "Dropout:"        = c("[Type]"         = "dropout.type",
@@ -276,6 +297,12 @@ setMethod("expandParams", "SplatParams", function(object) {
 
     vectors <- c("de.prob", "de.downProb", "de.facLoc", "de.facScale",
                  "path.from", "path.nSteps", "path.skew")
+
+    object <- paramsExpander(object, vectors, n)
+
+    n <- length(getParam(object, "splits.per.level"))
+
+    vectors <- c("de.prob.per.level", "de.downProb.per.level", "de.facLoc.per.level", "de.facScale.per.level")
 
     object <- paramsExpander(object, vectors, n)
 

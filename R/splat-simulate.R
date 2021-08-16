@@ -462,24 +462,24 @@ splatSimHierarchicalDE <- function(sim, params) {
     nGenes <- getParam(params, "nGenes")
     nGroups <- getParam(params, "nGroups")
     splits.per.level <- getParam(params, "splits.per.level")
-    de.prob <- getParam(params, "de.prob")
-    de.downProb <- getParam(params, "de.downProb")
-    de.facLoc <- getParam(params, "de.facLoc")
-    de.facScale <- getParam(params, "de.facScale")
+    de.prob.per.level <- getParam(params, "de.prob.per.level")
+    de.downProb.per.level <- getParam(params, "de.downProb.per.level")
+    de.facLoc.per.level <- getParam(params, "de.facLoc.per.level")
+    de.facScale.per.level <- getParam(params, "de.facScale.per.level")
     means.gene <- rowData(sim)$GeneMean
 
     group.names = createGroupHierarchy(splits.per.level)
 
-    de.facs = sapply(1:splits.per.level[1], function(x) getLNormFactors(nGenes, de.prob[1], de.downProb[1],
-                                                            de.facLoc[1], de.facScale[1]))
+    de.facs = sapply(1:splits.per.level[1], function(x) getLNormFactors(nGenes, de.prob.per.level[1], de.downProb.per.level[1],
+                                                            de.facLoc.per.level[1], de.facScale.per.level[1]))
 
     for (l in 2:length(splits.per.level)) {
         temp.de.facs = matrix(nrow = nrow(de.facs), ncol = ncol(de.facs) * splits.per.level[l])
         for (c in 1:ncol(de.facs)) {
             for (s in 1:splits.per.level[l]) {
                 index = (c - 1) * splits.per.level[l] + s
-                temp.de.facs[, index] = getLNormFactors(nGenes, de.prob[l], de.downProb[l],
-                                                        de.facLoc[l], de.facScale[l], de.facs[, c, drop = TRUE])
+                temp.de.facs[, index] = getLNormFactors(nGenes, de.prob.per.level[l], de.downProb.per.level[l],
+                                                        de.facLoc.per.level[l], de.facScale.per.level[l], de.facs[, c, drop = TRUE])
             }
         }
         de.facs = temp.de.facs

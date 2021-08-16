@@ -84,7 +84,7 @@ setClass("SimpleParams",
 #'             \item{\code{[batch.facScale]}}{Scale (sdlog) parameter for the
 #'             batch effect factor log-normal distribution. Can be a vector.}
 #'             \item{\code{[batch.rmEffect]}}{Logical, removes the batch effect
-#'             and continues with the simulation when TRUE. This allows the 
+#'             and continues with the simulation when TRUE. This allows the
 #'             user to test batch removal algorithms without having to calculate
 #'             the new expected cell means with batch removed.}
 #'         }
@@ -127,6 +127,13 @@ setClass("SimpleParams",
 #'             group.}
 #'         }
 #'     }
+#'     \item{\emph{Hierarchical group parameters}}{
+#'         \describe{
+#'             \item{\code{[splits.per.level]}}{The number of splits per level of the hierarchy.
+#'             At each level, each group will split into an equal number of subgroups
+#'             based on the defined number of splits for that level.}
+#'         }
+#'     }
 #'     \item{\emph{Differential expression parameters}}{
 #'         \describe{
 #'             \item{\code{[de.prob]}}{Probability that a gene is differentially
@@ -139,6 +146,20 @@ setClass("SimpleParams",
 #'             \item{\code{[de.facScale]}}{Scale (sdlog) parameter for the
 #'             differential expression factor log-normal distribution. Can be a
 #'             vector.}
+#'         }
+#'     }
+#'     \item{\emph{Hierarchical differential expression parameters}}{
+#'         \describe{
+#'             \item{\code{[de.prob.per.level]}}{Probability that a gene is differentially
+#'             expressed for each level of the hierarchy. Can be a vector of length the number of levels.}
+#'             \item{\code{[de.downProb.per.level]}}{Probability that a differentially
+#'             expressed gene is down-regulated, at each level of the hierarchy. Can be a vector of length the number of levels.}
+#'             \item{\code{[de.facLoc.per.level]}}{Location (meanlog) parameter for the
+#'             differential expression factor log-normal distribution, at each level of the hierarchy. Can be a
+#'             vector of length the number of levels.}
+#'             \item{\code{[de.facScale.per.level]}}{Scale (sdlog) parameter for the
+#'             differential expression factor log-normal distribution, at each level of the hierarchy. Can be a
+#'             vector of length the number of levels.}
 #'         }
 #'     }
 #'     \item{\emph{Biological Coefficient of Variation parameters}}{
@@ -223,6 +244,10 @@ setClass("SplatParams",
                    de.downProb = "numeric",
                    de.facLoc = "numeric",
                    de.facScale = "numeric",
+                   de.prob.per.level = "numeric",
+                   de.downProb.per.level = "numeric",
+                   de.facLoc.per.level = "numeric",
+                   de.facScale.per.level = "numeric",
                    bcv.common = "numeric",
                    bcv.df = "numeric",
                    dropout.type = "character",
@@ -253,6 +278,10 @@ setClass("SplatParams",
                                de.downProb = 0.5,
                                de.facLoc = 0.1,
                                de.facScale = 0.4,
+                               de.prob.per.level = 0.1,
+                               de.downProb.per.level = 0.5,
+                               de.facLoc.per.level = 0.1,
+                               de.facScale.per.level = 0.4,
                                bcv.common = 0.1,
                                bcv.df = 60,
                                dropout.type = "none",
@@ -447,7 +476,7 @@ setClass("KersplatParams",
 #'     \item{\code{[eqtl.maf.max]}}{Maximum Minor Allele Frequency of eSNPs.}
 #'     \item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate
 #'     as group specific.}
-#'     \item{\code{[eqtl.condition.specific]}}{Percent of eQTL effects to 
+#'     \item{\code{[eqtl.condition.specific]}}{Percent of eQTL effects to
 #'     simulate as condition specific.}
 #'     \item{\emph{eQTL Effect size distribution parameters. Defaults estimated
 #'     from GTEx eQTL mapping results, see vignette for more information.}}{
@@ -477,9 +506,9 @@ setClass("KersplatParams",
 #'         }
 #'     }
 #'     \item{\emph{Specify number of samples per batch. Note that splatPop will
-#'     randomly assign donors to be present in multiple batches to fulfill the 
-#'     specified nBatches and batch.size parameters. For example, if 10 samples 
-#'     are simulated with batchPool.n=4 and batchPool.size= 4, then 6 samples 
+#'     randomly assign donors to be present in multiple batches to fulfill the
+#'     specified nBatches and batch.size parameters. For example, if 10 samples
+#'     are simulated with batchPool.n=4 and batchPool.size= 4, then 6 samples
 #'     will be randomly chosen to be replicated in two pools.}}{
 #'         \describe{
 #'             \item{\code{batch.size}}{The number of donors in
@@ -487,10 +516,10 @@ setClass("KersplatParams",
 #'         }
 #'     }
 #'     \item{\emph{Specify shape and rate of gamma distribution to sample
-#'     number of cells per batch per donor. Will only be used if nCells 
+#'     number of cells per batch per donor. Will only be used if nCells
 #'     parameter is set to 0.}}{
 #'         \describe{
-#'             \item{\code{nCells.sample}}{True/False if nCells should be 
+#'             \item{\code{nCells.sample}}{True/False if nCells should be
 #'             set as nCells or sampled from a gamma distribution for each
 #'             batch/donor.}
 #'             \item{\code{nCells.shape}}{Shape parameter for the nCells per
@@ -503,18 +532,18 @@ setClass("KersplatParams",
 #'         \describe{
 #'             \item{\code{[nConditions]}}{The number of conditions/treatments
 #'             to divide samples into.}
-#'             \item{\code{[condition.prob]}}{Probability that a sample belongs 
+#'             \item{\code{[condition.prob]}}{Probability that a sample belongs
 #'             to each condition/treatment group. Can be a vector.}
-#'             \item{\code{[cde.prob]}}{Probability that a gene is 
+#'             \item{\code{[cde.prob]}}{Probability that a gene is
 #'             differentially expressed in a condition group. Can be a vector.}
-#'             \item{\code{[cde.downProb]}}{Probability that a conditionally 
-#'             differentially expressed gene is down-regulated. Can be a 
+#'             \item{\code{[cde.downProb]}}{Probability that a conditionally
+#'             differentially expressed gene is down-regulated. Can be a
 #'             vector.}
 #'             \item{\code{[cde.facLoc]}}{Location (meanlog) parameter for the
-#'             conditional differential expression factor log-normal 
+#'             conditional differential expression factor log-normal
 #'             distribution. Can be a vector.}
 #'             \item{\code{[cde.facScale]}}{Scale (sdlog) parameter for the
-#'             conditional differential expression factor log-normal 
+#'             conditional differential expression factor log-normal
 #'             distribution. Can be a vector.}
 #'         }
 #'     }

@@ -169,13 +169,17 @@ createGroupHierarchy = function(splits.per.level) {
 
     tree[1, ] = rep(1:splits.per.level[1], each = number.of.categories / splits.per.level[1])
 
-    for (i in 2:number.of.levels) {
-        tree[i, ] = rep(rep(1:splits.per.level[i], prod(splits.per.level[1:(i - 1)])), each = number.of.categories / prod(splits.per.level[1:i]))
+    if (length(splits.per.level) > 1) {
+
+        for (i in 2:number.of.levels) {
+            tree[i, ] = rep(rep(1:splits.per.level[i], prod(splits.per.level[1:(i - 1)])), each = number.of.categories / prod(splits.per.level[1:i]))
+        }
+
+        label.tree = t(sapply(2:number.of.levels, function(i) apply(tree[1:i, ], 2, function(x) paste(x, collapse = ""))))
+        tree = rbind(tree[1, ], label.tree)
+
     }
 
-    label.tree = t(sapply(2:number.of.levels, function(i) apply(tree[1:i, ], 2, function(x) paste(x, collapse = ""))))
-    label.tree = rbind(tree[1, ], label.tree)
-
-    return(label.tree[nrow(label.tree), , drop = TRUE])
+    return(tree[nrow(tree), , drop = TRUE])
 
 }

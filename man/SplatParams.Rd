@@ -27,7 +27,7 @@ The Splat simulation requires the following parameters:
             \item{\code{[batch.facScale]}}{Scale (sdlog) parameter for the
             batch effect factor log-normal distribution. Can be a vector.}
             \item{\code{[batch.rmEffect]}}{Logical, removes the batch effect
-            and continues with the simulation when TRUE. This allows the 
+            and continues with the simulation when TRUE. This allows the
             user to test batch removal algorithms without having to calculate
             the new expected cell means with batch removed.}
         }
@@ -70,6 +70,13 @@ The Splat simulation requires the following parameters:
             group.}
         }
     }
+    \item{\emph{Hierarchical group parameters}}{
+        \describe{
+            \item{\code{[splits.per.level]}}{The number of splits per level of the hierarchy.
+            At each level, each group will split into an equal number of subgroups
+            based on the defined number of splits for that level.}
+        }
+    }
     \item{\emph{Differential expression parameters}}{
         \describe{
             \item{\code{[de.prob]}}{Probability that a gene is differentially
@@ -82,6 +89,20 @@ The Splat simulation requires the following parameters:
             \item{\code{[de.facScale]}}{Scale (sdlog) parameter for the
             differential expression factor log-normal distribution. Can be a
             vector.}
+        }
+    }
+    \item{\emph{Hierarchical differential expression parameters}}{
+        \describe{
+            \item{\code{[de.prob.per.level]}}{Probability that a gene is differentially
+            expressed for each level of the hierarchy. Can be a vector of length the number of levels.}
+            \item{\code{[de.downProb.per.level]}}{Probability that a differentially
+            expressed gene is down-regulated, at each level of the hierarchy. Can be a vector of length the number of levels.}
+            \item{\code{[de.facLoc.per.level]}}{Location (meanlog) parameter for the
+            differential expression factor log-normal distribution, at each level of the hierarchy. Can be a
+            vector of length the number of levels.}
+            \item{\code{[de.facScale.per.level]}}{Scale (sdlog) parameter for the
+            differential expression factor log-normal distribution, at each level of the hierarchy. Can be a
+            vector of length the number of levels.}
         }
     }
     \item{\emph{Biological Coefficient of Variation parameters}}{
