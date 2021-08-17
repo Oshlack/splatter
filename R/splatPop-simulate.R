@@ -238,9 +238,6 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
 #'        To see required format, run `mockEmpiricalSet()` and see means output.
 #' @param params SplatPopParams object containing parameters for population
 #'        scale simulations. See \code{\link{SplatPopParams}} for details.
-#' @param verbose logical. Whether to print progress messages.
-#' @param ... any additional parameter settings to override what is provided in
-#'        \code{params}.
 #'
 #' @details This function will ignore a number of parameters defined in 
 #' splatPopParams, instead pulling key information directly from provided VCF,

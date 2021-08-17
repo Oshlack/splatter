@@ -161,7 +161,6 @@ nConditions
 nGenes
 nGroups
 nSamples
-natrual
 param
 params
 plotPCA
@@ -188,11 +187,13 @@ seq
 simpleSimulate
 sparseDCEstimate
 sparsify
+sparsifyMatrices
 splatEstLib
 splatEstimate
 splatParams
 splatPop
 splatPopEstimate
+splatPopParams
 splatPopQuantNorm
 splatPopSimulateMeans
 splatPopSimulateSC

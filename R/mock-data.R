@@ -38,7 +38,7 @@ mockGFF <- function(n.genes = 50, chromosome = 1, chr.length = 2e6, seed=NULL){
 #' @param chr.length Length of mock chromosome 
 #' @param seed Optional: seed for random seed
 #'
-#' @return data.frame containing mock gff data.
+#' @return data.frame containing mock vcf data.
 #'
 #' @examples
 #' vcf <- mockVCF()
@@ -169,4 +169,56 @@ mockBulkeQTL <- function(n.genes = 500, seed=NULL){
                                slope = rgamma(n.genes, eqtl.shape, eqtl.rate)))
 
     return(mock.eq)
+}
+
+
+#' Generate set of "empirical" mock data
+#' 
+#' Quick function to generate matching mock VCF, bulk expression, and eQTL data,
+#' useful for running splatPopEmpiricalMeans
+#' 
+#' @param n.genes Number of genes in mock eQTL data.
+#' @param n.snps Number of SNPs in mock vcf file.
+#' @param n.samples Number of samples in mock bulk data.
+#' @param chromosome Chromosome name
+#' @param chr.length Length of mock chromosome 
+#' @param seed Optional: seed for random seed
+#' 
+#' @return list(gff=mockGFF, vcf=mockVCF, means=mockMEANS, eqtl=mockEQTL)
+#'
+#' @examples
+#' empirical <- mockEmpiricalSet()
+#'
+#' @export
+#' 
+mockEmpiricalSet <- function(n.genes = 20, n.snps = 1000, n.samples = 10, 
+                    chromosome = 1,  chr.length = 2e6, seed=NULL){
+    
+    mockGFF <- mockGFF(n.genes = n.genes, chromosome = chromosome, 
+                   chr.length = chr.length, seed=seed)
+    mockVCF <- mockVCF(n.snps = n.snps, n.samples = n.samples, 
+                   chromosome = chromosome,  chr.length = chr.length, seed=seed)
+    mockMEANS <- mockBulkMatrix(n.genes = n.genes, n.samples = n.samples, seed=seed)
+    mockEQTL <- mockBulkeQTL(n.genes = n.genes, seed=seed)
+    
+    mockEQTL$geneID <- paste0("gene_", formatC(seq_len(n.genes), 
+                                               width = nchar(n.genes),
+                                               format = "d", flag = "0"))
+    
+    row.names(mockMEANS) <- mockEQTL$geneID
+    
+    vcfDF <- data.frame(rowRanges(mockVCF))
+    row.names(vcfDF) <- rownames(mockVCF)
+    vcfDF$MAF <- VariantAnnotation::snpSummary(mockVCF)$a1Freq
+    eSNPs <- sample(rownames(mockVCF), n.genes)
+    vcfDF <- vcfDF[eSNPs, ]
+    
+    mockEQTL$snpID <- eSNPs
+    mockEQTL$snpLOC <- vcfDF$start
+    mockEQTL$snpCHR <- vcfDF$seqnames
+    mockEQTL$snpMAF <- vcfDF$MAF
+    
+    mockEQTL[mockEQTL$snpMAF < 0.05, c("snpID", "snpLOC", "snpCHR")] <- NA
+
+    return(list(gff=mockGFF, vcf=mockVCF, means=mockMEANS, eqtl=mockEQTL))
 }

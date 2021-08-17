@@ -19,7 +19,8 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 ```{r setup}
 suppressPackageStartupMessages({
-  library("splatter")
+  #library("splatter")
+  devtools::load_all(".")
   library("scater")
   library("VariantAnnotation")
   library("ggplot2")
@@ -184,6 +185,18 @@ If you already have bulk expression data for a population, you can use this quan
 ```{r quant-normalize-population-data}
 bulk.qnorm <- splatPopQuantNorm(newSplatPopParams(), bulk.means)
 round(bulk.qnorm[1:5, 1:5], 3)
+```
+
+**Generate a population directly from empirical data**
+
+The premise behind splatter and splatPop is estimating important parameters from empirical data and then using the distributions defined by those parameters to sample simulated data. While this allows you to simulate datasets that differ from your empirical data (for example, with different numbers of genes), there may be cases when you want to more exactly replicate an empirical dataset, for example if you want gene-gene relationships to be maintained. 
+
+```{r empirical-based-simulation}
+emp <- mockEmpiricalSet()
+
+test <- splatPopSimulate(vcf = emp$vcf, gff = emp$gff, eqtl = emp$eqtl, 
+                         means = emp$means, params = newSplatPopParams())
+
 ```
 
 

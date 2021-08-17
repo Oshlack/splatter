@@ -9,6 +9,8 @@ splatPopSimulate(
   vcf = mockVCF(),
   method = c("single", "groups", "paths"),
   gff = NULL,
+  eqtl = NULL,
+  means = NULL,
   key = NULL,
   counts.only = FALSE,
   sparsify = TRUE,
@@ -28,6 +30,15 @@ produces a single population, "groups" which produces distinct groups
 trajectories (eg. differentiation processes).}
 
 \item{gff}{Either NULL or a data.frame object containing a GFF/GTF file.}
+
+\item{eqtl}{Either NULL or if simulating population parameters directly from
+empirical data, a data.frame with empirical/desired eQTL results.
+To see required format, run `mockEmpiricalSet()` and see eqtl output.}
+
+\item{means}{Either NULL or if simulating population parameters directly from
+empirical data, a Matrix of real gene means across a population, where
+each row is a gene and each column is an individual in the population.
+To see required format, run `mockEmpiricalSet()` and see means output.}
 
 \item{key}{Either NULL or a data.frame object containing a full or partial
 splatPop key.}
