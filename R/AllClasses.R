@@ -443,6 +443,8 @@ setClass("KersplatParams",
 #'     \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
 #'     \item{\code{[eqtl.maf.min]}}{Minimum Minor Allele Frequency of eSNPs.}
 #'     \item{\code{[eqtl.maf.max]}}{Maximum Minor Allele Frequency of eSNPs.}
+#'     \item{\code{[eqtl.coreg]}}{Proportion of eGenes to have a shared eSNP 
+#'     (i.e., co-regulated genes)}
 #'     \item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate
 #'     as group specific.}
 #'     \item{\code{[eqtl.condition.specific]}}{Percent of eQTL effects to 
@@ -537,6 +539,7 @@ setClass("SplatPopParams",
                    eqtl.dist = "numeric",
                    eqtl.maf.min = "numeric",
                    eqtl.maf.max = "numeric",
+                   eqtl.coreg = "numeric",
                    eqtl.ES.shape = "numeric",
                    eqtl.ES.rate = "numeric",
                    eqtl.group.specific = "numeric",
@@ -568,6 +571,7 @@ setClass("SplatPopParams",
                                eqtl.dist = 1000000,
                                eqtl.maf.min = 0.05,
                                eqtl.maf.max = 0.5,
+                               eqtl.coreg = 0,
                                eqtl.ES.shape = 3.6,
                                eqtl.ES.rate = 12,
                                eqtl.group.specific = 0.2,

@@ -176,7 +176,7 @@ sim.means.rep2 <- splatPopSimulateMeans(vcf = vcf, key=sim.means$key,
 round(sim.means.rep2$means[1:5, 1:5], digits = 2)
 ```
 
-**Use real population-scale bulk expression data** 
+**Estimating parameters from bulk expression data** 
 
 An important step of `splatPopSimulate` is the quantile normalization of simulated gene means for each sample to match a gamma distribution estimated from real single-cell RNA-seq data using `splatEstimate` or `splatPopEstimate`. This step ensures that even if bulk sequencing data are used to estimate population parameters, the means output from `splatPopSimulateMeans` will be distributed like a single-cell dataset.
 
@@ -189,13 +189,19 @@ round(bulk.qnorm[1:5, 1:5], 3)
 
 **Generate a population directly from empirical data**
 
-The premise behind splatter and splatPop is estimating important parameters from empirical data and then using the distributions defined by those parameters to sample simulated data. While this allows you to simulate datasets that differ from your empirical data (for example, with different numbers of genes), there may be cases when you want to more exactly replicate an empirical dataset, for example if you want gene-gene relationships to be maintained. 
+The power of splatter, and splatPop by extension, comes from estimating important parameters from empirical data and then using the distributions defined by those parameters to generate realistic simulated data, maintaining the properties of the empirical data without directly replicating it. While this allows you to simulate datasets that differ from your empirical data (for example, with different numbers of genes or with different sized eQTL effects), there may be cases when you want to more exactly replicate an empirical dataset, for example if you want gene-gene relationships to be maintained. To run splatPop in this mode, provide `splatPopSimualte` or `splatPopSimulateMeans` with the vcf, gff, eQTL, and population-scale gene means data directly. This will overwrite the splatPop population and eqtl parameters and instead replicate the data provided. For example, provided with the following eQTL mapping data: 
 
-```{r empirical-based-simulation}
+```{r empirical-mock-data}
 emp <- mockEmpiricalSet()
+head(emp$eqtl[, c("geneID", "snpID", "snpCHR", "snpLOC", "snpMAF", "slope")])
+```
 
-test <- splatPopSimulate(vcf = emp$vcf, gff = emp$gff, eqtl = emp$eqtl, 
+the gene location information will be pulled from the GFF and the gene mean and variance information will be pulled from the population-scale gene mean data, to produce a splatPop key: 
+
+```{r empirical=based-simulation}
+emp.sim <- splatPopSimulateMeans(vcf = emp$vcf, gff = emp$gff, eqtl = emp$eqtl, 
                          means = emp$means, params = newSplatPopParams())
+head(emp.sim$key)
 
 ```
 
@@ -345,6 +351,48 @@ sim.pop.batches <- logNormCounts(sim.pop.batches)
 sim.pop.batches <- runPCA(sim.pop.batches, ncomponents = 10)
 plotPCA(sim.pop.batches, colour_by = "Sample", shape_by = "Batch", point_size=3)
 ```
+
+### Gene co-regulation
+
+splatPop randomly selects an eSNP within the desired window for each eGene. By chance some eGenes may be assigned the same eSNP, but if many SNPs are provided this is rare. However, the `eqtl.coreg` parameter can be used to randomly select a percent of eGenes, sort them by chromosome and location, and assign them the same eSNP. This function maintains the randomly sampled eQTL effect sizes and each eQTL's designation as a global, group specific, and/or condition specific, however it does ensure that all eQTL with the same eSNP are given the same effect sign. Here, for example, we show the expression correlation between randomly paired genes in a splatPop simulation (gray) compared to expression correlation between coregulated genes (blue), with the average correlation for each type designated by the large point.
+
+```{r simulate-population-with-different-sized-batch-effects, fig.height=2}
+params.coreg <- newSplatPopParams(eqtl.coreg = 0.4, eqtl.ES.rate=2)
+vcf <- mockVCF(n.sample = 20, n.snps = 1200)
+gff <- mockGFF(n.genes = 100)
+sim.coreg <- splatPopSimulateMeans(vcf = vcf, gff = gff, params = params.coreg)
+key <- sim.coreg$key
+sim.cor <- cor(t(sim.coreg$means))
+coregSNPs <- names(which(table(sim.coreg$key$eSNP.ID) == 2))
+
+coregCorList <- c()
+for(snp in coregSNPs){
+  coregGenes <- sim.coreg$key$geneID[which(sim.coreg$key$eSNP.ID == snp)]
+  coregCorList <- c(coregCorList, sim.cor[coregGenes[1], coregGenes[2]])
+}
+
+randCorList <- c()
+for (n in 1:1000){
+  genes <- sample(sim.coreg$key$geneID, 2)
+  randCorList <- c(randCorList, sim.cor[genes[1], genes[2]])
+}
+
+cor.df <- as.data.frame(list(type=c(rep("coregulated pairs", length(coregCorList)),
+                                    rep("random pairs", length(randCorList))), 
+                             correlation=c(coregCorList, randCorList),
+                             id = "x"))
+
+ggplot(cor.df, aes(x = correlation, y = id, color = type, alpha = type)) +  
+  geom_jitter(size = 2, width = 0.1) +
+  scale_alpha_discrete(range = c(0.6, 0.1)) + 
+  stat_summary(fun = mean, geom = "pointrange", size = 1, alpha=1) + theme_minimal() +
+  theme(axis.title.y=element_blank(), axis.text.y=element_blank(), 
+        legend.position="top") + xlim(c(-1, 1)) +
+  scale_color_manual(values=c("#56B4E9", "#999999"))
+  
+
+```
+
 
 ```{r sessionInfo}
 sessionInfo()

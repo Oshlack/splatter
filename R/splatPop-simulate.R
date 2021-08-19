@@ -675,6 +675,7 @@ splatPopeQTLEffects <- function(params, key, vcf){
     eqtl.dist <- getParam(params, "eqtl.dist")
     eqtlES.shape <- getParam(params, "eqtl.ES.shape")
     eqtlES.rate <- getParam(params, "eqtl.ES.rate")
+    eqtl.coreg <- getParam(params, "eqtl.coreg")
 
     # Set up data.frame to save info about selected eSNP-eGENE pairs
     snps.list <- row.names(vcf)
@@ -723,9 +724,30 @@ splatPopeQTLEffects <- function(params, key, vcf){
         key[key$geneID == g, ]$eQTL.condition <- "global"
     }
 
+    if (eqtl.coreg > 0){
+        coregulated.n <- ceiling(eqtl.coreg*eqtl.n)
+        keyCoreg <- key[!is.na(key$eSNP.ID), ]
+        keyCoreg <- keyCoreg[sample(1:eqtl.n, coregulated.n), ]
+        keyCoreg <- keyCoreg[order(keyCoreg$chromosome, keyCoreg$geneMiddle), ]
+        
+        esnpKeep <- keyCoreg[seq(1,length(keyCoreg[,1]),2), "geneID"]
+        esnpReplace <- keyCoreg[seq(2,length(keyCoreg[,1]),2), "geneID"]
+        esnpKeep <- esnpKeep[1:length(esnpReplace)]
+        key[key$geneID %in% esnpReplace, grep("eSNP.", names(key))] <-
+            key[key$geneID %in% esnpKeep, grep("eSNP.", names(key))] 
+    }
+    
     # Randomly make some effects negative
-    key$eQTL.EffectSize <- key$eQTL.EffectSize * sample(c(1, -1), nrow(key),
-                                                        replace = TRUE)
+    # Note that all eQTL with the same eSNP will have the same sign
+    esnps <- unique(key$eSNP.ID)
+    sign <- data.frame(list(id = esnps, 
+                            sign = sample(c(1, -1), length(esnps), 
+                                          replace = TRUE)))
+    key <- merge(key, sign, by.x = "eSNP.ID", by.y = "id", 
+                  all.x = TRUE)[, union(names(key), "sign")]
+    key$eQTL.EffectSize <- key$eQTL.EffectSize * key$sign
+    key$sign <- NULL
+    
     return(key)
 }
 
