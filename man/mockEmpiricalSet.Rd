@@ -27,7 +27,7 @@ mockEmpiricalSet(
 \item{seed}{Optional: seed for random seed}
 }
 \value{
-list(vcf = mock vcf, eQTL = mock eQTL, means = mock means)
+list(gff=mockGFF, vcf=mockVCF, means=mockMEANS, eqtl=mockEQTL)
 }
 \description{
 Quick function to generate matching mock VCF, bulk expression, and eQTL data,

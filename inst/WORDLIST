@@ -154,6 +154,7 @@ meanlog
 mfa
 mfaSimulate
 minimiseSCE
+mockEmpiricalSet
 mockSCE
 modeling
 nCells
@@ -192,8 +193,10 @@ splatEstLib
 splatEstimate
 splatParams
 splatPop
+splatPopEmpiricalMeans
 splatPopEstimate
 splatPopParams
+splatPopParseEmpirical
 splatPopQuantNorm
 splatPopSimulateMeans
 splatPopSimulateSC
