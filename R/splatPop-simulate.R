@@ -356,7 +356,6 @@ splatPopSimulateSC <- function(sim.means,
         if (verbose) {message(paste0("Simulating sc counts for ", g, "..."))}
 
         paramsG <- setParams(params, batchCells = unlist(group.n[g]))
-
         sims <- lapply(samples, function(x) {
             splatPopSimulateSample(params = paramsG,
                                    method = method,
@@ -443,17 +442,6 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
 
     method <- match.arg(method)
 
-    # Get the parameters we are going to use
-    if(isTRUE(getParam(params, "nCells.sample"))){
-        nGroups <- getParam(params, "nGroups")
-        nCells.shape <- getParam(params, "nCells.shape")
-        nCells.rate <- getParam(params, "nCells.rate")
-        nCells <- rgamma(1, shape = nCells.shape, rate = nCells.rate)
-        nCells <- ceiling(nCells / nGroups)
-    }else{
-        nCells <- getParam(params, "nCells")
-    }
-
     set.seed(getParam(params, "seed"))
     nGenes <- length(sample.means)
     params <- setParams(params, nGenes = nGenes)
@@ -467,26 +455,38 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
         warning("nGroups is 1, switching to single mode")
         method <- "single"
     }
-
-    # Set up name vectors
-    cell.names <- paste0("Cell", seq_len(nCells))
-    gene.names <- names(sample.means)
-    if (method == "groups") {
-        group.names <- paste0("Group", seq_len(nGroups))
-    } else if (method == "paths") {
-        group.names <- paste0("Path", seq_len(nGroups))
-    }
-
-    # Create SingleCellExperiment to store simulation
-    cells <-  data.frame(Cell = cell.names)
-    rownames(cells) <- cell.names
-    features <- data.frame(Gene = gene.names)
-    rownames(features) <- gene.names
-
+    
     batch.list <- unlist(strsplit(batch, ","))
     batch.sims <- list()
 
     for (b in batch.list){
+        # Get the parameters we are going to use
+        if(isTRUE(getParam(params, "nCells.sample"))){
+            nGroups <- getParam(params, "nGroups")
+            nCells.shape <- getParam(params, "nCells.shape")
+            nCells.rate <- getParam(params, "nCells.rate")
+            nCells <- rgamma(1, shape = nCells.shape, rate = nCells.rate)
+            nCells <- ceiling(nCells / nGroups)
+        }else{
+            nCells <- getParam(params, "batchCells")[as.numeric(
+                gsub("[^0-9.-]", "", b))]
+        }
+        # Set up name vectors
+        cell.names <- paste0("Cell", seq_len(nCells))
+        gene.names <- names(sample.means)
+        if (method == "groups") {
+            group.names <- paste0("Group", seq_len(nGroups))
+        } else if (method == "paths") {
+            group.names <- paste0("Path", seq_len(nGroups))
+        }
+        
+        # Create SingleCellExperiment to store simulation
+        cells <-  data.frame(Cell = cell.names)
+        rownames(cells) <- cell.names
+        features <- data.frame(Gene = gene.names)
+        rownames(features) <- gene.names
+        
+        
         sim <- SingleCellExperiment(rowData = features, colData = cells,
                                     metadata = list(Params = params))
         colData(sim)$Batch <- b
@@ -555,10 +555,11 @@ splatPopParseVCF <- function(vcf, params){
 
     SummarizedExperiment::rowRanges(vcf)$MAF <-
         VariantAnnotation::snpSummary(vcf)$a1Freq
-
+    
+    vcf <- vcf[!is.na(SummarizedExperiment::rowRanges(vcf)$MAF)]
     vcf <- vcf[SummarizedExperiment::rowRanges(vcf)$MAF >= eqtl.maf.min &
                    SummarizedExperiment::rowRanges(vcf)$MAF <= eqtl.maf.max]
-
+    
     return(vcf)
 }
 
@@ -584,9 +585,19 @@ splatPopParseGenes <- function(params, gff){
     }
 
     key <- gff[gff[,3] %in% c("gene", "Gene"),]
+    
     key$geneID <- paste0("gene_", formatC(seq_len(nGenes),
                                           width = nchar(nrow(key)),
                                           format = "d", flag = "0"))
+    if(ncol(gff) == 9){
+        if(all(grepl("ENSG", gff[,9]))){
+            gene_names <- gsub(";.*", "", gff[, 9])
+            gene_names <- gsub(".*:", "", gene_names)
+            key$geneID <- gene_names
+        }
+        
+    }
+    
 
     key[['chromosome']] <- key[, 1]
     key[['geneStart']] <- key[, 4]

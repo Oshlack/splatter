@@ -198,7 +198,7 @@ head(emp$eqtl[, c("geneID", "snpID", "snpCHR", "snpLOC", "snpMAF", "slope")])
 
 the gene location information will be pulled from the GFF and the gene mean and variance information will be pulled from the population-scale gene mean data, to produce a splatPop key: 
 
-```{r empirical=based-simulation}
+```{r empirical-based-simulation}
 emp.sim <- splatPopSimulateMeans(vcf = emp$vcf, gff = emp$gff, eqtl = emp$eqtl, 
                          means = emp$means, params = newSplatPopParams())
 head(emp.sim$key)
@@ -356,7 +356,7 @@ plotPCA(sim.pop.batches, colour_by = "Sample", shape_by = "Batch", point_size=3)
 
 splatPop randomly selects an eSNP within the desired window for each eGene. By chance some eGenes may be assigned the same eSNP, but if many SNPs are provided this is rare. However, the `eqtl.coreg` parameter can be used to randomly select a percent of eGenes, sort them by chromosome and location, and assign them the same eSNP. This function maintains the randomly sampled effect sizes and designation as a global, group specific, and/or condition specific eQTL, however it does ensure that all eQTL with the same eSNP are given the same effect sign. Here, for example, we show the expression correlation between randomly paired genes in a splatPop simulation (grey) compared to expression correlation between co-regulated genes (blue), with the average correlation for each type designated by the large point.
 
-```{r simulate-population-with-different-sized-batch-effects, fig.height=2}
+```{r simulate-population-with-coregulation, fig.height=2}
 params.coreg <- newSplatPopParams(eqtl.coreg = 0.4, eqtl.ES.rate=2)
 vcf <- mockVCF(n.sample = 20, n.snps = 1200)
 gff <- mockGFF(n.genes = 100)
