@@ -26,7 +26,7 @@ setValidity("SplatPopParams", function(object) {
                 eqtl.maf.min = checkNumber(v$eqtl.maf.min, lower = 0,
                                            upper = 0.5),
                 eqtl.maf.max = checkNumber(v$eqtl.maf.max, lower = 0,
-                                           upper = 0.5),
+                                           upper = 1),
                 eqtl.coreg = checkNumber(v$eqtl.coreg, lower = 0, upper = 1),
                 eqtl.ES.shape = checkNumber(v$eqtl.ES.shape, lower = 0),
                 eqtl.ES.rate = checkNumber(v$eqtl.ES.rate, lower = 0),

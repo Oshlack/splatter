@@ -154,8 +154,12 @@ meanlog
 mfa
 mfaSimulate
 minimiseSCE
+mockEQTL
 mockEmpiricalSet
+mockGFF
+mockMEANS
 mockSCE
+mockVCF
 modeling
 nCells
 nConditions

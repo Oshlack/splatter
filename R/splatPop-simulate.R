@@ -74,6 +74,8 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 50),
                                        params = params,
                                        gff = gff,
                                        key = key,
+                                       eqtl = eqtl, 
+                                       means = means,
                                        verbose = verbose)
 
     sim.sc <- splatPopSimulateSC(sim.means = sim.means$means,
@@ -196,7 +198,7 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
 
     if (verbose) {message("Simulating gene means for population...")}
 
-    means.pop <- splatPopSimMeans(vcf, key)
+    means.pop <- splatPopSimMeans(vcf, key, means)
 
     if (quant.norm){
         means.pop <- splatPopQuantNorm(params, means.pop)
@@ -225,7 +227,9 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
 #'
 #' Parse splatPop key information from empirical data provided.
 #' 
-#' NOTE: This function 
+#' NOTE: This function will cause some of the parameters in the splatPopParams 
+#' object to be ignored, such as population level gene mean and variance and 
+#' eQTL parameters. 
 #'
 #' @param vcf VariantAnnotation object containing genotypes of samples.
 #' @param gff Either NULL or a data.frame object containing a GFF/GTF file.
@@ -860,22 +864,28 @@ splatPopConditionEffects <- function(params, key, conditions){
 #'
 #' Gene mean expression levels are assigned to each gene for each pair randomly
 #' from a normal distribution parameterized using the mean and cv assigned to
-#' each gene in the key.
+#' each gene in the key. If gene means matrix is provided, those will be used
+#' instead.
 #'
 #' @param vcf VariantAnnotation object containing genotypes of samples.
 #' @param key Partial splatPop key data.frame.
+#' @param means Null or matrix of gene means to use
 #'
 #' @return matrix of gene mean expression levels WITHOUT eQTL effects.
 #'
 #' @importFrom stats rnorm
-splatPopSimMeans <- function(vcf, key){
-
-    means <- matrix(rnorm(ncol(vcf) * nrow(key), mean = key$meanSampled,
-                          sd = key$meanSampled * key$cvSampled),
-                    nrow = nrow(key), ncol = ncol(vcf))
-
-    rownames(means) <- key$geneID
-    colnames(means) <- colnames(VariantAnnotation::geno(vcf)$GT)
+splatPopSimMeans <- function(vcf, key, means){
+    
+    if (is.null(means)){
+        means <- matrix(rnorm(ncol(vcf) * nrow(key), mean = key$meanSampled,
+                              sd = key$meanSampled * key$cvSampled),
+                        nrow = nrow(key), ncol = ncol(vcf))
+        
+        rownames(means) <- key$geneID
+        colnames(means) <- colnames(VariantAnnotation::geno(vcf)$GT)
+    } else {
+        means <- as.matrix(means)
+    }
 
     return(means)
 }

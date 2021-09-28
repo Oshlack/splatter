@@ -19,8 +19,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 ```{r setup}
 suppressPackageStartupMessages({
-  #library("splatter")
-  devtools::load_all(".")
+  library("splatter")
   library("scater")
   library("VariantAnnotation")
   library("ggplot2")

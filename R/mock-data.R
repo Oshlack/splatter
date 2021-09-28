@@ -206,6 +206,7 @@ mockEmpiricalSet <- function(n.genes = 20, n.snps = 1000, n.samples = 10,
                                                format = "d", flag = "0"))
     
     row.names(mockMEANS) <- mockEQTL$geneID
+    colnames(mockMEANS) <- colnames(mockVCF)
     
     vcfDF <- data.frame(rowRanges(mockVCF))
     row.names(vcfDF) <- rownames(mockVCF)
