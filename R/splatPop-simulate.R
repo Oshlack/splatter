@@ -2,7 +2,7 @@
 #'
 #' Simulate scRNA-seq count data using the splat model for a population of
 #' individuals with correlation structure.
-#'
+#' 
 #' @param params SplatPopParams object containing parameters for population
 #'        scale simulations. See \code{\link{SplatPopParams}} for details.
 #' @param vcf VariantAnnotation object containing genotypes of samples.
@@ -173,12 +173,15 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
     # Genes from key if provided, or from empirical data or simulated from gff 
     if (is.null(key)) {
         if (is.null(eqtl) | is.null(means)){
+            if (verbose) {message("Simulating data for genes in GFF...")}
             key <- splatPopParseGenes(params, gff)
         }else {
+            if (verbose) {message("Using base gene means from data provided...")}
             key <- splatPopParseEmpirical(vcf = vcf, gff = gff, eqtl = eqtl, 
                                           means = means, params = params)
+            params <- setParams(params, nGenes = nrow(key))
         }
-    }
+    } else{if (verbose) {message("Simulating data for genes in key...")} }
 
     if (!all(c("meanSampled", "cvSampled") %in% names(key))) {
         key <- splatPopAssignMeans(params, key)
@@ -247,8 +250,6 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
 #' splatPopParams, instead pulling key information directly from provided VCF,
 #' GFF, gene means, and eQTL mapping result data provided.
 #'
-#' }
-#'
 #' @return A partial splatPop `key` 
 #'
 #' @export
@@ -256,11 +257,11 @@ splatPopParseEmpirical <- function(vcf = vcf, gff = gff, eqtl = eqtl,
                                    means = means, params = params){
     
     key <- data.frame(list(geneID = eqtl$geneID,
-                           chromosome = gff$V1,
-                           geneStart = gff$V4,
-                           geneEnd = gff$V5,
-                           geneMiddle = floor(abs((gff$V4 - gff$V5)/2)) +
-                               gff$V4,
+                           chromosome = gff[, 1],
+                           geneStart = gff[, 4],
+                           geneEnd = gff[, 5],
+                           geneMiddle = floor(abs((gff[, 4] - gff[, 5])/2)) +
+                               gff[, 4],
                            meanSampled.noOutliers = rowMeans(means),
                            OutlierFactor = 1,
                            meanSampled = rowMeans(means),
@@ -272,8 +273,6 @@ splatPopParseEmpirical <- function(vcf = vcf, gff = gff, eqtl = eqtl,
                            eSNP.loc = eqtl$snpLOC,
                            eSNP.MAF = eqtl$snpMAF, 
                            eQTL.EffectSize = eqtl$slope))
-    
-    params <- setParams(params, nGenes = nrow(key))
     
     return(key)
 }
