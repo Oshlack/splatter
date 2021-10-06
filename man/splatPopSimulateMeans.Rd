@@ -10,6 +10,8 @@ splatPopSimulateMeans(
   verbose = TRUE,
   key = NULL,
   gff = NULL,
+  eqtl = NULL,
+  means = NULL,
   ...
 )
 }
@@ -25,6 +27,15 @@ scale simulations. See \code{\link{SplatPopParams}} for details.}
 splatPop key.}
 
 \item{gff}{Either NULL or a data.frame object containing a GFF/GTF file.}
+
+\item{eqtl}{Either NULL or if simulating population parameters directly from
+empirical data, a data.frame with empirical/desired eQTL results.
+To see required format, run `mockEmpiricalSet()` and see eqtl output.}
+
+\item{means}{Either NULL or if simulating population parameters directly from
+empirical data, a Matrix of real gene means across a population, where
+each row is a gene and each column is an individual in the population.
+To see required format, run `mockEmpiricalSet()` and see means output.}
 
 \item{...}{any additional parameter settings to override what is provided in
 \code{params}.}

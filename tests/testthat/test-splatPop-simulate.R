@@ -41,3 +41,15 @@ test_that("splatPopSimulate can read genes from gff data.frame", {
     sim <- splatPopSimulateMeans(vcf = vcf, params = params, gff = gff)
     expect_true(validObject(sim))
 })
+
+test_that("splatPopSimulate can simulate from empirical data directly", {
+    skip_if_not_installed("VariantAnnotation")
+    skip_if_not_installed("preprocessCore")
+    emp <- mockEmpiricalSet(seed=1)
+    
+    sim <- splatPopSimulateMeans(vcf = emp$vcf, gff = emp$gff, eqtl = emp$eqtl, 
+                             means = emp$means)
+
+    expect_true(validObject(sim))   
+    
+})

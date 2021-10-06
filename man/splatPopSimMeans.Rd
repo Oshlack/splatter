@@ -4,12 +4,14 @@
 \alias{splatPopSimMeans}
 \title{Simulate mean gene expression matrix without eQTL effects}
 \usage{
-splatPopSimMeans(vcf, key)
+splatPopSimMeans(vcf, key, means)
 }
 \arguments{
 \item{vcf}{VariantAnnotation object containing genotypes of samples.}
 
 \item{key}{Partial splatPop key data.frame.}
+
+\item{means}{Null or matrix of gene means to use}
 }
 \value{
 matrix of gene mean expression levels WITHOUT eQTL effects.
@@ -17,5 +19,6 @@ matrix of gene mean expression levels WITHOUT eQTL effects.
 \description{
 Gene mean expression levels are assigned to each gene for each pair randomly
 from a normal distribution parameterized using the mean and cv assigned to
-each gene in the key.
+each gene in the key. If gene means matrix is provided, those will be used
+instead.
 }

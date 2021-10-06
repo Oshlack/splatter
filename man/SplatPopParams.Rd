@@ -24,6 +24,8 @@ requires the following parameters:
     \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
     \item{\code{[eqtl.maf.min]}}{Minimum Minor Allele Frequency of eSNPs.}
     \item{\code{[eqtl.maf.max]}}{Maximum Minor Allele Frequency of eSNPs.}
+    \item{\code{[eqtl.coreg]}}{Proportion of eGenes to have a shared eSNP 
+    (i.e., co-regulated genes)}
     \item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate
     as group specific.}
     \item{\code{[eqtl.condition.specific]}}{Percent of eQTL effects to 
