@@ -3,10 +3,13 @@
 \name{splatSimDE}
 \alias{splatSimDE}
 \alias{splatSimGroupDE}
+\alias{splatSimHierarchicalDE}
 \alias{splatSimPathDE}
 \title{Simulate group differential expression}
 \usage{
 splatSimGroupDE(sim, params)
+
+splatSimHierarchicalDE(sim, params)
 
 splatSimPathDE(sim, params)
 }

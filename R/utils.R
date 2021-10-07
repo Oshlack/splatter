@@ -159,3 +159,27 @@ checkDependencies <- function(sim.prefix = NULL, deps = NULL) {
 
     invisible(TRUE)
 }
+
+createGroupHierarchy = function(splits.per.level) {
+
+    number.of.levels = length(splits.per.level)
+    number.of.categories = prod(splits.per.level)
+
+    tree = matrix(nrow = number.of.levels, ncol = number.of.categories)
+
+    tree[1, ] = rep(1:splits.per.level[1], each = number.of.categories / splits.per.level[1])
+
+    if (length(splits.per.level) > 1) {
+
+        for (i in 2:number.of.levels) {
+            tree[i, ] = rep(rep(1:splits.per.level[i], prod(splits.per.level[1:(i - 1)])), each = number.of.categories / prod(splits.per.level[1:i]))
+        }
+
+        label.tree = t(sapply(2:number.of.levels, function(i) apply(tree[1:i, ], 2, function(x) paste(x, collapse = ""))))
+        tree = rbind(tree[1, ], label.tree)
+
+    }
+
+    return(tree[nrow(tree), , drop = TRUE])
+
+}

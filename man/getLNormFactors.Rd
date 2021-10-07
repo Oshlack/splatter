@@ -4,7 +4,14 @@
 \alias{getLNormFactors}
 \title{Get log-normal factors}
 \usage{
-getLNormFactors(n.facs, sel.prob, neg.prob, fac.loc, fac.scale)
+getLNormFactors(
+  n.facs,
+  sel.prob,
+  neg.prob,
+  fac.loc,
+  fac.scale,
+  factors = rep(1, n.facs)
+)
 }
 \arguments{
 \item{n.facs}{Number of factors to generate.}

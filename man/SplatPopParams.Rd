@@ -28,7 +28,7 @@ requires the following parameters:
     (i.e., co-regulated genes)}
     \item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate
     as group specific.}
-    \item{\code{[eqtl.condition.specific]}}{Percent of eQTL effects to 
+    \item{\code{[eqtl.condition.specific]}}{Percent of eQTL effects to
     simulate as condition specific.}
     \item{\emph{eQTL Effect size distribution parameters. Defaults estimated
     from GTEx eQTL mapping results, see vignette for more information.}}{
@@ -58,9 +58,9 @@ requires the following parameters:
         }
     }
     \item{\emph{Specify number of samples per batch. Note that splatPop will
-    randomly assign donors to be present in multiple batches to fulfill the 
-    specified nBatches and batch.size parameters. For example, if 10 samples 
-    are simulated with batchPool.n=4 and batchPool.size= 4, then 6 samples 
+    randomly assign donors to be present in multiple batches to fulfill the
+    specified nBatches and batch.size parameters. For example, if 10 samples
+    are simulated with batchPool.n=4 and batchPool.size= 4, then 6 samples
     will be randomly chosen to be replicated in two pools.}}{
         \describe{
             \item{\code{batch.size}}{The number of donors in
@@ -68,10 +68,10 @@ requires the following parameters:
         }
     }
     \item{\emph{Specify shape and rate of gamma distribution to sample
-    number of cells per batch per donor. Will only be used if nCells 
+    number of cells per batch per donor. Will only be used if nCells
     parameter is set to 0.}}{
         \describe{
-            \item{\code{nCells.sample}}{True/False if nCells should be 
+            \item{\code{nCells.sample}}{True/False if nCells should be
             set as nCells or sampled from a gamma distribution for each
             batch/donor.}
             \item{\code{nCells.shape}}{Shape parameter for the nCells per
@@ -84,18 +84,18 @@ requires the following parameters:
         \describe{
             \item{\code{[nConditions]}}{The number of conditions/treatments
             to divide samples into.}
-            \item{\code{[condition.prob]}}{Probability that a sample belongs 
+            \item{\code{[condition.prob]}}{Probability that a sample belongs
             to each condition/treatment group. Can be a vector.}
-            \item{\code{[cde.prob]}}{Probability that a gene is 
+            \item{\code{[cde.prob]}}{Probability that a gene is
             differentially expressed in a condition group. Can be a vector.}
-            \item{\code{[cde.downProb]}}{Probability that a conditionally 
-            differentially expressed gene is down-regulated. Can be a 
+            \item{\code{[cde.downProb]}}{Probability that a conditionally
+            differentially expressed gene is down-regulated. Can be a
             vector.}
             \item{\code{[cde.facLoc]}}{Location (meanlog) parameter for the
-            conditional differential expression factor log-normal 
+            conditional differential expression factor log-normal
             distribution. Can be a vector.}
             \item{\code{[cde.facScale]}}{Scale (sdlog) parameter for the
-            conditional differential expression factor log-normal 
+            conditional differential expression factor log-normal
             distribution. Can be a vector.}
         }
     }
