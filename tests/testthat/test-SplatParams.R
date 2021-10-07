@@ -18,7 +18,6 @@ test_that("nGroups checks work", {
                  "nGroups cannot be set directly, set group.prob instead")
 })
 
-
 ### These tests are also run in test-SplatPopParams.R, please update both
 test_that("path.from checks work", {
     pp <- setParams(params, group.prob = c(0.5, 0.5))
@@ -52,10 +51,22 @@ test_that("dropout.type checks work", {
                  "dropout.type must be one of: ")
 })
 
-
 test_that("setParams order doesn't matter", {
     expect_silent(setParams(params, group.prob = c(0.5, 0.5),
                             de.facLoc = c(0.1, 5)))
     expect_silent(setParams(params, de.facLoc = c(0.1, 5),
                             group.prob = c(0.5, 0.5)))
+})
+
+test_that("group.prob gets rescaled", {
+    expect_warning(setParams(params, group.prob = 1:3),
+                   "group.prob does not sum to 1 and will be rescaled")
+})
+
+test_that("group.prob sum check works", {
+    probs <- runif(10)
+    probs <- probs / sum(probs)
+    expect_silent(setParams(params, group.prob = probs))
+    pp <- setParamUnchecked(params, "group.prob", 1:3)
+    expect_error(validObject(pp), "group.probs must sum to 1")
 })

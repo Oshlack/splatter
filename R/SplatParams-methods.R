@@ -72,7 +72,7 @@ setValidity("SplatParams", function(object) {
     }
 
     # Check group.prob sums to 1
-    if (sum(round(v$group.prob, 5)) != 1) {
+    if (!isTRUE(all.equal(sum(v$group.prob), 1))) {
         checks <- c(checks, "group.probs must sum to 1")
     }
 
@@ -147,6 +147,11 @@ setMethod("setParam", "SplatParams", function(object, name, value) {
     }
 
     if (name == "group.prob") {
+        if (!isTRUE(all.equal(sum(value), 1))) {
+            warning("group.prob does not sum to 1 and will be rescaled")
+            value <- value / sum(value)
+        }
+
         object <- setParamUnchecked(object, "nGroups", length(value))
         path.from <- getParam(object, "path.from")
         if (length(path.from) > 1 & length(path.from) != length(value)) {
