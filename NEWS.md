@@ -1,5 +1,18 @@
 # DEVELOPMENT VERSION
 
+## Version 1.17.3 (2021-10-07)
+
+* Improved checks for group.prob in SplatParams (Fixes #107)
+* Automatically rescale group.prob during setting if it doesn't sum to 1
+
+## Version 1.17.2 (2021-10-06)
+
+* Fixed duplicate cell names in splatPopSimulate (Fixes #118)
+* Add functionality to simulate directly from empirical values to splatPop
+* Add eqtl.coreg parameter to splatPop
+* Fixed a bug where too many cells were simulated in splatPop with multiple
+  batches
+
 ## Version 1.17.1 (2021-05-20)
 
 * Fix bug in validating splatPopParams
