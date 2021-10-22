@@ -1,7 +1,36 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
-\section{Version 1.16.0, Bioconductor 3.13 Release (2020-05-20)}{
+\section{Version 1.18.0, Bioconductor 3.14 Release (2021-10-27)}{
+  \itemize{
+    \item{
+      Updates to the splatPop simulation (from Christina Azodi)
+      \itemize{
+        \item{
+          Added functionality to simulate directly from empirical values
+        }
+        \item{
+          Added eqtl.coreg parameter to splatPop
+        }
+        \item{
+          Fixed a bug where too many cells were simulated in splatPop with
+          multiple batches
+        }
+        \item{
+          Fixed duplicate cell names in splatPopSimulate
+        }
+      }
+    }
+    \item{
+      Improved checks for group.prob in SplatParams
+    }
+    \item{
+      Automatically rescale group.prob during setting if it doesn't sum to 1
+    }
+  }
+}
+
+\section{Version 1.16.0, Bioconductor 3.13 Release (2021-05-20)}{
   \itemize{
     \item{
       Substantial updates to the splatPop simulation (from Christina Azodi)
