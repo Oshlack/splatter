@@ -196,7 +196,7 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
     }
 
     if (!all(c("eQTL.condition", "ConditionDE.Condition1") %in% names(key))) {
-        key <- splatPopConditionEffects(params, key, conditions)
+            key <- splatPopConditionEffects(params, key, conditions)
     }
 
     if (verbose) {message("Simulating gene means for population...")}
@@ -823,7 +823,8 @@ splatPopGroupEffects <- function(params, key, groups){
 #' @return The key updated with conditional eQTL and DE effects.
 splatPopConditionEffects <- function(params, key, conditions){
 
-    if (length(unique(conditions)) == 1){
+    condition.names <- unique(conditions)
+    if (length(condition.names) == 1){
         key$eQTL.condition <- "global"
         key$ConditionDE.Condition1 <- 1
     }else{
@@ -833,10 +834,10 @@ splatPopConditionEffects <- function(params, key, conditions){
         if (eqtl.n <= 1){eqtl.n <- nrow(key) * eqtl.n} # If <= 1 it is %
 
         c.specific.perc <- getParam(params, "eqtl.condition.specific")
-        n.conditions <- length(conditions)
+        n.conditions <- length(condition.names)
         n.specific.each <- ceiling(eqtl.n * c.specific.perc / n.conditions)
 
-        for(c in conditions){
+        for(c in condition.names){
             glob.genes <- subset(key, key$eQTL.condition == "global")$geneID
             c.specific <- sample(glob.genes, size = n.specific.each)
             key[["eQTL.condition"]][key$geneID %in% c.specific] <- c
@@ -852,7 +853,7 @@ splatPopConditionEffects <- function(params, key, conditions){
         for (idx in seq_len(n.conditions)) {
             cde.facs <- getLNormFactors(nGenes, cde.prob, cde.downProb,
                                         cde.facLoc, cde.facScale)
-            key[, paste0("ConditionDE.", conditions[idx])] <- cde.facs
+            key[, paste0("ConditionDE.", condition.names[idx])] <- cde.facs
         }
     }
 
