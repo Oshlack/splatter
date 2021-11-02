@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+# Version 1.18.0 (2020-10-27)
+
+Bioconductor 3.14 release
+
 ## Version 1.17.3 (2021-10-07)
 
 * Improved checks for group.prob in SplatParams (Fixes #107)
