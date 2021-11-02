@@ -1,5 +1,10 @@
 # DEVELOPMENT VERSION
 
+## Version 1.19.1 (2021-11-02)
+
+* Fixed bug where conditional eQTL effects were being incorrectly allocated in
+  splatPop (Fixes #125, @azodichr)
+
 ## Version 1.19.0 (2021-10-27)
 
 Bioconductor 3.15 devel
