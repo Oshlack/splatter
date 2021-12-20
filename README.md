@@ -47,7 +47,9 @@ aren't required for core functionality).
 ## Getting started
 
 Once installed the best place to get started is the vignette. For most users
-the most convenient way to access this is online [here][vignette].
+the most convenient way to access this is online [here][vignette]. To get 
+started with population scale simulations, see the splatPop vignette 
+[here][splatpopvignette].
 
 Alternatively, if you chose to build the vignette, you can load Splatter, then
 browse the vignettes:
@@ -76,9 +78,26 @@ doi:10.1186/s13059-017-1305-0"][paper].
   }
 ```
 
+If you use the splatPop functions, please also cite ["Azodi CB, Zappia L, Oshlack 
+A, McCarthy DJ. splatPop: simulating population scale single-cell RNA sequencing 
+data. Genome Biology. 2021; doi:10.1186/s13059-021-02546-1"][splatpoppaper].
+
+```
+  @Article{,
+    author = {Christina B Azodi and Luke Zappia and Alicia Oshlack and Davis J McCarthy},
+    title = {splatPop: simulating population scale single-cell RNA sequencing data},
+    journal = {Genome Biology},
+    year = {2021},
+    url = {http://dx.doi.org/10.1186/s13059-021-02546-1},
+    doi = {10.1186/s13059-021-02546-1},
+  }
+```
+
 [scater]: https://github.com/davismcc/scater
 [SCE]: https://github.com/drisso/SingleCellExperiment
 [contrib]: https://github.com/Bioconductor/Contributions/issues/209
 [bioc]: https://bioconductor.org/packages/devel/bioc/html/splatter.html
 [vignette]: https://bioconductor.org/packages/devel/bioc/vignettes/splatter/inst/doc/splatter.html
+[splatpopvignette]: http://www.bioconductor.org/packages/devel/bioc/vignettes/splatter/inst/doc/splatPop.html
 [paper]: http://dx.doi.org/10.1186/s13059-017-1305-0
+[splatpoppaper]: http://dx.doi.org/10.1186/s13059-021-02546-1
