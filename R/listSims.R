@@ -86,12 +86,12 @@ listSims <- function(print = TRUE) {
                    trajectory. This can optionally include genes with transient
                    changes in expression and added dropout.",
                    "mfa"),
-                 c("PhenoPath", "pheno", "10.1101/159913",
+                 c("PhenoPath", "pheno", "10.1038/s41467-018-04696-6",
                    "kieranrcampbell/phenopath",
                    "The PhenoPath simulation produces a pseudotime trajectory
                    with different types of genes.",
                    "phenopath"),
-                 c("ZINB-WaVE", "zinb", "10.1101/125112",
+                 c("ZINB-WaVE", "zinb", "10.1038/s41467-017-02554-5",
                    "drisso/zinbwave",
                    "The ZINB-WaVE simulation simulates counts from a
                    sophisticated zero-inflated negative-binomial distribution
