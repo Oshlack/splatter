@@ -41,7 +41,7 @@ listSims <- function(print = TRUE) {
                    gene network, more complex cell structure, doublets and
                    empty cells (Experimental).",
                    "scuttle, igraph"),
-                 c("splatPop", "splatPop", "",
+                 c("splatPop", "splatPop", "10.1186/s13059-021-02546-1",
                    "Oshlack/splatter",
                    "The splatPop simulation enables splat simulations to be
                    generated for multiple individuals in a population,
