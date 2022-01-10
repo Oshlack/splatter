@@ -90,8 +90,8 @@ lun2Estimate.matrix <- function(counts, plates, params = newLun2Params(),
     } else {
         sizes <- seq(20, 100, 20)
     }
-    sum.facs <- scran::computeSumFactors(dge$counts, cluster = groups,
-                                         sizes = sizes, positive = TRUE)
+    sum.facs <- scuttle::pooledSizeFactors(dge$counts, cluster = groups,
+                                           sizes = sizes, positive = TRUE)
     if (any(sum.facs == 0)) {
         warning("Some sum factors are zero. See ?scran::computeSumFactors ",
                 "for details.")
