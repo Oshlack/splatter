@@ -67,7 +67,7 @@ listSims <- function(print = TRUE) {
                    Differential expression can be added between two groups of
                    plates and optionally a zero-inflated negative-binomial can
                    be used.",
-                   "scran, lme4, pscl, limSolve"),
+                   "scran, scuttle, lme4, pscl, limSolve"),
                  c("scDD", "scDD", "10.1186/s13059-016-1077-y",
                    "kdkorthauer/scDD",
                    "The scDD simulation samples a given dataset and can
