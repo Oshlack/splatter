@@ -25,6 +25,7 @@ Bioconductor 3.14 release
 * Fixed bug where conditional eQTL effects were being incorrectly allocated in
   splatPop (Fixes #125, @azodichr)
 
+<<<<<<< HEAD
 ## Version 1.18.2 (2022-01-10)
 
 * Update the citation for the splatPop model (Fixes #128, PR #129 @azodichr)
@@ -32,6 +33,8 @@ Bioconductor 3.14 release
 * Replace scran::computeSumFactors() with scuttle::pooledSizeFactors() in
   lun2Estimate() (Fixes #130)
 
+=======
+>>>>>>> d505d1d1ea395ae9076a3b9dd6bab97493fa4709
 ## Version 1.17.3 (2021-10-07)
 
 * Improved checks for group.prob in SplatParams (Fixes #107)
