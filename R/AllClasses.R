@@ -21,10 +21,14 @@ setClass("Params",
          contains = "VIRTUAL",
          slots = c(nGenes = "numeric",
                    nCells = "numeric",
-                   seed = "numeric"),
-         prototype = prototype(nGenes = 10000, nCells = 100,
-                               seed = sample(seq_len(1e6), 1)))
+                   seed = "numeric"))
 
+setMethod("initialize", "Params", function(.Object, ...) {
+    .Object@nGenes <- 10000
+    .Object@nCells <- 100
+    .Object@seed <- sample(seq_len(1e6), 1)
+    .Object
+})
 
 #' The SimpleParams class
 #'
