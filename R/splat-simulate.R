@@ -390,7 +390,7 @@ splatSimBatchCellMeans <- function(sim, params) {
     if (nBatches > 1) {
         batches <- colData(sim)$Batch
         batch.names <- unique(batches)
-        
+
         batch.facs.gene <- as.matrix(rowData(sim)[, paste0("BatchFac", batch.names)])
         batch.facs.cell <- as.matrix(batch.facs.gene[,
                                                      as.numeric(factor(batches))])
@@ -555,17 +555,6 @@ splatSimPathCellMeans <- function(sim, params) {
     groups <- colData(sim)$Group
     exp.lib.sizes <- colData(sim)$ExpLibSize
     batch.means.cell <- assays(sim)$BatchCellMeans
-
-    group.sizes <- table(groups)
-
-    # Generate non-linear path factors
-    for (idx in seq_along(path.from)) {
-        # Select genes to follow a non-linear path
-        is.nonlinear <- as.logical(rbinom(nGenes, 1, path.nonlinearProb))
-        sigma.facs <- rep(0, nGenes)
-        sigma.facs[is.nonlinear] <- path.sigmaFac
-        rowData(sim)[[paste0("SigmaFacPath", idx)]] <- sigma.facs
-    }
 
     # Generate non-linear path factors
     for (idx in seq_along(path.from)) {

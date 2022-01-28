@@ -1,5 +1,7 @@
 # DEVELOPMENT VERSION
 
+* Removed duplicated code in splatSimPathCellMeans() (Fixes #131)
+
 ## Version 1.19.2 (2022-01-10)
 
 * Update the citation for the splatPop model (Fixes #128, PR #129 @azodichr)
