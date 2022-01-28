@@ -1,6 +1,10 @@
 # DEVELOPMENT VERSION
 
+## Version 1.19.3 (2022-01-28)
+
 * Removed duplicated code in splatSimPathCellMeans() (Fixes #131)
+* Add additional fallback method for fitting dropout in splatEstimate()
+  (Fixes #133)
 
 ## Version 1.19.2 (2022-01-10)
 
