@@ -23,13 +23,6 @@ setClass("Params",
                    nCells = "numeric",
                    seed = "numeric"))
 
-setMethod("initialize", "Params", function(.Object, ...) {
-    .Object@nGenes <- 10000
-    .Object@nCells <- 100
-    .Object@seed <- sample(seq_len(1e6), 1)
-    .Object
-})
-
 #' The SimpleParams class
 #'
 #' S4 class that holds parameters for the simple simulation.
