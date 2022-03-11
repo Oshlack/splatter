@@ -9,7 +9,8 @@ newSCDDParams <- function(...) {
     scDatEx <- NA
     utils::data("scDatEx", package = "scDD", envir = environment())
 
-    params <- new("SCDDParams", SCdat = scDatEx)
+    params <- new("SCDDParams")
+    params <- setParam(params, "SCdat", scDatEx)
 
     params <- setParams(params, ...)
 
