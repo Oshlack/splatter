@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.19.4 (2022-03-11)
+
+* New initialize method for Params objects (Fixes #132, PR #134 @wenjie2wang)
+
 ## Version 1.19.3 (2022-01-28)
 
 * Removed duplicated code in splatSimPathCellMeans() (Fixes #131)
