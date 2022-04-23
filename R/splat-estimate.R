@@ -270,22 +270,27 @@ splatEstDropout <- function(norm.counts, params) {
 
     df <- data.frame(x, y)
 
+    # Suggested by a modified version of splat in the InferCNV package
+    # under a BSD-3-Clause license
+    # https://github.com/broadinstitute/infercnv/blob/master/R/SplatterScrape.R
+    x0_approx <- median(x[which(y > 0.2 & y < 0.8)])
+
     fit <- tryCatch({
         nls(y ~ logistic(x, x0 = x0, k = k), data = df,
-            start = list(x0 = 0, k = -1))
+            start = list(x0 = x0_approx, k = -1))
     },
     error = function(err) {
         warning("Fitting dropout using the Gauss-Newton method failed, ",
                 "using the Golub-Pereyra algorithm instead")
         tryCatch({
             nls(y ~ logistic(x, x0 = x0, k = k), data = df,
-                start = list(x0 = 0, k = -1), algorithm = "plinear")
+                start = list(x0 = x0_approx, k = -1), algorithm = "plinear")
         },
         error = function(err) {
             warning("Fitting dropout using the Golub-Pereyra method failed, ",
                     "using the nl2sol algorithm instead")
             nls(y ~ logistic(x, x0 = x0, k = k), data = df,
-                start = list(x0 = 0, k = -1), algorithm = "port")
+                start = list(x0 = x0_approx, k = -1), algorithm = "port")
         })
     })
 

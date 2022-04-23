@@ -1,5 +1,10 @@
 # DEVELOPMENT VERSION
 
+## Version 1.19.5 (2022-04-23)
+
+* Add starting point for dropout fit estimation (Fixes #142)
+  * Idea borrowed from the modified splat implementation in the InferCNV package
+
 ## Version 1.19.4 (2022-03-11)
 
 * New initialize method for Params objects (Fixes #132, PR #134 @wenjie2wang)
