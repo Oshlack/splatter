@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+# Version 1.20.0 (2022-04-27)
+
+Bioconductor 3.15 release
+
 ## Version 1.19.5 (2022-04-23)
 
 * Add starting point for dropout fit estimation (Fixes #142)
@@ -31,7 +35,7 @@
 
 Bioconductor 3.15 devel
 
-# Version 1.18.0 (2020-10-27)
+# Version 1.18.0 (2021-10-27)
 
 Bioconductor 3.14 release
 
