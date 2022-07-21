@@ -55,8 +55,7 @@ To get started with splatPop, you only need genotype information for the populat
 vcf <- mockVCF()
 gff <- mockGFF()
 
-sim <- splatPopSimulate(vcf = vcf, gff = gff, sparsify = FALSE)
-
+sim <- splatPopSimulate(vcf = vcf, gff = gff, sparsify = FALSE) 
 sim <- logNormCounts(sim)
 sim <- runPCA(sim, ncomponents = 5)
 plotPCA(sim, colour_by = "Sample")
@@ -366,13 +365,13 @@ coregSNPs <- names(which(table(sim.coreg$key$eSNP.ID) == 2))
 
 coregCorList <- c()
 for(snp in coregSNPs){
-  coregGenes <- sim.coreg$key$geneID[which(sim.coreg$key$eSNP.ID == snp)]
+  coregGenes <- row.names(sim.coreg$key)[which(sim.coreg$key$eSNP.ID == snp)]
   coregCorList <- c(coregCorList, sim.cor[coregGenes[1], coregGenes[2]])
 }
 
 randCorList <- c()
 for (n in 1:1000){
-  genes <- sample(sim.coreg$key$geneID, 2)
+  genes <- sample(row.names(sim.coreg$key), 2)
   randCorList <- c(randCorList, sim.cor[genes[1], genes[2]])
 }
 
