@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.21.1 (2022-08-11)
+
+* Fix bug in BASiCSSimulate() when spike.means is resampled (Fixes #153)
+
 ## Version 1.21.0 (2022-04-27)
 
 Bioconductor 3.16 devel

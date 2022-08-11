@@ -76,7 +76,7 @@ BASiCSSimulate <- function(params = newBASiCSParams(), sparsify = TRUE,
             selected <- sample(length(spike.mu), nSpikes, replace = TRUE)
             spike.mu <- spike.mu[selected]
 
-            params <- setParam(params, "spike.mu", spike.mu)
+            params <- setParam(params, "spike.means", spike.mu)
         }
     }
 
