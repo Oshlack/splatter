@@ -475,7 +475,10 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
             nGroups <- getParam(params, "nGroups")
             nCells.shape <- getParam(params, "nCells.shape")
             nCells.rate <- getParam(params, "nCells.rate")
+            # Ensures a different, but repeatable, nCells for each sample
+            set.seed(sample.means[1]*1e8) 
             nCells <- rgamma(1, shape = nCells.shape, rate = nCells.rate)
+            set.seed(getParam(params, "seed"))
             nCells <- ceiling(nCells / nGroups)
         } else {
             nCells <- getParam(params, "batchCells")[as.numeric(
