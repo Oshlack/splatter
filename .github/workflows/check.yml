@@ -102,6 +102,7 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_BIOC_VERSION: ${{ needs.get-bioc-version.outputs.biocversion }}
 
     steps:
       - name: Checkout
@@ -166,7 +167,7 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
-      BIOCVERSION: ${{ needs.get-bioc-version.outputs.biocversion }}
+      R_BIOC_VERSION: ${{ needs.get-bioc-version.outputs.biocversion }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -214,6 +215,7 @@ jobs:
         - /home/runner/work/_temp/Library:/usr/local/lib/R/host-site-library
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_BIOC_VERSION: ${{ needs.get-bioc-version.outputs.biocversion }}
 
     steps:
       - name: Checkout
@@ -221,6 +223,12 @@ jobs:
 
       - name: Install extra linux dependencies
         run: sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev devscripts qpdf
+
+      - name: Set Bioconductor version
+        run: |
+          install.packages("BiocManager")
+          BiocManager::install(version = Sys.getenv("BIOCVERSION"), ask = FALSE)
+        shell: Rscript {0}
 
       - name: Setup R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
@@ -256,6 +264,7 @@ jobs:
         - /home/runner/work/_temp/Library:/usr/local/lib/R/host-site-library
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_BIOC_VERSION: ${{ needs.get-bioc-version.outputs.biocversion }}
 
     steps:
 
