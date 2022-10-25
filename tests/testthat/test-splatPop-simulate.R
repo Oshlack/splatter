@@ -9,7 +9,7 @@ if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
     vcf <- mockVCF(n.samples = n.samples, n.snps = 1000)
     gff <- mockGFF(n.genes = n.genes)
 
-    params <- setParams(newSplatPopParams(), eqtl.n = 10, nGenes = n.genes)
+    params <- newSplatPopParams(eqtl.n = 10, nGenes = n.genes, seed = 1)
 }
 
 test_that("splatPopSimulate output is valid and works", {
@@ -63,4 +63,16 @@ test_that("splatPopSimulate with nCells.sample gives different cell counts", {
     cell.counts <- table(colData(sim)$Sample)
 
     expect_false(all(cell.counts == cell.counts[1]))
+})
+
+test_that("splatPopSimulate seeds are reproducible", {
+    skip_if_not_installed("VariantAnnotation")
+    skip_if_not_installed("preprocessCore")
+
+    sim1 <- splatPopSimulate(vcf = vcf, gff = gff, params = params,
+                             batchCells = c(50, 50))
+    sim2 <- splatPopSimulate(vcf = vcf, gff = gff, params = params,
+                             batchCells = c(50, 50))
+
+    expect_identical(sim1, sim2)
 })
