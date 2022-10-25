@@ -42,8 +42,9 @@ jobs:
           echo "Bioc release: ${biocrelease}"
           echo "Bioc docker image: {$biocimage}"
           ## Store the information
-          echo "::set-output name=biocimage::${biocimage}"
-          echo "::set-output name=biocrelease::${biocrelease}"
+          echo "biocimage=${biocimage}" >> $GITHUB_OUTPUT
+          echo "biocrelease=${biocrelease}" >> $GITHUB_OUTPUT
+
   get-bioc-version:
     # Identify the Bioconductor version number and R version to use. This is
     # done by checking the versions in the Bioconductor Docker container
@@ -77,7 +78,6 @@ jobs:
           cat("Bioc version: ", as.character(biocversion), "\n")
           cat("R version: ", as.character(rversion), "\n")
         shell: Rscript {0}
-
       - id: set-versions
         name: Set Bioconductor/R versions
         run: |
@@ -87,11 +87,11 @@ jobs:
           echo "Bioc version: ${biocversion}"
           echo "R version: ${rversion}"
           ## Store the information
-          echo "::set-output name=biocversion::${biocversion}"
-          echo "::set-output name=rversion::${rversion}"
+          echo "biocversion=${biocversion}" >> $GITHUB_OUTPUT
+          echo "rversion=${rversion}" >> $GITHUB_OUTPUT
+
   R-CMD-check-docker:
-    ## Run checks in the Bioconductor Docker container. This job also runs
-    ## covr (if on the master branch).
+    ## Run checks in the Bioconductor Docker container
     name: ubuntu-latest (r-biocdocker bioc-${{ needs.get-bioc-version.outputs.biocversion }})
     needs: [get-bioc-release, get-bioc-version]
     runs-on: ubuntu-latest
@@ -105,39 +105,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Query dependencies
-        run: |
-          install.packages("remotes")
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE),
-                  ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major,
-                             getRversion()$minor),
-                     ".github/R-version")
-        shell: Rscript {0}
+      - name: Install extra linux dependencies
+        run: sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev devscripts qpdf
 
-      - name: Cache R packages
-        if: "!contains(github.event.head_commit.message, '/nocache')"
-        uses: actions/cache@v1
+      - name: Setup R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          path: /home/runner/work/_temp/Library
-          key: ${{ env.cache-version }}-${{ runner.os }}-biocdocker-bioc-${{ needs.get-bioc-version.outputs.biocversion }}-r-${{ needs.get-bioc-version.outputs.rversion }}-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ env.cache-version }}-${{ runner.os }}-biocdocker-bioc-${{ needs.get-bioc-version.outputs.biocversion }}-r-${{ needs.get-bioc-version.outputs.rversion }}-
-
-      - name: Install system dependencies
-        env:
-          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
-        run: |
-          Rscript -e "remotes::install_github('r-hub/sysreqs')"
-          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
-          sudo -s eval "$sysreqs"
-      - name: Install dependencies
-        run: |
-          remotes::install_deps(dependencies = TRUE,
-                                repos = BiocManager::repositories())
-          remotes::install_cran("rcmdcheck")
-        shell: Rscript {0}
+          cache-version: 3
+          extra-packages: any::rcmdcheck
+          needs: check
 
       - name: Show session info
         run: |
@@ -146,19 +124,11 @@ jobs:
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
 
-      - name: Check
-        env:
-          _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: |
-          rcmdcheck::rcmdcheck(
-            args = c("--no-manual"),
-            error_on = "warning",
-            check_dir = "check"
-          )
-        shell: Rscript {0}
-
-      - name: Show testthat output
-        run: find . -name testthat.Rout -exec cat '{}' ';'
+      - name: Check R package
+        uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
+          upload-results: true
 
       - name: BiocCheck
         run: |
@@ -170,20 +140,6 @@ jobs:
           )
         shell: Rscript {0}
 
-      - name: Run covr
-        if: github.ref == 'refs/heads/master'
-        run: |
-          remotes::install_cran("covr")
-          covr::codecov()
-        shell: Rscript {0}
-
-      - name: Upload check results
-        if: failure()
-        uses: actions/upload-artifact@master
-        with:
-          name: ${{ runner.os }}-biocdocker-bioc-${{ needs.get-bioc-version.outputs.biocversion }}-r-${{ needs.get-bioc-version.outputs.rversion }}-results
-          path: check
-
   R-CMD-check:
     ## Run checks on other platforms.
     name: ${{ matrix.config.os }} (r-${{ needs.get-bioc-version.outputs.rversion }} bioc-${{ needs.get-bioc-version.outputs.biocversion }})
@@ -192,6 +148,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        experimental: [true]
         config:
           - {os: windows-latest}
           - {os: macOS-latest}
@@ -204,53 +161,23 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup R
-        uses: r-lib/actions/setup-r@master
-        with:
-          r-version: ${{ needs.get-bioc-version.outputs.rversion }}
+        uses: actions/checkout@v3
 
       - name: Setup Pandoc
-        uses: r-lib/actions/setup-pandoc@master
+        uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Query dependencies
-        run: |
-          install.packages("remotes")
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE),
-                  ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major,
-                             getRversion()$minor),
-                     ".github/R-version")
-        shell: Rscript {0}
-
-      - name: Cache R packages
-        if: "!contains(github.event.head_commit.message, '/nocache')"
-        uses: actions/cache@v1
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
         with:
-          path: /home/runner/work/_temp/Library
-          key: ${{ env.cache-version }}-${{ runner.os }}-biocdocker-bioc-${{ needs.get-bioc-version.outputs.biocversion }}-r-${{ needs.get-bioc-version.outputs.rversion }}-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ env.cache-version }}-${{ runner.os }}-biocdocker-bioc-${{ needs.get-bioc-version.outputs.biocversion }}-r-${{ needs.get-bioc-version.outputs.rversion }}-
+          r-version: ${{ needs.get-bioc-version.outputs.rversion }}
+          use-public-rspm: true
 
-      - name: Install Linux system dependencies
-        if: runner.os == 'Linux'
-        env:
-          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
-        run: |
-          Rscript -e "remotes::install_github('r-hub/sysreqs', force = TRUE)"
-          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
-          sudo -s eval "$sysreqs"
-      - name: Install dependencies
-        run: |
-          remotes::install_cran("BiocManager")
-          BiocManager::install(version = Sys.getenv("BIOCVERSION"), ask = FALSE)
-          remotes::install_deps(dependencies = TRUE,
-                                repos = BiocManager::repositories())
-          deps <- remotes::dev_package_deps(dependencies = TRUE,
-                                            repos = BiocManager::repositories())
-          BiocManager::install(deps$package[deps$diff != 0])
-          remotes::install_cran("rcmdcheck")
-        shell: Rscript {0}
+      - name: Setup R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: 3
+          extra-packages: any::rcmdcheck
+          needs: check
 
       - name: Session info
         run: |
@@ -259,36 +186,42 @@ jobs:
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
 
-      - name: Check
-        env:
-          _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: |
-          rcmdcheck::rcmdcheck(
-            args = c("--no-manual"),
-            error_on = "warning",
-            check_dir = "check"
-          )
-        shell: Rscript {0}
-
-      - name: Show testthat output
-        run: find . -name testthat.Rout -exec cat '{}' ';'
-
-      - name: BiocCheck
-        run: |
-          BiocManager::install("BiocCheck")
-          BiocCheck::BiocCheck(
-            dir('check', 'tar.gz$', full.names = TRUE),
-            `no-check-R-ver` = TRUE,
-            `no-check-bioc-help` = TRUE
-          )
-        shell: Rscript {0}
-
-      - name: Upload check results
-        if: failure()
-        uses: actions/upload-artifact@master
+      - name: Check R package
+        uses: r-lib/actions/check-r-package@v2
         with:
-          name: ${{ runner.os }}-bioc-${{ needs.get-bioc-version.outputs.biocversion }}-r-${{ needs.get-bioc-version.outputs.rversion }}-results
-          path: check
+          upload-snapshots: true
+          upload-results: true
+
+  test-coverage:
+    ## Calculate package test coverage. Only runs if R-CMD-check-docker has
+    ## completed successfully. Uses the Bioconductor Docker image.
+    if: github.ref == 'refs/heads/master'
+    needs: [get-bioc-release, get-bioc-version, R-CMD-check-docker]
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ needs.get-bioc-release.outputs.biocimage }}
+      volumes:
+        - /home/runner/work/_temp/Library:/usr/local/lib/R/host-site-library
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install extra linux dependencies
+        run: sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev devscripts qpdf
+
+      - name: Setup R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: 3
+          extra-packages: any::covr
+          needs: coverage
+
+      - name: Test coverage
+        run: covr::codecov(quiet = FALSE)
+        shell: Rscript {0}
 
   pkgdown:
     ## Build pkgdown site and push to gh-pages branch. Only runs if on the
@@ -305,23 +238,6 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Install latest git
-        ## The Bioconductor Docker has an older version of git that doesn't
-        ## allow a local repo to be cloned and pkgdown to deploy.
-        run: |
-          echo "ORIGINAL GIT"
-          git --version
-          sudo apt-get update -y
-          sudo apt-get install software-properties-common -y
-          sudo add-apt-repository ppa:git-core/candidate -y
-          sudo apt-get update -y
-          sudo apt-get upgrade -y
-          echo "CURRENT GIT"
-          git --version
-        shell: bash {0}
-
-      - name: Checkout
-        uses: actions/checkout@v2
 
       - name: Set git credentials
         ## Assign commits to the GitHub Action user. This should happen
@@ -331,35 +247,27 @@ jobs:
           git config --local user.name "GitHub Action"
         shell: bash {0}
 
-      - name: Query dependencies
-        run: |
-          install.packages("remotes")
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE),
-                  ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major,
-                             getRversion()$minor),
-                     ".github/R-version")
-        shell: Rscript {0}
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Cache R packages
-        if: "!contains(github.event.head_commit.message, '/nocache')"
-        uses: actions/cache@v1
+      - name: Install extra linux dependencies
+        run: sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev devscripts qpdf
+
+      - name: Setup R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          path: /home/runner/work/_temp/Library
-          key: ${{ env.cache-version }}-${{ runner.os }}-biocdocker-bioc-${{ needs.get-bioc-version.outputs.biocversion }}-r-${{ needs.get-bioc-version.outputs.rversion }}-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ env.cache-version }}-${{ runner.os }}-biocdocker-bioc-${{ needs.get-bioc-version.outputs.biocversion }}-r-${{ needs.get-bioc-version.outputs.rversion }}-
+          cache-version: 3
+          extra-packages: any::pkgdown, local::.
+          needs: website
 
-      - name: Install dependencies
-        run: |
-          remotes::install_deps(dependencies = TRUE,
-                                repos = BiocManager::repositories())
-          remotes::install_dev("pkgdown",
-                               cran_url = "https://cloud.r-project.org/")
+      - name: Build pkgdown site
+        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
 
-      - name: Install package
-        run: R CMD INSTALL .
-
-      - name: Deploy package
-        run: pkgdown::deploy_to_branch(new_process = FALSE)
-        shell: Rscript {0}
+      - name: Deploy to GitHub pages 🚀
+        if: github.event_name != 'pull_request'
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          clean: false
+          branch: gh-pages
+          folder: docs
