@@ -121,12 +121,15 @@ jobs:
         # Fixes https://github.com/Bioconductor/bioconductor_docker/issues/22
       - name: Manually install preprocessCore
         run: |
+          repos <- getOption("repos")
+          options(repos = NULL)
           BiocManager::install(
             "preprocessCore",
             type = "source",
             force = TRUE,
             configure.args = "--disable-threading"
           )
+          options(repos = repos)
         shell: Rscript {0}
 
       - name: Show session info
@@ -241,12 +244,15 @@ jobs:
       # Fixes https://github.com/Bioconductor/bioconductor_docker/issues/22
       - name: Manually install preprocessCore
         run: |
+          repos <- getOption("repos")
+          options(repos = NULL)
           BiocManager::install(
             "preprocessCore",
             type = "source",
             force = TRUE,
             configure.args = "--disable-threading"
           )
+          options(repos = repos)
         shell: Rscript {0}
 
       - name: Test coverage
@@ -294,12 +300,15 @@ jobs:
       # Fixes https://github.com/Bioconductor/bioconductor_docker/issues/22
       - name: Manually install preprocessCore
         run: |
+          repos <- getOption("repos")
+          options(repos = NULL)
           BiocManager::install(
             "preprocessCore",
             type = "source",
             force = TRUE,
             configure.args = "--disable-threading"
           )
+          options(repos = repos)
         shell: Rscript {0}
 
       - name: Build pkgdown site
