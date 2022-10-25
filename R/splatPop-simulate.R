@@ -162,6 +162,7 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
                                   eqtl = NULL, means = NULL, ...){
 
     set.seed(getParam(params, "seed"))
+
     nGroups <- getParam(params, "nGroups")
     quant.norm <- getParam(params, "pop.quant.norm")
 
@@ -452,7 +453,6 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
 
     method <- match.arg(method)
 
-    set.seed(getParam(params, "seed"))
     nGenes <- length(sample.means)
     params <- setParams(params, nGenes = nGenes)
     nBatches <- getParam(params, "nBatches")
@@ -475,10 +475,7 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
             nGroups <- getParam(params, "nGroups")
             nCells.shape <- getParam(params, "nCells.shape")
             nCells.rate <- getParam(params, "nCells.rate")
-            # Ensures a different, but repeatable, nCells for each sample
-            set.seed(sample.means[1]*1e8) 
             nCells <- rgamma(1, shape = nCells.shape, rate = nCells.rate)
-            set.seed(getParam(params, "seed"))
             nCells <- ceiling(nCells / nGroups)
         } else {
             nCells <- getParam(params, "batchCells")[as.numeric(
@@ -1177,7 +1174,6 @@ splatPopSimBatchEffects <- function(sim, params) {
     batch.facLoc <- getParam(params, "batch.facLoc")
     batch.facScale <- getParam(params, "batch.facScale")
     batch.rmEffect <- getParam(params, "batch.rmEffect")
-    means.gene <- rowData(sim)$GeneMean
 
     if (length(batch.facLoc) == 1) {
         batch.facLoc <- rep(batch.facLoc, nBatches)
@@ -1188,7 +1184,6 @@ splatPopSimBatchEffects <- function(sim, params) {
 
     batch <- unique(colData(sim)$Batch)
     batch.num <- as.numeric(gsub("[^0-9.-]", "", batch))
-    set.seed(getParam(params, "seed") * batch.num)
 
     batch.facs <- getLNormFactors(nGenes, 1, 0.5, batch.facLoc[batch.num],
                                   batch.facScale[batch.num])
@@ -1198,8 +1193,6 @@ splatPopSimBatchEffects <- function(sim, params) {
     }
 
     rowData(sim)[[paste0("BatchFac", batch)]] <- batch.facs
-
-    set.seed(getParam(params, "seed"))
 
     return(sim)
 }
