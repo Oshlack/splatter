@@ -124,6 +124,7 @@ jobs:
           BiocManager::install(
             "preprocessCore",
             type = "source",
+            force = TRUE,
             configure.args = "--disable-threading"
           )
         shell: Rscript {0}
@@ -243,6 +244,7 @@ jobs:
           BiocManager::install(
             "preprocessCore",
             type = "source",
+            force = TRUE,
             configure.args = "--disable-threading"
           )
         shell: Rscript {0}
@@ -295,6 +297,7 @@ jobs:
           BiocManager::install(
             "preprocessCore",
             type = "source",
+            force = TRUE,
             configure.args = "--disable-threading"
           )
         shell: Rscript {0}
