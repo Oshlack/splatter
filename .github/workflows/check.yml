@@ -117,6 +117,15 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+        # Fixes https://github.com/Bioconductor/bioconductor_docker/issues/22
+      - name: Manually install preprocessCore
+        run: |
+          BiocManager::install(
+            "preprocessCore",
+            configure.args = "--disable-threading"
+          )
+        shell: Rscript {0}
+
       - name: Show session info
         run: |
           options(width = 100)
@@ -219,6 +228,15 @@ jobs:
           extra-packages: any::covr
           needs: coverage
 
+      # Fixes https://github.com/Bioconductor/bioconductor_docker/issues/22
+      - name: Manually install preprocessCore
+        run: |
+          BiocManager::install(
+            "preprocessCore",
+            configure.args = "--disable-threading"
+          )
+        shell: Rscript {0}
+
       - name: Test coverage
         run: covr::codecov(quiet = FALSE)
         shell: Rscript {0}
@@ -259,6 +277,15 @@ jobs:
           cache-version: 3
           extra-packages: any::pkgdown, local::.
           needs: website
+
+      # Fixes https://github.com/Bioconductor/bioconductor_docker/issues/22
+      - name: Manually install preprocessCore
+        run: |
+          BiocManager::install(
+            "preprocessCore",
+            configure.args = "--disable-threading"
+          )
+        shell: Rscript {0}
 
       - name: Build pkgdown site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
