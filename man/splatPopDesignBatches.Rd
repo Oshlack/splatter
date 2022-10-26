@@ -4,12 +4,14 @@
 \alias{splatPopDesignBatches}
 \title{Set up pooled experimental design}
 \usage{
-splatPopDesignBatches(params, samples)
+splatPopDesignBatches(params, samples, verbose)
 }
 \arguments{
 \item{params}{SplatParams object with simulation parameters.}
 
 \item{samples}{List of samples from vcf.}
+
+\item{verbose}{logical. Whether to print progress messages.}
 }
 \value{
 Vector with batch assignments for each sample.

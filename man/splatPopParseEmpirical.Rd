@@ -36,11 +36,11 @@ A partial splatPop `key`
 Parse splatPop key information from empirical data provided.
 }
 \details{
-NOTE: This function will cause some of the parameters in the splatPopParams 
-object to be ignored, such as population level gene mean and variance and 
+NOTE: This function will cause some of the parameters in the splatPopParams
+object to be ignored, such as population level gene mean and variance and
 eQTL parameters.
 
-This function will ignore a number of parameters defined in 
+This function will ignore a number of parameters defined in
 splatPopParams, instead pulling key information directly from provided VCF,
 GFF, gene means, and eQTL mapping result data provided.
 }
