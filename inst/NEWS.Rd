@@ -1,6 +1,18 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
+\section{Version 1.22.0, Bioconductor 3.16 Release (2022-10-31)}{
+  \itemize{
+    \item{
+      Fixed a bgg in \code{BASiSSimulate()} when \code{spike.means} is resampled
+    }
+    \item{
+      Fixed bugs in \code{splatPopSimulate()} with non-matching rownames and
+      when sampling batches
+    }
+  }
+}
+
 \section{Version 1.20.0, Bioconductor 3.15 Release (2022-04-27)}{
   \itemize{
     \item{

@@ -2,10 +2,10 @@
 
 ## Version 1.21.2 (2022-10-26)
 
-* Fix a bug with non-matching rownames in splatPopSimulate (PR #151 @azodichr,
+* Fix a bug with non-matching rownames in splatPopSimulate() (PR #151 @azodichr,
   fixes #149)
-* Fix a bug in splatPopSimulate when batch.size is greater than the number of
-  sample (PR #151 @azodichr)
+* Fix a bug in splatPopSimulate() when batch.size is greater than the number of
+  samples (PR #151 @azodichr)
 * Additional splatPopSimulate tests
 
 ## Version 1.21.1 (2022-08-11)
