@@ -1,6 +1,8 @@
+# DEVELOPMENT VERSION
+
 # Version 1.22.0 (2022-11-02)
 
-* Bioconductor 3.16 release
+Bioconductor 3.16 release
 
 ## Version 1.21.2 (2022-10-26)
 
