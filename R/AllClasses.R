@@ -21,10 +21,7 @@ setClass("Params",
          contains = "VIRTUAL",
          slots = c(nGenes = "numeric",
                    nCells = "numeric",
-                   seed = "numeric"),
-         prototype = prototype(nGenes = 10000, nCells = 100,
-                               seed = sample(seq_len(1e6), 1)))
-
+                   seed = "numeric"))
 
 #' The SimpleParams class
 #'

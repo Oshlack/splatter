@@ -1,5 +1,53 @@
 # DEVELOPMENT VERSION
 
+Bioconductor 3.17 devel
+
+# Version 1.22.0 (2022-11-02)
+
+Bioconductor 3.16 release
+
+## Version 1.21.2 (2022-10-26)
+
+* Fix a bug with non-matching rownames in splatPopSimulate() (PR #151 @azodichr,
+  fixes #149)
+* Fix a bug in splatPopSimulate() when batch.size is greater than the number of
+  samples (PR #151 @azodichr)
+* Additional splatPopSimulate tests
+
+## Version 1.21.1 (2022-08-11)
+
+* Fix bug in BASiCSSimulate() when spike.means is resampled (Fixes #153)
+
+## Version 1.21.0 (2022-04-27)
+
+Bioconductor 3.16 devel
+
+# Version 1.20.0 (2022-04-27)
+
+Bioconductor 3.15 release
+
+## Version 1.19.5 (2022-04-23)
+
+* Add starting point for dropout fit estimation (Fixes #142)
+  * Idea borrowed from the modified splat implementation in the InferCNV package
+
+## Version 1.19.4 (2022-03-11)
+
+* New initialize method for Params objects (Fixes #132, PR #134 @wenjie2wang)
+
+## Version 1.19.3 (2022-01-28)
+
+* Removed duplicated code in splatSimPathCellMeans() (Fixes #131)
+* Add additional fallback method for fitting dropout in splatEstimate()
+  (Fixes #133)
+
+## Version 1.19.2 (2022-01-10)
+
+* Update the citation for the splatPop model (Fixes #128, PR #129 @azodichr)
+* Update preprint DOIs for other models in listSims()
+* Replace scran::computeSumFactors() with scuttle::pooledSizeFactors() in
+  lun2Estimate() (Fixes #130)
+
 ## Version 1.19.1 (2021-11-02)
 
 * Fixed bug where conditional eQTL effects were being incorrectly allocated in
@@ -9,7 +57,7 @@
 
 Bioconductor 3.15 devel
 
-# Version 1.18.0 (2020-10-27)
+# Version 1.18.0 (2021-10-27)
 
 Bioconductor 3.14 release
 
@@ -17,6 +65,13 @@ Bioconductor 3.14 release
 
 * Fixed bug where conditional eQTL effects were being incorrectly allocated in
   splatPop (Fixes #125, @azodichr)
+
+## Version 1.18.2 (2022-01-10)
+
+* Update the citation for the splatPop model (Fixes #128, PR #129 @azodichr)
+* Update preprint DOIs for other models in listSims()
+* Replace scran::computeSumFactors() with scuttle::pooledSizeFactors() in
+  lun2Estimate() (Fixes #130)
 
 ## Version 1.17.3 (2021-10-07)
 

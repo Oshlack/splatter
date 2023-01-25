@@ -7,6 +7,8 @@ if (requireNamespace("zinbwave", quietly = TRUE)) {
 test_that("constructor is valid", {
     skip_if_not_installed("zinbwave")
     expect_true(validObject(params))
+    expect_equal(getParam(params, "nCells"), 50)
+    expect_equal(getParam(params, "nGenes"), 100)
 })
 
 test_that("printing works", {

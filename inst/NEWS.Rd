@@ -1,6 +1,41 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
+\section{Version 1.22.0, Bioconductor 3.16 Release (2022-10-31)}{
+  \itemize{
+    \item{
+      Fixed a bgg in \code{BASiSSimulate()} when \code{spike.means} is resampled
+    }
+    \item{
+      Fixed bugs in \code{splatPopSimulate()} with non-matching rownames and
+      when sampling batches
+    }
+  }
+}
+
+\section{Version 1.20.0, Bioconductor 3.15 Release (2022-04-27)}{
+  \itemize{
+    \item{
+      The splatPop simulation is now published
+      doi.org/10.1186/s13059-021-02546-1!
+    }
+    \item{Improved initalisation of Params objects (from Wenjie Wang)}
+    \item{
+      Improved fitting of dropout in \code{splatEstimate()}
+      \itemize{
+        \item{
+          Better initialisation of fitting as suggested by the InferCNV package
+        }
+        \item{Additional fallback method}
+      }
+    }
+    \item{Bug fixes for the splat simulation}
+    \item{
+      Bug fixes for the the splatPop simulation (from Christina Azodi)
+    }
+  }
+}
+
 \section{Version 1.18.0, Bioconductor 3.14 Release (2021-10-27)}{
   \itemize{
     \item{

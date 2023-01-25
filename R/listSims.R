@@ -41,7 +41,7 @@ listSims <- function(print = TRUE) {
                    gene network, more complex cell structure, doublets and
                    empty cells (Experimental).",
                    "scuttle, igraph"),
-                 c("splatPop", "splatPop", "",
+                 c("splatPop", "splatPop", "10.1186/s13059-021-02546-1",
                    "Oshlack/splatter",
                    "The splatPop simulation enables splat simulations to be
                    generated for multiple individuals in a population,
@@ -67,7 +67,7 @@ listSims <- function(print = TRUE) {
                    Differential expression can be added between two groups of
                    plates and optionally a zero-inflated negative-binomial can
                    be used.",
-                   "scran, lme4, pscl, limSolve"),
+                   "scran, scuttle, lme4, pscl, limSolve"),
                  c("scDD", "scDD", "10.1186/s13059-016-1077-y",
                    "kdkorthauer/scDD",
                    "The scDD simulation samples a given dataset and can
@@ -86,12 +86,12 @@ listSims <- function(print = TRUE) {
                    trajectory. This can optionally include genes with transient
                    changes in expression and added dropout.",
                    "mfa"),
-                 c("PhenoPath", "pheno", "10.1101/159913",
+                 c("PhenoPath", "pheno", "10.1038/s41467-018-04696-6",
                    "kieranrcampbell/phenopath",
                    "The PhenoPath simulation produces a pseudotime trajectory
                    with different types of genes.",
                    "phenopath"),
-                 c("ZINB-WaVE", "zinb", "10.1101/125112",
+                 c("ZINB-WaVE", "zinb", "10.1038/s41467-017-02554-5",
                    "drisso/zinbwave",
                    "The ZINB-WaVE simulation simulates counts from a
                    sophisticated zero-inflated negative-binomial distribution

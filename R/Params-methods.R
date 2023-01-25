@@ -1,3 +1,13 @@
+## the initialize() method to replace the prototype
+## so that set.seed() works as expected
+## see https://github.com/Oshlack/splatter/issues/132
+setMethod("initialize", "Params", function(.Object, ...) {
+    .Object@nGenes <- 10000
+    .Object@nCells <- 100
+    .Object@seed <- sample(seq_len(1e6), 1)
+    .Object
+})
+
 #' @rdname getParam
 #' @importFrom methods slot
 setMethod("getParam", "Params", function(object, name) {

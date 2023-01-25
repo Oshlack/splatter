@@ -1,8 +1,8 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 1.19.1
-Date: 2021-11-02
+Version: 1.23.0
+Date: 2022-11-02
 Authors@R:
     c(person("Luke", "Zappia", role = c("aut", "cre"),
       email = "luke@lazappi.id.au",
@@ -78,7 +78,7 @@ biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software, ImmunoOncology
 URL: https://github.com/Oshlack/splatter
 BugReports: https://github.com/Oshlack/splatter/issues
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Encoding: UTF-8
 VignetteBuilder: knitr
 Language: en-GB
