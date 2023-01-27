@@ -81,6 +81,7 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 50),
     sim.sc <- splatPopSimulateSC(sim.means = sim.means$means,
                                  params = params,
                                  key = sim.means$key,
+                                 conditions = sim.means$conditions,
                                  method = method,
                                  counts.only = counts.only,
                                  sparsify = sparsify,
@@ -136,8 +137,9 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 50),
 #'
 #' @return A list containing: `means` a matrix (or list of matrices if
 #' n.groups > 1) with the simulated mean gene expression value for each gene
-#' (row) and each sample (column) and `key` a data.frame with population
-#' information including eQTL and group effects.
+#' (row) and each sample (column), `key` a data.frame with population
+#' information including eQTL and group effects, and `condition` a named array
+#' containing conditional group assignments for each sample.
 #'
 #' @seealso
 #' \code{\link{splatPopParseVCF}}, \code{\link{splatPopParseGenes}},
@@ -226,7 +228,7 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
 
     sim.means <- splatPopSimConditionalEffects(key, eMeansPop, conditions)
 
-    return(list(means = sim.means, key = key))
+    return(list(means = sim.means, key = key, conditions=conditions))
 }
 
 
@@ -293,6 +295,8 @@ splatPopParseEmpirical <- function(vcf = vcf, gff = gff, eqtl = eqtl,
 #'        scale simulations. See \code{\link{SplatPopParams}} for details.
 #' @param key data.frame object containing a full or partial splatPop key.
 #'        Output from `splatPopSimulateMeans()`.
+#' @param conditions named array with conditional group assignment for each 
+#'        sample. Output from `splatPopSimulateMeans()`.
 #' @param method which simulation method to use. Options are "single" which
 #'        produces a single cell population for each sample, "groups" which
 #'        produces distinct groups (eg. cell types) for each sample (note, this
@@ -330,6 +334,7 @@ splatPopSimulateSC <- function(sim.means,
                                key,
                                method = c("single", "groups", "paths"),
                                counts.only = FALSE,
+                               conditions = NULL,
                                sparsify = TRUE,
                                verbose = TRUE, ...){
 
@@ -355,9 +360,11 @@ splatPopSimulateSC <- function(sim.means,
         group.prob <- rep(1 / length(sim.means), length(sim.means))
     }
     samples <- colnames((sim.means[[1]]))
-
+  
+    if (is.null(conditions)){
+      conditions <- splatPopDesignConditions(params, samples)
+    }
     batches <- splatPopDesignBatches(params, samples, verbose)
-    conditions <- splatPopDesignConditions(params, samples)
 
     # Simulate single-cell counts for each group/cell-type
     group.n <- lapply(group.prob, function(x) {ceiling(x * batchCells)})
