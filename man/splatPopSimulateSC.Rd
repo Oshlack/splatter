@@ -10,6 +10,7 @@ splatPopSimulateSC(
   key,
   method = c("single", "groups", "paths"),
   counts.only = FALSE,
+  conditions = NULL,
   sparsify = TRUE,
   verbose = TRUE,
   ...
@@ -33,6 +34,9 @@ DE effects), and "paths" which selects cells from continuous
 trajectories (eg. differentiation processes).}
 
 \item{counts.only}{logical. Whether to return only the counts.}
+
+\item{conditions}{named array with conditional group assignment for each 
+sample. Output from `splatPopSimulateMeans()`.}
 
 \item{sparsify}{logical. Whether to automatically convert assays to sparse
 matrices if there will be a size reduction.}
