@@ -1,4 +1,12 @@
-# DEVELOPMENT VERSION
+# Version 1.22.0 (2022-11-02)
+
+Bioconductor 3.16 release
+
+## Version 1.22.1 (2023-01-30)
+
+* Fix bug in splatPopSimulate() where conditional group assignments were
+  incorrect when batch effects were applied (PR #161 @azodichr, fixes #158,
+  fixes #160)
 
 ## Version 1.21.2 (2022-10-26)
 
