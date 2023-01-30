@@ -43,8 +43,9 @@ To see required format, run `mockEmpiricalSet()` and see means output.}
 \value{
 A list containing: `means` a matrix (or list of matrices if
 n.groups > 1) with the simulated mean gene expression value for each gene
-(row) and each sample (column) and `key` a data.frame with population
-information including eQTL and group effects.
+(row) and each sample (column), `key` a data.frame with population
+information including eQTL and group effects, and `condition` a named array
+containing conditional group assignments for each sample.
 }
 \description{
 Simulate mean expression levels for all genes for all samples, with between

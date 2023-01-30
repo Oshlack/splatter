@@ -159,6 +159,8 @@ sim.means <- splatPopSimulateMeans(vcf = vcf, gff = gff,
 round(sim.means$means[1:5, 1:3], digits = 2)
 
 print(sim.means$key[1:5, ], digits = 2)
+
+print(sim.means$conditions)
 ```
 
 ### Other examples
@@ -298,8 +300,8 @@ params.cond <- newSplatPopParams(eqtl.n = 0.5,
                                  similarity.scale = 5,
                                  condition.prob = c(0.5, 0.5),
                                  eqtl.condition.specific = 0.5,
-                                 cde.facLoc = 0.5, 
-                                 cde.facScale = 0.5)
+                                 cde.facLoc = 1, 
+                                 cde.facScale = 1)
 
 sim.pop.cond <- splatPopSimulate(vcf = vcf, gff = gff, params = params.cond, 
                                  sparsify = FALSE)
