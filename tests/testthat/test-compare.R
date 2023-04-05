@@ -3,10 +3,11 @@ context("Comparison functions")
 sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 
-comparison <- compareSCEs(list(Splat = sim1, Simple = sim2))
-difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
-
 test_that("compareSCEs works", {
+    skip_if_not_installed("ggplot2")
+
+    comparison <- compareSCEs(list(Splat = sim1, Simple = sim2))
+
     expect_length(comparison, 3)
     expect_true(all(c("RowData", "ColData", "Plots") %in%
                         names(comparison)))
@@ -22,6 +23,10 @@ test_that("compareSCEs works", {
 })
 
 test_that("diffSCEs works", {
+    skip_if_not_installed("ggplot2")
+
+    difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
+
     expect_length(difference, 5)
     expect_true(all(c("Reference", "RowData", "ColData", "Plots",
                       "QQPlots") %in% names(difference)))

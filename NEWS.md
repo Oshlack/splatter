@@ -3,6 +3,9 @@
 ## Version 1.23.2 (2023-04-05)
 
 * Replace set.seed() with withr::with_seed()
+* Switch scater and scuttle dependencies. scater is now suggested which saves
+  a few dependencies
+* Move ggplot2 to suggested for the same reason
 
 ## Version 1.23.1 (2023-01-30)
 
