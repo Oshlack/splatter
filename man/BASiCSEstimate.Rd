@@ -95,7 +95,7 @@ information is provided there must be at least two batches. See
 \examples{
 \dontrun{
 # Load example data
-library(scater)
+library(scuttle)
 set.seed(1)
 sce <- mockSCE()
 

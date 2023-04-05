@@ -33,7 +33,7 @@ See \code{\link{PhenoParams}} for more details on the parameters.
 \examples{
 if (requireNamespace("phenopath", quietly = TRUE)) {
     # Load example data
-    library(scater)
+    library(scuttle)
     set.seed(1)
     sce <- mockSCE()
 

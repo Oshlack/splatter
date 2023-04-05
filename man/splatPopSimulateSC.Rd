@@ -35,7 +35,7 @@ trajectories (eg. differentiation processes).}
 
 \item{counts.only}{logical. Whether to return only the counts.}
 
-\item{conditions}{named array with conditional group assignment for each 
+\item{conditions}{named array with conditional group assignment for each
 sample. Output from `splatPopSimulateMeans()`.}
 
 \item{sparsify}{logical. Whether to automatically convert assays to sparse

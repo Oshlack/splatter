@@ -6,6 +6,11 @@
     \item{
       Fixed bugs in \code{splatPopSimulate()} where conditional group
       assignments were incorrect when batch effects were applied
+      (from Christina Azodi)
+    }
+    \item{
+      Reduced cored dependencies by importing scuttle rather than scater (scater
+      is suggested) and making ggplot2 a suggested dependency.
     }
   }
 }

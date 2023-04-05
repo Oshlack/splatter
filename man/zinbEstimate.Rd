@@ -90,7 +90,7 @@ the fitted model and inserts it into a \code{\link{ZINBParams}} object. See
 }
 \examples{
 if (requireNamespace("zinbwave", quietly = TRUE)) {
-    library(scater)
+    library(scuttle)
     set.seed(1)
     sce <- mockSCE(ncells = 20, ngenes = 100)
 

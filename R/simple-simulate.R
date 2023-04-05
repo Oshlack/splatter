@@ -33,7 +33,7 @@ simpleSimulate <- function(params = newSimpleParams(), sparsify = TRUE,
 
     # Set random seed
     seed <- getParam(params, "seed")
-    set.seed(seed)
+    withr::with_seed(seed, {
 
     # Get the parameters we are going to use
     nCells <- getParam(params, "nCells")
@@ -72,6 +72,7 @@ simpleSimulate <- function(params = newSimpleParams(), sparsify = TRUE,
         assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
                                         verbose = verbose)
     }
+    })
 
     return(sim)
 }

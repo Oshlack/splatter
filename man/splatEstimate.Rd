@@ -28,7 +28,7 @@ is done.
 }
 \examples{
 # Load example data
-library(scater)
+library(scuttle)
 set.seed(1)
 sce <- mockSCE()
 

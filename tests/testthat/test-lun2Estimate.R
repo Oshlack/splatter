@@ -1,6 +1,6 @@
 context("lun2Estimate")
 
-library(scater)
+library(scuttle)
 set.seed(1)
 sce <- mockSCE(ngenes = 100)
 

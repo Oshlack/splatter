@@ -143,7 +143,7 @@ splatSimulate <- function(params = newSplatParams(),
 
     # Set random seed
     seed <- getParam(params, "seed")
-    set.seed(seed)
+    withr::with_seed(seed, {
 
     # Get the parameters we are going to use
     nCells <- getParam(params, "nCells")
@@ -224,6 +224,7 @@ splatSimulate <- function(params = newSplatParams(),
         assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
                                         verbose = verbose)
     }
+    })
 
     if (verbose) {message("Done!")}
     return(sim)

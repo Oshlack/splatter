@@ -1,8 +1,8 @@
 Package: splatter
 Type: Package
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 1.23.1
-Date: 2023-01-30
+Version: 1.23.2
+Date: 2023-04-05
 Authors@R:
     c(person("Luke", "Zappia", role = c("aut", "cre"),
       email = "luke@lazappi.id.au",
@@ -30,55 +30,56 @@ Imports:
     BiocGenerics,
     BiocParallel,
     checkmate (>= 2.0.0),
+    crayon,
     edgeR,
     fitdistrplus,
-    ggplot2,
+    grDevices,
     locfit,
     matrixStats,
     methods,
-    scales,
-    scater (>= 1.15.16),
+    S4Vectors,
+    scuttle,
     stats,
     SummarizedExperiment,
     utils,
-    crayon,
-    S4Vectors,
-    grDevices
+    withr
 Suggests:
+    BASiCS (>= 1.7.10),
+    BiocManager,
+    BiocSingular,
+    Biostrings,
     BiocStyle,
     covr,
     cowplot,
-    magick,
+    GenomeInfoDb,
+    GenomicRanges,
+    ggplot2,
+    IRanges,
+    igraph,
     knitr,
     limSolve,
     lme4,
-    progress,
-    pscl,
-    testthat,
-    preprocessCore,
-    rmarkdown,
-    scDD,
-    scran,
+    magick,
     mfa,
     phenopath,
-    BASiCS (>= 1.7.10),
-    zinbwave,
+    progress,
+    preprocessCore,
+    pscl,
+    rmarkdown,
+    scales,
+    scater (>= 1.15.16)
+    scDD,
+    scran,
     SparseDC,
-    BiocManager,
     spelling,
-    igraph,
-    scuttle,
-    BiocSingular,
+    testthat,
     VariantAnnotation,
-    Biostrings,
-    GenomeInfoDb,
-    GenomicRanges,
-    IRanges
+    zinbwave,
 biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software, ImmunoOncology
 URL: https://github.com/Oshlack/splatter
 BugReports: https://github.com/Oshlack/splatter/issues
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Encoding: UTF-8
 VignetteBuilder: knitr
 Language: en-GB

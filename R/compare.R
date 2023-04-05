@@ -62,6 +62,8 @@
 compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
                         fits = TRUE, colours = NULL) {
 
+    checkDependencies(deps = "ggplot2")
+
     checkmate::assertList(sces, types = "SingleCellExperiment",
                           any.missing = FALSE, min.len = 1, names = "unique")
     checkmate::assertNumber(point.size, finite = TRUE)
@@ -79,9 +81,9 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         sce <- sces[[name]]
         rowData(sce)$Dataset <- name
         colData(sce)$Dataset <- name
-        sce <- scater::addPerCellQC(sce)
-        sce <- scater::addPerFeatureQC(sce)
-        cpm(sce) <- as.matrix(scater::calculateCPM(sce))
+        sce <- scuttle::addPerCellQC(sce)
+        sce <- scuttle::addPerFeatureQC(sce)
+        cpm(sce) <- as.matrix(scuttle::calculateCPM(sce))
         sce <- addFeatureStats(sce, "counts")
         sce <- addFeatureStats(sce, "cpm")
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
@@ -327,6 +329,8 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
 diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                      fits = TRUE, colours = NULL) {
 
+    checkDependencies(deps = "ggplot2")
+
     checkmate::assertList(sces, types = "SingleCellExperiment",
                           any.missing = FALSE, min.len = 2, names = "unique")
     checkmate::assertString(ref)
@@ -357,9 +361,9 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         }
         rowData(sce)$Dataset <- name
         colData(sce)$Dataset <- name
-        sce <- scater::addPerCellQC(sce)
-        sce <- scater::addPerFeatureQC(sce)
-        cpm(sce) <- as.matrix(scater::calculateCPM(sce))
+        sce <- scuttle::addPerCellQC(sce)
+        sce <- scuttle::addPerFeatureQC(sce)
+        cpm(sce) <- as.matrix(scuttle::calculateCPM(sce))
         sce <- addFeatureStats(sce, "counts")
         sce <- addFeatureStats(sce, "cpm", log = TRUE)
         n.features <- colData(sce)$detected
@@ -613,7 +617,7 @@ makeCompPanel <- function(comp, title = "Comparison",
                                      "Zeros per cell",
                                      "Mean-zeros relationship")) {
 
-    checkDependencies(deps = "cowplot")
+    checkDependencies(deps = c("ggplot2", "cowplot"))
 
     checkmate::assertList(comp, any.missing = FALSE, len = 3)
     checkmate::checkString(title)
@@ -694,7 +698,7 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
                                      "Mean-variance relationship",
                                      "Mean-zeros relationship")) {
 
-    checkDependencies(deps = "cowplot")
+    checkDependencies(deps = c("ggplot2", "cowplot"))
 
     checkmate::assertList(diff, any.missing = FALSE, len = 5)
     checkmate::checkString(title)
@@ -786,7 +790,7 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
                                             "Zeros per gene",
                                             "Mean-zeros relationship")) {
 
-    checkDependencies(deps = "cowplot")
+    checkDependencies(deps = c("ggplot2", "cowplot"))
 
     checkmate::assertList(comp, any.missing = FALSE, len = 3)
     checkmate::assertList(diff, any.missing = FALSE, len = 5)
