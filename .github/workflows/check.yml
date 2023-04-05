@@ -6,17 +6,17 @@
 name: R-CMD-check-bioc
 
 ## Specify which branches to run on
-## The "master" branch corresponds to Bioc-devel and "RELEASE_X" branches are
+## The "devel" branch corresponds to Bioc-devel and "RELEASE_X" branches are
 ## Bioconductor releases. See http://bioconductor.org/developers/how-to/git/.
 on:
   push:
     branches:
-      - master
+      - devel
       - 'RELEASE_*'
       - ci
   pull_request:
     branches:
-      - master
+      - devel
       - 'RELEASE_*'
       - ci
 
@@ -207,7 +207,7 @@ jobs:
   test-coverage:
     ## Calculate package test coverage. Only runs if R-CMD-check-docker has
     ## completed successfully. Uses the Bioconductor Docker image.
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/devel'
     needs: [get-bioc-release, get-bioc-version, R-CMD-check-docker]
     runs-on: ubuntu-latest
     container:
@@ -255,9 +255,9 @@ jobs:
 
   pkgdown:
     ## Build pkgdown site and push to gh-pages branch. Only runs if on the
-    ## master branch and R-CMD-check-docker has completed successfully. Uses
+    ## devel branch and R-CMD-check-docker has completed successfully. Uses
     ## the Bioconductor Docker image.
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/devel'
     needs: [get-bioc-release, get-bioc-version, R-CMD-check-docker]
     runs-on: ubuntu-latest
     container:
