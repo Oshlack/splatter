@@ -95,7 +95,7 @@ kersplatSetup <- function(params = newKersplatParams(), verbose = TRUE, ...) {
 
     # Set random seed
     seed <- getParam(params, "seed")
-    set.seed(seed)
+    withr::with_seed(seed, {
 
     if (verbose) {message("Setting up parameters...")}
     params <- kersplatGenNetwork(params, verbose)
@@ -103,6 +103,7 @@ kersplatSetup <- function(params = newKersplatParams(), verbose = TRUE, ...) {
     params <- kersplatSimGeneMeans(params, verbose)
     params <- kersplatSimPaths(params, verbose)
 
+    })
     return(params)
 }
 

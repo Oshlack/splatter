@@ -1,6 +1,6 @@
 context("BASiCSEstimate")
 
-library(scater)
+library(scuttle)
 set.seed(1)
 counts <- counts(mockSCE(ncells = 30, ngenes = 100))
 

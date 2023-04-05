@@ -51,7 +51,7 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
 
     # Set random seed
     seed <- getParam(params, "seed")
-    set.seed(seed)
+    withr::with_seed(seed, {
 
     if (verbose) {message("Getting parameters...")}
     nGenes <- getParam(params, "nGenes")
@@ -198,8 +198,8 @@ lun2Simulate <- function(params = newLun2Params(), zinb = FALSE,
         assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
                                         verbose = verbose)
     }
+    })
 
     if (verbose) {message("Done!")}
-
     return(sim)
 }

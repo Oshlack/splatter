@@ -1,6 +1,6 @@
 context("simpleEstimate")
 
-library(scater)
+library(scuttle)
 set.seed(1)
 counts <- counts(mockSCE())
 

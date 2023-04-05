@@ -25,7 +25,7 @@
 #' if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
 #'     requireNamespace("preprocessCore", quietly = TRUE)) {
 #'     # Load example data
-#'     library(scater)
+#'     library(scuttle)
 #'
 #'     sce <- mockSCE()
 #'     params <- splatPopEstimate(sce)
@@ -108,7 +108,7 @@ splatPopEstimateEffectSize <- function(params, eqtl) {
 #' @param params SplatPopParams object containing parameters for the
 #'        simulation of the mean expression levels for the population.
 #'        See \code{\link{SplatPopParams}} for details.
-#' @param emp.gene.means data.frame of empirical gene means across a population, 
+#' @param emp.gene.means data.frame of empirical gene means across a population,
 #'        where rows are genes and columns are individuals.
 #'
 #' @details

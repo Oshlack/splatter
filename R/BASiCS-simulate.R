@@ -41,7 +41,7 @@ BASiCSSimulate <- function(params = newBASiCSParams(), sparsify = TRUE,
 
     # Set random seed
     seed <- getParam(params, "seed")
-    set.seed(seed)
+    withr::with_seed(seed, {
 
     if (verbose) {message("Getting parameters...")}
     nGenes <- getParam(params, "nGenes")
@@ -155,5 +155,6 @@ BASiCSSimulate <- function(params = newBASiCSParams(), sparsify = TRUE,
     }
 
     if (verbose) {message("Done!")}
+    })
     return(sim)
 }

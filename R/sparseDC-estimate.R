@@ -26,7 +26,7 @@
 #' @examples
 #' if (requireNamespace("SparseDC", quietly = TRUE)) {
 #'     # Load example data
-#'     library(scater)
+#'     library(scuttle)
 #'     set.seed(1)
 #'     sce <- mockSCE(ncells = 20, ngenes = 100)
 #'

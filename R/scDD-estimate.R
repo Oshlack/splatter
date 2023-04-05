@@ -25,7 +25,7 @@
 #'
 #' @examples
 #' if (requireNamespace("scDD", quietly = TRUE)) {
-#'     library(scater)
+#'     library(scuttle)
 #'     set.seed(1)
 #'     sce <- mockSCE(ncells = 20, ngenes = 100)
 #'

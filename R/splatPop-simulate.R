@@ -163,7 +163,8 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
                                   verbose = TRUE, key = NULL, gff = NULL,
                                   eqtl = NULL, means = NULL, ...){
 
-    set.seed(getParam(params, "seed"))
+    seed <- getParam(params, "seed")
+    withr::with_seed(seed, {
 
     nGroups <- getParam(params, "nGroups")
     quant.norm <- getParam(params, "pop.quant.norm")
@@ -227,6 +228,7 @@ splatPopSimulateMeans <- function(vcf = mockVCF(),
     }
 
     sim.means <- splatPopSimConditionalEffects(key, eMeansPop, conditions)
+    })
 
     return(list(means = sim.means, key = key, conditions=conditions))
 }
@@ -295,7 +297,7 @@ splatPopParseEmpirical <- function(vcf = vcf, gff = gff, eqtl = eqtl,
 #'        scale simulations. See \code{\link{SplatPopParams}} for details.
 #' @param key data.frame object containing a full or partial splatPop key.
 #'        Output from `splatPopSimulateMeans()`.
-#' @param conditions named array with conditional group assignment for each 
+#' @param conditions named array with conditional group assignment for each
 #'        sample. Output from `splatPopSimulateMeans()`.
 #' @param method which simulation method to use. Options are "single" which
 #'        produces a single cell population for each sample, "groups" which
@@ -343,7 +345,8 @@ splatPopSimulateSC <- function(sim.means,
     params <- expandParams(params)
     validObject(params)
 
-    set.seed(getParam(params, "seed"))
+    seed <- getParam(params, "seed")
+    withr::with_seed(seed, {
 
     nGroups <- getParam(params, "nGroups")
     group.names <- paste0("Group", seq_len(nGroups))
@@ -360,7 +363,7 @@ splatPopSimulateSC <- function(sim.means,
         group.prob <- rep(1 / length(sim.means), length(sim.means))
     }
     samples <- colnames((sim.means[[1]]))
-  
+
     if (is.null(conditions)){
       conditions <- splatPopDesignConditions(params, samples)
     }
@@ -410,6 +413,7 @@ splatPopSimulateSC <- function(sim.means,
     }
 
     colnames(sim.all) <- paste(sim.all$Sample, sim.all$Cell, sep=":")
+    })
 
     if (verbose) {message("Done!")}
     return (sim.all)

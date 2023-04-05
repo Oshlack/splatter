@@ -7,7 +7,7 @@ if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
     bulk.means <- mockBulkMatrix(n.genes=50, n.samples=10, seed=seed)
     bulk.eqtl <- mockBulkeQTL(n.genes=50, seed=seed)
     set.seed(seed)
-    counts <- scater::mockSCE()
+    counts <- scuttle::mockSCE()
 }
 
 test_that("splatPopEstimate works", {

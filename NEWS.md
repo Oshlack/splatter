@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.23.2 (2023-04-05)
+
+* Replace set.seed() with withr::with_seed()
+
 ## Version 1.23.1 (2023-01-30)
 
 * Fix bug in splatPopSimulate() where conditional group assignments were
