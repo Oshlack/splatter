@@ -1,10 +1,19 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
+\section{Version 1.24.0, Bioconductor 3.17 Release (2022-04-26)}{
+  \itemize{
+    \item{
+      Fixed bugs in \code{splatPopSimulate()} where conditional group
+      assignments were incorrect when batch effects were applied
+    }
+  }
+}
+
 \section{Version 1.22.0, Bioconductor 3.16 Release (2022-10-31)}{
   \itemize{
     \item{
-      Fixed a bgg in \code{BASiSSimulate()} when \code{spike.means} is resampled
+      Fixed a bug in \code{BASiSSimulate()} when \code{spike.means} is resampled
     }
     \item{
       Fixed bugs in \code{splatPopSimulate()} with non-matching rownames and
