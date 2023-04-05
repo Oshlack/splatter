@@ -32,7 +32,7 @@ is done.
 
 if (requireNamespace("igraph", quietly = TRUE)) {
     # Load example data
-    library(scater)
+    library(scuttle)
     set.seed(1)
     sce <- mockSCE()
 

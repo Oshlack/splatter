@@ -11,7 +11,7 @@ splatPopEstimateMeanCV(params, emp.gene.means)
 simulation of the mean expression levels for the population.
 See \code{\link{SplatPopParams}} for details.}
 
-\item{emp.gene.means}{data.frame of empirical gene means across a population, 
+\item{emp.gene.means}{data.frame of empirical gene means across a population,
 where rows are genes and columns are individuals.}
 }
 \value{
