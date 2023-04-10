@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.23.3 (2023-04-10)
+
+* Fix typo in DESCRIPTION
+
 ## Version 1.23.2 (2023-04-05)
 
 * Replace set.seed() with withr::with_seed()
