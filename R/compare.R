@@ -51,10 +51,6 @@
 #' comparison <- compareSCEs(list(Splat = sim1, Simple = sim2))
 #' names(comparison)
 #' names(comparison$Plots)
-#' @importFrom ggplot2 ggplot aes_string geom_point geom_smooth geom_boxplot
-#' geom_violin geom_tile scale_y_continuous scale_y_log10 scale_x_log10
-#' scale_colour_manual scale_fill_manual scale_fill_distiller coord_fixed
-#' facet_wrap xlab ylab ggtitle theme_minimal
 #' @importFrom S4Vectors metadata<- metadata
 #' @importFrom SingleCellExperiment cpm<- cpm
 #' @importFrom stats cor
@@ -123,115 +119,126 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
     features <- data.frame(features)
     cells <- data.frame(cells)
 
-    means <- ggplot(features,
-                    aes_string(x = "Dataset", y = "MeanLogCPM",
-                               colour = "Dataset")) +
-        geom_violin(aes_string(fill = "Dataset"),
-                    draw_quantiles = c(0.25, 0.5, 0.75),
-                    colour = "white", alpha = 0.3, size = 0.8) +
-        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
-        scale_colour_manual(values = colours) +
-        scale_fill_manual(values = colours) +
-        ylab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
-        ggtitle("Distribution of mean expression") +
-        theme_minimal()
+    means <- ggplot2::ggplot(
+        features,
+        ggplot2::aes_string(x = "Dataset", y = "MeanLogCPM",
+                            colour = "Dataset")
+    ) +
+        ggplot2::geom_violin(ggplot2::aes_string(fill = "Dataset"),
+                             draw_quantiles = c(0.25, 0.5, 0.75),
+                             colour = "white", alpha = 0.3, size = 0.8) +
+        ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::scale_fill_manual(values = colours) +
+        ggplot2::ylab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
+        ggplot2::ggtitle("Distribution of mean expression") +
+        ggplot2::theme_minimal()
 
-    vars <- ggplot(features,
-                   aes_string(x = "Dataset", y = "VarLogCPM",
-                              colour = "Dataset")) +
-        geom_violin(aes_string(fill = "Dataset"),
-                    draw_quantiles = c(0.25, 0.5, 0.75),
-                    colour = "white", alpha = 0.3, size = 0.8) +
-        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
-        scale_colour_manual(values = colours) +
-        scale_fill_manual(values = colours) +
-        ylab(expression(paste("Variance ", log[2], "(CPM + 1)"))) +
-        ggtitle("Distribution of variance") +
-        theme_minimal()
+    vars <- ggplot2::ggplot(
+        features,
+        ggplot2::aes_string(x = "Dataset", y = "VarLogCPM", colour = "Dataset")
+    ) +
+        ggplot2::geom_violin(ggplot2::aes_string(fill = "Dataset"),
+                             draw_quantiles = c(0.25, 0.5, 0.75),
+                             colour = "white", alpha = 0.3, size = 0.8) +
+        ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::scale_fill_manual(values = colours) +
+        ggplot2::ylab(expression(paste("Variance ", log[2], "(CPM + 1)"))) +
+        ggplot2::ggtitle("Distribution of variance") +
+        ggplot2::theme_minimal()
 
-    mean.var <- ggplot(features,
-                       aes_string(x = "MeanLogCPM", y = "VarLogCPM",
-                                  colour = "Dataset", fill = "Dataset")) +
-        geom_point(size = point.size, alpha = point.alpha) +
-        scale_colour_manual(values = colours) +
-        scale_fill_manual(values = colours) +
-        xlab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
-        ylab(expression(paste("Variance ", log[2], "(CPM + 1)"))) +
-        ggtitle("Mean-variance relationship") +
-        theme_minimal()
+    mean.var <- ggplot2::ggplot(
+        features,
+        ggplot2::aes_string(x = "MeanLogCPM", y = "VarLogCPM",
+                            colour = "Dataset", fill = "Dataset")
+    ) +
+        ggplot2::geom_point(size = point.size, alpha = point.alpha) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::scale_fill_manual(values = colours) +
+        ggplot2::xlab(expression(paste("Mean ", log[2], "(CPM + 1)"))) +
+        ggplot2::ylab(expression(paste("Variance ", log[2], "(CPM + 1)"))) +
+        ggplot2::ggtitle("Mean-variance relationship") +
+        ggplot2::theme_minimal()
 
-    libs <- ggplot(cells,
-                   aes_string(x = "Dataset", y = "sum",
-                              colour = "Dataset")) +
-        geom_violin(aes_string(fill = "Dataset"),
-                    draw_quantiles = c(0.25, 0.5, 0.75),
-                    colour = "white", alpha = 0.3, size = 0.8) +
-        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
-        scale_y_continuous(labels = scales::comma) +
-        scale_colour_manual(values = colours) +
-        scale_fill_manual(values = colours) +
-        ylab("Total counts per cell") +
-        ggtitle("Distribution of library sizes") +
-        theme_minimal()
+    libs <- ggplot2::ggplot(
+        cells,
+        ggplot2::aes_string(x = "Dataset", y = "sum", colour = "Dataset")
+    ) +
+        ggplot2::geom_violin(ggplot2::aes_string(fill = "Dataset"),
+                             draw_quantiles = c(0.25, 0.5, 0.75),
+                             colour = "white", alpha = 0.3, size = 0.8) +
+        ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
+        ggplot2::scale_y_continuous(labels = scales::comma) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::scale_fill_manual(values = colours) +
+        ggplot2::ylab("Total counts per cell") +
+        ggplot2::ggtitle("Distribution of library sizes") +
+        ggplot2::theme_minimal()
 
-    z.gene <- ggplot(features,
-                     aes_string(x = "Dataset", y = "PctZero",
-                                colour = "Dataset")) +
-        geom_violin(aes_string(fill = "Dataset"),
-                    draw_quantiles = c(0.25, 0.5, 0.75),
-                    colour = "white", alpha = 0.3, size = 0.8) +
-        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
-        scale_y_continuous(limits = c(0, 100)) +
-        scale_colour_manual(values = colours) +
-        scale_fill_manual(values = colours) +
-        ylab("Percentage zeros per gene") +
-        ggtitle("Distribution of zeros per gene") +
-        theme_minimal()
+    z.gene <- ggplot2::ggplot(
+        features,
+        ggplot2::aes_string(x = "Dataset", y = "PctZero", colour = "Dataset")
+    ) +
+        ggplot2::geom_violin(ggplot2::aes_string(fill = "Dataset"),
+                             draw_quantiles = c(0.25, 0.5, 0.75),
+                             colour = "white", alpha = 0.3, size = 0.8) +
+        ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
+        ggplot2::scale_y_continuous(limits = c(0, 100)) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::scale_fill_manual(values = colours) +
+        ggplot2::ylab("Percentage zeros per gene") +
+        ggplot2::ggtitle("Distribution of zeros per gene") +
+        ggplot2::theme_minimal()
 
-    z.cell <- ggplot(cells,
-                     aes_string(x = "Dataset", y = "PctZero",
-                                colour = "Dataset")) +
-        geom_violin(aes_string(fill = "Dataset"),
-                    draw_quantiles = c(0.25, 0.5, 0.75),
-                    colour = "white", alpha = 0.3, size = 0.8) +
-        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
-        scale_y_continuous(limits = c(0, 100)) +
-        scale_colour_manual(values = colours) +
-        scale_fill_manual(values = colours) +
-        ylab("Percentage zeros per cell") +
-        ggtitle("Distribution of zeros per cell") +
-        theme_minimal()
+    z.cell <- ggplot2::ggplot(
+        cells,
+        ggplot2::aes_string(x = "Dataset", y = "PctZero", colour = "Dataset")
+    ) +
+        ggplot2::geom_violin(ggplot2::aes_string(fill = "Dataset"),
+                             draw_quantiles = c(0.25, 0.5, 0.75),
+                             colour = "white", alpha = 0.3, size = 0.8) +
+        ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
+        ggplot2::scale_y_continuous(limits = c(0, 100)) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::scale_fill_manual(values = colours) +
+        ggplot2::ylab("Percentage zeros per cell") +
+        ggplot2::ggtitle("Distribution of zeros per cell") +
+        ggplot2::theme_minimal()
 
-    mean.zeros <- ggplot(features,
-                         aes_string(x = "mean",
-                                    y = "PctZero",
-                                    colour = "Dataset", fill = "Dataset")) +
-        geom_point(size = point.size, alpha = point.alpha) +
-        scale_x_log10(labels = scales::comma) +
-        scale_colour_manual(values = colours) +
-        scale_fill_manual(values = colours) +
-        xlab("Mean count") +
-        ylab("Percentage zeros") +
-        ggtitle("Mean-zeros relationship") +
-        theme_minimal()
+    mean.zeros <- ggplot2::ggplot(
+        features,
+        ggplot2::aes_string(x = "mean", y = "PctZero", colour = "Dataset",
+                            fill = "Dataset")
+    ) +
+        ggplot2::geom_point(size = point.size, alpha = point.alpha) +
+        ggplot2::scale_x_log10(labels = scales::comma) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::scale_fill_manual(values = colours) +
+        ggplot2::xlab("Mean count") +
+        ggplot2::ylab("Percentage zeros") +
+        ggplot2::ggtitle("Mean-zeros relationship") +
+        ggplot2::theme_minimal()
 
-    var.correlation <- ggplot(var.cors,
-                              aes_string(x = "VarGeneA", y = "VarGeneB",
-                                         fill = "Correlation")) +
-        geom_tile() +
-        scale_fill_distiller(palette = "RdBu", limits = c(-1, 1)) +
-        coord_fixed() +
-        facet_wrap(~ Dataset) +
-        ggtitle("Correlation - 100 variable genes") +
-        theme_minimal() +
-        theme(axis.title = element_blank(),
-              axis.text = element_blank())
+    var.correlation <- ggplot2::ggplot(
+        var.cors,
+        ggplot2::aes_string(x = "VarGeneA", y = "VarGeneB",
+                            fill = "Correlation")
+    ) +
+        ggplot2::geom_tile() +
+        ggplot2::scale_fill_distiller(palette = "RdBu", limits = c(-1, 1)) +
+        ggplot2::coord_fixed() +
+        ggplot2::facet_wrap(~ Dataset) +
+        ggplot2::ggtitle("Correlation - 100 variable genes") +
+        ggplot2::theme_minimal() +
+        ggplot2::theme(axis.title = ggplot2::element_blank(),
+                       axis.text = ggplot2::element_blank())
 
     if (fits) {
-        mean.var <- mean.var + geom_smooth(method = "gam",
-                                           formula = y ~ s(x, bs = "cs"))
-        mean.zeros <- mean.zeros + geom_smooth(method = "gam",
-                                               formula = y ~ s(x, bs = "cs"))
+        mean.var <- mean.var +
+            ggplot2::geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"))
+        mean.zeros <- mean.zeros +
+            ggplot2::geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"))
     }
 
     comparison <- list(RowData = features,
@@ -321,9 +328,6 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
 #' difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
 #' names(difference)
 #' names(difference$Plots)
-#' @importFrom ggplot2 ggplot aes_string geom_point geom_boxplot xlab ylab
-#' ggtitle theme_minimal geom_hline geom_abline scale_colour_manual
-#' scale_fill_manual
 #' @importFrom SingleCellExperiment cpm<-
 #' @export
 diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
@@ -432,143 +436,171 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
     features <- data.frame(features)
     cells <- data.frame(cells)
 
-    means <- ggplot(features,
-                    aes_string(x = "Dataset", y = "RankDiffMeanLogCPM",
-                               colour = "Dataset")) +
-        geom_hline(yintercept = 0, colour = "red") +
-        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
-        scale_colour_manual(values = colours) +
-        ylab(expression(paste("Rank difference mean ", log[2], "(CPM + 1)"))) +
-        ggtitle("Difference in mean expression") +
-        theme_minimal()
+    means <- ggplot2::ggplot(
+        features,
+        ggplot2::aes_string(x = "Dataset", y = "RankDiffMeanLogCPM",
+                            colour = "Dataset")
+    ) +
+        ggplot2::geom_hline(yintercept = 0, colour = "red") +
+        ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::ylab(expression(paste("Rank difference mean ", log[2],
+                                       "(CPM + 1)"))) +
+        ggplot2::ggtitle("Difference in mean expression") +
+        ggplot2::theme_minimal()
 
-    vars <- ggplot(features,
-                    aes_string(x = "Dataset", y = "RankDiffVarLogCPM",
-                               colour = "Dataset")) +
-        geom_hline(yintercept = 0, colour = "red") +
-        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
-        scale_colour_manual(values = colours) +
-        ylab(expression(paste("Rank difference variance ", log[2],
-                              "(CPM + 1)"))) +
-        ggtitle("Difference in variance") +
-        theme_minimal()
+    vars <- ggplot2::ggplot(
+        features,
+        ggplot2::aes_string(x = "Dataset", y = "RankDiffVarLogCPM",
+                            colour = "Dataset")
+        ) +
+        ggplot2::geom_hline(yintercept = 0, colour = "red") +
+        ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::ylab(expression(paste("Rank difference variance ", log[2],
+                                       "(CPM + 1)"))) +
+        ggplot2::ggtitle("Difference in variance") +
+        ggplot2::theme_minimal()
 
-    mean.var <- ggplot(features,
-                       aes_string(x = "RankCounts", y = "MeanRankVarDiff",
-                                  colour = "Dataset", fill = "Dataset")) +
-        geom_hline(yintercept = 0, colour = "red") +
-        geom_point(size = point.size, alpha = point.alpha) +
-        scale_colour_manual(values = colours) +
-        scale_fill_manual(values = colours) +
-        xlab("Expression rank") +
-        ylab(expression(paste("Difference in variance ", log[2],
-                              "(CPM + 1)"))) +
-        ggtitle("Difference in mean-variance relationship") +
-        theme_minimal()
+    mean.var <- ggplot2::ggplot(
+        features,
+        ggplot2::aes_string(x = "RankCounts", y = "MeanRankVarDiff",
+                            colour = "Dataset", fill = "Dataset")
+    ) +
+        ggplot2::geom_hline(yintercept = 0, colour = "red") +
+        ggplot2::geom_point(size = point.size, alpha = point.alpha) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::scale_fill_manual(values = colours) +
+        ggplot2::xlab("Expression rank") +
+        ggplot2::ylab(expression(paste("Difference in variance ", log[2],
+                                       "(CPM + 1)"))) +
+        ggplot2::ggtitle("Difference in mean-variance relationship") +
+        ggplot2::theme_minimal()
 
-    libs <- ggplot(cells,
-                   aes_string(x = "Dataset", y = "RankDiffLibSize",
-                              colour = "Dataset")) +
-        geom_hline(yintercept = 0, colour = "red") +
-        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
-        scale_colour_manual(values = colours) +
-        ylab(paste("Rank difference library size")) +
-        ggtitle("Difference in library sizes") +
-        theme_minimal()
+    libs <- ggplot2::ggplot(
+        cells,
+        ggplot2::aes_string(x = "Dataset", y = "RankDiffLibSize",
+                            colour = "Dataset")
+    ) +
+        ggplot2::geom_hline(yintercept = 0, colour = "red") +
+        ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::ylab(paste("Rank difference library size")) +
+        ggplot2::ggtitle("Difference in library sizes") +
+        ggplot2::theme_minimal()
 
-    z.gene <- ggplot(features,
-                     aes_string(x = "Dataset", y = "RankDiffZeros",
-                                colour = "Dataset")) +
-        geom_hline(yintercept = 0, colour = "red") +
-        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
-        scale_colour_manual(values = colours) +
-        ylab(paste("Rank difference percentage zeros")) +
-        ggtitle("Difference in zeros per gene") +
-        theme_minimal()
+    z.gene <- ggplot2::ggplot(
+        features,
+        ggplot2::aes_string(x = "Dataset", y = "RankDiffZeros",
+                            colour = "Dataset")
+    ) +
+        ggplot2::geom_hline(yintercept = 0, colour = "red") +
+        ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::ylab(paste("Rank difference percentage zeros")) +
+        ggplot2::ggtitle("Difference in zeros per gene") +
+        ggplot2::theme_minimal()
 
-    z.cell <- ggplot(cells,
-                     aes_string(x = "Dataset", y = "RankDiffZeros",
-                                colour = "Dataset")) +
-        geom_hline(yintercept = 0, colour = "red") +
-        geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
-        scale_colour_manual(values = colours) +
-        ylab(paste("Rank difference percentage zeros")) +
-        ggtitle("Difference in zeros per cell") +
-        theme_minimal()
+    z.cell <- ggplot2::ggplot(
+        cells,
+        ggplot2::aes_string(x = "Dataset", y = "RankDiffZeros",
+                            colour = "Dataset")
+    ) +
+        ggplot2::geom_hline(yintercept = 0, colour = "red") +
+        ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::ylab(paste("Rank difference percentage zeros")) +
+        ggplot2::ggtitle("Difference in zeros per cell") +
+        ggplot2::theme_minimal()
 
-    mean.zeros <- ggplot(features,
-                       aes_string(x = "RankCounts", y = "MeanRankZerosDiff",
-                                  colour = "Dataset", fill = "Dataset")) +
-        geom_hline(yintercept = 0, colour = "red") +
-        geom_point(size = point.size, alpha = point.alpha) +
-        scale_colour_manual(values = colours) +
-        scale_fill_manual(values = colours) +
-        xlab("Expression rank") +
-        ylab("Difference in percentage zeros per gene") +
-        ggtitle("Difference in mean-zeros relationship") +
-        theme_minimal()
+    mean.zeros <- ggplot2::ggplot(
+        features,
+        ggplot2::aes_string(x = "RankCounts", y = "MeanRankZerosDiff",
+                            colour = "Dataset", fill = "Dataset")
+    ) +
+        ggplot2::geom_hline(yintercept = 0, colour = "red") +
+        ggplot2::geom_point(size = point.size, alpha = point.alpha) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::scale_fill_manual(values = colours) +
+        ggplot2::xlab("Expression rank") +
+        ggplot2::ylab("Difference in percentage zeros per gene") +
+        ggplot2::ggtitle("Difference in mean-zeros relationship") +
+        ggplot2::theme_minimal()
 
-    means.qq <- ggplot(features,
-                       aes_string(x = "RefRankMeanLogCPM", y = "MeanLogCPM",
-                                  colour = "Dataset")) +
-        geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point(size = point.size) +
-        scale_colour_manual(values = colours) +
-        xlab(expression(paste("Reference mean ", log[2], "(CPM + 1)"))) +
-        ylab(expression(paste("Alternative mean ", log[2], "(CPM + 1)"))) +
-        ggtitle("Ranked means") +
-        theme_minimal()
+    means.qq <- ggplot2::ggplot(
+        features,
+        ggplot2::aes_string(x = "RefRankMeanLogCPM", y = "MeanLogCPM",
+                            colour = "Dataset")
+    ) +
+        ggplot2::geom_abline(intercept = 0, slope = 1, colour = "red") +
+        ggplot2::geom_point(size = point.size) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::xlab(expression(paste("Reference mean ", log[2],
+                                       "(CPM + 1)"))) +
+        ggplot2::ylab(expression(paste("Alternative mean ", log[2],
+                                       "(CPM + 1)"))) +
+        ggplot2::ggtitle("Ranked means") +
+        ggplot2::theme_minimal()
 
-    vars.qq <- ggplot(features,
-                      aes_string(x = "RefRankVarLogCPM", y = "VarLogCPM",
-                                 colour = "Dataset")) +
-        geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point(size = point.size) +
-        scale_colour_manual(values = colours) +
-        xlab(expression(paste("Reference variance ", log[2], "(CPM + 1)"))) +
-        ylab(expression(paste("Alternative variance ", log[2], "(CPM + 1)"))) +
-        ggtitle("Ranked variances") +
-        theme_minimal()
+    vars.qq <- ggplot2::ggplot(
+        features,
+        ggplot2::aes_string(x = "RefRankVarLogCPM", y = "VarLogCPM",
+                            colour = "Dataset")
+    ) +
+        ggplot2::geom_abline(intercept = 0, slope = 1, colour = "red") +
+        ggplot2::geom_point(size = point.size) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::xlab(expression(paste("Reference variance ", log[2],
+                                       "(CPM + 1)"))) +
+        ggplot2::ylab(expression(paste("Alternative variance ", log[2],
+                                       "(CPM + 1)"))) +
+        ggplot2::ggtitle("Ranked variances") +
+        ggplot2::theme_minimal()
 
-    libs.qq <- ggplot(cells,
-                      aes_string(x = "RefRankLibSize", y = "sum",
-                                 colour = "Dataset")) +
-        geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point(size = point.size) +
-        scale_colour_manual(values = colours) +
-        xlab("Reference library size") +
-        ylab("Alternative library size") +
-        ggtitle("Ranked library sizes") +
-        theme_minimal()
+    libs.qq <- ggplot2::ggplot(
+        cells,
+        ggplot2::aes_string(x = "RefRankLibSize", y = "sum",
+                            colour = "Dataset")
+    ) +
+        ggplot2::geom_abline(intercept = 0, slope = 1, colour = "red") +
+        ggplot2::geom_point(size = point.size) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::xlab("Reference library size") +
+        ggplot2::ylab("Alternative library size") +
+        ggplot2::ggtitle("Ranked library sizes") +
+        ggplot2::theme_minimal()
 
-    z.gene.qq <- ggplot(features,
-                        aes_string(x = "RefRankZeros",
-                                   y = "PctZero",
-                                   colour = "Dataset")) +
-        geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point(size = point.size) +
-        scale_colour_manual(values = colours) +
-        xlab("Reference percentage zeros") +
-        ylab("Alternative percentage zeros") +
-        ggtitle("Ranked percentage zeros per gene") +
-        theme_minimal()
+    z.gene.qq <- ggplot2::ggplot(
+        features,
+        ggplot2::aes_string(x = "RefRankZeros", y = "PctZero",
+                            colour = "Dataset")
+    ) +
+        ggplot2::geom_abline(intercept = 0, slope = 1, colour = "red") +
+        ggplot2::geom_point(size = point.size) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::xlab("Reference percentage zeros") +
+        ggplot2::ylab("Alternative percentage zeros") +
+        ggplot2::ggtitle("Ranked percentage zeros per gene") +
+        ggplot2::theme_minimal()
 
-    z.cell.qq <- ggplot(cells,
-                        aes_string(x = "RefRankZeros", y = "PctZero",
-                                   colour = "Dataset")) +
-        geom_abline(intercept = 0, slope = 1, colour = "red") +
-        geom_point(size = point.size) +
-        scale_colour_manual(values = colours) +
-        xlab("Reference percentage zeros") +
-        ylab("Alternative percentage zeros") +
-        ggtitle("Ranked percentage zeros per cell") +
-        theme_minimal()
+    z.cell.qq <- ggplot2::ggplot(
+        cells,
+        ggplot2::aes_string(x = "RefRankZeros", y = "PctZero",
+                            colour = "Dataset")
+    ) +
+        ggplot2::geom_abline(intercept = 0, slope = 1, colour = "red") +
+        ggplot2::geom_point(size = point.size) +
+        ggplot2::scale_colour_manual(values = colours) +
+        ggplot2::xlab("Reference percentage zeros") +
+        ggplot2::ylab("Alternative percentage zeros") +
+        ggplot2::ggtitle("Ranked percentage zeros per cell") +
+        ggplot2::theme_minimal()
 
     if (fits) {
-        mean.var <- mean.var + geom_smooth(method = "gam",
-                                           formula = y ~ s(x, bs = "cs"))
-        mean.zeros <- mean.zeros + geom_smooth(method = "gam",
-                                               formula = y ~ s(x, bs = "cs"))
+        mean.var <- mean.var +
+            ggplot2::geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"))
+        mean.zeros <- mean.zeros +
+            ggplot2::geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"))
     }
 
     comparison <- list(Reference = ref.sce,
@@ -608,7 +640,6 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 #' panel <- makeCompPanel(comparison)
 #' }
 #'
-#' @importFrom ggplot2 theme element_blank
 #' @export
 makeCompPanel <- function(comp, title = "Comparison",
                           labels = c("Means", "Variance",
@@ -630,17 +661,20 @@ makeCompPanel <- function(comp, title = "Comparison",
 
     # Remove titles and legends
     for (plot in names(plots)) {
-        plots[[plot]] <- plots[[plot]] + theme(legend.position = "none",
-                                               plot.title = element_blank())
+        plots[[plot]] <- plots[[plot]] +
+            ggplot2::theme(legend.position = "none",
+                           plot.title = ggplot2::element_blank())
     }
 
     # Remove x-axis title from some plots
     for (plot in paste0("p", c(1, 2, 4, 5, 6))) {
-        plots[[plot]] <- plots[[plot]] + theme(axis.title.x = element_blank())
+        plots[[plot]] <- plots[[plot]] +
+            ggplot2::theme(axis.title.x = ggplot2::element_blank())
     }
 
-    plots$leg <- cowplot::get_legend(plots$p3 +
-                                         theme(legend.position = "bottom"))
+    plots$leg <- cowplot::get_legend(
+        plots$p3 + ggplot2::theme(legend.position = "bottom")
+    )
 
     panel <- cowplot::ggdraw() +
         cowplot::draw_label(title, 0.5, 0.98,
@@ -690,7 +724,6 @@ makeCompPanel <- function(comp, title = "Comparison",
 #' panel <- makeDiffPanel(difference)
 #' }
 #'
-#' @importFrom ggplot2 theme element_blank
 #' @export
 makeDiffPanel <- function(diff, title = "Difference comparison",
                           labels = c("Means", "Variance", "Library size",
@@ -713,17 +746,20 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
 
     # Remove titles and legends
     for (plot in names(plots)) {
-        plots[[plot]] <- plots[[plot]] + theme(legend.position = "none",
-                                               plot.title = element_blank())
+        plots[[plot]] <- plots[[plot]] +
+            ggplot2::theme(legend.position = "none",
+                           plot.title = ggplot2::element_blank())
     }
 
     # Remove x-axis title from some plots
     for (plot in paste0("p", c(1, 3, 6, 8, 10))) {
-        plots[[plot]] <- plots[[plot]] + theme(axis.title.x = element_blank())
+        plots[[plot]] <- plots[[plot]] +
+            ggplot2::theme(axis.title.x = ggplot2::element_blank())
     }
 
-    plots$leg <- cowplot::get_legend(plots$p5 +
-                                         theme(legend.position = "bottom"))
+    plots$leg <- cowplot::get_legend(
+        plots$p5 + ggplot2::theme(legend.position = "bottom")
+    )
 
     panel <- cowplot::ggdraw() +
         cowplot::draw_label(title, 0.5, 0.98,
@@ -781,7 +817,6 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
 #' panel <- makeOverallPanel(comparison, difference)
 #' }
 #'
-#' @importFrom ggplot2 theme element_blank
 #' @export
 makeOverallPanel <- function(comp, diff, title = "Overall comparison",
                              row.labels = c("Means", "Variance",
@@ -810,17 +845,20 @@ makeOverallPanel <- function(comp, diff, title = "Overall comparison",
 
     # Remove titles and legends
     for (plot in names(plots)) {
-        plots[[plot]] <- plots[[plot]] + theme(legend.position = "none",
-                                               plot.title = element_blank())
+        plots[[plot]] <- plots[[plot]] +
+            ggplot2::theme(legend.position = "none",
+                           plot.title = ggplot2::element_blank())
     }
 
     # Remove x-axis title from some plots
     for (plot in paste0("p", c(1, 2, 4, 5, 9, 10, 12, 13, 15, 16))) {
-        plots[[plot]] <- plots[[plot]] + theme(axis.title.x = element_blank())
+        plots[[plot]] <- plots[[plot]] +
+            ggplot2::theme(axis.title.x = ggplot2::element_blank())
     }
 
-    plots$leg <- cowplot::get_legend(plots$p7 +
-                                         theme(legend.position = "bottom"))
+    plots$leg <- cowplot::get_legend(
+        plots$p7 + ggplot2::theme(legend.position = "bottom")
+    )
 
     panel <- cowplot::ggdraw() +
         cowplot::draw_label(title, 0.5, 0.995,
