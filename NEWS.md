@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.23.4 (2023-04-12)
+
+* Replace uses of ggplot2::aes_string() with ggplot2::aes() (Fixes #75)
+
 ## Version 1.23.3 (2023-04-10)
 
 * Fix typo in DESCRIPTION

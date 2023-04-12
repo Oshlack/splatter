@@ -9,7 +9,7 @@
       (from Christina Azodi)
     }
     \item{
-      Reduced cored dependencies by importing scuttle rather than scater (scater
+      Reduced core dependencies by importing scuttle rather than scater (scater
       is suggested) and making ggplot2 a suggested dependency.
     }
   }

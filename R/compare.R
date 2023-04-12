@@ -53,6 +53,7 @@
 #' names(comparison$Plots)
 #' @importFrom S4Vectors metadata<- metadata
 #' @importFrom SingleCellExperiment cpm<- cpm
+#' @importFrom rlang .data
 #' @importFrom stats cor
 #' @export
 compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
@@ -121,12 +122,12 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
 
     means <- ggplot2::ggplot(
         features,
-        ggplot2::aes_string(x = "Dataset", y = "MeanLogCPM",
-                            colour = "Dataset")
+        ggplot2::aes(x = .data$Dataset, y = .data$MeanLogCPM,
+                     colour = .data$Dataset)
     ) +
-        ggplot2::geom_violin(ggplot2::aes_string(fill = "Dataset"),
+        ggplot2::geom_violin(ggplot2::aes(fill = .data$Dataset),
                              draw_quantiles = c(0.25, 0.5, 0.75),
-                             colour = "white", alpha = 0.3, size = 0.8) +
+                             colour = "white", alpha = 0.3, linewidth = 0.8) +
         ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         ggplot2::scale_colour_manual(values = colours) +
         ggplot2::scale_fill_manual(values = colours) +
@@ -136,11 +137,12 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
 
     vars <- ggplot2::ggplot(
         features,
-        ggplot2::aes_string(x = "Dataset", y = "VarLogCPM", colour = "Dataset")
+        ggplot2::aes(x = .data$Dataset, y = .data$VarLogCPM,
+                     colour = .data$Dataset)
     ) +
-        ggplot2::geom_violin(ggplot2::aes_string(fill = "Dataset"),
+        ggplot2::geom_violin(ggplot2::aes(fill = .data$Dataset),
                              draw_quantiles = c(0.25, 0.5, 0.75),
-                             colour = "white", alpha = 0.3, size = 0.8) +
+                             colour = "white", alpha = 0.3, linewidth = 0.8) +
         ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         ggplot2::scale_colour_manual(values = colours) +
         ggplot2::scale_fill_manual(values = colours) +
@@ -150,8 +152,8 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
 
     mean.var <- ggplot2::ggplot(
         features,
-        ggplot2::aes_string(x = "MeanLogCPM", y = "VarLogCPM",
-                            colour = "Dataset", fill = "Dataset")
+        ggplot2::aes(x = .data$MeanLogCPM, y = .data$VarLogCPM,
+                     colour = .data$Dataset, fill = .data$Dataset)
     ) +
         ggplot2::geom_point(size = point.size, alpha = point.alpha) +
         ggplot2::scale_colour_manual(values = colours) +
@@ -163,11 +165,11 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
 
     libs <- ggplot2::ggplot(
         cells,
-        ggplot2::aes_string(x = "Dataset", y = "sum", colour = "Dataset")
+        ggplot2::aes(x = .data$Dataset, y = .data$sum, colour = .data$Dataset)
     ) +
-        ggplot2::geom_violin(ggplot2::aes_string(fill = "Dataset"),
+        ggplot2::geom_violin(ggplot2::aes(fill = .data$Dataset),
                              draw_quantiles = c(0.25, 0.5, 0.75),
-                             colour = "white", alpha = 0.3, size = 0.8) +
+                             colour = "white", alpha = 0.3, linewidth = 0.8) +
         ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         ggplot2::scale_y_continuous(labels = scales::comma) +
         ggplot2::scale_colour_manual(values = colours) +
@@ -178,11 +180,12 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
 
     z.gene <- ggplot2::ggplot(
         features,
-        ggplot2::aes_string(x = "Dataset", y = "PctZero", colour = "Dataset")
+        ggplot2::aes(x = .data$Dataset, y = .data$PctZero,
+                     colour = .data$Dataset)
     ) +
-        ggplot2::geom_violin(ggplot2::aes_string(fill = "Dataset"),
+        ggplot2::geom_violin(ggplot2::aes(fill = .data$Dataset),
                              draw_quantiles = c(0.25, 0.5, 0.75),
-                             colour = "white", alpha = 0.3, size = 0.8) +
+                             colour = "white", alpha = 0.3, linewidth = 0.8) +
         ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         ggplot2::scale_y_continuous(limits = c(0, 100)) +
         ggplot2::scale_colour_manual(values = colours) +
@@ -193,11 +196,12 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
 
     z.cell <- ggplot2::ggplot(
         cells,
-        ggplot2::aes_string(x = "Dataset", y = "PctZero", colour = "Dataset")
+        ggplot2::aes(x = .data$Dataset, y = .data$PctZero,
+                     colour = .data$Dataset)
     ) +
-        ggplot2::geom_violin(ggplot2::aes_string(fill = "Dataset"),
+        ggplot2::geom_violin(ggplot2::aes(fill = .data$Dataset),
                              draw_quantiles = c(0.25, 0.5, 0.75),
-                             colour = "white", alpha = 0.3, size = 0.8) +
+                             colour = "white", alpha = 0.3, linewidth = 0.8) +
         ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
         ggplot2::scale_y_continuous(limits = c(0, 100)) +
         ggplot2::scale_colour_manual(values = colours) +
@@ -208,8 +212,8 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
 
     mean.zeros <- ggplot2::ggplot(
         features,
-        ggplot2::aes_string(x = "mean", y = "PctZero", colour = "Dataset",
-                            fill = "Dataset")
+        ggplot2::aes(x = .data$mean, y = .data$PctZero, colour = .data$Dataset,
+                     fill = .data$Dataset)
     ) +
         ggplot2::geom_point(size = point.size, alpha = point.alpha) +
         ggplot2::scale_x_log10(labels = scales::comma) +
@@ -222,8 +226,8 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
 
     var.correlation <- ggplot2::ggplot(
         var.cors,
-        ggplot2::aes_string(x = "VarGeneA", y = "VarGeneB",
-                            fill = "Correlation")
+        ggplot2::aes(x = .data$VarGeneA, y = .data$VarGeneB,
+                     fill = .data$Correlation)
     ) +
         ggplot2::geom_tile() +
         ggplot2::scale_fill_distiller(palette = "RdBu", limits = c(-1, 1)) +
@@ -329,6 +333,7 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
 #' names(difference)
 #' names(difference$Plots)
 #' @importFrom SingleCellExperiment cpm<-
+#' @importFrom rlang .data
 #' @export
 diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
                      fits = TRUE, colours = NULL) {
@@ -438,8 +443,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     means <- ggplot2::ggplot(
         features,
-        ggplot2::aes_string(x = "Dataset", y = "RankDiffMeanLogCPM",
-                            colour = "Dataset")
+        ggplot2::aes(x = .data$Dataset, y = .data$RankDiffMeanLogCPM,
+                     colour = .data$Dataset)
     ) +
         ggplot2::geom_hline(yintercept = 0, colour = "red") +
         ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
@@ -451,8 +456,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     vars <- ggplot2::ggplot(
         features,
-        ggplot2::aes_string(x = "Dataset", y = "RankDiffVarLogCPM",
-                            colour = "Dataset")
+        ggplot2::aes(x = .data$Dataset, y = .data$RankDiffVarLogCPM,
+                     colour = .data$Dataset)
         ) +
         ggplot2::geom_hline(yintercept = 0, colour = "red") +
         ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
@@ -464,8 +469,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     mean.var <- ggplot2::ggplot(
         features,
-        ggplot2::aes_string(x = "RankCounts", y = "MeanRankVarDiff",
-                            colour = "Dataset", fill = "Dataset")
+        ggplot2::aes(x = .data$RankCounts, y = .data$MeanRankVarDiff,
+                     colour = .data$Dataset, fill = .data$Dataset)
     ) +
         ggplot2::geom_hline(yintercept = 0, colour = "red") +
         ggplot2::geom_point(size = point.size, alpha = point.alpha) +
@@ -479,8 +484,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     libs <- ggplot2::ggplot(
         cells,
-        ggplot2::aes_string(x = "Dataset", y = "RankDiffLibSize",
-                            colour = "Dataset")
+        ggplot2::aes(x = .data$Dataset, y = .data$RankDiffLibSize,
+                     colour = .data$Dataset)
     ) +
         ggplot2::geom_hline(yintercept = 0, colour = "red") +
         ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
@@ -491,8 +496,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     z.gene <- ggplot2::ggplot(
         features,
-        ggplot2::aes_string(x = "Dataset", y = "RankDiffZeros",
-                            colour = "Dataset")
+        ggplot2::aes(x = .data$Dataset, y = .data$RankDiffZeros,
+                     colour = .data$Dataset)
     ) +
         ggplot2::geom_hline(yintercept = 0, colour = "red") +
         ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
@@ -503,8 +508,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     z.cell <- ggplot2::ggplot(
         cells,
-        ggplot2::aes_string(x = "Dataset", y = "RankDiffZeros",
-                            colour = "Dataset")
+        ggplot2::aes(x = .data$Dataset, y = .data$RankDiffZeros,
+                     colour = .data$Dataset)
     ) +
         ggplot2::geom_hline(yintercept = 0, colour = "red") +
         ggplot2::geom_boxplot(notch = TRUE, width = 0.1, size = 0.8) +
@@ -515,8 +520,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     mean.zeros <- ggplot2::ggplot(
         features,
-        ggplot2::aes_string(x = "RankCounts", y = "MeanRankZerosDiff",
-                            colour = "Dataset", fill = "Dataset")
+        ggplot2::aes(x = .data$RankCounts, y = .data$MeanRankZerosDiff,
+                     colour = .data$Dataset, fill = .data$Dataset)
     ) +
         ggplot2::geom_hline(yintercept = 0, colour = "red") +
         ggplot2::geom_point(size = point.size, alpha = point.alpha) +
@@ -529,8 +534,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     means.qq <- ggplot2::ggplot(
         features,
-        ggplot2::aes_string(x = "RefRankMeanLogCPM", y = "MeanLogCPM",
-                            colour = "Dataset")
+        ggplot2::aes(x = .data$RefRankMeanLogCPM, y = .data$MeanLogCPM,
+                     colour = .data$Dataset)
     ) +
         ggplot2::geom_abline(intercept = 0, slope = 1, colour = "red") +
         ggplot2::geom_point(size = point.size) +
@@ -544,8 +549,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     vars.qq <- ggplot2::ggplot(
         features,
-        ggplot2::aes_string(x = "RefRankVarLogCPM", y = "VarLogCPM",
-                            colour = "Dataset")
+        ggplot2::aes(x = .data$RefRankVarLogCPM, y = .data$VarLogCPM,
+                     colour = .data$Dataset)
     ) +
         ggplot2::geom_abline(intercept = 0, slope = 1, colour = "red") +
         ggplot2::geom_point(size = point.size) +
@@ -559,8 +564,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     libs.qq <- ggplot2::ggplot(
         cells,
-        ggplot2::aes_string(x = "RefRankLibSize", y = "sum",
-                            colour = "Dataset")
+        ggplot2::aes(x = .data$RefRankLibSize, y = .data$sum,
+                     colour = .data$Dataset)
     ) +
         ggplot2::geom_abline(intercept = 0, slope = 1, colour = "red") +
         ggplot2::geom_point(size = point.size) +
@@ -572,8 +577,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     z.gene.qq <- ggplot2::ggplot(
         features,
-        ggplot2::aes_string(x = "RefRankZeros", y = "PctZero",
-                            colour = "Dataset")
+        ggplot2::aes(x = .data$RefRankZeros, y = .data$PctZero,
+                     colour = .data$Dataset)
     ) +
         ggplot2::geom_abline(intercept = 0, slope = 1, colour = "red") +
         ggplot2::geom_point(size = point.size) +
@@ -585,8 +590,8 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 
     z.cell.qq <- ggplot2::ggplot(
         cells,
-        ggplot2::aes_string(x = "RefRankZeros", y = "PctZero",
-                            colour = "Dataset")
+        ggplot2::aes(x = .data$RefRankZeros, y = .data$PctZero,
+                     colour = .data$Dataset)
     ) +
         ggplot2::geom_abline(intercept = 0, slope = 1, colour = "red") +
         ggplot2::geom_point(size = point.size) +
