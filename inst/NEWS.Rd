@@ -1,7 +1,13 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
-\section{Version 1.24.0, Bioconductor 3.17 Release (2022-04-26)}{
+\section{Version 1.26.0, Bioconductor 3.18 Release (2023-10-25)}{
+  \itemize{
+    No changes since the previous release
+  }
+}
+
+\section{Version 1.24.0, Bioconductor 3.17 Release (2023-04-26)}{
   \itemize{
     \item{
       Fixed bugs in \code{splatPopSimulate()} where conditional group
