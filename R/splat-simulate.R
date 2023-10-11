@@ -463,13 +463,15 @@ splatSimPathDE <- function(sim, params) {
     for (path in path.order) {
         from <- path.from[path]
         if (from == 0) {
-            means.gene <- rowData(sim)$GeneMean
+            de.facs.from <- rep(1, nGenes)
         } else {
-            means.gene <- rowData(sim)[[paste0("GeneMeanPath", from)]]
+            de.facs.from <- rowData(sim)[[paste0("DEFacPath", from)]]
         }
-        de.facs <- getLNormFactors(nGenes, de.prob[path], de.downProb[path],
-                                   de.facLoc[path], de.facScale[path])
-        path.means.gene <- means.gene * de.facs
+        de.facs.local <- getLNormFactors(nGenes, de.prob[path],
+                                         de.downProb[path], de.facLoc[path],
+                                         de.facScale[path])
+        de.facs <- de.facs.local * de.facs.from
+        rowData(sim)[[paste0("LocalDEFacPath", path)]] <- de.facs.local
         rowData(sim)[[paste0("DEFacPath", path)]] <- de.facs
     }
 

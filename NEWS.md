@@ -1,5 +1,12 @@
 ## DEVELOPMENT VERSION
 
+## Version 1.25.1 (2023-10-11)
+
+* Fix a bug in splatSimPathDE() where DE factors were not adjusted based on the
+  path origin (path.from parameter). This affected paths where the path origin
+  was not the simulation origin (path.from != 0), particularly when the path DE
+  was minimal.
+
 ## Version 1.25.0 (2023-04-26)
 
 Bioconductor 3.18 devel

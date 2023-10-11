@@ -3,7 +3,13 @@
 
 \section{Version 1.26.0, Bioconductor 3.18 Release (2023-10-25)}{
   \itemize{
-    No changes since the previous release
+    \item{
+      Fixed a bug in \code{splatSimPathDE()} where DE factors were not adjusted
+      based on the path origin (\code{path.from} parameter). This affected paths
+      where the path origin was not the simulation origin (i.e.
+      \code{path.from != 0}), particularly when the path DE was minimal.
+      With this fix paths should no longer drift towards the origin.
+    }
   }
 }
 
