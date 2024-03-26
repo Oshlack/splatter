@@ -1,5 +1,23 @@
 # DEVELOPMENT VERSION
 
+## Version 1.25.1 (2023-10-11)
+
+* Properly prevent output from BASiCSEstimate() and scDDSimulate() when
+  verbose = FALSE
+* Minor adjustments to tests
+  * Set verbose = FALSE where needed
+  * Specify expected warnings
+* Minor updates to documentation
+  * Replace package man page with auto-generated page
+  * Add GitHub usernames and Bioconductor URL to DESCRIPTION
+  * Add @keywords internal and @noRd to functions docs where needed
+* Restyle code using styler
+* Other minor fixes suggested by BiocCheck
+
+## Version 1.27.0 (2023-10-25)
+
+Bioconductor 3.19 devel
+
 # Version 1.26.0 (2023-10-25)
 
 Bioconductor 3.18 release
