@@ -73,23 +73,26 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
                                       condition = getParam(params, "condition"),
                                       param = BPPARAM)
     } else {
-        suppressMessages({
-        scDD.sim <- scDD::simulateSet(SCdat = getParam(params, "SCdat"),
-                                      numSamples = nCells,
-                                      nDE = getParam(params, "nDE"),
-                                      nDP = getParam(params, "nDP"),
-                                      nDM = getParam(params, "nDM"),
-                                      nDB = getParam(params, "nDB"),
-                                      nEE = getParam(params, "nEE"),
-                                      nEP = getParam(params, "nEP"),
-                                      sd.range = getParam(params, "sd.range"),
-                                      modeFC = getParam(params, "modeFC"),
-                                      plots = plots,
-                                      plot.file = plot.file,
-                                      random.seed = getParam(params, "seed"),
-                                      varInflation = varInflation,
-                                      condition = getParam(params, "condition"),
-                                      param = BPPARAM)
+        withr::with_output_sink(tempfile(), {
+            suppressMessages({
+                scDD.sim <- scDD::simulateSet(
+                                SCdat = getParam(params, "SCdat"),
+                                numSamples = nCells,
+                                nDE = getParam(params, "nDE"),
+                                nDP = getParam(params, "nDP"),
+                                nDM = getParam(params, "nDM"),
+                                nDB = getParam(params, "nDB"),
+                                nEE = getParam(params, "nEE"),
+                                nEP = getParam(params, "nEP"),
+                                sd.range = getParam(params, "sd.range"),
+                                modeFC = getParam(params, "modeFC"),
+                                plots = plots,
+                                plot.file = plot.file,
+                                random.seed = getParam(params, "seed"),
+                                varInflation = varInflation,
+                                condition = getParam(params, "condition"),
+                                param = BPPARAM)
+            })
         })
     }
 
