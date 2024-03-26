@@ -34,7 +34,7 @@
 #' Code: \url{https://github.com/kdkorthauer/scDD}
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' sim <- scDDSimulate()
 #' }
 #' @export

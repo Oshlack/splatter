@@ -124,7 +124,7 @@ which typically use \code{underscore_naming}.
 \examples{
 # Simulation with default parameters
 sim <- splatSimulate()
-\dontrun{
+\donttest{
 # Simulation with different number of genes
 sim <- splatSimulate(nGenes = 1000)
 # Simulation with custom parameters

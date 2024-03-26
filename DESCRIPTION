@@ -22,7 +22,7 @@ Description: Splatter is a package for the simulation of single-cell RNA
     estimated from real data and functions are provided for comparing real and
     simulated datasets.
 License: GPL-3 + file LICENSE
-LazyData: TRUE
+LazyData: FALSE
 Depends:
     R (>= 4.0),
     SingleCellExperiment

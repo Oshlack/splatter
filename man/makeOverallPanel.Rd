@@ -29,7 +29,7 @@ Combine the plots from \code{compSCEs} and \code{diffSCEs} into a
 single panel.
 }
 \examples{
-\dontrun{
+\donttest{
 sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 comparison <- compareSCEs(list(Splat = sim1, Simple = sim2))

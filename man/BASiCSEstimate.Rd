@@ -93,7 +93,7 @@ information is provided there must be at least two batches. See
 \code{\link[BASiCS]{BASiCS_MCMC}} for details.
 }
 \examples{
-\dontrun{
+\donttest{
 # Load example data
 library(scuttle)
 set.seed(1)

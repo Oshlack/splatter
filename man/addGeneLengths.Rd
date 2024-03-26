@@ -46,7 +46,7 @@ sce <- simpleSimulate()
 sce <- addGeneLengths(sce)
 head(rowData(sce))
 # Sample method (human coding genes)
-\dontrun{
+\donttest{
 library(TxDb.Hsapiens.UCSC.hg19.knownGene)
 library(GenomicFeatures)
 txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene

@@ -60,7 +60,7 @@ Estimate simulation parameters for the Lun2 simulation from a real dataset.
 See \code{\link{Lun2Params}} for more details on the parameters.
 }
 \examples{
-\dontrun{
+\donttest{
 # Load example data
 library(scuttle)
 set.seed(1)

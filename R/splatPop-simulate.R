@@ -808,12 +808,12 @@ splatPopeQTLEffects <- function(params, key, vcf) {
     if (eqtl.coreg > 0) {
         coregulated.n <- ceiling(eqtl.coreg * eqtl.n)
         keyCoreg <- key[!is.na(key$eSNP.ID), ]
-        keyCoreg <- keyCoreg[sample(1:eqtl.n, coregulated.n), ]
+        keyCoreg <- keyCoreg[sample(seq_len(eqtl.n), coregulated.n), ]
         keyCoreg <- keyCoreg[order(keyCoreg$chromosome, keyCoreg$geneMiddle), ]
 
         esnpKeep <- row.names(keyCoreg[seq(1, length(keyCoreg[, 1]), 2), ])
         esnpReplace <- row.names(keyCoreg[seq(2, length(keyCoreg[, 1]), 2), ])
-        esnpKeep <- esnpKeep[1:length(esnpReplace)]
+        esnpKeep <- esnpKeep[seq_along(length(esnpReplace))]
         key[row.names(key) %in% esnpReplace, grep("eSNP.", names(key))] <-
             key[row.names(key) %in% esnpKeep, grep("eSNP.", names(key))]
     }
@@ -1309,7 +1309,7 @@ splatPopDesignBatches <- function(params, samples, verbose) {
         xRem <- (nBatches * batch.size) %% length(samples)
         if (xRem > 0) {
             counts <- sort(
-                table(c(rep(samples, xInt), sample(samples)[1:xRem])),
+                table(c(rep(samples, xInt), sample(samples)[seq_len(xRem)])),
                 decreasing = TRUE
             )
         } else {
@@ -1318,7 +1318,7 @@ splatPopDesignBatches <- function(params, samples, verbose) {
 
         try.design <- TRUE
         while (try.design) {
-            all.batches <- rep(paste0("Batch", 1:nBatches), batch.size)
+            all.batches <- rep(paste0("Batch", seq_len(nBatches)), batch.size)
             batches <- list()
             try.again <- FALSE
             for (s in names(counts)) {

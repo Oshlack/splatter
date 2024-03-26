@@ -465,6 +465,7 @@ ggplot(cor.df, aes(x = correlation, y = id, color = type, alpha = type)) +
     scale_color_manual(values = c("#56B4E9", "#999999"))
 ```
 
+# Session information {-}
 
 ```{r sessionInfo}
 sessionInfo()

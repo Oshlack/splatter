@@ -19,7 +19,7 @@
 #' @return LunParams object containing the estimated parameters.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Load example data
 #' library(scuttle)
 #' set.seed(1)

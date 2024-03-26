@@ -645,3 +645,9 @@ between the two end points. A Brownian bridge is Brownian motion controlled in
 such a way that the end points are fixed. The `path.sigmaFac` parameter controls
 how extreme each step in the Brownian motion is and therefore how much the
 interpolation differs from a linear path.
+
+# Session information {-}
+
+```{r sessionInfo}
+sessionInfo()
+```

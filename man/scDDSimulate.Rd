@@ -48,7 +48,7 @@ See \code{\link[scDD]{simulateSet}} for more details about how the simulation
 works.
 }
 \examples{
-\dontrun{
+\donttest{
 sim <- scDDSimulate()
 }
 }

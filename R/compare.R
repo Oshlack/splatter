@@ -724,7 +724,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
 #' @return Combined panel plot
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' comparison <- compareSCEs(list(Splat = sim1, Simple = sim2))
@@ -829,7 +829,7 @@ makeCompPanel <- function(comp, title = "Comparison",
 #' @return Combined panel plot
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
@@ -948,7 +948,7 @@ makeDiffPanel <- function(diff, title = "Difference comparison",
 #' @return Combined panel plot
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' sim1 <- splatSimulate(nGenes = 1000, batchCells = 20)
 #' sim2 <- simpleSimulate(nGenes = 1000, nCells = 20)
 #' comparison <- compareSCEs(list(Splat = sim1, Simple = sim2))
