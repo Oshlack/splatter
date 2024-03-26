@@ -147,7 +147,8 @@ checkDependencies <- function(sim.prefix = NULL, deps = NULL) {
         paste("'", deps[!deps.available], "'", collapse = ", ", sep = "")
     )
 
-    install <- askYesNo("Do you want to install these packages?")
+    install <- interactive() &&
+        askYesNo("Do you want to install these packages?")
 
     if (!install) {
         stop("Manually install dependencies to continue", call. = FALSE)
