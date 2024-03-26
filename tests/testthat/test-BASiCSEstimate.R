@@ -11,8 +11,10 @@ test_that("BASiCSEstimate works", {
                              Input = rnorm(10, 500, 200),
                              stringsAsFactors = FALSE)
     counts <- counts[rowSums(counts) != 0, ]
-    params <- BASiCSEstimate(counts, spike.info, verbose = FALSE,
-                             progress = FALSE)
+    params <- expect_warning(
+        BASiCSEstimate(counts, spike.info, verbose = FALSE,
+                             progress = FALSE),
+        "is deprecated")
     expect_true(validObject(params))
 })
 
@@ -21,7 +23,9 @@ test_that("BASiCSEstimate works without spikes", {
     set.seed(1)
     counts <- counts[rowSums(counts) != 0, ]
     batch <- sample(1:2, ncol(counts), replace = TRUE)
-    params <- BASiCSEstimate(counts, batch = batch,
-                             verbose = FALSE, progress = FALSE)
+    params <- expect_warning(
+        BASiCSEstimate(counts, batch = batch,
+                       verbose = FALSE, progress = FALSE),
+        "is deprecated")
     expect_true(validObject(params))
 })
