@@ -19,4 +19,5 @@ brief description.
 }
 \examples{
 listSims()
+
 }

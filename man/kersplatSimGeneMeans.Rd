@@ -32,3 +32,4 @@ density object in the \code{mean.density} parameter using a rejection
 sampling method. This approach is more flexible but may violate some
 statistical assumptions.
 }
+\keyword{internal}

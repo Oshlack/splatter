@@ -28,3 +28,4 @@ maximum goodness-of-fit estimation method is used to minimise the
 Cramer-von Mises distance. This can fail in some situations, in which case
 the method of moments estimation method is used instead.
 }
+\keyword{internal}

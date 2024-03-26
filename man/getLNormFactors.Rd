@@ -24,3 +24,4 @@ Vector containing generated factors.
 \description{
 Randomly generate multiplication factors from a log-normal distribution.
 }
+\keyword{internal}

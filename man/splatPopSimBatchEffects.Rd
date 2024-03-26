@@ -19,3 +19,4 @@ Simulate batch effects. Batch effect factors for each batch are produced
 using \code{\link{getLNormFactors}} and these are added along with updated
 means for each batch.
 }
+\keyword{internal}

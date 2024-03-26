@@ -21,3 +21,4 @@ The key updated with group eQTL and DE effects.
 If groups > 1, n eSNP-eGene pairs (n = 'eqtl.group.specific') are randomly
 assigned as group specific.
 }
+\keyword{internal}

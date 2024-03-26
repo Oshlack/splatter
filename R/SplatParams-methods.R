@@ -9,8 +9,7 @@ newSplatParams <- function(...) {
 }
 
 #' @importFrom checkmate checkInt checkIntegerish checkNumber checkNumeric
-#' @importFrom checkmate checkLogical
-#' checkFlag
+#'   checkLogical checkFlag
 setValidity("SplatParams", function(object) {
     object <- expandParams(object)
     v <- getParams(object, c(slotNames(object)))

@@ -19,3 +19,4 @@ Vector with batch assignments for each sample.
 \description{
 Set up pooled experimental design
 }
+\keyword{internal}

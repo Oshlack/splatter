@@ -38,6 +38,8 @@ getParams <- function(params, names) {
 #' them manually), see examples. THE FINAL OBJECT IS NOT CHECKED FOR VALIDITY!
 #'
 #' @return Params object with updated values.
+#'
+#' @keywords internal
 setParamsUnchecked <- function(params, update = NULL, ...) {
     checkmate::assertClass(params, classes = "Params")
     checkmate::assertList(update, null.ok = TRUE)
@@ -62,6 +64,8 @@ setParamsUnchecked <- function(params, update = NULL, ...) {
 #' @param pp list specifying how the object should be displayed.
 #'
 #' @return Print params object to console
+#'
+#' @noRd
 showPP <- function(params, pp) {
     checkmate::assertClass(params, classes = "Params")
     checkmate::assertList(pp, types = "character", min.len = 1)
@@ -103,6 +107,8 @@ showPP <- function(params, pp) {
 #' @return Print values
 #'
 #' @importFrom utils head
+#'
+#' @noRd
 showValues <- function(values, not.default) {
     checkmate::check_list(values, any.missing = FALSE, min.len = 1)
     checkmate::check_logical(
@@ -172,6 +178,8 @@ showValues <- function(values, not.default) {
 #' @return Print data.frame parameters
 #'
 #' @importFrom utils head
+#'
+#' @noRd
 showDFs <- function(dfs, not.default) {
     checkmate::check_list(
         dfs,

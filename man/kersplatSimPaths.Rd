@@ -45,3 +45,4 @@ Papadopoulos N, Parra RG, Söding J. PROSSTT: probabilistic simulation of
 single-cell RNA-seq data for complex differentiation processes.
 Bioinformatics (2019). \url{https://doi.org/10.1093/bioinformatics/btz078}.
 }
+\keyword{internal}

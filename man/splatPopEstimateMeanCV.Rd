@@ -31,3 +31,4 @@ the mean gamma distribution and the maximum goodness-of-fit estimation
 method is used to minimise the Cramer-von Mises distance for the CV
 distribution.
 }
+\keyword{internal}

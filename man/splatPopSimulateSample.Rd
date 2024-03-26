@@ -55,3 +55,4 @@ function see the documentation for \code{\link{splatSimulate}}.
 \code{\link{splatSimBCVMeans}}, \code{\link{splatSimTrueCounts}},
 \code{\link{splatSimDropout}}, \code{\link{splatPopSimulateSC}}
 }
+\keyword{internal}

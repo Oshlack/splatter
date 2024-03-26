@@ -21,3 +21,4 @@ sizes, if not (most cases) a log-normal distribution is fitted and the
 estimated parameters are added to the params object. See
 \code{\link[fitdistrplus]{fitdist}} for details on the fitting.
 }
+\keyword{internal}

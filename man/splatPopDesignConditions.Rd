@@ -17,3 +17,4 @@ Vector with condition assignments for each sample.
 \description{
 Set up designed experiments conditions
 }
+\keyword{internal}

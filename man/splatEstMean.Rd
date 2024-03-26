@@ -27,3 +27,4 @@ moments estimation' method is used instead. Prior to fitting the means are
 winsorized by setting the top and bottom 10 percent of values to the 10th
 and 90th percentiles.
 }
+\keyword{internal}

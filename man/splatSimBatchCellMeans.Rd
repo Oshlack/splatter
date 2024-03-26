@@ -18,3 +18,4 @@ SingleCellExperiment with simulated batch means.
 Simulate a mean for each gene in each cell incorporating batch effect
 factors.
 }
+\keyword{internal}

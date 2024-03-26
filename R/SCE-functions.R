@@ -22,6 +22,8 @@
 #' @return SingleCellExperiment with additional feature statistics
 #'
 #' @importFrom SummarizedExperiment rowData rowData<-
+#'
+#' @noRd
 addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
                             log = FALSE, offset = 1, no.zeros = FALSE) {
     checkmate::assertClass(sce, "SingleCellExperiment")
@@ -153,6 +155,8 @@ addGeneLengths <- function(sce, method = c("generate", "sample"), loc = 7.9,
 #' @param sce SingleCellExperiment object
 #'
 #' @return Counts matrix
+#'
+#' @noRd
 getCounts <- function(sce) {
     checkmate::assertClass(sce, "SingleCellExperiment")
 
@@ -327,6 +331,8 @@ minimiseSCE <- function(sce, rowData.keep = FALSE, colData.keep = FALSE,
 #' @param verbose Whether to print status messages
 #'
 #' @return List of converted matrices
+#'
+#' @noRd
 sparsifyMatrices <- function(matrix.list, auto = TRUE, threshold = 0.95,
                              verbose = TRUE) {
     # If not auto, just do it and return

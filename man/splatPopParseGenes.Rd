@@ -18,3 +18,4 @@ The Partial splatPop key data.frame.
 \description{
 Generate population key matrix from random or gff provided gene information
 }
+\keyword{internal}

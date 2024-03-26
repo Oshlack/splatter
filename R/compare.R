@@ -1169,12 +1169,14 @@ summariseDiff <- function(diff) {
 #' @param data The data.frame to summarise
 #' @param split.col Name of the column used to split the dataset
 #' @param stat.cols Names of the columns to summarise. If this vector is named
-#' those names will be used in the output.
+#'   those names will be used in the output.
 #' @param measure The measure to use for summarisation.
 #'
 #' @return data.frame with the summarised measure, scaled and ranked
 #'
 #' @importFrom stats aggregate
+#'
+#' @noRd
 summariseStats <- function(data, split.col, stat.cols,
                            measure = c("MAD", "MAE", "RMSE")) {
     measure <- match.arg(measure)
@@ -1225,6 +1227,8 @@ summariseStats <- function(data, split.col, stat.cols,
 #'
 #' @return data.frame with the summarised measure, scaled and ranked
 #' @importFrom stats ks.test
+#'
+#' @noRd
 summariseKS <- function(data, ref, split.col, stat.cols) {
     if (is.null(names(stat.cols))) {
         names(stat.cols) <- stat.cols
@@ -1275,6 +1279,8 @@ summariseKS <- function(data, ref, split.col, stat.cols) {
 #' @param measure The name of the summarisation measure
 #'
 #' @return tidy data.frame with the summarised measure, scaled and ranked
+#'
+#' @noRd
 tidyStatSumm <- function(stat.summ, measure = c("MAD", "MAE", "RMSE")) {
     measure <- match.arg(measure)
 

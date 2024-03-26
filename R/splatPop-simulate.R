@@ -480,6 +480,8 @@ splatPopSimulateSC <- function(sim.means,
 #'
 #' @importFrom SummarizedExperiment rowData colData colData<- assays
 #' @importFrom SingleCellExperiment SingleCellExperiment
+#'
+#' @keywords internal
 splatPopSimulateSample <- function(params = newSplatPopParams(),
                                    method = c("single", "groups", "paths"),
                                    batch = "batch1",
@@ -598,6 +600,8 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
 #'
 #' @importFrom stats complete.cases na.omit
 #' @importFrom utils data
+#'
+#' @keywords internal
 splatPopParseVCF <- function(vcf, params) {
     # Filter SNPs with NAs and outside MAF range
     eqtl.maf.min <- getParam(params, "eqtl.maf.min")
@@ -620,6 +624,8 @@ splatPopParseVCF <- function(vcf, params) {
 #' @param gff Either NULL or a data.frame object containing a GFF/GTF file.
 #'
 #' @return The Partial splatPop key data.frame.
+#'
+#' @keywords internal
 splatPopParseGenes <- function(params, gff) {
     nGenes <- getParam(params, "nGenes")
 
@@ -677,6 +683,8 @@ splatPopParseGenes <- function(params, gff) {
 #' @param key Partial splatPop key data.frame.
 #'
 #' @return The key updated with assigned means and variances.
+#'
+#' @keywords internal
 splatPopAssignMeans <- function(params, key) {
     mean.shape <- getParam(params, "pop.mean.shape")
     mean.rate <- getParam(params, "pop.mean.rate")
@@ -732,6 +740,8 @@ splatPopAssignMeans <- function(params, key) {
 #' @param vcf VariantAnnotation object containing genotypes of samples.
 #'
 #' @return The key updated with assigned eQTL effects.
+#'
+#' @keywords internal
 splatPopeQTLEffects <- function(params, key, vcf) {
     eqtl.n <- getParam(params, "eqtl.n")
     if (eqtl.n > nrow(key)) {
@@ -832,6 +842,8 @@ splatPopeQTLEffects <- function(params, key, vcf) {
 #' @param groups array of group names
 #'
 #' @return The key updated with group eQTL and DE effects.
+#'
+#' @keywords internal
 splatPopGroupEffects <- function(params, key, groups) {
     # Assign group-specific eQTL effects
     eqtl.n <- getParam(params, "eqtl.n")
@@ -881,6 +893,8 @@ splatPopGroupEffects <- function(params, key, groups) {
 #' @param conditions array of condition names
 #'
 #' @return The key updated with conditional eQTL and DE effects.
+#'
+#' @keywords internal
 splatPopConditionEffects <- function(params, key, conditions) {
     condition.names <- unique(conditions)
     if (length(condition.names) == 1) {
@@ -938,6 +952,8 @@ splatPopConditionEffects <- function(params, key, conditions) {
 #' @return matrix of gene mean expression levels WITHOUT eQTL effects.
 #'
 #' @importFrom stats rnorm
+#'
+#' @keywords internal
 splatPopSimMeans <- function(vcf, key, means) {
     if (is.null(means)) {
         means <- matrix(
@@ -981,6 +997,7 @@ splatPopSimMeans <- function(vcf, key, means) {
 #'
 #' @return data.frame of gene mean expression levels WITH eQTL effects.
 #'
+#' @keywords internal
 splatPopSimEffects <- function(id, key, conditions, vcf, means.pop) {
     # Add group-specific eQTL effects
     genes.use <- row.names(subset(key, key$eQTL.group == id))
@@ -1028,6 +1045,7 @@ splatPopSimEffects <- function(id, key, conditions, vcf, means.pop) {
 #' @return data.frame of gene mean expression levels WITH conditional DE
 #' effects.
 #'
+#' @keywords internal
 splatPopSimConditionalEffects <- function(key, means.pop, conditions) {
     # Add group-specific eQTL effects
     condition.list <- unique(conditions)
@@ -1065,6 +1083,7 @@ splatPopSimConditionalEffects <- function(key, means.pop, conditions) {
 #'
 #' @return data.frame of gene mean expression levels WITH eQTL effects.
 #'
+#' @keywords internal
 splatPopConditionalEffects <- function(id, key, vcf, means.pop) {
     # Add group-specific eQTL effects
     genes.use <- row.names(subset(key, key$eQTL.group == id))
@@ -1094,8 +1113,6 @@ splatPopConditionalEffects <- function(id, key, vcf, means.pop) {
 
     return(means.pop)
 }
-
-
 
 #' Quantile normalize by sample to fit sc expression distribution.
 #'
@@ -1141,6 +1158,8 @@ splatPopQuantNorm <- function(params, means) {
 #'        `splatPopQuantNorm`
 #'
 #' @return Final eQTL key.
+#'
+#' @keywords internal
 splatPopQuantNormKey <- function(key, means) {
     if (is.list(means)) {
         qn.means <- list()
@@ -1182,6 +1201,8 @@ splatPopQuantNormKey <- function(key, means) {
 #'
 #' @importFrom SummarizedExperiment rowData rowData<-
 #' @importFrom stats rgamma median
+#'
+#' @keywords internal
 splatPopSimGeneMeans <- function(sim, params, base.means.gene) {
     # Note: This function is similar to splatSimGeneMeans, except it uses the
     # simulated gene mean instead of sampling one randomly. If changes are made
@@ -1221,6 +1242,8 @@ splatPopSimGeneMeans <- function(sim, params, base.means.gene) {
 #' @return SingleCellExperiment with simulated batch effects.
 #'
 #' @importFrom SummarizedExperiment rowData rowData<-
+#'
+#' @keywords internal
 splatPopSimBatchEffects <- function(sim, params) {
     nGenes <- getParam(params, "nGenes")
     nBatches <- getParam(params, "nBatches")
@@ -1259,6 +1282,7 @@ splatPopSimBatchEffects <- function(sim, params) {
 #'
 #' @return Vector with batch assignments for each sample.
 #'
+#' @keywords internal
 splatPopDesignBatches <- function(params, samples, verbose) {
     nBatches <- getParam(params, "nBatches")
     batch.size <- getParam(params, "batch.size")
@@ -1321,6 +1345,7 @@ splatPopDesignBatches <- function(params, samples, verbose) {
 #'
 #' @return Vector with condition assignments for each sample.
 #'
+#' @keywords internal
 splatPopDesignConditions <- function(params, samples) {
     condition.prob <- getParam(params, "condition.prob")
 
@@ -1345,6 +1370,7 @@ splatPopDesignConditions <- function(params, samples) {
 #'
 #' @return SingleCellExperiment with simulated sc counts.
 #'
+#' @keywords internal
 splatPopCleanSCE <- function(sim.all) {
     # Remove redundant sce info
     keep.id <- gsub("_Gene", "", names(rowData(sim.all))[1])

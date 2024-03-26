@@ -36,3 +36,4 @@ Ambient library sizes are also generated from a log-normal distribution based
 on the parameters for the cell library size and adjusted using the
 \code{ambient.scale} parameter.
 }
+\keyword{internal}

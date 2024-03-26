@@ -27,3 +27,4 @@ fitting an exponential relationship between simulated and estimated values.
 If this results in a negative dispersion a simpler linear correction is
 applied instead.
 }
+\keyword{internal}

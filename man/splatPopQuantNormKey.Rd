@@ -18,3 +18,4 @@ Final eQTL key.
 \description{
 Add quantile normalized gene mean and cv info the eQTL key.
 }
+\keyword{internal}

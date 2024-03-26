@@ -61,3 +61,4 @@ library size. An adjustment for BCV is then applied. Doublets are also
 simulated at this stage by selecting two path/step combinations and averaging
 the means.
 }
+\keyword{internal}

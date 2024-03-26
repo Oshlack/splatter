@@ -26,3 +26,4 @@ simulated data we found a broadly linear relationship between the true
 underlying common dispersion and the \code{edgR} estimate, therefore we
 apply a small correction, \code{disp = 0.1 + 0.25 * edgeR.disp}.
 }
+\keyword{internal}

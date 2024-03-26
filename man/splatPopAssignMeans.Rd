@@ -23,3 +23,4 @@ of variance in real data is not independent from the mean. The degree of
 similarity between individuals can be further tuned using the
 similarity.scale parameter in `SplatPopParams`.
 }
+\keyword{internal}

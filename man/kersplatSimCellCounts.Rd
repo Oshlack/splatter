@@ -23,3 +23,4 @@ Simulate cell counts for the Kersplat simulation
 Counts are sampled from a Poisson distribution with lambda equal to the
 cell means matrix.
 }
+\keyword{internal}

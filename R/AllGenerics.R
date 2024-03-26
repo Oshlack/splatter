@@ -64,6 +64,8 @@ setGeneric("setParam", function(object, name, value) {
 #' @return Object with new parameter value.
 #'
 #' @rdname setParamUnchecked
+#'
+#' @keywords internal
 setGeneric("setParamUnchecked", function(object, name, value) {
     standardGeneric("setParamUnchecked")
 })
@@ -118,6 +120,8 @@ setGeneric("setParams", function(object, update = NULL, ...) {
 #' @return Expanded object.
 #'
 #' @rdname expandParams
+#'
+#' @keywords internal
 setGeneric("expandParams", function(object, ...) {
     standardGeneric("expandParams")
 })

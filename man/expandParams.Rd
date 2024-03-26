@@ -44,3 +44,4 @@ the number of groups. Work is done by \code{\link{paramsExpander}} called
 from each method. Expansions are stored using
 \code{\link{setParamsUnchecked}}.
 }
+\keyword{internal}

@@ -15,3 +15,4 @@ SingleCellExperiment with simulated sc counts.
 \description{
 Clean up the population-scale SCE to remove redundant information
 }
+\keyword{internal}

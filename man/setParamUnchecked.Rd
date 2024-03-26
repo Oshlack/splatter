@@ -23,3 +23,4 @@ Object with new parameter value.
 Function for setting parameter values. THE OUTPUT IS NOT CHECKED FOR
 VALIDITY!
 }
+\keyword{internal}

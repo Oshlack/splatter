@@ -7,8 +7,10 @@
 #'
 #' @return Invisibly returns a data.frame containing the information that is
 #' displayed.
+#'
 #' @examples
 #' listSims()
+#'
 #' @export
 listSims <- function(print = TRUE) {
     sims <- list(

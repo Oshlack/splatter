@@ -318,6 +318,8 @@ splatSimulatePaths <- function(params = newSplatParams(), verbose = TRUE, ...) {
 #'
 #' @importFrom SummarizedExperiment colData colData<-
 #' @importFrom stats rlnorm rnorm
+#'
+#' @keywords internal
 splatSimLibSizes <- function(sim, params) {
     nCells <- length(colData(sim)$Cell) # splatPop: different nCells per sample
     lib.loc <- getParam(params, "lib.loc")
@@ -350,6 +352,8 @@ splatSimLibSizes <- function(sim, params) {
 #'
 #' @importFrom SummarizedExperiment rowData rowData<-
 #' @importFrom stats rgamma median
+#'
+#' @keywords internal
 splatSimGeneMeans <- function(sim, params) {
     # Note: splatPopSimGeneMeans in splatPop-simulate.R mirrors this function.
     # If changes are made to the "add expression outliers" method here, please
@@ -394,6 +398,8 @@ splatSimGeneMeans <- function(sim, params) {
 #' @return SingleCellExperiment with simulated batch effects.
 #'
 #' @importFrom SummarizedExperiment rowData rowData<-
+#'
+#' @keywords internal
 splatSimBatchEffects <- function(sim, params) {
     nGenes <- getParam(params, "nGenes")
     nBatches <- getParam(params, "nBatches")
@@ -428,6 +434,8 @@ splatSimBatchEffects <- function(sim, params) {
 #' @return SingleCellExperiment with simulated batch means.
 #'
 #' @importFrom SummarizedExperiment rowData rowData<- colData
+#'
+#' @keywords internal
 splatSimBatchCellMeans <- function(sim, params) {
     nBatches <- getParam(params, "nBatches")
     cell.names <- colData(sim)$Cell
@@ -473,6 +481,8 @@ splatSimBatchCellMeans <- function(sim, params) {
 #' @return SingleCellExperiment with simulated differential expression.
 #'
 #' @name splatSimDE
+#'
+#' @keywords internal
 NULL
 
 #' @rdname splatSimDE
@@ -548,6 +558,8 @@ splatSimPathDE <- function(sim, params) {
 #' @return SingleCellExperiment with added cell means.
 #'
 #' @name splatSimCellMeans
+#'
+#' @keywords internal
 NULL
 
 #' @rdname splatSimCellMeans
@@ -697,6 +709,8 @@ splatSimPathCellMeans <- function(sim, params) {
 #'
 #' @importFrom SummarizedExperiment rowData colData assays assays<-
 #' @importFrom stats rchisq rgamma
+#'
+#' @keywords internal
 splatSimBCVMeans <- function(sim, params) {
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
@@ -743,6 +757,8 @@ splatSimBCVMeans <- function(sim, params) {
 #'
 #' @importFrom SummarizedExperiment rowData colData assays assays<-
 #' @importFrom stats rpois
+#'
+#' @keywords internal
 splatSimTrueCounts <- function(sim, params) {
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
@@ -780,6 +796,8 @@ splatSimTrueCounts <- function(sim, params) {
 #'
 #' @importFrom SummarizedExperiment rowData colData assays assays<-
 #' @importFrom stats rbinom
+#'
+#' @keywords internal
 splatSimDropout <- function(sim, params) {
     dropout.type <- getParam(params, "dropout.type")
     true.counts <- assays(sim)$TrueCounts
@@ -898,6 +916,8 @@ splatSimDropout <- function(sim, params) {
 #' @return Vector containing generated factors.
 #'
 #' @importFrom stats rbinom rlnorm
+#'
+#' @keywords internal
 getLNormFactors <- function(n.facs, sel.prob, neg.prob, fac.loc, fac.scale) {
     is.selected <- as.logical(rbinom(n.facs, 1, sel.prob))
     n.selected <- sum(is.selected)
@@ -920,6 +940,8 @@ getLNormFactors <- function(n.facs, sel.prob, neg.prob, fac.loc, fac.scale) {
 #'        from.
 #'
 #' @return Vector giving the order to process paths in.
+#'
+#' @noRd
 getPathOrder <- function(path.from) {
     # Transform the vector into a list of (from, to) pairs
     path.pairs <- list()
@@ -963,6 +985,8 @@ getPathOrder <- function(path.from) {
 #' @return Vector of length n following a path from x to y.
 #'
 #' @importFrom stats runif rnorm
+#'
+#' @noRd
 bridge <- function(x = 0, y = 0, N = 5, n = 100, sigma.fac = 0.8) {
     dt <- 1 / (N - 1)
     t <- seq(0, 1, length = N)

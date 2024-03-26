@@ -24,3 +24,4 @@ group are produced using \code{\link{getLNormFactors}} and these are added
 along with updated means for each group. For paths care is taken to make sure
 they are simulated in the correct order.
 }
+\keyword{internal}

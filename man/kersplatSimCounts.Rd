@@ -28,3 +28,4 @@ or the ambient library size (for empty cells) using the
 \seealso{
 \code{\link[scuttle]{downsampleMatrix}}
 }
+\keyword{internal}

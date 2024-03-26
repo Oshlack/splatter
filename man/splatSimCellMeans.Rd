@@ -28,3 +28,4 @@ each cell. Cells start with the mean expression for the group they belong to
 random position on the appropriate path (when simulating paths). The selected
 means are adjusted for each cell's expected library size.
 }
+\keyword{internal}

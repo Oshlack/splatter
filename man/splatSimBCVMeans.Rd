@@ -19,3 +19,4 @@ Simulate means for each gene in each cell that are adjusted to follow a
 mean-variance trend using Biological Coefficient of Variation taken from
 and inverse gamma distribution.
 }
+\keyword{internal}

@@ -21,3 +21,4 @@ data.frame of gene mean expression levels WITH eQTL effects.
 \description{
 Add conditional DE effects to means matrix
 }
+\keyword{internal}

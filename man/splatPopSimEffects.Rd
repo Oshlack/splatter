@@ -33,3 +33,4 @@ Where GEg is the group effect (i.e. differential expression) assigned to g.
 To simulate multiple gene mean matrices with different group effects, this
 function can be run with `id` designating the group id.
 }
+\keyword{internal}

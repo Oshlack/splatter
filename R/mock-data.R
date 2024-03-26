@@ -273,7 +273,6 @@ mockBulkeQTL <- function(n.genes = 500, seed = NULL) {
 #' empirical <- mockEmpiricalSet()
 #'
 #' @export
-#'
 mockEmpiricalSet <- function(n.genes = 20, n.snps = 1000, n.samples = 10,
                              chromosome = 1, chr.length = 2e6, seed = NULL) {
     mockGFF <- mockGFF(

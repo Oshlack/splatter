@@ -28,3 +28,4 @@ Parameters can be specified using a list via \code{update} (useful when
 collecting parameter values in some way) or individually (useful when setting
 them manually), see examples. THE FINAL OBJECT IS NOT CHECKED FOR VALIDITY!
 }
+\keyword{internal}

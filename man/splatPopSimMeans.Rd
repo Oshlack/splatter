@@ -22,3 +22,4 @@ from a normal distribution parameterized using the mean and cv assigned to
 each gene in the key. If gene means matrix is provided, those will be used
 instead.
 }
+\keyword{internal}

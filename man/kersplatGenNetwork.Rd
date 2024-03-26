@@ -22,3 +22,4 @@ Currently a very simple approach is used which needs to be improved. A
 network is generated using the \code{\link[igraph]{sample_forestfire}}
 function and edge weights are sampled from a standard normal distribution.
 }
+\keyword{internal}

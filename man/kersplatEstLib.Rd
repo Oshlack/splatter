@@ -26,3 +26,4 @@ methods are tried and the fit with the best Cramer-von Mises statistic is
 selected. The density of the library sizes is also estimated using
 \code{\link[stats]{density}}.
 }
+\keyword{internal}

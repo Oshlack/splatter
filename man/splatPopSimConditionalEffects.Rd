@@ -20,3 +20,4 @@ effects.
 \description{
 Add conditional DE effects to means matrix
 }
+\keyword{internal}

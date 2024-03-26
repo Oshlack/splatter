@@ -290,6 +290,8 @@ kersplatSample <- function(params, sparsify = TRUE, verbose = TRUE) {
 #' function and edge weights are sampled from a standard normal distribution.
 #'
 #' @return KersplatParams object with gene network
+#'
+#' @keywords internal
 kersplatGenNetwork <- function(params, verbose) {
     nGenes <- getParam(params, "nGenes")
     network.graph <- getParam(params, "network.graph")
@@ -329,6 +331,8 @@ kersplatGenNetwork <- function(params, verbose) {
 #' may be improved or replace in the future.
 #'
 #' @return KersplatParams object with gene regulators
+#'
+#' @keywords internal
 kersplatSelectRegs <- function(params, verbose) {
     network.regsSet <- getParam(params, "network.regsSet")
 
@@ -385,6 +389,8 @@ kersplatSelectRegs <- function(params, verbose) {
 #' statistical assumptions.
 #'
 #' @return KersplatParams object with gene means
+#'
+#' @keywords internal
 kersplatSimGeneMeans <- function(params, verbose) {
     mean.values <- getParam(params, "mean.values")
 
@@ -473,6 +479,8 @@ kersplatSimGeneMeans <- function(params, verbose) {
 #' Bioinformatics (2019). \url{https://doi.org/10.1093/bioinformatics/btz078}.
 #'
 #' @return KersplatParams object with path means
+#'
+#' @keywords internal
 kersplatSimPaths <- function(params, verbose) {
     paths.means <- getParam(params, "paths.means")
 
@@ -580,6 +588,8 @@ kersplatSimPaths <- function(params, verbose) {
 #' \code{ambient.scale} parameter.
 #'
 #' @return SingleCellExperiment with library sizes
+#'
+#' @keywords internal
 kersplatSimLibSizes <- function(sim, params, verbose) {
     if (verbose) {
         message("Simulating library sizes...")
@@ -672,6 +682,8 @@ kersplatSimLibSizes <- function(sim, params, verbose) {
 #' the means.
 #'
 #' @return SingleCellExperiment with cell means
+#'
+#' @keywords internal
 kersplatSimCellMeans <- function(sim, params, verbose) {
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
@@ -848,6 +860,8 @@ kersplatSimCellMeans <- function(sim, params, verbose) {
 #' cell means matrix.
 #'
 #' @return SingleCellExperiment with cell counts
+#'
+#' @keywords internal
 kersplatSimCellCounts <- function(sim, params, verbose) {
     if (verbose) {
         message("Simulating cell counts...")
@@ -887,6 +901,8 @@ kersplatSimCellCounts <- function(sim, params, verbose) {
 #' distribution using these means.
 #'
 #' @return SingleCellExperiment with ambient counts
+#'
+#' @keywords internal
 kersplatSimAmbientCounts <- function(sim, params, verbose) {
     if (verbose) {
         message("Simulating ambient counts...")
@@ -938,6 +954,8 @@ kersplatSimAmbientCounts <- function(sim, params, verbose) {
 #' @seealso \code{\link[scuttle]{downsampleMatrix}}
 #'
 #' @return SingleCellExperiment with counts matrix
+#'
+#' @keywords internal
 kersplatSimCounts <- function(sim, params, verbose) {
     if (verbose) {
         message("Simulating final counts...")
@@ -980,6 +998,8 @@ kersplatSimCounts <- function(sim, params, verbose) {
 #' @return Vector of probabilities
 #'
 #' @importFrom stats dbeta
+#'
+#' @noRd
 getBetaStepProbs <- function(steps, alpha, beta) {
     dens <- dbeta(seq(0, 1, length.out = steps), alpha, beta)
 
@@ -1017,6 +1037,8 @@ getBetaStepProbs <- function(steps, alpha, beta) {
 #' @return Vector of sampled values
 #'
 #' @importFrom stats approxfun
+#'
+#' @noRd
 sampleDensity <- function(n, dens, lower = 0) {
     xmin <- min(dens$x)
     xmax <- max(dens$x)

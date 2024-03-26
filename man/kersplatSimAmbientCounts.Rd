@@ -25,3 +25,4 @@ of the (non-empty) cells. This is then multiplied by the ambient library
 sizes to get a mean for each cell. Counts are then sampled from a Poisson
 distribution using these means.
 }
+\keyword{internal}

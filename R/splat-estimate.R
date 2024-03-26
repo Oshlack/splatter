@@ -81,6 +81,8 @@ splatEstimate.matrix <- function(counts, params = newSplatParams()) {
 #' and 90th percentiles.
 #'
 #' @return SplatParams object containing the estimated parameters.
+#'
+#' @keywords internal
 splatEstMean <- function(norm.counts, params) {
     means <- rowMeans(norm.counts)
     means <- means[means != 0]
@@ -124,6 +126,8 @@ splatEstMean <- function(norm.counts, params) {
 #' @return SplatParams object with estimated values.
 #'
 #' @importFrom stats shapiro.test
+#'
+#' @keywords internal
 splatEstLib <- function(counts, params) {
     lib.sizes <- colSums(counts)
 
@@ -184,6 +188,8 @@ splatEstLib <- function(counts, params) {
 #' scale parameters using \code{\link[fitdistrplus]{fitdist}}.
 #'
 #' @return SplatParams object with estimated values.
+#'
+#' @keywords internal
 splatEstOutlier <- function(norm.counts, params) {
     means <- rowMeans(norm.counts)
     lmeans <- log(means)
@@ -230,6 +236,8 @@ splatEstOutlier <- function(norm.counts, params) {
 #' apply a small correction, \code{disp = 0.1 + 0.25 * edgeR.disp}.
 #'
 #' @return SplatParams object with estimated values.
+#'
+#' @keywords internal
 splatEstBCV <- function(counts, params) {
     # Add dummy design matrix to avoid print statement
     design <- matrix(1, ncol(counts), 1)
@@ -277,6 +285,8 @@ splatEstBCV <- function(counts, params) {
 #' @return SplatParams object with estimated values.
 #'
 #' @importFrom stats dnbinom nls
+#'
+#' @keywords internal
 splatEstDropout <- function(norm.counts, params) {
     means <- rowMeans(norm.counts)
 

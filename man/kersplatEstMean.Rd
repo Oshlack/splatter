@@ -35,3 +35,4 @@ expression by the median mean expression. A log-normal distribution is then
 fitted to these factors in order to estimate the outlier factor location and
 scale parameters using the \code{\link[fitdistrplus]{fitdist}} MLE method.
 }
+\keyword{internal}

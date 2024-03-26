@@ -91,6 +91,8 @@ kersplatEstimate.matrix <- function(counts, params = newKersplatParams(),
 #' @return KersplatParams object with estimated means
 #'
 #' @importFrom stats density
+#'
+#' @keywords internal
 kersplatEstMean <- function(norm.counts, params, verbose) {
     if (verbose) {
         message("Estimating mean parameters...")
@@ -155,6 +157,8 @@ kersplatEstMean <- function(norm.counts, params, verbose) {
 #' applied instead.
 #'
 #' @return KersplatParams object with estimated BCV parameters
+#'
+#' @keywords internal
 kersplatEstBCV <- function(counts, params, verbose) {
     if (verbose) {
         message("Estimating BCV parameters...")
@@ -236,6 +240,8 @@ kersplatEstBCV <- function(counts, params, verbose) {
 #' @return KersplatParams object with library size parameters
 #'
 #' @importFrom stats density
+#'
+#' @keywords internal
 kersplatEstLib <- function(counts, params, verbose) {
     if (verbose) {
         message("Estimating library size parameters...")
@@ -275,6 +281,8 @@ kersplatEstLib <- function(counts, params, verbose) {
 #' smallest Cramer-von Mises statistic is selected.
 #'
 #' @return The selected fit object
+#'
+#' @noRd
 selectFit <- function(data, distr, weights = NULL, verbose = TRUE) {
     checkmate::assertNumeric(data, finite = TRUE, any.missing = FALSE)
     checkmate::assertString(distr)

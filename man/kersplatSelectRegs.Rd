@@ -22,3 +22,4 @@ Regulators are randomly selected, weighted according to the difference
 between their out degree and in degree. This is an arbitrary weighting and
 may be improved or replace in the future.
 }
+\keyword{internal}

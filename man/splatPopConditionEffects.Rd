@@ -21,3 +21,4 @@ The key updated with conditional eQTL and DE effects.
 If nConditions > 1, n eSNP-eGene pairs (n = 'eqtl.condition.specific') are
 randomly assigned as condition specific.
 }
+\keyword{internal}

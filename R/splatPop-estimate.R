@@ -74,6 +74,7 @@ splatPopEstimate <- function(counts = NULL, means = NULL, eqtl = NULL,
 #'
 #' @return params object with estimated values.
 #'
+#' @keywords internal
 splatPopEstimateEffectSize <- function(params, eqtl) {
     # Test input eSNP-eGene pairs
     if (!("gene_id" %in% names(eqtl) &
@@ -125,10 +126,12 @@ splatPopEstimateEffectSize <- function(params, eqtl) {
 #' distribution.
 #'
 #' @return params object with estimated values.
+#'
 #' @importFrom stats quantile
 #' @importFrom grDevices boxplot.stats
 #' @importFrom matrixStats rowMedians
 #'
+#' @keywords internal
 splatPopEstimateMeanCV <- function(params, emp.gene.means) {
     # Test input gene means
     if ((anyNA(emp.gene.means) | !(validObject(rowSums(emp.gene.means))))) {

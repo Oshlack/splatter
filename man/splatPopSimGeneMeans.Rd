@@ -23,3 +23,4 @@ Simulate outlier expression factors for splatPop. Genes with an outlier
 factor not equal to 1 are replaced with the median mean expression
 multiplied by the outlier factor.
 }
+\keyword{internal}

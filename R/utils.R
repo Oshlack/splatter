@@ -7,6 +7,8 @@
 #' @param k shape parameter. Gives the slope of the function.
 #'
 #' @return Value of logistic function with given parameters
+#'
+#' @noRd
 logistic <- function(x, x0, k) {
     1 / (1 + exp(-k * (x - x0)))
 }
@@ -21,6 +23,8 @@ logistic <- function(x, x0, k) {
 #'
 #' @return data.frame containing rows from \code{df1} and \code{df2} but only
 #'         common columns.
+#'
+#' @noRd
 rbindMatched <- function(df1, df2) {
     common.names <- intersect(colnames(df1), colnames(df2))
     if (length(common.names) < 2) {
@@ -40,6 +44,8 @@ rbindMatched <- function(df1, df2) {
 #'        be ignored.
 #'
 #' @return list with selected items first
+#'
+#' @noRd
 bringItemsForward <- function(ll, items) {
     checkmate::check_list(ll, min.len = 1, names = "unique")
     checkmate::check_character(
@@ -67,6 +73,8 @@ bringItemsForward <- function(ll, items) {
 #' @param q Percentile to set from each end
 #'
 #' @return Winsorized numeric vector
+#'
+#' @noRd
 winsorize <- function(x, q) {
     checkmate::check_numeric(x, any.missing = FALSE)
     checkmate::check_number(q, lower = 0, upper = 1)
@@ -91,6 +99,8 @@ winsorize <- function(x, q) {
 #'
 #' @return Value of coefficient of variation for vector
 #' @importFrom stats sd
+#'
+#' @noRd
 co.var <- function(x) {
     sd(x) / mean(x)
 }
@@ -106,6 +116,8 @@ co.var <- function(x) {
 #' @return TRUE invisibly if successful
 #'
 #' @importFrom utils askYesNo install.packages
+#'
+#' @noRd
 checkDependencies <- function(sim.prefix = NULL, deps = NULL) {
     if (is.null(sim.prefix) && is.null(deps)) {
         stop("One of 'sim.prefix' or 'deps' must be provided")

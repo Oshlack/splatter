@@ -87,7 +87,6 @@ setValidity("SplatPopParams", function(object) {
 })
 
 
-
 #' @rdname setParam
 setMethod("setParam", "SplatPopParams", function(object, name, value) {
     checkmate::assertString(name)
