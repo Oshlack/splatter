@@ -41,10 +41,11 @@ rbindMatched <- function(df1, df2) {
 #'
 #' @return list with selected items first
 bringItemsForward <- function(ll, items) {
-
     checkmate::check_list(ll, min.len = 1, names = "unique")
-    checkmate::check_character(items, any.missing = FALSE, min.len = 1,
-                               unique = TRUE)
+    checkmate::check_character(
+        items,
+        any.missing = FALSE, min.len = 1, unique = TRUE
+    )
 
     items <- items[items %in% names(ll)]
 
@@ -67,13 +68,14 @@ bringItemsForward <- function(ll, items) {
 #'
 #' @return Winsorized numeric vector
 winsorize <- function(x, q) {
-
     checkmate::check_numeric(x, any.missing = FALSE)
     checkmate::check_number(q, lower = 0, upper = 1)
 
     lohi <- stats::quantile(x, c(q, 1 - q), na.rm = TRUE)
 
-    if (diff(lohi) < 0) { lohi <- rev(lohi) }
+    if (diff(lohi) < 0) {
+        lohi <- rev(lohi)
+    }
 
     x[!is.na(x) & x < lohi[1]] <- lohi[1]
     x[!is.na(x) & x > lohi[2]] <- lohi[2]
@@ -105,7 +107,6 @@ co.var <- function(x) {
 #'
 #' @importFrom utils askYesNo install.packages
 checkDependencies <- function(sim.prefix = NULL, deps = NULL) {
-
     if (is.null(sim.prefix) && is.null(deps)) {
         stop("One of 'sim.prefix' or 'deps' must be provided")
     }
@@ -129,8 +130,10 @@ checkDependencies <- function(sim.prefix = NULL, deps = NULL) {
         return(invisible(TRUE))
     }
 
-    message("The following dependencies for this function are not available: ",
-            paste("'", deps[!deps.available], "'", collapse = ", ", sep = ""))
+    message(
+        "The following dependencies for this function are not available: ",
+        paste("'", deps[!deps.available], "'", collapse = ", ", sep = "")
+    )
 
     install <- askYesNo("Do you want to install these packages?")
 
@@ -139,7 +142,9 @@ checkDependencies <- function(sim.prefix = NULL, deps = NULL) {
     }
 
     if (!requireNamespace("BiocManager", quietly = TRUE)) {
-        message("'BiocManager' is not installed and is required for installation")
+        message(
+            "'BiocManager' is not installed and is required for installation"
+        )
         install.bioc <- askYesNo("Do you want to install 'BiocManager'?")
 
         if (install.bioc) {

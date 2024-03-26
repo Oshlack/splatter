@@ -27,14 +27,11 @@
 #' @importFrom SingleCellExperiment SingleCellExperiment
 simpleSimulate <- function(params = newSimpleParams(), sparsify = TRUE,
                            verbose = TRUE, ...) {
-
     checkmate::assertClass(params, "SimpleParams")
     params <- setParams(params, ...)
 
     # Set random seed
     seed <- getParam(params, "seed")
-    withr::with_seed(seed, {
-
     # Get the parameters we are going to use
     nCells <- getParam(params, "nCells")
     nGenes <- getParam(params, "nGenes")
@@ -42,16 +39,27 @@ simpleSimulate <- function(params = newSimpleParams(), sparsify = TRUE,
     mean.rate <- getParam(params, "mean.rate")
     count.disp <- getParam(params, "count.disp")
 
-    if (verbose) {message("Simulating means...")}
-    means <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
+    withr::with_seed(seed, {
+        if (verbose) {
+            message("Simulating means...")
+        }
+        means <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
 
-    if (verbose) {message("Simulating counts...")}
-    counts <- matrix(rnbinom(
-            as.numeric(nGenes) * as.numeric(nCells),
-            mu = means, size = 1 / count.disp),
-    nrow = nGenes, ncol = nCells)
+        if (verbose) {
+            message("Simulating counts...")
+        }
+        counts <- matrix(
+            rnbinom(
+                as.numeric(nGenes) * as.numeric(nCells),
+                mu = means, size = 1 / count.disp
+            ),
+            nrow = nGenes, ncol = nCells
+        )
+    })
 
-    if (verbose) {message("Creating final dataset...")}
+    if (verbose) {
+        message("Creating final dataset...")
+    }
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
 
@@ -62,17 +70,23 @@ simpleSimulate <- function(params = newSimpleParams(), sparsify = TRUE,
     features <- data.frame(Gene = gene.names, GeneMean = means)
     rownames(features) <- gene.names
 
-    sim <- SingleCellExperiment(assays = list(counts = counts),
-                                rowData = features,
-                                colData = cells,
-                                metadata = list(Params = params))
+    sim <- SingleCellExperiment(
+        assays = list(counts = counts),
+        rowData = features,
+        colData = cells,
+        metadata = list(Params = params)
+    )
 
     if (sparsify) {
-        if (verbose) {message("Sparsifying assays...")}
-        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
-                                        verbose = verbose)
+        if (verbose) {
+            message("Sparsifying assays...")
+        }
+        assays(sim) <- sparsifyMatrices(
+            assays(sim),
+            auto = TRUE,
+            verbose = verbose
+        )
     }
-    })
 
     return(sim)
 }

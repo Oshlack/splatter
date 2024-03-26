@@ -57,8 +57,10 @@ zinbEstimate.SingleCellExperiment <- function(counts, design.samples = NULL,
                                               verbose = TRUE,
                                               BPPARAM = SerialParam(), ...) {
     counts <- getCounts(counts)
-    zinbEstimate(counts, design.samples, design.genes, common.disp,
-                 iter.init, iter.opt, stop.opt, params, verbose, BPPARAM, ...)
+    zinbEstimate(
+        counts, design.samples, design.genes, common.disp,
+        iter.init, iter.opt, stop.opt, params, verbose, BPPARAM, ...
+    )
 }
 
 #' @rdname zinbEstimate
@@ -68,19 +70,22 @@ zinbEstimate.matrix <- function(counts, design.samples = NULL,
                                 iter.init = 2, iter.opt = 25, stop.opt = 1e-04,
                                 params = newZINBParams(), verbose = TRUE,
                                 BPPARAM = SerialParam(), ...) {
-
     checkmate::assertClass(params, "ZINBParams")
 
-    if (verbose) {message("Removing all zero genes...")}
+    if (verbose) {
+        message("Removing all zero genes...")
+    }
     counts <- counts[rowSums(counts) > 0, ]
 
-    args.list <- list(Y = counts,
-                      commondispersion = common.disp,
-                      verbose = verbose,
-                      nb.repeat.initialize = iter.init,
-                      maxiter.optimize = iter.opt,
-                      stop.epsilon.optimize = stop.opt,
-                      BPPARAM = BPPARAM)
+    args.list <- list(
+        Y = counts,
+        commondispersion = common.disp,
+        verbose = verbose,
+        nb.repeat.initialize = iter.init,
+        maxiter.optimize = iter.opt,
+        stop.epsilon.optimize = stop.opt,
+        BPPARAM = BPPARAM
+    )
 
     if (!is.null(design.samples)) {
         args.list$X <- design.samples
@@ -92,7 +97,9 @@ zinbEstimate.matrix <- function(counts, design.samples = NULL,
 
     args.list <- c(args.list, list(...))
 
-    if (verbose) {message("Fitting model...")}
+    if (verbose) {
+        message("Fitting model...")
+    }
     model <- do.call(zinbwave::zinbFit, args.list)
 
     params <- setParams(params, model = model)

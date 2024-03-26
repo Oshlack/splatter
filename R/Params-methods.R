@@ -33,7 +33,6 @@ setMethod("setParamUnchecked", "Params", function(object, name, value) {
 
 #' @rdname setParams
 setMethod("setParams", "Params", function(object, update = NULL, ...) {
-
     checkmate::assertClass(object, classes = "Params")
     checkmate::assertList(update, null.ok = TRUE)
 
@@ -51,25 +50,31 @@ setMethod("setParams", "Params", function(object, update = NULL, ...) {
 
 #' @importFrom methods slotNames
 setMethod("show", "Params", function(object) {
+    pp <- list("Global:" = c(
+        "(Genes)" = "nGenes",
+        "(Cells)" = "nCells",
+        "[Seed]" = "seed"
+    ))
 
-    pp <- list("Global:" = c("(Genes)" = "nGenes",
-                             "(Cells)" = "nCells",
-                             "[Seed]"  = "seed"))
-
-    cat("A", crayon::bold("Params"), "object of class",
-        crayon::bold(class(object)), "\n")
-    cat("Parameters can be (estimable) or",
+    cat(
+        "A", crayon::bold("Params"), "object of class",
+        crayon::bold(class(object)), "\n"
+    )
+    cat(
+        "Parameters can be (estimable) or",
         paste0(crayon::blue("[not estimable]"), ","),
-        "'Default' or ", crayon::bold(crayon::green("'NOT DEFAULT'")), "\n")
-    cat(crayon::bgYellow(crayon::black("Secondary")), "parameters are usually",
-        "set during simulation\n\n")
+        "'Default' or ", crayon::bold(crayon::green("'NOT DEFAULT'")), "\n"
+    )
+    cat(
+        crayon::bgYellow(crayon::black("Secondary")), "parameters are usually",
+        "set during simulation\n\n"
+    )
     showPP(object, pp)
     cat(length(slotNames(object)) - 3, "additional parameters", "\n\n")
 })
 
 #' @rdname expandParams
 setMethod("expandParams", "Params", function(object, vectors, n) {
-
     object <- paramsExpander(object, vectors, n)
 
     return(object)

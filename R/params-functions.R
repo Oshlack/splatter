@@ -11,7 +11,6 @@
 #' getParams(params, c("nGenes", "nCells", "mean.rate"))
 #' @export
 getParams <- function(params, names) {
-
     checkmate::assertClass(params, classes = "Params")
     checkmate::assertCharacter(names, min.len = 1, any.missing = FALSE)
 
@@ -40,7 +39,6 @@ getParams <- function(params, names) {
 #'
 #' @return Params object with updated values.
 setParamsUnchecked <- function(params, update = NULL, ...) {
-
     checkmate::assertClass(params, classes = "Params")
     checkmate::assertList(update, null.ok = TRUE)
 
@@ -65,7 +63,6 @@ setParamsUnchecked <- function(params, update = NULL, ...) {
 #'
 #' @return Print params object to console
 showPP <- function(params, pp) {
-
     checkmate::assertClass(params, classes = "Params")
     checkmate::assertList(pp, types = "character", min.len = 1)
 
@@ -107,10 +104,12 @@ showPP <- function(params, pp) {
 #'
 #' @importFrom utils head
 showValues <- function(values, not.default) {
-
     checkmate::check_list(values, any.missing = FALSE, min.len = 1)
-    checkmate::check_logical(not.default, any.missing = FALSE,
-                             len = length(values))
+    checkmate::check_logical(
+        not.default,
+        any.missing = FALSE,
+        len = length(values)
+    )
 
     short.values <- vapply(values, function(x) {
         if (is.list(x)) {
@@ -152,8 +151,10 @@ showValues <- function(values, not.default) {
 
     names(short.values) <- short.names
 
-    values.list <- split(short.values,
-                         ceiling(seq_along(short.values) / items.per.line))
+    values.list <- split(
+        short.values,
+        ceiling(seq_along(short.values) / items.per.line)
+    )
 
     for (line in values.list) {
         cat(paste(names(line), collapse = "  "), "\n")
@@ -172,11 +173,17 @@ showValues <- function(values, not.default) {
 #'
 #' @importFrom utils head
 showDFs <- function(dfs, not.default) {
-
-    checkmate::check_list(dfs, types = "data.frame", any.missing = FALSE,
-                          min.len = 1)
-    checkmate::check_logical(not.default, any.missing = FALSE,
-                             len = length(dfs))
+    checkmate::check_list(
+        dfs,
+        types = "data.frame",
+        any.missing = FALSE,
+        min.len = 1
+    )
+    checkmate::check_logical(
+        not.default,
+        any.missing = FALSE,
+        len = length(dfs)
+    )
 
     names(dfs)[not.default] <- toupper(names(dfs)[not.default])
 
@@ -188,8 +195,10 @@ showDFs <- function(dfs, not.default) {
         df <- dfs[[i]]
         name <- names(dfs)[i]
 
-        msg <- paste0("data.frame (", nrow(df), " x ", ncol(df),
-                      ") with columns: ", paste(colnames(df), collapse = ", "))
+        msg <- paste0(
+            "data.frame (", nrow(df), " x ", ncol(df), ") with columns: ",
+            paste(colnames(df), collapse = ", ")
+        )
 
         if (not.default[i]) {
             msg <- crayon::bold(crayon::green(msg))
@@ -206,7 +215,6 @@ showDFs <- function(dfs, not.default) {
 
 #' @rdname expandParams
 paramsExpander <- function(object, vectors, n) {
-
     update <- list()
 
     for (parameter in vectors) {

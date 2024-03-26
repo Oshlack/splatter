@@ -10,13 +10,15 @@ test_that("compareSCEs works", {
 
     expect_length(comparison, 3)
     expect_true(all(c("RowData", "ColData", "Plots") %in%
-                        names(comparison)))
+        names(comparison)))
     checkmate::expect_class(comparison$ColData, "data.frame")
     checkmate::expect_class(comparison$RowData, "data.frame")
     expect_length(comparison$Plots, 8)
-    expect_true(all(c("Means", "Variances", "MeanVar", "LibrarySizes",
-                      "ZerosGene", "ZerosCell", "MeanZeros", "VarGeneCor") %in%
-                        names(comparison$Plots)))
+    expect_true(all(c(
+        "Means", "Variances", "MeanVar", "LibrarySizes",
+        "ZerosGene", "ZerosCell", "MeanZeros", "VarGeneCor"
+    ) %in%
+        names(comparison$Plots)))
     for (plot in names(comparison$Plots)) {
         checkmate::expect_class(comparison$Plots[[plot]], "ggplot")
     }
@@ -28,21 +30,27 @@ test_that("diffSCEs works", {
     difference <- diffSCEs(list(Splat = sim1, Simple = sim2), ref = "Simple")
 
     expect_length(difference, 5)
-    expect_true(all(c("Reference", "RowData", "ColData", "Plots",
-                      "QQPlots") %in% names(difference)))
+    expect_true(all(c(
+        "Reference", "RowData", "ColData", "Plots",
+        "QQPlots"
+    ) %in% names(difference)))
     checkmate::expect_class(difference$Reference, "SingleCellExperiment")
     checkmate::expect_class(difference$ColData, "data.frame")
     checkmate::expect_class(difference$RowData, "data.frame")
     expect_length(difference$Plots, 7)
-    expect_true(all(c("Means", "Variances", "MeanVar", "LibrarySizes",
-                      "ZerosGene", "ZerosCell", "MeanZeros") %in%
-                        names(difference$Plots)))
+    expect_true(all(c(
+        "Means", "Variances", "MeanVar", "LibrarySizes",
+        "ZerosGene", "ZerosCell", "MeanZeros"
+    ) %in%
+        names(difference$Plots)))
     for (plot in names(difference$Plots)) {
         checkmate::expect_class(difference$Plots[[plot]], "ggplot")
     }
     expect_length(difference$QQPlots, 5)
-    expect_true(all(c("Means", "Variances", "LibrarySizes", "ZerosGene",
-                      "ZerosCell") %in% names(difference$QQPlots)))
+    expect_true(all(c(
+        "Means", "Variances", "LibrarySizes", "ZerosGene",
+        "ZerosCell"
+    ) %in% names(difference$QQPlots)))
     for (plot in names(difference$QQPlots)) {
         checkmate::expect_class(difference$QQPlots[[plot]], "ggplot")
     }

@@ -40,7 +40,6 @@ simpleEstimate.SingleCellExperiment <- function(counts,
 #' @importFrom stats median
 #' @export
 simpleEstimate.matrix <- function(counts, params = newSimpleParams()) {
-
     checkmate::assertClass(params, "SimpleParams")
 
     # Normalise for library size and remove all zero genes
@@ -53,9 +52,13 @@ simpleEstimate.matrix <- function(counts, params = newSimpleParams()) {
 
     means.fit <- fitdistrplus::fitdist(means, "gamma", method = "mme")
 
-    params <- setParams(params, nGenes = nrow(counts), nCells = ncol(counts),
-                        mean.shape = unname(means.fit$estimate["shape"]),
-                        mean.rate = unname(means.fit$estimate["rate"]))
+    params <- setParams(
+        params,
+        nGenes = nrow(counts),
+        nCells = ncol(counts),
+        mean.shape = unname(means.fit$estimate["shape"]),
+        mean.rate = unname(means.fit$estimate["rate"])
+    )
 
     return(params)
 }

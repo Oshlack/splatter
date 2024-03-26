@@ -40,8 +40,11 @@ BiocManager::install("splatter")
 To install the most recent development version from Github use:
 
 ```{r install-github, eval = FALSE}
-BiocManager::install("Oshlack/splatter", dependencies = TRUE,
-                     build_vignettes = TRUE)
+BiocManager::install(
+    "Oshlack/splatter",
+    dependencies = TRUE,
+    build_vignettes = TRUE
+)
 ```
 
 # Quickstart
@@ -53,8 +56,8 @@ Splatter. Here is an example a mock dataset generated with the `scater` package:
 ```{r quickstart}
 # Load package
 suppressPackageStartupMessages({
-  library(splatter)
-  library(scater)
+    library(splatter)
+    library(scater)
 })
 
 # Create mock data
@@ -290,8 +293,11 @@ setting the `method` parameter to `"groups"`:
 printing progress messages.)
 
 ```{r groups}
-sim.groups <- splatSimulate(group.prob = c(0.5, 0.5), method = "groups",
-                            verbose = FALSE)
+sim.groups <- splatSimulate(
+    group.prob = c(0.5, 0.5),
+    method = "groups",
+    verbose = FALSE
+)
 sim.groups <- logNormCounts(sim.groups)
 sim.groups <- runPCA(sim.groups)
 plotPCA(sim.groups, colour_by = "Group")
@@ -311,8 +317,12 @@ cell to a step. We can create this kind of simulation using the `"paths"`
 method.
 
 ```{r paths}
-sim.paths <- splatSimulate(de.prob = 0.2, nGenes = 1000, method = "paths",
-                           verbose = FALSE)
+sim.paths <- splatSimulate(
+    de.prob = 0.2,
+    nGenes = 1000,
+    method = "paths",
+    verbose = FALSE
+)
 sim.paths <- logNormCounts(sim.paths)
 sim.paths <- runPCA(sim.paths)
 plotPCA(sim.paths, colour_by = "Step")
@@ -349,8 +359,12 @@ that we aren't interested in (batch) and the wanted variation we are looking for
 (group):
 
 ```{r batch-groups}
-sim.groups <- splatSimulate(batchCells = c(50, 50), group.prob = c(0.5, 0.5),
-                            method = "groups", verbose = FALSE)
+sim.groups <- splatSimulate(
+    batchCells = c(50, 50),
+    group.prob = c(0.5, 0.5),
+    method = "groups",
+    verbose = FALSE
+)
 sim.groups <- logNormCounts(sim.groups)
 sim.groups <- runPCA(sim.groups)
 plotPCA(sim.groups, shape_by = "Batch", colour_by = "Group")
@@ -451,8 +465,11 @@ Giving a character will keep only columns/items with those names or you can use
 `TRUE` to keep everything in that slot.
 
 ```{r minimise-keep}
-minimiseSCE(sim, rowData.keep = "Gene", colData.keep = c("Cell", "Batch"),
-            metadata.keep = TRUE)
+minimiseSCE(sim,
+    rowData.keep = "Gene",
+    colData.keep = c("Cell", "Batch"),
+    metadata.keep = TRUE
+)
 ```
 
 # Comparing simulations and real data

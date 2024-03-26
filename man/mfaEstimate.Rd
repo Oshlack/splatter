@@ -34,8 +34,10 @@ details on the parameters.
 # Load example data
 if (requireNamespace("mfa", quietly = TRUE)) {
     library(mfa)
-    synth <- create_synthetic(C = 20, G = 5, zero_negative = TRUE,
-                              model_dropout = TRUE)
+    synth <- create_synthetic(
+        C = 20, G = 5, zero_negative = TRUE,
+        model_dropout = TRUE
+    )
 
     params <- mfaEstimate(synth$X)
     params

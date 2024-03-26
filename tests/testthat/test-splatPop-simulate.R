@@ -20,9 +20,11 @@ test_that("splatPopSimulate output is valid and works", {
     expect_false(any(is.na(pop$means)))
     expect_false(any(sapply(pop$means, is.infinite)))
     expect_equal(ncol(pop$means), n.samples)
-    expect_true(validObject(splatPopSimulateSC(sim.means = pop$means,
-                                               key = pop$key,
-                                               params = params)))
+    expect_true(validObject(splatPopSimulateSC(
+        sim.means = pop$means,
+        key = pop$key,
+        params = params
+    )))
 })
 
 test_that("splatPopSimulate on multiple groups output is valid and works", {
@@ -31,7 +33,6 @@ test_that("splatPopSimulate on multiple groups output is valid and works", {
     params.g2 <- setParams(params, group.prob = c(0.5, 0.5), nGenes = n.genes)
     eqtl <- splatPopSimulate(params = params.g2, vcf = vcf)
     expect_true(validObject(eqtl))
-
 })
 
 test_that("splatPopSimulate can read genes from gff data.frame", {
@@ -44,10 +45,12 @@ test_that("splatPopSimulate can read genes from gff data.frame", {
 test_that("splatPopSimulate can simulate from empirical data directly", {
     skip_if_not_installed("VariantAnnotation")
     skip_if_not_installed("preprocessCore")
-    emp <- mockEmpiricalSet(seed=1)
+    emp <- mockEmpiricalSet(seed = 1)
 
-    sim <- splatPopSimulateMeans(vcf = emp$vcf, gff = emp$gff, eqtl = emp$eqtl,
-                                 means = emp$means)
+    sim <- splatPopSimulateMeans(
+        vcf = emp$vcf, gff = emp$gff, eqtl = emp$eqtl,
+        means = emp$means
+    )
 
     expect_true(validObject(sim))
 })
@@ -56,8 +59,10 @@ test_that("splatPopSimulate with nCells.sample gives different cell counts", {
     skip_if_not_installed("VariantAnnotation")
     skip_if_not_installed("preprocessCore")
 
-    params.nCells <- newSplatPopParams(nCells.sample = TRUE, nCells.shape = 1.5,
-                                       nCells.rate = 0.01)
+    params.nCells <- newSplatPopParams(
+        nCells.sample = TRUE, nCells.shape = 1.5,
+        nCells.rate = 0.01
+    )
 
     sim <- splatPopSimulate(vcf = vcf, gff = gff, params = params.nCells)
     cell.counts <- table(colData(sim)$Sample)
@@ -69,10 +74,14 @@ test_that("splatPopSimulate seeds are reproducible", {
     skip_if_not_installed("VariantAnnotation")
     skip_if_not_installed("preprocessCore")
 
-    sim1 <- splatPopSimulate(vcf = vcf, gff = gff, params = params,
-                             batchCells = c(50, 50))
-    sim2 <- splatPopSimulate(vcf = vcf, gff = gff, params = params,
-                             batchCells = c(50, 50))
+    sim1 <- splatPopSimulate(
+        vcf = vcf, gff = gff, params = params,
+        batchCells = c(50, 50)
+    )
+    sim2 <- splatPopSimulate(
+        vcf = vcf, gff = gff, params = params,
+        batchCells = c(50, 50)
+    )
 
     expect_identical(sim1, sim2)
 })

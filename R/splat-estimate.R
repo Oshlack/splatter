@@ -40,7 +40,6 @@ splatEstimate.SingleCellExperiment <- function(counts,
 #' @importFrom stats median
 #' @export
 splatEstimate.matrix <- function(counts, params = newSplatParams()) {
-
     checkmate::assertClass(params, "SplatParams")
 
     # Normalise for library size and remove all zero genes
@@ -55,8 +54,11 @@ splatEstimate.matrix <- function(counts, params = newSplatParams()) {
     params <- splatEstBCV(counts, params)
     params <- splatEstDropout(norm.counts, params)
 
-    params <- setParams(params, nGenes = nrow(counts),
-                        batchCells = ncol(counts))
+    params <- setParams(
+        params,
+        nGenes = nrow(counts),
+        batchCells = ncol(counts)
+    )
 
     return(params)
 }
@@ -80,22 +82,30 @@ splatEstimate.matrix <- function(counts, params = newSplatParams()) {
 #'
 #' @return SplatParams object containing the estimated parameters.
 splatEstMean <- function(norm.counts, params) {
-
     means <- rowMeans(norm.counts)
     means <- means[means != 0]
 
     means <- winsorize(means, q = 0.1)
 
-    fit <- fitdistrplus::fitdist(means, "gamma", method = "mge",
-                                 gof = "CvM")
+    fit <- fitdistrplus::fitdist(
+        means,
+        "gamma",
+        method = "mge",
+        gof = "CvM"
+    )
     if (fit$convergence > 0) {
-        warning("Fitting means using the Goodness of Fit method failed, ",
-                "using the Method of Moments instead")
+        warning(
+            "Fitting means using the Goodness of Fit method failed, ",
+            "using the Method of Moments instead"
+        )
         fit <- fitdistrplus::fitdist(means, "gamma", method = "mme")
     }
 
-    params <- setParams(params, mean.shape = unname(fit$estimate["shape"]),
-                        mean.rate = unname(fit$estimate["rate"]))
+    params <- setParams(
+        params,
+        mean.shape = unname(fit$estimate["shape"]),
+        mean.rate = unname(fit$estimate["rate"])
+    )
 
     return(params)
 }
@@ -115,12 +125,13 @@ splatEstMean <- function(norm.counts, params) {
 #'
 #' @importFrom stats shapiro.test
 splatEstLib <- function(counts, params) {
-
     lib.sizes <- colSums(counts)
 
     if (length(lib.sizes) > 5000) {
-        message("NOTE: More than 5000 cells provided. ",
-                "5000 sampled library sizes will be used to test normality.")
+        message(
+            "NOTE: More than 5000 cells provided. ",
+            "5000 sampled library sizes will be used to test normality."
+        )
         lib.sizes.sampled <- sample(lib.sizes, 5000, replace = FALSE)
     } else {
         lib.sizes.sampled <- lib.sizes
@@ -133,17 +144,23 @@ splatEstLib <- function(counts, params) {
         fit <- fitdistrplus::fitdist(lib.sizes, "norm")
         lib.loc <- unname(fit$estimate["mean"])
         lib.scale <- unname(fit$estimate["sd"])
-        message("NOTE: Library sizes have been found to be normally ",
-                "distributed instead of log-normal. You may want to check ",
-                "this is correct.")
+        message(
+            "NOTE: Library sizes have been found to be normally ",
+            "distributed instead of log-normal. You may want to check ",
+            "this is correct."
+        )
     } else {
         fit <- fitdistrplus::fitdist(lib.sizes, "lnorm")
         lib.loc <- unname(fit$estimate["meanlog"])
         lib.scale <- unname(fit$estimate["sdlog"])
     }
 
-    params <- setParams(params, lib.loc = lib.loc, lib.scale = lib.scale,
-                        lib.norm = lib.norm)
+    params <- setParams(
+        params,
+        lib.loc = lib.loc,
+        lib.scale = lib.scale,
+        lib.norm = lib.norm
+    )
 
     return(params)
 }
@@ -168,7 +185,6 @@ splatEstLib <- function(counts, params) {
 #'
 #' @return SplatParams object with estimated values.
 splatEstOutlier <- function(norm.counts, params) {
-
     means <- rowMeans(norm.counts)
     lmeans <- log(means)
 
@@ -187,9 +203,11 @@ splatEstOutlier <- function(norm.counts, params) {
         facs <- means[outs] / median(means)
         fit <- fitdistrplus::fitdist(facs, "lnorm")
 
-        params <- setParams(params,
-                            out.facLoc = unname(fit$estimate["meanlog"]),
-                            out.facScale = unname(fit$estimate["sdlog"]))
+        params <- setParams(
+            params,
+            out.facLoc = unname(fit$estimate["meanlog"]),
+            out.facScale = unname(fit$estimate["sdlog"])
+        )
     }
 
     return(params)
@@ -213,14 +231,15 @@ splatEstOutlier <- function(norm.counts, params) {
 #'
 #' @return SplatParams object with estimated values.
 splatEstBCV <- function(counts, params) {
-
     # Add dummy design matrix to avoid print statement
     design <- matrix(1, ncol(counts), 1)
     disps <- edgeR::estimateDisp(counts, design = design)
 
-    params <- setParams(params,
-                        bcv.common = 0.1 + 0.25 * disps$common.dispersion,
-                        bcv.df = disps$prior.df)
+    params <- setParams(
+        params,
+        bcv.common = 0.1 + 0.25 * disps$common.dispersion,
+        bcv.df = disps$prior.df
+    )
 
     return(params)
 }
@@ -259,7 +278,6 @@ splatEstBCV <- function(counts, params) {
 #'
 #' @importFrom stats dnbinom nls
 splatEstDropout <- function(norm.counts, params) {
-
     means <- rowMeans(norm.counts)
 
     x <- log(means)
@@ -275,27 +293,46 @@ splatEstDropout <- function(norm.counts, params) {
     # https://github.com/broadinstitute/infercnv/blob/master/R/SplatterScrape.R
     x0_approx <- median(x[which(y > 0.2 & y < 0.8)])
 
-    fit <- tryCatch({
-        nls(y ~ logistic(x, x0 = x0, k = k), data = df,
-            start = list(x0 = x0_approx, k = -1))
-    },
-    error = function(err) {
-        warning("Fitting dropout using the Gauss-Newton method failed, ",
-                "using the Golub-Pereyra algorithm instead")
-        tryCatch({
-            nls(y ~ logistic(x, x0 = x0, k = k), data = df,
-                start = list(x0 = x0_approx, k = -1), algorithm = "plinear")
+    fit <- tryCatch(
+        {
+            nls(
+                y ~ logistic(x, x0 = x0, k = k),
+                data = df,
+                start = list(x0 = x0_approx, k = -1)
+            )
         },
         error = function(err) {
-            warning("Fitting dropout using the Golub-Pereyra method failed, ",
-                    "using the nl2sol algorithm instead")
-            nls(y ~ logistic(x, x0 = x0, k = k), data = df,
-                start = list(x0 = x0_approx, k = -1), algorithm = "port")
-        })
-    })
+            warning(
+                "Fitting dropout using the Gauss-Newton method failed, ",
+                "using the Golub-Pereyra algorithm instead"
+            )
+            tryCatch(
+                {
+                    nls(
+                        y ~ logistic(x, x0 = x0, k = k),
+                        data = df,
+                        start = list(x0 = x0_approx, k = -1),
+                        algorithm = "plinear"
+                    )
+                },
+                error = function(err) {
+                    warning(
+                        "Fitting dropout using the Golub-Pereyra method ",
+                        "failed, using the nl2sol algorithm instead"
+                    )
+                    nls(
+                        y ~ logistic(x, x0 = x0, k = k),
+                        data = df,
+                        start = list(x0 = x0_approx, k = -1),
+                        algorithm = "port"
+                    )
+                }
+            )
+        }
+    )
 
-    #exp.zeros <- dnbinom(0, mu = means, size = 1 / 0.1) * ncol(norm.counts)
-    #present <- max(obs.zeros - exp.zeros) > 0.1 * ncol(norm.counts)
+    # exp.zeros <- dnbinom(0, mu = means, size = 1 / 0.1) * ncol(norm.counts)
+    # present <- max(obs.zeros - exp.zeros) > 0.1 * ncol(norm.counts)
 
     mid <- summary(fit)$coefficients["x0", "Estimate"]
     shape <- summary(fit)$coefficients["k", "Estimate"]

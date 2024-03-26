@@ -40,7 +40,6 @@
 #' @importFrom SingleCellExperiment SingleCellExperiment
 zinbSimulate <- function(params = newZINBParams(), sparsify = TRUE,
                          verbose = TRUE, ...) {
-
     checkmate::assertClass(params, "ZINBParams")
     params <- setParams(params, ...)
 
@@ -50,10 +49,14 @@ zinbSimulate <- function(params = newZINBParams(), sparsify = TRUE,
     model <- getParam(params, "model")
     seed <- getParam(params, "seed")
 
-    if (verbose) {message("Simulating counts...")}
+    if (verbose) {
+        message("Simulating counts...")
+    }
     zinb.sim <- zinbwave::zinbSim(model, seed)
 
-    if (verbose) {message("Creating final dataset...")}
+    if (verbose) {
+        message("Creating final dataset...")
+    }
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
 
@@ -68,17 +71,26 @@ zinbSimulate <- function(params = newZINBParams(), sparsify = TRUE,
     features <- data.frame(Gene = gene.names)
     rownames(features) <- gene.names
 
-    sim <- SingleCellExperiment(assays = list(counts = zinb.sim$counts,
-                                              TrueCounts = zinb.sim$dataNB,
-                                              Dropouts = zinb.sim$dataDropouts),
-                                rowData = features,
-                                colData = cells,
-                                metadata = list(Params = params))
+    sim <- SingleCellExperiment(
+        assays = list(
+            counts = zinb.sim$counts,
+            TrueCounts = zinb.sim$dataNB,
+            Dropouts = zinb.sim$dataDropouts
+        ),
+        rowData = features,
+        colData = cells,
+        metadata = list(Params = params)
+    )
 
     if (sparsify) {
-        if (verbose) {message("Sparsifying assays...")}
-        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
-                                        verbose = verbose)
+        if (verbose) {
+            message("Sparsifying assays...")
+        }
+        assays(sim) <- sparsifyMatrices(
+            assays(sim),
+            auto = TRUE,
+            verbose = verbose
+        )
     }
 
     return(sim)

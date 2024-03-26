@@ -54,27 +54,42 @@ sparseDCEstimate.SingleCellExperiment <- function(counts, conditions, nclusters,
 #' @export
 sparseDCEstimate.matrix <- function(counts, conditions, nclusters, norm = TRUE,
                                     params = newSparseDCParams()) {
-
     checkmate::assertClass(params, "SparseDCParams")
-    checkmate::assertIntegerish(conditions, lower = 1, upper = 2,
-                                any.missing = FALSE, len = ncol(counts))
+    checkmate::assertIntegerish(
+        conditions,
+        lower = 1,
+        upper = 2,
+        any.missing = FALSE,
+        len = ncol(counts)
+    )
 
     counts1 <- counts[, conditions == 1]
     counts2 <- counts[, conditions == 2]
 
-    pre.data <- SparseDC::pre_proc_data(counts1, counts2, norm = norm,
-                                        log = TRUE, center = TRUE)
-
-    lambda1 <- SparseDC::lambda1_calculator(pre.data[[1]], pre.data[[2]],
-                                            nclusters)
-    lambda2 <- SparseDC::lambda2_calculator(pre.data[[1]], pre.data[[2]],
-                                            nclusters)
-
-    dummy <- utils::capture.output(
-    sdc.res <- SparseDC::sparsedc_cluster(pre.data[[1]], pre.data[[2]],
-                                          nclusters, lambda1 = lambda1,
-                                          lambda2 = lambda2)
+    pre.data <- SparseDC::pre_proc_data(
+        counts1,
+        counts2,
+        norm = norm,
+        log = TRUE,
+        center = TRUE
     )
+
+    lambda1 <- SparseDC::lambda1_calculator(
+        pre.data[[1]], pre.data[[2]], nclusters
+    )
+    lambda2 <- SparseDC::lambda2_calculator(
+        pre.data[[1]], pre.data[[2]], nclusters
+    )
+
+    sdc.res <- withr::with_output_sink(tempfile(), {
+        SparseDC::sparsedc_cluster(
+            pre.data[[1]],
+            pre.data[[2]],
+            nclusters,
+            lambda1 = lambda1,
+            lambda2 = lambda2
+        )
+    })
 
     markers.n <- round(mean(c(
         colSums(sdc.res$centers1 != 0),
@@ -85,13 +100,15 @@ sparseDCEstimate.matrix <- function(counts, conditions, nclusters, norm = TRUE,
         (sdc.res$centers1 - sdc.res$centers2) != 0
     )))
 
-    params <- setParams(params,
-                        nGenes = nrow(counts),
-                        nCells = round(ncol(counts) / 2),
-                        markers.n = markers.n,
-                        markers.shared = markers.n - markers.diff,
-                        clusts.c1 = sort(unique(sdc.res$clusters1)),
-                        clusts.c2 = sort(unique(sdc.res$clusters2)))
+    params <- setParams(
+        params,
+        nGenes = nrow(counts),
+        nCells = round(ncol(counts) / 2),
+        markers.n = markers.n,
+        markers.shared = markers.n - markers.diff,
+        clusts.c1 = sort(unique(sdc.res$clusters1)),
+        clusts.c2 = sort(unique(sdc.res$clusters2))
+    )
 
     return(params)
 }

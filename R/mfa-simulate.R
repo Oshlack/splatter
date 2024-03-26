@@ -35,14 +35,11 @@
 #' @export
 mfaSimulate <- function(params = newMFAParams(), sparsify = TRUE,
                         verbose = TRUE, ...) {
-
     checkmate::assertClass(params, "MFAParams")
     params <- setParams(params, ...)
 
     # Set random seed
     seed <- getParam(params, "seed")
-    withr::with_seed(seed, {
-
     # Get the parameters we are going to use
     nCells <- getParam(params, "nCells")
     nGenes <- getParam(params, "nGenes")
@@ -51,52 +48,72 @@ mfaSimulate <- function(params = newMFAParams(), sparsify = TRUE,
     dropout.present <- getParam(params, "dropout.present")
     dropout.lambda <- getParam(params, "dropout.lambda")
 
-    if (verbose) {message("Simulating counts...")}
-    mfa.sim <- mfa::create_synthetic(C = nCells,
-                                     G = nGenes,
-                                     p_transient = trans.prop,
-                                     zero_negative = zero.neg,
-                                     model_dropout = dropout.present,
-                                     lambda = dropout.lambda)
+    withr::with_seed(seed, {
+        if (verbose) {
+            message("Simulating counts...")
+        }
+        mfa.sim <- mfa::create_synthetic(
+            C = nCells,
+            G = nGenes,
+            p_transient = trans.prop,
+            zero_negative = zero.neg,
+            model_dropout = dropout.present,
+            lambda = dropout.lambda
+        )
 
-    if (verbose) {message("Creating final dataset...")}
-    cell.names <- paste0("Cell", seq_len(nCells))
-    gene.names <- paste0("Gene", seq_len(nGenes))
+        if (verbose) {
+            message("Creating final dataset...")
+        }
+        cell.names <- paste0("Cell", seq_len(nCells))
+        gene.names <- paste0("Gene", seq_len(nGenes))
 
-    exprs <- t(mfa.sim$X)
-    rownames(exprs) <- gene.names
-    colnames(exprs) <- cell.names
+        exprs <- t(mfa.sim$X)
+        rownames(exprs) <- gene.names
+        colnames(exprs) <- cell.names
 
-    counts <- 2 ^ exprs - 1
-    counts[counts < 0] <- 0
-    counts <- round(counts)
+        counts <- 2^exprs - 1
+        counts[counts < 0] <- 0
+        counts <- round(counts)
+    })
 
-    cells <- data.frame(Cell = cell.names,
-                        Branch = mfa.sim$branch,
-                        Pseudotime = mfa.sim$pst)
+    cells <- data.frame(
+        Cell = cell.names,
+        Branch = mfa.sim$branch,
+        Pseudotime = mfa.sim$pst
+    )
     rownames(cells) <- cell.names
 
-    features <- data.frame(Gene = gene.names,
-                           KBranch1 = mfa.sim$k[, 1],
-                           KBranch2 = mfa.sim$k[, 2],
-                           PhiBranch1 = mfa.sim$phi[, 1],
-                           PhiBranch2 = mfa.sim$phi[, 2],
-                           DeltaBranch1 = mfa.sim$delta[, 1],
-                           DeltaBranch2 = mfa.sim$delta[, 2])
+    features <- data.frame(
+        Gene = gene.names,
+        KBranch1 = mfa.sim$k[, 1],
+        KBranch2 = mfa.sim$k[, 2],
+        PhiBranch1 = mfa.sim$phi[, 1],
+        PhiBranch2 = mfa.sim$phi[, 2],
+        DeltaBranch1 = mfa.sim$delta[, 1],
+        DeltaBranch2 = mfa.sim$delta[, 2]
+    )
     rownames(features) <- gene.names
 
-    sim <- SingleCellExperiment(assays = list(counts = counts,
-                                              LogExprs = exprs),
-                                rowData = features,
-                                colData = cells,
-                                metadata = list(Params = params))
+    sim <- SingleCellExperiment(
+        assays = list(
+            counts = counts,
+            LogExprs = exprs
+        ),
+        rowData = features,
+        colData = cells,
+        metadata = list(Params = params)
+    )
 
     if (sparsify) {
-        if (verbose) {message("Sparsifying assays...")}
-        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
-                                        verbose = verbose)
+        if (verbose) {
+            message("Sparsifying assays...")
+        }
+        assays(sim) <- sparsifyMatrices(
+            assays(sim),
+            auto = TRUE,
+            verbose = verbose
+        )
     }
-    })
 
     return(sim)
 }

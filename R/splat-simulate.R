@@ -131,20 +131,19 @@
 splatSimulate <- function(params = newSplatParams(),
                           method = c("single", "groups", "paths"),
                           sparsify = TRUE, verbose = TRUE, ...) {
-
     checkmate::assertClass(params, "SplatParams")
 
     method <- match.arg(method)
 
-    if (verbose) {message("Getting parameters...")}
+    if (verbose) {
+        message("Getting parameters...")
+    }
     params <- setParams(params, ...)
     params <- expandParams(params)
     validObject(params)
 
     # Set random seed
     seed <- getParam(params, "seed")
-    withr::with_seed(seed, {
-
     # Get the parameters we are going to use
     nCells <- getParam(params, "nCells")
     nGenes <- getParam(params, "nGenes")
@@ -159,7 +158,9 @@ splatSimulate <- function(params = newSplatParams(),
     }
 
     # Set up name vectors
-    if (verbose) {message("Creating simulation object...")}
+    if (verbose) {
+        message("Creating simulation object...")
+    }
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
     batch.names <- paste0("Batch", seq_len(nBatches))
@@ -170,73 +171,112 @@ splatSimulate <- function(params = newSplatParams(),
     }
 
     # Create SingleCellExperiment to store simulation
-    cells <-  data.frame(Cell = cell.names)
+    cells <- data.frame(Cell = cell.names)
     rownames(cells) <- cell.names
     features <- data.frame(Gene = gene.names)
     rownames(features) <- gene.names
-    sim <- SingleCellExperiment(rowData = features, colData = cells,
-                                metadata = list(Params = params))
+    sim <- SingleCellExperiment(
+        rowData = features, colData = cells,
+        metadata = list(Params = params)
+    )
 
     # Make batches vector which is the index of param$batchCells repeated
     # params$batchCells[index] times
-    batches <- lapply(seq_len(nBatches), function(i, b) {rep(i, b[i])},
-                      b = batch.cells)
+    batches <- lapply(seq_len(nBatches), function(i, b) {
+        rep(i, b[i])
+    }, b = batch.cells)
     batches <- unlist(batches)
     colData(sim)$Batch <- batch.names[batches]
 
-    if (method != "single") {
-        groups <- sample(seq_len(nGroups), nCells, prob = group.prob,
-                         replace = TRUE)
-        colData(sim)$Group <- factor(group.names[groups], levels = group.names)
-    }
+    withr::with_seed(seed, {
+        if (method != "single") {
+            groups <- sample(seq_len(nGroups), nCells,
+                prob = group.prob,
+                replace = TRUE
+            )
+            colData(sim)$Group <- factor(
+                group.names[groups],
+                levels = group.names
+            )
+        }
 
-    if (verbose) {message("Simulating library sizes...")}
-    sim <- splatSimLibSizes(sim, params)
-    if (verbose) {message("Simulating gene means...")}
-    sim <- splatSimGeneMeans(sim, params)
-    if (nBatches > 1) {
-        if (verbose) {message("Simulating batch effects...")}
-        sim <- splatSimBatchEffects(sim, params)
-    }
-    sim <- splatSimBatchCellMeans(sim, params)
-    if (method == "single") {
-        sim <- splatSimSingleCellMeans(sim, params)
-    } else if (method == "groups") {
-        if (verbose) {message("Simulating group DE...")}
-        sim <- splatSimGroupDE(sim, params)
-        if (verbose) {message("Simulating cell means...")}
-        sim <- splatSimGroupCellMeans(sim, params)
-    } else {
-        if (verbose) {message("Simulating path endpoints...")}
-        sim <- splatSimPathDE(sim, params)
-        if (verbose) {message("Simulating path steps...")}
-        sim <- splatSimPathCellMeans(sim, params)
-    }
-    if (verbose) {message("Simulating BCV...")}
-    sim <- splatSimBCVMeans(sim, params)
-    if (verbose) {message("Simulating counts...")}
-    sim <- splatSimTrueCounts(sim, params)
-    if (verbose) {message("Simulating dropout (if needed)...")}
-    sim <- splatSimDropout(sim, params)
-
-    if (sparsify) {
-        if (verbose) {message("Sparsifying assays...")}
-        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
-                                        verbose = verbose)
-    }
+        if (verbose) {
+            message("Simulating library sizes...")
+        }
+        sim <- splatSimLibSizes(sim, params)
+        if (verbose) {
+            message("Simulating gene means...")
+        }
+        sim <- splatSimGeneMeans(sim, params)
+        if (nBatches > 1) {
+            if (verbose) {
+                message("Simulating batch effects...")
+            }
+            sim <- splatSimBatchEffects(sim, params)
+        }
+        sim <- splatSimBatchCellMeans(sim, params)
+        if (method == "single") {
+            sim <- splatSimSingleCellMeans(sim, params)
+        } else if (method == "groups") {
+            if (verbose) {
+                message("Simulating group DE...")
+            }
+            sim <- splatSimGroupDE(sim, params)
+            if (verbose) {
+                message("Simulating cell means...")
+            }
+            sim <- splatSimGroupCellMeans(sim, params)
+        } else {
+            if (verbose) {
+                message("Simulating path endpoints...")
+            }
+            sim <- splatSimPathDE(sim, params)
+            if (verbose) {
+                message("Simulating path steps...")
+            }
+            sim <- splatSimPathCellMeans(sim, params)
+        }
+        if (verbose) {
+            message("Simulating BCV...")
+        }
+        sim <- splatSimBCVMeans(sim, params)
+        if (verbose) {
+            message("Simulating counts...")
+        }
+        sim <- splatSimTrueCounts(sim, params)
+        if (verbose) {
+            message("Simulating dropout (if needed)...")
+        }
+        sim <- splatSimDropout(sim, params)
     })
 
-    if (verbose) {message("Done!")}
-    return(sim)
+    if (sparsify) {
+        if (verbose) {
+            message("Sparsifying assays...")
+        }
+        assays(sim) <- sparsifyMatrices(
+            assays(sim),
+            auto = TRUE,
+            verbose = verbose
+        )
+    }
 
+    if (verbose) {
+        message("Done!")
+    }
+    return(sim)
 }
 
 #' @rdname splatSimulate
 #' @export
 splatSimulateSingle <- function(params = newSplatParams(),
                                 verbose = TRUE, ...) {
-    sim <- splatSimulate(params = params, method = "single",
-                         verbose = verbose, ...)
+    sim <- splatSimulate(
+        params = params,
+        method = "single",
+        verbose = verbose,
+        ...
+    )
     return(sim)
 }
 
@@ -244,16 +284,24 @@ splatSimulateSingle <- function(params = newSplatParams(),
 #' @export
 splatSimulateGroups <- function(params = newSplatParams(),
                                 verbose = TRUE, ...) {
-    sim <- splatSimulate(params = params, method = "groups",
-                         verbose = verbose, ...)
+    sim <- splatSimulate(
+        params = params,
+        method = "groups",
+        verbose = verbose,
+        ...
+    )
     return(sim)
 }
 
 #' @rdname splatSimulate
 #' @export
 splatSimulatePaths <- function(params = newSplatParams(), verbose = TRUE, ...) {
-    sim <- splatSimulate(params = params, method = "paths",
-                         verbose = verbose, ...)
+    sim <- splatSimulate(
+        params = params,
+        method = "paths",
+        verbose = verbose,
+        ...
+    )
     return(sim)
 }
 
@@ -271,7 +319,6 @@ splatSimulatePaths <- function(params = newSplatParams(), verbose = TRUE, ...) {
 #' @importFrom SummarizedExperiment colData colData<-
 #' @importFrom stats rlnorm rnorm
 splatSimLibSizes <- function(sim, params) {
-
     nCells <- length(colData(sim)$Cell) # splatPop: different nCells per sample
     lib.loc <- getParam(params, "lib.loc")
     lib.scale <- getParam(params, "lib.scale")
@@ -304,7 +351,6 @@ splatSimLibSizes <- function(sim, params) {
 #' @importFrom SummarizedExperiment rowData rowData<-
 #' @importFrom stats rgamma median
 splatSimGeneMeans <- function(sim, params) {
-
     # Note: splatPopSimGeneMeans in splatPop-simulate.R mirrors this function.
     # If changes are made to the "add expression outliers" method here, please
     # make the same changes in splatPopSimGeneMeans.
@@ -320,8 +366,9 @@ splatSimGeneMeans <- function(sim, params) {
     base.means.gene <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
 
     # Add expression outliers
-    outlier.facs <- getLNormFactors(nGenes, out.prob, 0, out.facLoc,
-                                    out.facScale)
+    outlier.facs <- getLNormFactors(
+        nGenes, out.prob, 0, out.facLoc, out.facScale
+    )
     median.means.gene <- median(base.means.gene)
     outlier.means <- median.means.gene * outlier.facs
     is.outlier <- outlier.facs != 1
@@ -348,7 +395,6 @@ splatSimGeneMeans <- function(sim, params) {
 #'
 #' @importFrom SummarizedExperiment rowData rowData<-
 splatSimBatchEffects <- function(sim, params) {
-
     nGenes <- getParam(params, "nGenes")
     nBatches <- getParam(params, "nBatches")
     batch.facLoc <- getParam(params, "batch.facLoc")
@@ -357,8 +403,9 @@ splatSimBatchEffects <- function(sim, params) {
     means.gene <- rowData(sim)$GeneMean
 
     for (idx in seq_len(nBatches)) {
-        batch.facs <- getLNormFactors(nGenes, 1, 0.5, batch.facLoc[idx],
-                                        batch.facScale[idx])
+        batch.facs <- getLNormFactors(
+            nGenes, 1, 0.5, batch.facLoc[idx], batch.facScale[idx]
+        )
 
         if (batch.rmEffect) {
             batch.facs <- rep(1, length(batch.facs))
@@ -382,7 +429,6 @@ splatSimBatchEffects <- function(sim, params) {
 #'
 #' @importFrom SummarizedExperiment rowData rowData<- colData
 splatSimBatchCellMeans <- function(sim, params) {
-
     nBatches <- getParam(params, "nBatches")
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
@@ -392,9 +438,12 @@ splatSimBatchCellMeans <- function(sim, params) {
         batches <- colData(sim)$Batch
         batch.names <- unique(batches)
 
-        batch.facs.gene <- as.matrix(rowData(sim)[, paste0("BatchFac", batch.names)])
-        batch.facs.cell <- as.matrix(batch.facs.gene[,
-                                                     as.numeric(factor(batches))])
+        batch.facs.gene <- as.matrix(
+            rowData(sim)[, paste0("BatchFac", batch.names)]
+        )
+        batch.facs.cell <- as.matrix(
+            batch.facs.gene[, as.numeric(factor(batches))]
+        )
     } else {
         nCells <- length(colData(sim)$Cell)
         nGenes <- getParam(params, "nGenes")
@@ -429,7 +478,6 @@ NULL
 #' @rdname splatSimDE
 #' @importFrom SummarizedExperiment rowData
 splatSimGroupDE <- function(sim, params) {
-
     nGenes <- getParam(params, "nGenes")
     nGroups <- getParam(params, "nGroups")
     de.prob <- getParam(params, "de.prob")
@@ -439,8 +487,13 @@ splatSimGroupDE <- function(sim, params) {
     means.gene <- rowData(sim)$GeneMean
 
     for (idx in seq_len(nGroups)) {
-        de.facs <- getLNormFactors(nGenes, de.prob[idx], de.downProb[idx],
-                                   de.facLoc[idx], de.facScale[idx])
+        de.facs <- getLNormFactors(
+            nGenes,
+            de.prob[idx],
+            de.downProb[idx],
+            de.facLoc[idx],
+            de.facScale[idx]
+        )
         group.means.gene <- means.gene * de.facs
         rowData(sim)[[paste0("DEFacGroup", idx)]] <- de.facs
     }
@@ -451,7 +504,6 @@ splatSimGroupDE <- function(sim, params) {
 #' @rdname splatSimDE
 #' @importFrom SummarizedExperiment rowData
 splatSimPathDE <- function(sim, params) {
-
     nGenes <- getParam(params, "nGenes")
     de.prob <- getParam(params, "de.prob")
     de.downProb <- getParam(params, "de.downProb")
@@ -467,9 +519,13 @@ splatSimPathDE <- function(sim, params) {
         } else {
             de.facs.from <- rowData(sim)[[paste0("DEFacPath", from)]]
         }
-        de.facs.local <- getLNormFactors(nGenes, de.prob[path],
-                                         de.downProb[path], de.facLoc[path],
-                                         de.facScale[path])
+        de.facs.local <- getLNormFactors(
+            nGenes,
+            de.prob[path],
+            de.downProb[path],
+            de.facLoc[path],
+            de.facScale[path]
+        )
         de.facs <- de.facs.local * de.facs.from
         rowData(sim)[[paste0("LocalDEFacPath", path)]] <- de.facs.local
         rowData(sim)[[paste0("DEFacPath", path)]] <- de.facs
@@ -497,7 +553,6 @@ NULL
 #' @rdname splatSimCellMeans
 #' @importFrom SummarizedExperiment rowData colData assays assays<-
 splatSimSingleCellMeans <- function(sim, params) {
-
     nCells <- length(colData(sim)$Cell)
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
@@ -518,7 +573,6 @@ splatSimSingleCellMeans <- function(sim, params) {
 #' @rdname splatSimCellMeans
 #' @importFrom SummarizedExperiment rowData colData assays assays<-
 splatSimGroupCellMeans <- function(sim, params) {
-
     nGroups <- getParam(params, "nGroups")
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
@@ -544,7 +598,6 @@ splatSimGroupCellMeans <- function(sim, params) {
 #' @importFrom SummarizedExperiment rowData colData colData<- assays assays<-
 #' @importFrom stats rbinom
 splatSimPathCellMeans <- function(sim, params) {
-
     nGenes <- getParam(params, "nGenes")
     nCells <- length(colData(sim)$Cell)
     nGroups <- getParam(params, "nGroups")
@@ -585,16 +638,22 @@ splatSimPathCellMeans <- function(sim, params) {
         sigma.facs <- rowData(sim)[[paste0("SigmaFacPath", idx)]]
 
         # Build Brownian bridges from start to end
-        steps <- buildBridges(facs.start, facs.end, n = path.nSteps[idx],
-                              sigma.fac = sigma.facs)
+        steps <- buildBridges(
+            facs.start,
+            facs.end,
+            n = path.nSteps[idx],
+            sigma.fac = sigma.facs
+        )
 
         return(t(steps))
     })
 
     # Randomly assign a position in the appropriate path to each cell
     path.probs <- lapply(seq_len(nGroups), function(idx) {
-        probs <- seq(path.skew[idx], 1 - path.skew[idx],
-                          length = path.nSteps[idx])
+        probs <- seq(
+            path.skew[idx], 1 - path.skew[idx],
+            length = path.nSteps[idx]
+        )
         probs <- probs / sum(probs)
         return(probs)
     })
@@ -639,7 +698,6 @@ splatSimPathCellMeans <- function(sim, params) {
 #' @importFrom SummarizedExperiment rowData colData assays assays<-
 #' @importFrom stats rchisq rgamma
 splatSimBCVMeans <- function(sim, params) {
-
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
     nGenes <- getParam(params, "nGenes")
@@ -654,10 +712,14 @@ splatSimBCVMeans <- function(sim, params) {
         warning("'bcv.df' is infinite. This parameter will be ignored.")
         bcv <- (bcv.common + (1 / sqrt(base.means.cell)))
     }
-    means.cell <- matrix(rgamma(
-        as.numeric(nGenes) * as.numeric(nCells),
-        shape = 1 / (bcv ^ 2), scale = base.means.cell * (bcv ^ 2)),
-        nrow = nGenes, ncol = nCells)
+    means.cell <- matrix(
+        rgamma(
+            as.numeric(nGenes) * as.numeric(nCells),
+            shape = 1 / (bcv^2),
+            scale = base.means.cell * (bcv^2)
+        ),
+        nrow = nGenes, ncol = nCells
+    )
 
     colnames(means.cell) <- cell.names
     rownames(means.cell) <- gene.names
@@ -682,17 +744,19 @@ splatSimBCVMeans <- function(sim, params) {
 #' @importFrom SummarizedExperiment rowData colData assays assays<-
 #' @importFrom stats rpois
 splatSimTrueCounts <- function(sim, params) {
-
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
     nGenes <- getParam(params, "nGenes")
     nCells <- length(colData(sim)$Cell)
     cell.means <- assays(sim)$CellMeans
 
-    true.counts <- matrix(rpois(
-        as.numeric(nGenes) * as.numeric(nCells),
-        lambda = cell.means),
-    nrow = nGenes, ncol = nCells)
+    true.counts <- matrix(
+        rpois(
+            as.numeric(nGenes) * as.numeric(nCells),
+            lambda = cell.means
+        ),
+        nrow = nGenes, ncol = nCells
+    )
 
     colnames(true.counts) <- cell.names
     rownames(true.counts) <- gene.names
@@ -717,7 +781,6 @@ splatSimTrueCounts <- function(sim, params) {
 #' @importFrom SummarizedExperiment rowData colData assays assays<-
 #' @importFrom stats rbinom
 splatSimDropout <- function(sim, params) {
-
     dropout.type <- getParam(params, "dropout.type")
     true.counts <- assays(sim)$TrueCounts
     dropout.mid <- getParam(params, "dropout.mid")
@@ -731,56 +794,66 @@ splatSimDropout <- function(sim, params) {
     cell.means <- assays(sim)$CellMeans
 
     switch(dropout.type,
-           experiment = {
-               if ((length(dropout.mid) != 1) || length(dropout.shape) != 1) {
-                   stop("dropout.type is set to 'experiment' but dropout.mid ",
-                        "and dropout.shape aren't length 1")
-               }
+        experiment = {
+            if ((length(dropout.mid) != 1) || length(dropout.shape) != 1) {
+                stop(
+                    "dropout.type is set to 'experiment' but dropout.mid ",
+                    "and dropout.shape aren't length 1"
+                )
+            }
 
-               dropout.mid <- rep(dropout.mid, nCells)
-               dropout.shape <- rep(dropout.shape, nCells)
-           },
-           batch = {
-               if ((length(dropout.mid) != nBatches) ||
-                   length(dropout.shape) != nBatches) {
-                   stop("dropout.type is set to 'batch' but dropout.mid ",
-                        "and dropout.shape aren't length equal to nBatches ",
-                        "(", nBatches, ")")
-               }
+            dropout.mid <- rep(dropout.mid, nCells)
+            dropout.shape <- rep(dropout.shape, nCells)
+        },
+        batch = {
+            if ((length(dropout.mid) != nBatches) ||
+                length(dropout.shape) != nBatches) {
+                stop(
+                    "dropout.type is set to 'batch' but dropout.mid ",
+                    "and dropout.shape aren't length equal to nBatches ",
+                    "(", nBatches, ")"
+                )
+            }
 
-               batches <- as.numeric(factor(colData(sim)$Batch))
-               dropout.mid <- dropout.mid[batches]
-               dropout.shape <- dropout.shape[batches]
-           },
-           group = {
-               if ((length(dropout.mid) != nGroups) ||
-                   length(dropout.shape) != nGroups) {
-                   stop("dropout.type is set to 'group' but dropout.mid ",
-                        "and dropout.shape aren't length equal to nGroups ",
-                        "(", nGroups, ")")
-               }
+            batches <- as.numeric(factor(colData(sim)$Batch))
+            dropout.mid <- dropout.mid[batches]
+            dropout.shape <- dropout.shape[batches]
+        },
+        group = {
+            if ((length(dropout.mid) != nGroups) ||
+                length(dropout.shape) != nGroups) {
+                stop(
+                    "dropout.type is set to 'group' but dropout.mid ",
+                    "and dropout.shape aren't length equal to nGroups ",
+                    "(", nGroups, ")"
+                )
+            }
 
-               if ("Group" %in% colnames(colData(sim))) {
-                   groups <- as.numeric(colData(sim)$Group)
-               } else {
-                   stop("dropout.type is set to 'group' but groups have not ",
-                        "been simulated")
-               }
+            if ("Group" %in% colnames(colData(sim))) {
+                groups <- as.numeric(colData(sim)$Group)
+            } else {
+                stop(
+                    "dropout.type is set to 'group' but groups have not ",
+                    "been simulated"
+                )
+            }
 
-               dropout.mid <- dropout.mid[groups]
-               dropout.shape <- dropout.shape[groups]
-           },
-           cell = {
-               if ((length(dropout.mid) != nCells) ||
-                   length(dropout.shape) != nCells) {
-                   stop("dropout.type is set to 'cell' but dropout.mid ",
-                        "and dropout.shape aren't length equal to nCells ",
-                        "(", nCells, ")")
-               }
-           })
+            dropout.mid <- dropout.mid[groups]
+            dropout.shape <- dropout.shape[groups]
+        },
+        cell = {
+            if ((length(dropout.mid) != nCells) ||
+                length(dropout.shape) != nCells) {
+                stop(
+                    "dropout.type is set to 'cell' but dropout.mid ",
+                    "and dropout.shape aren't length equal to nCells ",
+                    "(", nCells, ")"
+                )
+            }
+        }
+    )
 
     if (dropout.type != "none") {
-
         # Generate probabilities based on expression
         drop.prob <- vapply(seq_len(nCells), function(idx) {
             eta <- log(cell.means[, idx])
@@ -788,8 +861,10 @@ splatSimDropout <- function(sim, params) {
         }, as.numeric(seq_len(nGenes)))
 
         # Decide which counts to keep
-        keep <- matrix(rbinom(nCells * nGenes, 1, 1 - drop.prob),
-                       nrow = nGenes, ncol = nCells)
+        keep <- matrix(
+            rbinom(nCells * nGenes, 1, 1 - drop.prob),
+            nrow = nGenes, ncol = nCells
+        )
 
         counts <- true.counts * keep
 
@@ -824,15 +899,14 @@ splatSimDropout <- function(sim, params) {
 #'
 #' @importFrom stats rbinom rlnorm
 getLNormFactors <- function(n.facs, sel.prob, neg.prob, fac.loc, fac.scale) {
-
     is.selected <- as.logical(rbinom(n.facs, 1, sel.prob))
     n.selected <- sum(is.selected)
-    dir.selected <- (-1) ^ rbinom(n.selected, 1, neg.prob)
+    dir.selected <- (-1)^rbinom(n.selected, 1, neg.prob)
     facs.selected <- rlnorm(n.selected, fac.loc, fac.scale)
     # Reverse directions for factors that are less than one
     dir.selected[facs.selected < 1] <- -1 * dir.selected[facs.selected < 1]
     factors <- rep(1, n.facs)
-    factors[is.selected] <- facs.selected ^ dir.selected
+    factors[is.selected] <- facs.selected^dir.selected
 
     return(factors)
 }
@@ -847,7 +921,6 @@ getLNormFactors <- function(n.facs, sel.prob, neg.prob, fac.loc, fac.scale) {
 #'
 #' @return Vector giving the order to process paths in.
 getPathOrder <- function(path.from) {
-
     # Transform the vector into a list of (from, to) pairs
     path.pairs <- list()
     for (idx in seq_along(path.from)) {
@@ -890,8 +963,7 @@ getPathOrder <- function(path.from) {
 #' @return Vector of length n following a path from x to y.
 #'
 #' @importFrom stats runif rnorm
-bridge <- function (x = 0, y = 0, N = 5, n = 100, sigma.fac = 0.8) {
-
+bridge <- function(x = 0, y = 0, N = 5, n = 100, sigma.fac = 0.8) {
     dt <- 1 / (N - 1)
     t <- seq(0, 1, length = N)
     sigma2 <- runif(1, 0, sigma.fac * mean(c(x, y)))

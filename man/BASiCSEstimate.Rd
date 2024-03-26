@@ -99,9 +99,11 @@ library(scuttle)
 set.seed(1)
 sce <- mockSCE()
 
-spike.info <- data.frame(Name = rownames(sce)[1:10],
-                         Input = rnorm(10, 500, 200),
-                         stringsAsFactors = FALSE)
+spike.info <- data.frame(
+    Name = rownames(sce)[1:10],
+    Input = rnorm(10, 500, 200),
+    stringsAsFactors = FALSE
+)
 params <- BASiCSEstimate(sce[1:100, 1:30], spike.info)
 params
 }

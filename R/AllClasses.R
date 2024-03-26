@@ -18,10 +18,13 @@
 #' @rdname Params
 #' @aliases Params-class
 setClass("Params",
-         contains = "VIRTUAL",
-         slots = c(nGenes = "numeric",
-                   nCells = "numeric",
-                   seed = "numeric"))
+    contains = "VIRTUAL",
+    slots = c(
+        nGenes = "numeric",
+        nCells = "numeric",
+        seed = "numeric"
+    )
+)
 
 #' The SimpleParams class
 #'
@@ -52,12 +55,17 @@ setClass("Params",
 #' @aliases SimpleParams-class
 #' @exportClass SimpleParams
 setClass("SimpleParams",
-         contains = "Params",
-         slots = c(mean.shape = "numeric",
-                   mean.rate = "numeric",
-                   count.disp = "numeric"),
-         prototype = prototype(mean.shape = 0.4, mean.rate = 0.3,
-                               count.disp = 0.1))
+    contains = "Params",
+    slots = c(
+        mean.shape = "numeric",
+        mean.rate = "numeric",
+        count.disp = "numeric"
+    ),
+    prototype = prototype(
+        mean.shape = 0.4, mean.rate = 0.3,
+        count.disp = 0.1
+    )
+)
 
 #' The SplatParams class
 #'
@@ -81,7 +89,7 @@ setClass("SimpleParams",
 #'             \item{\code{[batch.facScale]}}{Scale (sdlog) parameter for the
 #'             batch effect factor log-normal distribution. Can be a vector.}
 #'             \item{\code{[batch.rmEffect]}}{Logical, removes the batch effect
-#'             and continues with the simulation when TRUE. This allows the 
+#'             and continues with the simulation when TRUE. This allows the
 #'             user to test batch removal algorithms without having to calculate
 #'             the new expected cell means with batch removed.}
 #'         }
@@ -199,65 +207,70 @@ setClass("SimpleParams",
 #' @aliases SplatParams-class
 #' @exportClass SplatParams
 setClass("SplatParams",
-         contains = "Params",
-         slots = c(nBatches = "numeric",
-                   batchCells = "numeric",
-                   batch.facLoc = "numeric",
-                   batch.facScale = "numeric",
-                   batch.rmEffect = "logical",
-                   mean.shape = "numeric",
-                   mean.rate = "numeric",
-                   lib.loc = "numeric",
-                   lib.scale = "numeric",
-                   lib.norm = "logical",
-                   out.prob = "numeric",
-                   out.facLoc = "numeric",
-                   out.facScale = "numeric",
-                   nGroups = "numeric",
-                   group.prob = "numeric",
-                   de.prob = "numeric",
-                   de.downProb = "numeric",
-                   de.facLoc = "numeric",
-                   de.facScale = "numeric",
-                   bcv.common = "numeric",
-                   bcv.df = "numeric",
-                   dropout.type = "character",
-                   dropout.mid = "numeric",
-                   dropout.shape = "numeric",
-                   path.from = "numeric",
-                   path.nSteps = "numeric",
-                   path.skew = "numeric",
-                   path.nonlinearProb = "numeric",
-                   path.sigmaFac = "numeric"),
-         prototype = prototype(nBatches = 1,
-                               batchCells = 100,
-                               batch.facLoc = 0.1,
-                               batch.facScale = 0.1,
-                               batch.rmEffect = FALSE,
-                               mean.rate = 0.3,
-                               mean.shape = 0.6,
-                               lib.loc = 11,
-                               lib.scale = 0.2,
-                               lib.norm = FALSE,
-                               out.prob = 0.05,
-                               out.facLoc = 4,
-                               out.facScale = 0.5,
-                               nGroups = 1,
-                               group.prob = 1,
-                               de.prob = 0.1,
-                               de.downProb = 0.5,
-                               de.facLoc = 0.1,
-                               de.facScale = 0.4,
-                               bcv.common = 0.1,
-                               bcv.df = 60,
-                               dropout.type = "none",
-                               dropout.mid = 0,
-                               dropout.shape = -1,
-                               path.from = 0,
-                               path.nSteps = 100,
-                               path.skew = 0.5,
-                               path.nonlinearProb = 0.1,
-                               path.sigmaFac = 0.8))
+    contains = "Params",
+    slots = c(
+        nBatches = "numeric",
+        batchCells = "numeric",
+        batch.facLoc = "numeric",
+        batch.facScale = "numeric",
+        batch.rmEffect = "logical",
+        mean.shape = "numeric",
+        mean.rate = "numeric",
+        lib.loc = "numeric",
+        lib.scale = "numeric",
+        lib.norm = "logical",
+        out.prob = "numeric",
+        out.facLoc = "numeric",
+        out.facScale = "numeric",
+        nGroups = "numeric",
+        group.prob = "numeric",
+        de.prob = "numeric",
+        de.downProb = "numeric",
+        de.facLoc = "numeric",
+        de.facScale = "numeric",
+        bcv.common = "numeric",
+        bcv.df = "numeric",
+        dropout.type = "character",
+        dropout.mid = "numeric",
+        dropout.shape = "numeric",
+        path.from = "numeric",
+        path.nSteps = "numeric",
+        path.skew = "numeric",
+        path.nonlinearProb = "numeric",
+        path.sigmaFac = "numeric"
+    ),
+    prototype = prototype(
+        nBatches = 1,
+        batchCells = 100,
+        batch.facLoc = 0.1,
+        batch.facScale = 0.1,
+        batch.rmEffect = FALSE,
+        mean.rate = 0.3,
+        mean.shape = 0.6,
+        lib.loc = 11,
+        lib.scale = 0.2,
+        lib.norm = FALSE,
+        out.prob = 0.05,
+        out.facLoc = 4,
+        out.facScale = 0.5,
+        nGroups = 1,
+        group.prob = 1,
+        de.prob = 0.1,
+        de.downProb = 0.5,
+        de.facLoc = 0.1,
+        de.facScale = 0.4,
+        bcv.common = 0.1,
+        bcv.df = 60,
+        dropout.type = "none",
+        dropout.mid = 0,
+        dropout.shape = -1,
+        path.from = 0,
+        path.nSteps = 100,
+        path.skew = 0.5,
+        path.nonlinearProb = 0.1,
+        path.sigmaFac = 0.8
+    )
+)
 
 #' The KersplatParams class
 #'
@@ -361,65 +374,72 @@ setClass("SplatParams",
 #' @aliases KersplatParams-class
 #' @exportClass KersplatParams
 setClass("KersplatParams",
-         contains = "Params",
-         slots = c(mean.shape = "numeric",
-                   mean.rate = "numeric",
-                   mean.outProb = "numeric",
-                   mean.outLoc = "numeric",
-                   mean.outScale = "numeric",
-                   mean.dens = "density",
-                   mean.method = "character",
-                   mean.values = "numeric",
-                   bcv.common = "numeric",
-                   bcv.df = "numeric",
-                   network.graph = "ANY",
-                   network.nRegs = "numeric",
-                   network.regsSet = "logical",
-                   paths.nPrograms = "numeric",
-                   paths.design = "data.frame",
-                   paths.means = "list",
-                   lib.loc = "numeric",
-                   lib.scale = "numeric",
-                   lib.dens = "density",
-                   lib.method = "character",
-                   cells.design = "data.frame",
-                   doublet.prop = "numeric",
-                   ambient.scale = "numeric",
-                   ambient.nEmpty = "numeric"),
-         prototype = prototype(mean.rate = 0.3,
-                               mean.shape = 0.6,
-                               mean.outProb = 0.05,
-                               mean.outLoc = 4,
-                               mean.outScale = 0.5,
-                               mean.dens = density(rgamma(10000, rate = 0.3,
-                                                          shape = 0.6)),
-                               mean.method = "fit",
-                               mean.values = numeric(),
-                               bcv.common = 0.1,
-                               bcv.df = 60,
-                               network.graph = NULL,
-                               network.nRegs = 100,
-                               network.regsSet = FALSE,
-                               paths.nPrograms = 10,
-                               paths.design = data.frame(
-                                   Path = 1,
-                                   From = 0,
-                                   Steps = 100
-                               ),
-                               paths.means = list(),
-                               lib.loc = 11,
-                               lib.scale = 0.2,
-                               lib.dens = density(rlnorm(10000, 11, 0.2)),
-                               lib.method = "fit",
-                               cells.design = data.frame(
-                                   Path = 1,
-                                   Probability = 1,
-                                   Alpha = 1,
-                                   Beta = 0
-                               ),
-                               doublet.prop = 0,
-                               ambient.scale = 0.05,
-                               ambient.nEmpty = 0))
+    contains = "Params",
+    slots = c(
+        mean.shape = "numeric",
+        mean.rate = "numeric",
+        mean.outProb = "numeric",
+        mean.outLoc = "numeric",
+        mean.outScale = "numeric",
+        mean.dens = "density",
+        mean.method = "character",
+        mean.values = "numeric",
+        bcv.common = "numeric",
+        bcv.df = "numeric",
+        network.graph = "ANY",
+        network.nRegs = "numeric",
+        network.regsSet = "logical",
+        paths.nPrograms = "numeric",
+        paths.design = "data.frame",
+        paths.means = "list",
+        lib.loc = "numeric",
+        lib.scale = "numeric",
+        lib.dens = "density",
+        lib.method = "character",
+        cells.design = "data.frame",
+        doublet.prop = "numeric",
+        ambient.scale = "numeric",
+        ambient.nEmpty = "numeric"
+    ),
+    prototype = prototype(
+        mean.rate = 0.3,
+        mean.shape = 0.6,
+        mean.outProb = 0.05,
+        mean.outLoc = 4,
+        mean.outScale = 0.5,
+        mean.dens = density(rgamma(10000,
+            rate = 0.3,
+            shape = 0.6
+        )),
+        mean.method = "fit",
+        mean.values = numeric(),
+        bcv.common = 0.1,
+        bcv.df = 60,
+        network.graph = NULL,
+        network.nRegs = 100,
+        network.regsSet = FALSE,
+        paths.nPrograms = 10,
+        paths.design = data.frame(
+            Path = 1,
+            From = 0,
+            Steps = 100
+        ),
+        paths.means = list(),
+        lib.loc = 11,
+        lib.scale = 0.2,
+        lib.dens = density(rlnorm(10000, 11, 0.2)),
+        lib.method = "fit",
+        cells.design = data.frame(
+            Path = 1,
+            Probability = 1,
+            Alpha = 1,
+            Beta = 0
+        ),
+        doublet.prop = 0,
+        ambient.scale = 0.05,
+        ambient.nEmpty = 0
+    )
+)
 
 #' The SplatPopParams class
 #'
@@ -440,11 +460,11 @@ setClass("KersplatParams",
 #'     \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
 #'     \item{\code{[eqtl.maf.min]}}{Minimum Minor Allele Frequency of eSNPs.}
 #'     \item{\code{[eqtl.maf.max]}}{Maximum Minor Allele Frequency of eSNPs.}
-#'     \item{\code{[eqtl.coreg]}}{Proportion of eGenes to have a shared eSNP 
+#'     \item{\code{[eqtl.coreg]}}{Proportion of eGenes to have a shared eSNP
 #'     (i.e., co-regulated genes)}
 #'     \item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate
 #'     as group specific.}
-#'     \item{\code{[eqtl.condition.specific]}}{Percent of eQTL effects to 
+#'     \item{\code{[eqtl.condition.specific]}}{Percent of eQTL effects to
 #'     simulate as condition specific.}
 #'     \item{\emph{eQTL Effect size distribution parameters. Defaults estimated
 #'     from GTEx eQTL mapping results, see vignette for more information.}}{
@@ -474,9 +494,9 @@ setClass("KersplatParams",
 #'         }
 #'     }
 #'     \item{\emph{Specify number of samples per batch. Note that splatPop will
-#'     randomly assign donors to be present in multiple batches to fulfill the 
-#'     specified nBatches and batch.size parameters. For example, if 10 samples 
-#'     are simulated with batchPool.n=4 and batchPool.size= 4, then 6 samples 
+#'     randomly assign donors to be present in multiple batches to fulfill the
+#'     specified nBatches and batch.size parameters. For example, if 10 samples
+#'     are simulated with batchPool.n=4 and batchPool.size= 4, then 6 samples
 #'     will be randomly chosen to be replicated in two pools.}}{
 #'         \describe{
 #'             \item{\code{batch.size}}{The number of donors in
@@ -484,10 +504,10 @@ setClass("KersplatParams",
 #'         }
 #'     }
 #'     \item{\emph{Specify shape and rate of gamma distribution to sample
-#'     number of cells per batch per donor. Will only be used if nCells 
+#'     number of cells per batch per donor. Will only be used if nCells
 #'     parameter is set to 0.}}{
 #'         \describe{
-#'             \item{\code{nCells.sample}}{True/False if nCells should be 
+#'             \item{\code{nCells.sample}}{True/False if nCells should be
 #'             set as nCells or sampled from a gamma distribution for each
 #'             batch/donor.}
 #'             \item{\code{nCells.shape}}{Shape parameter for the nCells per
@@ -500,22 +520,22 @@ setClass("KersplatParams",
 #'         \describe{
 #'             \item{\code{[nConditions]}}{The number of conditions/treatments
 #'             to divide samples into.}
-#'             \item{\code{[condition.prob]}}{Probability that a sample belongs 
+#'             \item{\code{[condition.prob]}}{Probability that a sample belongs
 #'             to each condition/treatment group. Can be a vector.}
-#'             \item{\code{[cde.prob]}}{Probability that a gene is 
+#'             \item{\code{[cde.prob]}}{Probability that a gene is
 #'             differentially expressed in a condition group. Can be a vector.}
-#'             \item{\code{[cde.downProb]}}{Probability that a conditionally 
-#'             differentially expressed gene is down-regulated. Can be a 
+#'             \item{\code{[cde.downProb]}}{Probability that a conditionally
+#'             differentially expressed gene is down-regulated. Can be a
 #'             vector.}
 #'             \item{\code{[cde.facLoc]}}{Location (meanlog) parameter for the
-#'             conditional differential expression factor log-normal 
+#'             conditional differential expression factor log-normal
 #'             distribution. Can be a vector.}
 #'             \item{\code{[cde.facScale]}}{Scale (sdlog) parameter for the
-#'             conditional differential expression factor log-normal 
+#'             conditional differential expression factor log-normal
 #'             distribution. Can be a vector.}
 #'         }
 #'     }
-#'}
+#' }
 #' The parameters not shown in brackets can be estimated from real data using
 #' \code{\link{splatPopEstimate}}. For details of the eQTL simulation
 #' see \code{\link{splatPopSimulate}}.
@@ -525,64 +545,68 @@ setClass("KersplatParams",
 #' @aliases SplatPopParams-class
 #' @exportClass SplatPopParams
 setClass("SplatPopParams",
-         contains = "SplatParams",
-         slots = c(similarity.scale = "numeric",
-                   pop.mean.shape = "numeric",
-                   pop.mean.rate = "numeric",
-                   pop.quant.norm = "logical",
-                   pop.cv.bins = "numeric",
-                   pop.cv.param = "data.frame",
-                   eqtl.n = "numeric",
-                   eqtl.dist = "numeric",
-                   eqtl.maf.min = "numeric",
-                   eqtl.maf.max = "numeric",
-                   eqtl.coreg = "numeric",
-                   eqtl.ES.shape = "numeric",
-                   eqtl.ES.rate = "numeric",
-                   eqtl.group.specific = "numeric",
-                   eqtl.condition.specific = "numeric",
-                   batch.size = "numeric",
-                   nCells.sample = "logical",
-                   nCells.shape = "numeric",
-                   nCells.rate = "numeric",
-                   nConditions = "numeric",
-                   condition.prob = "numeric",
-                   cde.prob = "numeric",
-                   cde.downProb = "numeric",
-                   cde.facLoc = "numeric",
-                   cde.facScale = "numeric"),
-         prototype = prototype(similarity.scale = 1.0,
-                               pop.mean.shape = 0.34,
-                               pop.mean.rate = 0.008,
-                               pop.quant.norm = TRUE,
-                               pop.cv.bins = 10,
-                               pop.cv.param =
-                                   data.frame(
-                                       start = c(0, 0.5, 1, 2, 3.5,
-                                                 6, 10, 15, 25,50),
-                                       end = c(0.5 ,1, 2, 3.5, 6,
-                                               10, 16, 25, 50, 1e+10),
-                                       shape = c(11, 5, 3, 2, 2, 2, 2, 3, 3, 2),
-                                       rate = c(9, 4, 2, 2, 2, 2, 3, 5, 5, 3)),
-                               eqtl.n = 0.5,
-                               eqtl.dist = 1000000,
-                               eqtl.maf.min = 0.05,
-                               eqtl.maf.max = 1,
-                               eqtl.coreg = 0,
-                               eqtl.ES.shape = 3.6,
-                               eqtl.ES.rate = 12,
-                               eqtl.group.specific = 0.2,
-                               eqtl.condition.specific = 0.2,
-                               batch.size = 10,
-                               nCells.sample = FALSE,
-                               nCells.shape = 1.5,
-                               nCells.rate = 0.015,
-                               nConditions = 1,
-                               condition.prob = 1,
-                               cde.prob = 0.1,
-                               cde.downProb = 0.5,
-                               cde.facLoc = 0.1,
-                               cde.facScale = 0.4))
+    contains = "SplatParams",
+    slots = c(
+        similarity.scale = "numeric",
+        pop.mean.shape = "numeric",
+        pop.mean.rate = "numeric",
+        pop.quant.norm = "logical",
+        pop.cv.bins = "numeric",
+        pop.cv.param = "data.frame",
+        eqtl.n = "numeric",
+        eqtl.dist = "numeric",
+        eqtl.maf.min = "numeric",
+        eqtl.maf.max = "numeric",
+        eqtl.coreg = "numeric",
+        eqtl.ES.shape = "numeric",
+        eqtl.ES.rate = "numeric",
+        eqtl.group.specific = "numeric",
+        eqtl.condition.specific = "numeric",
+        batch.size = "numeric",
+        nCells.sample = "logical",
+        nCells.shape = "numeric",
+        nCells.rate = "numeric",
+        nConditions = "numeric",
+        condition.prob = "numeric",
+        cde.prob = "numeric",
+        cde.downProb = "numeric",
+        cde.facLoc = "numeric",
+        cde.facScale = "numeric"
+    ),
+    prototype = prototype(
+        similarity.scale = 1.0,
+        pop.mean.shape = 0.34,
+        pop.mean.rate = 0.008,
+        pop.quant.norm = TRUE,
+        pop.cv.bins = 10,
+        pop.cv.param =
+            data.frame(
+                start = c(0, 0.5, 1, 2, 3.5, 6, 10, 15, 25, 50),
+                end = c(0.5, 1, 2, 3.5, 6, 10, 16, 25, 50, 1e+10),
+                shape = c(11, 5, 3, 2, 2, 2, 2, 3, 3, 2),
+                rate = c(9, 4, 2, 2, 2, 2, 3, 5, 5, 3)
+            ),
+        eqtl.n = 0.5,
+        eqtl.dist = 1000000,
+        eqtl.maf.min = 0.05,
+        eqtl.maf.max = 1,
+        eqtl.coreg = 0,
+        eqtl.ES.shape = 3.6,
+        eqtl.ES.rate = 12,
+        eqtl.group.specific = 0.2,
+        eqtl.condition.specific = 0.2,
+        batch.size = 10,
+        nCells.sample = FALSE,
+        nCells.shape = 1.5,
+        nCells.rate = 0.015,
+        nConditions = 1,
+        condition.prob = 1,
+        cde.prob = 0.1,
+        cde.downProb = 0.5,
+        cde.facLoc = 0.1,
+        cde.facScale = 0.4
+    )
+)
 
 #' The LunParams class
 #'
@@ -635,16 +659,21 @@ setClass("SplatPopParams",
 #' @aliases LunParams-class
 #' @exportClass LunParams
 setClass("LunParams",
-         contains = "SimpleParams",
-         slots = c(nGroups = "numeric",
-                   groupCells = "numeric",
-                   de.nGenes = "numeric",
-                   de.upProp = "numeric",
-                   de.upFC = "numeric",
-                   de.downFC = "numeric"),
-         prototype = prototype(nGroups = 1, groupCells = 100, mean.shape = 2,
-                               mean.rate = 2, de.nGenes = 1000, de.upProp = 0.5,
-                               de.upFC = 5, de.downFC = 0))
+    contains = "SimpleParams",
+    slots = c(
+        nGroups = "numeric",
+        groupCells = "numeric",
+        de.nGenes = "numeric",
+        de.upProp = "numeric",
+        de.upFC = "numeric",
+        de.downFC = "numeric"
+    ),
+    prototype = prototype(
+        nGroups = 1, groupCells = 100, mean.shape = 2,
+        mean.rate = 2, de.nGenes = 1000, de.upProp = 0.5,
+        de.upFC = 5, de.downFC = 0
+    )
+)
 
 #' The Lun2Params class
 #'
@@ -707,34 +736,41 @@ setClass("LunParams",
 #' @aliases Lun2Params-class
 #' @exportClass Lun2Params
 setClass("Lun2Params",
-         contains = "Params",
-         slots = c(nPlates = "numeric",
-                   plate.ingroup = "character",
-                   plate.mod = "numeric",
-                   plate.var = "numeric",
-                   gene.params = "data.frame",
-                   zi.params = "data.frame",
-                   cell.plates = "numeric",
-                   cell.libSizes = "numeric",
-                   cell.libMod = "numeric",
-                   de.nGenes = "numeric",
-                   de.fc = "numeric"),
-         prototype = prototype(nPlates = 1,
-                               cell.plates = factor(rep(1, 100)),
-                               plate.ingroup = "1",
-                               plate.mod = 1,
-                               plate.var = 14,
-                               gene.params = data.frame(Mean = rep(3.2, 10000),
-                                                        Disp = rep(0.03, 10000)
-                                                        ),
-                               zi.params = data.frame(Mean = rep(1.6, 10000),
-                                                      Disp = rep(0.1, 10000),
-                                                      Prop = rep(2.3e-6, 10000)
-                                                      ),
-                               cell.libSizes = rep(70000, 100),
-                               cell.libMod = 1,
-                               de.nGenes = 0,
-                               de.fc = 3))
+    contains = "Params",
+    slots = c(
+        nPlates = "numeric",
+        plate.ingroup = "character",
+        plate.mod = "numeric",
+        plate.var = "numeric",
+        gene.params = "data.frame",
+        zi.params = "data.frame",
+        cell.plates = "numeric",
+        cell.libSizes = "numeric",
+        cell.libMod = "numeric",
+        de.nGenes = "numeric",
+        de.fc = "numeric"
+    ),
+    prototype = prototype(
+        nPlates = 1,
+        cell.plates = factor(rep(1, 100)),
+        plate.ingroup = "1",
+        plate.mod = 1,
+        plate.var = 14,
+        gene.params = data.frame(
+            Mean = rep(3.2, 10000),
+            Disp = rep(0.03, 10000)
+        ),
+        zi.params = data.frame(
+            Mean = rep(1.6, 10000),
+            Disp = rep(0.1, 10000),
+            Prop = rep(2.3e-6, 10000)
+        ),
+        cell.libSizes = rep(70000, 100),
+        cell.libMod = 1,
+        de.nGenes = 0,
+        de.fc = 3
+    )
+)
 
 #' The SCDDParams class
 #'
@@ -775,31 +811,35 @@ setClass("Lun2Params",
 #' @aliases SCDDParams-class
 #' @exportClass SCDDParams
 setClass("SCDDParams",
-         contains = "Params",
-         slots = c(SCdat = "SummarizedExperiment",
-                   nDE = "numeric",
-                   nDP = "numeric",
-                   nDM = "numeric",
-                   nDB = "numeric",
-                   nEE = "numeric",
-                   nEP = "numeric",
-                   sd.range = "numeric",
-                   modeFC = "numeric",
-                   varInflation = "numeric",
-                   condition = "character"),
-          prototype = prototype(SCdat =
-                                   SingleCellExperiment::SingleCellExperiment(),
-                               nCells = 100,
-                               nDE = 250,
-                               nDP = 250,
-                               nDM = 250,
-                               nDB = 250,
-                               nEE = 5000,
-                               nEP = 4000,
-                               sd.range = c(1, 3),
-                               modeFC = c(2, 3, 4),
-                               varInflation = c(1, 1),
-                               condition = "condition"))
+    contains = "Params",
+    slots = c(
+        SCdat = "SummarizedExperiment",
+        nDE = "numeric",
+        nDP = "numeric",
+        nDM = "numeric",
+        nDB = "numeric",
+        nEE = "numeric",
+        nEP = "numeric",
+        sd.range = "numeric",
+        modeFC = "numeric",
+        varInflation = "numeric",
+        condition = "character"
+    ),
+    prototype = prototype(
+        SCdat = SingleCellExperiment::SingleCellExperiment(),
+        nCells = 100,
+        nDE = 250,
+        nDP = 250,
+        nDM = 250,
+        nDB = 250,
+        nEE = 5000,
+        nEP = 4000,
+        sd.range = c(1, 3),
+        modeFC = c(2, 3, 4),
+        varInflation = c(1, 1),
+        condition = "condition"
+    )
+)
 
 #' The BASiCSParams class
 #'
@@ -857,32 +897,33 @@ setClass("SCDDParams",
 #' @aliases BASiCSParams-class
 #' @exportClass BASiCSParams
 setClass("BASiCSParams",
-         contains = "Params",
-         slots = c(nBatches = "numeric",
-                   batchCells = "numeric",
-                   gene.params = "data.frame",
-                   nSpikes = "numeric",
-                   spike.means = "numeric",
-                   cell.params = "data.frame",
-                   theta = "numeric"),
-         prototype = prototype(nBatches = 1,
-                               batchCells = 100,
-                               gene.params =
-                                   data.frame(
-                                       Mean = c(8.36, 10.65, 4.88, 6.29, 21.72,
-                                                12.93, 30.19),
-                                       Delta = c(1.29, 0.88, 1.51, 1.49, 0.54,
-                                                 0.40, 0.85)
-                               ),
-                               nSpikes = 5,
-                               spike.means = c(12.93, 30.19, 1010.72, 7.90,
-                                               31.59),
-                               cell.params =
-                                   data.frame(
-                                       Phi = c(1.00, 1.06, 1.09, 1.05, 0.80),
-                                       S = c(0.38, 0.40, 0.38, 0.39, 0.34)
-                               ),
-                               theta = 0.39)
+    contains = "Params",
+    slots = c(
+        nBatches = "numeric",
+        batchCells = "numeric",
+        gene.params = "data.frame",
+        nSpikes = "numeric",
+        spike.means = "numeric",
+        cell.params = "data.frame",
+        theta = "numeric"
+    ),
+    prototype = prototype(
+        nBatches = 1,
+        batchCells = 100,
+        gene.params =
+            data.frame(
+                Mean = c(8.36, 10.65, 4.88, 6.29, 21.72, 12.93, 30.19),
+                Delta = c(1.29, 0.88, 1.51, 1.49, 0.54, 0.40, 0.85)
+            ),
+        nSpikes = 5,
+        spike.means = c(12.93, 30.19, 1010.72, 7.90, 31.59),
+        cell.params =
+            data.frame(
+                Phi = c(1.00, 1.06, 1.09, 1.05, 0.80),
+                S = c(0.38, 0.40, 0.38, 0.39, 0.34)
+            ),
+        theta = 0.39
+    )
 )
 
 #' The MFAParams class
@@ -916,13 +957,18 @@ setClass("BASiCSParams",
 #' @aliases MFAParams-class
 #' @exportClass MFAParams
 setClass("MFAParams",
-         contains = "Params",
-         slots = c(trans.prop = "numeric",
-                   zero.neg = "logical",
-                   dropout.present = "logical",
-                   dropout.lambda = "numeric"),
-         prototype = prototype(trans.prop = 0, zero.neg = TRUE,
-                               dropout.present = FALSE, dropout.lambda = 1))
+    contains = "Params",
+    slots = c(
+        trans.prop = "numeric",
+        zero.neg = "logical",
+        dropout.present = "logical",
+        dropout.lambda = "numeric"
+    ),
+    prototype = prototype(
+        trans.prop = 0, zero.neg = TRUE,
+        dropout.present = FALSE, dropout.lambda = 1
+    )
+)
 
 
 #' The PhenoParams class
@@ -956,13 +1002,18 @@ setClass("MFAParams",
 #' @aliases PhenoParams-class
 #' @exportClass PhenoParams
 setClass("PhenoParams",
-         contains = "Params",
-         slots = c(n.de = "numeric",
-                   n.pst = "numeric",
-                   n.pst.beta = "numeric",
-                   n.de.pst.beta = "numeric"),
-         prototype = prototype(n.de = 2500, n.pst = 2500, n.pst.beta = 2500,
-                               n.de.pst.beta = 2500))
+    contains = "Params",
+    slots = c(
+        n.de = "numeric",
+        n.pst = "numeric",
+        n.pst.beta = "numeric",
+        n.de.pst.beta = "numeric"
+    ),
+    prototype = prototype(
+        n.de = 2500, n.pst = 2500, n.pst.beta = 2500,
+        n.de.pst.beta = 2500
+    )
+)
 
 
 #' The ZINBParams class
@@ -994,9 +1045,10 @@ setClass("PhenoParams",
 #' @aliases ZINBParams-class
 #' @exportClass ZINBParams
 setClass("ZINBParams",
-         contains = "Params",
-         slots = c(model = "ANY"),
-         prototype = prototype(nGenes = 100, nCells = 50))
+    contains = "Params",
+    slots = c(model = "ANY"),
+    prototype = prototype(nGenes = 100, nCells = 50)
+)
 
 
 #' The SparseDCParams class
@@ -1037,18 +1089,23 @@ setClass("ZINBParams",
 #' @aliases SparseDCParams-class
 #' @exportClass SparseDCParams
 setClass("SparseDCParams",
-         contains = "Params",
-         slots = c(markers.n = "numeric",
-                   markers.shared = "numeric",
-                   markers.same = "logical",
-                   clusts.c1 = "numeric",
-                   clusts.c2 = "numeric",
-                   mean.lower = "numeric",
-                   mean.upper = "numeric"),
-         prototype = prototype(markers.n = 0,
-                               markers.shared = 0,
-                               markers.same = FALSE,
-                               clusts.c1 = 1,
-                               clusts.c2 = 1,
-                               mean.lower = 1,
-                               mean.upper = 2))
+    contains = "Params",
+    slots = c(
+        markers.n = "numeric",
+        markers.shared = "numeric",
+        markers.same = "logical",
+        clusts.c1 = "numeric",
+        clusts.c2 = "numeric",
+        mean.lower = "numeric",
+        mean.upper = "numeric"
+    ),
+    prototype = prototype(
+        markers.n = 0,
+        markers.shared = 0,
+        markers.same = FALSE,
+        clusts.c1 = 1,
+        clusts.c2 = 1,
+        mean.lower = 1,
+        mean.upper = 2
+    )
+)

@@ -18,8 +18,12 @@ test_that("printing works", {
 
 test_that("nGenes checks work", {
     skip_if_not_installed("zinbwave")
-    expect_error(setParam(params, "nGenes", 1),
-                 "nGenes cannot be set directly")
-    expect_error(setParam(params, "nCells", 1),
-                 "nCells cannot be set directly")
+    expect_error(
+        setParam(params, "nGenes", 1),
+        "nGenes cannot be set directly"
+    )
+    expect_error(
+        setParam(params, "nCells", 1),
+        "nCells cannot be set directly"
+    )
 })

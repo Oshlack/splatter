@@ -36,10 +36,9 @@
 #'
 #' @importFrom BiocParallel SerialParam
 #' @export
-scDDEstimate <- function(counts, #conditions, condition,
+scDDEstimate <- function(counts, # conditions, condition,
                          params = newSCDDParams(), verbose = TRUE,
                          BPPARAM = SerialParam(), ...) {
-
     UseMethod("scDDEstimate")
 }
 
@@ -49,17 +48,30 @@ scDDEstimate <- function(counts, #conditions, condition,
 scDDEstimate.matrix <- function(counts, params = newSCDDParams(),
                                 verbose = TRUE, BPPARAM = SerialParam(),
                                 conditions, ...) {
+    checkmate::assertMatrix(
+        counts,
+        mode = "numeric",
+        any.missing = FALSE,
+        min.rows = 1,
+        min.cols = 1,
+        row.names = "unique",
+        col.names = "unique"
+    )
+    checkmate::assertIntegerish(
+        conditions,
+        len = ncol(counts),
+        lower = 1,
+        upper = 2
+    )
 
-    checkmate::assertMatrix(counts, mode = "numeric", any.missing = FALSE,
-                            min.rows = 1, min.cols = 1, row.names = "unique",
-                            col.names = "unique")
-    checkmate::assertIntegerish(conditions, len = ncol(counts), lower = 1,
-                                upper = 2)
-
-    counts <- SingleCellExperiment(assays = list(counts = counts),
-                                   colData = data.frame(condition = conditions))
-    scDDEstimate.default(counts, params, verbose, BPPARAM,
-                         condition = "condition")
+    counts <- SingleCellExperiment(
+        assays = list(counts = counts),
+        colData = data.frame(condition = conditions)
+    )
+    scDDEstimate.default(
+        counts, params, verbose, BPPARAM,
+        condition = "condition"
+    )
 }
 
 #' @rdname scDDEstimate
@@ -69,9 +81,10 @@ scDDEstimate.SingleCellExperiment <- function(counts,
                                               verbose = TRUE,
                                               BPPARAM = SerialParam(),
                                               condition = "condition", ...) {
-
-    scDDEstimate.default(counts, params, verbose, BPPARAM,
-                         condition = condition)
+    scDDEstimate.default(
+        counts, params, verbose, BPPARAM,
+        condition = condition
+    )
 }
 
 #' @rdname scDDEstimate
@@ -80,11 +93,12 @@ scDDEstimate.SingleCellExperiment <- function(counts,
 scDDEstimate.default <- function(counts,
                                  params = newSCDDParams(), verbose = TRUE,
                                  BPPARAM = SerialParam(), condition, ...) {
-
     checkmate::assertClass(params, "SCDDParams")
     checkmate::assertClass(counts, "SingleCellExperiment")
-    checkmate::assertCharacter(condition, min.chars = 1, any.missing = FALSE,
-                               len = 1)
+    checkmate::assertCharacter(condition,
+        min.chars = 1, any.missing = FALSE,
+        len = 1
+    )
     if (!(condition %in% colnames(SummarizedExperiment::colData(counts)))) {
         stop("'condition' must be the name of a column in `colData(counts)`")
     }
@@ -92,19 +106,29 @@ scDDEstimate.default <- function(counts,
     if (verbose) {
         processed <- scDD::preprocess(counts, condition, median_norm = TRUE)
     } else {
-        suppressMessages(
-        processed <- scDD::preprocess(counts, condition, median_norm = TRUE)
+        processed <- suppressMessages(
+            scDD::preprocess(counts, condition, median_norm = TRUE)
         )
     }
 
     if (verbose) {
-        SCdat <- scDD::scDD(processed, testZeroes = FALSE, param = BPPARAM,
-                            condition = condition)
+        SCdat <- scDD::scDD(
+            processed,
+            testZeroes = FALSE,
+            param = BPPARAM,
+            condition = condition
+        )
     } else {
-        dummy <- utils::capture.output(suppressMessages(
-        SCdat <- scDD::scDD(processed, testZeroes = FALSE, param = BPPARAM,
-                            condition = condition)
-        ))
+        SCdat <- withr::with_output_sink(tempfile(), {
+            suppressMessages(
+                scDD::scDD(
+                    processed,
+                    testZeroes = FALSE,
+                    param = BPPARAM,
+                    condition = condition
+                )
+            )
+        })
     }
 
     res <- scDD::results(SCdat)
@@ -119,15 +143,17 @@ scDDEstimate.default <- function(counts,
     nEP <- sum(res$Clusters.c1[not.dd] > 1 & res$Clusters.c2[not.dd] > 1)
     nEE <- nrow(counts) - nDE - nDP - nDM - nDB - nEP
 
-    params <- setParams(params,
-                        nCells = round(dim(SCdat)[2] / 2),
-                        SCdat = SCdat,
-                        nDE = nDE,
-                        nDP = nDP,
-                        nDM = nDM,
-                        nDB = nDB,
-                        nEE = nEE,
-                        nEP = nEP)
+    params <- setParams(
+        params,
+        nCells = round(dim(SCdat)[2] / 2),
+        SCdat = SCdat,
+        nDE = nDE,
+        nDP = nDP,
+        nDM = nDM,
+        nDB = nDB,
+        nEE = nEE,
+        nEP = nEP
+    )
 
     return(params)
 }

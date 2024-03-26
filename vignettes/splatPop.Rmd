@@ -19,10 +19,10 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 ```{r setup}
 suppressPackageStartupMessages({
-  library("splatter")
-  library("scater")
-  library("VariantAnnotation")
-  library("ggplot2")
+    library("splatter")
+    library("scater")
+    library("VariantAnnotation")
+    library("ggplot2")
 })
 set.seed(42)
 ```
@@ -55,7 +55,7 @@ To get started with splatPop, you only need genotype information for the populat
 vcf <- mockVCF()
 gff <- mockGFF()
 
-sim <- splatPopSimulate(vcf = vcf, gff = gff, sparsify = FALSE) 
+sim <- splatPopSimulate(vcf = vcf, gff = gff, sparsify = FALSE)
 sim <- logNormCounts(sim)
 sim <- runPCA(sim, ncomponents = 5)
 plotPCA(sim, colour_by = "Sample")
@@ -83,13 +83,15 @@ The parameters that can be estimated are in parentheses in the `SplatPopParms` o
 For example, we can estimate new parameter values from user provided data...
 
 ```{r eqtlEstimate}
-bulk.means <- mockBulkMatrix(n.genes=100, n.samples=100)
-bulk.eqtl <- mockBulkeQTL(n.genes=100)
+bulk.means <- mockBulkMatrix(n.genes = 100, n.samples = 100)
+bulk.eqtl <- mockBulkeQTL(n.genes = 100)
 counts <- mockSCE()
 
-params.est <- splatPopEstimate(means = bulk.means,
-                               eqtl = bulk.eqtl,
-                               counts = counts)
+params.est <- splatPopEstimate(
+    means = bulk.means,
+    eqtl = bulk.eqtl,
+    counts = counts
+)
 params.est
 ```
 
@@ -153,8 +155,11 @@ Note that when `splatPopSimulate` is run, these to objects are contained in the 
 ```{r splatPopSimulateMeans}
 params <- newSplatPopParams()
 
-sim.means <- splatPopSimulateMeans(vcf = vcf, gff = gff,
-                                   params = params)
+sim.means <- splatPopSimulateMeans(
+    vcf = vcf,
+    gff = gff,
+    params = params
+)
 
 round(sim.means$means[1:5, 1:3], digits = 2)
 
@@ -170,8 +175,11 @@ print(sim.means$conditions)
 As described above, information about genes can also be provided in a data.frame using the `key` argument. If you provide `splatPopSimulateMeans` with the key output from a previous run, it will generate a new population with the same properties, essentially creating a replicate. Here is a snapshot of such a replicate using the key simulated above:
 
 ```{r splatPopSimulateMeans-from-key}
-sim.means.rep2 <- splatPopSimulateMeans(vcf = vcf, key=sim.means$key,
-                                        params = newSplatPopParams())
+sim.means.rep2 <- splatPopSimulateMeans(
+    vcf = vcf,
+    key = sim.means$key,
+    params = newSplatPopParams()
+)
 
 round(sim.means.rep2$means[1:5, 1:5], digits = 2)
 ```
@@ -199,10 +207,14 @@ head(emp$eqtl[, c("geneID", "snpID", "snpCHR", "snpLOC", "snpMAF", "slope")])
 the gene location information will be pulled from the GFF and the gene mean and variance information will be pulled from the population-scale gene mean data, to produce a splatPop key: 
 
 ```{r empirical-based-simulation}
-emp.sim <- splatPopSimulateMeans(vcf = emp$vcf, gff = emp$gff, eqtl = emp$eqtl, 
-                         means = emp$means, params = newSplatPopParams())
+emp.sim <- splatPopSimulateMeans(
+    vcf = emp$vcf,
+    gff = emp$gff,
+    eqtl = emp$eqtl,
+    means = emp$means,
+    params = newSplatPopParams()
+)
 head(emp.sim$key)
-
 ```
 
 
@@ -213,11 +225,13 @@ Finally, single cell level data is simulated using `splatPopSimulateSC`. Running
 Looking at the output of `splatPopSimulateSC` we see that it is a single `SingleCellExperiment` object (SCE) with a row for each feature (gene) and a column for each cell. The simulated counts are accessed using `counts`, although it can also hold other expression measures such as FPKM or TPM. Information about each cell (e.g. sample, group, batch) is held in the `colData` and information about each gene (e.g. location, eQTL effects, and other data from the splatPop key) is held in the `rowData`. The `splatPopParams` object and the simulated gene means matrix/list of matrices is also saved as metadata in the SCE object.  
 
 ```{r eqtl-splatPopSimulateSC-simple-object}
-sim.sc <- splatPopSimulateSC(params=params, 
-                             key = sim.means$key,
-                             sim.means=sim.means$means, 
-                             batchCells=50, 
-                             sparsify = FALSE)
+sim.sc <- splatPopSimulateSC(
+    params = params,
+    key = sim.means$key,
+    sim.means = sim.means$means,
+    batchCells = 50,
+    sparsify = FALSE
+)
 sim.sc
 ```
 
@@ -232,12 +246,18 @@ plotPCA(sim.sc, colour_by = "Sample")
 Another useful feature of splatPop is the ability to simulate N cells per individual, where N is sampled from a gamma distribution provided by the user. 
 
 ```{r splatPop-simulation-nCells-sampled}
-params.nCells <- newSplatPopParams(nCells.sample = TRUE,
-                                   nCells.shape = 1.5,
-                                   nCells.rate = 0.01)
+params.nCells <- newSplatPopParams(
+    nCells.sample = TRUE,
+    nCells.shape = 1.5,
+    nCells.rate = 0.01
+)
 
-sim.sc.nCells <- splatPopSimulate(vcf = vcf, gff = gff, params = params.nCells, 
-                               sparsify = FALSE)
+sim.sc.nCells <- splatPopSimulate(
+    vcf = vcf,
+    gff = gff,
+    params = params.nCells,
+    sparsify = FALSE
+)
 
 sim.sc.nCells <- logNormCounts(sim.sc.nCells)
 sim.sc.nCells <- runPCA(sim.sc.nCells, ncomponents = 2)
@@ -258,11 +278,17 @@ When used to simulate single-cell data with group-specific effects, `splatSimula
     * `Group` - The group ID for each cell.
 
 ```{r group-specific-eQTL-simulations}
-params.group <- newSplatPopParams(batchCells = 50,
-                                  group.prob = c(0.5, 0.5))
+params.group <- newSplatPopParams(
+    batchCells = 50,
+    group.prob = c(0.5, 0.5)
+)
 
-sim.sc.gr2 <- splatPopSimulate(vcf = vcf, gff = gff, params = params.group, 
-                               sparsify = FALSE)
+sim.sc.gr2 <- splatPopSimulate(
+    vcf = vcf,
+    gff = gff,
+    params = params.group,
+    sparsify = FALSE
+)
 
 sim.sc.gr2 <- logNormCounts(sim.sc.gr2)
 sim.sc.gr2 <- runPCA(sim.sc.gr2, ncomponents = 10)
@@ -272,16 +298,22 @@ plotPCA(sim.sc.gr2, colour_by = "Group", shape_by = "Sample")
 From the PCA plot above you can see that in this simulation the sample effect outweighs the group effect. But we can tune these parameters to change the  relative weight of these effects. First we can decrease the sample effect by increasing the *similarity.scale* parameter. And second we can increase the group effect by adjusting the *eqtl.group.specific* and *de* parameters: 
 
 ```{r group-specific-eQTL-simulations-bigger}
-params.group <- newSplatPopParams(batchCells = 50,
-                                  similarity.scale = 8,
-                                  eqtl.group.specific = 0.6,
-                                  de.prob = 0.5,
-                                  de.facLoc = 0.5, 
-                                  de.facScale = 0.5,
-                                  group.prob = c(0.5, 0.5))
+params.group <- newSplatPopParams(
+    batchCells = 50,
+    similarity.scale = 8,
+    eqtl.group.specific = 0.6,
+    de.prob = 0.5,
+    de.facLoc = 0.5,
+    de.facScale = 0.5,
+    group.prob = c(0.5, 0.5)
+)
 
-sim.sc.gr2 <- splatPopSimulate(vcf = vcf, gff = gff, params = params.group, 
-                               sparsify = FALSE)
+sim.sc.gr2 <- splatPopSimulate(
+    vcf = vcf,
+    gff = gff,
+    params = params.group,
+    sparsify = FALSE
+)
 
 sim.sc.gr2 <- logNormCounts(sim.sc.gr2)
 sim.sc.gr2 <- runPCA(sim.sc.gr2, ncomponents = 10)
@@ -295,20 +327,31 @@ Conditional effects are effects that are specific to a subset of the individuals
 Like with group effects, the two types of conditional effects are included: condition-specific eQTL and condition-specific differential expression (DE) effects. The DE effects are implemented as in the `splat` simulation, with the user able to control `splatPopParam` parameters including *cde.prob*, *cde.downProb*, *cde.facLoc*, and *cde.facScale*. For condition-specific eQTL, the proportion of eQTL to designate as condition-specific eQTL is set using *eqtl.condition.specific*. 
 
 ```{r simulate-population-with-condition-effects}
-params.cond <- newSplatPopParams(eqtl.n = 0.5, 
-                                 batchCells = 50,
-                                 similarity.scale = 5,
-                                 condition.prob = c(0.5, 0.5),
-                                 eqtl.condition.specific = 0.5,
-                                 cde.facLoc = 1, 
-                                 cde.facScale = 1)
+params.cond <- newSplatPopParams(
+    eqtl.n = 0.5,
+    batchCells = 50,
+    similarity.scale = 5,
+    condition.prob = c(0.5, 0.5),
+    eqtl.condition.specific = 0.5,
+    cde.facLoc = 1,
+    cde.facScale = 1
+)
 
-sim.pop.cond <- splatPopSimulate(vcf = vcf, gff = gff, params = params.cond, 
-                                 sparsify = FALSE)
+sim.pop.cond <- splatPopSimulate(
+    vcf = vcf,
+    gff = gff,
+    params = params.cond,
+    sparsify = FALSE
+)
 
 sim.pop.cond <- logNormCounts(sim.pop.cond)
 sim.pop.cond <- runPCA(sim.pop.cond, ncomponents = 10)
-plotPCA(sim.pop.cond, colour_by = "Condition", shape_by = "Sample", point_size=3)
+plotPCA(
+    sim.pop.cond,
+    colour_by = "Condition",
+    shape_by = "Sample",
+    point_size = 3
+)
 ```
 In this example, the five samples are assigned to one of the two condition cohorts, and PCA 1 separates cells primarily by cohort. 
 
@@ -323,33 +366,55 @@ batch.size=nSamples)
 In the following example, we request two batches (with 20 cells/sample in each) with 3 samples in each batch. Given the VCF file contains 5 samples, the simulated data will have one sample replicated in both batches. 
 
 ```{r simulate-population-with-batch-effects}
-params.batches <- newSplatPopParams(similarity.scale = 4,
-                                    batchCells = c(20, 20),
-                                    batch.size = 3,
-                                    batch.facLoc = 0.1,
-                                    batch.facScale = 0.2)
+params.batches <- newSplatPopParams(
+    similarity.scale = 4,
+    batchCells = c(20, 20),
+    batch.size = 3,
+    batch.facLoc = 0.1,
+    batch.facScale = 0.2
+)
 
-sim.pop.batches <- splatPopSimulate(vcf = vcf, gff = gff, 
-                                    params = params.batches, sparsify = FALSE)
+sim.pop.batches <- splatPopSimulate(
+    vcf = vcf,
+    gff = gff,
+    params = params.batches,
+    sparsify = FALSE
+)
 sim.pop.batches <- logNormCounts(sim.pop.batches)
 sim.pop.batches <- runPCA(sim.pop.batches, ncomponents = 10)
-plotPCA(sim.pop.batches, colour_by = "Sample", shape_by = "Batch", point_size=3)
+plotPCA(
+    sim.pop.batches,
+    colour_by = "Sample",
+    shape_by = "Batch",
+    point_size = 3
+)
 ```
 
 Different distributions can be used to sample batch effect sizes for different batches. For example, here we simulate three batches with 3 samples per batch and only 5 cells/sample/batch (for easy viewing), where batch 1 has a large batch effect compared to batches 2 and 3.
 
 ```{r simulate-population-with-different-sized-batch-effects}
-params.batches <- newSplatPopParams(similarity.scale = 8,
-                                    batchCells = c(5, 5, 5),
-                                    batch.size = 3,
-                                    batch.facLoc = c(0.5, 0.1,  0.1),
-                                    batch.facScale = c(0.6, 0.15, 0.15))
+params.batches <- newSplatPopParams(
+    similarity.scale = 8,
+    batchCells = c(5, 5, 5),
+    batch.size = 3,
+    batch.facLoc = c(0.5, 0.1, 0.1),
+    batch.facScale = c(0.6, 0.15, 0.15)
+)
 
-sim.pop.batches <- splatPopSimulate(vcf = vcf, gff = gff, 
-                                    params = params.batches, sparsify = FALSE)
+sim.pop.batches <- splatPopSimulate(
+    vcf = vcf,
+    gff = gff,
+    params = params.batches,
+    sparsify = FALSE
+)
 sim.pop.batches <- logNormCounts(sim.pop.batches)
 sim.pop.batches <- runPCA(sim.pop.batches, ncomponents = 10)
-plotPCA(sim.pop.batches, colour_by = "Sample", shape_by = "Batch", point_size=3)
+plotPCA(
+    sim.pop.batches,
+    colour_by = "Sample",
+    shape_by = "Batch",
+    point_size = 3
+)
 ```
 
 ### Gene co-regulation
@@ -357,7 +422,7 @@ plotPCA(sim.pop.batches, colour_by = "Sample", shape_by = "Batch", point_size=3)
 splatPop randomly selects an eSNP within the desired window for each eGene. By chance some eGenes may be assigned the same eSNP, but if many SNPs are provided this is rare. However, the `eqtl.coreg` parameter can be used to randomly select a percent of eGenes, sort them by chromosome and location, and assign them the same eSNP. This function maintains the randomly sampled effect sizes and designation as a global, group specific, and/or condition specific eQTL, however it does ensure that all eQTL with the same eSNP are given the same effect sign. Here, for example, we show the expression correlation between randomly paired genes in a splatPop simulation (grey) compared to expression correlation between co-regulated genes (blue), with the average correlation for each type designated by the large point.
 
 ```{r simulate-population-with-coregulation, fig.height=2}
-params.coreg <- newSplatPopParams(eqtl.coreg = 0.4, eqtl.ES.rate=2)
+params.coreg <- newSplatPopParams(eqtl.coreg = 0.4, eqtl.ES.rate = 2)
 vcf <- mockVCF(n.sample = 20, n.snps = 1200)
 gff <- mockGFF(n.genes = 100)
 sim.coreg <- splatPopSimulateMeans(vcf = vcf, gff = gff, params = params.coreg)
@@ -366,31 +431,38 @@ sim.cor <- cor(t(sim.coreg$means))
 coregSNPs <- names(which(table(sim.coreg$key$eSNP.ID) == 2))
 
 coregCorList <- c()
-for(snp in coregSNPs){
-  coregGenes <- row.names(sim.coreg$key)[which(sim.coreg$key$eSNP.ID == snp)]
-  coregCorList <- c(coregCorList, sim.cor[coregGenes[1], coregGenes[2]])
+for (snp in coregSNPs) {
+    coregGenes <- row.names(sim.coreg$key)[which(sim.coreg$key$eSNP.ID == snp)]
+    coregCorList <- c(coregCorList, sim.cor[coregGenes[1], coregGenes[2]])
 }
 
 randCorList <- c()
-for (n in 1:1000){
-  genes <- sample(row.names(sim.coreg$key), 2)
-  randCorList <- c(randCorList, sim.cor[genes[1], genes[2]])
+for (n in 1:1000) {
+    genes <- sample(row.names(sim.coreg$key), 2)
+    randCorList <- c(randCorList, sim.cor[genes[1], genes[2]])
 }
 
-cor.df <- as.data.frame(list(type=c(rep("coregulated pairs", length(coregCorList)),
-                                    rep("random pairs", length(randCorList))), 
-                             correlation=c(coregCorList, randCorList),
-                             id = "x"))
+cor.df <- as.data.frame(list(
+    type = c(
+        rep("coregulated pairs", length(coregCorList)),
+        rep("random pairs", length(randCorList))
+    ),
+    correlation = c(coregCorList, randCorList),
+    id = "x"
+))
 
-ggplot(cor.df, aes(x = correlation, y = id, color = type, alpha = type)) +  
-  geom_jitter(size = 2, width = 0.1) +
-  scale_alpha_discrete(range = c(0.6, 0.1)) + 
-  stat_summary(fun = mean, geom = "pointrange", size = 1, alpha=1) + theme_minimal() +
-  theme(axis.title.y=element_blank(), axis.text.y=element_blank(), 
-        legend.position="top") + xlim(c(-1, 1)) +
-  scale_color_manual(values=c("#56B4E9", "#999999"))
-  
-
+ggplot(cor.df, aes(x = correlation, y = id, color = type, alpha = type)) +
+    geom_jitter(size = 2, width = 0.1) +
+    scale_alpha_discrete(range = c(0.6, 0.1)) +
+    stat_summary(fun = mean, geom = "pointrange", size = 1, alpha = 1) +
+    theme_minimal() +
+    theme(
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        legend.position = "top"
+    ) +
+    xlim(c(-1, 1)) +
+    scale_color_manual(values = c("#56B4E9", "#999999"))
 ```
 
 

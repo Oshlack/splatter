@@ -28,15 +28,15 @@
 #' }
 #' @export
 kersplatEstimate <- function(counts, params = newKersplatParams(),
-                            verbose = TRUE) {
+                             verbose = TRUE) {
     UseMethod("kersplatEstimate")
 }
 
 #' @rdname kersplatEstimate
 #' @export
 kersplatEstimate.SingleCellExperiment <- function(counts,
-                                                 params = newKersplatParams(),
-                                                 verbose = TRUE) {
+                                                  params = newKersplatParams(),
+                                                  verbose = TRUE) {
     counts <- getCounts(counts)
     kersplatEstimate(counts, params, verbose)
 }
@@ -45,8 +45,7 @@ kersplatEstimate.SingleCellExperiment <- function(counts,
 #' @importFrom stats median
 #' @export
 kersplatEstimate.matrix <- function(counts, params = newKersplatParams(),
-                                   verbose = TRUE) {
-
+                                    verbose = TRUE) {
     checkmate::assertClass(params, "KersplatParams")
     checkmate::assertFlag(verbose)
 
@@ -93,8 +92,9 @@ kersplatEstimate.matrix <- function(counts, params = newKersplatParams(),
 #'
 #' @importFrom stats density
 kersplatEstMean <- function(norm.counts, params, verbose) {
-
-    if (verbose) {message("Estimating mean parameters...")}
+    if (verbose) {
+        message("Estimating mean parameters...")
+    }
 
     means <- rowMeans(norm.counts)
     means <- means[means != 0]
@@ -102,10 +102,14 @@ kersplatEstMean <- function(norm.counts, params, verbose) {
 
     fit <- selectFit(means, "gamma", non.zero, verbose)
 
-    params <- setParams(params, mean.shape = unname(fit$estimate["shape"]),
-                        mean.rate = unname(fit$estimate["rate"]))
+    params <- setParams(params,
+        mean.shape = unname(fit$estimate["shape"]),
+        mean.rate = unname(fit$estimate["rate"])
+    )
 
-    if (verbose) {message("Estimating expression outlier parameters...")}
+    if (verbose) {
+        message("Estimating expression outlier parameters...")
+    }
     lmeans <- log(means)
     med <- median(lmeans)
     mad <- mad(lmeans)
@@ -120,12 +124,13 @@ kersplatEstMean <- function(norm.counts, params, verbose) {
 
     if (length(outs) > 1) {
         facs <- means[outs] / median(means)
-        #fit <- selectFit(facs, "lnorm", verbose = verbose)
+        # fit <- selectFit(facs, "lnorm", verbose = verbose)
         fit <- fitdistrplus::fitdist(facs, "lnorm")
 
         params <- setParams(params,
-                            mean.outLoc = unname(fit$estimate["meanlog"]),
-                            mean.outScale = unname(fit$estimate["sdlog"]))
+            mean.outLoc = unname(fit$estimate["meanlog"]),
+            mean.outScale = unname(fit$estimate["sdlog"])
+        )
     }
 
     params <- setParams(params, mean.dens = density(lmeans))
@@ -151,8 +156,9 @@ kersplatEstMean <- function(norm.counts, params, verbose) {
 #'
 #' @return KersplatParams object with estimated BCV parameters
 kersplatEstBCV <- function(counts, params, verbose) {
-
-    if (verbose) {message("Estimating BCV parameters...")}
+    if (verbose) {
+        message("Estimating BCV parameters...")
+    }
 
     # Add dummy design matrix to avoid print statement
     design <- matrix(1, ncol(counts), 1)
@@ -194,14 +200,16 @@ kersplatEstBCV <- function(counts, params, verbose) {
     #   SimBCVCommon ~ EstRaw
     # Using lm (negative values only)
     if (corrected < 0) {
-        warning("Exponential corrected BCV is negative.",
-                "Using linear correction.")
+        warning(
+            "Exponential corrected BCV is negative. Using linear correction."
+        )
         corrected <- -0.1 + 0.1 * raw
     }
 
     if (corrected < 0) {
-        warning("Linear corrected BCV is negative.",
-                "Using existing bcv.common.")
+        warning(
+            "Linear corrected BCV is negative. Using existing bcv.common."
+        )
         corrected <- getParam(params, "bcv.common")
     }
 
@@ -229,8 +237,9 @@ kersplatEstBCV <- function(counts, params, verbose) {
 #'
 #' @importFrom stats density
 kersplatEstLib <- function(counts, params, verbose) {
-
-    if (verbose) {message("Estimating library size parameters...")}
+    if (verbose) {
+        message("Estimating library size parameters...")
+    }
 
     lib.sizes <- colSums(counts)
 
@@ -241,8 +250,12 @@ kersplatEstLib <- function(counts, params, verbose) {
 
     dens <- density(lib.sizes)
 
-    params <- setParams(params, lib.loc = lib.loc, lib.scale = lib.scale,
-                        lib.dens = dens)
+    params <- setParams(
+        params,
+        lib.loc = lib.loc,
+        lib.scale = lib.scale,
+        lib.dens = dens
+    )
 
     return(params)
 }
@@ -263,11 +276,15 @@ kersplatEstLib <- function(counts, params, verbose) {
 #'
 #' @return The selected fit object
 selectFit <- function(data, distr, weights = NULL, verbose = TRUE) {
-
     checkmate::assertNumeric(data, finite = TRUE, any.missing = FALSE)
     checkmate::assertString(distr)
-    checkmate::assertNumeric(weights, finite = TRUE, any.missing = TRUE,
-                             len = length(data), null.ok = TRUE)
+    checkmate::assertNumeric(
+        weights,
+        finite = TRUE,
+        any.missing = TRUE,
+        len = length(data),
+        null.ok = TRUE
+    )
     checkmate::assertFlag(verbose)
 
     # Sink output that sometimes happens when fitting
@@ -287,51 +304,73 @@ selectFit <- function(data, distr, weights = NULL, verbose = TRUE) {
     )
 
     try(
-        fits$`QME` <- fitdistrplus::fitdist(data, distr, method = "qme",
-                                            probs = c(1/3, 2/3)),
+        fits$`QME` <- fitdistrplus::fitdist(
+            data,
+            distr,
+            method = "qme",
+            probs = c(1 / 3, 2 / 3)
+        ),
         silent = TRUE
     )
 
     try(
-        fits$`MGE (CvM)` <- fitdistrplus::fitdist(data, distr, method = "mge",
-                                                  gof = "CvM"),
+        fits$`MGE (CvM)` <- fitdistrplus::fitdist(
+            data,
+            distr,
+            method = "mge",
+            gof = "CvM"
+        ),
         silent = TRUE
     )
 
     try(
-        fits$`MGE (KS)` <- fitdistrplus::fitdist(data, distr, method = "mge",
-                                                 gof = "KS"),
+        fits$`MGE (KS)` <- fitdistrplus::fitdist(
+            data,
+            distr,
+            method = "mge",
+            gof = "KS"
+        ),
         silent = TRUE
     )
 
     try(
-        fits$`MGE (AD)` <- fitdistrplus::fitdist(data, distr, method = "mge",
-                                                 gof = "AD"),
+        fits$`MGE (AD)` <- fitdistrplus::fitdist(
+            data,
+            distr,
+            method = "mge",
+            gof = "AD"
+        ),
         silent = TRUE
     )
 
     if (!is.null(weights)) {
         try(suppressWarnings(
-            fits$`Weighted MLE` <- fitdistrplus::fitdist(data, distr,
-                                                         method = "mle",
-                                                         weights = weights)
-            ), silent = TRUE
-        )
+            fits$`Weighted MLE` <- fitdistrplus::fitdist(
+                data,
+                distr,
+                method = "mle",
+                weights = weights
+            )
+        ), silent = TRUE)
 
         try(suppressWarnings(
-            fits$`Weighted MME` <- fitdistrplus::fitdist(data, distr,
-                                                         method = "mme",
-                                                         weights = weights)
-            ), silent = TRUE
-        )
+            fits$`Weighted MME` <- fitdistrplus::fitdist(
+                data,
+                distr,
+                method = "mme",
+                weights = weights
+            )
+        ), silent = TRUE)
 
         try(suppressWarnings(
-            fits$`Weighted QME` <- fitdistrplus::fitdist(data, distr,
-                                                         method = "qme",
-                                                         probs = c(1/3, 2/3),
-                                                         weights = weights)
-            ), silent = TRUE
-        )
+            fits$`Weighted QME` <- fitdistrplus::fitdist(
+                data,
+                distr,
+                method = "qme",
+                probs = c(1 / 3, 2 / 3),
+                weights = weights
+            )
+        ), silent = TRUE)
     }
 
     scores <- fitdistrplus::gofstat(fits)$cvm

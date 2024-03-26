@@ -36,11 +36,13 @@ lunEstimate.SingleCellExperiment <- function(counts, params = newLunParams()) {
 #' @rdname lunEstimate
 #' @export
 lunEstimate.matrix <- function(counts, params = newLunParams()) {
-
     checkmate::assertClass(params, "LunParams")
 
-    params <- setParams(params, nGenes = nrow(counts),
-                        groupCells = ncol(counts))
+    params <- setParams(
+        params,
+        nGenes = nrow(counts),
+        groupCells = ncol(counts)
+    )
 
     return(params)
 }

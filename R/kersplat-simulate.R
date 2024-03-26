@@ -31,7 +31,6 @@
 #' @export
 kersplatSimulate <- function(params = newKersplatParams(), sparsify = TRUE,
                              verbose = TRUE, ...) {
-
     params <- kersplatSetup(params, verbose, ...)
     sim <- kersplatSample(params, sparsify, verbose)
 
@@ -89,20 +88,19 @@ kersplatSimulate <- function(params = newKersplatParams(), sparsify = TRUE,
 #'     params <- kersplatSetup()
 #' }
 kersplatSetup <- function(params = newKersplatParams(), verbose = TRUE, ...) {
-
     checkmate::assertClass(params, "KersplatParams")
     params <- setParams(params, ...)
 
     # Set random seed
     seed <- getParam(params, "seed")
     withr::with_seed(seed, {
-
-    if (verbose) {message("Setting up parameters...")}
-    params <- kersplatGenNetwork(params, verbose)
-    params <- kersplatSelectRegs(params, verbose)
-    params <- kersplatSimGeneMeans(params, verbose)
-    params <- kersplatSimPaths(params, verbose)
-
+        if (verbose) {
+            message("Setting up parameters...")
+        }
+        params <- kersplatGenNetwork(params, verbose)
+        params <- kersplatSelectRegs(params, verbose)
+        params <- kersplatSimGeneMeans(params, verbose)
+        params <- kersplatSimPaths(params, verbose)
     })
     return(params)
 }
@@ -197,7 +195,6 @@ kersplatSetup <- function(params = newKersplatParams(), verbose = TRUE, ...) {
 #'     sim <- kersplatSample(params)
 #' }
 kersplatSample <- function(params, sparsify = TRUE, verbose = TRUE) {
-
     # Check that parameters are set up
     checkmate::assertClass(params, "KersplatParams")
     network.graph <- getParam(params, "network.graph")
@@ -217,7 +214,9 @@ kersplatSample <- function(params, sparsify = TRUE, verbose = TRUE) {
         stop("'paths.means' not set, run kersplatSetup first")
     }
 
-    if (verbose) {message("Creating simulation object...")}
+    if (verbose) {
+        message("Creating simulation object...")
+    }
     nGenes <- getParam(params, "nGenes")
     gene.names <- paste0("Gene", seq_len(nGenes))
 
@@ -226,8 +225,10 @@ kersplatSample <- function(params, sparsify = TRUE, verbose = TRUE) {
     nDoublets <- floor(nCells * doublet.prop)
     if (doublet.prop > 0) {
         nCells <- nCells - nDoublets
-        cell.names <- c(paste0("Cell", seq_len(nCells)),
-                        paste0("Doublet", seq_len(nDoublets)))
+        cell.names <- c(
+            paste0("Cell", seq_len(nCells)),
+            paste0("Doublet", seq_len(nDoublets))
+        )
     } else {
         cell.names <- paste0("Cell", seq_len(nCells))
     }
@@ -238,15 +239,23 @@ kersplatSample <- function(params, sparsify = TRUE, verbose = TRUE) {
         cell.names <- c(cell.names, empty.names)
     }
 
-    cells <-  data.frame(Cell = cell.names,
-                         Type = rep(c("Cell", "Doublet", "Empty"),
-                                    c(nCells, nDoublets, nEmpty)),
-                         row.names = cell.names)
-    features <- data.frame(Gene = gene.names,
-                           BaseMean = getParam(params, "mean.values"),
-                           row.names = gene.names)
-    sim <- SingleCellExperiment(rowData = features, colData = cells,
-                                metadata = list(Params = params))
+    cells <- data.frame(
+        Cell = cell.names,
+        Type = rep(
+            c("Cell", "Doublet", "Empty"),
+            c(nCells, nDoublets, nEmpty)
+        ),
+        row.names = cell.names
+    )
+    features <- data.frame(
+        Gene = gene.names,
+        BaseMean = getParam(params, "mean.values"),
+        row.names = gene.names
+    )
+    sim <- SingleCellExperiment(
+        rowData = features, colData = cells,
+        metadata = list(Params = params)
+    )
 
     sim <- kersplatSimLibSizes(sim, params, verbose)
     sim <- kersplatSimCellMeans(sim, params, verbose)
@@ -255,13 +264,17 @@ kersplatSample <- function(params, sparsify = TRUE, verbose = TRUE) {
     sim <- kersplatSimCounts(sim, params, verbose)
 
     if (sparsify) {
-        if (verbose) {message("Sparsifying assays...")}
-        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
-                                        verbose = verbose)
+        if (verbose) {
+            message("Sparsifying assays...")
+        }
+        assays(sim) <- sparsifyMatrices(
+            assays(sim),
+            auto = TRUE,
+            verbose = verbose
+        )
     }
 
     return(sim)
-
 }
 
 #' Generate Kersplat gene network
@@ -278,16 +291,19 @@ kersplatSample <- function(params, sparsify = TRUE, verbose = TRUE) {
 #'
 #' @return KersplatParams object with gene network
 kersplatGenNetwork <- function(params, verbose) {
-
     nGenes <- getParam(params, "nGenes")
     network.graph <- getParam(params, "network.graph")
 
     if (!is.null(network.graph)) {
-        if (verbose) {message("Using provided gene network...")}
+        if (verbose) {
+            message("Using provided gene network...")
+        }
         return(params)
     }
 
-    if (verbose) {message("Generating gene network...")}
+    if (verbose) {
+        message("Generating gene network...")
+    }
 
     graph.raw <- igraph::sample_forestfire(nGenes, 0.1)
     graph.data <- igraph::get.data.frame(graph.raw)
@@ -314,28 +330,34 @@ kersplatGenNetwork <- function(params, verbose) {
 #'
 #' @return KersplatParams object with gene regulators
 kersplatSelectRegs <- function(params, verbose) {
-
     network.regsSet <- getParam(params, "network.regsSet")
 
     if (network.regsSet) {
-        if (verbose) {message("Using selected regulators...")}
+        if (verbose) {
+            message("Using selected regulators...")
+        }
         return(params)
     }
 
-    if (verbose) {message("Selecting regulators...")}
+    if (verbose) {
+        message("Selecting regulators...")
+    }
     network.nRegs <- getParam(params, "network.nRegs")
     network.graph <- getParam(params, "network.graph")
 
     out.degree <- igraph::degree(network.graph, mode = "out")
     in.degree <- igraph::degree(network.graph, mode = "in")
-    reg.prob <-  out.degree - in.degree
+    reg.prob <- out.degree - in.degree
     reg.prob <- reg.prob + rnorm(length(reg.prob))
     reg.prob[reg.prob <= 0] <- 1e-10
     reg.prob <- reg.prob / sum(reg.prob)
     reg.nodes <- names(rev(sort(reg.prob))[seq_len(network.nRegs)])
     is.reg <- igraph::V(network.graph)$name %in% reg.nodes
-    network.graph <- igraph::set_vertex_attr(network.graph, "IsReg",
-                                             value = is.reg)
+    network.graph <- igraph::set_vertex_attr(
+        network.graph,
+        "IsReg",
+        value = is.reg
+    )
 
     params <- setParam(params, "network.graph", network.graph)
 
@@ -364,21 +386,26 @@ kersplatSelectRegs <- function(params, verbose) {
 #'
 #' @return KersplatParams object with gene means
 kersplatSimGeneMeans <- function(params, verbose) {
-
     mean.values <- getParam(params, "mean.values")
 
     # Generate means
     if (length(mean.values) != 0) {
-        if (verbose) {message("Using defined means...")}
+        if (verbose) {
+            message("Using defined means...")
+        }
         return(params)
     }
 
-    if (verbose) {message("Simulating means...")}
+    if (verbose) {
+        message("Simulating means...")
+    }
     nGenes <- getParam(params, "nGenes")
     mean.method <- getParam(params, "mean.method")
 
     if (mean.method == "fit") {
-        if (verbose) {message("Sampling from gamma distribution...")}
+        if (verbose) {
+            message("Sampling from gamma distribution...")
+        }
         mean.shape <- getParam(params, "mean.shape")
         mean.rate <- getParam(params, "mean.rate")
         mean.outProb <- getParam(params, "mean.outProb")
@@ -387,14 +414,18 @@ kersplatSimGeneMeans <- function(params, verbose) {
 
         mean.values <- rgamma(nGenes, shape = mean.shape, rate = mean.rate)
 
-        outlier.facs <- getLNormFactors(nGenes, mean.outProb, 0, mean.outLoc,
-                                        mean.outScale)
+        outlier.facs <- getLNormFactors(
+            nGenes, mean.outProb, 0, mean.outLoc,
+            mean.outScale
+        )
         median.means.gene <- median(mean.values)
         outlier.means <- median.means.gene * outlier.facs
         is.outlier <- outlier.facs != 1
         mean.values[is.outlier] <- outlier.means[is.outlier]
     } else if (mean.method == "density") {
-        if (verbose) {message("Sampling from density object...")}
+        if (verbose) {
+            message("Sampling from density object...")
+        }
         mean.dens <- getParam(params, "mean.dens")
 
         mean.values <- exp(sampleDensity(nGenes, mean.dens, lower = -Inf))
@@ -443,26 +474,33 @@ kersplatSimGeneMeans <- function(params, verbose) {
 #'
 #' @return KersplatParams object with path means
 kersplatSimPaths <- function(params, verbose) {
-
     paths.means <- getParam(params, "paths.means")
 
     if (length(paths.means) != 0) {
-        if (verbose) {message("Using defined path means...")}
+        if (verbose) {
+            message("Using defined path means...")
+        }
         return(params)
     }
 
-    if (verbose) {message("Simulating paths...")}
+    if (verbose) {
+        message("Simulating paths...")
+    }
     nGenes <- getParam(params, "nGenes")
     paths.design <- getParam(params, "paths.design")
     network.graph <- getParam(params, "network.graph")
-    network.weights <- igraph::as_adjacency_matrix(network.graph,
-                                                   attr = "weight")
+    network.weights <- igraph::as_adjacency_matrix(
+        network.graph,
+        attr = "weight"
+    )
     network.nRegs <- getParam(params, "network.nRegs")
     network.isReg <- igraph::vertex_attr(network.graph, "IsReg")
     paths.nPrograms <- getParam(params, "paths.nPrograms")
 
-    programs.weights <- matrix(rnorm(network.nRegs * paths.nPrograms),
-                               nrow = network.nRegs, ncol = paths.nPrograms)
+    programs.weights <- matrix(
+        rnorm(network.nRegs * paths.nPrograms),
+        nrow = network.nRegs, ncol = paths.nPrograms
+    )
     paths.changes <- vector("list", nrow(paths.design))
     paths.factors <- vector("list", nrow(paths.design))
 
@@ -473,7 +511,9 @@ kersplatSimPaths <- function(params, verbose) {
     paths.order <- paths.order[paths.order != 0]
 
     for (path in paths.order) {
-        if (verbose) {message("Simulating path ", path, "...")}
+        if (verbose) {
+            message("Simulating path ", path, "...")
+        }
         nSteps <- paths.design$Steps[path]
         from <- paths.design$From[path]
         changes <- matrix(0, nrow = nGenes, ncol = nSteps + 1)
@@ -505,7 +545,7 @@ kersplatSimPaths <- function(params, verbose) {
 
     mean.values <- getParam(params, "mean.values")
     paths.means <- lapply(paths.factors, function(x) {
-        (2 ^ x) * mean.values
+        (2^x) * mean.values
     })
 
     names(paths.means) <- paste0("Path", paths.design$Path)
@@ -541,21 +581,26 @@ kersplatSimPaths <- function(params, verbose) {
 #'
 #' @return SingleCellExperiment with library sizes
 kersplatSimLibSizes <- function(sim, params, verbose) {
-
-    if (verbose) {message("Simulating library sizes...")}
+    if (verbose) {
+        message("Simulating library sizes...")
+    }
     nCells <- getParam(params, "nCells")
     nEmpty <- getParam(params, "ambient.nEmpty")
     is.doublet <- colData(sim)$Type == "Doublet"
     lib.method <- getParam(params, "lib.method")
 
     if (lib.method == "fit") {
-        if (verbose) {message("Sampling from log-normal distribution...")}
+        if (verbose) {
+            message("Sampling from log-normal distribution...")
+        }
         lib.loc <- getParam(params, "lib.loc")
         lib.scale <- getParam(params, "lib.scale")
 
         cell.lib.sizes <- rlnorm(nCells, lib.loc, lib.scale)
     } else if (lib.method == "density") {
-        if (verbose) {message("Sampling from density object...")}
+        if (verbose) {
+            message("Sampling from density object...")
+        }
         lib.dens <- getParam(params, "lib.dens")
 
         cell.lib.sizes <- sampleDensity(nCells, lib.dens)
@@ -628,7 +673,6 @@ kersplatSimLibSizes <- function(sim, params, verbose) {
 #'
 #' @return SingleCellExperiment with cell means
 kersplatSimCellMeans <- function(sim, params, verbose) {
-
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
     nGenes <- getParam(params, "nGenes")
@@ -641,11 +685,17 @@ kersplatSimCellMeans <- function(sim, params, verbose) {
     nEmpty <- getParam(params, "ambient.nEmpty")
     not.empty <- colData(sim)$Type != "Empty"
 
-    if (verbose) {message("Assigning cells to paths...")}
-    cells.paths <- sample(cells.design$Path, nCells, replace = TRUE,
-                          prob = cells.design$Probability)
+    if (verbose) {
+        message("Assigning cells to paths...")
+    }
+    cells.paths <- sample(cells.design$Path, nCells,
+        replace = TRUE,
+        prob = cells.design$Probability
+    )
 
-    if (verbose) {message("Assigning cells to steps...")}
+    if (verbose) {
+        message("Assigning cells to steps...")
+    }
     paths.cells.design <- merge(paths.design, cells.design)
     steps.probs <- apply(paths.cells.design, 1, function(path) {
         steps <- path["Steps"]
@@ -664,7 +714,9 @@ kersplatSimCellMeans <- function(sim, params, verbose) {
         return(step)
     }, c(Step = 0))
 
-    if (verbose) {message("Simulating cell means...")}
+    if (verbose) {
+        message("Simulating cell means...")
+    }
     cells.means <- vapply(seq_len(nCells), function(cell) {
         path <- cells.paths[cell]
         step <- cells.steps[cell]
@@ -673,11 +725,21 @@ kersplatSimCellMeans <- function(sim, params, verbose) {
     }, as.numeric(seq_len(nGenes)))
 
     if (nDoublets > 0) {
-        if (verbose) {message("Assigning doublets...")}
-        doublet.paths1 <- sample(cells.design$Path, nDoublets, replace = TRUE,
-                                 prob = cells.design$Probability)
-        doublet.paths2 <- sample(cells.design$Path, nDoublets, replace = TRUE,
-                                 prob = cells.design$Probability)
+        if (verbose) {
+            message("Assigning doublets...")
+        }
+        doublet.paths1 <- sample(
+            cells.design$Path,
+            nDoublets,
+            replace = TRUE,
+            prob = cells.design$Probability
+        )
+        doublet.paths2 <- sample(
+            cells.design$Path,
+            nDoublets,
+            replace = TRUE,
+            prob = cells.design$Probability
+        )
 
         doublet.steps1 <- vapply(doublet.paths1, function(path) {
             probs <- steps.probs[[path]]
@@ -690,7 +752,9 @@ kersplatSimCellMeans <- function(sim, params, verbose) {
             return(step)
         }, c(Step2 = 0))
 
-        if (verbose) {message("Simulating doublet means...")}
+        if (verbose) {
+            message("Simulating doublet means...")
+        }
         doublet.means1 <- vapply(seq_len(nDoublets), function(doublet) {
             path <- doublet.paths1[doublet]
             step <- doublet.steps1[doublet]
@@ -712,7 +776,9 @@ kersplatSimCellMeans <- function(sim, params, verbose) {
     cells.props <- t(t(cells.means) / colSums(cells.means))
     cells.means <- t(t(cells.props) * cell.lib.sizes[not.empty])
 
-    if (verbose) {message("Applying BCV adjustment...")}
+    if (verbose) {
+        message("Applying BCV adjustment...")
+    }
     nGenes <- getParam(params, "nGenes")
     bcv.common <- getParam(params, "bcv.common")
     bcv.df <- getParam(params, "bcv.df")
@@ -725,10 +791,13 @@ kersplatSimCellMeans <- function(sim, params, verbose) {
         bcv <- (bcv.common + (1 / sqrt(cells.means)))
     }
 
-    cells.means <- matrix(rgamma(
-        as.numeric(nGenes) * as.numeric(nCells + nDoublets),
-        shape = 1 / (bcv ^ 2), scale = cells.means * (bcv ^ 2)),
-        nrow = nGenes, ncol = nCells + nDoublets)
+    cells.means <- matrix(
+        rgamma(
+            as.numeric(nGenes) * as.numeric(nCells + nDoublets),
+            shape = 1 / (bcv^2), scale = cells.means * (bcv^2)
+        ),
+        nrow = nGenes, ncol = nCells + nDoublets
+    )
 
     empty.means <- matrix(0, nrow = nGenes, ncol = nEmpty)
     cells.means <- cbind(cells.means, empty.means)
@@ -736,19 +805,29 @@ kersplatSimCellMeans <- function(sim, params, verbose) {
     colnames(cells.means) <- cell.names
     rownames(cells.means) <- gene.names
 
-    colData(sim)$Path <- factor(c(cells.paths, rep(NA, nDoublets),
-                                  rep(NA, nEmpty)))
+    colData(sim)$Path <- factor(c(
+        cells.paths, rep(NA, nDoublets),
+        rep(NA, nEmpty)
+    ))
     colData(sim)$Step <- c(cells.steps, rep(NA, nDoublets), rep(NA, nEmpty))
 
     if (nDoublets > 0) {
-        colData(sim)$Path1 <- factor(c(rep(NA, nCells), doublet.paths1,
-                                       rep(NA, nEmpty)))
-        colData(sim)$Step1 <- c(rep(NA, nCells), doublet.steps1,
-                                rep(NA, nEmpty))
-        colData(sim)$Path2 <- factor(c(rep(NA, nCells), doublet.paths2,
-                                       rep(NA, nEmpty)))
-        colData(sim)$Step2 <- c(rep(NA, nCells), doublet.steps2,
-                                rep(NA, nEmpty))
+        colData(sim)$Path1 <- factor(c(
+            rep(NA, nCells), doublet.paths1,
+            rep(NA, nEmpty)
+        ))
+        colData(sim)$Step1 <- c(
+            rep(NA, nCells), doublet.steps1,
+            rep(NA, nEmpty)
+        )
+        colData(sim)$Path2 <- factor(c(
+            rep(NA, nCells), doublet.paths2,
+            rep(NA, nEmpty)
+        ))
+        colData(sim)$Step2 <- c(
+            rep(NA, nCells), doublet.steps2,
+            rep(NA, nEmpty)
+        )
     }
 
     assays(sim)$CellMeans <- cells.means
@@ -770,8 +849,9 @@ kersplatSimCellMeans <- function(sim, params, verbose) {
 #'
 #' @return SingleCellExperiment with cell counts
 kersplatSimCellCounts <- function(sim, params, verbose) {
-
-    if (verbose) {message("Simulating cell counts...")}
+    if (verbose) {
+        message("Simulating cell counts...")
+    }
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
     nGenes <- getParam(params, "nGenes")
@@ -779,10 +859,13 @@ kersplatSimCellCounts <- function(sim, params, verbose) {
     nEmpty <- getParam(params, "ambient.nEmpty")
     cells.means <- assays(sim)$CellMeans
 
-    cell.counts <- matrix(rpois(
-        as.numeric(nGenes) * as.numeric(nCells + nEmpty),
-        lambda = cells.means),
-        nrow = nGenes, ncol = nCells + nEmpty)
+    cell.counts <- matrix(
+        rpois(
+            as.numeric(nGenes) * as.numeric(nCells + nEmpty),
+            lambda = cells.means
+        ),
+        nrow = nGenes, ncol = nCells + nEmpty
+    )
 
     colnames(cell.counts) <- cell.names
     rownames(cell.counts) <- gene.names
@@ -805,8 +888,9 @@ kersplatSimCellCounts <- function(sim, params, verbose) {
 #'
 #' @return SingleCellExperiment with ambient counts
 kersplatSimAmbientCounts <- function(sim, params, verbose) {
-
-    if (verbose) {message("Simulating ambient counts...")}
+    if (verbose) {
+        message("Simulating ambient counts...")
+    }
     cell.names <- colData(sim)$Cell
     gene.names <- rowData(sim)$Gene
     nGenes <- getParam(params, "nGenes")
@@ -821,10 +905,13 @@ kersplatSimAmbientCounts <- function(sim, params, verbose) {
 
     ambient.means <- ambient.props %*% t(ambient.lib.sizes)
 
-    ambient.counts <- matrix(rpois(
-        as.numeric(nGenes) * as.numeric(nCells + nEmpty),
-        lambda = ambient.means),
-        nrow = nGenes, ncol = nCells + nEmpty)
+    ambient.counts <- matrix(
+        rpois(
+            as.numeric(nGenes) * as.numeric(nCells + nEmpty),
+            lambda = ambient.means
+        ),
+        nrow = nGenes, ncol = nCells + nEmpty
+    )
 
     colnames(ambient.counts) <- cell.names
     rownames(ambient.counts) <- gene.names
@@ -852,8 +939,9 @@ kersplatSimAmbientCounts <- function(sim, params, verbose) {
 #'
 #' @return SingleCellExperiment with counts matrix
 kersplatSimCounts <- function(sim, params, verbose) {
-
-    if (verbose) {message("Simulating final counts...")}
+    if (verbose) {
+        message("Simulating final counts...")
+    }
     cell.lib.sizes <- colData(sim)$CellLibSize
     ambient.lib.sizes <- colData(sim)$AmbientLibSize
     empty <- colData(sim)$Type == "Empty"
@@ -930,7 +1018,6 @@ getBetaStepProbs <- function(steps, alpha, beta) {
 #'
 #' @importFrom stats approxfun
 sampleDensity <- function(n, dens, lower = 0) {
-
     xmin <- min(dens$x)
     xmax <- max(dens$x)
     ymin <- min(dens$y)
@@ -941,7 +1028,7 @@ sampleDensity <- function(n, dens, lower = 0) {
     values <- c()
     nsel <- 0
 
-    while(nsel < n) {
+    while (nsel < n) {
         x <- runif(1e4, xmin, xmax)
         y <- runif(1e4, ymin, ymax)
         sel <- y < boundary(x) & x > lower

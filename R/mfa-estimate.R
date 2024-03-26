@@ -18,8 +18,10 @@
 #' # Load example data
 #' if (requireNamespace("mfa", quietly = TRUE)) {
 #'     library(mfa)
-#'     synth <- create_synthetic(C = 20, G = 5, zero_negative = TRUE,
-#'                               model_dropout = TRUE)
+#'     synth <- create_synthetic(
+#'         C = 20, G = 5, zero_negative = TRUE,
+#'         model_dropout = TRUE
+#'     )
 #'
 #'     params <- mfaEstimate(synth$X)
 #'     params
@@ -40,13 +42,16 @@ mfaEstimate.SingleCellExperiment <- function(counts,
 #' @rdname mfaEstimate
 #' @export
 mfaEstimate.matrix <- function(counts, params = newMFAParams()) {
-
     checkmate::assertClass(params, "MFAParams")
 
     dropout.lambda <- mfa::empirical_lambda(t(counts))
 
-    params <- setParams(params, nGenes = nrow(counts), nCells = ncol(counts),
-                        dropout.lambda = dropout.lambda)
+    params <- setParams(
+        params,
+        nGenes = nrow(counts),
+        nCells = ncol(counts),
+        dropout.lambda = dropout.lambda
+    )
 
     return(params)
 }

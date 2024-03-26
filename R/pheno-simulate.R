@@ -38,14 +38,11 @@
 #' @importFrom SingleCellExperiment SingleCellExperiment
 phenoSimulate <- function(params = newPhenoParams(), sparsify = TRUE,
                           verbose = TRUE, ...) {
-
     checkmate::assertClass(params, "PhenoParams")
     params <- setParams(params, ...)
 
     # Set random seed
     seed <- getParam(params, "seed")
-    withr::with_seed(seed, {
-
     # Get the parameters we are going to use
     nCells <- getParam(params, "nCells")
     nGenes <- getParam(params, "nGenes")
@@ -54,48 +51,68 @@ phenoSimulate <- function(params = newPhenoParams(), sparsify = TRUE,
     n.pst.beta <- getParam(params, "n.pst.beta")
     n.de.pst.beta <- getParam(params, "n.de.pst.beta")
 
-    if (verbose) {message("Simulating counts...")}
-    pheno.sim <- phenopath::simulate_phenopath(N = nCells,
-                                               G_de = n.de,
-                                               G_pst = n.pst,
-                                               G_pst_beta = n.pst.beta,
-                                               G_de_pst_beta = n.de.pst.beta)
+    withr::with_seed(seed, {
+        if (verbose) {
+            message("Simulating counts...")
+        }
+        pheno.sim <- phenopath::simulate_phenopath(
+            N = nCells,
+            G_de = n.de,
+            G_pst = n.pst,
+            G_pst_beta = n.pst.beta,
+            G_de_pst_beta = n.de.pst.beta
+        )
+    })
 
-    if (verbose) {message("Creating final dataset...")}
+    if (verbose) {
+        message("Creating final dataset...")
+    }
     cell.names <- paste0("Cell", seq_len(nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
 
     exprs <- t(pheno.sim$y)
-    counts <- 2 ^ exprs - 1
+    counts <- 2^exprs - 1
     counts[counts < 0] <- 0
     counts <- round(counts)
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names
 
-    cells <- data.frame(Cell = cell.names,
-                        Covariate = pheno.sim$x,
-                        Pseudotime = pheno.sim$z)
+    cells <- data.frame(
+        Cell = cell.names,
+        Covariate = pheno.sim$x,
+        Pseudotime = pheno.sim$z
+    )
     rownames(cells) <- cell.names
 
-    features <- data.frame(Gene = gene.names,
-                           Alpha = pheno.sim$parameters$alpha,
-                           Lambda = pheno.sim$parameters$lambda,
-                           Beta = pheno.sim$parameters$beta,
-                           Regime = pheno.sim$parameters$regime)
+    features <- data.frame(
+        Gene = gene.names,
+        Alpha = pheno.sim$parameters$alpha,
+        Lambda = pheno.sim$parameters$lambda,
+        Beta = pheno.sim$parameters$beta,
+        Regime = pheno.sim$parameters$regime
+    )
     rownames(features) <- gene.names
 
-    sim <- SingleCellExperiment(assays = list(counts = counts,
-                                              LogExprs = exprs),
-                                rowData = features,
-                                colData = cells,
-                                metadata = list(Params = params))
+    sim <- SingleCellExperiment(
+        assays = list(
+            counts = counts,
+            LogExprs = exprs
+        ),
+        rowData = features,
+        colData = cells,
+        metadata = list(Params = params)
+    )
 
     if (sparsify) {
-        if (verbose) {message("Sparsifying assays...")}
-        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
-                                        verbose = verbose)
+        if (verbose) {
+            message("Sparsifying assays...")
+        }
+        assays(sim) <- sparsifyMatrices(
+            assays(sim),
+            auto = TRUE,
+            verbose = verbose
+        )
     }
-    })
 
     return(sim)
 }

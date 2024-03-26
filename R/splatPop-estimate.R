@@ -34,7 +34,6 @@
 #' @export
 splatPopEstimate <- function(counts = NULL, means = NULL, eqtl = NULL,
                              params = newSplatPopParams()) {
-
     checkmate::assertClass(params, "SplatPopParams")
 
     # Estimate single-cell parameters using base splatEstimate function
@@ -53,7 +52,6 @@ splatPopEstimate <- function(counts = NULL, means = NULL, eqtl = NULL,
     }
 
     return(params)
-
 }
 
 #' Estimate eQTL Effect Size parameters
@@ -77,12 +75,12 @@ splatPopEstimate <- function(counts = NULL, means = NULL, eqtl = NULL,
 #' @return params object with estimated values.
 #'
 splatPopEstimateEffectSize <- function(params, eqtl) {
-
     # Test input eSNP-eGene pairs
     if (!("gene_id" %in% names(eqtl) &
-          "pval_nominal" %in% names(eqtl) &
-          "slope" %in% names(eqtl))) {
-        stop("Incorrect format for eqtl data.")}
+        "pval_nominal" %in% names(eqtl) &
+        "slope" %in% names(eqtl))) {
+        stop("Incorrect format for eqtl data.")
+    }
 
     # Select top eSNP for each gene (i.e. lowest p.value)
     eqtl.top <- eqtl[order(eqtl$gene_id, eqtl$pval_nominal), ]
@@ -92,13 +90,17 @@ splatPopEstimateEffectSize <- function(params, eqtl) {
     e.sizes <- abs(eqtl.top$slope)
     fit <- fitdistrplus::fitdist(e.sizes, "gamma", method = "mge", gof = "CvM")
     if (fit$convergence > 0) {
-        warning("Fitting effect sizes using the Goodness of Fit method failed,",
-                " using the Method of Moments instead")
+        warning(
+            "Fitting effect sizes using the Goodness of Fit method failed,",
+            " using the Method of Moments instead"
+        )
         fit <- fitdistrplus::fitdist(e.sizes, "gamma", method = "mme")
     }
 
-    params <- setParams(params, eqtl.ES.shape = unname(fit$estimate["shape"]),
-                        eqtl.ES.rate = unname(fit$estimate["rate"]))
+    params <- setParams(params,
+        eqtl.ES.shape = unname(fit$estimate["shape"]),
+        eqtl.ES.rate = unname(fit$estimate["rate"])
+    )
 
     return(params)
 }
@@ -128,7 +130,6 @@ splatPopEstimateEffectSize <- function(params, eqtl) {
 #' @importFrom matrixStats rowMedians
 #'
 splatPopEstimateMeanCV <- function(params, emp.gene.means) {
-
     # Test input gene means
     if ((anyNA(emp.gene.means) | !(validObject(rowSums(emp.gene.means))))) {
         stop("Incorrect format or NAs present in emp.gene.means See example.")
@@ -137,42 +138,59 @@ splatPopEstimateMeanCV <- function(params, emp.gene.means) {
     # Calculate mean expression parameters
     row.means <- rowMeans(emp.gene.means)
     names(row.means) <- row.names(emp.gene.means)
-    mfit <- fitdistrplus::fitdist(row.means, "gamma",
-                                  optim.method = "Nelder-Mead")
+    mfit <- fitdistrplus::fitdist(
+        row.means,
+        "gamma",
+        optim.method = "Nelder-Mead"
+    )
 
     # Calculate CV parameters for genes based on 10 mean expression bins
     nbins <- getParam(params, "pop.cv.bins")
-    bins <- split(row.means, cut(row.means, quantile(row.means,(0:nbins)/nbins),
-                             include.lowest = TRUE))
-    cvparams <- data.frame(start = character(), end = character(),
-                           shape = character(), rate = character(),
-                           stringsAsFactors = FALSE)
+    bins <- split(
+        row.means,
+        cut(row.means, quantile(row.means, (0:nbins) / nbins),
+            include.lowest = TRUE
+        )
+    )
+    cvparams <- data.frame(
+        start = character(),
+        end = character(),
+        shape = character(),
+        rate = character(),
+        stringsAsFactors = FALSE
+    )
 
-    for(b in names(bins)){
+    for (b in names(bins)) {
         re.brack.paren <- "\\[|\\]|\\)|\\("
         min.max <- strsplit(gsub(re.brack.paren, "", unlist(b)), split = ",")
 
         b.gene.means <- emp.gene.means[row.means > as.numeric(min.max[[1]][1]) &
-                                      row.means < as.numeric(min.max[[1]][2]), ]
+            row.means < as.numeric(min.max[[1]][2]), ]
 
         cv <- apply(b.gene.means, 1, co.var)
         cv[is.na(cv)] <- 0
         cv <- cv[!cv %in% boxplot.stats(cv)$out]
         cvfit <- fitdistrplus::fitdist(cv, "gamma", method = "mge", gof = "CvM")
-        cvparams <- rbind(cvparams,
-                          list(start = as.numeric(as.numeric(min.max[[1]][1])),
-                               end = as.numeric(as.numeric(min.max[[1]][2])),
-                               shape = cvfit$estimate["shape"],
-                               rate = cvfit$estimate["rate"]),
-                          stringsAsFactors = FALSE)
+        cvparams <- rbind(
+            cvparams,
+            list(
+                start = as.numeric(as.numeric(min.max[[1]][1])),
+                end = as.numeric(as.numeric(min.max[[1]][2])),
+                shape = cvfit$estimate["shape"],
+                rate = cvfit$estimate["rate"]
+            ),
+            stringsAsFactors = FALSE
+        )
     }
 
     cvparams[1, "start"] <- 0
     cvparams[nrow(cvparams), "end"] <- 1e100
-    params <- setParams(params,
-                        pop.mean.shape = unname(mfit$estimate["shape"]),
-                        pop.mean.rate = unname(mfit$estimate["rate"]),
-                        pop.cv.param = cvparams)
+    params <- setParams(
+        params,
+        pop.mean.shape = unname(mfit$estimate["shape"]),
+        pop.mean.rate = unname(mfit$estimate["rate"]),
+        pop.cv.param = cvparams
+    )
 
     return(params)
 }

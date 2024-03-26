@@ -40,14 +40,11 @@
 #' @importFrom SingleCellExperiment SingleCellExperiment
 sparseDCSimulate <- function(params = newSparseDCParams(),
                              sparsify = TRUE, verbose = TRUE, ...) {
-
     checkmate::assertClass(params, "SparseDCParams")
     params <- setParams(params, ...)
 
     # Set random seed
     seed <- getParam(params, "seed")
-    withr::with_seed(seed, {
-
     # Get the parameters we are going to use
     nCells <- getParam(params, "nCells")
     nGenes <- getParam(params, "nGenes")
@@ -59,18 +56,26 @@ sparseDCSimulate <- function(params = newSparseDCParams(),
     mean.lower <- getParam(params, "mean.lower")
     mean.upper <- getParam(params, "mean.upper")
 
-    if (verbose) {message("Simulating counts...")}
-    sparsedc.sim <- SparseDC::sim_data(genes = nGenes,
-                                       cells = nCells,
-                                       sig.genes = markers.n,
-                                       sig.genes.s = markers.shared,
-                                       clus.t1 = clusts.c1,
-                                       clus.t2 = clusts.c2,
-                                       same.sig = markers.same,
-                                       u.l = mean.lower,
-                                       u.h = mean.upper)
+    withr::with_seed(seed, {
+        if (verbose) {
+            message("Simulating counts...")
+        }
+        sparsedc.sim <- SparseDC::sim_data(
+            genes = nGenes,
+            cells = nCells,
+            sig.genes = markers.n,
+            sig.genes.s = markers.shared,
+            clus.t1 = clusts.c1,
+            clus.t2 = clusts.c2,
+            same.sig = markers.same,
+            u.l = mean.lower,
+            u.h = mean.upper
+        )
+    })
 
-    if (verbose) {message("Creating final dataset...")}
+    if (verbose) {
+        message("Creating final dataset...")
+    }
     cell.names <- paste0("Cell", seq_len(2 * nCells))
     gene.names <- paste0("Gene", seq_len(nGenes))
 
@@ -81,19 +86,25 @@ sparseDCSimulate <- function(params = newSparseDCParams(),
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names
 
-    cells <- data.frame(Cell = cell.names,
-                        Condition = factor(paste0("Condition",
-                                                  rep(seq_len(2),
-                                                      each = nCells))),
-                        Cluster = factor(paste0("Cluster",
-                                                c(sparsedc.sim$clusters1,
-                                                  sparsedc.sim$clusters2))),
-                        stringsAsFactors = FALSE)
+    cells <- data.frame(
+        Cell = cell.names,
+        Condition = factor(paste0(
+            "Condition",
+            rep(seq_len(2), each = nCells)
+        )),
+        Cluster = factor(paste0(
+            "Cluster",
+            c(sparsedc.sim$clusters1, sparsedc.sim$clusters2)
+        )),
+        stringsAsFactors = FALSE
+    )
     rownames(cells) <- cell.names
 
-    features <- data.frame(Gene = gene.names,
-                           BaseLogMean = sparsedc.sim$gene.means,
-                           stringsAsFactors = FALSE)
+    features <- data.frame(
+        Gene = gene.names,
+        BaseLogMean = sparsedc.sim$gene.means,
+        stringsAsFactors = FALSE
+    )
 
     for (i in seq_len(ncol(sparsedc.sim$sig.gene.mat.1))) {
         col.name <- paste0("Condition1Cluster", i, "Marker")
@@ -112,18 +123,26 @@ sparseDCSimulate <- function(params = newSparseDCParams(),
 
     rownames(features) <- gene.names
 
-    sim <- SingleCellExperiment(assays = list(counts = counts,
-                                              LogExprs = exprs),
-                                rowData = features,
-                                colData = cells,
-                                metadata = list(Params = params))
+    sim <- SingleCellExperiment(
+        assays = list(
+            counts = counts,
+            LogExprs = exprs
+        ),
+        rowData = features,
+        colData = cells,
+        metadata = list(Params = params)
+    )
 
     if (sparsify) {
-        if (verbose) {message("Sparsifying assays...")}
-        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
-                                        verbose = verbose)
+        if (verbose) {
+            message("Sparsifying assays...")
+        }
+        assays(sim) <- sparsifyMatrices(
+            assays(sim),
+            auto = TRUE,
+            verbose = verbose
+        )
     }
-    })
 
     return(sim)
 }

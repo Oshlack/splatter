@@ -13,14 +13,13 @@
 #' gff <- mockGFF()
 #'
 #' @export
-mockGFF <- function(n.genes = 50, chromosome = 1, chr.length = 2e6, seed = NULL){
-
+mockGFF <- function(n.genes = 50, chromosome = 1, chr.length = 2e6, seed = NULL) {
     if (is.null(seed)) {
-        V4 = sort(sample(1e4:chr.length, n.genes))
+        V4 <- sort(sample(1e4:chr.length, n.genes))
         V5 <- V4 + floor(rnorm(n.genes, 1500, 1000))
     } else {
         withr::with_seed(seed, {
-            V4 = sort(sample(1e4:chr.length, n.genes))
+            V4 <- sort(sample(1e4:chr.length, n.genes))
             V5 <- V4 + floor(rnorm(n.genes, 1500, 1000))
         })
     }
@@ -60,27 +59,39 @@ mockGFF <- function(n.genes = 50, chromosome = 1, chr.length = 2e6, seed = NULL)
 #' @export
 #' @importFrom stats setNames
 mockVCF <- function(n.snps = 200, n.samples = 5,
-                    chromosome = 1,  chr.length = 2e6, seed = NULL){
-
+                    chromosome = 1, chr.length = 2e6, seed = NULL) {
     checkDependencies(deps = "VariantAnnotation")
 
-    sample_names <- paste0("sample_", formatC(seq_len(n.samples),
-                                              width = nchar(n.samples),
-                                              format = "d",
-                                              flag = "0"))
-    snp_names <- paste0("snp_", formatC(seq_len(n.snps),
-                                        width = nchar(n.snps),
-                                        format = "d", flag = "0"))
+    sample_names <- paste0(
+        "sample_",
+        formatC(
+            seq_len(n.samples),
+            width = nchar(n.samples),
+            format = "d",
+            flag = "0"
+        )
+    )
+    snp_names <- paste0(
+        "snp_",
+        formatC(
+            seq_len(n.snps),
+            width = nchar(n.snps),
+            format = "d",
+            flag = "0"
+        )
+    )
 
     if (is.null(seed)) {
-        ranges <- IRanges::IRanges(sample(seq_len(chr.length), n.snps,
-                                          replace = FALSE),
-                                   names = snp_names)
+        ranges <- IRanges::IRanges(
+            sample(seq_len(chr.length), n.snps, replace = FALSE),
+            names = snp_names
+        )
     } else {
         withr::with_seed(seed, {
-            ranges <- IRanges::IRanges(sample(seq_len(chr.length), n.snps,
-                                              replace = FALSE),
-                                       names = snp_names)
+            ranges <- IRanges::IRanges(
+                sample(seq_len(chr.length), n.snps, replace = FALSE),
+                names = snp_names
+            )
         })
     }
 
@@ -94,16 +105,22 @@ mockVCF <- function(n.snps = 200, n.samples = 5,
 
     # Geno
     genotypes <- c(rep("0|0", 100), rep("1|0", 10), rep("1|1", 10))
-    geno <- setNames(data.frame(matrix(ncol = n.samples, nrow = n.snps)),
-                     sample_names)
+    geno <- setNames(
+        data.frame(matrix(ncol = n.samples, nrow = n.snps)),
+        sample_names
+    )
 
     if (is.null(seed)) {
-        geno[,  sample_names] <- sample(genotypes, n.samples * n.snps,
-                                        replace = TRUE)
+        geno[, sample_names] <- sample(
+            genotypes, n.samples * n.snps,
+            replace = TRUE
+        )
     } else {
         withr::with_seed(seed, {
-            geno[,  sample_names] <- sample(genotypes, n.samples * n.snps,
-                                            replace = TRUE)
+            geno[, sample_names] <- sample(
+                genotypes, n.samples * n.snps,
+                replace = TRUE
+            )
         })
     }
 
@@ -125,12 +142,14 @@ mockVCF <- function(n.snps = 200, n.samples = 5,
     )
 
     # Merge into mock VCF object
-    mock.vcf <- VariantAnnotation::VCF(rowRanges = vcf.rowRanges,
-                colData = vcf.col.data,
-                info = vcf.info,
-                fixed = vcf.fixed,
-                geno = list(GT=geno),
-                collapsed = TRUE)
+    mock.vcf <- VariantAnnotation::VCF(
+        rowRanges = vcf.rowRanges,
+        colData = vcf.col.data,
+        info = vcf.info,
+        fixed = vcf.fixed,
+        geno = list(GT = geno),
+        collapsed = TRUE
+    )
 
     return(mock.vcf)
 }
@@ -151,8 +170,7 @@ mockVCF <- function(n.snps = 200, n.samples = 5,
 #' bulk <- mockBulkMatrix
 #'
 #' @export
-mockBulkMatrix <- function(n.genes = 100, n.samples = 50, seed = NULL){
-
+mockBulkMatrix <- function(n.genes = 100, n.samples = 50, seed = NULL) {
     tmp.params <- newSplatPopParams()
     mean.shape <- getParam(tmp.params, "pop.mean.shape")
     mean.rate <- getParam(tmp.params, "pop.mean.rate")
@@ -168,8 +186,11 @@ mockBulkMatrix <- function(n.genes = 100, n.samples = 50, seed = NULL){
         )
 
         mock.means <- lapply(key$id, function(g) {
-            rnorm(n.samples, mean = key[key$id == g,]$mean,
-                  sd = key[key$id == g,]$mean * key[key$id == g,]$cv)
+            rnorm(
+                n.samples,
+                mean = key[key$id == g, ]$mean,
+                sd = key[key$id == g, ]$mean * key[key$id == g, ]$cv
+            )
         })
     } else {
         withr::with_seed(seed, {
@@ -180,8 +201,11 @@ mockBulkMatrix <- function(n.genes = 100, n.samples = 50, seed = NULL){
             )
 
             mock.means <- lapply(key$id, function(g) {
-                rnorm(n.samples, mean = key[key$id == g,]$mean,
-                      sd = key[key$id == g,]$mean * key[key$id == g,]$cv)
+                rnorm(
+                    n.samples,
+                    mean = key[key$id == g, ]$mean,
+                    sd = key[key$id == g, ]$mean * key[key$id == g, ]$cv
+                )
             })
         })
     }
@@ -206,8 +230,7 @@ mockBulkMatrix <- function(n.genes = 100, n.samples = 50, seed = NULL){
 #' eqtl <- mockBulkeQTL()
 #'
 #' @export
-mockBulkeQTL <- function(n.genes = 500, seed = NULL){
-
+mockBulkeQTL <- function(n.genes = 500, seed = NULL) {
     tmp.params <- newSplatPopParams()
     eqtl.shape <- getParam(tmp.params, "eqtl.ES.shape")
     eqtl.rate <- getParam(tmp.params, "eqtl.ES.rate")
@@ -252,20 +275,35 @@ mockBulkeQTL <- function(n.genes = 500, seed = NULL){
 #' @export
 #'
 mockEmpiricalSet <- function(n.genes = 20, n.snps = 1000, n.samples = 10,
-                    chromosome = 1,  chr.length = 2e6, seed = NULL){
-
-    mockGFF <- mockGFF(n.genes = n.genes, chromosome = chromosome,
-                   chr.length = chr.length, seed = seed)
-    mockVCF <- mockVCF(n.snps = n.snps, n.samples = n.samples,
-                       chromosome = chromosome,  chr.length = chr.length,
-                       seed = seed)
-    mockMEANS <- mockBulkMatrix(n.genes = n.genes, n.samples = n.samples,
-                                seed = seed)
+                             chromosome = 1, chr.length = 2e6, seed = NULL) {
+    mockGFF <- mockGFF(
+        n.genes = n.genes,
+        chromosome = chromosome,
+        chr.length = chr.length,
+        seed = seed
+    )
+    mockVCF <- mockVCF(
+        n.snps = n.snps,
+        n.samples = n.samples,
+        chromosome = chromosome,
+        chr.length = chr.length,
+        seed = seed
+    )
+    mockMEANS <- mockBulkMatrix(
+        n.genes = n.genes,
+        n.samples = n.samples,
+        seed = seed
+    )
     mockEQTL <- mockBulkeQTL(n.genes = n.genes, seed = seed)
 
-    mockEQTL$geneID <- paste0("gene_", formatC(seq_len(n.genes),
-                                               width = nchar(n.genes),
-                                               format = "d", flag = "0"))
+    mockEQTL$geneID <- paste0(
+        "gene_",
+        formatC(
+            seq_len(n.genes),
+            width = nchar(n.genes),
+            format = "d", flag = "0"
+        )
+    )
 
     row.names(mockMEANS) <- mockEQTL$geneID
     colnames(mockMEANS) <- colnames(mockVCF)
@@ -291,5 +329,12 @@ mockEmpiricalSet <- function(n.genes = 20, n.snps = 1000, n.samples = 10,
 
     mockEQTL[mockEQTL$snpMAF < 0.05, c("snpID", "snpLOC", "snpCHR")] <- NA
 
-    return(list(gff=mockGFF, vcf=mockVCF, means=mockMEANS, eqtl=mockEQTL))
+    mockEmpirical <- list(
+        gff = mockGFF,
+        vcf = mockVCF,
+        means = mockMEANS,
+        eqtl = mockEQTL
+    )
+
+    return(mockEmpirical)
 }

@@ -57,7 +57,6 @@ Simulate count data for a population from a fictional single-cell
 RNA-seq experiment using the Splat method.
 }
 \examples{
-
 \donttest{
 if (requireNamespace("VariantAnnotation", quietly = TRUE) &&
     requireNamespace("preprocessCore", quietly = TRUE)) {

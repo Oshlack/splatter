@@ -7,11 +7,15 @@ test_that("logistic function works", {
 test_that("rbindMatched works", {
     df1 <- data.frame(A = 1:3, B = 4:6, C = 7:9)
     df2 <- data.frame(D = 0)
-    expect_error(rbindMatched(df1, df2),
-                 "There must be at least two columns in common")
+    expect_error(
+        rbindMatched(df1, df2),
+        "There must be at least two columns in common"
+    )
     df2 <- data.frame(A = 1:3)
-    expect_error(rbindMatched(df1, df2),
-                 "There must be at least two columns in common")
+    expect_error(
+        rbindMatched(df1, df2),
+        "There must be at least two columns in common"
+    )
     df2 <- data.frame(A = 1:3, C = 7:9, D = 0)
     expect_equal(colnames(rbindMatched(df1, df2)), c("A", "C"))
 })

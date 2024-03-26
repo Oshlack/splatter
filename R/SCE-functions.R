@@ -24,7 +24,6 @@
 #' @importFrom SummarizedExperiment rowData rowData<-
 addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
                             log = FALSE, offset = 1, no.zeros = FALSE) {
-
     checkmate::assertClass(sce, "SingleCellExperiment")
     checkmate::assertLogical(log)
     checkmate::assertNumber(offset, lower = 0)
@@ -32,22 +31,22 @@ addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
     value <- match.arg(value)
 
     switch(value,
-           counts = {
-               values = BiocGenerics::counts(sce)
-               suffix <- "Counts"
-           },
-           cpm = {
-               values = SingleCellExperiment::cpm(sce)
-               suffix <- "CPM"
-           },
-           tpm = {
-               values = SingleCellExperiment::tpm(sce)
-               suffix <- "TPM"
-           },
-           fpkm = {
-               values = SummarizedExperiment::assays(sce)$fpkm
-               suffix <- "FPKM"
-           }
+        counts = {
+            values <- BiocGenerics::counts(sce)
+            suffix <- "Counts"
+        },
+        cpm = {
+            values <- SingleCellExperiment::cpm(sce)
+            suffix <- "CPM"
+        },
+        tpm = {
+            values <- SingleCellExperiment::tpm(sce)
+            suffix <- "TPM"
+        },
+        fpkm = {
+            values <- SummarizedExperiment::assays(sce)$fpkm
+            suffix <- "FPKM"
+        }
     )
 
     if (is(values, "dgCMatrix")) {
@@ -56,26 +55,26 @@ addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
 
     if (no.zeros) {
         values[values == 0] <- NA
-        suffix = paste0(suffix, "No0")
+        suffix <- paste0(suffix, "No0")
     }
 
     if (log) {
-        values = log2(values + offset)
-        suffix = paste0("Log", suffix)
+        values <- log2(values + offset)
+        suffix <- paste0("Log", suffix)
     }
 
     mean.str <- paste0("Mean", suffix)
-    var.str  <- paste0("Var",  suffix)
-    cv.str   <- paste0("CV",   suffix)
-    med.str  <- paste0("Med",  suffix)
-    mad.str  <- paste0("MAD",  suffix)
+    var.str <- paste0("Var", suffix)
+    cv.str <- paste0("CV", suffix)
+    med.str <- paste0("Med", suffix)
+    mad.str <- paste0("MAD", suffix)
 
     rowData(sce)[, mean.str] <- rowMeans(values, na.rm = TRUE)
-    rowData(sce)[, var.str]  <- matrixStats::rowVars(values, na.rm = TRUE)
-    rowData(sce)[, cv.str]   <- sqrt(rowData(sce)[, var.str]) /
+    rowData(sce)[, var.str] <- matrixStats::rowVars(values, na.rm = TRUE)
+    rowData(sce)[, cv.str] <- sqrt(rowData(sce)[, var.str]) /
         rowData(sce)[, mean.str]
-    rowData(sce)[, med.str]  <- matrixStats::rowMedians(values, na.rm = TRUE)
-    rowData(sce)[, mad.str]  <- matrixStats::rowMads(values, na.rm = TRUE)
+    rowData(sce)[, med.str] <- matrixStats::rowMedians(values, na.rm = TRUE)
+    rowData(sce)[, mad.str] <- matrixStats::rowMads(values, na.rm = TRUE)
 
     return(sce)
 }
@@ -121,7 +120,6 @@ addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
 #' @importFrom stats rlnorm
 addGeneLengths <- function(sce, method = c("generate", "sample"), loc = 7.9,
                            scale = 0.7, lengths = NULL) {
-
     method <- match.arg(method)
     checkmate::assertClass(sce, "SingleCellExperiment")
     checkmate::assertNumber(loc)
@@ -129,17 +127,17 @@ addGeneLengths <- function(sce, method = c("generate", "sample"), loc = 7.9,
     checkmate::assertNumeric(lengths, lower = 0, null.ok = TRUE)
 
     switch(method,
-           generate = {
-               sim.lengths <- rlnorm(nrow(sce), meanlog = loc, sdlog = scale)
-               sim.lengths <- round(sim.lengths)
-           },
-           sample = {
-               if (is.null(lengths)) {
-                   stop("Lengths must be supplied to use the sample method.")
-               } else {
-                   sim.lengths <- sample(lengths, nrow(sce), replace = TRUE)
-               }
-           }
+        generate = {
+            sim.lengths <- rlnorm(nrow(sce), meanlog = loc, sdlog = scale)
+            sim.lengths <- round(sim.lengths)
+        },
+        sample = {
+            if (is.null(lengths)) {
+                stop("Lengths must be supplied to use the sample method.")
+            } else {
+                sim.lengths <- sample(lengths, nrow(sce), replace = TRUE)
+            }
+        }
     )
 
     rowData(sce)$Length <- sim.lengths
@@ -156,7 +154,6 @@ addGeneLengths <- function(sce, method = c("generate", "sample"), loc = 7.9,
 #'
 #' @return Counts matrix
 getCounts <- function(sce) {
-
     checkmate::assertClass(sce, "SingleCellExperiment")
 
     if ("counts" %in% SummarizedExperiment::assayNames(sce)) {
@@ -203,7 +200,6 @@ getCounts <- function(sce) {
 minimiseSCE <- function(sce, rowData.keep = FALSE, colData.keep = FALSE,
                         metadata.keep = FALSE, assays.keep = "counts",
                         sparsify = c("auto", "all", "none"), verbose = TRUE) {
-
     sparsify <- match.arg(sparsify)
 
     if (verbose) {
@@ -213,76 +209,106 @@ minimiseSCE <- function(sce, rowData.keep = FALSE, colData.keep = FALSE,
     }
 
     if (isFALSE(rowData.keep)) {
-        if (verbose) {message("Removing all rowData columns")}
+        if (verbose) {
+            message("Removing all rowData columns")
+        }
         SummarizedExperiment::rowData(sce) <- NULL
     } else if (is.character(rowData.keep)) {
         rowData <- SummarizedExperiment::rowData(sce)
         keep <- colnames(rowData) %in% rowData.keep
         if (verbose) {
-            message("Keeping ", sum(keep), " rowData columns: ",
-                    paste(colnames(rowData)[keep], collapse = ", "))
-            message("Removing ", sum(!keep), " rowData columns: ",
-                    paste(colnames(rowData)[!keep], collapse = ", "))
+            message(
+                "Keeping ", sum(keep), " rowData columns: ",
+                paste(colnames(rowData)[keep], collapse = ", ")
+            )
+            message(
+                "Removing ", sum(!keep), " rowData columns: ",
+                paste(colnames(rowData)[!keep], collapse = ", ")
+            )
         }
         SummarizedExperiment::rowData(sce) <- rowData[, keep, drop = FALSE]
     }
 
     if (isFALSE(colData.keep)) {
-        if (verbose) {message("Removing all colData columns")}
+        if (verbose) {
+            message("Removing all colData columns")
+        }
         SummarizedExperiment::colData(sce) <- NULL
     } else if (is.character(colData.keep)) {
         colData <- SummarizedExperiment::colData(sce)
         keep <- colnames(colData) %in% colData.keep
         if (verbose) {
-            message("Keeping ", sum(keep), " colData columns: ",
-                    paste(colnames(colData)[keep], collapse = ", "))
-            message("Removing ", sum(!keep), " colData columns: ",
-                    paste(colnames(colData)[!keep], collapse = ", "))
+            message(
+                "Keeping ", sum(keep), " colData columns: ",
+                paste(colnames(colData)[keep], collapse = ", ")
+            )
+            message(
+                "Removing ", sum(!keep), " colData columns: ",
+                paste(colnames(colData)[!keep], collapse = ", ")
+            )
         }
         SummarizedExperiment::colData(sce) <- colData[, keep, drop = FALSE]
     }
 
     if (isFALSE(metadata.keep)) {
-        if (verbose) {message("Removing all metadata items")}
+        if (verbose) {
+            message("Removing all metadata items")
+        }
         S4Vectors::metadata(sce) <- list()
     } else if (is.character(metadata.keep)) {
         metadata <- S4Vectors::metadata(sce)
         keep <- names(metadata) %in% metadata.keep
         if (verbose) {
-            message("Keeping ", sum(keep), " metadata items: ",
-                    paste(names(metadata)[keep], collapse = ", "))
-            message("Removing ", sum(!keep), " metadata items: ",
-                    paste(names(metadata)[!keep], collapse = ", "))
+            message(
+                "Keeping ", sum(keep), " metadata items: ",
+                paste(names(metadata)[keep], collapse = ", ")
+            )
+            message(
+                "Removing ", sum(!keep), " metadata items: ",
+                paste(names(metadata)[!keep], collapse = ", ")
+            )
         }
         S4Vectors::metadata(sce) <- metadata[keep]
     }
 
     if (isFALSE(assays.keep)) {
-        if (verbose) {message("Removing all assays")}
+        if (verbose) {
+            message("Removing all assays")
+        }
         SummarizedExperiment::assays(sce) <- list()
     } else if (is.character(assays.keep)) {
         assays <- SummarizedExperiment::assays(sce)
         keep <- names(assays) %in% assays.keep
         if (verbose) {
-            message("Keeping ", sum(keep), " assays: ",
-                    paste(names(assays)[keep], collapse = ", "))
-            message("Removing ", sum(!keep), " assays: ",
-                    paste(names(assays)[!keep], collapse = ", "))
+            message(
+                "Keeping ", sum(keep), " assays: ",
+                paste(names(assays)[keep], collapse = ", ")
+            )
+            message(
+                "Removing ", sum(!keep), " assays: ",
+                paste(names(assays)[!keep], collapse = ", ")
+            )
         }
         SummarizedExperiment::assays(sce) <- assays[keep]
     }
 
     if (sparsify != "none") {
-        if (verbose) {message("Sparsifying assays...")}
+        if (verbose) {
+            message("Sparsifying assays...")
+        }
         SummarizedExperiment::assays(sce) <- sparsifyMatrices(
-            SummarizedExperiment::assays(sce), auto = sparsify == "auto",
-            verbose = verbose)
+            SummarizedExperiment::assays(sce),
+            auto = sparsify == "auto",
+            verbose = verbose
+        )
     }
 
     if (verbose) {
         final.size <- object.size(sce)
-        message("Minimised size: ", format(final.size, unit = "auto"),
-                " (", round(final.size / start.size * 100), "% of original)")
+        message(
+            "Minimised size: ", format(final.size, unit = "auto"),
+            " (", round(final.size / start.size * 100), "% of original)"
+        )
     }
 
     return(sce)
@@ -303,11 +329,11 @@ minimiseSCE <- function(sce, rowData.keep = FALSE, colData.keep = FALSE,
 #' @return List of converted matrices
 sparsifyMatrices <- function(matrix.list, auto = TRUE, threshold = 0.95,
                              verbose = TRUE) {
-
     # If not auto, just do it and return
     if (!auto) {
-
-        if (verbose) {message("Converting all matrices to sparse format")}
+        if (verbose) {
+            message("Converting all matrices to sparse format")
+        }
         matrix.list <- lapply(matrix.list, function(mat) {
             class <- ifelse(is.logical(mat), "lgCMatrix", "dgCMatrix")
             as(mat, class)
@@ -317,8 +343,10 @@ sparsifyMatrices <- function(matrix.list, auto = TRUE, threshold = 0.95,
     }
 
     if (verbose) {
-        message("Automatically converting to sparse matrices, ",
-                "threshold = ", threshold)
+        message(
+            "Automatically converting to sparse matrices, ",
+            "threshold = ", threshold
+        )
     }
     for (mat.name in names(matrix.list)) {
         mat <- matrix.list[[mat.name]]
@@ -328,33 +356,40 @@ sparsifyMatrices <- function(matrix.list, auto = TRUE, threshold = 0.95,
             size.factor <- 1.5 - 1.5 * (sum(mat == 0) / length(mat))
         } else if (is(mat, "dgCMatrix")) {
             if (verbose) {
-                message("Skipping '", mat.name,
-                        "' as it is already a dgCMatrix")
+                message(
+                    "Skipping '", mat.name, "' as it is already a dgCMatrix"
+                )
             }
             next
         } else if (is.logical(mat)) {
             size.factor <- 2 - 2 * (sum(!mat) / length(mat))
         } else {
-            warning("matrix '", mat.name, "' is class '", class(mat),
-                    "', unable to estimate size reduction factor")
+            warning(
+                "matrix '", mat.name, "' is class '", class(mat),
+                "', unable to estimate size reduction factor"
+            )
             size.factor <- NA
         }
         if (is.na(size.factor) | size.factor < threshold) {
             if (verbose) {
-                message("Converting '", mat.name, "' to sparse matrix: ",
-                        "estimated sparse size ", round(size.factor, 2),
-                        " * dense matrix")
+                message(
+                    "Converting '", mat.name, "' to sparse matrix: ",
+                    "estimated sparse size ", round(size.factor, 2),
+                    " * dense matrix"
+                )
             }
             if (is.logical(mat)) {
-                mat <- as(mat, "lgCMatrix")
+                mat <- as(mat, "lsparseMatrix")
             } else {
-                mat <- as(mat, "dgCMatrix")
+                mat <- as(mat, "CsparseMatrix")
             }
             matrix.list[[mat.name]] <- mat
         } else {
             if (verbose) {
-                message("Skipping '", mat.name, "': estimated sparse size ",
-                        round(size.factor, 2), " * dense matrix")
+                message(
+                    "Skipping '", mat.name, "': estimated sparse size ",
+                    round(size.factor, 2), " * dense matrix"
+                )
             }
         }
     }

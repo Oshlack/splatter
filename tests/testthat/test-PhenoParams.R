@@ -16,10 +16,12 @@ test_that("printing works", {
 
 test_that("nGenes checks work", {
     skip_if_not_installed("phenopath")
-    expect_error(setParam(params, "nGenes", 1),
-                 "nGenes cannot be set directly")
+    expect_error(
+        setParam(params, "nGenes", 1),
+        "nGenes cannot be set directly"
+    )
     pp <- setParam(params, "n.de", 0)
     total <- getParam(pp, "n.de") + getParam(pp, "n.pst") +
-             getParam(pp, "n.pst.beta") + getParam(pp, "n.de.pst.beta")
+        getParam(pp, "n.pst.beta") + getParam(pp, "n.de.pst.beta")
     expect_equal(getParam(pp, "nGenes"), total)
 })

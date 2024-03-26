@@ -43,55 +43,59 @@
 scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
                          plot.file = NULL, sparsify = TRUE, verbose = TRUE,
                          BPPARAM = SerialParam(), ...) {
-
     checkmate::assertClass(params, "SCDDParams")
     params <- setParams(params, ...)
 
     nCells <- getParam(params, "nCells")
 
-    if (verbose) {message("Simulating counts with scDD...")}
+    if (verbose) {
+        message("Simulating counts with scDD...")
+    }
     # Restore the default varInflation to NULL
     varInflation <- getParam(params, "varInflation")
     if (all(varInflation == 1)) {
         varInflation <- NULL
     }
     if (verbose) {
-        scDD.sim <- scDD::simulateSet(SCdat = getParam(params, "SCdat"),
-                                      numSamples = nCells,
-                                      nDE = getParam(params, "nDE"),
-                                      nDP = getParam(params, "nDP"),
-                                      nDM = getParam(params, "nDM"),
-                                      nDB = getParam(params, "nDB"),
-                                      nEE = getParam(params, "nEE"),
-                                      nEP = getParam(params, "nEP"),
-                                      sd.range = getParam(params, "sd.range"),
-                                      modeFC = getParam(params, "modeFC"),
-                                      plots = plots,
-                                      plot.file = plot.file,
-                                      random.seed = getParam(params, "seed"),
-                                      varInflation = varInflation,
-                                      condition = getParam(params, "condition"),
-                                      param = BPPARAM)
+        scDD.sim <- scDD::simulateSet(
+            SCdat = getParam(params, "SCdat"),
+            numSamples = nCells,
+            nDE = getParam(params, "nDE"),
+            nDP = getParam(params, "nDP"),
+            nDM = getParam(params, "nDM"),
+            nDB = getParam(params, "nDB"),
+            nEE = getParam(params, "nEE"),
+            nEP = getParam(params, "nEP"),
+            sd.range = getParam(params, "sd.range"),
+            modeFC = getParam(params, "modeFC"),
+            plots = plots,
+            plot.file = plot.file,
+            random.seed = getParam(params, "seed"),
+            varInflation = varInflation,
+            condition = getParam(params, "condition"),
+            param = BPPARAM
+        )
     } else {
         withr::with_output_sink(tempfile(), {
             suppressMessages({
                 scDD.sim <- scDD::simulateSet(
-                                SCdat = getParam(params, "SCdat"),
-                                numSamples = nCells,
-                                nDE = getParam(params, "nDE"),
-                                nDP = getParam(params, "nDP"),
-                                nDM = getParam(params, "nDM"),
-                                nDB = getParam(params, "nDB"),
-                                nEE = getParam(params, "nEE"),
-                                nEP = getParam(params, "nEP"),
-                                sd.range = getParam(params, "sd.range"),
-                                modeFC = getParam(params, "modeFC"),
-                                plots = plots,
-                                plot.file = plot.file,
-                                random.seed = getParam(params, "seed"),
-                                varInflation = varInflation,
-                                condition = getParam(params, "condition"),
-                                param = BPPARAM)
+                    SCdat = getParam(params, "SCdat"),
+                    numSamples = nCells,
+                    nDE = getParam(params, "nDE"),
+                    nDP = getParam(params, "nDP"),
+                    nDM = getParam(params, "nDM"),
+                    nDB = getParam(params, "nDB"),
+                    nEE = getParam(params, "nEE"),
+                    nEP = getParam(params, "nEP"),
+                    sd.range = getParam(params, "sd.range"),
+                    modeFC = getParam(params, "modeFC"),
+                    plots = plots,
+                    plot.file = plot.file,
+                    random.seed = getParam(params, "seed"),
+                    varInflation = varInflation,
+                    condition = getParam(params, "condition"),
+                    param = BPPARAM
+                )
             })
         })
     }
@@ -100,33 +104,48 @@ scDDSimulate <- function(params = newSCDDParams(), plots = FALSE,
     foldchanges <- SummarizedExperiment::rowData(scDD.sim)$FC
     de.status <- SummarizedExperiment::rowData(scDD.sim)$Category
 
-    if (verbose) {message("Creating final dataset...")}
+    if (verbose) {
+        message("Creating final dataset...")
+    }
     cell.names <- paste0("Cell", seq_len(nCells * 2))
     gene.names <- paste0("Gene", seq_len(getParam(params, "nGenes")))
 
     rownames(counts) <- gene.names
     colnames(counts) <- cell.names
 
-    cells <- data.frame(Cell = cell.names,
-                        Condition = rep(seq_len(2), each = nCells))
+    cells <- data.frame(
+        Cell = cell.names,
+        Condition = rep(seq_len(2), each = nCells)
+    )
     rownames(cells) <- cell.names
 
-    features <- data.frame(Gene = gene.names, DEStatus = de.status,
-                           FoldChange = foldchanges)
+    features <- data.frame(
+        Gene = gene.names,
+        DEStatus = de.status,
+        FoldChange = foldchanges
+    )
     rownames(features) <- gene.names
 
-    sim <- SingleCellExperiment(assays = list(counts = counts),
-                                rowData = features,
-                                colData = cells,
-                                metadata = list(Params = params))
+    sim <- SingleCellExperiment(
+        assays = list(counts = counts),
+        rowData = features,
+        colData = cells,
+        metadata = list(Params = params)
+    )
 
     if (sparsify) {
-        if (verbose) {message("Sparsifying assays...")}
-        assays(sim) <- sparsifyMatrices(assays(sim), auto = TRUE,
-                                        verbose = verbose)
+        if (verbose) {
+            message("Sparsifying assays...")
+        }
+        assays(sim) <- sparsifyMatrices(assays(sim),
+            auto = TRUE,
+            verbose = verbose
+        )
     }
 
-    if (verbose) {message("Done!")}
+    if (verbose) {
+        message("Done!")
+    }
 
     return(sim)
 }

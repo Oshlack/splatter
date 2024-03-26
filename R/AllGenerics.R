@@ -28,7 +28,9 @@ NULL
 #'
 #' @rdname getParam
 #' @export
-setGeneric("getParam", function(object, name) {standardGeneric("getParam")})
+setGeneric("getParam", function(object, name) {
+    standardGeneric("getParam")
+})
 
 #' Set a parameter
 #'

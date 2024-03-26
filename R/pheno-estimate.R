@@ -40,16 +40,19 @@ phenoEstimate.SingleCellExperiment <- function(counts,
 #' @rdname phenoEstimate
 #' @export
 phenoEstimate.matrix <- function(counts, params = newPhenoParams()) {
-
     checkmate::assertClass(params, "PhenoParams")
 
     nGenes <- nrow(counts)
     quarter <- floor(nGenes / 4)
 
-    params <- setParams(params, nCells = ncol(counts),
-                        n.de = nGenes - 3 * quarter,
-                        n.pst = quarter, n.pst.beta = quarter,
-                        n.de.pst.beta = quarter)
+    params <- setParams(
+        params,
+        nCells = ncol(counts),
+        n.de = nGenes - 3 * quarter,
+        n.pst = quarter,
+        n.pst.beta = quarter,
+        n.de.pst.beta = quarter
+    )
 
     return(params)
 }
