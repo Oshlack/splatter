@@ -130,12 +130,14 @@ BASiCSEstimate.matrix <- function(counts, spike.info = NULL, batch = NULL,
                                     PrintProgress = progress,
                                     WithSpikes = with.spikes, ...)
     } else {
-        mcmc <- suppressMessages(
-                    BASiCS::BASiCS_MCMC(Data = BASiCS.data, N = n, Thin = thin,
-                                        Burn = burn, Regression = regression,
-                                        PrintProgress = progress,
-                                        WithSpikes = with.spikes, ...)
-        )
+        withr::with_output_sink(tempfile(), {
+            mcmc <- suppressMessages(
+                BASiCS::BASiCS_MCMC(Data = BASiCS.data, N = n, Thin = thin,
+                                    Burn = burn, Regression = regression,
+                                    PrintProgress = progress,
+                                    WithSpikes = with.spikes, ...)
+            )
+        })
     }
 
     mcmc.summ <- BASiCS::Summary(mcmc)
