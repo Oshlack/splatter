@@ -11,23 +11,24 @@ Splatter is a package for the simulation of single-cell RNA sequencing count dat
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://bioconductor.org/packages/splatter/}
   \item \url{https://github.com/Oshlack/splatter}
   \item Report bugs at \url{https://github.com/Oshlack/splatter/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Luke Zappia \email{luke@lazappi.id.au} (\href{https://orcid.org/0000-0001-7744-8565}{ORCID})
+\strong{Maintainer}: Luke Zappia \email{luke@lazappi.id.au} (\href{https://orcid.org/0000-0001-7744-8565}{ORCID}) (lazappi)
 
 Authors:
 \itemize{
-  \item Belinda Phipson \email{belinda.phipson@petermac.org} (\href{https://orcid.org/0000-0002-1711-7454}{ORCID})
+  \item Belinda Phipson \email{belinda.phipson@petermac.org} (\href{https://orcid.org/0000-0002-1711-7454}{ORCID}) (bphipson)
   \item Alicia Oshlack \email{alicia.oshlack@petermac.org} (\href{https://orcid.org/0000-0001-9788-5690}{ORCID})
 }
 
 Other contributors:
 \itemize{
-  \item Christina Azodi \email{cazodi@svi.edu.au} (\href{https://orcid.org/0000-0002-6097-606X}{ORCID}) [contributor]
+  \item Christina Azodi \email{cazodi@svi.edu.au} (\href{https://orcid.org/0000-0002-6097-606X}{ORCID}) (azodichr) [contributor]
 }
 
 }
