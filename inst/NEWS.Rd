@@ -1,6 +1,33 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
+\section{Version 1.28.0, Bioconductor 3.19 Release (2024-05-01)}{
+  \itemize{
+    \item{
+      Properly prevent output from \code{BASiCSEstimate()} and
+      \code{scDDSimulate()} when \code{verbose = FALSE}
+    }
+    \item{
+      Minor adjustments to tests to set \code{verbose = FALSE} and specify
+      expected warnings
+    }
+    \item{
+      Replace the package man page with an auto-generated page
+    }
+    \item{
+      Add GitHub usernames and the Bioconductor package URL to description
+    }
+    \item{
+      Add \code{@keywords internal} and \code{@noRd} to function docs where
+      needed
+    }
+    \item{
+      Modernise code by restyling using styler and fix other minor issues
+      suggested by BiocCheck
+    }
+  }
+}
+
 \section{Version 1.26.0, Bioconductor 3.18 Release (2023-10-25)}{
   \itemize{
     \item{

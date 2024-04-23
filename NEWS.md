@@ -3,6 +3,7 @@
 ## Version 1.27.2 (2024-04-23)
 
 * Set \dontrun for addGeneLengths to avoid depending on annotation packages
+* Update NEWS to Biconductor 3.19 release
 
 ## Version 1.27.1 (2024-03-26)
 
