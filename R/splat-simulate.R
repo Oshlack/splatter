@@ -111,6 +111,7 @@
 #' @examples
 #' # Simulation with default parameters
 #' sim <- splatSimulate()
+#'
 #' \donttest{
 #' # Simulation with different number of genes
 #' sim <- splatSimulate(nGenes = 1000)
@@ -124,6 +125,7 @@
 #' # Simulate paths
 #' sim <- splatSimulate(method = "paths")
 #' }
+#'
 #' @importFrom SummarizedExperiment rowData colData colData<- assays
 #' @importFrom SingleCellExperiment SingleCellExperiment
 #' @importFrom methods validObject

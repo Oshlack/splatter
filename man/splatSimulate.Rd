@@ -124,6 +124,7 @@ which typically use \code{underscore_naming}.
 \examples{
 # Simulation with default parameters
 sim <- splatSimulate()
+
 \donttest{
 # Simulation with different number of genes
 sim <- splatSimulate(nGenes = 1000)
@@ -137,6 +138,7 @@ sim <- splatSimulate(method = "groups")
 # Simulate paths
 sim <- splatSimulate(method = "paths")
 }
+
 }
 \references{
 Zappia L, Phipson B, Oshlack A. Splatter: simulation of single-cell RNA

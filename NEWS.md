@@ -1,6 +1,10 @@
 # DEVELOPMENT VERSION
 
-## Version 1.25.1 (2023-10-11)
+## Version 1.27.2 (2024-04-23)
+
+* Set \dontrun for addGeneLengths to avoid depending on annotation packages
+
+## Version 1.27.1 (2024-03-26)
 
 * Properly prevent output from BASiCSEstimate() and scDDSimulate() when
   verbose = FALSE

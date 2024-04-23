@@ -109,7 +109,7 @@ addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
 #' sce <- addGeneLengths(sce)
 #' head(rowData(sce))
 #' # Sample method (human coding genes)
-#' \donttest{
+#' \dontrun{
 #' library(TxDb.Hsapiens.UCSC.hg19.knownGene)
 #' library(GenomicFeatures)
 #' txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
@@ -118,6 +118,7 @@ addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
 #' gene.lens <- max(splitAsList(tx.lens$tx_len, tx.lens$gene_id))
 #' sce <- addGeneLengths(sce, method = "sample", lengths = gene.lens)
 #' }
+#'
 #' @export
 #' @importFrom stats rlnorm
 addGeneLengths <- function(sce, method = c("generate", "sample"), loc = 7.9,

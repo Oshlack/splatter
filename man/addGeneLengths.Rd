@@ -46,7 +46,7 @@ sce <- simpleSimulate()
 sce <- addGeneLengths(sce)
 head(rowData(sce))
 # Sample method (human coding genes)
-\donttest{
+\dontrun{
 library(TxDb.Hsapiens.UCSC.hg19.knownGene)
 library(GenomicFeatures)
 txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
@@ -55,4 +55,5 @@ tx.lens <- tx.lens[tx.lens$cds_len > 0, ]
 gene.lens <- max(splitAsList(tx.lens$tx_len, tx.lens$gene_id))
 sce <- addGeneLengths(sce, method = "sample", lengths = gene.lens)
 }
+
 }
