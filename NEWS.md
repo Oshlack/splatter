@@ -1,6 +1,9 @@
 # DEVELOPMENT VERSION
 
 * Update roxygen2 version
+* Remove old CI config files
+* Add PR commands GitHub action
+* Re-configure pkgdown site
 
 ## Version 1.29.0 (2024-05-01)
 

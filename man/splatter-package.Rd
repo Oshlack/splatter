@@ -13,6 +13,7 @@ Useful links:
 \itemize{
   \item \url{https://bioconductor.org/packages/splatter/}
   \item \url{https://github.com/Oshlack/splatter}
+  \item \url{http://oshlacklab.com/splatter/}
   \item Report bugs at \url{https://github.com/Oshlack/splatter/issues}
 }
 

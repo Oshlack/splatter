@@ -1,9 +1,10 @@
 title: Splatter
-url: http://oshlack.github.io/splatter
+url: http://oshlacklab.com/splatter/
 template:
-  params:
-    bootswatch: cosmo
-    ganalytics: UA-52309538-4
+  bootstrap: 5
+  bootswatch: cosmo
+  light-switch: true
+  # ganalytics: UA-52309538-4
 reference:
   - title: Package
     desc: Package description
@@ -57,6 +58,39 @@ reference:
       - '`zinbEstimate`'
   - title: Simulation
     desc: Functions for simulating datasets
+  - subtitle: Splat simulation
+    desc: Functions for the Splat simulation
+    contents:
+      - '`splatSimulate`'
+      - '`splatSimBatchCellMeans`'
+      - '`splatSimBatchEffects`'
+      - '`splatSimBCVMeans`'
+      - '`splatSimCellMeans`'
+      - '`splatSimDE`'
+      - '`splatSimDropout`'
+      - '`splatSimGeneMeans`'
+      - '`splatSimLibSizes`'
+      - '`splatSimTrueCounts`'
+  - subtitle: SplatPop simulation
+    desc: Functions for the SplatPop simulation
+    contents:
+      - '`splatPopSimulate`'
+      - '`splatPopAssignMeans`'
+      - '`splatPopCleanSCE`'
+      - '`splatPopeQTLEffects`'
+      - '`splatPopGroupEffects`'
+      - '`splatPopParseGenes`'
+      - '`splatPopParseVCF`'
+      - '`splatPopQuantNorm`'
+      - '`splatPopQuantNormKey`'
+      - '`splatPopSimEffects`'
+      - '`splatPopSimGeneMeans`'
+      - '`splatPopSimMeans`'
+      - '`splatPopSimulateMeans`'
+      - '`splatPopSimulateSample`'
+      - '`splatPopSimulateSC`'
+  - subtitle: Other simulations
+    desc: Functions for other simulation models
     contents:
       - '`BASiCSSimulate`'
       - '`kersplatGenNetwork`'
@@ -77,31 +111,6 @@ reference:
       - '`phenoSimulate`'
       - '`scDDSimulate`'
       - '`simpleSimulate`'
-      - '`splatPopAssignMeans`'
-      - '`splatPopCleanSCE`'
-      - '`splatPopeQTLEffects`'
-      - '`splatPopGroupEffects`'
-      - '`splatPopParseGenes`'
-      - '`splatPopParseVCF`'
-      - '`splatPopQuantNorm`'
-      - '`splatPopQuantNormKey`'
-      - '`splatPopSimEffects`'
-      - '`splatPopSimGeneMeans`'
-      - '`splatPopSimMeans`'
-      - '`splatPopSimulate`'
-      - '`splatPopSimulateMeans'
-      - '`splatPopSimulateSample`'
-      - '`splatPopSimulateSC'
-      - '`splatSimBatchCellMeans`'
-      - '`splatSimBatchEffects`'
-      - '`splatSimBCVMeans`'
-      - '`splatSimCellMeans`'
-      - '`splatSimDE`'
-      - '`splatSimDropout`'
-      - '`splatSimGeneMeans`'
-      - '`splatSimLibSizes`'
-      - '`splatSimTrueCounts`'
-      - '`splatSimulate`'
       - '`sparseDCSimulate`'
       - '`zinbSimulate`'
   - title: Comparison functions
@@ -112,41 +121,19 @@ reference:
       - '`makeCompPanel`'
       - '`makeDiffPanel`'
       - '`makeOverallPanel`'
-      - '`summariseKS`'
       - '`summariseDiff`'
-      - '`summariseStats`'
-      - '`tidyStatSumm`'
   - title: Mock data
     desc: Simple mock datasets for tests and examples
     contents:
-      - '`compareSCEs`'
+      - '`mockBulkMatrix`'
+      - '`mockBulkeQTL`'
+      - '`mockEmpiricalSet`'
+      - '`mockGFF`'
+      - '`mockVCF`'
   - title: Other exported functions
     desc: Additional functions exported by Splatter
     contents:
-      - '`mockBulkMatrix`'
-      - '`mockBulkeQTL`'
-      - '`mockGFF`'
-      - '`mockVCF`'
-  - title: Internals
-    desc: Additional internal functions and helpers
-    contents:
-      - '`bridge`'
-      - '`bringItemsForward`'
-      - '`checkDependencies`'
-      - '`co.var`'
-      - '`expandParams`'
-      - '`getBetaStepProbs`'
-      - '`getCounts`'
-      - '`getLNormFactors`'
-      - '`getPathOrder`'
-      - '`logistic`'
-      - '`rbindMatched`'
-      - '`sampleDensity`'
-      - '`selectFit`'
-      - '`setParamsUnchecked`'
-      - '`setParamUnchecked`'
-      - '`showDFs`'
-      - '`showPP`'
-      - '`showValues`'
-      - '`sparsifyMatrices`'
-      - '`winsorize`'
+      - '`addGeneLengths`'
+      - '`listSims`'
+      - '`minimiseSCE`'
+      - '`splatPopParseEmpirical`'
