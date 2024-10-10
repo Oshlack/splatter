@@ -1,6 +1,8 @@
 # DEVELOPMENT VERSION
 
-## Version 1.27.0 (2024-05-01)
+* Update roxygen2 version
+
+## Version 1.29.0 (2024-05-01)
 
 Bioconductor 3.20 devel
 

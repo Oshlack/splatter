@@ -80,7 +80,7 @@ biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
     Software, ImmunoOncology
 URL: https://bioconductor.org/packages/splatter/, https://github.com/Oshlack/splatter
 BugReports: https://github.com/Oshlack/splatter/issues
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Encoding: UTF-8
 VignetteBuilder: knitr
 Language: en-GB
