@@ -4,6 +4,7 @@
 * Remove old CI config files
 * Add PR commands GitHub action
 * Re-configure pkgdown site
+* Add dependabot GitHub action
 
 ## Version 1.29.0 (2024-05-01)
 
