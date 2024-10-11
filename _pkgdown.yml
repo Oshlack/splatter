@@ -3,137 +3,137 @@ url: http://oshlacklab.com/splatter/
 template:
   bootstrap: 5
   bootswatch: cosmo
-  light-switch: true
+  light-switch: yes
   # ganalytics: UA-52309538-4
 reference:
-  - title: Package
-    desc: Package description
-    contents:
-      - '`splatter`'
-  - title: Parameters
-    desc: Parameters functions and classes
-    contents:
-      - '`newParams`'
-      - '`getParam`'
-      - '`getParams`'
-      - '`setParam`'
-      - '`setParams`'
-      - '`BASiCSParams`'
-      - '`KersplatParams`'
-      - '`Lun2Params`'
-      - '`LunParams`'
-      - '`MFAParams`'
-      - '`Params`'
-      - '`PhenoParams`'
-      - '`SCDDParams`'
-      - '`SimpleParams`'
-      - '`SplatParams`'
-      - '`SplatPopParams`'
-      - '`SparseDCParams`'
-      - '`ZINBParams`'
-  - title: Estimation
-    desc: Functions for estimating parameters
-    contents:
-      - '`BASiCSEstimate`'
-      - '`kersplatEstimate`'
-      - '`kersplatEstBCV`'
-      - '`kersplatEstLib`'
-      - '`kersplatEstMean`'
-      - '`lun2Estimate`'
-      - '`lunEstimate`'
-      - '`mfaEstimate`'
-      - '`phenoEstimate`'
-      - '`scDDEstimate`'
-      - '`simpleEstimate`'
-      - '`splatPopEstimate`'
-      - '`splatPopEstimateEffectSize`'
-      - '`splatPopEstimateMeanCV`'
-      - '`splatEstBCV`'
-      - '`splatEstDropout`'
-      - '`splatEstimate`'
-      - '`splatEstLib`'
-      - '`splatEstMean`'
-      - '`splatEstOutlier`'
-      - '`sparseDCEstimate`'
-      - '`zinbEstimate`'
-  - title: Simulation
-    desc: Functions for simulating datasets
-  - subtitle: Splat simulation
-    desc: Functions for the Splat simulation
-    contents:
-      - '`splatSimulate`'
-      - '`splatSimBatchCellMeans`'
-      - '`splatSimBatchEffects`'
-      - '`splatSimBCVMeans`'
-      - '`splatSimCellMeans`'
-      - '`splatSimDE`'
-      - '`splatSimDropout`'
-      - '`splatSimGeneMeans`'
-      - '`splatSimLibSizes`'
-      - '`splatSimTrueCounts`'
-  - subtitle: SplatPop simulation
-    desc: Functions for the SplatPop simulation
-    contents:
-      - '`splatPopSimulate`'
-      - '`splatPopAssignMeans`'
-      - '`splatPopCleanSCE`'
-      - '`splatPopeQTLEffects`'
-      - '`splatPopGroupEffects`'
-      - '`splatPopParseGenes`'
-      - '`splatPopParseVCF`'
-      - '`splatPopQuantNorm`'
-      - '`splatPopQuantNormKey`'
-      - '`splatPopSimEffects`'
-      - '`splatPopSimGeneMeans`'
-      - '`splatPopSimMeans`'
-      - '`splatPopSimulateMeans`'
-      - '`splatPopSimulateSample`'
-      - '`splatPopSimulateSC`'
-  - subtitle: Other simulations
-    desc: Functions for other simulation models
-    contents:
-      - '`BASiCSSimulate`'
-      - '`kersplatGenNetwork`'
-      - '`kersplatSample`'
-      - '`kersplatSelectRegs`'
-      - '`kersplatSetup`'
-      - '`kersplatSimAmbientCounts`'
-      - '`kersplatSimCellCounts`'
-      - '`kersplatSimCounts`'
-      - '`kersplatSimCellMeans`'
-      - '`kersplatSimGeneMeans`'
-      - '`kersplatSimLibSizes`'
-      - '`kersplatSimPaths`'
-      - '`kersplatSimulate`'
-      - '`lun2Simulate`'
-      - '`lunSimulate`'
-      - '`mfaSimulate`'
-      - '`phenoSimulate`'
-      - '`scDDSimulate`'
-      - '`simpleSimulate`'
-      - '`sparseDCSimulate`'
-      - '`zinbSimulate`'
-  - title: Comparison functions
-    desc: Functions for comparing datasets
-    contents:
-      - '`compareSCEs`'
-      - '`diffSCEs`'
-      - '`makeCompPanel`'
-      - '`makeDiffPanel`'
-      - '`makeOverallPanel`'
-      - '`summariseDiff`'
-  - title: Mock data
-    desc: Simple mock datasets for tests and examples
-    contents:
-      - '`mockBulkMatrix`'
-      - '`mockBulkeQTL`'
-      - '`mockEmpiricalSet`'
-      - '`mockGFF`'
-      - '`mockVCF`'
-  - title: Other exported functions
-    desc: Additional functions exported by Splatter
-    contents:
-      - '`addGeneLengths`'
-      - '`listSims`'
-      - '`minimiseSCE`'
-      - '`splatPopParseEmpirical`'
+- title: Package
+  desc: Package description
+  contents: '`splatter`'
+- title: Parameters
+  desc: Parameters functions and classes
+  contents:
+  - '`newParams`'
+  - '`getParam`'
+  - '`getParams`'
+  - '`setParam`'
+  - '`setParams`'
+  - '`BASiCSParams`'
+  - '`KersplatParams`'
+  - '`Lun2Params`'
+  - '`LunParams`'
+  - '`MFAParams`'
+  - '`Params`'
+  - '`PhenoParams`'
+  - '`SCDDParams`'
+  - '`SimpleParams`'
+  - '`SplatParams`'
+  - '`SplatPopParams`'
+  - '`SparseDCParams`'
+  - '`ZINBParams`'
+- title: Estimation
+  desc: Functions for estimating parameters
+  contents:
+  - '`BASiCSEstimate`'
+  - '`kersplatEstimate`'
+  - '`kersplatEstBCV`'
+  - '`kersplatEstLib`'
+  - '`kersplatEstMean`'
+  - '`lun2Estimate`'
+  - '`lunEstimate`'
+  - '`mfaEstimate`'
+  - '`phenoEstimate`'
+  - '`scDDEstimate`'
+  - '`simpleEstimate`'
+  - '`splatPopEstimate`'
+  - '`splatPopEstimateEffectSize`'
+  - '`splatPopEstimateMeanCV`'
+  - '`splatEstBCV`'
+  - '`splatEstDropout`'
+  - '`splatEstimate`'
+  - '`splatEstLib`'
+  - '`splatEstMean`'
+  - '`splatEstOutlier`'
+  - '`sparseDCEstimate`'
+  - '`zinbEstimate`'
+- title: Simulation
+  desc: Functions for simulating datasets
+- subtitle: Splat simulation
+  desc: Functions for the Splat simulation
+  contents:
+  - '`splatSimulate`'
+  - '`splatSimBatchCellMeans`'
+  - '`splatSimBatchEffects`'
+  - '`splatSimBCVMeans`'
+  - '`splatSimCellMeans`'
+  - '`splatSimDE`'
+  - '`splatSimDropout`'
+  - '`splatSimGeneMeans`'
+  - '`splatSimLibSizes`'
+  - '`splatSimTrueCounts`'
+- subtitle: SplatPop simulation
+  desc: Functions for the SplatPop simulation
+  contents:
+  - '`splatPopSimulate`'
+  - '`splatPopAssignMeans`'
+  - '`splatPopCleanSCE`'
+  - '`splatPopeQTLEffects`'
+  - '`splatPopGroupEffects`'
+  - '`splatPopParseGenes`'
+  - '`splatPopParseVCF`'
+  - '`splatPopQuantNorm`'
+  - '`splatPopQuantNormKey`'
+  - '`splatPopSimEffects`'
+  - '`splatPopSimGeneMeans`'
+  - '`splatPopSimMeans`'
+  - '`splatPopSimulateMeans`'
+  - '`splatPopSimulateSample`'
+  - '`splatPopSimulateSC`'
+- subtitle: Other simulations
+  desc: Functions for other simulation models
+  contents:
+  - '`BASiCSSimulate`'
+  - '`kersplatGenNetwork`'
+  - '`kersplatSample`'
+  - '`kersplatSelectRegs`'
+  - '`kersplatSetup`'
+  - '`kersplatSimAmbientCounts`'
+  - '`kersplatSimCellCounts`'
+  - '`kersplatSimCounts`'
+  - '`kersplatSimCellMeans`'
+  - '`kersplatSimGeneMeans`'
+  - '`kersplatSimLibSizes`'
+  - '`kersplatSimPaths`'
+  - '`kersplatSimulate`'
+  - '`lun2Simulate`'
+  - '`lunSimulate`'
+  - '`mfaSimulate`'
+  - '`phenoSimulate`'
+  - '`scDDSimulate`'
+  - '`simpleSimulate`'
+  - '`sparseDCSimulate`'
+  - '`zinbSimulate`'
+- title: Comparison functions
+  desc: Functions for comparing datasets
+  contents:
+  - '`compareSCEs`'
+  - '`diffSCEs`'
+  - '`makeCompPanel`'
+  - '`makeDiffPanel`'
+  - '`makeOverallPanel`'
+  - '`summariseDiff`'
+- title: Mock data
+  desc: Simple mock datasets for tests and examples
+  contents:
+  - '`mockBulkMatrix`'
+  - '`mockBulkeQTL`'
+  - '`mockEmpiricalSet`'
+  - '`mockGFF`'
+  - '`mockVCF`'
+- title: Other exported functions
+  desc: Additional functions exported by Splatter
+  contents:
+  - '`addGeneLengths`'
+  - '`listSims`'
+  - '`minimiseSCE`'
+  - '`splatPopParseEmpirical`'
+

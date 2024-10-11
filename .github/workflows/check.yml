@@ -267,15 +267,18 @@ jobs:
 
   pkgdown:
     ## Build pkgdown site and push to gh-pages branch. Only runs if on the
-    ## devel branch and R-CMD-check-docker has completed successfully. Uses
-    ## the Bioconductor Docker image.
-    if: github.ref == 'refs/heads/devel'
+    ## devel branch and R-CMD-check-docker has completed successfully. Uses the
+    ## Bioconductor Docker image.
+    if: github.ref == 'refs/heads/devel' || github.base_ref == 'devel'
     needs: [get-bioc-release, get-bioc-version, R-CMD-check-docker]
     runs-on: ubuntu-latest
     container:
       image: ${{ needs.get-bioc-release.outputs.biocimage }}
       volumes:
         - /home/runner/work/_temp/Library:/usr/local/lib/R/host-site-library
+    concurrency:
+      # Only restrict concurrency for non-PR jobs
+      group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_BIOC_VERSION: ${{ needs.get-bioc-version.outputs.biocversion }}
