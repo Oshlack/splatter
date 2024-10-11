@@ -285,14 +285,6 @@ jobs:
 
     steps:
 
-      - name: Set git credentials
-        ## Assign commits to the GitHub Action user. This should happen
-        ## automatically but doesn't (maybe because of Docker).
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-        shell: bash {0}
-
       - name: Checkout
         uses: actions/checkout@v4
 
