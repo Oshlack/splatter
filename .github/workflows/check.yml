@@ -191,6 +191,18 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      # Fixes https://github.com/Bioconductor/bioconductor_docker/issues/22
+      - name: Manually install preprocessCore on Linux
+        if: runner.os == 'Linux'
+        run: |
+          install.packages(
+            "preprocessCore",
+            repos = BiocManager::repositories(),
+            type = "source",
+            configure.args = "--disable-threading"
+          )
+        shell: Rscript {0}
+
       - name: Session info
         run: |
           options(width = 100)
