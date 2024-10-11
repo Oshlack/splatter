@@ -7,9 +7,13 @@ title: "Splatter"
 [![Lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-stable.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Codecov test coverage](https://codecov.io/gh/Oshlack/splatter/graph/badge.svg)](https://app.codecov.io/gh/Oshlack/splatter)
 [![R-CMD-check-bioc](https://github.com/Oshlack/splatter/actions/workflows/check.yml/badge.svg)](https://github.com/Oshlack/splatter/actions/workflows/check.yml)
-[![Bioc Years](https://www.bioconductor.org/shields/years-in-bioc/splatter.svg)](https://www.bioconductor.org/packages/release/bioc/html/splatter.html#since)
-[![Bioc Stats](https://www.bioconductor.org/shields/downloads/release/splatter.svg)](http://bioconductor.org/packages/stats/bioc/splatter/)
-[![Bioc Build](https://www.bioconductor.org/shields/build/release/bioc/splatter.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/splatter/)
+[![Bioc release status](http://www.bioconductor.org/shields/build/release/bioc/splatter.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/splatter)
+[![Bioc devel status](http://www.bioconductor.org/shields/build/devel/bioc/splatter.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/splatter)
+[![Bioc downloads rank](https://bioconductor.org/shields/downloads/release/splatter.svg)](http://bioconductor.org/packages/stats/bioc/splatter/)
+[![Bioc support](https://bioconductor.org/shields/posts/splatter.svg)](https://support.bioconductor.org/tag/splatter)
+[![Bioc history](https://bioconductor.org/shields/years-in-bioc/splatter.svg)](https://bioconductor.org/packages/release/bioc/html/splatter.html#since)
+[![Bioc last commit](https://bioconductor.org/shields/lastcommit/devel/bioc/splatter.svg)](http://bioconductor.org/checkResults/devel/bioc-LATEST/splatter/)
+[![Bioc dependencies](https://bioconductor.org/shields/dependencies/release/splatter.svg)](https://bioconductor.org/packages/release/bioc/html/splatter.html#since)
 <!-- badges: end -->
 
 ![Splatter logo](vignettes/splatter-logo-small.png)
