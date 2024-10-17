@@ -1,6 +1,22 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
+\section{Version 1.30.0, Bioconductor 3.20 Release (2024-10-30)}{
+  \itemize{
+    \item{
+      Minor maintenance chores:
+      \itemize{
+        \item{Update roxygen2 version}
+        \item{Remove old CI config files}
+        \item{Add PR commands GitHub action}
+        \item{Re-configure pkgdown site}
+        \item{Add dependabot GitHub action}
+        \item{Update README}
+      }
+    }
+  }
+}
+
 \section{Version 1.28.0, Bioconductor 3.19 Release (2024-05-01)}{
   \itemize{
     \item{
