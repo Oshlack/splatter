@@ -5,6 +5,8 @@
 ## * https://github.com/seandavi/BuildABiocWorkshop2020/blob/master/.github/workflows/basic_checks.yaml
 name: R-CMD-check-bioc
 
+permissions: read-all
+
 ## Specify which branches to run on
 ## The "devel" branch corresponds to Bioc-devel and "RELEASE_X" branches are
 ## Bioconductor releases. See http://bioconductor.org/developers/how-to/git/.
@@ -237,17 +239,9 @@ jobs:
       - name: Install extra linux dependencies
         run: sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev devscripts qpdf
 
-      - name: Set Bioconductor version
-        run: |
-          install.packages("BiocManager")
-          BiocManager::install(version = Sys.getenv("BIOCVERSION"), ask = FALSE)
-        shell: Rscript {0}
-
-      - name: Setup R dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          cache-version: 3
-          extra-packages: any::covr
+          extra-packages: any::covr, any::xml2
           needs: coverage
 
       # Fixes https://github.com/Bioconductor/bioconductor_docker/issues/22
@@ -262,8 +256,37 @@ jobs:
         shell: Rscript {0}
 
       - name: Test coverage
-        run: covr::codecov(quiet = FALSE)
+        run: |
+          cov <- covr::package_coverage(
+            quiet = FALSE,
+            clean = FALSE,
+            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
+          )
+          covr::to_cobertura(cov)
         shell: Rscript {0}
+
+      - uses: codecov/codecov-action@v4
+        with:
+          # Fail if error if not on PR, or if on PR and token is given
+          fail_ci_if_error: ${{ github.event_name != 'pull_request' || secrets.CODECOV_TOKEN }}
+          file: ./cobertura.xml
+          plugin: noop
+          disable_search: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Show testthat output
+        if: always()
+        run: |
+          ## --------------------------------------------------------------------
+          find '${{ runner.temp }}/package' -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-test-failures
+          path: ${{ runner.temp }}/package
 
   pkgdown:
     ## Build pkgdown site and push to gh-pages branch. Only runs if on the
