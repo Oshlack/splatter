@@ -1,28 +1,27 @@
-Package: splatter
 Type: Package
+Package: splatter
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 1.29.0
-Date: 2024-05-01
-Authors@R:
-    c(person("Luke", "Zappia", role = c("aut", "cre"),
-      email = "luke@lazappi.id.au",
-      comment = c(ORCID = "0000-0001-7744-8565", GitHub = "lazappi")),
-      person("Belinda", "Phipson", role = c("aut"),
-      email = "belinda.phipson@petermac.org",
-      comment = c(ORCID = "0000-0002-1711-7454", GitHub = "bphipson")),
-      person("Christina", "Azodi", role = c("ctb"),
-      email = "cazodi@svi.edu.au",
-      comment = c(ORCID = "0000-0002-6097-606X", GitHub = "azodichr")),
-      person("Alicia", "Oshlack", role = c("aut"),
-      email = "alicia.oshlack@petermac.org",
-      comment = c(ORCID = "0000-0001-9788-5690")))
+Version: 1.29.1
+Date: 2024-10-17
+Authors@R:c(
+    person("Luke", "Zappia", , "luke@lazappi.id.au", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-7744-8565", GitHub = "lazappi")),
+    person("Belinda", "Phipson", , "belinda.phipson@petermac.org", role = "aut",
+           comment = c(ORCID = "0000-0002-1711-7454", GitHub = "bphipson")),
+    person("Christina", "Azodi", , "cazodi@svi.edu.au", role = "ctb",
+           comment = c(ORCID = "0000-0002-6097-606X", GitHub = "azodichr")),
+    person("Alicia", "Oshlack", , "alicia.oshlack@petermac.org", role = "aut",
+           comment = c(ORCID = "0000-0001-9788-5690"))
+  )
 Description: Splatter is a package for the simulation of single-cell RNA
-    sequencing count data. It provides a simple interface for creating complex
-    simulations that are reproducible and well-documented. Parameters can be
-    estimated from real data and functions are provided for comparing real and
-    simulated datasets.
+    sequencing count data. It provides a simple interface for creating
+    complex simulations that are reproducible and well-documented.
+    Parameters can be estimated from real data and functions are provided
+    for comparing real and simulated datasets.
 License: GPL-3 + file LICENSE
-LazyData: FALSE
+URL: https://bioconductor.org/packages/splatter/,
+    https://github.com/Oshlack/splatter, http://oshlacklab.com/splatter/
+BugReports: https://github.com/Oshlack/splatter/issues
 Depends:
     R (>= 4.0),
     SingleCellExperiment
@@ -55,16 +54,16 @@ Suggests:
     GenomeInfoDb,
     GenomicRanges,
     ggplot2 (>= 3.4.0),
-    IRanges,
     igraph,
+    IRanges,
     knitr,
     limSolve,
     lme4,
     magick,
     mfa,
     phenopath,
-    progress,
     preprocessCore,
+    progress,
     pscl,
     rmarkdown,
     scales,
@@ -75,12 +74,12 @@ Suggests:
     spelling,
     testthat,
     VariantAnnotation,
-    zinbwave,
-biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression, Sequencing,
-    Software, ImmunoOncology
-URL: https://bioconductor.org/packages/splatter/, https://github.com/Oshlack/splatter
-BugReports: https://github.com/Oshlack/splatter/issues
-RoxygenNote: 7.3.1
+    zinbwave
+VignetteBuilder: 
+    knitr
+biocViews: SingleCell, RNASeq, Transcriptomics, GeneExpression,
+    Sequencing, Software, ImmunoOncology
 Encoding: UTF-8
-VignetteBuilder: knitr
 Language: en-GB
+LazyData: FALSE
+RoxygenNote: 7.3.2

@@ -164,7 +164,7 @@ jobs:
         config:
           - {os: windows-latest}
           - {os: macOS-latest}
-          - {os: ubuntu-18.04, rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
+          - {os: ubuntu-20.04, rspm: "https://packagemanager.posit.co/cran/__linux__/focal/latest"}
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
@@ -190,6 +190,18 @@ jobs:
           cache-version: 3
           extra-packages: any::rcmdcheck
           needs: check
+
+      # Fixes https://github.com/Bioconductor/bioconductor_docker/issues/22
+      - name: Manually install preprocessCore on Linux
+        if: runner.os == 'Linux'
+        run: |
+          install.packages(
+            "preprocessCore",
+            repos = BiocManager::repositories(),
+            type = "source",
+            configure.args = "--disable-threading"
+          )
+        shell: Rscript {0}
 
       - name: Session info
         run: |
@@ -255,31 +267,26 @@ jobs:
 
   pkgdown:
     ## Build pkgdown site and push to gh-pages branch. Only runs if on the
-    ## devel branch and R-CMD-check-docker has completed successfully. Uses
-    ## the Bioconductor Docker image.
-    if: github.ref == 'refs/heads/devel'
+    ## devel branch and R-CMD-check-docker has completed successfully. Uses the
+    ## Bioconductor Docker image.
+    if: github.ref == 'refs/heads/devel' || github.base_ref == 'devel'
     needs: [get-bioc-release, get-bioc-version, R-CMD-check-docker]
     runs-on: ubuntu-latest
     container:
       image: ${{ needs.get-bioc-release.outputs.biocimage }}
       volumes:
         - /home/runner/work/_temp/Library:/usr/local/lib/R/host-site-library
+    concurrency:
+      # Only restrict concurrency for non-PR jobs
+      group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_BIOC_VERSION: ${{ needs.get-bioc-version.outputs.biocversion }}
 
     steps:
 
-      - name: Set git credentials
-        ## Assign commits to the GitHub Action user. This should happen
-        ## automatically but doesn't (maybe because of Docker).
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-        shell: bash {0}
-
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install extra linux dependencies
         run: sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev devscripts qpdf

@@ -1,6 +1,15 @@
 # DEVELOPMENT VERSION
 
-## Version 1.27.0 (2024-05-01)
+## Version 1.29.1 (2024-10-17)
+
+* Update roxygen2 version
+* Remove old CI config files
+* Add PR commands GitHub action
+* Re-configure pkgdown site
+* Add dependabot GitHub action
+* Update README
+
+## Version 1.29.0 (2024-05-01)
 
 Bioconductor 3.20 devel
 
