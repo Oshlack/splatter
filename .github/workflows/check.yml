@@ -312,13 +312,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set git credentials
-        ## Assign commits to the GitHub Action user. This should happen
-        ## automatically but doesn't (maybe because of Docker).
-      - run: |
-          git config user.name github-actions[bot]
-          git config user.email github-actions[bot]@users.noreply.github.com
-
       - name: Install extra linux dependencies
         run: sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev devscripts qpdf
 
@@ -355,3 +348,5 @@ jobs:
           clean: false
           branch: gh-pages
           folder: docs
+          git-config-name: github-actions[bot]
+          git-config-email: github-actions[bot]@users.noreply.github.com
