@@ -260,6 +260,7 @@ jobs:
           cov <- covr::package_coverage(
             quiet = FALSE,
             clean = FALSE,
+            type  = "all",
             install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
           )
           covr::to_cobertura(cov)
@@ -311,8 +312,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set git credentials
+        ## Assign commits to the GitHub Action user. This should happen
+        ## automatically but doesn't (maybe because of Docker).
+      - run: |
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+
       - name: Install extra linux dependencies
         run: sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev devscripts qpdf
+
+      - name: Install rsync 📚
+        run: |
+          apt-get update && apt-get install -y rsync
 
       - name: Setup R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
