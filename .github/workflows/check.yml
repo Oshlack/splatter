@@ -350,3 +350,4 @@ jobs:
           folder: docs
           git-config-name: github-actions[bot]
           git-config-email: github-actions[bot]@users.noreply.github.com
+          token: ${{ secrets.GITHUB_TOKEN }}
