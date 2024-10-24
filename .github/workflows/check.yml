@@ -306,6 +306,8 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_BIOC_VERSION: ${{ needs.get-bioc-version.outputs.biocversion }}
+    permissions:
+      pages: write
 
     steps:
 
