@@ -1,8 +1,8 @@
 Type: Package
 Package: splatter
 Title: Simple Simulation of Single-cell RNA Sequencing Data
-Version: 1.31.0
-Date: 2024-10-30
+Version: 1.31.1
+Date: 2025-04-10
 Authors@R:c(
     person("Luke", "Zappia", , "luke@lazappi.id.au", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7744-8565", GitHub = "lazappi")),
