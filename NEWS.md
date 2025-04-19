@@ -1,4 +1,6 @@
-# DEVELOPMENT VERSION
+# Version 1.32.0 (2025-04-16)
+
+Bioconductor 3.21 release
 
 ## Version 1.31.1 (2025-04-10)
 
