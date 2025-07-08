@@ -93,7 +93,7 @@ addFeatureStats <- function(sce, value = c("counts", "cpm", "tpm", "fpkm"),
 #'
 #' @details
 #' This function adds simulated gene lengths to the
-#' \code{\link{rowData}} slot of a
+#' \code{\link[SummarizedExperiment]{rowData}} slot of a
 #' \code{\link[SingleCellExperiment]{SingleCellExperiment}} object that can be
 #' used for calculating length normalised expression values such as TPM or FPKM.
 #' The \code{generate} method simulates lengths using a (rounded) log-normal
