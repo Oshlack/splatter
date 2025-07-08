@@ -1,5 +1,10 @@
 # DEVELOPMENT VERSION
 
+## Version 1.33.1 (2025-07-08)
+
+* Fix inst/NEWS.Rd formatting
+* Fix links in function documentation
+
 ## Version 1.33.0 (2025-04-16)
 
 Bioconductor 3.22 devel
