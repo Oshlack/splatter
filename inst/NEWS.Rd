@@ -2,7 +2,11 @@
 \title{News for Package \pkg{splatter}}
 
 \section{Version 1.32.0, Bioconductor 3.21 Release (2025-04-16)}{
-  No changes to report
+  \itemize{
+    \item{
+      No changes to report
+    }
+  }
 }
 
 \section{Version 1.30.0, Bioconductor 3.20 Release (2024-10-30)}{
