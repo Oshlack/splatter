@@ -70,6 +70,7 @@ jobs:
           )
           biocmap <- BiocManager:::.version_map_get_online(biocconfig)
           biocversion <- subset(biocmap, BiocStatus == biocrelease)[, 'Bioc']
+          biocversion_str <- as.character(biocversion)gs
           rversion <- subset(biocmap, BiocStatus == biocrelease)[, 'R']
           rversion_str <- as.character(rversion)
           # Use R devel for BioC devel between November and May
