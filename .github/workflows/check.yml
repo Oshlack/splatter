@@ -5,8 +5,6 @@
 ## * https://github.com/seandavi/BuildABiocWorkshop2020/blob/master/.github/workflows/basic_checks.yaml
 name: R-CMD-check-bioc
 
-permissions: read-all
-
 ## Specify which branches to run on
 ## The "devel" branch corresponds to Bioc-devel and "RELEASE_X" branches are
 ## Bioconductor releases. See http://bioconductor.org/developers/how-to/git/.
@@ -73,12 +71,21 @@ jobs:
           biocmap <- BiocManager:::.version_map_get_online(biocconfig)
           biocversion <- subset(biocmap, BiocStatus == biocrelease)[, 'Bioc']
           rversion <- subset(biocmap, BiocStatus == biocrelease)[, 'R']
-          writeLines(as.character(c(biocversion, rversion)),
-                     "versions.txt")
+          rversion_str <- as.character(rversion)
+          # Use R devel for BioC devel between November and May
+          if (biocrelease == "devel") {
+              current_month <- as.numeric(format(Sys.Date(), "%m"))
+              if (current_month >= 11 || current_month <= 5) {
+                  cat("Setting R version to devel")
+                  rversion <- "devel"
+                  rversion_str <- "devel"
+              }
+          }
+          writeLines(c(biocversion_str, rversion_str), "versions.txt")
           cat("GET VERSIONS", "\n")
           cat("Bioc release: ", biocrelease, "\n")
-          cat("Bioc version: ", as.character(biocversion), "\n")
-          cat("R version: ", as.character(rversion), "\n")
+          cat("Bioc version: ", biocversion_str, "\n")
+          cat("R version: ", rversion_str, "\n")
         shell: Rscript {0}
       - id: set-versions
         name: Set Bioconductor/R versions
@@ -120,17 +127,6 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
-        # Fixes https://github.com/Bioconductor/bioconductor_docker/issues/22
-      - name: Manually install preprocessCore
-        run: |
-          install.packages(
-            "preprocessCore",
-            repos = BiocManager::repositories(),
-            type = "source",
-            configure.args = "--disable-threading"
-          )
-        shell: Rscript {0}
-
       - name: Show session info
         run: |
           options(width = 100)
@@ -166,7 +162,7 @@ jobs:
         config:
           - {os: windows-latest}
           - {os: macOS-latest}
-          - {os: ubuntu-20.04, rspm: "https://packagemanager.posit.co/cran/__linux__/focal/latest"}
+          - {os: ubuntu-24.04, rspm: "https://packagemanager.posit.co/cran/__linux__/noble/latest"}
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
@@ -176,6 +172,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install Linux system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt update
+          sudo apt-get update
+          sudo apt-get upgrade libstdc++6
 
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
@@ -193,18 +196,6 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
-      # Fixes https://github.com/Bioconductor/bioconductor_docker/issues/22
-      - name: Manually install preprocessCore on Linux
-        if: runner.os == 'Linux'
-        run: |
-          install.packages(
-            "preprocessCore",
-            repos = BiocManager::repositories(),
-            type = "source",
-            configure.args = "--disable-threading"
-          )
-        shell: Rscript {0}
-
       - name: Session info
         run: |
           options(width = 100)
@@ -221,7 +212,7 @@ jobs:
   test-coverage:
     ## Calculate package test coverage. Only runs if R-CMD-check-docker has
     ## completed successfully. Uses the Bioconductor Docker image.
-    if: github.ref == 'refs/heads/devel'
+    if: ${{ github.ref == 'refs/heads/devel' }}
     needs: [get-bioc-release, get-bioc-version, R-CMD-check-docker]
     runs-on: ubuntu-latest
     container:
@@ -239,87 +230,37 @@ jobs:
       - name: Install extra linux dependencies
         run: sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev devscripts qpdf
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
+      - name: Setup R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::covr, any::xml2
+          cache-version: 3
+          extra-packages: any::covr
           needs: coverage
 
-      # Fixes https://github.com/Bioconductor/bioconductor_docker/issues/22
-      - name: Manually install preprocessCore
-        run: |
-          install.packages(
-            "preprocessCore",
-            repos = BiocManager::repositories(),
-            type = "source",
-            configure.args = "--disable-threading"
-          )
-        shell: Rscript {0}
-
       - name: Test coverage
-        run: |
-          cov <- covr::package_coverage(
-            quiet = FALSE,
-            clean = FALSE,
-            type  = "all",
-            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
-          )
-          covr::to_cobertura(cov)
+        run: covr::codecov(quiet = FALSE)
         shell: Rscript {0}
-
-      - uses: codecov/codecov-action@v4
-        with:
-          # Fail if error if not on PR, or if on PR and token is given
-          fail_ci_if_error: ${{ github.event_name != 'pull_request' || secrets.CODECOV_TOKEN }}
-          file: ./cobertura.xml
-          plugin: noop
-          disable_search: true
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Show testthat output
-        if: always()
-        run: |
-          ## --------------------------------------------------------------------
-          find '${{ runner.temp }}/package' -name 'testthat.Rout*' -exec cat '{}' \; || true
-        shell: bash
-
-      - name: Upload test results
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-test-failures
-          path: ${{ runner.temp }}/package
 
   pkgdown:
     ## Build pkgdown site and push to gh-pages branch. Only runs if on the
-    ## devel branch and R-CMD-check-docker has completed successfully. Uses the
-    ## Bioconductor Docker image.
-    if: github.ref == 'refs/heads/devel' || github.base_ref == 'devel'
-    needs: [get-bioc-release, get-bioc-version, R-CMD-check-docker]
+    ## devel branch and R-CMD-check-docker has completed successfully. Uses
+    ## the Bioconductor Docker image.
+    needs: [get-bioc-release, get-bioc-version]
     runs-on: ubuntu-latest
     container:
       image: ${{ needs.get-bioc-release.outputs.biocimage }}
       volumes:
         - /home/runner/work/_temp/Library:/usr/local/lib/R/host-site-library
-    concurrency:
-      # Only restrict concurrency for non-PR jobs
-      group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_BIOC_VERSION: ${{ needs.get-bioc-version.outputs.biocversion }}
-    permissions:
-      pages: write
 
     steps:
-
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Install extra linux dependencies
-        run: sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev devscripts qpdf
-
-      - name: Install rsync 📚
-        run: |
-          apt-get update && apt-get install -y rsync
+        run: sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev devscripts qpdf rsync
 
       - name: Setup R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
@@ -328,28 +269,16 @@ jobs:
           extra-packages: any::pkgdown, local::.
           needs: website
 
-      # Fixes https://github.com/Bioconductor/bioconductor_docker/issues/22
-      - name: Manually install preprocessCore
-        run: |
-          install.packages(
-            "preprocessCore",
-            repos = BiocManager::repositories(),
-            type = "source",
-            configure.args = "--disable-threading"
-          )
-        shell: Rscript {0}
-
       - name: Build pkgdown site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
 
       - name: Deploy to GitHub pages 🚀
-        if: github.event_name != 'pull_request'
+        if: ${{ (github.ref == 'refs/heads/devel') && (github.event_name != 'pull_request') }}
         uses: JamesIves/github-pages-deploy-action@v4.7.3
         with:
           clean: false
           branch: gh-pages
           folder: docs
-          git-config-name: github-actions[bot]
-          git-config-email: github-actions[bot]@users.noreply.github.com
-          token: ${{ secrets.GITHUB_TOKEN }}
+          git-config-name: "github-actions[bot]"
+          git-config-email: "41898282+github-actions[bot]@users.noreply.github.com"
