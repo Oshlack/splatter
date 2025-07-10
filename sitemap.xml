@@ -1,303 +1,125 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>http://oshlack.github.io/splatter/index.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/BASiCSEstimate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/BASiCSParams.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/BASiCSSimulate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/KersplatParams.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/Lun2Params.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/LunParams.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/MFAParams.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/Params.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/PhenoParams.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/SCDDParams.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/SimpleParams.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/SparseDCParams.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/SplatParams.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/ZINBParams.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/addFeatureStats.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/addGeneLengths.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/bridge.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/bringItemsForward.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/compareSCEs.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/diffSCEs.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/expandParams.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/getBetaStepProbs.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/getCounts.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/getLNormFactors.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/getParam.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/getParams.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/getPathOrder.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatEstBCV.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatEstLib.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatEstMean.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatEstimate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatGenNetwork.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatSample.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatSelectRegs.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatSetup.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatSimAmbientCounts.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatSimCellCounts.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatSimCellMeans.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatSimCounts.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatSimGeneMeans.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatSimLibSizes.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatSimPaths.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/kersplatSimulate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/listSims.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/logistic.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/lun2Estimate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/lun2Simulate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/lunEstimate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/lunSimulate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/makeCompPanel.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/makeDiffPanel.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/makeOverallPanel.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/mfaEstimate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/mfaSimulate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/newParams.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/phenoEstimate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/phenoSimulate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/rbindMatched.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/sampleDensity.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/scDDEstimate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/scDDSimulate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/selectFit.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/setParam.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/setParamUnchecked.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/setParams.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/setParamsUnchecked.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/showDFs.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/showPP.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/showValues.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/simpleEstimate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/simpleSimulate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/sparseDCEstimate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/sparseDCSimulate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatEstBCV.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatEstDropout.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatEstLib.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatEstMean.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatEstOutlier.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatEstimate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatSimBCVMeans.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatSimBatchCellMeans.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatSimBatchEffects.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatSimCellMeans.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatSimDE.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatSimDropout.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatSimGeneMeans.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatSimLibSizes.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatSimTrueCounts.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatSimulate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/splatter.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/summariseDiff.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/summariseKS.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/summariseStats.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/tidyStatSumm.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/winsorize.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/zinbEstimate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/reference/zinbSimulate.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/articles/splat_params.html</loc>
-  </url>
-  <url>
-    <loc>http://oshlack.github.io/splatter/articles/splatter.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>http://oshlacklab.com/splatter/404.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/LICENSE-text.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/articles/index.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/articles/splatPop.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/articles/splat_params.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/articles/splatter.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/authors.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/index.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/news/index.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/BASiCSEstimate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/BASiCSParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/BASiCSSimulate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/KersplatParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/Lun2Params.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/LunParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/MFAParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/Params.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/PhenoParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/SCDDParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/SimpleParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/SparseDCParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/SplatParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/SplatPopParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/ZINBParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/addGeneLengths.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/compareSCEs.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/diffSCEs.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/expandParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/getLNormFactors.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/getParam.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/getParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/index.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatEstBCV.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatEstLib.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatEstMean.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatEstimate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatGenNetwork.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatSample.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatSelectRegs.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatSetup.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatSimAmbientCounts.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatSimCellCounts.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatSimCellMeans.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatSimCounts.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatSimGeneMeans.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatSimLibSizes.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatSimPaths.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/kersplatSimulate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/listSims.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/lun2Estimate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/lun2Simulate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/lunEstimate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/lunSimulate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/makeCompPanel.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/makeDiffPanel.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/makeOverallPanel.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/mfaEstimate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/mfaSimulate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/minimiseSCE.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/mockBulkMatrix.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/mockBulkeQTL.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/mockEmpiricalSet.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/mockGFF.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/mockVCF.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/newParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/phenoEstimate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/phenoSimulate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/scDDEstimate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/scDDSimulate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/setParam.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/setParamUnchecked.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/setParams.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/setParamsUnchecked.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/simpleEstimate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/simpleSimulate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/sparseDCEstimate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/sparseDCSimulate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatEstBCV.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatEstDropout.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatEstLib.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatEstMean.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatEstOutlier.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatEstimate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopAssignMeans.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopCleanSCE.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopConditionEffects.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopConditionalEffects.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopDesignBatches.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopDesignConditions.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopEstimate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopEstimateEffectSize.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopEstimateMeanCV.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopGroupEffects.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopParseEmpirical.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopParseGenes.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopParseVCF.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopQuantNorm.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopQuantNormKey.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopSimBatchEffects.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopSimConditionalEffects.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopSimEffects.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopSimGeneMeans.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopSimMeans.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopSimulate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopSimulateMeans.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopSimulateSC.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopSimulateSample.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatPopeQTLEffects.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatSimBCVMeans.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatSimBatchCellMeans.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatSimBatchEffects.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatSimCellMeans.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatSimDE.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatSimDropout.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatSimGeneMeans.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatSimLibSizes.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatSimTrueCounts.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatSimulate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/splatter-package.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/summariseDiff.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/zinbEstimate.html</loc></url>
+<url><loc>http://oshlacklab.com/splatter/reference/zinbSimulate.html</loc></url>
 </urlset>
+

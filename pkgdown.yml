@@ -1,11 +1,11 @@
-pandoc: 2.7.3
-pkgdown: 1.6.1.9000
-pkgdown_sha: e1e46f2e13c7efdb17bc4eae40bc3779c2b0b517
+pandoc: 3.7.0.2
+pkgdown: 2.1.3
+pkgdown_sha: ~
 articles:
   splat_params: splat_params.html
+  splatPop: splatPop.html
   splatter: splatter.html
-last_built: 2020-09-28T15:39Z
+last_built: 2025-07-10T16:00Z
 urls:
-  reference: http://oshlack.github.io/splatter/reference
-  article: http://oshlack.github.io/splatter/articles
-
+  reference: http://oshlacklab.com/splatter/reference
+  article: http://oshlacklab.com/splatter/articles
