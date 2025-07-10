@@ -5,6 +5,8 @@
 ## * https://github.com/seandavi/BuildABiocWorkshop2020/blob/master/.github/workflows/basic_checks.yaml
 name: R-CMD-check-bioc
 
+permissions: read-all
+
 ## Specify which branches to run on
 ## The "devel" branch corresponds to Bioc-devel and "RELEASE_X" branches are
 ## Bioconductor releases. See http://bioconductor.org/developers/how-to/git/.
@@ -255,6 +257,8 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_BIOC_VERSION: ${{ needs.get-bioc-version.outputs.biocversion }}
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
