@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
+\section{Version 1.34.0, Bioconductor 3.22 Release (2025-10-30)}{
+  \itemize{
+    \item{
+      No changes to report
+    }
+  }
+}
+
 \section{Version 1.32.0, Bioconductor 3.21 Release (2025-04-16)}{
   \itemize{
     \item{
