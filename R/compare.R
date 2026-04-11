@@ -85,7 +85,7 @@ compareSCEs <- function(sces, point.size = 0.1, point.alpha = 0.1,
         sce <- sces[[name]]
         rowData(sce)$Dataset <- name
         colData(sce)$Dataset <- name
-        sce <- scuttle::addPerCellQC(sce)
+        sce <- scrapper::quickRnaQc.se(sce, subsets = list())
         sce <- scuttle::addPerFeatureQC(sce)
         cpm(sce) <- as.matrix(scuttle::calculateCPM(sce))
         sce <- addFeatureStats(sce, "counts")
@@ -412,7 +412,7 @@ diffSCEs <- function(sces, ref, point.size = 0.1, point.alpha = 0.1,
         }
         rowData(sce)$Dataset <- name
         colData(sce)$Dataset <- name
-        sce <- scuttle::addPerCellQC(sce)
+        sce <- scrapper::quickRnaQc.se(sce, subsets = list())
         sce <- scuttle::addPerFeatureQC(sce)
         cpm(sce) <- as.matrix(scuttle::calculateCPM(sce))
         sce <- addFeatureStats(sce, "counts")
