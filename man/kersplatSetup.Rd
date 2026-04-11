@@ -29,20 +29,20 @@ can be manually overwritten if desired.
 
 The setup involves the following steps:
 \enumerate{
-    \item Generate a gene network (if not already present)
-    \item Select regulator genes (if not already present)
-    \item Simulate gene means (if not already present)
-    \item Simulate cell paths
+\item Generate a gene network (if not already present)
+\item Select regulator genes (if not already present)
+\item Simulate gene means (if not already present)
+\item Simulate cell paths
 }
 
 The resulting \code{\link{KersplatParams}} object will have the following
 parameters set (if they weren't already).
 
 \itemize{
-    \item \code{mean.values}
-    \item \code{network.graph}
-    \item \code{network.regsSet}
-    \item \code{paths.means}
+\item \code{mean.values}
+\item \code{network.graph}
+\item \code{network.regsSet}
+\item \code{paths.means}
 }
 
 See \code{\link{KersplatParams}} for more details about these parameters and

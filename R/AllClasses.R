@@ -928,6 +928,9 @@ setClass("BASiCSParams",
 
 #' The MFAParams class
 #'
+#' @description
+#' `r lifecycle::badge('deprecated')`
+#'
 #' S4 class that holds parameters for the mfa simulation.
 #'
 #' @section Parameters:

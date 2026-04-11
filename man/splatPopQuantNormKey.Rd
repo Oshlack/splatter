@@ -10,7 +10,7 @@ splatPopQuantNormKey(key, means)
 \item{key}{Partial splatPop key data.frame.}
 
 \item{means}{matrix or list of matrices containing means from
-`splatPopQuantNorm`}
+\code{splatPopQuantNorm}}
 }
 \value{
 Final eQTL key.

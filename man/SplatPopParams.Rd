@@ -15,90 +15,90 @@ In addition to the \code{\link{SplatParams}} parameters, splatPop simulation
 requires the following parameters:
 
 \describe{
-    \item{\code{[similarity.scale]}}{Scaling factor for pop.cv.param.rate,
-    where values larger than 1 increase the similarity between individuals in
-    the population and values less than one make the individuals less
-    similar.}
-    \item{\code{[eqtl.n]}}{The number (>1) or percent (<=1) of genes to
-    assign eQTL effects.}
-    \item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
-    \item{\code{[eqtl.maf.min]}}{Minimum Minor Allele Frequency of eSNPs.}
-    \item{\code{[eqtl.maf.max]}}{Maximum Minor Allele Frequency of eSNPs.}
-    \item{\code{[eqtl.coreg]}}{Proportion of eGenes to have a shared eSNP
-    (i.e., co-regulated genes)}
-    \item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate
-    as group specific.}
-    \item{\code{[eqtl.condition.specific]}}{Percent of eQTL effects to
-    simulate as condition specific.}
-    \item{\emph{eQTL Effect size distribution parameters. Defaults estimated
-    from GTEx eQTL mapping results, see vignette for more information.}}{
-        \describe{
-            \item{\code{eqtl.ES.shape}}{Shape parameter for the effect size
-            gamma distribution.}
-            \item{\code{eqtl.ES.rate}}{Rate parameter for the effect size
-            gamma distribution.}
-        }
-    }
-    \item{\emph{Bulk Mean Expression distribution parameters. Defaults
-    estimated from GTEx data, see vignette for more information.}}{
-        \describe{
-            \item{\code{pop.mean.shape}}{Shape parameter for the mean (i.e.
-            bulk) expression gamma distribution}
-            \item{\code{pop.mean.rate}}{Rate parameter for the mean (i.e.
-            bulk) expression gamma distribution}
-        }
-    }
-    \item{\emph{Bulk Expression Coefficient of Variation distribution
-    parameters binned. Defaults estimated from GTEx data, see vignette for
-    more information.}}{
-        \describe{
-            \item{\code{pop.cv.param}}{Dataframe containing gene
-            mean bin range, and the CV shape, and CV rate parameters for
-            each of those bins.}
-        }
-    }
-    \item{\emph{Specify number of samples per batch. Note that splatPop will
-    randomly assign donors to be present in multiple batches to fulfill the
-    specified nBatches and batch.size parameters. For example, if 10 samples
-    are simulated with batchPool.n=4 and batchPool.size= 4, then 6 samples
-    will be randomly chosen to be replicated in two pools.}}{
-        \describe{
-            \item{\code{batch.size}}{The number of donors in
-            each pool/batch.}
-        }
-    }
-    \item{\emph{Specify shape and rate of gamma distribution to sample
-    number of cells per batch per donor. Will only be used if nCells
-    parameter is set to 0.}}{
-        \describe{
-            \item{\code{nCells.sample}}{True/False if nCells should be
-            set as nCells or sampled from a gamma distribution for each
-            batch/donor.}
-            \item{\code{nCells.shape}}{Shape parameter for the nCells per
-            batch per donor distribution.}
-            \item{\code{nCells.rate}}{Rate parameter for the nCells per
-            batch per donor distribution.}
-        }
-    }
-    \item{\emph{Condition/treatment differential expression parameters}}{
-        \describe{
-            \item{\code{[nConditions]}}{The number of conditions/treatments
-            to divide samples into.}
-            \item{\code{[condition.prob]}}{Probability that a sample belongs
-            to each condition/treatment group. Can be a vector.}
-            \item{\code{[cde.prob]}}{Probability that a gene is
-            differentially expressed in a condition group. Can be a vector.}
-            \item{\code{[cde.downProb]}}{Probability that a conditionally
-            differentially expressed gene is down-regulated. Can be a
-            vector.}
-            \item{\code{[cde.facLoc]}}{Location (meanlog) parameter for the
-            conditional differential expression factor log-normal
-            distribution. Can be a vector.}
-            \item{\code{[cde.facScale]}}{Scale (sdlog) parameter for the
-            conditional differential expression factor log-normal
-            distribution. Can be a vector.}
-        }
-    }
+\item{\code{[similarity.scale]}}{Scaling factor for pop.cv.param.rate,
+where values larger than 1 increase the similarity between individuals in
+the population and values less than one make the individuals less
+similar.}
+\item{\code{[eqtl.n]}}{The number (>1) or percent (<=1) of genes to
+assign eQTL effects.}
+\item{\code{[eqtl.dist]}}{Maximum distance between eSNP and eGene}
+\item{\code{[eqtl.maf.min]}}{Minimum Minor Allele Frequency of eSNPs.}
+\item{\code{[eqtl.maf.max]}}{Maximum Minor Allele Frequency of eSNPs.}
+\item{\code{[eqtl.coreg]}}{Proportion of eGenes to have a shared eSNP
+(i.e., co-regulated genes)}
+\item{\code{[eqtl.group.specific]}}{Percent of eQTL effects to simulate
+as group specific.}
+\item{\code{[eqtl.condition.specific]}}{Percent of eQTL effects to
+simulate as condition specific.}
+\item{\emph{eQTL Effect size distribution parameters. Defaults estimated
+from GTEx eQTL mapping results, see vignette for more information.}}{
+\describe{
+\item{\code{eqtl.ES.shape}}{Shape parameter for the effect size
+gamma distribution.}
+\item{\code{eqtl.ES.rate}}{Rate parameter for the effect size
+gamma distribution.}
+}
+}
+\item{\emph{Bulk Mean Expression distribution parameters. Defaults
+estimated from GTEx data, see vignette for more information.}}{
+\describe{
+\item{\code{pop.mean.shape}}{Shape parameter for the mean (i.e.
+bulk) expression gamma distribution}
+\item{\code{pop.mean.rate}}{Rate parameter for the mean (i.e.
+bulk) expression gamma distribution}
+}
+}
+\item{\emph{Bulk Expression Coefficient of Variation distribution
+parameters binned. Defaults estimated from GTEx data, see vignette for
+more information.}}{
+\describe{
+\item{\code{pop.cv.param}}{Dataframe containing gene
+mean bin range, and the CV shape, and CV rate parameters for
+each of those bins.}
+}
+}
+\item{\emph{Specify number of samples per batch. Note that splatPop will
+randomly assign donors to be present in multiple batches to fulfill the
+specified nBatches and batch.size parameters. For example, if 10 samples
+are simulated with batchPool.n=4 and batchPool.size= 4, then 6 samples
+will be randomly chosen to be replicated in two pools.}}{
+\describe{
+\item{\code{batch.size}}{The number of donors in
+each pool/batch.}
+}
+}
+\item{\emph{Specify shape and rate of gamma distribution to sample
+number of cells per batch per donor. Will only be used if nCells
+parameter is set to 0.}}{
+\describe{
+\item{\code{nCells.sample}}{True/False if nCells should be
+set as nCells or sampled from a gamma distribution for each
+batch/donor.}
+\item{\code{nCells.shape}}{Shape parameter for the nCells per
+batch per donor distribution.}
+\item{\code{nCells.rate}}{Rate parameter for the nCells per
+batch per donor distribution.}
+}
+}
+\item{\emph{Condition/treatment differential expression parameters}}{
+\describe{
+\item{\code{[nConditions]}}{The number of conditions/treatments
+to divide samples into.}
+\item{\code{[condition.prob]}}{Probability that a sample belongs
+to each condition/treatment group. Can be a vector.}
+\item{\code{[cde.prob]}}{Probability that a gene is
+differentially expressed in a condition group. Can be a vector.}
+\item{\code{[cde.downProb]}}{Probability that a conditionally
+differentially expressed gene is down-regulated. Can be a
+vector.}
+\item{\code{[cde.facLoc]}}{Location (meanlog) parameter for the
+conditional differential expression factor log-normal
+distribution. Can be a vector.}
+\item{\code{[cde.facScale]}}{Scale (sdlog) parameter for the
+conditional differential expression factor log-normal
+distribution. Can be a vector.}
+}
+}
 }
 The parameters not shown in brackets can be estimated from real data using
 \code{\link{splatPopEstimate}}. For details of the eQTL simulation

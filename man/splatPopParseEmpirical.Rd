@@ -19,18 +19,18 @@ splatPopParseEmpirical(
 
 \item{eqtl}{Either NULL or if simulating population parameters directly from
 empirical data, a data.frame with empirical/desired eQTL results.
-To see required format, run `mockEmpiricalSet()` and see eqtl output.}
+To see required format, run \code{mockEmpiricalSet()} and see eqtl output.}
 
 \item{means}{Either NULL or if simulating population parameters directly from
 empirical data, a Matrix of real gene means across a population, where
 each row is a gene and each column is an individual in the population.
-To see required format, run `mockEmpiricalSet()` and see means output.}
+To see required format, run \code{mockEmpiricalSet()} and see means output.}
 
 \item{params}{SplatPopParams object containing parameters for population
 scale simulations. See \code{\link{SplatPopParams}} for details.}
 }
 \value{
-A partial splatPop `key`
+A partial splatPop \code{key}
 }
 \description{
 Parse splatPop key information from empirical data provided.

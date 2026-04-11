@@ -18,25 +18,25 @@ splatPopSimulateSC(
 }
 \arguments{
 \item{sim.means}{Matrix or list of matrices of gene means for the population.
-Output from `splatPopSimulateMeans()`.}
+Output from \code{splatPopSimulateMeans()}.}
 
 \item{params}{SplatPopParams object containing parameters for population
 scale simulations. See \code{\link{SplatPopParams}} for details.}
 
 \item{key}{data.frame object containing a full or partial splatPop key.
-Output from `splatPopSimulateMeans()`.}
+Output from \code{splatPopSimulateMeans()}.}
 
 \item{method}{which simulation method to use. Options are "single" which
 produces a single cell population for each sample, "groups" which
 produces distinct groups (eg. cell types) for each sample (note, this
-creates separate groups from those created in `popSimulate` with only
+creates separate groups from those created in \code{popSimulate} with only
 DE effects), and "paths" which selects cells from continuous
 trajectories (eg. differentiation processes).}
 
 \item{counts.only}{logical. Whether to return only the counts.}
 
 \item{conditions}{named array with conditional group assignment for each
-sample. Output from `splatPopSimulateMeans()`.}
+sample. Output from \code{splatPopSimulateMeans()}.}
 
 \item{sparsify}{logical. Whether to automatically convert assays to sparse
 matrices if there will be a size reduction.}
@@ -48,7 +48,7 @@ matrices if there will be a size reduction.}
 }
 \value{
 SingleCellExperiment object containing simulated counts,
-intermediate values like the gene means simulated in `splatPopSimulateMeans`,
+intermediate values like the gene means simulated in \code{splatPopSimulateMeans},
 and information about the differential expression and eQTL effects assigned
 to each gene.
 }

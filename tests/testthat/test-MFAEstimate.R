@@ -10,6 +10,6 @@ if (requireNamespace("mfa", quietly = TRUE)) {
 
 test_that("MFAEstimate works", {
     skip_if_not_installed("mfa")
-    params <- mfaEstimate(synth$X)
+    params <- expect_warning(mfaEstimate(synth$X), "deprecated")
     expect_true(validObject(params))
 })

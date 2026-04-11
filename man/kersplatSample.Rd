@@ -28,11 +28,11 @@ intermediate parameters.
 
 The sampling process involves the following steps:
 \enumerate{
-    \item Simulate library sizes for each cell
-    \item Simulate means for each cell
-    \item Simulate endogenous counts for each cell
-    \item Simulate ambient counts for each cell
-    \item Simulate final counts for each cell
+\item Simulate library sizes for each cell
+\item Simulate means for each cell
+\item Simulate endogenous counts for each cell
+\item Simulate ambient counts for each cell
+\item Simulate final counts for each cell
 }
 
 The final output is a
@@ -44,43 +44,43 @@ steps. These are stored in the \code{\link[SummarizedExperiment]{colData}}
 (for gene by cell matrices) slots. This additional information includes:
 
 \describe{
-    \item{\code{colData}}{
-        \describe{
-            \item{Cell}{Unique cell identifier.}
-            \item{Type}{Whether the cell is a Cell, Doublet or Empty.}
-            \item{CellLibSize}{The expected number of endogenous counts for
-            that cell.}
-            \item{AmbientLibSize}{The expected number of ambient counts for
-            that cell.}
-            \item{Path}{The path the cell belongs to.}
-            \item{Step}{How far along the path each cell is.}
-            \item{Path1}{For doublets the path of the first partner in the
-            doublet (otherwise \code{NA}).}
-            \item{Step1}{For doublets the step of the first partner in the
-            doublet (otherwise \code{NA}).}
-            \item{Path2}{For doublets the path of the second partner in the
-            doublet (otherwise \code{NA}).}
-            \item{Step2}{For doublets the step of the second partner in the
-            doublet (otherwise \code{NA}).}
-        }
-    }
-    \item{\code{rowData}}{
-        \describe{
-            \item{Gene}{Unique gene identifier.}
-            \item{BaseMean}{The base expression level for that gene.}
-            \item{AmbientMean}{The ambient expression level for that gene.}
-        }
-    }
-    \item{\code{assays}}{
-        \describe{
-            \item{CellMeans}{The mean expression of genes in each cell
-            after any differential expression and adjusted for expected
-            library size.}
-            \item{CellCounts}{Endogenous count matrix.}
-            \item{AmbientCounts}{Ambient count matrix.}
-            \item{counts}{Final count matrix.}
-        }
-    }
+\item{\code{colData}}{
+\describe{
+\item{Cell}{Unique cell identifier.}
+\item{Type}{Whether the cell is a Cell, Doublet or Empty.}
+\item{CellLibSize}{The expected number of endogenous counts for
+that cell.}
+\item{AmbientLibSize}{The expected number of ambient counts for
+that cell.}
+\item{Path}{The path the cell belongs to.}
+\item{Step}{How far along the path each cell is.}
+\item{Path1}{For doublets the path of the first partner in the
+doublet (otherwise \code{NA}).}
+\item{Step1}{For doublets the step of the first partner in the
+doublet (otherwise \code{NA}).}
+\item{Path2}{For doublets the path of the second partner in the
+doublet (otherwise \code{NA}).}
+\item{Step2}{For doublets the step of the second partner in the
+doublet (otherwise \code{NA}).}
+}
+}
+\item{\code{rowData}}{
+\describe{
+\item{Gene}{Unique gene identifier.}
+\item{BaseMean}{The base expression level for that gene.}
+\item{AmbientMean}{The ambient expression level for that gene.}
+}
+}
+\item{\code{assays}}{
+\describe{
+\item{CellMeans}{The mean expression of genes in each cell
+after any differential expression and adjusted for expected
+library size.}
+\item{CellCounts}{Endogenous count matrix.}
+\item{AmbientCounts}{Ambient count matrix.}
+\item{counts}{Final count matrix.}
+}
+}
 }
 
 Values that have been added by Splatter are named using \code{UpperCamelCase}

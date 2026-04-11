@@ -1,5 +1,8 @@
 #' MFA simulation
 #'
+#' @description
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Simulate a bifurcating pseudotime path using the mfa method.
 #'
 #' @param params MFAParams object containing simulation parameters.
@@ -35,6 +38,12 @@
 #' @export
 mfaSimulate <- function(params = newMFAParams(), sparsify = TRUE,
                         verbose = TRUE, ...) {
+    lifecycle::deprecate_warn(
+        "1.36.0",
+        "mfaSimulate()",
+        details = "The mfa package was deprecated in Bioconductor 3.23 (April 2026)"
+    )
+
     checkmate::assertClass(params, "MFAParams")
     params <- setParams(params, ...)
 

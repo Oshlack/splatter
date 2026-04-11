@@ -30,21 +30,21 @@ splatPop key.}
 
 \item{eqtl}{Either NULL or if simulating population parameters directly from
 empirical data, a data.frame with empirical/desired eQTL results.
-To see required format, run `mockEmpiricalSet()` and see eqtl output.}
+To see required format, run \code{mockEmpiricalSet()} and see eqtl output.}
 
 \item{means}{Either NULL or if simulating population parameters directly from
 empirical data, a Matrix of real gene means across a population, where
 each row is a gene and each column is an individual in the population.
-To see required format, run `mockEmpiricalSet()` and see means output.}
+To see required format, run \code{mockEmpiricalSet()} and see means output.}
 
 \item{...}{any additional parameter settings to override what is provided in
 \code{params}.}
 }
 \value{
-A list containing: `means` a matrix (or list of matrices if
+A list containing: \code{means} a matrix (or list of matrices if
 n.groups > 1) with the simulated mean gene expression value for each gene
-(row) and each sample (column), `key` a data.frame with population
-information including eQTL and group effects, and `condition` a named array
+(row) and each sample (column), \code{key} a data.frame with population
+information including eQTL and group effects, and \code{condition} a named array
 containing conditional group assignments for each sample.
 }
 \description{
@@ -59,19 +59,19 @@ overridden by supplying desired parameters using \code{\link{setParams}}.
 3. Parameters can be estimated from real data of your choice using
 \code{\link{splatPopEstimate}}.
 
-`splatPopSimulateMeans` involves the following steps:
+\code{splatPopSimulateMeans} involves the following steps:
 \enumerate{
-    \item Load population key or generate random or GFF/GTF based key.
-    \item Format and subset genotype data from the VCF file.
-    \item If not in key, assign expression mean and variance to each gene.
-    \item If not in key, assign eGenes-eSNPs pairs and effect sizes.
-    \item If not in key and groups >1, assign subset of eQTL associations as
-    group-specific and assign DEG group effects.
-    \item Simulate mean gene expression matrix without eQTL effects
-    \item Quantile normalize by sample to fit single-cell expression
-    distribution as defined in `splatEstimate`.
-    \item Add quantile normalized gene mean and cv info the eQTL key.
-    \item Add eQTL effects to means matrix.
+\item Load population key or generate random or GFF/GTF based key.
+\item Format and subset genotype data from the VCF file.
+\item If not in key, assign expression mean and variance to each gene.
+\item If not in key, assign eGenes-eSNPs pairs and effect sizes.
+\item If not in key and groups >1, assign subset of eQTL associations as
+group-specific and assign DEG group effects.
+\item Simulate mean gene expression matrix without eQTL effects
+\item Quantile normalize by sample to fit single-cell expression
+distribution as defined in \code{splatEstimate}.
+\item Add quantile normalized gene mean and cv info the eQTL key.
+\item Add eQTL effects to means matrix.
 }
 }
 \examples{

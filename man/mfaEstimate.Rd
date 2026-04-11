@@ -22,6 +22,8 @@ containing count data to estimate parameters from.}
 MFAParams object containing the estimated parameters.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Estimate simulation parameters for the mfa simulation from a real dataset.
 }
 \details{

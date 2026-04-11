@@ -33,12 +33,12 @@ trajectories (eg. differentiation processes).}
 
 \item{eqtl}{Either NULL or if simulating population parameters directly from
 empirical data, a data.frame with empirical/desired eQTL results.
-To see required format, run `mockEmpiricalSet()` and see eqtl output.}
+To see required format, run \code{mockEmpiricalSet()} and see eqtl output.}
 
 \item{means}{Either NULL or if simulating population parameters directly from
 empirical data, a Matrix of real gene means across a population, where
 each row is a gene and each column is an individual in the population.
-To see required format, run `mockEmpiricalSet()` and see means output.}
+To see required format, run \code{mockEmpiricalSet()} and see means output.}
 
 \item{key}{Either NULL or a data.frame object containing a full or partial
 splatPop key.}
@@ -55,7 +55,7 @@ matrices if there will be a size reduction.}
 }
 \value{
 SingleCellExperiment object containing simulated counts,
-intermediate values like the gene means simulated in `splatPopSimulateMeans`,
+intermediate values like the gene means simulated in \code{splatPopSimulateMeans},
 and information about the differential expression and eQTL effects assigned
 to each gene.
 }

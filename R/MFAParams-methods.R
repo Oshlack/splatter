@@ -2,6 +2,12 @@
 #' @importFrom methods new
 #' @export
 newMFAParams <- function(...) {
+    lifecycle::deprecate_warn(
+        "1.36.0",
+        "newMFAParams()",
+        details = "The mfa package was deprecated in Bioconductor 3.23 (April 2026)"
+    )
+
     checkDependencies("mfa")
 
     params <- new("MFAParams")

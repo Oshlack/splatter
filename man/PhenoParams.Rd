@@ -14,17 +14,17 @@ S4 class that holds parameters for the PhenoPath simulation.
 The PhenoPath simulation uses the following parameters:
 
 \describe{
-    \item{\code{nGenes}}{The number of genes to simulate.}
-    \item{\code{nCells}}{The number of cells to simulate.}
-    \item{\code{[seed]}}{Seed to use for generating random numbers.}
-    \item{\code{[n.de]}}{Number of genes to simulate from the differential
-    expression regime}
-    \item{\code{[n.pst]}}{Number of genes to simulate from the pseudotime
-    regime}
-    \item{\code{[n.pst.beta]}}{Number of genes to simulate from the
-    pseudotime + beta interactions regime}
-    \item{\code{[n.de.pst.beta]}}{Number of genes to simulate from the
-    differential expression + pseudotime + interactions regime}
+\item{\code{nGenes}}{The number of genes to simulate.}
+\item{\code{nCells}}{The number of cells to simulate.}
+\item{\code{[seed]}}{Seed to use for generating random numbers.}
+\item{\code{[n.de]}}{Number of genes to simulate from the differential
+expression regime}
+\item{\code{[n.pst]}}{Number of genes to simulate from the pseudotime
+regime}
+\item{\code{[n.pst.beta]}}{Number of genes to simulate from the
+pseudotime + beta interactions regime}
+\item{\code{[n.de.pst.beta]}}{Number of genes to simulate from the
+differential expression + pseudotime + interactions regime}
 }
 
 The parameters not shown in brackets can be estimated from real data using

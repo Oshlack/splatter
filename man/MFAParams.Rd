@@ -6,6 +6,8 @@
 \alias{MFAParams-class}
 \title{The MFAParams class}
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 S4 class that holds parameters for the mfa simulation.
 }
 \section{Parameters}{
@@ -13,17 +15,17 @@ S4 class that holds parameters for the mfa simulation.
 
 The mfa simulation uses the following parameters:
 \describe{
-    \item{\code{nGenes}}{The number of genes to simulate.}
-    \item{\code{nCells}}{The number of cells to simulate.}
-    \item{\code{[seed]}}{Seed to use for generating random numbers.}
-    \item{\code{[trans.prop]}}{Proportion of genes that show transient
-    expression. These genes are briefly up or down-regulated before returning
-    to their initial state}
-    \item{\code{[zero.neg]}}{Logical. Whether to set negative expression
-    values to zero. This will zero-inflate the data.}
-    \item{\code{[dropout.present]}}{Logical. Whether to simulate dropout.}
-    \item{\code{dropout.lambda}}{Lambda parameter for the exponential
-    dropout function.}
+\item{\code{nGenes}}{The number of genes to simulate.}
+\item{\code{nCells}}{The number of cells to simulate.}
+\item{\code{[seed]}}{Seed to use for generating random numbers.}
+\item{\code{[trans.prop]}}{Proportion of genes that show transient
+expression. These genes are briefly up or down-regulated before returning
+to their initial state}
+\item{\code{[zero.neg]}}{Logical. Whether to set negative expression
+values to zero. This will zero-inflate the data.}
+\item{\code{[dropout.present]}}{Logical. Whether to simulate dropout.}
+\item{\code{dropout.lambda}}{Lambda parameter for the exponential
+dropout function.}
 }
 
 The parameters not shown in brackets can be estimated from real data using

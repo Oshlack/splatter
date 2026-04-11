@@ -14,10 +14,10 @@ S4 class that holds parameters for the ZINB-WaVE simulation.
 The ZINB-WaVE simulation uses the following parameters:
 
 \describe{
-    \item{\code{nGenes}}{The number of genes to simulate.}
-    \item{\code{nCells}}{The number of cells to simulate.}
-    \item{\code{[seed]}}{Seed to use for generating random numbers.}
-    \item{\code{model}}{Object describing a ZINB model.}
+\item{\code{nGenes}}{The number of genes to simulate.}
+\item{\code{nCells}}{The number of cells to simulate.}
+\item{\code{[seed]}}{Seed to use for generating random numbers.}
+\item{\code{model}}{Object describing a ZINB model.}
 }
 
 The majority of the parameters for this simulation are stored in a

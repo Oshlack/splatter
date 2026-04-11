@@ -60,12 +60,12 @@
 #'             \item{OutlierFactor}{Expression outlier factor for that gene.
 #'             Values of 1 indicate the gene is not an expression outlier.}
 #'             \item{GeneMean}{Expression level after applying outlier factors.}
-#'             \item{BatchFac[Batch]}{The batch effects factor for each gene for
+#'             \item{BatchFac\[Batch\]}{The batch effects factor for each gene for
 #'             a particular batch.}
-#'             \item{DEFac[Group]}{The differential expression factor for each
+#'             \item{DEFac\[Group\]}{The differential expression factor for each
 #'             gene in a particular group. Values of 1 indicate the gene is not
 #'             differentially expressed.}
-#'             \item{SigmaFac[Path]}{Factor applied to genes that have
+#'             \item{SigmaFac\[Path\]}{Factor applied to genes that have
 #'             non-linear changes in expression along a path.}
 #'         }
 #'     }

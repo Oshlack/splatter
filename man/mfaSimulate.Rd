@@ -21,6 +21,8 @@ matrices if there will be a size reduction.}
 SingleCellExperiment containing simulated counts
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Simulate a bifurcating pseudotime path using the mfa method.
 }
 \details{

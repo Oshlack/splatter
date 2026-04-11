@@ -1,5 +1,8 @@
 #' Estimate mfa simulation parameters
 #'
+#' @description
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Estimate simulation parameters for the mfa simulation from a real dataset.
 #'
 #' @param counts either a counts matrix or a SingleCellExperiment object
@@ -28,6 +31,12 @@
 #' }
 #' @export
 mfaEstimate <- function(counts, params = newMFAParams()) {
+    lifecycle::deprecate_warn(
+        "1.36.0",
+        "mfaEstimate()",
+        details = "The mfa package was deprecated in Bioconductor 3.23 (April 2026)"
+    )
+
     UseMethod("mfaEstimate")
 }
 

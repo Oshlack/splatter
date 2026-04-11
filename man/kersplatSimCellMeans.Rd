@@ -33,26 +33,26 @@ can be viewed using \code{hist(rbeta(10000, Alpha, Beta), breaks = 100)}.
 Some useful combinations of parameters are:
 
 \describe{
-    \item{\code{Alpha = 1}, \code{Beta = 1}}{Uniform distribution along the
-    path}
-    \item{\code{Alpha = 0}, \code{Beta = 1}}{All cells at the start of the
-    path.}
-    \item{\code{Alpha = 1}, \code{Beta = 0}}{All cells at the end of the
-    path.}
-    \item{\code{Alpha = 0}, \code{Beta = 0}}{Cells only at each end of the
-    path.}
-    \item{\code{Alpha = 1}, \code{Beta = 2}}{Linear skew towards the start
-    of the path}
-    \item{\code{Alpha = 0.5}, \code{Beta = 1}}{Curved skew towards the start
-    of the path}
-    \item{\code{Alpha = 2}, \code{Beta = 1}}{Linear skew towards the end
-    of the path}
-    \item{\code{Alpha = 1}, \code{Beta = 0.5}}{Curved skew towards the end
-    of the path}
-    \item{\code{Alpha = 0.5}, \code{Beta = 0.5}}{Curved skew towards both
-    ends of the path}
-    \item{\code{Alpha = 0.5}, \code{Beta = 0.5}}{Curved skew away from both
-    ends of the path}
+\item{\code{Alpha = 1}, \code{Beta = 1}}{Uniform distribution along the
+path}
+\item{\code{Alpha = 0}, \code{Beta = 1}}{All cells at the start of the
+path.}
+\item{\code{Alpha = 1}, \code{Beta = 0}}{All cells at the end of the
+path.}
+\item{\code{Alpha = 0}, \code{Beta = 0}}{Cells only at each end of the
+path.}
+\item{\code{Alpha = 1}, \code{Beta = 2}}{Linear skew towards the start
+of the path}
+\item{\code{Alpha = 0.5}, \code{Beta = 1}}{Curved skew towards the start
+of the path}
+\item{\code{Alpha = 2}, \code{Beta = 1}}{Linear skew towards the end
+of the path}
+\item{\code{Alpha = 1}, \code{Beta = 0.5}}{Curved skew towards the end
+of the path}
+\item{\code{Alpha = 0.5}, \code{Beta = 0.5}}{Curved skew towards both
+ends of the path}
+\item{\code{Alpha = 0.5}, \code{Beta = 0.5}}{Curved skew away from both
+ends of the path}
 }
 
 Once cells are assigned to paths and steps the correct means are extracted

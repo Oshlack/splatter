@@ -22,7 +22,7 @@ Estimate gene mean and gene mean variance parameters
 }
 \details{
 Parameters for the mean gamma distribution are estimated by fitting the mean
-(across the population) expression of genes that meet the criteria (<50% of
+(across the population) expression of genes that meet the criteria (<50\% of
 samples have exp <0.1) and parameters for the cv gamma distribution are
 estimated for each bin of mean expression using the cv of expression across
 the population for genes in that bin. Both are fit using

@@ -17,6 +17,6 @@ Genotype data.frame
 }
 \description{
 Extract numeric alleles from vcf object and filter out SNPs missing genotype
-data or outside the Minor Allele Frequency range in `SplatPopParams`.
+data or outside the Minor Allele Frequency range in \code{SplatPopParams}.
 }
 \keyword{internal}

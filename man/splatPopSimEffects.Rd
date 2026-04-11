@@ -31,6 +31,6 @@ incorporated as:
 \deqn{Ygs = Mgs x GEg}
 Where GEg is the group effect (i.e. differential expression) assigned to g.
 To simulate multiple gene mean matrices with different group effects, this
-function can be run with `id` designating the group id.
+function can be run with \code{id} designating the group id.
 }
 \keyword{internal}

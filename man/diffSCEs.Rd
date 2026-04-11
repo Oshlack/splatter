@@ -46,38 +46,38 @@ Q-Q plots are also returned.
 The returned list has five items:
 
 \describe{
-    \item{\code{Reference}}{The SingleCellExperiment used as the reference.}
-    \item{\code{RowData}}{Combined feature data from the provided
-    SingleCellExperiments.}
-    \item{\code{ColData}}{Combined column data from the provided
-    SingleCellExperiments.}
-    \item{\code{Plots}}{Difference plots
-        \describe{
-            \item{\code{Means}}{Boxplot of mean differences.}
-            \item{\code{Variances}}{Boxplot of variance differences.}
-            \item{\code{MeanVar}}{Scatter plot showing the difference from
-            the reference variance across expression ranks.}
-            \item{\code{LibraeySizes}}{Boxplot of the library size
-            differences.}
-            \item{\code{ZerosGene}}{Boxplot of the differences in the
-            percentage of each gene that is zero.}
-            \item{\code{ZerosCell}}{Boxplot of the differences in the
-            percentage of each cell that is zero.}
-            \item{\code{MeanZeros}}{Scatter plot showing the difference from
-            the reference percentage of zeros across expression ranks.}
-    }
-  }
-  \item{\code{QQPlots}}{Quantile-Quantile plots
-      \describe{
-          \item{\code{Means}}{Q-Q plot of the means.}
-          \item{\code{Variances}}{Q-Q plot of the variances.}
-          \item{\code{LibrarySizes}}{Q-Q plot of the library sizes.}
-          \item{\code{ZerosGene}}{Q-Q plot of the percentage of zeros per
-          gene.}
-          \item{\code{ZerosCell}}{Q-Q plot of the percentage of zeros per
-          cell.}
-      }
-  }
+\item{\code{Reference}}{The SingleCellExperiment used as the reference.}
+\item{\code{RowData}}{Combined feature data from the provided
+SingleCellExperiments.}
+\item{\code{ColData}}{Combined column data from the provided
+SingleCellExperiments.}
+\item{\code{Plots}}{Difference plots
+\describe{
+\item{\code{Means}}{Boxplot of mean differences.}
+\item{\code{Variances}}{Boxplot of variance differences.}
+\item{\code{MeanVar}}{Scatter plot showing the difference from
+the reference variance across expression ranks.}
+\item{\code{LibraeySizes}}{Boxplot of the library size
+differences.}
+\item{\code{ZerosGene}}{Boxplot of the differences in the
+percentage of each gene that is zero.}
+\item{\code{ZerosCell}}{Boxplot of the differences in the
+percentage of each cell that is zero.}
+\item{\code{MeanZeros}}{Scatter plot showing the difference from
+the reference percentage of zeros across expression ranks.}
+}
+}
+\item{\code{QQPlots}}{Quantile-Quantile plots
+\describe{
+\item{\code{Means}}{Q-Q plot of the means.}
+\item{\code{Variances}}{Q-Q plot of the variances.}
+\item{\code{LibrarySizes}}{Q-Q plot of the library sizes.}
+\item{\code{ZerosGene}}{Q-Q plot of the percentage of zeros per
+gene.}
+\item{\code{ZerosCell}}{Q-Q plot of the percentage of zeros per
+cell.}
+}
+}
 }
 
 The plots returned by this function are created using
