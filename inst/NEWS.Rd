@@ -1,6 +1,15 @@
 \name{NEWS}
 \title{News for Package \pkg{splatter}}
 
+\section{Version 1.36.0, Bioconductor 3.23 Release (2026-04-29)}{
+  \itemize{
+    \item{Replace deprecated scuttle functions with scrapper}
+    \item{Deprecate mfa simulation functions as the mfa package is deprecated}
+    \item{Adjust help messages in warnings}
+    \item{Adjust failing lun2Estimate tests}
+  }
+}
+
 \section{Version 1.34.0, Bioconductor 3.22 Release (2025-10-30)}{
   \itemize{
     \item{
