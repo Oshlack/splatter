@@ -107,7 +107,7 @@ lun2Estimate.matrix <- function(counts, plates, params = newLun2Params(),
     )
     if (any(sum.facs == 0)) {
         warning(
-            "Some sum factors are zero. See ?scran::computeSumFactors ",
+            "Some sum factors are zero. See ?scuttle::pooledSizeFactors ",
             "for details."
         )
         sum.facs <- sum.facs + 1e-6
