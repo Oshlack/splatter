@@ -1,5 +1,12 @@
 # DEVELOPMENT VERSION
 
+## Version 1.35.1 (2026-04-11)
+
+* Replace deprecated scuttle functions with scrapper
+* Deprecate mfa simulation functions as the mfa package is deprecated
+* Adjust help messages in warnings
+* Adjust failing lun2Estimate tests
+
 ## Version 1.35.0 (2025-10-30)
 
 Bioconductor 3.23 devel
