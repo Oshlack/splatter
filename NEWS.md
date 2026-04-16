@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.35.2 (2026-04-16)
+
+* Fix mfa deprecation tests
+
 ## Version 1.35.1 (2026-04-11)
 
 * Replace deprecated scuttle functions with scrapper

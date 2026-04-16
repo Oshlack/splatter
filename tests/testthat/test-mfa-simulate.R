@@ -3,6 +3,9 @@ context("mfa simulation")
 test_that("mfa simulation output is valid", {
     skip_if_not_installed("mfa")
 
+    # Force deprecation warnings to be issued
+    withr::local_options(lifecycle_verbosity = "warning")
+
     sim <- expect_warning(mfaSimulate(), "deprecated")
     expect_true(validObject(sim))
 

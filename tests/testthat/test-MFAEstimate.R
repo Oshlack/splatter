@@ -10,6 +10,10 @@ if (requireNamespace("mfa", quietly = TRUE)) {
 
 test_that("MFAEstimate works", {
     skip_if_not_installed("mfa")
+
+    # Force deprecation warnings to be issued
+    withr::local_options(lifecycle_verbosity = "warning")
+
     params <- expect_warning(mfaEstimate(synth$X), "deprecated")
     expect_true(validObject(params))
 })
