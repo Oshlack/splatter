@@ -1,3 +1,9 @@
+# DEVELOPMENT VERSION
+
+## Version 1.37.0 (2026-04-29)
+
+* Bioconductor 3.24 devel
+
 # Version 1.36.0 (2026-04-29)
 
 * Bioconductor 3.23 release
