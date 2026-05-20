@@ -12,3 +12,5 @@
 ^doc$
 ^Meta$
 ^\.github$
+^\.positai$
+^\.claude$
