@@ -62,7 +62,6 @@ Suggests:
     limSolve,
     lme4,
     magick,
-    mfa,
     phenopath,
     preprocessCore,
     progress,
