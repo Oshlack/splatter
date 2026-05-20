@@ -1,5 +1,9 @@
 # DEVELOPMENT VERSION
 
+## Version 1.37.1 (2026-05-20)
+
+* Remove deprecated mfa simulation
+
 ## Version 1.37.0 (2026-04-29)
 
 * Bioconductor 3.24 devel
