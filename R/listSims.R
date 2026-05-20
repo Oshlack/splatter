@@ -105,14 +105,6 @@ listSims <- function(print = TRUE) {
             "BASiCS"
         ),
         c(
-            "mfa (DEPRECATED)", "mfa", "10.12688/wellcomeopenres.11087.1",
-            "kieranrcampbell/mfa",
-            "The mfa simulation produces a bifurcating pseudotime
-                   trajectory. This can optionally include genes with transient
-                   changes in expression and added dropout.",
-            "mfa"
-        ),
-        c(
             "PhenoPath", "pheno", "10.1038/s41467-018-04696-6",
             "kieranrcampbell/phenopath",
             "The PhenoPath simulation produces a pseudotime trajectory
