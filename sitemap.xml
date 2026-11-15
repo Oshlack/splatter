@@ -14,7 +14,6 @@
 <url><loc>http://oshlacklab.com/splatter/reference/KersplatParams.html</loc></url>
 <url><loc>http://oshlacklab.com/splatter/reference/Lun2Params.html</loc></url>
 <url><loc>http://oshlacklab.com/splatter/reference/LunParams.html</loc></url>
-<url><loc>http://oshlacklab.com/splatter/reference/MFAParams.html</loc></url>
 <url><loc>http://oshlacklab.com/splatter/reference/Params.html</loc></url>
 <url><loc>http://oshlacklab.com/splatter/reference/PhenoParams.html</loc></url>
 <url><loc>http://oshlacklab.com/splatter/reference/SCDDParams.html</loc></url>
@@ -55,8 +54,6 @@
 <url><loc>http://oshlacklab.com/splatter/reference/makeCompPanel.html</loc></url>
 <url><loc>http://oshlacklab.com/splatter/reference/makeDiffPanel.html</loc></url>
 <url><loc>http://oshlacklab.com/splatter/reference/makeOverallPanel.html</loc></url>
-<url><loc>http://oshlacklab.com/splatter/reference/mfaEstimate.html</loc></url>
-<url><loc>http://oshlacklab.com/splatter/reference/mfaSimulate.html</loc></url>
 <url><loc>http://oshlacklab.com/splatter/reference/minimiseSCE.html</loc></url>
 <url><loc>http://oshlacklab.com/splatter/reference/mockBulkMatrix.html</loc></url>
 <url><loc>http://oshlacklab.com/splatter/reference/mockBulkeQTL.html</loc></url>

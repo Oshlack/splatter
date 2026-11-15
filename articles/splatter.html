@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Introduction to Splatter • Splatter</title>
 <script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Introduction to Splatter">
@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Splatter</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.33.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.37.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,6 +132,8 @@ set with Splatter. Here is an example a mock dataset generated with the
 <span><span class="co">#&gt; Simulating library sizes...</span></span>
 <span><span class="co">#&gt; Simulating gene means...</span></span>
 <span><span class="co">#&gt; Simulating BCV...</span></span>
+<span><span class="co">#&gt; Warning in splatSimBCVMeans(sim, params): 'bcv.df' is infinite. This parameter</span></span>
+<span><span class="co">#&gt; will be ignored.</span></span>
 <span><span class="co">#&gt; Simulating counts...</span></span>
 <span><span class="co">#&gt; Simulating dropout (if needed)...</span></span>
 <span><span class="co">#&gt; Sparsifying assays...</span></span>
@@ -391,6 +393,8 @@ will be used:</p>
 <span><span class="co">#&gt; Simulating library sizes...</span></span>
 <span><span class="co">#&gt; Simulating gene means...</span></span>
 <span><span class="co">#&gt; Simulating BCV...</span></span>
+<span><span class="co">#&gt; Warning in splatSimBCVMeans(sim, params): 'bcv.df' is infinite. This parameter</span></span>
+<span><span class="co">#&gt; will be ignored.</span></span>
 <span><span class="co">#&gt; Simulating counts...</span></span>
 <span><span class="co">#&gt; Simulating dropout (if needed)...</span></span>
 <span><span class="co">#&gt; Sparsifying assays...</span></span>
@@ -429,11 +433,11 @@ the intermediate values of the simulation.</p>
 <code class="sourceCode R"><span><span class="co"># Access the counts</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/dge.html" class="external-link">counts</a></span><span class="op">(</span><span class="va">sim</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
 <span><span class="co">#&gt;       Cell1 Cell2 Cell3 Cell4 Cell5</span></span>
-<span><span class="co">#&gt; Gene1     5   211    58   182   655</span></span>
-<span><span class="co">#&gt; Gene2   333   813   133     6   268</span></span>
-<span><span class="co">#&gt; Gene3     9    11     4   154    29</span></span>
-<span><span class="co">#&gt; Gene4     5     0     0     2    15</span></span>
-<span><span class="co">#&gt; Gene5    32    79   196   113   163</span></span>
+<span><span class="co">#&gt; Gene1   397   147   366   163   430</span></span>
+<span><span class="co">#&gt; Gene2    25   140   351   382   106</span></span>
+<span><span class="co">#&gt; Gene3    30     9    35    33   140</span></span>
+<span><span class="co">#&gt; Gene4     1     2     0     7     2</span></span>
+<span><span class="co">#&gt; Gene5    41    56    34   124     2</span></span>
 <span><span class="co"># Information about genes</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">sim</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; DataFrame with 6 rows and 4 columns</span></span>
@@ -462,12 +466,12 @@ the intermediate values of the simulation.</p>
 <span><span class="co">#&gt; [5] "TrueCounts"     "counts"</span></span>
 <span><span class="co"># Example of cell means matrix</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sim</span><span class="op">)</span><span class="op">$</span><span class="va">CellMeans</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
-<span><span class="co">#&gt;            Cell1       Cell2      Cell3      Cell4      Cell5</span></span>
-<span><span class="co">#&gt; Gene1   4.314912 202.5594718  56.343203 165.560795 638.421087</span></span>
-<span><span class="co">#&gt; Gene2 336.005603 787.6179412 144.077374  13.163174 285.716519</span></span>
-<span><span class="co">#&gt; Gene3  14.598820  15.1382574   4.257755 159.178462  26.630858</span></span>
-<span><span class="co">#&gt; Gene4   3.835805   0.2021945   0.198304   2.973771   9.221402</span></span>
-<span><span class="co">#&gt; Gene5  40.919228  88.4381533 189.050195 117.404168 162.212366</span></span></code></pre></div>
+<span><span class="co">#&gt;            Cell1       Cell2      Cell3      Cell4       Cell5</span></span>
+<span><span class="co">#&gt; Gene1 386.455070 138.0471045 335.612956 161.551558 458.0887943</span></span>
+<span><span class="co">#&gt; Gene2  18.892777 138.1806783 364.276651 412.061931 107.3066729</span></span>
+<span><span class="co">#&gt; Gene3  32.907304   9.0754951  42.204725  43.104487 156.6871995</span></span>
+<span><span class="co">#&gt; Gene4   1.305082   0.7320633   0.708767   4.617738   2.0073597</span></span>
+<span><span class="co">#&gt; Gene5  33.087821  69.1327018  19.934208 128.414136   0.4803943</span></span></code></pre></div>
 <p>An additional (big) advantage of outputting a
 <code>SingleCellExperiment</code> is that we get immediate access to
 other analysis packages, such as the plotting functions in
@@ -475,10 +479,16 @@ other analysis packages, such as the plotting functions in
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Use scater to calculate logcounts</span></span>
 <span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scuttle/man/logNormCounts.html" class="external-link">logNormCounts</a></span><span class="op">(</span><span class="va">sim</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in .library_size_factors(assay(x, assay.type), ...): 'librarySizeFactors' is deprecated.</span></span>
+<span><span class="co">#&gt; Use 'scrapper::centerSizeFactors' instead.</span></span>
+<span><span class="co">#&gt; See help("Deprecated")</span></span>
+<span><span class="co">#&gt; Warning in .local(x, ...): 'normalizeCounts' is deprecated.</span></span>
+<span><span class="co">#&gt; Use 'scrapper::normalizeCounts' instead.</span></span>
+<span><span class="co">#&gt; See help("Deprecated")</span></span>
 <span><span class="co"># Plot PCA</span></span>
 <span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">sim</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/plotPCA.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">sim</span><span class="op">)</span></span></code></pre></div>
-<p><img src="splatter_files/figure-html/pca-1.png" width="700"></p>
+<p><img src="splatter_files/figure-html/pca-1.png" class="r-plt" alt="" width="700"></p>
 <p>(<strong>NOTE:</strong> Your values and plots may look different as
 the simulation is random and produces different results each time it is
 run.)</p>
@@ -572,9 +582,15 @@ messages.)</p>
 <span>    verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">sim.groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scuttle/man/logNormCounts.html" class="external-link">logNormCounts</a></span><span class="op">(</span><span class="va">sim.groups</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in .library_size_factors(assay(x, assay.type), ...): 'librarySizeFactors' is deprecated.</span></span>
+<span><span class="co">#&gt; Use 'scrapper::centerSizeFactors' instead.</span></span>
+<span><span class="co">#&gt; See help("Deprecated")</span></span>
+<span><span class="co">#&gt; Warning in .local(x, ...): 'normalizeCounts' is deprecated.</span></span>
+<span><span class="co">#&gt; Use 'scrapper::normalizeCounts' instead.</span></span>
+<span><span class="co">#&gt; See help("Deprecated")</span></span>
 <span><span class="va">sim.groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">sim.groups</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/plotPCA.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">sim.groups</span>, colour_by <span class="op">=</span> <span class="st">"Group"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="splatter_files/figure-html/groups-1.png" width="700"></p>
+<p><img src="splatter_files/figure-html/groups-1.png" class="r-plt" alt="" width="700"></p>
 <p>As we have set both the group probabilities to 0.5 we should get
 approximately equal numbers of cells in each group (around 50 in this
 case). If we wanted uneven groups we could set <code>group.prob</code>
@@ -596,9 +612,15 @@ kind of simulation using the <code>"paths"</code> method.</p>
 <span>    verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">sim.paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scuttle/man/logNormCounts.html" class="external-link">logNormCounts</a></span><span class="op">(</span><span class="va">sim.paths</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in .library_size_factors(assay(x, assay.type), ...): 'librarySizeFactors' is deprecated.</span></span>
+<span><span class="co">#&gt; Use 'scrapper::centerSizeFactors' instead.</span></span>
+<span><span class="co">#&gt; See help("Deprecated")</span></span>
+<span><span class="co">#&gt; Warning in .local(x, ...): 'normalizeCounts' is deprecated.</span></span>
+<span><span class="co">#&gt; Use 'scrapper::normalizeCounts' instead.</span></span>
+<span><span class="co">#&gt; See help("Deprecated")</span></span>
 <span><span class="va">sim.paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">sim.paths</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/plotPCA.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">sim.paths</span>, colour_by <span class="op">=</span> <span class="st">"Step"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="splatter_files/figure-html/paths-1.png" width="700"></p>
+<p><img src="splatter_files/figure-html/paths-1.png" class="r-plt" alt="" width="700"></p>
 <p>Here the colours represent the “step” of each cell or how far along
 the differentiation path it is. We can see that the cells with dark
 colours are more similar to the originating cell type and the light
@@ -617,9 +639,15 @@ telling Splatter how many cells are in each batch:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim.batches</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/splatSimulate.html">splatSimulate</a></span><span class="op">(</span>batchCells <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">50</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">sim.batches</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scuttle/man/logNormCounts.html" class="external-link">logNormCounts</a></span><span class="op">(</span><span class="va">sim.batches</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in .library_size_factors(assay(x, assay.type), ...): 'librarySizeFactors' is deprecated.</span></span>
+<span><span class="co">#&gt; Use 'scrapper::centerSizeFactors' instead.</span></span>
+<span><span class="co">#&gt; See help("Deprecated")</span></span>
+<span><span class="co">#&gt; Warning in .local(x, ...): 'normalizeCounts' is deprecated.</span></span>
+<span><span class="co">#&gt; Use 'scrapper::normalizeCounts' instead.</span></span>
+<span><span class="co">#&gt; See help("Deprecated")</span></span>
 <span><span class="va">sim.batches</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">sim.batches</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/plotPCA.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">sim.batches</span>, colour_by <span class="op">=</span> <span class="st">"Batch"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="splatter_files/figure-html/batches-1.png" width="700"></p>
+<p><img src="splatter_files/figure-html/batches-1.png" class="r-plt" alt="" width="700"></p>
 <p>This looks at lot like when we simulated groups and that is because
 the process is very similar. The difference is that batch effects are
 applied to all genes, not just those that are differentially expressed,
@@ -634,9 +662,15 @@ can simulate both unwanted variation that we aren’t interested in
 <span>    verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">sim.groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scuttle/man/logNormCounts.html" class="external-link">logNormCounts</a></span><span class="op">(</span><span class="va">sim.groups</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in .library_size_factors(assay(x, assay.type), ...): 'librarySizeFactors' is deprecated.</span></span>
+<span><span class="co">#&gt; Use 'scrapper::centerSizeFactors' instead.</span></span>
+<span><span class="co">#&gt; See help("Deprecated")</span></span>
+<span><span class="co">#&gt; Warning in .local(x, ...): 'normalizeCounts' is deprecated.</span></span>
+<span><span class="co">#&gt; Use 'scrapper::normalizeCounts' instead.</span></span>
+<span><span class="co">#&gt; See help("Deprecated")</span></span>
 <span><span class="va">sim.groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/runPCA.html" class="external-link">runPCA</a></span><span class="op">(</span><span class="va">sim.groups</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/plotPCA.html" class="external-link">plotPCA</a></span><span class="op">(</span><span class="va">sim.groups</span>, shape_by <span class="op">=</span> <span class="st">"Batch"</span>, colour_by <span class="op">=</span> <span class="st">"Group"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="splatter_files/figure-html/batch-groups-1.png" width="700"></p>
+<p><img src="splatter_files/figure-html/batch-groups-1.png" class="r-plt" alt="" width="700"></p>
 <p>Here we see that the effects of the group (first component) are
 stronger than the batch effects (second component) but by adjusting the
 parameters we could made the batch effects dominate.</p>
@@ -677,7 +711,7 @@ packages. To see all the available simulations run the
 <code><a href="../reference/listSims.html">listSims()</a></code> function:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/listSims.html">listSims</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Splatter currently contains 15 simulations </span></span>
+<span><span class="co">#&gt; Splatter currently contains 14 simulations </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">Splat</span> <span style="color: #BBBB00;">(splat)</span> </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">DOI:</span> <span style="color: #00BBBB;">10.1186/s13059-017-1305-0</span>     <span style="font-weight: bold;">GitHub:</span> <span style="color: #00BBBB;">Oshlack/splatter</span>     <span style="font-weight: bold;">Dependencies:</span>  </span></span>
@@ -722,10 +756,6 @@ packages. To see all the available simulations run the
 <span><span class="co">#&gt; <span style="font-weight: bold;">BASiCS</span> <span style="color: #BBBB00;">(BASiCS)</span> </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">DOI:</span> <span style="color: #00BBBB;">10.1371/journal.pcbi.1004333</span>      <span style="font-weight: bold;">GitHub:</span> <span style="color: #00BBBB;">catavallejos/BASiCS</span>      <span style="font-weight: bold;">Dependencies:</span> <span style="color: #00BBBB;">BASiCS</span> </span></span>
 <span><span class="co">#&gt; The BASiCS simulation is based on a bayesian model used to deconvolve biological and technical variation and includes spike-ins and batch effects. </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">mfa</span> <span style="color: #BBBB00;">(mfa)</span> </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">DOI:</span> <span style="color: #00BBBB;">10.12688/wellcomeopenres.11087.1</span>      <span style="font-weight: bold;">GitHub:</span> <span style="color: #00BBBB;">kieranrcampbell/mfa</span>      <span style="font-weight: bold;">Dependencies:</span> <span style="color: #00BBBB;">mfa</span> </span></span>
-<span><span class="co">#&gt; The mfa simulation produces a bifurcating pseudotime trajectory. This can optionally include genes with transient changes in expression and added dropout. </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">PhenoPath</span> <span style="color: #BBBB00;">(pheno)</span> </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">DOI:</span> <span style="color: #00BBBB;">10.1038/s41467-018-04696-6</span>    <span style="font-weight: bold;">GitHub:</span> <span style="color: #00BBBB;">kieranrcampbell/phenopath</span>    <span style="font-weight: bold;">Dependencies:</span> <span style="color: #00BBBB;">phenopath</span> </span></span>
@@ -907,7 +937,7 @@ datasets by gene (<code>RowData</code>) and by cell
 distribution of means:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">comparison</span><span class="op">$</span><span class="va">Plots</span><span class="op">$</span><span class="va">Means</span></span></code></pre></div>
-<p><img src="splatter_files/figure-html/comparison-means-1.png" width="700"></p>
+<p><img src="splatter_files/figure-html/comparison-means-1.png" class="r-plt" alt="" width="700"></p>
 <p>These are only a few of the plots you might want to consider but it
 should be easy to make more using the returned data. For example, we
 could plot the number of expressed genes against the library size:</p>
@@ -915,7 +945,7 @@ could plot the number of expressed genes against the library size:</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ggplot2.tidyverse.org" class="external-link">"ggplot2"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">comparison</span><span class="op">$</span><span class="va">ColData</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sum</span>, y <span class="op">=</span> <span class="va">detected</span>, colour <span class="op">=</span> <span class="va">Dataset</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="splatter_files/figure-html/comparison-libsize-features-1.png" width="700"></p>
+<p><img src="splatter_files/figure-html/comparison-libsize-features-1.png" class="r-plt" alt="" width="700"></p>
 <div class="section level3">
 <h3 id="comparing-differences">Comparing differences<a class="anchor" aria-label="anchor" href="#comparing-differences"></a>
 </h3>
@@ -930,12 +960,12 @@ reference.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">difference</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/diffSCEs.html">diffSCEs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Splat <span class="op">=</span> <span class="va">sim1</span>, Simple <span class="op">=</span> <span class="va">sim2</span><span class="op">)</span>, ref <span class="op">=</span> <span class="st">"Simple"</span><span class="op">)</span></span>
 <span><span class="va">difference</span><span class="op">$</span><span class="va">Plots</span><span class="op">$</span><span class="va">Means</span></span></code></pre></div>
-<p><img src="splatter_files/figure-html/difference-1.png" width="700"></p>
+<p><img src="splatter_files/figure-html/difference-1.png" class="r-plt" alt="" width="700"></p>
 <p>We also get a series of Quantile-Quantile plot that can be used to
 compare distributions.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">difference</span><span class="op">$</span><span class="va">QQPlots</span><span class="op">$</span><span class="va">Means</span></span></code></pre></div>
-<p><img src="splatter_files/figure-html/difference-qq-1.png" width="700"></p>
+<p><img src="splatter_files/figure-html/difference-qq-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="making-panels">Making panels<a class="anchor" aria-label="anchor" href="#making-panels"></a>
@@ -992,9 +1022,9 @@ suggested parameters for outputting each of the panels:</p>
 </h2>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; R version 4.5.1 (2025-06-13)</span></span>
+<span><span class="co">#&gt; R version 4.6.1 (2026-06-24)</span></span>
 <span><span class="co">#&gt; Platform: x86_64-pc-linux-gnu</span></span>
-<span><span class="co">#&gt; Running under: Ubuntu 24.04.2 LTS</span></span>
+<span><span class="co">#&gt; Running under: Ubuntu 24.04.5 LTS</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Matrix products: default</span></span>
 <span><span class="co">#&gt; BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
@@ -1016,43 +1046,44 @@ suggested parameters for outputting each of the panels:</p>
 <span><span class="co">#&gt; [8] base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt;  [1] scater_1.37.0               ggplot2_3.5.2              </span></span>
-<span><span class="co">#&gt;  [3] scuttle_1.19.0              splatter_1.33.1            </span></span>
-<span><span class="co">#&gt;  [5] SingleCellExperiment_1.31.1 SummarizedExperiment_1.39.1</span></span>
-<span><span class="co">#&gt;  [7] Biobase_2.69.0              GenomicRanges_1.61.1       </span></span>
-<span><span class="co">#&gt;  [9] Seqinfo_0.99.2              IRanges_2.43.0             </span></span>
-<span><span class="co">#&gt; [11] S4Vectors_0.47.0            BiocGenerics_0.55.1        </span></span>
-<span><span class="co">#&gt; [13] generics_0.1.4              MatrixGenerics_1.21.0      </span></span>
-<span><span class="co">#&gt; [15] matrixStats_1.5.0           BiocStyle_2.37.1           </span></span>
+<span><span class="co">#&gt;  [1] scater_1.41.3               ggplot2_4.0.3              </span></span>
+<span><span class="co">#&gt;  [3] scuttle_1.23.2              splatter_1.37.1            </span></span>
+<span><span class="co">#&gt;  [5] SingleCellExperiment_1.35.2 SummarizedExperiment_1.43.0</span></span>
+<span><span class="co">#&gt;  [7] Biobase_2.73.2              GenomicRanges_1.65.4       </span></span>
+<span><span class="co">#&gt;  [9] Seqinfo_1.3.2               IRanges_2.47.5             </span></span>
+<span><span class="co">#&gt; [11] S4Vectors_0.51.10           BiocGenerics_0.59.13       </span></span>
+<span><span class="co">#&gt; [13] generics_0.1.4              MatrixGenerics_1.25.0      </span></span>
+<span><span class="co">#&gt; [15] matrixStats_1.5.0           BiocStyle_2.41.0           </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
-<span><span class="co">#&gt;  [1] tidyselect_1.2.1    viridisLite_0.4.2   dplyr_1.1.4        </span></span>
+<span><span class="co">#&gt;  [1] tidyselect_1.2.1    viridisLite_0.4.3   dplyr_1.2.1        </span></span>
 <span><span class="co">#&gt;  [4] vipor_0.4.7         farver_2.1.2        viridis_0.6.5      </span></span>
-<span><span class="co">#&gt;  [7] fastmap_1.2.0       digest_0.6.37       rsvd_1.0.5         </span></span>
-<span><span class="co">#&gt; [10] lifecycle_1.0.4     statmod_1.5.0       survival_3.8-3     </span></span>
-<span><span class="co">#&gt; [13] magrittr_2.0.3      compiler_4.5.1      rlang_1.1.6        </span></span>
-<span><span class="co">#&gt; [16] sass_0.4.10         tools_4.5.1         yaml_2.3.10        </span></span>
-<span><span class="co">#&gt; [19] knitr_1.50          labeling_0.4.3      S4Arrays_1.9.1     </span></span>
-<span><span class="co">#&gt; [22] fitdistrplus_1.2-4  htmlwidgets_1.6.4   DelayedArray_0.35.2</span></span>
-<span><span class="co">#&gt; [25] RColorBrewer_1.1-3  abind_1.4-8         BiocParallel_1.43.4</span></span>
-<span><span class="co">#&gt; [28] withr_3.0.2         desc_1.4.3          grid_4.5.1         </span></span>
-<span><span class="co">#&gt; [31] beachmat_2.25.4     edgeR_4.7.3         scales_1.4.0       </span></span>
-<span><span class="co">#&gt; [34] MASS_7.3-65         cli_3.6.5           rmarkdown_2.29     </span></span>
-<span><span class="co">#&gt; [37] crayon_1.5.3        ragg_1.4.0          ggbeeswarm_0.7.2   </span></span>
-<span><span class="co">#&gt; [40] cachem_1.1.0        splines_4.5.1       parallel_4.5.1     </span></span>
-<span><span class="co">#&gt; [43] BiocManager_1.30.26 XVector_0.49.0      vctrs_0.6.5        </span></span>
-<span><span class="co">#&gt; [46] Matrix_1.7-3        jsonlite_2.0.0      bookdown_0.43      </span></span>
-<span><span class="co">#&gt; [49] BiocSingular_1.25.0 BiocNeighbors_2.3.1 ggrepel_0.9.6      </span></span>
-<span><span class="co">#&gt; [52] irlba_2.3.5.1       beeswarm_0.4.0      systemfonts_1.2.3  </span></span>
-<span><span class="co">#&gt; [55] locfit_1.5-9.12     limma_3.65.3        jquerylib_0.1.4    </span></span>
-<span><span class="co">#&gt; [58] glue_1.8.0          pkgdown_2.1.3       codetools_0.2-20   </span></span>
-<span><span class="co">#&gt; [61] cowplot_1.2.0       gtable_0.3.6        ScaledMatrix_1.17.0</span></span>
-<span><span class="co">#&gt; [64] tibble_3.3.0        pillar_1.11.0       htmltools_0.5.8.1  </span></span>
-<span><span class="co">#&gt; [67] R6_2.6.1            textshaping_1.0.1   evaluate_1.0.4     </span></span>
-<span><span class="co">#&gt; [70] lattice_0.22-7      backports_1.5.0     bslib_0.9.0        </span></span>
-<span><span class="co">#&gt; [73] Rcpp_1.1.0          gridExtra_2.3       SparseArray_1.9.1  </span></span>
-<span><span class="co">#&gt; [76] checkmate_2.3.2     xfun_0.52           fs_1.6.6           </span></span>
-<span><span class="co">#&gt; [79] pkgconfig_2.0.3</span></span></code></pre></div>
+<span><span class="co">#&gt;  [7] S7_0.2.2            fastmap_1.2.0       scrapper_1.7.11    </span></span>
+<span><span class="co">#&gt; [10] digest_0.6.39       rsvd_1.0.6          lifecycle_1.0.5    </span></span>
+<span><span class="co">#&gt; [13] statmod_1.5.2       survival_3.8-12     magrittr_2.0.5     </span></span>
+<span><span class="co">#&gt; [16] compiler_4.6.1      rlang_1.3.0         sass_0.4.10        </span></span>
+<span><span class="co">#&gt; [19] tools_4.6.1         yaml_2.3.12         knitr_1.52         </span></span>
+<span><span class="co">#&gt; [22] labeling_0.4.3      S4Arrays_1.13.2     fitdistrplus_1.2-6 </span></span>
+<span><span class="co">#&gt; [25] htmlwidgets_1.6.4   DelayedArray_0.39.8 RColorBrewer_1.1-3 </span></span>
+<span><span class="co">#&gt; [28] abind_1.4-8         BiocParallel_1.47.0 withr_3.0.3        </span></span>
+<span><span class="co">#&gt; [31] desc_1.4.3          grid_4.6.1          beachmat_2.29.3    </span></span>
+<span><span class="co">#&gt; [34] edgeR_4.99.12       MASS_7.3-66         scales_1.4.0       </span></span>
+<span><span class="co">#&gt; [37] cli_3.6.6           crayon_1.5.3        rmarkdown_2.32     </span></span>
+<span><span class="co">#&gt; [40] ragg_1.5.2          otel_0.2.0          ggbeeswarm_0.7.3   </span></span>
+<span><span class="co">#&gt; [43] cachem_1.1.0        splines_4.6.1       parallel_4.6.1     </span></span>
+<span><span class="co">#&gt; [46] BiocManager_1.30.27 XVector_0.53.0      vctrs_0.7.3        </span></span>
+<span><span class="co">#&gt; [49] Matrix_1.7-6        jsonlite_2.0.0      bookdown_0.48      </span></span>
+<span><span class="co">#&gt; [52] BiocSingular_1.29.2 BiocNeighbors_2.7.3 ggrepel_0.9.8      </span></span>
+<span><span class="co">#&gt; [55] irlba_2.4.1         beeswarm_0.4.0      systemfonts_1.3.2  </span></span>
+<span><span class="co">#&gt; [58] locfit_1.5-9.12     limma_3.99.4        jquerylib_0.1.4    </span></span>
+<span><span class="co">#&gt; [61] glue_1.8.1          pkgdown_2.2.1       codetools_0.2-20   </span></span>
+<span><span class="co">#&gt; [64] cowplot_1.2.0       gtable_0.3.6        ScaledMatrix_1.21.0</span></span>
+<span><span class="co">#&gt; [67] tibble_3.3.1        pillar_1.11.1       htmltools_0.5.9    </span></span>
+<span><span class="co">#&gt; [70] R6_2.6.1            textshaping_1.0.5   evaluate_1.0.5     </span></span>
+<span><span class="co">#&gt; [73] lattice_0.23-1      backports_1.5.1     bslib_0.12.0       </span></span>
+<span><span class="co">#&gt; [76] Rcpp_1.1.2          gridExtra_2.3.1     SparseArray_1.13.5 </span></span>
+<span><span class="co">#&gt; [79] checkmate_2.3.4     xfun_0.62           fs_2.1.0           </span></span>
+<span><span class="co">#&gt; [82] pkgconfig_2.0.3</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -1065,7 +1096,7 @@ suggested parameters for outputting each of the panels:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>
